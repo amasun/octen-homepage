@@ -16,7 +16,7 @@
 }
 
 .nav-dropdown-card.nav-dropdown-split {
-  width: 821px;
+  width: 799px;
   max-width: calc(100vw - 32px);
 }
 
@@ -337,7 +337,7 @@
   box-shadow: none !important;
   border-radius: 12px !important;
   padding: 20px !important;
-  width: 821px !important;
+  width: 799px !important;
   max-width: calc(100vw - 32px) !important;
 }
 
@@ -350,3 +350,103 @@
 /* Developers compact dropdown styling */
 .nav-dropdown-developers { padding: 16px !important; width: 208px !important; }
 .nav-dropdown-developers .min-w-44, .nav-dropdown-developers .min-w-70 { min-width: 176px !important; width: 176px !important; }
+
+.nav-dropdown-section-app {
+  width: 236px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.nav-dropdown-app-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+.nav-dropdown-app-list .nav-product-link {
+  align-items: center;
+  min-height: 48px;
+}
+
+/* Figma 3-Column Dropdown Styles */
+.nav-dropdown-col-search {
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.nav-dropdown-col-middle {
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.nav-dropdown-col-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+.nav-dropdown-col-application {
+  width: 250px;
+  flex-shrink: 0;
+  border-left: 1px solid #CACACA;
+  padding-left: 28px;
+  box-sizing: content-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-self: stretch;
+}
+.nav-dropdown-col-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+.nav-product-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  background: transparent;
+  transition: background-color 0.15s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+.nav-product-link:hover {
+  background-color: #F7F7F7;
+}
+.nav-product-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.nav-product-name {
+  font-family: var(--font-sans, 'Inter', -apple-system, sans-serif);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #181D27;
+  white-space: nowrap;
+}
+.nav-dropdown-col-title {
+  padding: 0 12px;
+  margin: 0;
+  font-family: var(--font-sans, 'Inter', -apple-system, sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  color: #717680;
+  letter-spacing: -0.01em;
+  text-align: left;
+}
