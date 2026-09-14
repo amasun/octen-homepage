@@ -16,8 +16,10 @@ import { VercelCaseStudies } from './components/vercel/VercelCaseStudies';
 import { VercelRecentlyShipped } from './components/vercel/VercelRecentlyShipped';
 import { VercelEcosystem } from './components/vercel/VercelEcosystem';
 import { VercelFooter } from './components/vercel/VercelFooter';
+import { ImageSearchPage } from './pages/ImageSearchPage';
 
 export const App: React.FC = () => {
+  if (window.location.pathname.startsWith('/image-search')) return <ImageSearchPage />;
   const [activeSite, setActiveSite] = useState<'octen' | 'vercel'>(() => {
     const params = new URLSearchParams(window.location.search);
     const siteParam = params.get('site');
