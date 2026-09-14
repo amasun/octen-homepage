@@ -12,7 +12,7 @@
 - **Omni Search Section**:
   - Center-aligned Omni Search typography with non-intrusive Early Access badge.
   - Direct playground access and multimodal feature cards.
-- **Built for AI & Search Infrastructure**:
+- **Web Search & Search Infrastructure**:
   - Interactive benchmarks, architecture comparison, and real-time indexing capabilities.
 - **Vite Local Dev Environment**:
   - Local image proxy & real-time live reload on assets and templates.

@@ -14,7 +14,7 @@
    - 已使用设计规范静态 DOM 替换原本包含视频/动效的动态 Dashboard。
 2. **导航栏图标补齐与微调**:
    - `Developers -> Docs` 替换为专属绿色科技感矢量图标。
-   - `Built for AI` 左侧地球图标替换为 20x20 规范 SVG。
+   - `Web Search` 左侧地球图标替换为 20x20 规范 SVG。
 3. **Products 下拉菜单移植与样式统一**:
    - 从 `05-pricing` 完美移植双列卡片（Capabilities + Applications）结构。
    - 移除原先冗余的 "error fetching..." 背景错误提示块。

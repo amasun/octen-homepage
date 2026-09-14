@@ -25,7 +25,7 @@ export const ArchitectureComparison: React.FC = () => {
             <span>Architecture Breakdown</span>
           </div>
           <h2>
-            Web Search API <span className="text-gradient">Built for AI</span>
+            Web Search API <span className="text-gradient">Web Search</span>
           </h2>
           <p style={{ fontSize: '17px', color: 'var(--text-muted)', marginTop: '12px' }}>
             LLM-native web search delivering industry-leading real-time intelligence with lowest latency and enterprise-grade reliability.
