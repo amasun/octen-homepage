@@ -3,6 +3,7 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ArchitectureComparison } from './components/ArchitectureComparison';
 import { MultimodalShowcase } from './components/MultimodalShowcase';
+import { VerticalSearch } from './components/VerticalSearch';
 import { RetrievalStack } from './components/RetrievalStack';
 import { BuiltOnOcten } from './components/BuiltOnOcten';
 import { BenchmarkSection } from './components/BenchmarkSection';
@@ -96,6 +97,7 @@ export const App: React.FC = () => {
             <Hero version={version} />
             <ArchitectureComparison />
             <MultimodalShowcase version={version} />
+            <VerticalSearch />
             <RetrievalStack version={version} />
             <BuiltOnOcten version={version} />
             <BenchmarkSection version={version} />

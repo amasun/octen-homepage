@@ -44,3 +44,23 @@ pnpm dev
 # Build production bundle
 pnpm build
 ```
+
+## Implementation guardrails
+
+This project serves a mirrored SSR homepage from `index.html`. The page's hydration scripts can replace or reorder markup after the initial HTML is parsed. When adding a new homepage section:
+
+- Insert it relative to a stable rendered landmark (for example, the `Omni Search` section), rather than relying only on a static source offset.
+- If the section must be mounted after hydration, use the existing post-hydration mount script and make the insertion idempotent with a unique id.
+- Put section CSS in the document head or a global stylesheet. Do not rely on a `<style>` tag nested inside dynamically injected HTML; hydration can discard it and leave only unstyled markup.
+- Keep Figma dimensions as the desktop reference, then add explicit responsive rules. For the Vertical Search reference (`13625:179114`), preserve the 80px top padding, 1280px content width, 40px copy/card gap, 60px card gap, and the 558px / 656px / 558px card proportions.
+- After changing a mirrored section, run `pnpm build`, refresh both local preview ports when used (`3000` and `3001`), and verify the rendered DOM and visual position below Omni Search. A source grep alone is not sufficient because hydration may change the final DOM.
+
+### Figma implementation checklist
+
+1. Read the Figma node with `get_design_context` before coding and record its node id, spacing, typography, colors, and assets.
+2. Adapt the reference to this mirrored HTML architecture instead of pasting generated React/Tailwind code into the page.
+3. Verify the section after hydration in a fresh browser tab and confirm its heading, button, cards, and background are visible.
+
+### Vertical Search motion rules
+
+The carousel follows the Calendly “SEAMLESS LOOP” timing: hold each centered card for 2.8s, move left for 1.2s, and advance every 4s. Use three repeated groups, a 60px gap, `cubic-bezier(.76,.01,.29,.99)` for the displacement, 85% scale for side cards, and 100% for the centered card. Pause while the carousel is hovered or focused, and pause when it is off screen or the document is hidden.

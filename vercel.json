@@ -1,0 +1,15 @@
+{
+  "rewrites": [
+    {
+      "source": "/_next/image",
+      "has": [
+        {
+          "type": "query",
+          "key": "url",
+          "value": "(?<path>.*)"
+        }
+      ],
+      "destination": "/:path"
+    }
+  ]
+}
