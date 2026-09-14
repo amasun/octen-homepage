@@ -165,39 +165,37 @@ export const VerticalSearch: React.FC = () => {
     return () => clearTimeout(timer);
   }, [step]);
 
-  // Step 3: Synthesis Result & Step-by-Step Upward Movement with 2s pauses
+  // Step 3: Synthesis Result & 3-Card Window Upward Movement (new card emerges at bottom)
   useEffect(() => {
     if (step !== 3) return;
     setCardStep(0);
 
     const totalCards = current.items.length;
+    const visibleCards = 3;
+    const maxSteps = totalCards - visibleCards; // 5 - 3 = 2
     let cur = 0;
     let timerId: ReturnType<typeof setTimeout>;
 
     const advanceStep = () => {
-      if (cur === 0) {
-        // Initial view with query pill + card 1. Pause 2s.
-        timerId = setTimeout(() => {
-          cur = 1;
-          setCardStep(1);
-          advanceStep();
-        }, 2000);
-      } else if (cur < totalCards - 1) {
-        // Move next card, pause 2s
+      if (cur < maxSteps) {
         timerId = setTimeout(() => {
           cur++;
           setCardStep(cur);
           advanceStep();
         }, 2000 + 750);
       } else {
-        // All cards shown! Pause 2.5s then loop back to Step 1
+        // Final 3-card window shown! Pause 3.0s then loop back to Step 1
         timerId = setTimeout(() => {
           setStep(1);
-        }, 2500);
+        }, 3000);
       }
     };
 
-    advanceStep();
+    // Pause 2.2s on initial window of 3 cards
+    timerId = setTimeout(() => {
+      advanceStep();
+    }, 2200);
+
     return () => clearTimeout(timerId);
   }, [step, activeTab, current.items.length]);
 
@@ -280,9 +278,9 @@ export const VerticalSearch: React.FC = () => {
               flexGrow: 0,
             }}
           >
-            {/* Search Pill: Moves out of frame when cardStep > 0 */}
+            {/* Search Pill: Moves out of frame in Step 3 */}
             <div
-              className={`octen-vs-search-pill ${cardStep > 0 && step === 3 ? 'pill-out' : ''}`}
+              className={`octen-vs-search-pill ${step === 3 ? 'pill-out' : ''}`}
               id="octen-vs-pill"
             >
               <div className="octen-vs-pill-top">
@@ -329,12 +327,13 @@ export const VerticalSearch: React.FC = () => {
             {/* Step 3: Vertical Timeline Connector Line (6px thick) */}
             <div className="octen-vs-timeline-line" style={{ width: '6px' }} />
 
-            {/* Step 3: Timeline Result Cards with Step-by-Step Upward Movement */}
+            {/* Step 3: Timeline Result Cards with 3-Card Window Upward Movement */}
             <div
               className="octen-vs-timeline-list"
               id="octen-vs-timeline-cards"
               style={{
-                transform: `translateX(-50%) translateY(-${cardStep * 144}px)`,
+                top: '49px',
+                transform: `translateX(-50%) translateY(-${cardStep * 158}px)`,
                 transition: 'transform 0.75s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             >

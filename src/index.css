@@ -646,7 +646,8 @@ p {
   100% { transform: translateX(-50%); }
 }
 .octen-vs-scenario-badge,
-.octen-vs-more-badge {
+.octen-vs-more-badge,
+.scenario-chip {
   width: 140px;
   height: 48px;
   border-radius: 8px;
@@ -661,12 +662,13 @@ p {
   color: #000000;
   flex-shrink: 0;
   user-select: none;
-  opacity: 0.65;
+  opacity: 0.6;
   transition: opacity 0.25s ease, background 0.25s ease;
   cursor: pointer;
 }
 .octen-vs-scenario-badge:hover,
-.octen-vs-more-badge:hover {
+.octen-vs-more-badge:hover,
+.scenario-chip:hover {
   opacity: 1 !important;
 }
 .octen-vs-scenario-badge img {
@@ -722,4 +724,237 @@ p {
   .octen-vs-tabs {
     gap: 10px;
   }
+}
+
+/* ==========================================================================
+   Octen Design System - Image & Video Search Modalities (Figma 13631:182359)
+   Side-by-side Dual Column Cards with Glassmorphism & Precise Tokens
+   ========================================================================== */
+
+.octen-modalities-section {
+  position: relative;
+  width: 100%;
+  background-color: #050806;
+  overflow: hidden;
+  padding: 96px 0 120px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.octen-modalities-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 10;
+}
+
+.octen-modalities-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  padding-top: 48px;
+}
+
+@media (min-width: 1024px) {
+  .octen-modalities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+.octen-modality-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  position: relative;
+  filter: drop-shadow(0px 25px 25px rgba(0, 0, 0, 0.25));
+}
+
+.octen-modality-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.octen-modality-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  padding: 6px 20px 6px 16px;
+  border-radius: 19.462px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  margin-bottom: 8px;
+}
+
+.octen-modality-tag-text {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+
+.octen-modality-title-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  position: relative;
+  height: 64px;
+}
+
+.octen-modality-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  font-size: 44px;
+  line-height: 1.2;
+  color: #FFFFFF;
+  margin: 0;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .octen-modality-title {
+    font-size: 34px;
+  }
+}
+
+.octen-early-access-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  padding: 2px 6px;
+  background: #18FB6F;
+  border-radius: 4px;
+  color: #000000;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.octen-modality-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 494px;
+  text-align: center;
+  margin: 12px auto 0;
+}
+
+.octen-modality-card {
+  width: 100%;
+  border: 1px solid rgba(154, 154, 154, 0.5);
+  border-radius: 16px;
+  padding: 32px;
+  background: rgba(13, 18, 25, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0px 25px 50px 0px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.octen-modality-card:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0px 30px 60px 0px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 640px) {
+  .octen-modality-card {
+    padding: 20px 16px;
+  }
+}
+
+.octen-feature-item {
+  background: rgba(23, 23, 23, 0.6);
+  border: 1px solid rgba(38, 38, 38, 0.6);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-sizing: border-box;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.octen-feature-item:hover {
+  background: rgba(30, 30, 30, 0.8);
+  border-color: rgba(55, 55, 55, 0.9);
+  transform: translateY(-1px);
+}
+
+.octen-feature-icon-box {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 8px;
+  background: rgba(2, 44, 34, 0.5);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #34D399;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  user-select: none;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.octen-feature-item:hover .octen-feature-icon-box {
+  transform: scale(1.08);
+  border-color: rgba(52, 211, 153, 0.4);
+}
+
+.octen-feature-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  flex: 1;
+}
+
+.octen-feature-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: #E5E5E5;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.octen-feature-desc {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #A3A3A3;
+  margin: 2px 0 0 0;
 }

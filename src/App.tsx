@@ -3,6 +3,7 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ArchitectureComparison } from './components/ArchitectureComparison';
 import { MultimodalShowcase } from './components/MultimodalShowcase';
+import { ImageVideoSearch } from './components/ImageVideoSearch';
 import { VerticalSearch } from './components/VerticalSearch';
 import { RetrievalStack } from './components/RetrievalStack';
 import { BuiltOnOcten } from './components/BuiltOnOcten';
@@ -98,6 +99,7 @@ export const App: React.FC = () => {
           <>
             <Hero version={version} />
             <ArchitectureComparison />
+            <ImageVideoSearch />
             <MultimodalShowcase version={version} />
             <VerticalSearch />
             <RetrievalStack version={version} />

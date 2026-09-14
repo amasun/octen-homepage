@@ -114,14 +114,15 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
   return (
     <footer
       style={{
-        backgroundColor: '#070907',
-        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+        backgroundColor: '#050806',
+        borderTop: '1px solid rgba(207, 207, 207, 0.2)',
         paddingTop: '80px',
-        paddingBottom: '40px',
+        paddingBottom: '0',
         position: 'relative'
       }}
+      data-node-id="13625:174217"
     >
-      <div className="container">
+      <div className="container" style={{ position: 'relative' }} data-node-id="13625:174219">
         {/* Top Header: Logo & Slogan with bottom divider */}
         <div
           style={{
@@ -134,15 +135,16 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
             alignItems: 'flex-start',
             alignSelf: 'stretch'
           }}
+          data-node-id="13625:178499"
         >
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img src="/_next/static/media/logo-white.690e48c0.svg" alt="Octen logo" style={{ width: '112px', height: 'auto' }} />
+          <div style={{ display: 'flex', alignItems: 'center', paddingTop: '20px', paddingBottom: '10px' }}>
+            <img src="/_next/static/media/logo-white.690e48c0.svg" alt="Octen logo" style={{ width: '184px', height: 'auto' }} />
           </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontSize: '36px', fontFamily: 'var(--font-heading)', fontWeight: 300, color: '#fff', lineHeight: 1.1 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '17px' }}>
+            <span style={{ fontSize: '41.5px', fontFamily: 'var(--font-heading)', fontWeight: 300, color: '#fff', lineHeight: 1 }}>
               The Foundation of
             </span>
-            <span style={{ fontSize: '36px', fontFamily: 'var(--font-heading)', fontStyle: 'italic', color: '#70fe7e', lineHeight: 1.1 }}>
+            <span style={{ fontSize: '41.5px', fontFamily: 'var(--font-heading)', fontStyle: 'italic', color: '#70fe7e', lineHeight: 1 }}>
               Real-Time AI
             </span>
           </div>
@@ -153,32 +155,33 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(5, minmax(0, 1fr))',
-            gap: '36px',
-            marginBottom: '48px'
+            gap: '40px',
+            paddingBottom: '60px'
           }}
+          data-node-id="13625:174221"
         >
           {/* Col 1: Get In Touch */}
           <div>
-            <h4 style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#71717a', marginBottom: '16px', fontWeight: 600 }}>
+            <h4 style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#71717a', marginBottom: '16px', fontWeight: 400, lineHeight: 1.5 }}>
               GET IN TOUCH
             </h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <div>
-                <a href="mailto:support@octen.ai" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '15px' }}>
-                  <Mail size={15} color="#60ff70" />
+                <a href="mailto:support@octen.ai" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '16px', lineHeight: '24px' }}>
+                  <Mail size={16} color="#039855" />
                   <span>support@octen.ai</span>
                 </a>
-                <span style={{ fontSize: '11px', textTransform: 'uppercase', color: '#71717a', letterSpacing: '0.05em', paddingLeft: '23px', display: 'block', marginTop: '2px' }}>
+                <span style={{ fontSize: '14px', textTransform: 'uppercase', color: '#71717a', letterSpacing: '0.05em', paddingLeft: '24px', display: 'block', marginTop: '2px', lineHeight: 1 }}>
                   GENERAL INQUIRIES
                 </span>
               </div>
               <div>
-                <a href="mailto:kuan@octen.ai" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '15px' }}>
-                  <Mail size={15} color="#60ff70" />
+                <a href="mailto:kuan@octen.ai" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '16px', lineHeight: '24px' }}>
+                  <Mail size={16} color="#039855" />
                   <span>kuan@octen.ai</span>
                 </a>
-                <span style={{ fontSize: '11px', textTransform: 'uppercase', color: '#71717a', letterSpacing: '0.05em', paddingLeft: '23px', display: 'block', marginTop: '2px' }}>
-                  FOUNDER & CEO
+                <span style={{ fontSize: '14px', textTransform: 'uppercase', color: '#71717a', letterSpacing: '0.05em', paddingLeft: '24px', display: 'block', marginTop: '2px', lineHeight: 1 }}>
+                  FOUNDER &amp; CEO
                 </span>
               </div>
             </div>
@@ -186,10 +189,10 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
 
           {/* Col 2: Search */}
           <div>
-            <h4 style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#71717a', marginBottom: '16px', fontWeight: 600 }}>
+            <h4 style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#71717a', marginBottom: '16px', fontWeight: 400, lineHeight: 1.5 }}>
               SEARCH
             </h4>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '15px' }}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '20px', fontSize: '16px', lineHeight: '24px' }}>
               <li><a href="https://docs.octen.ai/capabilities/broad-search" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Broad Search</a></li>
               <li><a href="https://docs.octen.ai/capabilities/web-search" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Web Search</a></li>
               <li><a href="https://docs.octen.ai/capabilities/image-search" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Image Search</a></li>
@@ -201,10 +204,10 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
 
           {/* Col 3: Others */}
           <div>
-            <h4 style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#71717a', marginBottom: '16px', fontWeight: 600 }}>
+            <h4 style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#71717a', marginBottom: '16px', fontWeight: 400, lineHeight: 1.5 }}>
               OTHERS
             </h4>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '15px' }}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '20px', fontSize: '16px', lineHeight: '24px' }}>
               <li><a href="https://docs.octen.ai/capabilities/embedding" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Embedding</a></li>
               <li><a href="https://docs.octen.ai/capabilities/vl-embedding" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>VL Embedding</a></li>
               <li><a href="https://docs.octen.ai/capabilities/extract" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Extract</a></li>
@@ -214,10 +217,10 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
 
           {/* Col 4: Application */}
           <div>
-            <h4 style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#71717a', marginBottom: '16px', fontWeight: 600 }}>
+            <h4 style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#71717a', marginBottom: '16px', fontWeight: 400, lineHeight: 1.5 }}>
               APPLICATION
             </h4>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '15px' }}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '20px', fontSize: '16px', lineHeight: '24px' }}>
               <li><a href="https://docs.octen.ai/capabilities/answer" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Answer</a></li>
               <li><a href="https://docs.octen.ai/capabilities/answer" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Deep Research</a></li>
               <li><a href="https://docs.octen.ai/capabilities/answer" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Multimodal Chat</a></li>
@@ -226,12 +229,12 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
           </div>
 
           {/* Col 5: Developers & Company (Stacked) */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '30px', width: '110px' }}>
             <div>
-              <h4 style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#71717a', marginBottom: '14px', fontWeight: 600 }}>
+              <h4 style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#71717a', marginBottom: '16px', fontWeight: 400, lineHeight: 1.5 }}>
                 DEVELOPERS
               </h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '15px' }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '20px', fontSize: '16px', lineHeight: '24px' }}>
                 <li><a href="https://status.octen.ai/" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Status</a></li>
                 <li><a href="https://github.com/Octen-Team" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>GitHub</a></li>
                 <li><a href="https://octen.ai/platform/overview" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>API Platform</a></li>
@@ -239,10 +242,10 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
               </ul>
             </div>
             <div>
-              <h4 style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#71717a', marginBottom: '14px', fontWeight: 600 }}>
+              <h4 style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#71717a', marginBottom: '16px', fontWeight: 400, lineHeight: 1.5 }}>
                 COMPANY
               </h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '15px' }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '20px', fontSize: '16px', lineHeight: '24px' }}>
                 <li><a href="https://octen.ai/blog" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Blog</a></li>
                 <li><a href="https://octen.ai/contact-sales" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Contact</a></li>
               </ul>
@@ -250,28 +253,51 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
           </div>
         </div>
 
-        {/* Bottom Legal Bar */}
+        {/* SOC 2 Certification Badge (Figma 13625:174285 - absolute bottom-right logo above the bottom bar) */}
         <div
           style={{
-            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-            paddingTop: '24px',
+            position: 'absolute',
+            right: 0,
+            bottom: '91px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '6px 14px 6px 12px',
+            backgroundColor: 'rgba(15,32,24,0.53)',
+            backdropFilter: 'blur(2px)',
+            borderRadius: '8px',
+            border: '1px solid #41535b',
+            zIndex: 10
+          }}
+          data-node-id="13625:174285"
+        >
+          <ShieldCheck size={20} color="#FFFFFF" strokeWidth={2} />
+          <div style={{ lineHeight: 1.2 }}>
+            <div style={{ fontSize: '12px', color: '#fff', fontWeight: 700, letterSpacing: '0.05em' }}>SOC 2®</div>
+            <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>Type 2</div>
+          </div>
+        </div>
+
+        {/* Bottom Legal Bar (Figma 13625:174279) */}
+        <div
+          style={{
+            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+            paddingTop: '30px',
+            paddingBottom: '30px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: '16px',
-            fontSize: '14px',
-            color: 'rgba(255,255,255,0.7)'
+            fontSize: '16px',
+            color: 'rgba(255,255,255,0.8)'
           }}
+          data-node-id="13625:174279"
         >
           <div>© 2026 APITECH AI PTE. LTD. All rights reserved.</div>
-          <div style={{ display: 'flex', gap: '24px' }}>
-            <a href="https://octen.ai/privacy-policy" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Privacy Policy</a>
-            <a href="https://octen.ai/terms-of-service" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Terms of Service</a>
-          </div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 12px', backgroundColor: 'rgba(15,32,24,0.53)', borderRadius: '8px', border: '1px solid #41535b' }}>
-            <ShieldCheck size={16} color="#70fe7e" />
-            <span style={{ fontSize: '12px', color: '#fff', fontWeight: 600 }}>SOC 2® Type 2</span>
+          <div style={{ display: 'flex', gap: '30px' }}>
+            <a href="https://octen.ai/privacy-policy" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Privacy Policy</a>
+            <a href="https://octen.ai/terms-of-service" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Terms of Service</a>
           </div>
         </div>
       </div>

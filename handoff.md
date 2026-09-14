@@ -145,9 +145,133 @@
       - 页面仅保留唯一的 11 个标准主标题段落，无任何重复、无任何缺失。
       - `tsc` 与 `pnpm build` 仅耗时 **199ms**，打包零警告零报错，开发服务器 `http://localhost:3001/` 毫秒级稳定秒开。
 
+24. **Navbar Products 与 Developers 下拉悬浮菜单原生挂载与恢复**:
+    - **DOM 挂载**: 将保存完好的 12 项高精切图与矢量图标的 [products_menu.html](file:///x:/XCoding/Octen/hompage/products_menu.html)（821px 三列布局：Search、Embedding & Others、Application）及 Developers 菜单（208px 紧凑布局：API Platform 与科技绿 Docs）原生挂载入 [index.html](file:///x:/XCoding/Octen/hompage/index.html) 的 `.pc-nav_ViewportPosition__wHhyv` 容器中。
+    - **样式与自适应修复**: `.pc-nav_Viewport__lDMhI` 配置自动尺寸计算（`width: auto !important; height: auto !important;`）与 0.15s 淡入动画，切换菜单零形变抖动；新增箭头的 180° 平滑翻转动效。
+    - **事件机制优化**: 原生事件驱动，区分 button 触发器与普通链接，悬停自动激活对应面板并带有 180ms 防抖离手延时，体验丝滑稳定。
+    - **构建验证**: 执行 `pnpm build` (`tsc && vite build`) 零报错顺利通过。
+
+25. **Footer 样式错乱彻底重构与 Figma 13625:174217 全量像素级对齐**:
+    - **样式错乱根因分析**:
+      - 之前直接在 [index.html](file:///x:/XCoding/Octen/hompage/index.html) 中使用 Tailwind 任意中括号类名（如 `pb-[60px]`, `py-[30px]`, `space-y-5`, `bottom-[91px]`, `gap-[30px]`, `text-[41.5px]`）；
+      - 由于项目当前采用预编译的静态 CSS 资产，**并不存在运行时 Tailwind JIT 编译器**，导致所有中括号类名全部失效，链接垂直间距折叠为 0、底部栏失去上下内边距、徽标 bottom 坐标丢失。
+    - **终极解决方案与落地**:
+      1. **独立样式规则注入**: 在 [index.html](file:///x:/XCoding/Octen/hompage/index.html) `<head>` 中新增 `<style id="octen-footer-styles">`，以原生明确的 CSS 规则替代失效的 Tailwind 类名。
+      2. **Header 区域**: 底部内边距 `padding-bottom: 60px`，下边框 `border-bottom: 1px solid rgba(207, 207, 207, 0.2)`，Logo 精准尺寸 `184px × 62.5px`，Slogan "The Foundation of"（300 Light 41.5px）+ "Real-Time AI"（Fraunces Italic 41.5px 绿渐变），间距 `17px`。
+      3. **5 列导航菜单高度与间距**:
+         - 整体底部边距 `padding-bottom: 60px`，5 列栅格 `gap: 40px`。
+         - 每列链接垂直步进间距统一提升为 `gap: 20px !important`，字号 `16px`、行高 `24px`，文字颜色 `rgba(255,255,255,0.8)`。
+         - Col 1 (Get in touch) 配置 `padding-left: 24px`，邮箱图标位于 `left: -24px; top: 4px;`。
+         - Col 5 (Developers & Company) 保持标准紧凑宽度 `110px`，两个子分组垂直间距 `gap: 30px`。
+      4. **SOC 2 徽标位置 (Figma 13625:174285)**:
+         - 独立卡片绝对定位：`position: absolute; right: 24px; bottom: 91px; z-index: 10;`，精确贴合于 1280px 容器右边缘、底部横线正上方，绝不侵入底部版权栏。
+         - 矢量盾牌 SVG 替换为 Figma Dev Mode 原生提取的 `ant-design:safety-outlined` 高清白底矢量图。
+         - 文本分级：`SOC 2®` (12px 加粗白字) 与 `Type 2` (10px 50%白)。
+      5. **底部版权栏 (Figma 13625:174279)**:
+         - `border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 30px 0;`
+         - 左右两端对齐：左侧 `© 2026 APITECH AI PTE. LTD. All rights reserved.`，右侧 Privacy Policy 与 Terms of Service 间距 `30px`。
+    - **同步与验证**:
+      - [index.html](file:///x:/XCoding/Octen/hompage/index.html) 与 [Footer.tsx](file:///x:/XCoding/Octen/hompage/src/components/Footer.tsx) 均已完整同步。
+      - `pnpm build` (`tsc && vite build`) 零警告通过（耗时 ~220ms）。
+      - 本地服务 `http://localhost:3001/` 实时生效。
+
+26. **Vertical Search 核心区域从 `temp2` 像素级要素完整移植**:
+    - **背景与目标**:
+      - 将 [X:\XCoding\Octen\temp2](file:///x:/XCoding/Octen/temp2) 的独立落地页中高精实现的 "Search built for every vertical" 区域（含 Hero 标题、3 类 Vertical 选项卡、1260x532 渐变互动画布、1-2-3 步逐帧流水线、动态管道连接脊柱、步进上移时间线卡片群、以及底部 12 行业无限无缝跑马灯）全量移植至主项目 [hompage/index.html](file:///x:/XCoding/Octen/hompage/index.html)。
+      - 严格保持主项目现有的顶部导航栏 Navbar（含 Products/Developers 下拉菜单）以及底部 Footer 完好无损。
+    - **资产与路径对齐**:
+      - 完整复制 `temp2/assets/` 下全部 31 个 SVG 矢量图至 [public/assets/](file:///x:/XCoding/Octen/hompage/public/assets/)，涵盖所有分类图标、时钟图标、14 动画点阵波浪、搜索晶体图标及背景水印。
+      - 将所有相对路径 `assets/*.svg` 精准重写为 Vite 根静态路径 `/assets/*.svg`，确保所有网络请求 100% 命中且 HTTP 200。
+    - **样式与设计系统融合**:
+      - 将 `temp2/css/variables.css`、`temp2/css/style.css`（剥离无关的子页 nav 和 footer）以及 `temp2/css/marquee.css` 统一规整并注入至 `<style id="octen-vertical-search-styles">`。
+      - 引入 Google Fonts（DM Sans、Fraunces、JetBrains Mono、DM Mono）。
+      - 隔离重置规则，仅作用于 `.vertical-search-section` 内部，避免污染主项目其它区块。
+    - **交互与动画控制引擎挂载**:
+      - 移植 `temp2/js/main.js` 完整 659 行多阶状态机引擎至 `<script id="octen-vertical-search-script">`：
+        1. **Step 1 打字机交互**: 平滑输出各行业真实搜索 Prompt，光标绿/蓝/黄动态匹配分类主题；
+        2. **Step 2 搜索中过渡**: 14 纯黑点正弦波起伏动画；
+        3. **Step 3 时间线步进**: 动态伸缩白色 Pipeline 脊柱线，5 张新闻/学术/商业卡片依次进入视口并匀速向上推移，首卡推出画外；
+        4. **行业自动轮询与悬停暂停**: News ➔ Academic ➔ Business 自动流转；鼠标移入画布暂停上移，移出平滑恢复；
+        5. **底部跑马灯芯片联动**: 点击底部跑马灯芯片立即回填搜索词并更新背景大水印。
+    - **细节调优与 Bug 修复**:
+      - **标题严格居中**: 修正 `<style id="octen-vertical-search-styles">` 中的非法嵌套注释，确保 Flex 居中规则生效，加固 `margin: 0 auto; text-align: center;`；
+      - **状态机动画秒启**: 剥离内部重复包裹的 `DOMContentLoaded` 事件监听，确保脚本加载完成后直接启动打字机及后续流水线动效；
+      - **Code 图标定制替换**: 将 [public/assets/icon-code.svg](file:///x:/XCoding/Octen/hompage/public/assets/icon-code.svg) 与脚本中 `ICONS.code` 全量替换为用户指定的新版斜杠闭合代码矢量图形。
+    - **构建与服务验证**:
+      - 执行 `pnpm build` (`tsc && vite build`) 零警告零报错通过，打包耗时 225ms，生成代码 468.99 kB。
+      - 开发服务在 `http://localhost:3001/` 实时响应，主导航与页脚均稳定正常。
+
+27. **Academic 与 Game 图标长宽比与形变彻底纠正**:
+    - **根本原因排查**:
+      - 原 SVG 导出文件包含 `preserveAspectRatio="none"` 且使用了非正方形画幅尺寸：
+        - `icon-academic.svg`: 原始视口为宽画幅 `16.5114 × 12.0003`（宽高比约 1.38:1）；
+        - `icon-game.svg`: 原始视口为窄高画幅 `12 × 16.5`（宽高比约 0.73:1）；
+      - 当页面通过 `<img src="/assets/icon-*.svg" width="18" height="18" />` 以及 CSS `.tab-trigger img`, `.scenario-chip img` 强制设定为 1:1 正方形（18px × 18px）时，`preserveAspectRatio="none"` 导致浏览器忽略图形内在比例，将 Academic 学士帽在垂直方向拉伸 1.5 倍（形态失真瘦高），将 Game 游戏机在水平方向拉伸 1.5 倍（形态失真肥扁）。
+    - **精确修正实施**:
+      1. 彻底移除 `preserveAspectRatio="none"` 畸变属性；
+      2. 将 `icon-academic.svg` 与 `icon-game.svg` 统一重构为标准 18×18 纯正方形视口（`viewBox="0 0 18 18"`），通过精密的几何位移矩阵（偏移量居中补偿），将核心图形水平垂直双向严格数学居中（对称轴 X=9，Y=9）；
+      3. 同步修正了 [public/assets/icon-academic.svg](file:///x:/XCoding/Octen/hompage/public/assets/icon-academic.svg)、[public/assets/icon-game.svg](file:///x:/XCoding/Octen/hompage/public/assets/icon-game.svg) 以及历史归档 `public/images/vertical/` 目录下的所有对应文件；
+      4. 页面中 Tab 触发器、Marquee 无限跑马灯芯片以及背景动态水印图标在任何容器缩放下均保持原画真实的完美几何长宽比例。
+    - **构建与验证**:
+      - 运行 `pnpm build` (`tsc && vite build`) 零错误通过（耗时 228ms）；
+      - 本地开发服务 `http://localhost:3001/` 资源请求确认 HTTP 200 且正确返回 18x18 正方形 SVG 矢量内容。
+
+28. **Image & Video Search 双列并排与 Figma 13631:182359 像素级重构**:
+    - **并排架构改造**: 将原本纵向分散的 Image Search 与 Video Search 区域整合为高精并排的双列展示系统（左右各 630px 独立卡片，位于 1280px 标准容器内居中对齐）。
+    - **Figma 细节要素像素级还原**:
+      - 标签系统：左列 `Image Search` 与右列 `Video Search` 胶囊 Tag；
+      - 主副标题：采用 Fraunces 衬线字体 44px 配合 `#18FB6F` 科技绿 JetBrains Mono "Early Access" 徽章；
+      - 3 行特征卡：每列配置 3 项特色功能卡片，带细边框与毛玻璃悬浮高亮；
+      - 渐变底板与搜索演示窗：左侧展示图片特征提取及相似图检索，右侧展示视频时间戳动作定位及帧级搜索。
+    - **双层同步与验证**:
+      - [index.html](file:///x:/XCoding/Octen/hompage/index.html) 新增 `<section id="modalities-search">` 与专用样式 `<style id="octen-modalities-search-styles">`；
+      - 同步创建 [ImageVideoSearch.tsx](file:///x:/XCoding/Octen/hompage/src/components/ImageVideoSearch.tsx)，并在 [App.tsx](file:///x:/XCoding/Octen/hompage/src/App.tsx) 及 [src/index.css](file:///x:/XCoding/Octen/hompage/src/index.css) 中挂载；
+      - `pnpm exec tsc --noEmit` 0 报错通过。
+
+29. **Vertical Search 动画步骤三 3 卡同屏与底部入场优化**:
+    - **原动画问题分析**:
+      - 原 Step 3 的卡片时间线轨道设定 `top: 205px`，导致仅聚焦中间单个卡片；
+      - 当新卡片激活步进时，新卡片均从画布中轴（`205px`）滑入，视口中仅能看到 1~2 张卡片，且新卡切入在中部截断了上方上下文。
+    - **数学几何重构与居中推导**:
+      - 画布固定高度 532px，卡片高 118px，纵向间距 40px，3 张卡片总高度 `118×3 + 40×2 = 434px`；
+      - 垂直对称边距为 `(532 - 434) / 2 = 49px`；
+      - 将 `.timeline-scroll-track` 的初始定位从 `top: 205px` 精确修正为 `top: 49px`；
+      - 优化上下双向渐变遮罩：`-webkit-mask-image` 设定顶部 32px 与底部 32px 柔和淡出，确保 3 个卡片位（Slot 1: 49~167px, Slot 2: 207~325px, Slot 3: 365~483px）在屏幕中 100% 完整清晰显示。
+    - **步进逻辑与底部滑入动效**:
+      - Step 3 启动时，搜索胶囊自动滑出视口顶部（`.pill-out`），前 3 张卡片（Cards 0, 1, 2）以微阶梯（60ms, 180ms, 300ms）自然铺满一屏；
+      - 停留 2.2s 后启动向上平移流水线：
+        - 窗口 1：轨道平移 -158px，Card 0 向上滑出，Slot 3 底部平滑**滑入 Card 3**；
+        - 窗口 2：轨道平移 -316px，Card 1 向上滑出，Slot 3 底部平滑**滑入 Card 4**（最新卡片，绿标时间）；
+      - 任何时刻一屏内均稳定展现 3 张完整卡片，**所有新卡片 100% 均从底部（Slot 3）自然滑入**；
+      - 动态更新中心连接脊柱线 `pipeline-spine`，实时跟随当前最新卡片延展；
+      - 悬停 Hero 画布暂停步进，移出后平滑恢复；全流程播完后停留 3.0s 自动轮转到下一行业。
+    - **组件与构建验证**:
+      - 同步重构 [index.html](file:///x:/XCoding/Octen/hompage/index.html) 中的脚本与样式以及 [VerticalSearch.tsx](file:///x:/XCoding/Octen/hompage/src/components/VerticalSearch.tsx)；
+      - 运行 `pnpm exec tsc --noEmit` 0 报错通过；
+      - 纯原生 JS 语法校验通过，本地服务 `http://localhost:3001/` 实时稳定生效。
+
+30. **Web Search 区域对比卡片边框从虚线改为实线**:
+    - **调整范围**:
+      - 将 Web Search 下方的核心双列对比卡片外层边框由虚线改实线：`border border-[#555555] border-dashed` ➔ `border border-[#555555] border-solid`；
+      - 将 Human Search 与 Octen Search 之间的纵向列分割线由虚线改实线：`md:border-r-[#555555] border-dashed` ➔ `md:border-r-[#555555] border-solid`。
+    - **视觉提升与验证**:
+      - 彻底消除草稿感与临时占位框视觉，整体风格更符合高精商业交付级标准；
+31. **More scenarios in future releases 走马灯卡片透明度优化与 GitHub 交付**:
+    - **透明度优化**:
+      - 深度对齐 Figma 设计规范（Node `13628:180824`，全局 `opacity: 0.6`）；
+      - 为底部无限走马灯卡片 `.scenario-chip`（以及 React 样式 `.octen-vs-scenario-badge`, `.octen-vs-more-badge`）添加 `opacity: 0.6;` 基准透明度，消除纯灰厚重底色，呈现通透精致的微透质感；
+      - 悬停（`:hover`）时即刻平滑过渡恢复至 `opacity: 1 !important;`，配合 `translateY(-2px)` 与微阴影浮起动效，提供聚焦高亮反馈；
+      - 同步维护 [index.html](file:///x:/XCoding/Octen/hompage/index.html) 与 [src/index.css](file:///x:/XCoding/Octen/hompage/src/index.css)。
+    - **环境与交付**:
+      - 清理无用调试文件 `scratch_products.txt`，更新 `.gitignore` 补充 `.vscode/`；
+      - 运行 `pnpm run build` 打包验证 0 报错通过；
+      - 执行 Git 提交并推送到 GitHub 远端仓库 `origin/main`。
+
 ---
 
 ## 📂 代码架构分层说明
-- **运行层**: 当前入口为根目录 [index.html](file:///x:/XCoding/Octen/hompage/index.html) + `public/_next/`，呈现 100% 完整原站动效与资产。
+- **运行层**: 当前入口为根目录 [index.html](file:///x:/XCoding/Octen/hompage/index.html) + `public/_next/` + `public/assets/`，呈现 100% 完整原站动效与资产。
 - **源码层**: `src/components/*.tsx` 为手写的高质量 React 18 + TS 组件，已预先准备好组件拆分。
-- **样式配置**: 核心补丁位于 [index.html](file:///x:/XCoding/Octen/hompage/index.html) 顶部的 `<style id="octen-local-nav-width-fix">` 与 `public/_next/static/css/c4ae1de60afeb6c3.css`。
+- **样式配置**: 核心补丁位于 [index.html](file:///x:/XCoding/Octen/hompage/index.html) 顶部的 `<style id="octen-local-nav-width-fix">`、`<style id="octen-vertical-search-styles">`、`<style id="octen-footer-styles">` 与 `public/_next/static/css/c4ae1de60afeb6c3.css`。
+
+
