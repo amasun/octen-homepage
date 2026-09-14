@@ -1,0 +1,1 @@
+.dot-field-container,.light-rays-container{position:relative;width:100%;height:100%}.light-rays-container{pointer-events:none;z-index:3;overflow:hidden}@supports (-webkit-backdrop-filter:none){.light-rays-container{opacity:.45}}
