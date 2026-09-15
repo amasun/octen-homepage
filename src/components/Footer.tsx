@@ -156,7 +156,7 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
             display: 'grid',
             gridTemplateColumns: 'repeat(5, minmax(0, 1fr))',
             gap: '40px',
-            paddingBottom: '60px'
+            paddingBottom: '110px'
           }}
           data-node-id="13625:174221"
         >
@@ -165,7 +165,7 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
             <h4 style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#71717a', marginBottom: '16px', fontWeight: 400, lineHeight: 1.5 }}>
               GET IN TOUCH
             </h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <div>
                 <a href="mailto:support@octen.ai" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '16px', lineHeight: '24px' }}>
                   <Mail size={16} color="#039855" />
@@ -192,7 +192,7 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
             <h4 style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#71717a', marginBottom: '16px', fontWeight: 400, lineHeight: 1.5 }}>
               SEARCH
             </h4>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '20px', fontSize: '16px', lineHeight: '24px' }}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '16px', lineHeight: '24px' }}>
               <li><a href="https://docs.octen.ai/capabilities/broad-search" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Broad Search</a></li>
               <li><a href="https://docs.octen.ai/capabilities/web-search" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Web Search</a></li>
               <li><a href="https://docs.octen.ai/capabilities/image-search" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Image Search</a></li>
@@ -207,7 +207,7 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
             <h4 style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#71717a', marginBottom: '16px', fontWeight: 400, lineHeight: 1.5 }}>
               OTHERS
             </h4>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '20px', fontSize: '16px', lineHeight: '24px' }}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '16px', lineHeight: '24px' }}>
               <li><a href="https://docs.octen.ai/capabilities/embedding" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Embedding</a></li>
               <li><a href="https://docs.octen.ai/capabilities/vl-embedding" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>VL Embedding</a></li>
               <li><a href="https://docs.octen.ai/capabilities/extract" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Extract</a></li>
@@ -220,7 +220,7 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
             <h4 style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#71717a', marginBottom: '16px', fontWeight: 400, lineHeight: 1.5 }}>
               APPLICATION
             </h4>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '20px', fontSize: '16px', lineHeight: '24px' }}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '16px', lineHeight: '24px' }}>
               <li><a href="https://docs.octen.ai/capabilities/answer" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Answer</a></li>
               <li><a href="https://docs.octen.ai/capabilities/answer" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Deep Research</a></li>
               <li><a href="https://docs.octen.ai/capabilities/answer" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Multimodal Chat</a></li>
@@ -234,7 +234,7 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
               <h4 style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#71717a', marginBottom: '16px', fontWeight: 400, lineHeight: 1.5 }}>
                 DEVELOPERS
               </h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '20px', fontSize: '16px', lineHeight: '24px' }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '16px', lineHeight: '24px' }}>
                 <li><a href="https://status.octen.ai/" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Status</a></li>
                 <li><a href="https://github.com/Octen-Team" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>GitHub</a></li>
                 <li><a href="https://octen.ai/platform/overview" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>API Platform</a></li>
@@ -245,7 +245,7 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
               <h4 style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#71717a', marginBottom: '16px', fontWeight: 400, lineHeight: 1.5 }}>
                 COMPANY
               </h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '20px', fontSize: '16px', lineHeight: '24px' }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '16px', lineHeight: '24px' }}>
                 <li><a href="https://octen.ai/blog" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Blog</a></li>
                 <li><a href="https://octen.ai/contact-sales" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Contact</a></li>
               </ul>
