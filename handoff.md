@@ -267,11 +267,117 @@
       - 运行 `pnpm run build` 打包验证 0 报错通过；
       - 执行 Git 提交并推送到 GitHub 远端仓库 `origin/main`。
 
+32. **Web Search 增加 General Search 标签 & Image/Video Search 标签精简与标题绝对居中**:
+    - **设计意图与需求对齐**:
+      1. **Web Search API 标签更名**: 将 Web Search 模块顶部的类别胶囊标签由 `Web Search API` 更新为 `General Search`，保持与系统大类分类（与 Vertical Search 对齐）层级统一。
+      2. **Image / Video Search 冗余标签移除**: 并排展示的 Image Search 和 Video Search 标题上方原本挂载的同款 `General Search` 胶囊标签予以彻底移除，界面视觉更纯净干净。
+      3. **Early Access 标签脱离文档流绝对定位**:
+         - 原有实现：`.octen-modality-title-row` 使用 flex 居中排列 `<h2>` + `gap: 12px` + `Early Access` 徽章，导致整个 row 的中心被徽章宽度（~104px）拉偏，`<h2>` 文本偏向左侧约 58px，无法与下方段落及 630px 卡片垂直轴绝对对称；
+         - 修正实现：将 `.octen-modality-title-row` 设为 `position: relative; display: inline-flex; height: 64px; justify-content: center;`，内部仅有 `<h2>` 参与流排版；将 `.octen-early-access-badge` 设为 `position: absolute; left: calc(100% + 12px); top: 50%; transform: translateY(-50%);`，实现标题 100% 死居中，徽章悬浮于标题右侧；超窄屏（`@media (max-width: 520px)`）回退为纵向单列排布。
+    - **全链路同步更新**:
+      1. [index.html](file:///x:/XCoding/Octen/hompage/index.html)：更新 Web Search 标题上方标签为 `General Search`；移除双列中上方的 `octen-modality-tag`；更新 `.octen-modality-title-row` 与 `.octen-early-access-badge` 定位样式。
+      2. [public/_next/static/chunks/app/(marketing)/page-04860a45c73d1775.js](file:///x:/XCoding/Octen/hompage/public/_next/static/chunks/app/(marketing)/page-04860a45c73d1775.js)：同步更新客户端组件中的 `Web Search API` 文本与 alt 为 `General Search`，根除 CSR 水合冲突。
+      3. [src/components/ImageVideoSearch.tsx](file:///x:/XCoding/Octen/hompage/src/components/ImageVideoSearch.tsx)：从类型定义及模板中移除 `tag` 与 `<div className="octen-modality-tag">`。
+      4. [src/index.css](file:///x:/XCoding/Octen/hompage/src/index.css)：同步将 `.octen-early-access-badge` 改为绝对定位挂载，并移除 `gap: 12px`。
+      5. [src/components/ArchitectureComparison.tsx](file:///x:/XCoding/Octen/hompage/src/components/ArchitectureComparison.tsx)：更新为 `General Search` 标签并配专属 `Globe` 图标。
+    - **构建与服务验证**:
+      - 执行 `pnpm run build` (`tsc && vite build`) 零警告零报错通过（耗时 224ms）；
+      - 开发服务 `http://localhost:3001/` HTTP 200 实时生效。
+
+33. **按 DOM 结构解耦主 HTML：CSS/JS 静态资产模块化与语义化分段**:
+    - **背景与设计决策**:
+      - 原 `index.html` 包含逾 42KB 内联样式和 35KB 内联脚本，总行数达 3,615 行，阅读认知负担沉重；
+      - 遵循用户最高指引："按 DOM 结构进行拆分，比如 js css 等，不容易拆分或者读取理解的代码保持在 index 中不要动"；
+      - 将高内聚、易拆分的自定义 CSS 与 JS 完整剥离至 `public/css/` 与 `public/js/`；对于与 Next.js 客户端水合强绑定的高耦合 SSR 压缩 DOM（如 Hero、Stats、Broad Search 预渲染数据），保持在 `index.html` 中 100% 原样未动，杜绝水合冲突与闪烁（FOUC）。
+    - **抽离资产结构清单**:
+      1. [public/css/navbar.css](file:///x:/XCoding/Octen/hompage/public/css/navbar.css)：导航栏下拉卡片尺寸锁死（821px / 208px）、无形变过渡与 5 列网格补丁；
+      2. [public/css/modalities-search.css](file:///x:/XCoding/Octen/hompage/public/css/modalities-search.css)：Image & Video Search 双列并排 630px 卡片与 Early Access 徽章绝对居中样式；
+      3. [public/css/vertical-search.css](file:///x:/XCoding/Octen/hompage/public/css/vertical-search.css)：垂直行业大卡片渐变背景、Slot 1~3 底部自然滑入瀑布流时间轴动效与无限跑马灯样式；
+      4. [public/css/footer.css](file:///x:/XCoding/Octen/hompage/public/css/footer.css)：页脚 5 列横向排版、全宽贯穿线与版权样式；
+      5. [public/js/navbar.js](file:///x:/XCoding/Octen/hompage/public/js/navbar.js)：导航栏下拉菜单 hover 延时防抖展开与点击外部自动折叠控制器；
+      6. [public/js/vertical-search.js](file:///x:/XCoding/Octen/hompage/public/js/vertical-search.js)：垂直搜索 3 阶段自动化状态机、多行业数据集动态切换与跑马灯动画控制器。
+    - **主 HTML 结构大幅精简与语义化标记**:
+      - `index.html` 总行数从 3,615 行锐减至 1,071 行（缩减超 75KB 内联代码）；
+      - `<head>` 统一采用语义化 `<link rel="stylesheet">` 挂载模块化样式；底部采用 `<script defer src="...">` 挂载模块化交互脚本；
+      - 补充完整的 6 大核心 DOM 分段注释（`SECTION 1: HEADER & NAVIGATION`、`SECTION 2: HERO & GENERAL WEB SEARCH (SSR)`、`SECTION 3: MODALITIES SEARCH`、`SECTION 4: VERTICAL SEARCH`、`SECTION 5: THE COMPLETE RETRIEVAL STACK (SSR)`、`SECTION 6: FOOTER`）。
+    - **构建与网络验证**:
+      - 运行 `pnpm run build` (`tsc && vite build`) 零错误通过（耗时 216ms）；
+      - Vite 自动将 `public/css/` 与 `public/js/` 拷贝至 `dist/` 生产目录；
+      - 本地开发服务 `http://localhost:3001/` 所有 7 个核心 URL（`/`、`/css/*`、`/js/*`）均以 HTTP 200 与正确 MIME 类型正常响应。
+
+34. **Vertical Search 动画步骤三开始时输入框卡片停留与统计数据清晰展现**:
+    - **问题定位**:
+      - 原 Step 3 触发时立即为 `#searchPill` 添加 `.pill-out`（`transform: translate(-50%, -200px)`），导致输入框连同内部的统计数据信息（如 `2 subjects · 10 articles · 89 ms`）在 0ms 瞬间滑出视口，用户无法感知到搜索提炼阶段的真实统计数据；
+    - **分步动画时序重构**:
+      1. **阶段 3.1（统计结果停留与首批卡片浮现，2.0s）**:
+         - Step 3 启动时，搜索胶囊保持在画布顶端（`top: 36px; height: 122px`），`.search-results-meta`（`opacity: 1`）完整展现统计指标文案（News: `2 subjects · 10 articles · 89 ms` / Academic: `4 journals · 18 papers · 64 ms` / Business: `8 filings · 12 reports · 92 ms`）；
+         - 时间轴轨道初始停留在 `translateY(136px)`，Card 0 与 Card 1 错峰（80ms, 260ms）自然浮现在输入框卡片正下方，白色脊柱线延伸连接；
+         - 输入框与统计数据平稳停留 **2.0 秒**，为用户提供充裕的阅读与聚焦时间；
+      2. **阶段 3.2（输入框向上滑出，时间轴推入满屏 3 卡）**:
+         - 2.0s 停留结束后，搜索胶囊平滑上滑移出视口（`.pill-out`）；
+         - 时间轴轨道自 `translateY(136px)` 同步平滑上升至 `translateY(0)`，Slot 3 底部同步浮现 Card 2；
+         - 满屏 3 卡（Slot 1~3）优雅呈现，停留 2.2s；
+      3. **阶段 3.3（后续底部步进与平滑循环）**:
+         - 顺畅承接后续 Window 1（-158px，Card 3 入场）与 Window 2（-316px，Card 4 入场）；
+         - 悬停（mouseenter）时自动保护 `pillStayTimer`，移出后继续恢复完整播放。
+    - **双端同步与构建**:
+      - [public/js/vertical-search.js](file:///x:/XCoding/Octen/hompage/public/js/vertical-search.js)：实现 Step 3 首阶段 2.0s 停留机制与鼠标移入/移出计时器安全托管；
+      - [src/components/VerticalSearch.tsx](file:///x:/XCoding/Octen/hompage/src/components/VerticalSearch.tsx) & [src/index.css](file:///x:/XCoding/Octen/hompage/src/index.css)：React 源码层同步增加 `pillOut` 延迟状态与过渡样式；
+      - 运行 `pnpm run build` (`tsc && vite build`) 零错误通过（耗时 200ms），本地 `http://localhost:3001/` 实时生效。
+
+35. **Vertical Search 视口滚动触发：滚轮滚动至可视区域后再启动流水线动画**:
+    - **问题定位与需求分析**:
+      - 页面初次加载时，用户处于顶部首屏（Hero / General Search 区域），此时处于页面下方 2000px+ 的 "Search built for every vertical" 已在后台直接启动打字机、波浪加载与 3 卡步进动画；
+      - 导致用户后续用滚轮滚动至垂直搜索区域时，错过了精彩的 Step 1 打字机交互与 Step 2 检索动效，甚至直接看到中途轮播状态；
+    - **滚动监听与防抖触发实现**:
+      1. **静态准备态（Static Setup）**:
+         - 页面初始化时执行 `switchVertical('news', false)`，仅渲染 News 选项卡选中态、背景主题渐变、SVG 水印图标及初始卡片内容；
+         - 搜索框内初始化为空白输入态并保留呼吸光标 `typingCursor`，严禁启动任何打字机定时器或自动轮转计时器；
+      2. **视口相交监听（IntersectionObserver）**:
+         - 挂载 `IntersectionObserver` 监听 `#heroCanvas` / `.vertical-search-section` 区域；
+         - 配置精细阈值 `threshold: 0.15, rootMargin: '0px 0px -30px 0px'`，确保用户滚轮滑动使画布进入视口约 15%（约 80px）时精准触发；
+         - 触发时执行 `startAnimationSequence()`，启动完整的 Step 1 打字机 -> Step 2 检索 -> Step 3 底部卡片滑入流水线，并立即 `disconnect()` 断开监听避免重复触发；
+      3. **交互主动降级保底**:
+         - 若用户在未滚动完全时主动点击顶部 Tab 按钮、底部跑马灯芯片或 AI 搜索按钮，立即标记 `hasStartedAnimation = true` 并无缝开启对应场景动画。
+    - **双端同步与验证**:
+      - [public/js/vertical-search.js](file:///x:/XCoding/Octen/hompage/public/js/vertical-search.js)：新增 `switchVertical(key, autoStart)` 区分静态初始化与动态执行，挂载 `IntersectionObserver`；
+      - [src/components/VerticalSearch.tsx](file:///x:/XCoding/Octen/hompage/src/components/VerticalSearch.tsx)：增加 `hasStarted` 状态、`useRef` 与 `IntersectionObserver` 监听；
+      - 执行 `pnpm run build` (`tsc && vite build`) 0 报错通过（耗时 222ms），`http://localhost:3001/` 实时生效。
+
+36. **Image & Video Search 辅助文字下方新增 Request Access 按钮**:
+    - **视觉与交互对齐**:
+      - 深度还原用户提供的设计切图，在 Image Search 与 Video Search 的两列描述段落（`.octen-modality-desc`）正下方，居中添加高精幽灵外框 CTA 按钮 `Request Access ↗`；
+      - **按钮尺寸与规范**: `height: 40px; padding: 0 20px; border-radius: 8px; border: 1px solid #18FB6F; color: #18FB6F; font-family: 'DM Sans'; font-size: 15px; font-weight: 500;`；
+      - **毛玻璃与暗色底板**: `background: rgba(8, 11, 18, 0.4); backdrop-filter: blur(8px);`；
+      - **微动效交互**: 悬停时背景变为 `rgba(24, 251, 111, 0.12)`，字体轻微提亮为 `#38FF85`，带 `box-shadow: 0 0 16px rgba(24, 251, 111, 0.15)` 微光发散，且右上斜向箭头 `↗`（SVG `M3 13L13 3M13 13V3H3`）发生 `translate(1.5px, -1.5px)` 悬浮位移；
+      - 链接指向平台总览地址 `https://octen.ai/platform/overview`。
+    - **全量同步与构建**:
+      - [public/css/modalities-search.css](file:///x:/XCoding/Octen/hompage/public/css/modalities-search.css) & [src/index.css](file:///x:/XCoding/Octen/hompage/src/index.css)：补齐 `.octen-modality-request-btn` 与 `.octen-modality-btn-arrow` 规则；
+      - [index.html](file:///x:/XCoding/Octen/hompage/index.html)：在 Image Search 与 Video Search 的头部信息块中挂载按钮 DOM；
+      - [src/components/ImageVideoSearch.tsx](file:///x:/XCoding/Octen/hompage/src/components/ImageVideoSearch.tsx)：React 源码层在遍历渲染中同步输出按钮模板；
+      - 执行 `pnpm run build` 0 报错通过（耗时 203ms），本地 `http://localhost:3001/` 实时生效。
+
+37. **Vertical Search 胶囊标签精准对齐 Figma 13625:179118 规范**:
+    - **设计要素提取（Figma Dev Mode MCP Node 13625:179118: tag -v）**:
+      - **尺寸与内边距**: `height: 32px; padding: 6px 20px 6px 16px; gap: 4px;`；
+      - **边框与圆角**: `border-radius: 19.462px; border: 1px solid #BCBCBC;`；
+      - **底板与磨砂**: `background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);`；
+      - **字形标准**: `font-family: 'DM Sans'; font-size: 14px; font-weight: 400; line-height: 20px; color: #000000;`；
+      - **前缀矢量图标 (`icon-vertical-tag.svg`)**: 提取了 Figma 对应的 `16x16` 垂直搜索立体三角锥线框图标（描边色 `#039855`，`M7.09 13.83L13.68 10.83L7.09 0.5L0.5 10.83Z` 等），置于文字左侧，间距 `4px`。
+    - **多端同步与验证**:
+      - 矢量资产沉淀于 [public/assets/icon-vertical-tag.svg](file:///x:/XCoding/Octen/hompage/public/assets/icon-vertical-tag.svg) 与 [public/images/vertical/icon-vertical-tag.svg](file:///x:/XCoding/Octen/hompage/public/images/vertical/icon-vertical-tag.svg)；
+      - 样式规则在 [public/css/vertical-search.css](file:///x:/XCoding/Octen/hompage/public/css/vertical-search.css)（`.tag-pill` & `.tag-pill-icon`）与 [src/index.css](file:///x:/XCoding/Octen/hompage/src/index.css)（`.octen-vs-tag`）双端对齐；
+      - DOM 结构在 [index.html](file:///x:/XCoding/Octen/hompage/index.html) 与 [VerticalSearch.tsx](file:///x:/XCoding/Octen/hompage/src/components/VerticalSearch.tsx) 均挂载了图标与数据属性；
+      - 执行 `pnpm run build` 0 报错通过（耗时 204ms）。
+
 ---
 
 ## 📂 代码架构分层说明
-- **运行层**: 当前入口为根目录 [index.html](file:///x:/XCoding/Octen/hompage/index.html) + `public/_next/` + `public/assets/`，呈现 100% 完整原站动效与资产。
+- **运行层**: 当前入口为根目录 [index.html](file:///x:/XCoding/Octen/hompage/index.html) + `public/css/` + `public/js/` + `public/_next/` + `public/assets/`，呈现 100% 完整原站动效与资产。
 - **源码层**: `src/components/*.tsx` 为手写的高质量 React 18 + TS 组件，已预先准备好组件拆分。
-- **样式配置**: 核心补丁位于 [index.html](file:///x:/XCoding/Octen/hompage/index.html) 顶部的 `<style id="octen-local-nav-width-fix">`、`<style id="octen-vertical-search-styles">`、`<style id="octen-footer-styles">` 与 `public/_next/static/css/c4ae1de60afeb6c3.css`。
+- **模块化样式配置**: 核心样式位于 `public/css/navbar.css`、`public/css/modalities-search.css`、`public/css/vertical-search.css`、`public/css/footer.css` 以及全局底层样式 `public/_next/static/css/c4ae1de60afeb6c3.css`。
+- **模块化脚本配置**: 核心交互逻辑位于 `public/js/navbar.js` 与 `public/js/vertical-search.js`。
+
+
 
 

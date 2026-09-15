@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Layers, Zap, GitFork, RefreshCw, CheckCircle } from 'lucide-react';
+import { ArrowRight, Layers, Zap, GitFork, RefreshCw, CheckCircle, Globe } from 'lucide-react';
 
 const TOPICS = [
   'AI search engines',
@@ -21,11 +21,11 @@ export const ArchitectureComparison: React.FC = () => {
         {/* Section Title */}
         <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 56px' }}>
           <div className="pill-badge" style={{ marginBottom: '16px' }}>
-            <Layers size={14} color="#60ff70" />
-            <span>Architecture Breakdown</span>
+            <Globe size={14} color="#60ff70" />
+            <span>General Search</span>
           </div>
           <h2>
-            Web Search API <span className="text-gradient">Web Search</span>
+            Web Search
           </h2>
           <p style={{ fontSize: '17px', color: 'var(--text-muted)', marginTop: '12px' }}>
             LLM-native web search delivering industry-leading real-time intelligence with lowest latency and enterprise-grade reliability.

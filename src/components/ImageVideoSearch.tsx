@@ -7,7 +7,6 @@ interface FeatureItem {
 
 interface ModalityCardData {
   id: string;
-  tag: string;
   title: string;
   badge: string;
   description: string;
@@ -20,7 +19,6 @@ interface ModalityCardData {
 const modalitiesData: ModalityCardData[] = [
   {
     id: 'image-search',
-    tag: 'General Search',
     title: 'Image Search',
     badge: 'Early Access',
     description: 'When words fall short, find the exact visual you need. Search with text or another image to discover references, design inspiration, and ready-to-use layouts.',
@@ -44,7 +42,6 @@ const modalitiesData: ModalityCardData[] = [
   },
   {
     id: 'video-search',
-    tag: 'General Search',
     title: 'Video Search',
     badge: 'Early Access',
     description: 'When showing beats telling. Find the exact clip, tutorial, or real-world moment across the web—ready to play, learn from, or inspire new creations.',
@@ -81,16 +78,35 @@ export const ImageVideoSearch: React.FC = () => {
             <div key={col.id} className="octen-modality-col" data-node-id={col.nodeId}>
               {/* Header Block */}
               <div className="octen-modality-header" data-node-id={col.headerNodeId}>
-                <div className="octen-modality-tag">
-                  <span className="octen-modality-tag-text">{col.tag}</span>
-                </div>
-
                 <div className="octen-modality-title-row">
                   <h2 className="octen-modality-title">{col.title}</h2>
                   <span className="octen-early-access-badge">{col.badge}</span>
                 </div>
 
                 <p className="octen-modality-desc">{col.description}</p>
+
+                <a
+                  href="https://octen.ai/platform/overview"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="octen-modality-request-btn"
+                >
+                  <span>Request Access</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="octen-modality-btn-arrow"
+                  >
+                    <path d="M3 13L13 3M13 13V3H3" />
+                  </svg>
+                </a>
               </div>
 
               {/* Bottom Feature Card */}

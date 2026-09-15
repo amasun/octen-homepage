@@ -19,6 +19,24 @@ export const VerticalSearch: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [typedQuery, setTypedQuery] = useState('');
   const [cardStep, setCardStep] = useState(0);
+  const [pillOut, setPillOut] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!sectionRef.current || hasStarted) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setHasStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -30px 0px' }
+    );
+    observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, [hasStarted]);
 
   const timelineData: Record<'news' | 'business' | 'academic', DomainData> = {
     news: {
@@ -135,8 +153,9 @@ export const VerticalSearch: React.FC = () => {
 
   // Step 1: Typewriter Effect
   useEffect(() => {
-    if (step !== 1) return;
+    if (!hasStarted || step !== 1) return;
     setCardStep(0);
+    setPillOut(false);
     setTypedQuery('');
 
     const target = current.query;
@@ -154,7 +173,7 @@ export const VerticalSearch: React.FC = () => {
     }, 36);
 
     return () => clearInterval(interval);
-  }, [step, activeTab, current.query]);
+  }, [hasStarted, step, activeTab, current.query]);
 
   // Step 2: Searching with loading dots (Right icon static, no rotation)
   useEffect(() => {
@@ -169,6 +188,7 @@ export const VerticalSearch: React.FC = () => {
   useEffect(() => {
     if (step !== 3) return;
     setCardStep(0);
+    setPillOut(false);
 
     const totalCards = current.items.length;
     const visibleCards = 3;
@@ -186,31 +206,47 @@ export const VerticalSearch: React.FC = () => {
       } else {
         // Final 3-card window shown! Pause 3.0s then loop back to Step 1
         timerId = setTimeout(() => {
+          setPillOut(false);
           setStep(1);
         }, 3000);
       }
     };
 
-    // Pause 2.2s on initial window of 3 cards
-    timerId = setTimeout(() => {
-      advanceStep();
-    }, 2200);
+    // 1. Stay for 2.0s so user clearly sees the search pill and statistics ("2 subjects · 10 articles · 89 ms")
+    const stayTimer = setTimeout(() => {
+      setPillOut(true);
 
-    return () => clearTimeout(timerId);
+      // 2. Pause 2.2s on initial window of 3 cards (Cards 0, 1, 2)
+      timerId = setTimeout(() => {
+        advanceStep();
+      }, 2200);
+    }, 2000);
+
+    return () => {
+      clearTimeout(stayTimer);
+      clearTimeout(timerId);
+    };
   }, [step, activeTab, current.items.length]);
 
   const handleSelectTab = (tab: 'news' | 'business' | 'academic') => {
+    setHasStarted(true);
     setActiveTab(tab);
     setCardStep(0);
+    setPillOut(false);
     setStep(1);
   };
 
   return (
-    <section id="vertical-search" className="octen-vertical-search" data-node-id="13625:179114">
+    <section id="vertical-search" ref={sectionRef} className="octen-vertical-search" data-node-id="13625:179114">
       <div className="octen-vs-inner">
         {/* Top Header */}
         <div className="octen-vs-copy">
-          <div className="octen-vs-tag">Vertical Search</div>
+          <div className="octen-vs-tag" data-node-id="13625:179118">
+            <div className="tag-pill-icon" data-name="vertical">
+              <img src="/assets/icon-vertical-tag.svg" alt="" width={15} height={15} />
+            </div>
+            <span>Vertical Search</span>
+          </div>
           <h2>Search built for every vertical</h2>
           <p>
             Give every industry the real-time context it needs with search tuned to its sources, language, and workflows. <strong>News search is live now.</strong>
@@ -278,9 +314,9 @@ export const VerticalSearch: React.FC = () => {
               flexGrow: 0,
             }}
           >
-            {/* Search Pill: Moves out of frame in Step 3 */}
+            {/* Search Pill: Moves out of frame in Step 3 after staying */}
             <div
-              className={`octen-vs-search-pill ${step === 3 ? 'pill-out' : ''}`}
+              className={`octen-vs-search-pill ${step === 3 && pillOut ? 'pill-out' : ''}`}
               id="octen-vs-pill"
             >
               <div className="octen-vs-pill-top">
@@ -333,7 +369,7 @@ export const VerticalSearch: React.FC = () => {
               id="octen-vs-timeline-cards"
               style={{
                 top: '49px',
-                transform: `translateX(-50%) translateY(-${cardStep * 158}px)`,
+                transform: `translateX(-50%) translateY(${step === 3 && !pillOut ? '136px' : `-${cardStep * 158}px`})`,
                 transition: 'transform 0.75s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             >

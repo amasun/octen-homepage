@@ -1,0 +1,310 @@
+/* --- Octen Footer Styles (Figma Node 13625:174217) --- */
+.octen-footer-root {
+  background: linear-gradient(180deg, rgba(8, 11, 18, 0.8) 0%, rgba(21, 51, 30, 0.8) 100%), #080B12 !important;
+  border-top: 1px solid rgba(74, 141, 91, 0.3) !important;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.octen-footer-container {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  padding-top: 80px;
+  padding-left: 24px;
+  padding-right: 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header: Logo & Slogan */
+.octen-footer-header {
+  border-bottom: 1px solid rgba(207, 207, 207, 0.2) !important;
+  padding-bottom: 60px !important;
+  margin-bottom: 40px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+}
+
+.octen-footer-logo-wrap {
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.octen-footer-logo-img {
+  width: 184px;
+  height: 62.5px;
+  display: block;
+  object-fit: contain;
+}
+
+.octen-footer-slogan {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  flex-wrap: wrap;
+}
+
+.octen-footer-slogan-light {
+  font-family: Fraunces, serif;
+  font-weight: 300;
+  font-size: 41.5px;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.octen-footer-slogan-italic {
+  font-family: Fraunces, serif;
+  font-style: italic;
+  font-size: 41.5px;
+  line-height: 1;
+  background: linear-gradient(218.78deg, #07AA5A 0%, #9ACC53 50%, #07AA5A 100%);
+  background-size: 200%;
+  background-position-y: 50%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: #70fe7e;
+}
+
+@media (max-width: 767px) {
+  .octen-footer-slogan-light,
+  .octen-footer-slogan-italic {
+    font-size: 28px;
+  }
+}
+
+/* 5-Column Navigation Grid */
+.octen-footer-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 40px;
+  padding-bottom: 60px !important;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1023px) {
+  .octen-footer-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
+}
+
+@media (max-width: 639px) {
+  .octen-footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+}
+
+.octen-footer-col-title {
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em;
+  color: #71717a !important;
+  line-height: 1.5;
+  margin-bottom: 16px !important;
+}
+
+.octen-footer-col-list {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px !important;
+}
+
+.octen-footer-link {
+  font-family: "DM Sans", sans-serif;
+  font-size: 16px !important;
+  line-height: 24px !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  text-decoration: none !important;
+  display: block;
+  transition: color 0.2s ease;
+}
+
+.octen-footer-link:hover {
+  color: #70fe7e !important;
+}
+
+/* Col 1: Get in Touch */
+.octen-footer-col-touch {
+  padding-left: 24px;
+  position: relative;
+}
+
+.octen-footer-touch-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.octen-footer-touch-email {
+  font-family: "DM Sans", sans-serif;
+  font-size: 16px !important;
+  line-height: 24px !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  text-decoration: none !important;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.octen-footer-touch-email:hover {
+  color: #70fe7e !important;
+}
+
+.octen-footer-touch-mail-icon {
+  position: absolute;
+  left: -24px;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  stroke: #039855;
+}
+
+.octen-footer-touch-label {
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px !important;
+  color: #71717a !important;
+  text-transform: uppercase !important;
+  line-height: 1 !important;
+  letter-spacing: 0.05em;
+}
+
+/* Col 5: Developers & Company */
+.octen-footer-col-dev-comp {
+  display: flex;
+  flex-direction: column;
+  gap: 30px !important;
+  width: 110px;
+}
+
+/* SOC 2 Certification Badge (Figma 13625:174285) */
+.octen-footer-certified {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #41535b;
+  background: rgba(15, 32, 24, 0.53);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  position: absolute;
+  right: 24px;
+  bottom: 91px;
+  z-index: 10;
+  user-select: none;
+}
+
+@media (max-width: 1023px) {
+  .octen-footer-certified {
+    position: static;
+    margin-bottom: 24px;
+    align-self: flex-start;
+  }
+}
+
+.octen-footer-badge-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.octen-footer-badge-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.1;
+}
+
+.octen-footer-badge-soc {
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  display: flex;
+  align-items: flex-start;
+}
+
+.octen-footer-badge-reg {
+  font-size: 8px;
+  font-weight: 400;
+  margin-left: 2px;
+  vertical-align: super;
+}
+
+.octen-footer-badge-type {
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Bottom Legal Bar (Figma 13625:174279) */
+.octen-footer-bottom-bar {
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  padding-top: 30px !important;
+  padding-bottom: 30px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+  .octen-footer-bottom-bar {
+    flex-direction: column-reverse !important;
+    align-items: flex-start !important;
+    gap: 20px;
+  }
+}
+
+.octen-footer-copyright {
+  font-family: "DM Sans", sans-serif;
+  font-size: 16px !important;
+  line-height: 24px !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  margin: 0 !important;
+}
+
+.octen-footer-legal-links {
+  display: flex !important;
+  align-items: center !important;
+  gap: 30px !important;
+}
+
+.octen-footer-legal-link {
+  font-family: "DM Sans", sans-serif;
+  font-size: 16px !important;
+  line-height: 24px !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease;
+}
+
+.octen-footer-legal-link:hover {
+  color: #ffffff !important;
+}
