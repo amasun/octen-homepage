@@ -100,7 +100,7 @@
           iconKey: 'news',
           query: 'Strait of Hormuz shipping disruptions',
           sparkleColor: '#039855',
-          metaStats: '2 subjects · 10 articles · 89 ms',
+          metaStats: '4 subjects 10 articles',
           cards: [
             {
               time: '05:26:15',
@@ -422,7 +422,7 @@
             canvasWatermarkIcon.style.pointerEvents = 'none';
           }
           if (stepNum === 3) {
-            // Re-trigger rolling ticker reels (走马灯效果) for 4 subjects, 10 articles, 89 ms
+            // Re-trigger rolling ticker reels (走马灯效果) for 4 subjects, 10 articles
             const rollerStrips = document.querySelectorAll('.stat-roller-strip');
             rollerStrips.forEach(strip => {
               strip.style.animation = 'none';

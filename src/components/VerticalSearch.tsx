@@ -416,22 +416,6 @@ export const VerticalSearch: React.FC = () => {
                 </div>
                 <span className="stat-label">articles</span>
               </div>
-              <div className="stat-item stat-item-3">
-                <div className="stat-roller-window" aria-label="89">
-                  <div className="stat-roller-strip stat-strip-3">
-                    <span className="stat-num-val">0</span>
-                    <span className="stat-num-val">14</span>
-                    <span className="stat-num-val">36</span>
-                    <span className="stat-num-val">55</span>
-                    <span className="stat-num-val">72</span>
-                    <span className="stat-num-val">28</span>
-                    <span className="stat-num-val">64</span>
-                    <span className="stat-num-val">95</span>
-                    <span className="stat-num-val stat-target">89</span>
-                  </div>
-                </div>
-                <span className="stat-label">ms</span>
-              </div>
             </div>
             <div className="meta-bullets-list">
               <p className="bullet-item">• Fresh news, delivered in milliseconds.</p>
