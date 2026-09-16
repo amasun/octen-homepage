@@ -302,6 +302,65 @@
       let currentTimelineIndex = 0;
       let currentScenario = 'news';
 
+      // NumberFlow elements for 4 subjects & 10 articles (走马灯效果)
+      let subjectsFlowEl = null;
+      let articlesFlowEl = null;
+      let numberFlowInitialized = false;
+      let subjectsTimer = null;
+      let articlesTimer = null;
+
+      function clearNumberFlowTimers() {
+        if (subjectsTimer) {
+          clearTimeout(subjectsTimer);
+          subjectsTimer = null;
+        }
+        if (articlesTimer) {
+          clearTimeout(articlesTimer);
+          articlesTimer = null;
+        }
+      }
+
+      function initNumberFlow() {
+        subjectsFlowEl = document.getElementById('statSubjectsFlow');
+        articlesFlowEl = document.getElementById('statArticlesFlow');
+
+        if (!subjectsFlowEl || !articlesFlowEl) return;
+
+        if (window.NumberFlowContinuous) {
+          subjectsFlowEl.plugins = [window.NumberFlowContinuous];
+          articlesFlowEl.plugins = [window.NumberFlowContinuous];
+        }
+
+        // Spring physics and timing matching barvian/number-flow standards
+        subjectsFlowEl.spinTiming = { duration: 900, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' };
+        articlesFlowEl.spinTiming = { duration: 1100, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' };
+
+        if (!numberFlowInitialized) {
+          numberFlowInitialized = true;
+          const targetSub = currentStep >= 3 ? 4 : 0;
+          const targetArt = currentStep >= 3 ? 10 : 0;
+
+          if (typeof subjectsFlowEl.update === 'function') {
+            subjectsFlowEl.animated = false;
+            subjectsFlowEl.update(targetSub);
+            subjectsFlowEl.animated = true;
+          }
+
+          if (typeof articlesFlowEl.update === 'function') {
+            articlesFlowEl.animated = false;
+            articlesFlowEl.update(targetArt);
+            articlesFlowEl.animated = true;
+          }
+        }
+      }
+
+      window.__initNumberFlow = initNumberFlow;
+      window.addEventListener('numberflow-ready', initNumberFlow);
+      if (typeof customElements !== 'undefined') {
+        customElements.whenDefined('number-flow').then(initNumberFlow);
+      }
+      initNumberFlow();
+
       // 4. Character-by-Character Typewriter Function for query input
       function clearTypewriter() {
         if (typeInterval) {
@@ -398,6 +457,8 @@
           }
         }
 
+        clearNumberFlowTimers();
+
         if (stepNum === 1) {
           if (canvasWatermarkIcon) {
             canvasWatermarkIcon.style.opacity = '';
@@ -414,6 +475,18 @@
           }
           const allTimelineArticles = document.querySelectorAll('.timeline-article-card');
           allTimelineArticles.forEach(c => c.classList.remove('article-revealed'));
+
+          // Quiet reset numbers without animation when left panel is hidden
+          if (subjectsFlowEl && typeof subjectsFlowEl.update === 'function') {
+            subjectsFlowEl.animated = false;
+            subjectsFlowEl.update(0);
+            subjectsFlowEl.animated = true;
+          }
+          if (articlesFlowEl && typeof articlesFlowEl.update === 'function') {
+            articlesFlowEl.animated = false;
+            articlesFlowEl.update(0);
+            articlesFlowEl.animated = true;
+          }
         } else {
           // Rule: 除了第一步，其他步骤中左侧的大logo都隐藏
           if (canvasWatermarkIcon) {
@@ -421,15 +494,52 @@
             canvasWatermarkIcon.style.visibility = 'hidden';
             canvasWatermarkIcon.style.pointerEvents = 'none';
           }
-          if (stepNum === 3) {
-            // Re-trigger rolling ticker reels (走马灯效果) for 4 subjects, 10 articles
-            const rollerStrips = document.querySelectorAll('.stat-roller-strip');
-            rollerStrips.forEach(strip => {
-              strip.style.animation = 'none';
-              void strip.offsetWidth; // force browser reflow
-              strip.style.animation = '';
-            });
-          } else if (stepNum === 5) {
+
+          if (stepNum === 2) {
+            // Keep stats zeroed in preparation for step 3 reveal
+            if (subjectsFlowEl && typeof subjectsFlowEl.update === 'function') {
+              subjectsFlowEl.animated = false;
+              subjectsFlowEl.update(0);
+              subjectsFlowEl.animated = true;
+            }
+            if (articlesFlowEl && typeof articlesFlowEl.update === 'function') {
+              articlesFlowEl.animated = false;
+              articlesFlowEl.update(0);
+              articlesFlowEl.animated = true;
+            }
+          } else if (stepNum === 3) {
+            // Staggered roll to 4 subjects and 10 articles (走马灯效果 via number-flow)
+            if (subjectsFlowEl && typeof subjectsFlowEl.update === 'function') {
+              subjectsFlowEl.animated = false;
+              subjectsFlowEl.update(0);
+              subjectsFlowEl.animated = true;
+              subjectsTimer = setTimeout(() => {
+                subjectsFlowEl.update(4);
+              }, 120);
+            }
+            if (articlesFlowEl && typeof articlesFlowEl.update === 'function') {
+              articlesFlowEl.animated = false;
+              articlesFlowEl.update(0);
+              articlesFlowEl.animated = true;
+              articlesTimer = setTimeout(() => {
+                articlesFlowEl.update(10);
+              }, 280);
+            }
+          } else if (stepNum >= 4) {
+            // Ensure firmly settled at target values
+            if (subjectsFlowEl && typeof subjectsFlowEl.update === 'function') {
+              if (subjectsFlowEl.value !== 4) {
+                subjectsFlowEl.update(4);
+              }
+            }
+            if (articlesFlowEl && typeof articlesFlowEl.update === 'function') {
+              if (articlesFlowEl.value !== 10) {
+                articlesFlowEl.update(10);
+              }
+            }
+          }
+
+          if (stepNum === 5) {
             if (subState === 'expanded') {
               // State 5A: First timeline article is revealed below Subject 1
               const allTimelineArticles = document.querySelectorAll('.timeline-article-card');
@@ -450,6 +560,7 @@
     
       function clearNewsAutoLoop() {
         clearTypewriter();
+        clearNumberFlowTimers();
         if (autoLoopTimer) {
           clearTimeout(autoLoopTimer);
           autoLoopTimer = null;

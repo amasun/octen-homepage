@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import NumberFlow, { continuous } from '@number-flow/react';
 
 interface SubjectCardData {
   date: string;
@@ -130,6 +131,8 @@ export const VerticalSearch: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [typedQuery, setTypedQuery] = useState(scenarioQueries.news);
   const [hasStarted, setHasStarted] = useState(false);
+  const [subjectsVal, setSubjectsVal] = useState(0);
+  const [articlesVal, setArticlesVal] = useState(0);
   const sectionRef = useRef<HTMLElement | null>(null);
   const unhoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -174,6 +177,26 @@ export const VerticalSearch: React.FC = () => {
       clearUnhoverTimer();
     };
   }, []);
+
+  // Number-flow values manager for Step 3, 4, 5 (staggered continuous rolling tumbler)
+  useEffect(() => {
+    if (step < 3) {
+      setSubjectsVal(0);
+      setArticlesVal(0);
+    } else if (step === 3) {
+      setSubjectsVal(0);
+      setArticlesVal(0);
+      const t1 = setTimeout(() => setSubjectsVal(4), 120);
+      const t2 = setTimeout(() => setArticlesVal(10), 280);
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
+    } else {
+      setSubjectsVal(4);
+      setArticlesVal(10);
+    }
+  }, [step]);
 
   useEffect(() => {
     if (!sectionRef.current || hasStarted) return;
@@ -385,35 +408,25 @@ export const VerticalSearch: React.FC = () => {
           <div className="canvas-left-panel" id="canvasLeftPanel">
             <div className="stats-counter-row" id="statsCounterRow">
               <div className="stat-item stat-item-1">
-                <div className="stat-roller-window" aria-label="4">
-                  <div className="stat-roller-strip stat-strip-1">
-                    <span className="stat-num-val">0</span>
-                    <span className="stat-num-val">7</span>
-                    <span className="stat-num-val">1</span>
-                    <span className="stat-num-val">9</span>
-                    <span className="stat-num-val">2</span>
-                    <span className="stat-num-val">8</span>
-                    <span className="stat-num-val">3</span>
-                    <span className="stat-num-val">5</span>
-                    <span className="stat-num-val stat-target">4</span>
-                  </div>
-                </div>
+                <NumberFlow
+                  value={subjectsVal}
+                  animated={step >= 3}
+                  plugins={[continuous]}
+                  spinTiming={{ duration: 900, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
+                  className="stat-num-val"
+                  aria-label="4"
+                />
                 <span className="stat-label">subjects</span>
               </div>
               <div className="stat-item stat-item-2">
-                <div className="stat-roller-window" aria-label="10">
-                  <div className="stat-roller-strip stat-strip-2">
-                    <span className="stat-num-val">0</span>
-                    <span className="stat-num-val">18</span>
-                    <span className="stat-num-val">03</span>
-                    <span className="stat-num-val">27</span>
-                    <span className="stat-num-val">05</span>
-                    <span className="stat-num-val">42</span>
-                    <span className="stat-num-val">08</span>
-                    <span className="stat-num-val">14</span>
-                    <span className="stat-num-val stat-target">10</span>
-                  </div>
-                </div>
+                <NumberFlow
+                  value={articlesVal}
+                  animated={step >= 3}
+                  plugins={[continuous]}
+                  spinTiming={{ duration: 1100, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
+                  className="stat-num-val"
+                  aria-label="10"
+                />
                 <span className="stat-label">articles</span>
               </div>
             </div>

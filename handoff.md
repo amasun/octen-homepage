@@ -42,7 +42,11 @@
   1. **首屏静态保底**: 页面初次加载时为待输入静态状态，严禁后台空跑动画。挂载 `IntersectionObserver`，当画布滚入可视区域达 15% 时正式激活流水线。
   2. **Step 1 (Frame 1 - 居中打字机)**: 搜索框与水印居中，逐字平滑输出 Query（`Strait of Hormuz shipping disruptions`），光标呼吸闪烁，输入完成后停留 1.2s。
   3. **Step 2 (Frame 2 - 搜索移位与波浪)**: 搜索框平滑移至左侧（`left: 64px, top: 220px`），标题平移至左上方（`left: 68px, top: 168px`），水印渐隐；右侧居中展示 `searching...` 与 14 个黑色脉冲圆点（采用紧凑短波长波纹动效，单周期跨度由 15 个点缩短至 ~6.7 个点，整排呈现连续起伏的双峰涟漪，持续 1.8s）。
-  4. **Step 3 (Frame 3 - 主题卡片总览 & 关键数据走马灯)**: 搜索框溶解隐去，左侧浮现统计数据行（`4 subjects` 与 `10 articles`，已按设计图规范移除耗时 ms 与分隔圆点）及 3 条特性 Bullet 列表。**关键数据搭载走马灯式数字转轮动效 (Slot-Machine / Ticker Reel)**：`4` 与 `10` 两组数字采用溢出隐藏窗口与滚轮数字长条，字体对齐 Figma 规范（`DM Sans:Light` 30px，标签 22.5px `#626262`，项间距 33px），以阶梯延时（0.1s / 0.25s）高速垂直翻转滚动并带微小回弹阻尼（Over-shoot / Settle）锁定到目标数值；Step 4与5保持锁定展示，循环回到Step 1/2时自动隐式归零复位；右侧展示 4 个 Subject 卡片（包含 dates、`Subject1-4` 标签、高保真缩略图、标题与描述，持续 2.5s）。
+  4. **Step 3 (Frame 3 - 主题卡片总览 & 关键数据走马灯)**: 搜索框溶解隐去，左侧浮现统计数据行（`4 subjects` 与 `10 articles`，已按设计图规范移除耗时 ms 与分隔圆点）及 3 条特性 Bullet 列表。**关键数据搭载开源库 [barvian/number-flow](https://github.com/barvian/number-flow) 支撑的真实弹簧物理走马灯动效**：
+     - **双端对齐架构**：[index.html](file:///x:/XCoding/Octen/hompage/index.html) 中采用原生 `<number-flow>` Custom Element，由 [public/js/vertical-search.js](file:///x:/XCoding/Octen/hompage/public/js/vertical-search.js) 全局控制器驱动；React 组件 [src/components/VerticalSearch.tsx](file:///x:/XCoding/Octen/hompage/src/components/VerticalSearch.tsx) 采用 `@number-flow/react` 封装。
+     - **真实滚轮动效 (Continuous Odometer Tumbler)**：集成 `continuous` 插件，确保数字由 `0` 顺次翻滚遍历至目标数值，呈现丝滑且真实的里程表式走马灯质感。
+     - **阶梯时序与阻尼物理**：进入 Step 3 时，`subjects` 延时 120ms 滚动至 `4`（900ms 弹簧缓动），`articles` 延时 280ms 滚动至 `10`（1100ms 弹簧缓动）；Step 4 与 5 保持目标数值锁定；循环回到 Step 1/2 时执行隐式静默归零（`animated = false; update(0); animated = true;`），杜绝逆向倒转；右侧展示 4 个 Subject 卡片（持续 2.5s）。
+     - **排版与样式严格继承**：`DM Sans:Light` (`font-weight: 300`, 30px, `#000000`)，数字高度 36px，标签 22.5px `#626262`，间距 9px，彻底废弃旧版脆弱的 CSS `@keyframes roll-slot-1/2` 与纯手工长条 translateY 偏移。
   5. **Step 4 (Frame 4 - 聚焦 Subject 1)**: Subject 2~4 向下滑隐，Subject 1 卡片在右侧居中聚焦，卡片右下方浮现带有脉冲微动效的 `timeline ↓` 提示（持续 1.5s）。
   6. **Step 5 (Frame 5 & Frame 6 - 同一步的两个状态: 展开与向上滚动)**:
      - **状态 5A (Frame 5 - 时间轴展开)**: 绿色圆点节点脊椎线（`#4AAC80`）自左侧展开，Subject 1 作为 Header 卡片锚定在顶部，下方展开第一条时间轴新闻卡片（05:26:15 / sbs.com.au，持续 1.8s）。
