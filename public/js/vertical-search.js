@@ -232,10 +232,45 @@
         'finance': 'Federal Reserve repurchase facility liquidity distribution',
         'news': 'Strait of Hormuz shipping disruptions'
       };
+
+      // Scenario topic title mapping (Figma node 13661:7381)
+      const scenarioTitles = {
+        'news': 'News Search',
+        'academic': 'Academic Search',
+        'business': 'Business Search',
+        'legal': 'Legal Search',
+        'sport': 'Sport Search',
+        'code': 'Code Search',
+        'design': 'Design Search',
+        'travel': 'Travel Search',
+        'game': 'Game Search',
+        'real-estate': 'Real Estate Search',
+        'real estate': 'Real Estate Search',
+        'shopping': 'Shopping Search',
+        'finance': 'Finance Search'
+      };
+
+      // Scenario icon mapping directly using bottom button asset paths as source of truth
+      const scenarioIcons = {
+        'news': '/assets/icon-news.svg',
+        'academic': '/assets/icon-academic.svg',
+        'business': '/assets/icon-business.svg',
+        'legal': '/assets/icon-legal.svg',
+        'sport': '/assets/icon-sport.svg',
+        'code': '/assets/icon-code.svg',
+        'design': '/assets/icon-design.svg',
+        'travel': '/assets/icon-travel.svg',
+        'game': '/assets/icon-game.svg',
+        'real-estate': '/assets/icon-real-estate.svg',
+        'real estate': '/assets/icon-real-estate.svg',
+        'shopping': '/assets/icon-shopping.svg',
+        'finance': '/assets/icon-finance.svg'
+      };
     
       // 3. Element selectors
       const tabButtons = document.querySelectorAll('.tab-trigger');
       const heroCanvas = document.getElementById('heroCanvas');
+      const canvasTopicTitle = document.getElementById('canvasTopicTitle');
       const canvasWatermarkIcon = document.getElementById('canvasWatermarkIcon');
       const searchInput = document.getElementById('searchPillInput');
       const searchPillIcon = document.getElementById('searchPillIcon');
@@ -282,6 +317,7 @@
       let hasStartedAnimation = false;
       let currentStep = 1;
       let currentScrollStep = 0;
+      let currentScenario = 'news';
       const VISIBLE_CARDS_COUNT = 3;
       const TOTAL_CARDS = 5;
       const MAX_SCROLL_STEPS = TOTAL_CARDS - VISIBLE_CARDS_COUNT; // 2 steps (steps 0, 1, 2)
@@ -353,9 +389,9 @@
         }, 36); // ~36ms per char (smooth human typing rhythm)
       }
     
-      // 5. Update All Icons in the Huge Card
-      function updateCardIcons(iconKey, sparkleColor) {
-        const svgHtml = ICONS[iconKey] || ICONS.news;
+      // 5. Update All Icons in the Huge Card (Watermark icon matches bottom buttons)
+      function updateCardIcons(iconKey, customIconSrc = null) {
+        const iconSrc = customIconSrc || scenarioIcons[iconKey] || '/assets/icon-news.svg';
     
         // A. Update search pill icon (Figma node-id=13631:181644: logo-variable)
         if (searchPillIcon) {
@@ -365,20 +401,12 @@
           searchPillIcon.classList.add('icon-pop');
         }
     
-        // B. Update background watermark icon with fade animation
+        // B. Update background watermark icon with the exact same icon as the bottom buttons
         if (canvasWatermarkIcon) {
-          canvasWatermarkIcon.innerHTML = svgHtml;
+          canvasWatermarkIcon.innerHTML = `<img src="${iconSrc}" alt="${iconKey}" width="280" height="280" />`;
           canvasWatermarkIcon.classList.remove('watermark-pop');
           void canvasWatermarkIcon.offsetWidth; // Force CSS reflow
           canvasWatermarkIcon.classList.add('watermark-pop');
-        }
-    
-        // C. Update AI search sparkle accent color
-        if (aiSearchAction && sparkleColor) {
-          const sparklePath = aiSearchAction.querySelector('path#Vector');
-          if (sparklePath) {
-            sparklePath.setAttribute('fill', sparkleColor);
-          }
         }
       }
     
@@ -458,20 +486,20 @@
     
           // Reveal Card 0 and Card 1 emerging under the search pill
           setTimeout(() => {
-            if (currentStep !== 3) return;
+            if (currentStep !== 3 || currentScenario !== 'news') return;
             if (allCards[0]) allCards[0].classList.add('card-revealed');
             updateSpineHeight(0);
           }, 80);
 
           setTimeout(() => {
-            if (currentStep !== 3) return;
+            if (currentStep !== 3 || currentScenario !== 'news') return;
             if (allCards[1]) allCards[1].classList.add('card-revealed');
             updateSpineHeight(1);
           }, 260);
     
           // 2. Stay for 2.0 seconds so user clearly reads the statistics ("2 subjects · 10 articles · 89 ms")
           pillStayTimer = setTimeout(() => {
-            if (isLoopPaused || currentStep !== 3) return;
+            if (isLoopPaused || currentStep !== 3 || currentScenario !== 'news') return;
 
             // Search pill now glides smoothly upward out of the canvas
             if (searchPill) {
@@ -485,14 +513,14 @@
 
             // Card 2 emerges at the bottom slot of the 3-card screen
             setTimeout(() => {
-              if (currentStep !== 3) return;
+              if (currentStep !== 3 || currentScenario !== 'news') return;
               if (allCards[2]) allCards[2].classList.add('card-revealed');
               updateSpineHeight(2);
             }, 200);
 
             // 3. Hold for 2.2s for user to view the full 3-card screen (Cards 0, 1, 2)
             cardStepTimer = setTimeout(() => {
-              if (isLoopPaused || currentStep !== 3) return;
+              if (isLoopPaused || currentStep !== 3 || currentScenario !== 'news') return;
               stepToWindow(1);
             }, 2200);
           }, 2000);
@@ -516,78 +544,72 @@
         if (currentScrollStep < MAX_SCROLL_STEPS) {
           // Pause 2.0s on intermediate window (+ 750ms translation transition)
           cardStepTimer = setTimeout(() => {
-            if (isLoopPaused || currentStep !== 3) return;
+            if (isLoopPaused || currentStep !== 3 || currentScenario !== 'news') return;
             stepToWindow(currentScrollStep + 1);
           }, 2000 + 750);
         } else {
           // Final 3-card window (Cards 2, 3, 4 with Card 4 latest) has finished sliding into view at the bottom!
           // Stay for a full 3.0s (3000ms + 750ms transition)
-          // Then automatically switch to the next vertical (News -> Academic -> Business -> News)
+          // Then loop back to News animation cycle
           cardStepTimer = setTimeout(() => {
-            if (isLoopPaused || currentStep !== 3) return;
-            switchToNextVertical();
+            if (isLoopPaused || currentStep !== 3 || currentScenario !== 'news') return;
+            runVerticalCycle();
           }, 3000 + 750);
         }
       }
-    
-      // Vertical sequence order for automated rotation
-      const VERTICAL_ORDER = ['news', 'academic', 'business'];
-    
-      function switchToNextVertical() {
-        const activeTab = document.querySelector('.tab-trigger.active');
-        const currentTabKey = activeTab ? activeTab.getAttribute('data-tab') : 'news';
-        const currentIndex = VERTICAL_ORDER.indexOf(currentTabKey);
-        const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % VERTICAL_ORDER.length : 0;
-        const nextKey = VERTICAL_ORDER[nextIndex];
-        switchVertical(nextKey);
-      }
-    
+
       function runStep3SequentialStream() {
         clearCardStepTimer();
         stepToWindow(0);
       }
-    
-      // 8. Continuous Automated 1 → 2 → 3 Animation Loop for Active Vertical (News / Academic / Business)
+
+      // 8. Continuous Automated 1 → 2 → 3 Animation Loop for News Vertical
       function runVerticalCycle() {
+        // Except for News, giant box animation must NEVER play
+        if (currentScenario !== 'news') return;
         clearNewsAutoLoop();
-    
-        const activeTab = document.querySelector('.tab-trigger.active');
-        const currentTabKey = activeTab ? activeTab.getAttribute('data-tab') : 'news';
-        const targetData = verticalsData[currentTabKey] || verticalsData.news;
-    
-        // Render this vertical's cards & meta stats before starting cycle
-        renderVerticalCards(currentTabKey);
-    
+
+        const targetData = verticalsData.news;
+
+        // Render News cards & meta stats before starting cycle
+        renderVerticalCards('news');
+
         // Step 1: Query Input with Character-by-Character Typewriter effect
         setNewsStep(1);
-    
+        if (canvasTopicTitle) {
+          canvasTopicTitle.textContent = 'News Search';
+        }
+        updateCardIcons('news', '/assets/icon-news.svg');
+
         const queryTarget = targetData.query;
         startTypewriter(queryTarget, () => {
-          if (isLoopPaused || currentStep !== 1) return;
-    
+          if (isLoopPaused || currentStep !== 1 || currentScenario !== 'news') return;
+
           // Step 2: Searching with 14 wave dots (1.8s)
           setNewsStep(2);
-    
+
           autoLoopTimer = setTimeout(() => {
-            if (isLoopPaused || currentStep !== 2) return;
-    
+            if (isLoopPaused || currentStep !== 2 || currentScenario !== 'news') return;
+
             // Step 3: Stream Results (Sequentially stepped timeline stream)
             setNewsStep(3);
             runStep3SequentialStream();
           }, 1800);
         });
       }
-    
+
       // Hover on hero canvas in Step 3 pauses upward movement; resume on mouseleave
       if (heroCanvas) {
         heroCanvas.addEventListener('mouseenter', () => {
+          if (currentScenario !== 'news') return;
           if (currentStep === 3) {
             isLoopPaused = true;
             clearCardStepTimer();
           }
         });
-    
+
         heroCanvas.addEventListener('mouseleave', () => {
+          if (currentScenario !== 'news') return;
           if (isLoopPaused && currentStep === 3) {
             isLoopPaused = false;
             clearCardStepTimer();
@@ -596,18 +618,18 @@
             if (searchPill && !searchPill.classList.contains('pill-out')) {
               // Paused during initial stay: continue stay for remaining 1.2s then slide up
               pillStayTimer = setTimeout(() => {
-                if (isLoopPaused || currentStep !== 3) return;
+                if (isLoopPaused || currentStep !== 3 || currentScenario !== 'news') return;
                 if (searchPill) searchPill.classList.add('pill-out');
                 if (timelineScrollTrack) timelineScrollTrack.style.transform = 'translateX(-50%) translateY(0)';
                 setTimeout(() => {
-                  if (currentStep !== 3) return;
+                  if (currentStep !== 3 || currentScenario !== 'news') return;
                   const allCards = document.querySelectorAll('.news-card');
                   if (allCards[2]) allCards[2].classList.add('card-revealed');
                   updateSpineHeight(2);
                 }, 200);
 
                 cardStepTimer = setTimeout(() => {
-                  if (isLoopPaused || currentStep !== 3) return;
+                  if (isLoopPaused || currentStep !== 3 || currentScenario !== 'news') return;
                   stepToWindow(1);
                 }, 2200);
               }, 1200);
@@ -615,120 +637,195 @@
               // Paused during scrolling:
               const resumeDelay = (currentScrollStep >= MAX_SCROLL_STEPS) ? 3000 : 2000;
               cardStepTimer = setTimeout(() => {
-                if (isLoopPaused || currentStep !== 3) return;
+                if (isLoopPaused || currentStep !== 3 || currentScenario !== 'news') return;
                 if (currentScrollStep < MAX_SCROLL_STEPS) {
                   stepToWindow(currentScrollStep + 1);
                 } else {
-                  switchToNextVertical();
+                  runVerticalCycle();
                 }
               }, resumeDelay);
             }
           }
         });
       }
-    
-      // 9. Switch Vertical (News / Academic / Business)
-      function switchVertical(key, autoStart = true) {
-        const target = verticalsData[key];
+
+      // 9. Initial / Static Setup for News Vertical
+      function switchVertical(key = 'news', autoStart = true) {
+        const target = verticalsData.news;
         if (!target) return;
-    
-        // Update active tab button classes
-        tabButtons.forEach(btn => {
-          const tabKey = btn.getAttribute('data-tab');
-          const isCurrent = tabKey === key;
-          btn.classList.toggle('active', isCurrent);
-          btn.setAttribute('aria-selected', isCurrent ? 'true' : 'false');
-        });
-    
-        // Update canvas theme gradient
-        if (heroCanvas) {
-          heroCanvas.setAttribute('data-theme', target.theme);
+
+        // Keep current theme if already set, or initialize to news
+        if (heroCanvas && !heroCanvas.getAttribute('data-theme')) {
+          heroCanvas.setAttribute('data-theme', 'news');
         }
-    
-        // Update both the search pill icon & the card watermark icon
-        updateCardIcons(target.iconKey, target.sparkleColor);
-    
+
+        // Update topic title
+        if (canvasTopicTitle) {
+          canvasTopicTitle.textContent = scenarioTitles[key] || 'News Search';
+        }
+
+        // Update both the search pill icon & the card watermark icon to News
+        updateCardIcons('news', '/assets/icon-news.svg');
+
         // Reset loop state
         clearNewsAutoLoop();
         isLoopPaused = false;
 
-        if (autoStart) {
+        if (autoStart && currentScenario === 'news') {
           hasStartedAnimation = true;
           runVerticalCycle();
         } else {
           // Prepare static initial layout (Step 1) without triggering timers
           setNewsStep(1);
-          renderVerticalCards(key);
+          renderVerticalCards('news');
           if (searchQueryText) searchQueryText.textContent = '';
           if (searchInput) searchInput.value = '';
           if (typingCursor) typingCursor.style.display = 'inline-block';
         }
       }
 
-      // 10. Attach Tab Click Listeners
-      tabButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const tabKey = btn.getAttribute('data-tab');
-          hasStartedAnimation = true;
-          switchVertical(tabKey, true);
-        });
-      });
-    
-      // 11. Interactive Scenario Chips
+      // 10. Interactive Scenario Chips (Hover Driven)
+      // Hovering on any chip:
+      // 1) Interrupts current news animation playback
+      // 2) Directly displays the scenario's query without typewriter animation
+      // 3) Updates the watermark icon (using the exact same icon from the bottom button)
+      // 4) Randomly changes the giant card's background gradient
+      //
+      // Unhovering (leaving bottom buttons):
+      // Returns to News theme, restores News background gradient, title, icon, and resumes animation playback
+      const GRADIENT_THEMES = ['academic', 'business', 'purple', 'news'];
+      let lastHoveredScenario = null;
+      let unhoverTimer = null;
+
+      function clearUnhoverTimer() {
+        if (unhoverTimer) {
+          clearTimeout(unhoverTimer);
+          unhoverTimer = null;
+        }
+      }
+
+      function resetToNews() {
+        if (currentScenario === 'news') return;
+        currentScenario = 'news';
+        lastHoveredScenario = null;
+        clearUnhoverTimer();
+
+        // 1. Restore News card background gradient
+        if (heroCanvas) {
+          heroCanvas.setAttribute('data-theme', 'news');
+        }
+
+        // 2. Restore News topic title
+        if (canvasTopicTitle) {
+          canvasTopicTitle.textContent = 'News Search';
+        }
+
+        // 3. Restore News watermark icon
+        updateCardIcons('news', '/assets/icon-news.svg');
+
+        // 4. Resume News theme animation loop
+        clearNewsAutoLoop();
+        isLoopPaused = false;
+        runVerticalCycle();
+      }
+
       scenarioChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-          const rawText = chip.textContent.trim().toLowerCase();
+        // Eliminate click interaction
+        chip.addEventListener('click', (e) => {
+          e.preventDefault();
+        });
+
+        chip.addEventListener('mouseenter', () => {
+          clearUnhoverTimer();
+
+          const span = chip.querySelector('span');
+          const rawText = (span ? span.textContent : chip.textContent).trim().toLowerCase();
           const normalizedKey = rawText.replace(/\s+/g, '-');
-    
-          // If matches top tabs, switch normally
-          if (verticalsData[normalizedKey]) {
-            hasStartedAnimation = true;
-            switchVertical(normalizedKey, true);
-            return;
+          if (normalizedKey === lastHoveredScenario) return;
+          lastHoveredScenario = normalizedKey;
+          currentScenario = normalizedKey;
+
+          const customQuery = scenarioQueries[rawText] || scenarioQueries[normalizedKey] || 'Strait of Hormuz shipping disruptions';
+
+          // 1. Interrupt current News animation playback
+          clearNewsAutoLoop();
+          isLoopPaused = true;
+          setNewsStep(1);
+
+          // 2. Instantly display query without typewriter animation
+          if (searchQueryText) {
+            searchQueryText.textContent = customQuery;
           }
-    
-          // Otherwise, update query & card icons for this scenario
-          const customQuery = scenarioQueries[rawText] || scenarioQueries[normalizedKey];
-          if (customQuery) {
-            hasStartedAnimation = true;
-            clearNewsAutoLoop();
-            setNewsStep(1);
-            startTypewriter(customQuery);
-            updateCardIcons(normalizedKey, '#039855');
-    
-            // Gentle feedback bounce on search pill
-            if (searchPill) {
-              searchPill.style.transform = 'translate(-50%, -54%) scale(1.02)';
-              searchPill.style.borderColor = 'rgba(255, 255, 255, 0.85)';
-              setTimeout(() => {
-                searchPill.style.transform = '';
-                searchPill.style.borderColor = '';
-              }, 240);
-            }
+          if (searchInput) {
+            searchInput.value = customQuery;
+          }
+          if (typingCursor) {
+            typingCursor.style.display = 'inline-block';
+          }
+
+          // 2.1 Update topic title (Figma node 13661:7381)
+          if (canvasTopicTitle) {
+            const topicText = scenarioTitles[rawText] || scenarioTitles[normalizedKey] || (rawText.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') + ' Search');
+            canvasTopicTitle.textContent = topicText;
+          }
+
+          // 3. Update watermark icon: strictly identical source as the bottom button's icon
+          const chipImg = chip.querySelector('img');
+          const chipIconSrc = chipImg ? chipImg.getAttribute('src') : (scenarioIcons[normalizedKey] || '/assets/icon-news.svg');
+          updateCardIcons(normalizedKey, chipIconSrc);
+
+          // 4. Pick a random gradient different from the current one
+          const currentTheme = heroCanvas ? heroCanvas.getAttribute('data-theme') || 'news' : 'news';
+          const availableThemes = GRADIENT_THEMES.filter(t => t !== currentTheme);
+          const nextTheme = availableThemes[Math.floor(Math.random() * availableThemes.length)];
+
+          if (heroCanvas) {
+            heroCanvas.setAttribute('data-theme', nextTheme);
           }
         });
+
+        chip.addEventListener('mouseleave', () => {
+          clearUnhoverTimer();
+          unhoverTimer = setTimeout(resetToNews, 150);
+        });
       });
+
+      const scenariosMarqueeContainer = document.querySelector('.scenarios-marquee-container');
+      if (scenariosMarqueeContainer) {
+        scenariosMarqueeContainer.addEventListener('mouseenter', () => {
+          clearUnhoverTimer();
+        });
+        scenariosMarqueeContainer.addEventListener('mouseleave', () => {
+          clearUnhoverTimer();
+          unhoverTimer = setTimeout(resetToNews, 100);
+        });
+      }
     
       function playVerticalFlow() {
+        // Except for News, giant box animation must NEVER play!
+        if (currentScenario !== 'news') return;
         hasStartedAnimation = true;
         clearNewsAutoLoop();
         isLoopPaused = false;
         runVerticalCycle();
       }
     
-      // 12. AI Search Button Click Effect (Triggers vertical flow)
+      // 12. AI Search Button Click Effect
+      // Rule: "除了news，巨型框中的动画，不能播放，比如用户点击搜索按钮，不要播放动画"
       if (aiSearchAction) {
-        aiSearchAction.addEventListener('click', () => {
-          playVerticalFlow();
+        aiSearchAction.addEventListener('click', (e) => {
+          e.preventDefault();
+          // Clicking search button must NEVER play animation
+          return;
         });
       }
     
-      // 13. Enter key triggers AI search pulse / News flow
+      // 13. Enter key in search input
       if (searchInput) {
         searchInput.addEventListener('keydown', (e) => {
           if (e.key === 'Enter') {
-            if (aiSearchAction) aiSearchAction.click();
+            e.preventDefault();
+            return;
           }
         });
       }
@@ -739,6 +836,7 @@
       // 15. Scroll-triggered animation entry: Only start animation cycle when scrolled into visible area
       function startAnimationSequence() {
         if (hasStartedAnimation) return;
+        if (currentScenario !== 'news') return;
         hasStartedAnimation = true;
         runVerticalCycle();
       }

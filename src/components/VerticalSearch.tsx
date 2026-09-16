@@ -13,15 +13,128 @@ interface DomainData {
   items: TimelineItem[];
 }
 
+const themeGradients: Record<'news' | 'academic' | 'business' | 'purple', string> = {
+  news: 'linear-gradient(44.87deg, #AAEF8A 3.49%, #F3FFC1 101.39%), linear-gradient(90deg, #BBEE97 0%, #BBEE97 100%)',
+  academic: 'linear-gradient(44.87deg, #A4E5FF 3.49%, #EBF8FF 101.39%), linear-gradient(90deg, #B5EBFF 0%, #B5EBFF 100%)',
+  business: 'linear-gradient(44.87deg, #FFDF80 3.49%, #FFF9E6 101.39%), linear-gradient(90deg, #FFE699 0%, #FFE699 100%)',
+  purple: 'linear-gradient(44.87deg, #CFACFD 3.49%, #FAF5FF 101.39%), linear-gradient(90deg, #E0C6FE 0%, #E0C6FE 100%)',
+};
+
+const scenarioQueries: Record<string, string> = {
+  legal: 'Antitrust precedents in AI agent autonomous transactions',
+  sport: 'Champions league tactical pressing metrics and injury risk',
+  code: 'Zero-allocation ring buffer implementation in Rust',
+  design: 'Neomorphic vs Glassmorphic accessible contrast ratios',
+  travel: 'Direct flight routes with biometric passport gates 2026',
+  game: 'Unreal Engine 5.5 Nanite skeletal mesh deformation limits',
+  'real-estate': 'Commercial logistics yield trends in EMEA ports',
+  shopping: 'Carbon-neutral cashmere yarn suppliers global index',
+  finance: 'Federal Reserve repurchase facility liquidity distribution',
+  news: 'Strait of Hormuz shipping disruptions',
+};
+
+const scenarioTitles: Record<string, string> = {
+  news: 'News Search',
+  academic: 'Academic Search',
+  business: 'Business Search',
+  legal: 'Legal Search',
+  sport: 'Sport Search',
+  code: 'Code Search',
+  design: 'Design Search',
+  travel: 'Travel Search',
+  game: 'Game Search',
+  'real-estate': 'Real Estate Search',
+  shopping: 'Shopping Search',
+  finance: 'Finance Search',
+};
+
+const scenarioIcons: Record<string, string> = {
+  news: '/assets/icon-news.svg',
+  academic: '/assets/icon-academic.svg',
+  business: '/assets/icon-business.svg',
+  legal: '/assets/icon-legal.svg',
+  sport: '/assets/icon-sport.svg',
+  code: '/assets/icon-code.svg',
+  design: '/assets/icon-design.svg',
+  travel: '/assets/icon-travel.svg',
+  game: '/assets/icon-game.svg',
+  'real-estate': '/assets/icon-real-estate.svg',
+  shopping: '/assets/icon-shopping.svg',
+  finance: '/assets/icon-finance.svg',
+};
+
+const GRADIENT_THEMES: ('news' | 'academic' | 'business' | 'purple')[] = ['academic', 'business', 'purple', 'news'];
+
+const MORE_SCENARIOS = [
+  { key: 'legal', label: 'Legal' },
+  { key: 'sport', label: 'Sport' },
+  { key: 'code', label: 'Code' },
+  { key: 'design', label: 'Design' },
+  { key: 'travel', label: 'Travel' },
+  { key: 'academic', label: 'Academic' },
+  { key: 'business', label: 'Business' },
+  { key: 'game', label: 'Game' },
+  { key: 'real-estate', label: 'Real Estate' },
+  { key: 'shopping', label: 'Shopping' },
+  { key: 'finance', label: 'Finance' },
+];
+
 export const VerticalSearch: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'news' | 'business' | 'academic'>('news');
+  const [activeTab] = useState<'news' | 'business' | 'academic'>('news');
+  const [bgTheme, setBgTheme] = useState<'news' | 'academic' | 'business' | 'purple'>('news');
+  const [currentScenario, setCurrentScenario] = useState<string>('news');
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [isHovered, setIsHovered] = useState(false);
-  const [typedQuery, setTypedQuery] = useState('');
+  const [typedQuery, setTypedQuery] = useState(scenarioQueries.news);
   const [cardStep, setCardStep] = useState(0);
   const [pillOut, setPillOut] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
+  const unhoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearUnhoverTimer = () => {
+    if (unhoverTimerRef.current) {
+      clearTimeout(unhoverTimerRef.current);
+      unhoverTimerRef.current = null;
+    }
+  };
+
+  const resetToNews = () => {
+    clearUnhoverTimer();
+    if (currentScenario === 'news') return;
+    setCurrentScenario('news');
+    setBgTheme('news');
+    setPillOut(false);
+    setCardStep(0);
+    setStep(1);
+    setTypedQuery('');
+  };
+
+  const handleScenarioEnter = (key: string) => {
+    clearUnhoverTimer();
+    if (currentScenario === key) return;
+    setCurrentScenario(key);
+    setPillOut(false);
+    setStep(1);
+    setCardStep(0);
+    const query = scenarioQueries[key] || scenarioQueries.news;
+    setTypedQuery(query);
+
+    const available = GRADIENT_THEMES.filter(t => t !== bgTheme);
+    const nextTheme = available[Math.floor(Math.random() * available.length)];
+    setBgTheme(nextTheme);
+  };
+
+  const handleScenarioLeave = () => {
+    clearUnhoverTimer();
+    unhoverTimerRef.current = setTimeout(resetToNews, 150);
+  };
+
+  useEffect(() => {
+    return () => {
+      clearUnhoverTimer();
+    };
+  }, []);
 
   useEffect(() => {
     if (!sectionRef.current || hasStarted) return;
@@ -137,56 +250,48 @@ export const VerticalSearch: React.FC = () => {
     },
   };
 
-  const moreScenarios = [
-    { name: 'Legal', icon: '/images/vertical/icon-legal.svg' },
-    { name: 'Sport', icon: '/images/vertical/icon-sport.svg' },
-    { name: 'Code', isCode: true },
-    { name: 'Design', icon: '/images/vertical/icon-design.svg' },
-    { name: 'Travel', isTravel: true },
-    { name: 'Game', icon: '/images/vertical/icon-game.svg' },
-    { name: 'Real Estate', icon: '/images/vertical/icon-real-estate.svg' },
-    { name: 'Shopping', isShopping: true },
-    { name: 'Finance', icon: '/images/vertical/icon-finance.svg' },
-  ];
-
   const current = timelineData[activeTab];
 
-  // Step 1: Typewriter Effect
+  // Step 1: Typewriter Effect (Strictly news only)
   useEffect(() => {
-    if (!hasStarted || step !== 1) return;
+    if (!hasStarted || step !== 1 || currentScenario !== 'news') return;
     setCardStep(0);
     setPillOut(false);
     setTypedQuery('');
 
     const target = current.query;
     let idx = 0;
+    let step2Timer: ReturnType<typeof setTimeout>;
     const interval = setInterval(() => {
       idx++;
       if (idx <= target.length) {
         setTypedQuery(target.slice(0, idx));
       } else {
         clearInterval(interval);
-        setTimeout(() => {
+        step2Timer = setTimeout(() => {
           setStep(2);
         }, 1200);
       }
     }, 36);
 
-    return () => clearInterval(interval);
-  }, [hasStarted, step, activeTab, current.query]);
+    return () => {
+      clearInterval(interval);
+      if (step2Timer) clearTimeout(step2Timer);
+    };
+  }, [hasStarted, step, activeTab, current.query, currentScenario]);
 
-  // Step 2: Searching with loading dots (Right icon static, no rotation)
+  // Step 2: Searching with loading dots (Strictly news only)
   useEffect(() => {
-    if (step !== 2) return;
+    if (step !== 2 || currentScenario !== 'news') return;
     const timer = setTimeout(() => {
       setStep(3);
     }, 1800);
     return () => clearTimeout(timer);
-  }, [step]);
+  }, [step, currentScenario]);
 
-  // Step 3: Synthesis Result & 3-Card Window Upward Movement (new card emerges at bottom)
+  // Step 3: Synthesis Result & 3-Card Window Upward Movement (Strictly news only)
   useEffect(() => {
-    if (step !== 3) return;
+    if (step !== 3 || currentScenario !== 'news') return;
     setCardStep(0);
     setPillOut(false);
 
@@ -226,15 +331,9 @@ export const VerticalSearch: React.FC = () => {
       clearTimeout(stayTimer);
       clearTimeout(timerId);
     };
-  }, [step, activeTab, current.items.length]);
+  }, [step, activeTab, current.items.length, currentScenario]);
 
-  const handleSelectTab = (tab: 'news' | 'business' | 'academic') => {
-    setHasStarted(true);
-    setActiveTab(tab);
-    setCardStep(0);
-    setPillOut(false);
-    setStep(1);
-  };
+
 
   return (
     <section id="vertical-search" ref={sectionRef} className="octen-vertical-search" data-node-id="13625:179114">
@@ -257,45 +356,6 @@ export const VerticalSearch: React.FC = () => {
           </a>
         </div>
 
-        {/* Active Scenario Tabs */}
-        <div className="octen-vs-tabs" role="tablist" aria-label="Vertical search domains">
-          <button
-            type="button"
-            className={`octen-vs-tab-btn ${activeTab === 'business' ? 'active' : ''}`}
-            onClick={() => handleSelectTab('business')}
-            role="tab"
-            aria-selected={activeTab === 'business'}
-          >
-            <img src="/images/vertical/icon-briefcase.svg" alt="" width={18} height={18} />
-            <span>Business</span>
-          </button>
-          <button
-            type="button"
-            className={`octen-vs-tab-btn ${activeTab === 'news' ? 'active' : ''}`}
-            onClick={() => handleSelectTab('news')}
-            role="tab"
-            aria-selected={activeTab === 'news'}
-          >
-            <img
-              src={activeTab === 'news' ? '/images/vertical/icon-news-active.svg' : '/images/vertical/icon-news.svg'}
-              alt=""
-              width={18}
-              height={18}
-            />
-            <span>News</span>
-          </button>
-          <button
-            type="button"
-            className={`octen-vs-tab-btn ${activeTab === 'academic' ? 'active' : ''}`}
-            onClick={() => handleSelectTab('academic')}
-            role="tab"
-            aria-selected={activeTab === 'academic'}
-          >
-            <img src="/images/vertical/icon-graduation.svg" alt="" width={18} height={18} />
-            <span>Academic</span>
-          </button>
-        </div>
-
         {/* Central Showcase Banner Card (Frame 427319246) */}
         <div className="octen-vs-showcase-container">
           <div
@@ -307,13 +367,68 @@ export const VerticalSearch: React.FC = () => {
             style={{
               width: 'min(1260px, 100%)',
               height: '532px',
-              background: 'linear-gradient(67.02deg, #AAEF8A 3.49%, #F3FFC1 101.39%), #BBEE97',
+              background: themeGradients[bgTheme],
+              transition: 'background 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
               borderRadius: '40px',
               flex: 'none',
               order: 0,
               flexGrow: 0,
             }}
           >
+            {/* Topic Title (Figma node 13661:7381: News Search) */}
+            <h3
+              className="octen-vs-topic-title"
+              style={{
+                position: 'absolute',
+                left: '50%',
+                transform: step >= 2 ? 'translateX(-50%) translateY(-197px)' : 'translateX(-50%) translateY(0)',
+                top: '172px',
+                fontFamily: 'var(--font-serif, "Fraunces", Georgia, serif)',
+                fontWeight: 600,
+                fontSize: '30px',
+                lineHeight: '24px',
+                color: '#000000',
+                margin: 0,
+                padding: 0,
+                whiteSpace: 'nowrap',
+                textAlign: 'center',
+                pointerEvents: 'none',
+                zIndex: 10,
+                opacity: step >= 2 ? 0 : 1,
+                transition: step >= 2
+                  ? 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease 0.25s'
+                  : 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease',
+              }}
+            >
+              {scenarioTitles[currentScenario] || `${currentScenario.charAt(0).toUpperCase() + currentScenario.slice(1)} Search`}
+            </h3>
+
+            {/* Ambient Watermark Icon (Figma node 13631:181774 - source matches bottom buttons) */}
+            <div
+              className="octen-vs-watermark-icon"
+              style={{
+                position: 'absolute',
+                left: '91px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: '280px',
+                height: '280px',
+                opacity: 0.12,
+                pointerEvents: 'none',
+                zIndex: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'opacity 0.4s ease, transform 0.4s ease',
+              }}
+            >
+              <img
+                src={scenarioIcons[currentScenario] || '/assets/icon-news.svg'}
+                alt=""
+                style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+              />
+            </div>
+
             {/* Search Pill: Moves out of frame in Step 3 after staying */}
             <div
               className={`octen-vs-search-pill ${step === 3 && pillOut ? 'pill-out' : ''}`}
@@ -321,7 +436,7 @@ export const VerticalSearch: React.FC = () => {
             >
               <div className="octen-vs-pill-top">
                 <img
-                  src={current.icon}
+                  src={scenarioIcons[currentScenario] || '/assets/icon-news.svg'}
                   alt=""
                   className="octen-vs-search-icon-left"
                   width={24}
@@ -390,43 +505,27 @@ export const VerticalSearch: React.FC = () => {
         </div>
 
         {/* More scenarios */}
-        <div className="octen-vs-more-grid">
-          <div className="octen-vs-more-badge">
-            <img src="/images/vertical/icon-legal.svg" alt="" width={14} height={14} />
-            <span>Legal</span>
-          </div>
-          <div className="octen-vs-more-badge">
-            <img src="/images/vertical/icon-sport.svg" alt="" width={14} height={14} />
-            <span>Sport</span>
-          </div>
-          <div className="octen-vs-more-badge">
-            <span style={{ fontFamily: 'monospace', fontSize: '12px', opacity: 0.65, fontWeight: 700 }}>&lt;/&gt;</span>
-            <span>Code</span>
-          </div>
-          <div className="octen-vs-more-badge">
-            <img src="/images/vertical/icon-design.svg" alt="" width={14} height={14} />
-            <span>Design</span>
-          </div>
-          <div className="octen-vs-more-badge">
-            <span style={{ fontSize: '14px', opacity: 0.65 }}>✈</span>
-            <span>Travel</span>
-          </div>
-          <div className="octen-vs-more-badge">
-            <img src="/images/vertical/icon-game.svg" alt="" width={14} height={14} />
-            <span>Game</span>
-          </div>
-          <div className="octen-vs-more-badge">
-            <img src="/images/vertical/icon-real-estate.svg" alt="" width={14} height={14} />
-            <span>Real Estate</span>
-          </div>
-          <div className="octen-vs-more-badge">
-            <span style={{ fontSize: '14px', opacity: 0.65 }}>🛍</span>
-            <span>Shopping</span>
-          </div>
-          <div className="octen-vs-more-badge">
-            <img src="/images/vertical/icon-finance.svg" alt="" width={14} height={14} />
-            <span>Finance</span>
-          </div>
+        <div
+          className="octen-vs-more-grid"
+          onMouseEnter={clearUnhoverTimer}
+          onMouseLeave={() => {
+            clearUnhoverTimer();
+            unhoverTimerRef.current = setTimeout(resetToNews, 120);
+          }}
+        >
+          {MORE_SCENARIOS.map((item) => (
+            <div
+              key={item.key}
+              className="octen-vs-more-badge"
+              onMouseEnter={() => handleScenarioEnter(item.key)}
+              onMouseLeave={handleScenarioLeave}
+              onClick={(e) => e.preventDefault()}
+              style={{ cursor: 'pointer' }}
+            >
+              <img src={scenarioIcons[item.key]} alt={item.label} width={18} height={18} />
+              <span>{item.label}</span>
+            </div>
+          ))}
         </div>
       </div>
     </section>

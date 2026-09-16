@@ -104,6 +104,7 @@
   max-width: var(--max-content-width, 1280px);
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 36px;
   padding: 0 24px;
   text-align: center;
 }
@@ -318,7 +319,7 @@
   display: flex;
   justify-content: center;
   box-shadow: none; /* 去掉巨型卡片的投影 */
-  transition: background 0.6s var(--ease-smooth);
+  transition: background 0.7s var(--ease-smooth);
 }
 
 /* Dynamic Gradients */
@@ -332,6 +333,10 @@
 
 .hero-canvas[data-theme="business"] {
   background: linear-gradient(44.87deg, #FFDF80 3.49%, #FFF9E6 101.39%), linear-gradient(90deg, #FFE699 0%, #FFE699 100%);
+}
+
+.hero-canvas[data-theme="purple"] {
+  background: linear-gradient(44.87deg, #CFACFD 3.49%, #FAF5FF 101.39%), linear-gradient(90deg, #E0C6FE 0%, #E0C6FE 100%);
 }
 
 /* Canvas Ambient Aura */
@@ -365,11 +370,15 @@
   transition: opacity 0.4s var(--ease-smooth), transform 0.4s var(--ease-spring);
 }
 
-.canvas-watermark-icon svg {
+.canvas-watermark-icon svg,
+.canvas-watermark-icon img {
   width: 100%;
   height: 100%;
+  object-fit: contain;
   display: block;
   stroke-width: 1.5;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .canvas-watermark-icon.watermark-pop {
@@ -430,12 +439,43 @@
   white-space: nowrap;
 }
 
-/* Shown on Academic and Business, hidden on News */
-.hero-canvas[data-theme="academic"] .canvas-badge-tag,
-.hero-canvas[data-theme="business"] .canvas-badge-tag {
+/* Badge tag hidden to keep news animation focused and pristine */
+.canvas-badge-tag {
+  display: none !important;
+}
+
+/* ==========================================================================
+   4.0 Topic Title (Figma node 13661:7381: News Search)
+   ========================================================================== */
+.canvas-topic-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  top: 172px;
+  font-family: var(--font-serif, 'Fraunces', Georgia, serif);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 24px;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  text-align: center;
+  pointer-events: none;
+  z-index: 10;
+  letter-spacing: -0.01em;
   opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+}
+
+/* Step 2 & Step 3: Title follows search pill upward with the exact same displacement (-197px) out of canvas frame */
+.hero-canvas[data-news-step="2"] .canvas-topic-title,
+.hero-canvas[data-news-step="3"] .canvas-topic-title {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-197px);
+  pointer-events: none;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease 0.25s;
 }
 
 /* 4.1 Floating Search Pill (Figma Frame 427319254: 518x66, border: 8px solid rgba(255, 255, 255, 0.4), box-shadow: none) */
@@ -458,7 +498,7 @@
   padding: 8px 18px;
   z-index: 10;
   box-sizing: border-box;
-  transition: top 0.5s var(--ease-spring), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), height 0.5s var(--ease-spring), opacity 0.45s ease, border-color 0.25s var(--ease-spring);
+  transition: top 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), height 0.5s var(--ease-spring), opacity 0.45s ease, border-color 0.25s var(--ease-spring);
 }
 
 .search-pill:hover {
@@ -593,6 +633,10 @@
 
 .hero-canvas[data-theme="business"] .typing-cursor {
   background-color: #D97706;
+}
+
+.hero-canvas[data-theme="purple"] .typing-cursor {
+  background-color: #9333EA;
 }
 
 @keyframes cursor-blink {
@@ -881,6 +925,10 @@
   color: #D97706;
 }
 
+.hero-canvas[data-theme="purple"] .news-card-time.news-card-time-latest {
+  color: #9333EA;
+}
+
 .news-card-time img {
   width: 16px;
   height: 16px;
@@ -897,6 +945,10 @@
 
 .hero-canvas[data-theme="business"] .news-card-time.news-card-time-latest img {
   filter: brightness(0) saturate(100%) invert(56%) sepia(89%) saturate(1514%) hue-rotate(3deg) brightness(94%) contrast(92%);
+}
+
+.hero-canvas[data-theme="purple"] .news-card-time.news-card-time-latest img {
+  filter: brightness(0) saturate(100%) invert(26%) sepia(87%) saturate(3065%) hue-rotate(267deg) brightness(94%) contrast(98%);
 }
 
 .news-card-domain {
@@ -945,6 +997,12 @@
     border-radius: 28px;
   }
 
+  .canvas-topic-title {
+    top: 120px;
+    font-size: 24px;
+    line-height: 22px;
+  }
+
   .canvas-watermark-icon {
     left: 40px;
     width: 200px;
@@ -965,6 +1023,12 @@
 
   .vertical-search-section {
     padding-top: 40px;
+  }
+
+  .canvas-topic-title {
+    top: 68px;
+    font-size: 20px;
+    line-height: 20px;
   }
 
   .hero-heading {
@@ -1103,18 +1167,14 @@
 .scenario-chip:hover {
   opacity: 1;
   background: var(--surface-pill-hover);
-  border-color: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.08);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
 .scenario-chip:hover img,
 .scenario-chip:hover svg {
   transform: scale(1.1);
-}
-
-.scenario-chip:active {
-  transform: translateY(0);
 }
 
 @keyframes marquee-scroll {

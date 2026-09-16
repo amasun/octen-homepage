@@ -26,3 +26,6 @@ Thumbs.db
 .idea/
 .vscode/
 *.local
+
+# Reference Assets & Local Scaffolding
+reference/
