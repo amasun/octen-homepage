@@ -42,7 +42,7 @@
   1. **首屏静态保底**: 页面初次加载时为待输入静态状态，严禁后台空跑动画。挂载 `IntersectionObserver`，当画布滚入可视区域达 15% 时正式激活流水线。
   2. **Step 1 (Frame 1 - 居中打字机)**: 搜索框与水印居中，逐字平滑输出 Query（`Strait of Hormuz shipping disruptions`），光标呼吸闪烁，输入完成后停留 1.2s。
   3. **Step 2 (Frame 2 - 搜索移位与波浪)**: 搜索框平滑移至左侧（`left: 64px, top: 220px`），标题平移至左上方（`left: 68px, top: 168px`），水印渐隐；右侧居中展示 `searching...` 与 14 个黑色波浪脉冲圆点（持续 1.8s）。
-  4. **Step 3 (Frame 3 - 主题卡片总览)**: 搜索框溶解隐去，左侧浮现统计数据行（`4 subjects · 10 articles · 89 ms`）及 3 条特性 Bullet 列表；右侧展示 4 个 Subject 卡片（包含 dates、`Subject1-4` 标签、高保真缩略图、标题与描述，持续 2.5s）。
+  4. **Step 3 (Frame 3 - 主题卡片总览 & 关键数据走马灯)**: 搜索框溶解隐去，左侧浮现统计数据行（`4 subjects · 10 articles · 89 ms`）及 3 条特性 Bullet 列表。**关键数据搭载走马灯式数字转轮动效 (Slot-Machine / Ticker Reel)**：`4`、`10`、`89` 三组数字采用溢出隐藏窗口与滚轮数字长条，以阶梯延时（0.1s / 0.25s / 0.4s）高速垂直翻转滚动并带微小回弹阻尼（Over-shoot / Settle）锁定到目标数值；Step 4与5保持锁定展示，循环回到Step 1/2时自动隐式归零复位；右侧展示 4 个 Subject 卡片（包含 dates、`Subject1-4` 标签、高保真缩略图、标题与描述，持续 2.5s）。
   5. **Step 4 (Frame 4 - 聚焦 Subject 1)**: Subject 2~4 向下滑隐，Subject 1 卡片在右侧居中聚焦，卡片右下方浮现带有脉冲微动效的 `timeline ↓` 提示（持续 1.5s）。
   6. **Step 5 (Frame 5 & Frame 6 - 同一步的两个状态: 展开与向上滚动)**:
      - **状态 5A (Frame 5 - 时间轴展开)**: 绿色圆点节点脊椎线（`#4AAC80`）自左侧展开，Subject 1 作为 Header 卡片锚定在顶部，下方展开第一条时间轴新闻卡片（05:26:15 / sbs.com.au，持续 1.8s）。

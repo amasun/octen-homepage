@@ -421,7 +421,15 @@
             canvasWatermarkIcon.style.visibility = 'hidden';
             canvasWatermarkIcon.style.pointerEvents = 'none';
           }
-          if (stepNum === 5) {
+          if (stepNum === 3) {
+            // Re-trigger rolling ticker reels (走马灯效果) for 4 subjects, 10 articles, 89 ms
+            const rollerStrips = document.querySelectorAll('.stat-roller-strip');
+            rollerStrips.forEach(strip => {
+              strip.style.animation = 'none';
+              void strip.offsetWidth; // force browser reflow
+              strip.style.animation = '';
+            });
+          } else if (stepNum === 5) {
             if (subState === 'expanded') {
               // State 5A: First timeline article is revealed below Subject 1
               const allTimelineArticles = document.querySelectorAll('.timeline-article-card');

@@ -383,10 +383,55 @@ export const VerticalSearch: React.FC = () => {
 
           {/* Left Panel: Meta Stats & Feature Points (Step 3, 4, 5) */}
           <div className="canvas-left-panel" id="canvasLeftPanel">
-            <div className="stats-counter-row">
-              <div className="stat-item"><span className="stat-num">4</span><span className="stat-label">subjects</span></div>
-              <div className="stat-item"><span className="stat-num">10</span><span className="stat-label">articles</span></div>
-              <div className="stat-item"><span className="stat-num">89</span><span className="stat-label">ms</span></div>
+            <div className="stats-counter-row" id="statsCounterRow">
+              <div className="stat-item stat-item-1">
+                <div className="stat-roller-window" aria-label="4">
+                  <div className="stat-roller-strip stat-strip-1">
+                    <span className="stat-num-val">0</span>
+                    <span className="stat-num-val">7</span>
+                    <span className="stat-num-val">1</span>
+                    <span className="stat-num-val">9</span>
+                    <span className="stat-num-val">2</span>
+                    <span className="stat-num-val">8</span>
+                    <span className="stat-num-val">3</span>
+                    <span className="stat-num-val">5</span>
+                    <span className="stat-num-val stat-target">4</span>
+                  </div>
+                </div>
+                <span className="stat-label">subjects</span>
+              </div>
+              <div className="stat-item stat-item-2">
+                <div className="stat-roller-window" aria-label="10">
+                  <div className="stat-roller-strip stat-strip-2">
+                    <span className="stat-num-val">0</span>
+                    <span className="stat-num-val">18</span>
+                    <span className="stat-num-val">03</span>
+                    <span className="stat-num-val">27</span>
+                    <span className="stat-num-val">05</span>
+                    <span className="stat-num-val">42</span>
+                    <span className="stat-num-val">08</span>
+                    <span className="stat-num-val">14</span>
+                    <span className="stat-num-val stat-target">10</span>
+                  </div>
+                </div>
+                <span className="stat-label">articles</span>
+              </div>
+              <div className="stat-item stat-item-3">
+                <div className="stat-roller-window" aria-label="89">
+                  <div className="stat-roller-strip stat-strip-3">
+                    <span className="stat-num-val">0</span>
+                    <span className="stat-num-val">14</span>
+                    <span className="stat-num-val">36</span>
+                    <span className="stat-num-val">55</span>
+                    <span className="stat-num-val">72</span>
+                    <span className="stat-num-val">28</span>
+                    <span className="stat-num-val">64</span>
+                    <span className="stat-num-val">95</span>
+                    <span className="stat-num-val stat-target">89</span>
+                  </div>
+                </div>
+                <span className="stat-label">ms</span>
+              </div>
             </div>
             <div className="meta-bullets-list">
               <p className="bullet-item">• Fresh news, delivered in milliseconds.</p>

@@ -783,31 +783,59 @@
 
 .stats-counter-row {
   display: flex;
-  align-items: baseline;
-  gap: 16px;
+  align-items: flex-end;
+  gap: 12px;
   margin-bottom: 24px;
 }
 
 .stat-item {
-  display: flex;
-  align-items: baseline;
-  gap: 5px;
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 6px;
+  position: relative;
 }
 
 .stat-item:not(:last-child)::after {
   content: "·";
-  margin-left: 12px;
+  margin-left: 10px;
   color: #717680;
   font-weight: 700;
   font-size: 18px;
+  line-height: 22px;
+  margin-bottom: 3px;
 }
 
-.stat-num {
+.stat-roller-window {
+  display: inline-flex;
+  height: 34px;
+  line-height: 34px;
+  overflow: hidden;
+  position: relative;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+}
+
+.stat-roller-strip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform;
+  transform: translateY(0);
+}
+
+.stat-num,
+.stat-num-val {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  line-height: 34px;
   font-family: var(--font-sans, 'DM Sans', sans-serif);
   font-weight: 700;
-  font-size: 26px;
-  line-height: 32px;
+  font-size: 28px;
+  letter-spacing: -0.02em;
   color: #000000;
+  font-variant-numeric: tabular-nums;
 }
 
 .stat-label {
@@ -816,6 +844,109 @@
   font-size: 15px;
   line-height: 22px;
   color: #535862;
+  margin-bottom: 3px;
+}
+
+/* Step 1 & 2: Reset strips to starting position */
+.hero-canvas[data-news-step="1"] .stat-roller-strip,
+.hero-canvas[data-news-step="2"] .stat-roller-strip {
+  transform: translateY(0) !important;
+  animation: none !important;
+}
+
+/* Step 3: Rolling ticker animations (走马灯效果) */
+.hero-canvas[data-news-step="3"] .stat-strip-1 {
+  animation: roll-slot-1 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.hero-canvas[data-news-step="3"] .stat-strip-2 {
+  animation: roll-slot-2 1.05s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+}
+
+.hero-canvas[data-news-step="3"] .stat-strip-3 {
+  animation: roll-slot-3 1.25s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
+/* Step 4 & 5: Firmly settled at target values (8th item at -272px) */
+.hero-canvas[data-news-step="4"] .stat-strip-1,
+.hero-canvas[data-news-step="4"] .stat-strip-2,
+.hero-canvas[data-news-step="4"] .stat-strip-3,
+.hero-canvas[data-news-step="5"] .stat-strip-1,
+.hero-canvas[data-news-step="5"] .stat-strip-2,
+.hero-canvas[data-news-step="5"] .stat-strip-3 {
+  transform: translateY(-272px) !important;
+  animation: none !important;
+}
+
+/* Rolling keyframes with slight ratchet overshoot and magnetic settle */
+@keyframes roll-slot-1 {
+  0% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-68px);
+  }
+  50% {
+    transform: translateY(-204px);
+  }
+  80% {
+    transform: translateY(-276px);
+  }
+  92% {
+    transform: translateY(-270.5px);
+  }
+  100% {
+    transform: translateY(-272px);
+  }
+}
+
+@keyframes roll-slot-2 {
+  0% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-68px);
+  }
+  50% {
+    transform: translateY(-204px);
+  }
+  80% {
+    transform: translateY(-276px);
+  }
+  92% {
+    transform: translateY(-270.5px);
+  }
+  100% {
+    transform: translateY(-272px);
+  }
+}
+
+@keyframes roll-slot-3 {
+  0% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-68px);
+  }
+  50% {
+    transform: translateY(-204px);
+  }
+  80% {
+    transform: translateY(-276px);
+  }
+  92% {
+    transform: translateY(-270.5px);
+  }
+  100% {
+    transform: translateY(-272px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stat-roller-strip {
+    transform: translateY(-272px) !important;
+    animation: none !important;
+  }
 }
 
 .meta-bullets-list {
