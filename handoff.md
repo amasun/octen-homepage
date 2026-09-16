@@ -54,6 +54,8 @@
   - **Unhover 移出后无缝回到 News 动画播放**：当鼠标离开底部场景按钮及走马灯区域后（经 120ms 防抖），系统自动执行 `resetToNews()`，卡片背景恢复为 News 翠绿、标题恢复为 `News Search`、水印恢复为 News 图标，并立即**重新激活并循环播放完整的 5 步动画流水线**。
 - **图标来源一致性对齐 (以底部按钮为准)**:
   - 巨型卡片水印图标（`canvasWatermarkIcon`）彻底废弃外部通用矢量 Lucide 代码，**100% 统一直接读取底部按钮中正在使用的原生矢量 SVG 资产**（`/assets/icon-*.svg`）。
+- **底部留白与布局规范**:
+  - 父级容器 `.vertical-search-section` 配置标准 `padding-bottom: 110px`（顶部为 `padding-top: 80px`），确保底部 `More scenarios in future releases` 走马灯交互区与下方 `#api-introduce` 模块之间具备标准充足的呼吸留白。
 - **关联文件**: [index.html](file:///x:/XCoding/Octen/hompage/index.html)、[public/css/vertical-search.css](file:///x:/XCoding/Octen/hompage/public/css/vertical-search.css)、[public/js/vertical-search.js](file:///x:/XCoding/Octen/hompage/public/js/vertical-search.js) 及 [src/components/VerticalSearch.tsx](file:///x:/XCoding/Octen/hompage/src/components/VerticalSearch.tsx)。
 
 ### E. 页脚 (Footer)
