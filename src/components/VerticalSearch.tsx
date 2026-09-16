@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-interface TimelineItem {
-  time: string;
-  source: string;
+interface SubjectCardData {
+  date: string;
+  tag: string;
+  thumb: string;
   title: string;
+  desc: string;
 }
 
-interface DomainData {
-  query: string;
-  icon: string;
-  stats: string;
-  items: TimelineItem[];
+interface TimelineArticle {
+  time: string;
+  domain: string;
+  title: string;
 }
 
 const themeGradients: Record<'news' | 'academic' | 'business' | 'purple', string> = {
@@ -79,15 +80,55 @@ const MORE_SCENARIOS = [
   { key: 'finance', label: 'Finance' },
 ];
 
+const SUBJECT_CARDS: SubjectCardData[] = [
+  {
+    date: '2026/09/14 – 2026/09/15',
+    tag: 'Subject1',
+    thumb: '/images/vertical/subject-1.png',
+    title: 'Iranian hardliners attacked three commercial ships in Strait of Hormuz to sabotage US peace deal',
+    desc: 'A clandestine hard-line faction in Iran, led by former IRGC intelligence director Hossein Taeb, attacked three commercial ships in the Strait of Hormuz, including a Qatari LNG tanker, to derail a recently signed peace agreement with the United States.',
+  },
+  {
+    date: '2026/09/14 – 2026/09/15',
+    tag: 'Subject2',
+    thumb: '/images/vertical/subject-2.png',
+    title: 'Oil prices settle 1% higher after Saudi strikes and Hormuz attacks',
+    desc: 'Oil prices settled approximately 1% higher on Monday, September 14, 2026, with Brent crude at $105.68 per barrel and WTI at $101.39, after jumping nearly 5% intraday.',
+  },
+  {
+    date: '2026/09/14 – 2026/09/15',
+    tag: 'Subject3',
+    thumb: '/images/vertical/subject-3.png',
+    title: 'Iran and Oman agree on new entry and exit routes for Strait of Hormuz',
+    desc: 'Iran and Oman have reached a final agreement on new shipping routes for the Strait of Hormuz, with the entry point located entirely within Iranian territorial waters.',
+  },
+  {
+    date: '2026/09/14 – 2026/09/15',
+    tag: 'Subject4',
+    thumb: '/images/vertical/subject-4.png',
+    title: 'Houthis seize strategic Red Sea port of Mocha and advance toward Bab el-Mandeb Strait',
+    desc: 'Iran-backed Houthi rebels captured the strategic Red Sea port city of Mocha from Saudi-backed government forces on September 10, 2026, marking their largest territorial gain since the 2022 ceasefire.',
+  },
+];
+
+const TIMELINE_ARTICLES: TimelineArticle[] = [
+  { time: '05:26:15', domain: 'sbs.com.au', title: 'Houthis advance along Yemen coast, threaten Saudi oil exports in the Red Sea' },
+  { time: '05:27:44', domain: 'sbs.com.au', title: 'Houthi rebels seize strategic port city in Yemen, escalating US-Iran crisis' },
+  { time: '06:45:31', domain: 'cnbc.com', title: 'While You Were Sleeping: 5 stories you might have missed, Sept 11, 2026' },
+  { time: '16:24:02', domain: 'indiatoday.in', title: 'While You Were Sleeping: 5 stories you might have missed, Sept 11, 2026 | The Straits Times' },
+  { time: '10 mins ago', domain: 'bloomberg.com', title: 'Hormuz is blocked. Now Bab el-Mandeb is under threat: Why fuel crisis could get worse – IndiaToday' },
+];
+
+const TIMELINE_OFFSETS = [0, 120, 230, 340, 450];
+
 export const VerticalSearch: React.FC = () => {
-  const [activeTab] = useState<'news' | 'business' | 'academic'>('news');
   const [bgTheme, setBgTheme] = useState<'news' | 'academic' | 'business' | 'purple'>('news');
   const [currentScenario, setCurrentScenario] = useState<string>('news');
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4 | 5>(1);
+  const [timelineSubState, setTimelineSubState] = useState<'expanded' | 'scrolling'>('expanded');
+  const [timelineIndex, setTimelineIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [typedQuery, setTypedQuery] = useState(scenarioQueries.news);
-  const [cardStep, setCardStep] = useState(0);
-  const [pillOut, setPillOut] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
   const unhoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -104,9 +145,8 @@ export const VerticalSearch: React.FC = () => {
     if (currentScenario === 'news') return;
     setCurrentScenario('news');
     setBgTheme('news');
-    setPillOut(false);
-    setCardStep(0);
     setStep(1);
+    setTimelineIndex(0);
     setTypedQuery('');
   };
 
@@ -114,9 +154,8 @@ export const VerticalSearch: React.FC = () => {
     clearUnhoverTimer();
     if (currentScenario === key) return;
     setCurrentScenario(key);
-    setPillOut(false);
     setStep(1);
-    setCardStep(0);
+    setTimelineIndex(0);
     const query = scenarioQueries[key] || scenarioQueries.news;
     setTypedQuery(query);
 
@@ -151,115 +190,13 @@ export const VerticalSearch: React.FC = () => {
     return () => observer.disconnect();
   }, [hasStarted]);
 
-  const timelineData: Record<'news' | 'business' | 'academic', DomainData> = {
-    news: {
-      query: 'Strait of Hormuz shipping disruptions',
-      icon: '/images/vertical/icon-newspaper.svg',
-      stats: '2 subjects · 10 articles · 89 ms',
-      items: [
-        {
-          time: '19:28:13',
-          source: 'bloomberg.com',
-          title: 'Hormuz is blocked. Now Bab el-Mandeb is under threat: Why fuel crisis could get worse – IndiaToday',
-        },
-        {
-          time: '16:24:02',
-          source: 'indiatoday.in',
-          title: 'While You Were Sleeping: 5 stories you might have missed, Sept 11, 2026 | The Straits Times',
-        },
-        {
-          time: '06:45:31',
-          source: 'cnbc.com',
-          title: 'While You Were Sleeping: 5 stories you might have missed, Sept 11, 2026',
-        },
-        {
-          time: '05:27:44',
-          source: 'sbs.com.au',
-          title: 'Houthi rebels seize strategic port city in Yemen, escalating US-Iran crisis',
-        },
-        {
-          time: '05:26:15',
-          source: 'sbs.com.au',
-          title: 'Houthis advance along Yemen coast, threaten Saudi oil exports in the Red Sea',
-        },
-      ],
-    },
-    business: {
-      query: 'Enterprise SaaS customer churn benchmarks & drivers',
-      icon: '/images/vertical/icon-briefcase.svg',
-      stats: '4 segments · 18 reports · 94 ms',
-      items: [
-        {
-          time: '18:15:00',
-          source: 'gartner.com',
-          title: '2026 B2B SaaS Churn Index: Key drivers behind net revenue retention decline',
-        },
-        {
-          time: '14:20:10',
-          source: 'techcrunch.com',
-          title: 'Why AI-native startups are replacing legacy CRM workflows in enterprise fleets',
-        },
-        {
-          time: '11:05:42',
-          source: 'forbes.com',
-          title: 'The new unit economics of subscription contracts under agentic automation',
-        },
-        {
-          time: '08:30:19',
-          source: 'pitchbook.com',
-          title: 'Early-stage enterprise valuation multiples rebound across vertical search',
-        },
-        {
-          time: '06:12:05',
-          source: 'venturebeat.com',
-          title: 'Consolidation trends in developer infrastructure tools: Q3 analysis',
-        },
-      ],
-    },
-    academic: {
-      query: 'DeepSeek-R1 multi-head latent attention mathematical proofs',
-      icon: '/images/vertical/icon-graduation.svg',
-      stats: '3 topics · 14 preprints · 112 ms',
-      items: [
-        {
-          time: '20:45:10',
-          source: 'arxiv.org',
-          title: 'DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning',
-        },
-        {
-          time: '17:12:33',
-          source: 'nature.com',
-          title: 'Convergence theorems for multi-head latent attention under low-rank approximations',
-        },
-        {
-          time: '13:40:02',
-          source: 'openreview.net',
-          title: 'Empirical bounds on KV cache compression in massive context architectures',
-        },
-        {
-          time: '09:15:48',
-          source: 'paperswithcode.com',
-          title: 'Reproducibility study: Group Relative Policy Optimization at trillion scale',
-        },
-        {
-          time: '07:22:19',
-          source: 'semanticscholar.org',
-          title: 'Survey on long-context distillation mechanisms for agent reasoning loops',
-        },
-      ],
-    },
-  };
-
-  const current = timelineData[activeTab];
-
-  // Step 1: Typewriter Effect (Strictly news only)
+  // Step 1: Typewriter Effect (News only)
   useEffect(() => {
-    if (!hasStarted || step !== 1 || currentScenario !== 'news') return;
-    setCardStep(0);
-    setPillOut(false);
+    if (!hasStarted || step !== 1 || currentScenario !== 'news' || isHovered) return;
     setTypedQuery('');
+    setTimelineIndex(0);
 
-    const target = current.query;
+    const target = scenarioQueries.news;
     let idx = 0;
     let step2Timer: ReturnType<typeof setTimeout>;
     const interval = setInterval(() => {
@@ -278,254 +215,278 @@ export const VerticalSearch: React.FC = () => {
       clearInterval(interval);
       if (step2Timer) clearTimeout(step2Timer);
     };
-  }, [hasStarted, step, activeTab, current.query, currentScenario]);
+  }, [hasStarted, step, currentScenario, isHovered]);
 
-  // Step 2: Searching with loading dots (Strictly news only)
+  // Step 2: Searching with 14 pulse wave dots (1.8s)
   useEffect(() => {
-    if (step !== 2 || currentScenario !== 'news') return;
+    if (step !== 2 || currentScenario !== 'news' || isHovered) return;
     const timer = setTimeout(() => {
       setStep(3);
     }, 1800);
     return () => clearTimeout(timer);
-  }, [step, currentScenario]);
+  }, [step, currentScenario, isHovered]);
 
-  // Step 3: Synthesis Result & 3-Card Window Upward Movement (Strictly news only)
+  // Step 3: 4 Subject cards overview (2.5s)
   useEffect(() => {
-    if (step !== 3 || currentScenario !== 'news') return;
-    setCardStep(0);
-    setPillOut(false);
+    if (step !== 3 || currentScenario !== 'news' || isHovered) return;
+    const timer = setTimeout(() => {
+      setStep(4);
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, [step, currentScenario, isHovered]);
 
-    const totalCards = current.items.length;
-    const visibleCards = 3;
-    const maxSteps = totalCards - visibleCards; // 5 - 3 = 2
-    let cur = 0;
-    let timerId: ReturnType<typeof setTimeout>;
+  // Step 4: Focus on Subject 1 with timeline hint (1.5s)
+  useEffect(() => {
+    if (step !== 4 || currentScenario !== 'news' || isHovered) return;
+    const timer = setTimeout(() => {
+      setTimelineSubState('expanded');
+      setStep(5);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [step, currentScenario, isHovered]);
 
-    const advanceStep = () => {
-      if (cur < maxSteps) {
-        timerId = setTimeout(() => {
-          cur++;
-          setCardStep(cur);
-          advanceStep();
-        }, 2000 + 750);
+  // Step 5: Timeline Drilldown (5A: expanded 1.8s, 5B: scrolling stepping)
+  useEffect(() => {
+    if (step !== 5 || currentScenario !== 'news' || isHovered) return;
+
+    if (timelineSubState === 'expanded') {
+      const expandTimer = setTimeout(() => {
+        setTimelineSubState('scrolling');
+        setTimelineIndex(1);
+      }, 1800);
+      return () => clearTimeout(expandTimer);
+    }
+
+    if (timelineSubState === 'scrolling') {
+      if (timelineIndex < TIMELINE_ARTICLES.length - 1) {
+        const stepTimer = setTimeout(() => {
+          setTimelineIndex((prev) => prev + 1);
+        }, 1600);
+        return () => clearTimeout(stepTimer);
       } else {
-        // Final 3-card window shown! Pause 3.0s then loop back to Step 1
-        timerId = setTimeout(() => {
-          setPillOut(false);
+        const loopTimer = setTimeout(() => {
           setStep(1);
         }, 3000);
+        return () => clearTimeout(loopTimer);
       }
-    };
-
-    // 1. Stay for 2.0s so user clearly sees the search pill and statistics ("2 subjects · 10 articles · 89 ms")
-    const stayTimer = setTimeout(() => {
-      setPillOut(true);
-
-      // 2. Pause 2.2s on initial window of 3 cards (Cards 0, 1, 2)
-      timerId = setTimeout(() => {
-        advanceStep();
-      }, 2200);
-    }, 2000);
-
-    return () => {
-      clearTimeout(stayTimer);
-      clearTimeout(timerId);
-    };
-  }, [step, activeTab, current.items.length, currentScenario]);
-
-
+    }
+  }, [step, timelineSubState, timelineIndex, currentScenario, isHovered]);
 
   return (
-    <section id="vertical-search" ref={sectionRef} className="octen-vertical-search" data-node-id="13625:179114">
-      <div className="octen-vs-inner">
-        {/* Top Header */}
-        <div className="octen-vs-copy">
-          <div className="octen-vs-tag" data-node-id="13625:179118">
+    <section id="vertical-search" ref={sectionRef} className="vertical-search-section" data-node-id="13625:179114">
+      <div className="hero-header-box">
+        <div className="hero-title-group">
+          <div className="tag-pill" data-node-id="13625:179118">
             <div className="tag-pill-icon" data-name="vertical">
               <img src="/assets/icon-vertical-tag.svg" alt="" width={15} height={15} />
             </div>
             <span>Vertical Search</span>
           </div>
-          <h2>Search built for every vertical</h2>
-          <p>
+          <h2 className="hero-heading">Search built for every vertical</h2>
+          <p className="hero-desc">
             Give every industry the real-time context it needs with search tuned to its sources, language, and workflows. <strong>News search is live now.</strong>
           </p>
-          <a className="octen-vs-button" href="/platform/overview" target="_blank" rel="noreferrer">
+          <a className="btn-request" href="/platform/overview" target="_blank" rel="noreferrer">
             Request Access
-            <img src="/images/vertical/icon-arrow-right.svg" alt="" width={11} height={11} />
+            <img className="btn-request-icon" src="/assets/arrow-right.svg" alt="" width={11} height={11} />
           </a>
         </div>
+      </div>
 
-        {/* Central Showcase Banner Card (Frame 427319246) */}
-        <div className="octen-vs-showcase-container">
-          <div
-            className="octen-vs-card-banner"
-            id="octen-vs-banner"
-            data-state={step}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            style={{
-              width: 'min(1260px, 100%)',
-              height: '532px',
-              background: themeGradients[bgTheme],
-              transition: 'background 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
-              borderRadius: '40px',
-              flex: 'none',
-              order: 0,
-              flexGrow: 0,
-            }}
-          >
-            {/* Topic Title (Figma node 13661:7381: News Search) */}
-            <h3
-              className="octen-vs-topic-title"
-              style={{
-                position: 'absolute',
-                left: '50%',
-                transform: step >= 2 ? 'translateX(-50%) translateY(-197px)' : 'translateX(-50%) translateY(0)',
-                top: '172px',
-                fontFamily: 'var(--font-serif, "Fraunces", Georgia, serif)',
-                fontWeight: 600,
-                fontSize: '30px',
-                lineHeight: '24px',
-                color: '#000000',
-                margin: 0,
-                padding: 0,
-                whiteSpace: 'nowrap',
-                textAlign: 'center',
-                pointerEvents: 'none',
-                zIndex: 10,
-                opacity: step >= 2 ? 0 : 1,
-                transition: step >= 2
-                  ? 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease 0.25s'
-                  : 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease',
-              }}
-            >
-              {scenarioTitles[currentScenario] || `${currentScenario.charAt(0).toUpperCase() + currentScenario.slice(1)} Search`}
-            </h3>
+      {/* Central Interactive Display Canvas (1260x532) */}
+      <div className="canvas-section">
+        <div
+          className="hero-canvas"
+          id="heroCanvas"
+          data-theme={bgTheme}
+          data-news-step={step}
+          data-timeline-state={timelineSubState}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <div className="canvas-aura" />
 
-            {/* Ambient Watermark Icon (Figma node 13631:181774 - source matches bottom buttons) */}
-            <div
-              className="octen-vs-watermark-icon"
-              style={{
-                position: 'absolute',
-                left: '91px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                width: '280px',
-                height: '280px',
-                opacity: 0.12,
-                pointerEvents: 'none',
-                zIndex: 2,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'opacity 0.4s ease, transform 0.4s ease',
-              }}
-            >
-              <img
-                src={scenarioIcons[currentScenario] || '/assets/icon-news.svg'}
-                alt=""
-                style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
-              />
-            </div>
+          {/* Ambient Watermark Icon (Step 1) */}
+          <div className="canvas-watermark-icon" id="canvasWatermarkIcon" aria-hidden="true">
+            <img src={scenarioIcons[currentScenario] || '/assets/icon-news.svg'} alt="" width={280} height={280} />
+          </div>
 
-            {/* Search Pill: Moves out of frame in Step 3 after staying */}
-            <div
-              className={`octen-vs-search-pill ${step === 3 && pillOut ? 'pill-out' : ''}`}
-              id="octen-vs-pill"
-            >
-              <div className="octen-vs-pill-top">
-                <img
-                  src={scenarioIcons[currentScenario] || '/assets/icon-news.svg'}
-                  alt=""
-                  className="octen-vs-search-icon-left"
-                  width={24}
-                  height={24}
-                />
-                <span className="octen-vs-search-text" id="octen-vs-query-text">
-                  {step === 1 ? typedQuery : current.query}
-                  {step === 1 && <span className="octen-vs-typing-cursor" />}
-                </span>
-                <img
-                  src="/images/vertical/icon-ai-search.svg"
-                  alt=""
-                  className="octen-vs-search-icon-right"
-                  width={24}
-                  height={24}
-                />
+          {/* Topic Title */}
+          <h3 className="canvas-topic-title" id="canvasTopicTitle">
+            {scenarioTitles[currentScenario] || 'News Search'}
+          </h3>
+
+          {/* Floating Search Pill */}
+          <div className="search-pill" id="searchPill">
+            <div className="search-pill-top-row">
+              <div className="search-pill-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 12V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="18" cy="18" r="3" stroke="currentColor" strokeWidth="2" />
+                  <path d="m22 22-1.5-1.5" stroke="currentColor" strokeWidth="2" />
+                </svg>
               </div>
-
-              {/* Step 2: Animated Dot Stream */}
-              <div className="octen-vs-pill-loading" aria-label="Searching across sources...">
-                <span className="vs-dot" />
-                <span className="vs-dot" />
-                <span className="vs-dot" />
-                <span className="vs-dot" />
-                <span className="vs-dot" />
-                <span className="vs-dot" />
-                <span className="vs-dot" />
-                <span className="vs-dot" />
-                <span className="vs-dot" />
-                <span className="vs-dot" />
-              </div>
-
-              {/* Step 3: Synthesis Statistics */}
-              <div className="octen-vs-pill-stats" id="octen-vs-stats-text">
-                {current.stats}
-              </div>
-            </div>
-
-            {/* Step 3: Vertical Timeline Connector Line (6px thick) */}
-            <div className="octen-vs-timeline-line" style={{ width: '6px' }} />
-
-            {/* Step 3: Timeline Result Cards with 3-Card Window Upward Movement */}
-            <div
-              className="octen-vs-timeline-list"
-              id="octen-vs-timeline-cards"
-              style={{
-                top: '49px',
-                transform: `translateX(-50%) translateY(${step === 3 && !pillOut ? '136px' : `-${cardStep * 158}px`})`,
-                transition: 'transform 0.75s cubic-bezier(0.16, 1, 0.3, 1)',
-              }}
-            >
-              {current.items.map((item, idx) => (
-                <div key={idx} className="octen-vs-timeline-card">
-                  <div className="octen-vs-card-header">
-                    <div className="octen-vs-time-badge">
-                      <img src="/images/vertical/icon-clock.svg" alt="" width={16} height={16} />
-                      <span>{item.time}</span>
-                    </div>
-                    <span className="octen-vs-source">{item.source}</span>
-                  </div>
-                  <p className="octen-vs-card-title">{item.title}</p>
+              <div className="search-pill-content">
+                <div className="search-query-display">
+                  <span className="search-query-text">{step === 1 ? typedQuery : scenarioQueries[currentScenario]}</span>
+                  {step === 1 && <span className="typing-cursor" />}
                 </div>
+              </div>
+              <div className="search-pill-action">
+                <img src="/assets/ai-search.svg" alt="AI Search" width={24} height={24} />
+              </div>
+            </div>
+          </div>
+
+          {/* Left Panel: Meta Stats & Feature Points (Step 3, 4, 5) */}
+          <div className="canvas-left-panel" id="canvasLeftPanel">
+            <div className="stats-counter-row">
+              <div className="stat-item"><span className="stat-num">4</span><span className="stat-label">subjects</span></div>
+              <div className="stat-item"><span className="stat-num">10</span><span className="stat-label">articles</span></div>
+              <div className="stat-item"><span className="stat-num">89</span><span className="stat-label">ms</span></div>
+            </div>
+            <div className="meta-bullets-list">
+              <p className="bullet-item">• Fresh news, delivered in milliseconds.</p>
+              <p className="bullet-item">• Track the progress of each subject across the timeline.</p>
+              <p className="bullet-item">• Dive deep into the story's development.</p>
+            </div>
+          </div>
+
+          {/* Right Side: Step 2 Searching State */}
+          <div className="searching-state-container" id="searchingStateContainer">
+            <span className="searching-label">searching...</span>
+            <div className="searching-dots-wave">
+              {Array.from({ length: 14 }).map((_, i) => (
+                <span key={i} className="pulse-dot" />
               ))}
             </div>
           </div>
-        </div>
 
-        {/* More scenarios */}
+          {/* Right Side: Step 3 & 4 Subjects Overview */}
+          <div className="subjects-overview-container" id="subjectsOverviewContainer">
+            {SUBJECT_CARDS.map((sub, idx) => (
+              <div
+                key={idx}
+                className={`subject-card subject-card-${idx + 1}`}
+                id={`subjectCard${idx + 1}`}
+              >
+                <div className="subject-card-header">
+                  <span className="subject-card-date">{sub.date}</span>
+                  <span className="subject-card-tag">{sub.tag}</span>
+                </div>
+                <div className="subject-card-body">
+                  <img className="subject-thumb" src={sub.thumb} alt={sub.tag} width={116} height={87} />
+                  <div className="subject-card-text">
+                    <h4 className="subject-card-title">{sub.title}</h4>
+                    <p className="subject-card-desc">{sub.desc}</p>
+                  </div>
+                </div>
+                {idx === 0 && <div className="subject-timeline-hint">timeline ↓</div>}
+              </div>
+            ))}
+          </div>
+
+          {/* Right Side: Step 5 Timeline Stream with Spine */}
+          <div className="timeline-drilldown-container" id="timelineDrilldownContainer">
+            <div className="timeline-vertical-spine" id="timelineVerticalSpine">
+              <img
+                className="spine-svg-img"
+                src="/images/vertical/timeline-spine.svg"
+                alt=""
+                style={{
+                  transform: `translateY(-${TIMELINE_OFFSETS[timelineIndex] || 0}px)`,
+                }}
+              />
+            </div>
+            <div className="timeline-drilldown-viewport">
+              <div
+                className="timeline-drilldown-track"
+                id="timelineDrilldownTrack"
+                style={{
+                  transform: `translateY(-${TIMELINE_OFFSETS[timelineIndex] || 0}px)`,
+                }}
+              >
+                <div className="timeline-header-card">
+                  <div className="subject-card-header">
+                    <span className="subject-card-date">{SUBJECT_CARDS[0].date}</span>
+                    <span className="subject-card-tag">{SUBJECT_CARDS[0].tag}</span>
+                  </div>
+                  <div className="subject-card-body">
+                    <img className="subject-thumb" src={SUBJECT_CARDS[0].thumb} alt="Subject 1" width={116} height={87} />
+                    <div className="subject-card-text">
+                      <h4 className="subject-card-title">{SUBJECT_CARDS[0].title}</h4>
+                      <p className="subject-card-desc">{SUBJECT_CARDS[0].desc}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="timeline-articles-group">
+                  {TIMELINE_ARTICLES.map((art, idx) => (
+                    <div
+                      key={idx}
+                      className={`timeline-article-card ${idx <= timelineIndex ? 'article-revealed' : ''}`}
+                    >
+                      <div className="article-meta">
+                        <div className="article-time">
+                          <img src="/assets/fe-clock.svg" alt="Clock" width={16} height={16} />
+                          <span>{art.time}</span>
+                        </div>
+                        <span className="article-domain">{art.domain}</span>
+                      </div>
+                      <h4 className="article-title">{art.title}</h4>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* More Scenarios Marquee */}
+      <div className="future-scenarios-section">
+        <h3 className="scenarios-heading">More scenarios in future releases</h3>
         <div
-          className="octen-vs-more-grid"
+          className="scenarios-marquee-container"
           onMouseEnter={clearUnhoverTimer}
           onMouseLeave={() => {
             clearUnhoverTimer();
             unhoverTimerRef.current = setTimeout(resetToNews, 120);
           }}
         >
-          {MORE_SCENARIOS.map((item) => (
-            <div
-              key={item.key}
-              className="octen-vs-more-badge"
-              onMouseEnter={() => handleScenarioEnter(item.key)}
-              onMouseLeave={handleScenarioLeave}
-              onClick={(e) => e.preventDefault()}
-              style={{ cursor: 'pointer' }}
-            >
-              <img src={scenarioIcons[item.key]} alt={item.label} width={18} height={18} />
-              <span>{item.label}</span>
+          <div className="marquee-mask-left" />
+          <div className="marquee-mask-right" />
+          <div className="marquee-track">
+            <div className="marquee-group">
+              {MORE_SCENARIOS.map((item) => (
+                <div
+                  key={item.key}
+                  className="scenario-chip"
+                  onMouseEnter={() => handleScenarioEnter(item.key)}
+                  onMouseLeave={handleScenarioLeave}
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <img src={scenarioIcons[item.key]} alt={item.label} width={18} height={18} />
+                  <span>{item.label}</span>
+                </div>
+              ))}
             </div>
-          ))}
+            <div className="marquee-group" aria-hidden="true">
+              {MORE_SCENARIOS.map((item) => (
+                <div
+                  key={`${item.key}-dup`}
+                  className="scenario-chip"
+                  onMouseEnter={() => handleScenarioEnter(item.key)}
+                  onMouseLeave={handleScenarioLeave}
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <img src={scenarioIcons[item.key]} alt={item.label} width={18} height={18} />
+                  <span>{item.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

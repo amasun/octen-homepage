@@ -279,62 +279,27 @@
       const typingCursor = document.getElementById('typingCursor');
       const aiSearchAction = document.getElementById('aiSearchAction');
       const scenarioChips = document.querySelectorAll('.scenario-chip');
-      const timelineScrollTrack = document.getElementById('timelineScrollTrack');
-      const pipelineSpine = document.getElementById('pipelineSpine');
-      const searchResultsMeta = document.getElementById('searchResultsMeta');
-      const cardsGroup = document.getElementById('cardsGroup');
-    
-      // Render vertical-specific cards and stats
-      function renderVerticalCards(verticalKey) {
-        const data = verticalsData[verticalKey] || verticalsData.news;
-        if (searchResultsMeta) {
-          searchResultsMeta.textContent = data.metaStats;
-        }
-        const container = cardsGroup || document.getElementById('cardsGroup') || document.querySelector('.news-cards-group');
-        if (!container) return;
-    
-        container.innerHTML = data.cards.map((c, i) => `
-          <div class="news-card" data-card-index="${i}">
-            <div class="news-card-meta">
-              <div class="news-card-time ${c.isLatest ? 'news-card-time-latest' : ''}">
-                <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
-                <span>${c.time}</span>
-              </div>
-              <span class="news-card-domain">${c.domain}</span>
-            </div>
-            <h3 class="news-card-title">${c.title}</h3>
-          </div>
-        `).join('');
-      }
-    
+      const canvasLeftPanel = document.getElementById('canvasLeftPanel');
+      const searchingStateContainer = document.getElementById('searchingStateContainer');
+      const subjectsOverviewContainer = document.getElementById('subjectsOverviewContainer');
+      const subjectCard1 = document.getElementById('subjectCard1');
+      const timelineDrilldownContainer = document.getElementById('timelineDrilldownContainer');
+      const timelineDrilldownTrack = document.getElementById('timelineDrilldownTrack');
+      const timelineVerticalSpine = document.getElementById('timelineVerticalSpine');
+      const spineSvgImg = document.querySelector('.spine-svg-img');
+      const timelineArticleCards = document.querySelectorAll('.timeline-article-card');
+
       // Animation Loop Timers & Configuration
       let typeInterval = null;
       let typeTimeout = null;
       let autoLoopTimer = null;
-      let cardStepTimer = null;
-      let pillStayTimer = null;
+      let timelineStepTimer = null;
       let isLoopPaused = false;
       let hasStartedAnimation = false;
       let currentStep = 1;
-      let currentScrollStep = 0;
+      let currentTimelineIndex = 0;
       let currentScenario = 'news';
-      const VISIBLE_CARDS_COUNT = 3;
-      const TOTAL_CARDS = 5;
-      const MAX_SCROLL_STEPS = TOTAL_CARDS - VISIBLE_CARDS_COUNT; // 2 steps (steps 0, 1, 2)
-      const STEP_DISPLACEMENT_Y = 158; // 118px card height + 40px gap
 
-      // Dynamically update the timeline spine height to reach exactly the bottom visible card
-      function updateSpineHeight(bottomCardIndex) {
-        if (!pipelineSpine) return;
-        if (bottomCardIndex < 0) {
-          pipelineSpine.style.height = '0px';
-          return;
-        }
-        // Starts at top: -40px and extends down through all visible cards to bottom of bottomCardIndex
-        const spineHeight = 40 + (bottomCardIndex * STEP_DISPLACEMENT_Y) + 118;
-        pipelineSpine.style.height = `${spineHeight}px`;
-      }
-    
       // 4. Character-by-Character Typewriter Function for query input
       function clearTypewriter() {
         if (typeInterval) {
@@ -410,46 +375,46 @@
         }
       }
     
-      // 6. Set Step Function
-      function setNewsStep(stepNum) {
+      // 6. Set Step Function (Steps 1 through 5, with 5A and 5B sub-states)
+      function setNewsStep(stepNum, subState = 'initial') {
         currentStep = stepNum;
         if (heroCanvas) {
           heroCanvas.setAttribute('data-news-step', String(stepNum));
+          heroCanvas.setAttribute('data-timeline-state', subState);
         }
+
         if (stepNum !== 1) {
           if (typingCursor) {
             typingCursor.style.display = 'none';
           }
         }
-        if (stepNum === 3) {
-          // When Step 3 begins, do NOT hide searchPill immediately.
-          // It stays visible at top: 36px so users can read the statistics info (e.g. "2 subjects · 10 articles · 89 ms")
-          if (searchPill) {
-            searchPill.classList.remove('pill-out');
+
+        if (stepNum === 1) {
+          clearTimelineStepTimer();
+          currentTimelineIndex = 0;
+          if (timelineDrilldownTrack) {
+            timelineDrilldownTrack.style.transform = 'translateY(0)';
           }
-        } else {
-          clearCardStepTimer();
-          currentScrollStep = 0;
-          if (searchPill) {
-            searchPill.classList.remove('pill-out');
+          if (spineSvgImg) {
+            spineSvgImg.style.transform = 'translateY(0)';
           }
-          if (timelineScrollTrack) {
-            timelineScrollTrack.style.transform = 'translateX(-50%) translateY(0)';
+          const allTimelineArticles = document.querySelectorAll('.timeline-article-card');
+          allTimelineArticles.forEach(c => c.classList.remove('article-revealed'));
+        } else if (stepNum === 5) {
+          if (subState === 'expanded') {
+            // State 5A: First timeline article is revealed below Subject 1
+            const allTimelineArticles = document.querySelectorAll('.timeline-article-card');
+            if (allTimelineArticles[0]) {
+              allTimelineArticles[0].classList.add('article-revealed');
+            }
           }
-          updateSpineHeight(-1);
-          const allCards = document.querySelectorAll('.news-card');
-          allCards.forEach(c => c.classList.remove('card-revealed'));
         }
       }
     
-      function clearCardStepTimer() {
-        if (cardStepTimer) {
-          clearTimeout(cardStepTimer);
-          cardStepTimer = null;
-        }
-        if (pillStayTimer) {
-          clearTimeout(pillStayTimer);
-          pillStayTimer = null;
+      function clearTimelineStepTimer() {
+        if (timelineStepTimer) {
+          clearTimeout(timelineStepTimer);
+          timelineStepTimer = null;
         }
       }
     
@@ -459,120 +424,54 @@
           clearTimeout(autoLoopTimer);
           autoLoopTimer = null;
         }
-        clearCardStepTimer();
+        clearTimelineStepTimer();
       }
     
-      // 7. Step 3: Sequentially Stepped 3-Card Timeline Stream Animation
-      function stepToWindow(stepIndex) {
-        if (currentStep !== 3) return;
-        currentScrollStep = stepIndex;
-    
-        const allCards = document.querySelectorAll('.news-card');
-    
-        if (currentScrollStep === 0) {
-          allCards.forEach(c => c.classList.remove('card-revealed'));
-          updateSpineHeight(-1);
-    
-          // 1. Initial State of Step 3:
-          // Keep search pill at top (top: 36px) showing the query and synthesis statistics
-          // e.g. "2 subjects · 10 articles · 89 ms"
-          if (searchPill) {
-            searchPill.classList.remove('pill-out');
-          }
-          // Position timeline track slightly lower (translateY: 136px) so Card 0 appears right below the search pill
-          if (timelineScrollTrack) {
-            timelineScrollTrack.style.transform = 'translateX(-50%) translateY(136px)';
-          }
-    
-          // Reveal Card 0 and Card 1 emerging under the search pill
-          setTimeout(() => {
-            if (currentStep !== 3 || currentScenario !== 'news') return;
-            if (allCards[0]) allCards[0].classList.add('card-revealed');
-            updateSpineHeight(0);
-          }, 80);
+      // 7. Step 5B: Upward Scrolling Timeline Stream Animation
+      // 5 and 6 are different states of Step 5:
+      // State 5A: First timeline card expands under Subject 1
+      // State 5B: Stream scrolls upward stepping through articles 1 to 5
+      const TIMELINE_SCROLL_OFFSETS = [0, 120, 230, 340, 450];
 
-          setTimeout(() => {
-            if (currentStep !== 3 || currentScenario !== 'news') return;
-            if (allCards[1]) allCards[1].classList.add('card-revealed');
-            updateSpineHeight(1);
-          }, 260);
-    
-          // 2. Stay for 2.0 seconds so user clearly reads the statistics ("2 subjects · 10 articles · 89 ms")
-          pillStayTimer = setTimeout(() => {
-            if (isLoopPaused || currentStep !== 3 || currentScenario !== 'news') return;
+      function stepTimelineStream(index) {
+        if (currentStep !== 5 || currentScenario !== 'news') return;
+        currentTimelineIndex = index;
 
-            // Search pill now glides smoothly upward out of the canvas
-            if (searchPill) {
-              searchPill.classList.add('pill-out');
-            }
+        const allTimelineArticles = document.querySelectorAll('.timeline-article-card');
+        const offset = TIMELINE_SCROLL_OFFSETS[index] || 0;
 
-            // Timeline track smoothly glides upward into standard centered 3-card view (translateY: 0)
-            if (timelineScrollTrack) {
-              timelineScrollTrack.style.transform = 'translateX(-50%) translateY(0)';
-            }
-
-            // Card 2 emerges at the bottom slot of the 3-card screen
-            setTimeout(() => {
-              if (currentStep !== 3 || currentScenario !== 'news') return;
-              if (allCards[2]) allCards[2].classList.add('card-revealed');
-              updateSpineHeight(2);
-            }, 200);
-
-            // 3. Hold for 2.2s for user to view the full 3-card screen (Cards 0, 1, 2)
-            cardStepTimer = setTimeout(() => {
-              if (isLoopPaused || currentStep !== 3 || currentScenario !== 'news') return;
-              stepToWindow(1);
-            }, 2200);
-          }, 2000);
-          return;
+        if (timelineDrilldownTrack) {
+          timelineDrilldownTrack.style.transform = `translateY(-${offset}px)`;
         }
-    
-        // Shift track upward so exactly 3 cards remain in screen,
-        // and the newly emerging card slides into view at the BOTTOM slot
-        const moveY = currentScrollStep * STEP_DISPLACEMENT_Y;
-        if (timelineScrollTrack) {
-          timelineScrollTrack.style.transform = `translateX(-50%) translateY(-${moveY}px)`;
+        if (spineSvgImg) {
+          spineSvgImg.style.transform = `translateY(-${offset}px)`;
         }
-    
-        // Reveal newly emerging card at the bottom slot (index = currentScrollStep + 2)
-        const bottomCardIndex = currentScrollStep + VISIBLE_CARDS_COUNT - 1;
-        if (allCards[bottomCardIndex]) {
-          allCards[bottomCardIndex].classList.add('card-revealed');
+
+        // Reveal the active article
+        if (allTimelineArticles[index]) {
+          allTimelineArticles[index].classList.add('article-revealed');
         }
-        updateSpineHeight(bottomCardIndex);
-    
-        if (currentScrollStep < MAX_SCROLL_STEPS) {
-          // Pause 2.0s on intermediate window (+ 750ms translation transition)
-          cardStepTimer = setTimeout(() => {
-            if (isLoopPaused || currentStep !== 3 || currentScenario !== 'news') return;
-            stepToWindow(currentScrollStep + 1);
-          }, 2000 + 750);
+
+        if (index < allTimelineArticles.length - 1) {
+          // Advance to next article after 1.6s
+          timelineStepTimer = setTimeout(() => {
+            if (isLoopPaused || currentStep !== 5 || currentScenario !== 'news') return;
+            stepTimelineStream(index + 1);
+          }, 1600);
         } else {
-          // Final 3-card window (Cards 2, 3, 4 with Card 4 latest) has finished sliding into view at the bottom!
-          // Stay for a full 3.0s (3000ms + 750ms transition)
-          // Then loop back to News animation cycle
-          cardStepTimer = setTimeout(() => {
-            if (isLoopPaused || currentStep !== 3 || currentScenario !== 'news') return;
+          // Final article displayed! Hold for 3.0s, then loop back to Step 1
+          timelineStepTimer = setTimeout(() => {
+            if (isLoopPaused || currentStep !== 5 || currentScenario !== 'news') return;
             runVerticalCycle();
-          }, 3000 + 750);
+          }, 3000);
         }
       }
 
-      function runStep3SequentialStream() {
-        clearCardStepTimer();
-        stepToWindow(0);
-      }
-
-      // 8. Continuous Automated 1 → 2 → 3 Animation Loop for News Vertical
+      // 8. Continuous Automated 5-Step Animation Loop for News Vertical
       function runVerticalCycle() {
         // Except for News, giant box animation must NEVER play
         if (currentScenario !== 'news') return;
         clearNewsAutoLoop();
-
-        const targetData = verticalsData.news;
-
-        // Render News cards & meta stats before starting cycle
-        renderVerticalCards('news');
 
         // Step 1: Query Input with Character-by-Character Typewriter effect
         setNewsStep(1);
@@ -581,69 +480,112 @@
         }
         updateCardIcons('news', '/assets/icon-news.svg');
 
-        const queryTarget = targetData.query;
+        const queryTarget = 'Strait of Hormuz shipping disruptions';
         startTypewriter(queryTarget, () => {
           if (isLoopPaused || currentStep !== 1 || currentScenario !== 'news') return;
 
-          // Step 2: Searching with 14 wave dots (1.8s)
+          // Step 2: Searching with 14 pulse wave dots (1.8s)
           setNewsStep(2);
 
           autoLoopTimer = setTimeout(() => {
             if (isLoopPaused || currentStep !== 2 || currentScenario !== 'news') return;
 
-            // Step 3: Stream Results (Sequentially stepped timeline stream)
+            // Step 3: Search dissolves into left panel, right side shows 4 Subject cards (2.5s)
             setNewsStep(3);
-            runStep3SequentialStream();
+
+            autoLoopTimer = setTimeout(() => {
+              if (isLoopPaused || currentStep !== 3 || currentScenario !== 'news') return;
+
+              // Step 4: Focus on Subject 1 with timeline hint (1.5s)
+              setNewsStep(4);
+
+              autoLoopTimer = setTimeout(() => {
+                if (isLoopPaused || currentStep !== 4 || currentScenario !== 'news') return;
+
+                // Step 5A (Frame 5): Timeline expansion with Subject 1 header (1.8s)
+                setNewsStep(5, 'expanded');
+
+                autoLoopTimer = setTimeout(() => {
+                  if (isLoopPaused || currentStep !== 5 || currentScenario !== 'news') return;
+
+                  // Step 5B (Frame 6): Upward scrolling through timeline articles
+                  setNewsStep(5, 'scrolling');
+                  stepTimelineStream(1);
+                }, 1800);
+
+              }, 1500);
+
+            }, 2500);
+
           }, 1800);
         });
       }
 
-      // Hover on hero canvas in Step 3 pauses upward movement; resume on mouseleave
+      // Hover on hero canvas pauses animation playback; resume on mouseleave
       if (heroCanvas) {
         heroCanvas.addEventListener('mouseenter', () => {
           if (currentScenario !== 'news') return;
-          if (currentStep === 3) {
-            isLoopPaused = true;
-            clearCardStepTimer();
-          }
+          isLoopPaused = true;
+          clearNewsAutoLoop();
         });
 
         heroCanvas.addEventListener('mouseleave', () => {
           if (currentScenario !== 'news') return;
-          if (isLoopPaused && currentStep === 3) {
+          if (isLoopPaused) {
             isLoopPaused = false;
-            clearCardStepTimer();
+            clearNewsAutoLoop();
 
-            // Check if we were paused during the initial stay or during scrolling
-            if (searchPill && !searchPill.classList.contains('pill-out')) {
-              // Paused during initial stay: continue stay for remaining 1.2s then slide up
-              pillStayTimer = setTimeout(() => {
-                if (isLoopPaused || currentStep !== 3 || currentScenario !== 'news') return;
-                if (searchPill) searchPill.classList.add('pill-out');
-                if (timelineScrollTrack) timelineScrollTrack.style.transform = 'translateX(-50%) translateY(0)';
-                setTimeout(() => {
-                  if (currentStep !== 3 || currentScenario !== 'news') return;
-                  const allCards = document.querySelectorAll('.news-card');
-                  if (allCards[2]) allCards[2].classList.add('card-revealed');
-                  updateSpineHeight(2);
-                }, 200);
-
-                cardStepTimer = setTimeout(() => {
-                  if (isLoopPaused || currentStep !== 3 || currentScenario !== 'news') return;
-                  stepToWindow(1);
-                }, 2200);
+            // Resume smoothly from current state
+            if (currentStep === 1) {
+              runVerticalCycle();
+            } else if (currentStep === 2) {
+              autoLoopTimer = setTimeout(() => {
+                if (isLoopPaused || currentScenario !== 'news') return;
+                setNewsStep(3);
+                autoLoopTimer = setTimeout(() => {
+                  if (isLoopPaused || currentScenario !== 'news') return;
+                  setNewsStep(4);
+                  autoLoopTimer = setTimeout(() => {
+                    if (isLoopPaused || currentScenario !== 'news') return;
+                    setNewsStep(5, 'expanded');
+                    autoLoopTimer = setTimeout(() => {
+                      if (isLoopPaused || currentScenario !== 'news') return;
+                      setNewsStep(5, 'scrolling');
+                      stepTimelineStream(1);
+                    }, 1800);
+                  }, 1500);
+                }, 2500);
+              }, 1000);
+            } else if (currentStep === 3) {
+              autoLoopTimer = setTimeout(() => {
+                if (isLoopPaused || currentScenario !== 'news') return;
+                setNewsStep(4);
+                autoLoopTimer = setTimeout(() => {
+                  if (isLoopPaused || currentScenario !== 'news') return;
+                  setNewsStep(5, 'expanded');
+                  autoLoopTimer = setTimeout(() => {
+                    if (isLoopPaused || currentScenario !== 'news') return;
+                    setNewsStep(5, 'scrolling');
+                    stepTimelineStream(1);
+                  }, 1800);
+                }, 1500);
               }, 1200);
-            } else {
-              // Paused during scrolling:
-              const resumeDelay = (currentScrollStep >= MAX_SCROLL_STEPS) ? 3000 : 2000;
-              cardStepTimer = setTimeout(() => {
-                if (isLoopPaused || currentStep !== 3 || currentScenario !== 'news') return;
-                if (currentScrollStep < MAX_SCROLL_STEPS) {
-                  stepToWindow(currentScrollStep + 1);
-                } else {
-                  runVerticalCycle();
-                }
-              }, resumeDelay);
+            } else if (currentStep === 4) {
+              autoLoopTimer = setTimeout(() => {
+                if (isLoopPaused || currentScenario !== 'news') return;
+                setNewsStep(5, 'expanded');
+                autoLoopTimer = setTimeout(() => {
+                  if (isLoopPaused || currentScenario !== 'news') return;
+                  setNewsStep(5, 'scrolling');
+                  stepTimelineStream(1);
+                }, 1800);
+              }, 800);
+            } else if (currentStep === 5) {
+              if (currentTimelineIndex < TIMELINE_SCROLL_OFFSETS.length - 1) {
+                stepTimelineStream(currentTimelineIndex + 1);
+              } else {
+                runVerticalCycle();
+              }
             }
           }
         });
@@ -677,7 +619,6 @@
         } else {
           // Prepare static initial layout (Step 1) without triggering timers
           setNewsStep(1);
-          renderVerticalCards('news');
           if (searchQueryText) searchQueryText.textContent = '';
           if (searchInput) searchInput.value = '';
           if (typingCursor) typingCursor.style.display = 'inline-block';

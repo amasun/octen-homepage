@@ -36,31 +36,24 @@
 - **行动点 CTA**: 描述文字下方居中配置高精幽灵外框按钮 `Request Access ↗`，带绿色柔光悬停微动效。
 - **关联文件**: [public/css/modalities-search.css](file:///x:/XCoding/Octen/hompage/public/css/modalities-search.css) 与 [src/components/ImageVideoSearch.tsx](file:///x:/XCoding/Octen/hompage/src/components/ImageVideoSearch.tsx)。
 
-### D. Vertical Search (核心高频迭代区)
+### D. Vertical Search (核心高频迭代区 - 新版 5 步动画管线)
 - **胶囊标签**: 深度对齐 Figma 13625:179118 规范（`height: 32px; border-radius: 19.5px;`），附带专属翠绿色立体三角锥矢量图标 [icon-vertical-tag.svg](file:///x:/XCoding/Octen/hompage/public/assets/icon-vertical-tag.svg)。
-- **顶部 Tabs 简化**: 移除原有顶部 3 个垂直 Tab 切换按钮，界面整体聚焦并**纯粹保留 News（新闻搜索）完整流水线动画演示**。
-- **动态流水线时序**:
-  1. **首屏静态保底**: 页面初次加载时为待输入静态状态，严禁后台空跑动画。
-  2. **视口滚动触发**: 挂载 `IntersectionObserver`，当画布滚入可视区域达 15%（约 80px）时才正式激活流水线。
-  3. **Step 1 (打字机)**: 逐字平滑输出行业搜索 Query（`Strait of Hormuz shipping disruptions`），光标呼吸闪烁。
-  4. **Step 2 (检索等待)**: 14 个黑色波浪脉冲圆点起伏检索。
-  5. **Step 3 (时间轴卡片瀑布流)**: 
-     - 搜索框与统计数据（`2 subjects · 10 articles · 89 ms`）先平稳停留 **2.0s**；
-     - 随后搜索框上移出视口，满屏 3 张卡片瀑布流，后续新卡片均自底部（Slot 3）平滑推入；
-     - 5 张卡片完成向上流动后停留 3.0s，随后重循环新闻检索流水线；
-     - 鼠标悬停画布时暂停动画，移出平滑恢复。
+- **新版 5 步动态流水线时序 (Figma 13661:163623)**:
+  1. **首屏静态保底**: 页面初次加载时为待输入静态状态，严禁后台空跑动画。挂载 `IntersectionObserver`，当画布滚入可视区域达 15% 时正式激活流水线。
+  2. **Step 1 (Frame 1 - 居中打字机)**: 搜索框与水印居中，逐字平滑输出 Query（`Strait of Hormuz shipping disruptions`），光标呼吸闪烁，输入完成后停留 1.2s。
+  3. **Step 2 (Frame 2 - 搜索移位与波浪)**: 搜索框平滑移至左侧（`left: 64px, top: 220px`），标题平移至左上方（`left: 68px, top: 168px`），水印渐隐；右侧居中展示 `searching...` 与 14 个黑色波浪脉冲圆点（持续 1.8s）。
+  4. **Step 3 (Frame 3 - 主题卡片总览)**: 搜索框溶解隐去，左侧浮现统计数据行（`4 subjects · 10 articles · 89 ms`）及 3 条特性 Bullet 列表；右侧展示 4 个 Subject 卡片（包含 dates、`Subject1-4` 标签、高保真缩略图、标题与描述，持续 2.5s）。
+  5. **Step 4 (Frame 4 - 聚焦 Subject 1)**: Subject 2~4 向下滑隐，Subject 1 卡片在右侧居中聚焦，卡片右下方浮现带有脉冲微动效的 `timeline ↓` 提示（持续 1.5s）。
+  6. **Step 5 (Frame 5 & Frame 6 - 同一步的两个状态: 展开与向上滚动)**:
+     - **状态 5A (Frame 5 - 时间轴展开)**: 绿色圆点节点脊椎线（`#4AAC80`）自左侧展开，Subject 1 作为 Header 卡片锚定在顶部，下方展开第一条时间轴新闻卡片（05:26:15 / sbs.com.au，持续 1.8s）。
+     - **状态 5B (Frame 6 - 向上滚动遍历)**: 时间轴轨道与脊椎线节点保持等距步进，平滑向上逐条滑动展示 5 篇按时序推进的新闻报道（05:26:15 ➔ 05:27:44 ➔ 06:45:31 ➔ 16:24:02 ➔ 10 mins ago）；最后一条展示完毕后平稳停留 3.0s，无缝闭环重循环回到 Step 1。
+  7. **悬停暂停与移出恢复**: 鼠标悬停在巨型画布区域时立即冻结当前步时序，移出后平滑继续推进或重置循环。
 - **底部 More scenarios 走马灯交互 (Hover 驱动 & Unhover 恢复)**:
   - **悬停打断动画并即时呈现 Query**：鼠标悬停在走马灯中任意场景按钮（如 Legal、Sport、Code、Design 等）时，会立即打断当前的 News 动画播放，重置到 Step 1 居中状态，并**无动画直接显示该场景对应的真实检索 Query**（例如 Legal 对应 `Antitrust precedents in AI agent autonomous transactions`），同时将背景水印图标同步切换为该场景图标。已彻底移除点击交互逻辑。
   - **随机切换渐变背景**：每次悬停进入不同场景按钮，同时会从渐变变量池（Academic 天青蓝、Business 暖金琥珀、Purple 薰衣草紫、News 翠绿荧光）中随机挑选一款与当前不同的颜色平滑过渡。
-  - **Unhover 移出后无缝回到 News 动画播放**：当鼠标离开底部场景按钮及走马灯区域后（经 120ms-150ms 跨按钮微防抖，保证用户在相邻按钮间滑过时不发生抖动），系统会自动执行 `resetToNews()`，将卡片背景渐变平滑恢复为 News 翠绿色、主题标题恢复为 `News Search`、水印图标恢复为 `/assets/icon-news.svg`，并立即**重新激活并循环播放 News 动画流水线**（Step 1 逐字打字机 ➔ Step 2 14 点检索波浪 ➔ Step 3 阶梯卡片瀑布流）。
-- **卡片主题文字 (Figma 13661:7381 / 13631:181771)**:
-  - 深度还原 Figma 规范：位于巨型卡片顶部（`top: 172px; left: 50%; transform: translateX(-50%);`），字体为 `Fraunces:SemiBold` 30px，行高 24px，文字黑色。
-  - 默认及 News 播放状态下展示为 `News Search`。
-  - **Step 2 随输入框等距位移同步上移出画框消失**：在 Step 2 检索开始时，输入框从卡片中央向上滑移至顶部 `top: 36px`（输入框顶边缘位移量为 `36px - 233px = -197px`）。`News Search` 标题以 100% 严格一致的物理位移（`-197px`，即自 172px 上移至 -25px 超出卡片上边框）以及完全相同的贝塞尔曲线时序（`0.65s cubic-bezier(0.16, 1, 0.3, 1)`）与输入框等距锁定向上推移，保持两者相对间距恒定为 61px，并在推至画框顶边缘时（配合 0.25s 延时渐隐）顺畅滑出画框外消失；闭环重循环至 Step 1 时同样以等距时序平滑归位。
-  - 悬停底部走马灯不同场景时（如 Legal、Academic、Business、Sport、Code 等），该文字会同步、动态且瞬间切换为对应的主题文字（例如 `Legal Search`、`Academic Search`、`Business Search` 等）。
+  - **Unhover 移出后无缝回到 News 动画播放**：当鼠标离开底部场景按钮及走马灯区域后（经 120ms 防抖），系统自动执行 `resetToNews()`，卡片背景恢复为 News 翠绿、标题恢复为 `News Search`、水印恢复为 News 图标，并立即**重新激活并循环播放完整的 5 步动画流水线**。
 - **图标来源一致性对齐 (以底部按钮为准)**:
-  - 巨型卡片水印图标（`canvasWatermarkIcon`）彻底废弃外部通用矢量 Lucide 代码，**100% 统一直接读取底部按钮中正在使用的原生矢量 SVG 资产**（`/assets/icon-*.svg`，如 `icon-news.svg`、`icon-legal.svg`、`icon-sport.svg` 等）。
-  - 悬停走马灯任意场景时，实时自对应按钮 DOM 的 `<img>` 标签直接读取 `src` 并注入巨型卡片水印区，以 280x280px + 0.12 不透明度呈现，确保图标形态、笔画细节与底部按钮完全一致。
+  - 巨型卡片水印图标（`canvasWatermarkIcon`）彻底废弃外部通用矢量 Lucide 代码，**100% 统一直接读取底部按钮中正在使用的原生矢量 SVG 资产**（`/assets/icon-*.svg`）。
 - **关联文件**: [index.html](file:///x:/XCoding/Octen/hompage/index.html)、[public/css/vertical-search.css](file:///x:/XCoding/Octen/hompage/public/css/vertical-search.css)、[public/js/vertical-search.js](file:///x:/XCoding/Octen/hompage/public/js/vertical-search.js) 及 [src/components/VerticalSearch.tsx](file:///x:/XCoding/Octen/hompage/src/components/VerticalSearch.tsx)。
 
 ### E. 页脚 (Footer)

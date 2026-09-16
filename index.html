@@ -643,26 +643,21 @@
     </div>
 
 
-    <!-- 2.3 Interactive Gradient Canvas (1260x532, expands in Step 3) -->
+    <!-- 2.3 Interactive Gradient Canvas (1260x532, 5-Step Animation Pipeline) -->
     <div class="canvas-section" data-node-id="13625:179509">
       <div class="hero-canvas" id="heroCanvas" data-theme="news" data-news-step="1" data-node-id="13628:180982">
         <div class="canvas-aura"></div>
-        <!-- Topic Title (Figma node 13661:7381: News Search) -->
-        <h3 class="canvas-topic-title" id="canvasTopicTitle">News Search</h3>
 
-        <!-- Huge Ambient Watermark Icon that dynamically changes with tabs -->
+        <!-- Huge Ambient Watermark Icon (Step 1) -->
         <div class="canvas-watermark-icon" id="canvasWatermarkIcon" aria-hidden="true">
           <img src="/assets/icon-news.svg" alt="News" width="280" height="280" />
         </div>
 
-        <!-- Early Access Pill Tag for Academic & Business (Figma node: tag -v) -->
-        <div class="canvas-badge-tag" id="canvasBadgeTag" aria-label="Early Access">
-          <span>Early Access</span>
-        </div>
+        <!-- Topic Title (Figma 13661:7381: News Search - Centered in Step 1, Left in Step 2-5) -->
+        <h3 class="canvas-topic-title" id="canvasTopicTitle">News Search</h3>
 
-        <!-- Floating Search Pill (Step 1: 518x66 | Step 2: 518x127 | Step 3: 518x122) -->
+        <!-- Search Input Pill (Centered in Step 1, Left in Step 2, Dissolves in Step 3-5) -->
         <div class="search-pill" id="searchPill" data-node-id="13628:180983">
-          <!-- Top Row (Always present) -->
           <div class="search-pill-top-row">
             <div class="search-pill-icon" id="searchPillIcon" aria-label="Octen Logo" data-node-id="13631:181644">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -671,130 +666,190 @@
                 </g>
               </svg>
             </div>
-
             <div class="search-pill-content" id="searchPillContent">
               <div class="search-query-display" id="searchQueryDisplay">
                 <span class="search-query-text" id="searchQueryText">Strait of Hormuz shipping disruptions</span><span class="typing-cursor" id="typingCursor"></span>
               </div>
-              <input
-                type="text"
-                id="searchPillInput"
-                class="search-pill-input"
-                value="Strait of Hormuz shipping disruptions"
-                aria-label="Search query"
-                spellcheck="false"
-                style="display: none;"
-              />
+              <input type="text" id="searchPillInput" class="search-pill-input" value="Strait of Hormuz shipping disruptions" aria-label="Search query" spellcheck="false" style="display: none;" />
             </div>
-
             <div class="search-pill-action" id="aiSearchAction" title="Run AI Search">
               <img src="/assets/ai-search.svg" alt="AI Search" width="24" height="24" />
             </div>
           </div>
+        </div>
 
-          <!-- Step 2: Animated Dotted Loading State (14 wave dots) -->
-          <div class="search-loading-container" id="searchLoadingContainer">
-            <svg class="loading-dots-svg" width="235" height="8" viewBox="0 0 234.583 7.47021" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="3.73511" cy="3.73511" r="3.73511" fill="black"/>
-              <circle cx="21.2053" cy="3.73511" r="3.73511" fill="black"/>
-              <circle cx="38.6755" cy="3.73511" r="3.73511" fill="black"/>
-              <circle cx="56.1458" cy="3.73511" r="3.73511" fill="black"/>
-              <circle cx="73.616" cy="3.73511" r="3.73511" fill="black"/>
-              <circle cx="91.0862" cy="3.73511" r="3.73511" fill="black"/>
-              <circle cx="108.556" cy="3.73511" r="3.73511" fill="black"/>
-              <circle cx="126.027" cy="3.73511" r="3.73511" fill="black"/>
-              <circle cx="143.497" cy="3.73511" r="3.73511" fill="black"/>
-              <circle cx="160.967" cy="3.73511" r="3.73511" fill="black"/>
-              <circle cx="178.437" cy="3.73511" r="3.73511" fill="black"/>
-              <circle cx="195.907" cy="3.73511" r="3.73511" fill="black"/>
-              <circle cx="213.378" cy="3.73511" r="3.73511" fill="black"/>
-              <circle cx="230.848" cy="3.73511" r="3.73511" fill="black"/>
-            </svg>
+        <!-- Left Side: Meta Stats & Feature Points (Step 3, 4, 5) -->
+        <div class="canvas-left-panel" id="canvasLeftPanel">
+          <div class="stats-counter-row" id="statsCounterRow">
+            <div class="stat-item"><span class="stat-num">4</span><span class="stat-label">subjects</span></div>
+            <div class="stat-item"><span class="stat-num">10</span><span class="stat-label">articles</span></div>
+            <div class="stat-item"><span class="stat-num">89</span><span class="stat-label">ms</span></div>
           </div>
-
-          <!-- Step 3: Meta Statistics Row -->
-          <div class="search-results-meta" id="searchResultsMeta" data-node-id="13627:180512">
-            2 subjects · 10 articles · 89 ms
+          <div class="meta-bullets-list" id="metaBulletsList">
+            <p class="bullet-item">• Fresh news, delivered in milliseconds.</p>
+            <p class="bullet-item">• Track the progress of each subject across the timeline.</p>
+            <p class="bullet-item">• Dive deep into the story's development.</p>
           </div>
         </div>
 
-        <!-- Step 3: Upward Moving Timeline Stream Viewport (Fixed inside 532px canvas) -->
-        <div class="timeline-stream-viewport" id="timelineStreamViewport" data-node-id="13628:180680">
-          <!-- Continuously Upward-Scrolling Track -->
-          <div class="timeline-scroll-track" id="timelineScrollTrack">
-            <!-- Central Pipeline Spine (strictly bounded between first card top and last card bottom) -->
-            <div class="pipeline-spine" id="pipelineSpine" data-node-id="13627:180604"></div>
+        <!-- Right Side: Step 2 Searching State -->
+        <div class="searching-state-container" id="searchingStateContainer">
+          <span class="searching-label">searching...</span>
+          <div class="searching-dots-wave">
+            <span class="pulse-dot"></span><span class="pulse-dot"></span><span class="pulse-dot"></span><span class="pulse-dot"></span><span class="pulse-dot"></span><span class="pulse-dot"></span><span class="pulse-dot"></span><span class="pulse-dot"></span><span class="pulse-dot"></span><span class="pulse-dot"></span><span class="pulse-dot"></span><span class="pulse-dot"></span><span class="pulse-dot"></span><span class="pulse-dot"></span>
+          </div>
+        </div>
 
-            <!-- Group 1: Ordered Chronologically from Oldest to Newest -->
-            <div class="news-cards-group" id="cardsGroup">
-              <!-- Card 1 (Oldest: 05:26:15) -->
-              <div class="news-card" data-card-index="0" data-node-id="13628:180684">
-                <div class="news-card-meta">
-                  <div class="news-card-time">
-                    <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
-                    <span>05:26:15</span>
-                  </div>
-                  <span class="news-card-domain">sbs.com.au</span>
+        <!-- Right Side: Step 3 & 4 Subject Overview Cards -->
+        <div class="subjects-overview-container" id="subjectsOverviewContainer">
+          <!-- Subject 1 -->
+          <div class="subject-card subject-card-1" id="subjectCard1" data-subject-index="0">
+            <div class="subject-card-header">
+              <span class="subject-card-date">2026/09/14 – 2026/09/15</span>
+              <span class="subject-card-tag">Subject1</span>
+            </div>
+            <div class="subject-card-body">
+              <img class="subject-thumb" src="/images/vertical/subject-1.png" alt="Subject 1" width="116" height="87" />
+              <div class="subject-card-text">
+                <h4 class="subject-card-title">Iranian hardliners attacked three commercial ships in Strait of Hormuz to sabotage US peace deal</h4>
+                <p class="subject-card-desc">A clandestine hard-line faction in Iran, led by former IRGC intelligence director Hossein Taeb, attacked three commercial ships in the Strait of Hormuz, including a Qatari LNG tanker, to derail a recently signed peace agreement with the United States. Regime insiders say the attack was not authorized by President Masoud Pezeshkian or the IRGC commander, triggering a collapse in diplomatic negotiations and renewed US military strikes.</p>
+              </div>
+            </div>
+            <div class="subject-timeline-hint">timeline ↓</div>
+          </div>
+
+          <!-- Subject 2 -->
+          <div class="subject-card subject-card-2" id="subjectCard2" data-subject-index="1">
+            <div class="subject-card-header">
+              <span class="subject-card-date">2026/09/14 – 2026/09/15</span>
+              <span class="subject-card-tag">Subject2</span>
+            </div>
+            <div class="subject-card-body">
+              <img class="subject-thumb" src="/images/vertical/subject-2.png" alt="Subject 2" width="116" height="87" />
+              <div class="subject-card-text">
+                <h4 class="subject-card-title">Oil prices settle 1% higher after Saudi strikes and Hormuz attacks</h4>
+                <p class="subject-card-desc">Oil prices settled approximately 1% higher on Monday, September 14, 2026, with Brent crude at $105.68 per barrel and WTI at $101.39, after jumping nearly 5% intraday. The price movement followed new Houthi strikes on Saudi Arabian energy infrastructure and Iranian attacks on ships in the Gulf, which heightened supply concerns. On Tuesday, September 15, prices continued to rise as traders weighed the ongoing offline status of Saudi Arabia's East-West pipeline.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Subject 3 -->
+          <div class="subject-card subject-card-3" id="subjectCard3" data-subject-index="2">
+            <div class="subject-card-header">
+              <span class="subject-card-date">2026/09/14 – 2026/09/15</span>
+              <span class="subject-card-tag">Subject3</span>
+            </div>
+            <div class="subject-card-body">
+              <img class="subject-thumb" src="/images/vertical/subject-3.png" alt="Subject 3" width="116" height="87" />
+              <div class="subject-card-text">
+                <h4 class="subject-card-title">Iran and Oman agree on new entry and exit routes for Strait of Hormuz</h4>
+                <p class="subject-card-desc">Iran and Oman have reached a final agreement on new shipping routes for the Strait of Hormuz, with the entry point located entirely within Iranian territorial waters. The two countries are scheduled to brief Gulf states on the details of the arrangement at a meeting in Muscat on Monday.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Subject 4 -->
+          <div class="subject-card subject-card-4" id="subjectCard4" data-subject-index="3">
+            <div class="subject-card-header">
+              <span class="subject-card-date">2026/09/14 – 2026/09/15</span>
+              <span class="subject-card-tag">Subject4</span>
+            </div>
+            <div class="subject-card-body">
+              <img class="subject-thumb" src="/images/vertical/subject-4.png" alt="Subject 4" width="116" height="87" />
+              <div class="subject-card-text">
+                <h4 class="subject-card-title">Houthis seize strategic Red Sea port of Mocha and advance toward Bab el-Mandeb Strait</h4>
+                <p class="subject-card-desc">Iran-backed Houthi rebels captured the strategic Red Sea port city of Mocha from Saudi-backed government forces on September 10, 2026, marking their largest territorial gain since the 2022 ceasefire. The advance threatens global shipping routes through the Bab el-Mandeb Strait and has driven crude oil prices above $100 per barrel, prompting Saudi Arabia to launch dozens of retaliatory airstrikes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Step 5 Timeline Stream with Spine -->
+        <div class="timeline-drilldown-container" id="timelineDrilldownContainer">
+          <!-- Timeline Vertical Spine with Dots -->
+          <div class="timeline-vertical-spine" id="timelineVerticalSpine">
+            <img class="spine-svg-img" src="/images/vertical/timeline-spine.svg" alt="" />
+          </div>
+
+          <!-- Scrolling Timeline Articles Track -->
+          <div class="timeline-drilldown-viewport" id="timelineDrilldownViewport">
+            <div class="timeline-drilldown-track" id="timelineDrilldownTrack">
+              <!-- Root Subject 1 Header Card -->
+              <div class="timeline-header-card" id="timelineHeaderCard">
+                <div class="subject-card-header">
+                  <span class="subject-card-date">2026/09/14 – 2026/09/15</span>
+                  <span class="subject-card-tag">Subject1</span>
                 </div>
-                <h3 class="news-card-title">
-                  Houthis advance along Yemen coast, threaten Saudi oil exports in the Red Sea
-                </h3>
+                <div class="subject-card-body">
+                  <img class="subject-thumb" src="/images/vertical/subject-1.png" alt="Subject 1" width="116" height="87" />
+                  <div class="subject-card-text">
+                    <h4 class="subject-card-title">Iranian hardliners attacked three commercial ships in Strait of Hormuz to sabotage US peace deal</h4>
+                    <p class="subject-card-desc">A clandestine hard-line faction in Iran, led by former IRGC intelligence director Hossein Taeb, attacked three commercial ships in the Strait of Hormuz, including a Qatari LNG tanker, to derail a recently signed peace agreement with the United States...</p>
+                  </div>
+                </div>
               </div>
 
-              <!-- Card 2 (05:27:44) -->
-              <div class="news-card" data-card-index="1" data-node-id="13628:180683">
-                <div class="news-card-meta">
-                  <div class="news-card-time">
-                    <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
-                    <span>05:27:44</span>
+              <!-- Chronological Timeline Articles -->
+              <div class="timeline-articles-group" id="timelineArticlesGroup">
+                <!-- Article 1 (05:26:15) -->
+                <div class="timeline-article-card" data-article-index="0">
+                  <div class="article-meta">
+                    <div class="article-time">
+                      <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
+                      <span>05:26:15</span>
+                    </div>
+                    <span class="article-domain">sbs.com.au</span>
                   </div>
-                  <span class="news-card-domain">sbs.com.au</span>
+                  <h4 class="article-title">Houthis advance along Yemen coast, threaten Saudi oil exports in the Red Sea</h4>
                 </div>
-                <h3 class="news-card-title">
-                  Houthi rebels seize strategic port city in Yemen, escalating US-Iran crisis
-                </h3>
-              </div>
 
-              <!-- Card 3 (06:45:31) -->
-              <div class="news-card" data-card-index="2" data-node-id="13628:180682">
-                <div class="news-card-meta">
-                  <div class="news-card-time">
-                    <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
-                    <span>06:45:31</span>
+                <!-- Article 2 (05:27:44) -->
+                <div class="timeline-article-card" data-article-index="1">
+                  <div class="article-meta">
+                    <div class="article-time">
+                      <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
+                      <span>05:27:44</span>
+                    </div>
+                    <span class="article-domain">sbs.com.au</span>
                   </div>
-                  <span class="news-card-domain">cnbc.com</span>
+                  <h4 class="article-title">Houthi rebels seize strategic port city in Yemen, escalating US-Iran crisis</h4>
                 </div>
-                <h3 class="news-card-title">
-                  While You Were Sleeping: 5 stories you might have missed, Sept 11, 2026
-                </h3>
-              </div>
 
-              <!-- Card 4 (16:24:02) -->
-              <div class="news-card" data-card-index="3" data-node-id="13628:180681">
-                <div class="news-card-meta">
-                  <div class="news-card-time">
-                    <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
-                    <span>16:24:02</span>
+                <!-- Article 3 (06:45:31) -->
+                <div class="timeline-article-card" data-article-index="2">
+                  <div class="article-meta">
+                    <div class="article-time">
+                      <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
+                      <span>06:45:31</span>
+                    </div>
+                    <span class="article-domain">cnbc.com</span>
                   </div>
-                  <span class="news-card-domain">indiatoday.in</span>
+                  <h4 class="article-title">While You Were Sleeping: 5 stories you might have missed, Sept 11, 2026</h4>
                 </div>
-                <h3 class="news-card-title">
-                  While You Were Sleeping: 5 stories you might have missed, Sept 11, 2026 | The Straits Timesstraitstimes.com
-                </h3>
-              </div>
 
-              <!-- Card 5 (Newest: 10min ago) -->
-              <div class="news-card" data-card-index="4" data-node-id="13627:180628">
-                <div class="news-card-meta">
-                  <div class="news-card-time news-card-time-latest">
-                    <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
-                    <span>10min ago</span>
+                <!-- Article 4 (16:24:02) -->
+                <div class="timeline-article-card" data-article-index="3">
+                  <div class="article-meta">
+                    <div class="article-time">
+                      <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
+                      <span>16:24:02</span>
+                    </div>
+                    <span class="article-domain">indiatoday.in</span>
                   </div>
-                  <span class="news-card-domain">bloomberg.com</span>
+                  <h4 class="article-title">While You Were Sleeping: 5 stories you might have missed, Sept 11, 2026 | The Straits Times</h4>
                 </div>
-                <h3 class="news-card-title">
-                  Hormuz is blocked. Now Bab el-Mandeb is under threat: Why fuel crisis could get worse – IndiaToday
-                </h3>
+
+                <!-- Article 5 (10 mins ago) -->
+                <div class="timeline-article-card" data-article-index="4">
+                  <div class="article-meta">
+                    <div class="article-time">
+                      <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
+                      <span>10 mins ago</span>
+                    </div>
+                    <span class="article-domain">bloomberg.com</span>
+                  </div>
+                  <h4 class="article-title">Hormuz is blocked. Now Bab el-Mandeb is under threat: Why fuel crisis could get worse – IndiaToday</h4>
+                </div>
               </div>
             </div>
           </div>
