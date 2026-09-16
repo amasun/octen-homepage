@@ -56,7 +56,8 @@
   - **悬停打断动画并即时呈现 Query**：鼠标悬停在走马灯中任意场景按钮（如 Legal、Sport、Code、Design 等）时，会立即打断当前的 News 动画播放，重置到 Step 1 居中状态，并**无动画直接显示该场景对应的真实检索 Query**（例如 Legal 对应 `Antitrust precedents in AI agent autonomous transactions`），同时将背景水印图标同步切换为该场景图标。已彻底移除点击交互逻辑。
   - **随机切换渐变背景**：每次悬停进入不同场景按钮，同时会从渐变变量池（Academic 天青蓝、Business 暖金琥珀、Purple 薰衣草紫、News 翠绿荧光）中随机挑选一款与当前不同的颜色平滑过渡。
   - **Unhover 移出后无缝回到 News 动画播放**：当鼠标离开底部场景按钮及走马灯区域后（经 120ms 防抖），系统自动执行 `resetToNews()`，卡片背景恢复为 News 翠绿、标题恢复为 `News Search`、水印恢复为 News 图标，并立即**重新激活并循环播放完整的 5 步动画流水线**。
-- **图标来源一致性对齐 (以底部按钮为准)**:
+- **图标来源一致性对齐与 News Search 标题前图标规范**:
+  - **News Search 标题前 28px 图标规范**: 标题前新闻图标严格遵循用户提供的原生 Figma 矢量代码（`viewBox="0 0 28 28"`，保留外层约 2.33px 呼吸留白空隙与 `stroke-width="2.33333"`），彻底解决之前直接使用 16.5px 紧凑图标被拉伸填充导致缺失外层空隙的视觉问题。
   - 巨型卡片水印图标（`canvasWatermarkIcon`）彻底废弃外部通用矢量 Lucide 代码，**100% 统一直接读取底部按钮中正在使用的原生矢量 SVG 资产**（`/assets/icon-*.svg`）。
 - **卡片纯净无长投影规范**:
   - 全量去除 Step 3（4 张 Subject 概览卡片）、Step 4（聚焦放大卡片）、Step 5（时间轴顶部 Header 卡片与 5 条时序新闻卡片）的重色长投影（`box-shadow: none`），仅保留 `8px` 半透明白色毛玻璃描边（`border: 8px solid rgba(255, 255, 255, 0.4)`），与背景渐变通透融为一体，彻底告别草稿厚重感。
