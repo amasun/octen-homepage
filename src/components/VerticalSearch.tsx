@@ -322,10 +322,42 @@ export const VerticalSearch: React.FC = () => {
             <img src={scenarioIcons[currentScenario] || '/assets/icon-news.svg'} alt="" width={280} height={280} />
           </div>
 
-          {/* Topic Title */}
-          <h3 className="canvas-topic-title" id="canvasTopicTitle">
-            {scenarioTitles[currentScenario] || 'News Search'}
-          </h3>
+          {/* Topic Title Header (Figma 13661:163789) */}
+          <div
+            className="canvas-topic-header"
+            id="canvasTopicHeader"
+            style={{
+              position: 'absolute',
+              left: step === 1 ? '50%' : '64px',
+              top: step === 1 ? '172px' : '166px',
+              transform: step === 1 ? 'translateX(-50%)' : 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '7px',
+              zIndex: 10,
+              pointerEvents: 'none',
+              transition: 'all 0.65s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
+          >
+            {step >= 2 && (
+              <span
+                className="topic-header-icon"
+                id="topicHeaderIcon"
+                style={{
+                  width: '28px',
+                  height: '28px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <img src={scenarioIcons[currentScenario] || '/assets/icon-news.svg'} alt="" width={28} height={28} />
+              </span>
+            )}
+            <h3 className="canvas-topic-title" id="canvasTopicTitle">
+              {scenarioTitles[currentScenario] || 'News Search'}
+            </h3>
+          </div>
 
           {/* Floating Search Pill */}
           <div className="search-pill" id="searchPill">

@@ -270,6 +270,8 @@
       // 3. Element selectors
       const tabButtons = document.querySelectorAll('.tab-trigger');
       const heroCanvas = document.getElementById('heroCanvas');
+      const canvasTopicHeader = document.getElementById('canvasTopicHeader');
+      const topicHeaderIcon = document.getElementById('topicHeaderIcon');
       const canvasTopicTitle = document.getElementById('canvasTopicTitle');
       const canvasWatermarkIcon = document.getElementById('canvasWatermarkIcon');
       const searchInput = document.getElementById('searchPillInput');
@@ -354,7 +356,7 @@
         }, 36); // ~36ms per char (smooth human typing rhythm)
       }
     
-      // 5. Update All Icons in the Huge Card (Watermark icon matches bottom buttons)
+      // 5. Update All Icons in the Huge Card (Watermark icon & title icon match bottom buttons)
       function updateCardIcons(iconKey, customIconSrc = null) {
         const iconSrc = customIconSrc || scenarioIcons[iconKey] || '/assets/icon-news.svg';
     
@@ -374,6 +376,11 @@
             void canvasWatermarkIcon.offsetWidth; // Force CSS reflow
             canvasWatermarkIcon.classList.add('watermark-pop');
           }
+        }
+
+        // C. Update 28px icon in front of topic title (Figma node-id=13661:163784)
+        if (topicHeaderIcon) {
+          topicHeaderIcon.innerHTML = `<img src="${iconSrc}" alt="" width="28" height="28" />`;
         }
       }
     

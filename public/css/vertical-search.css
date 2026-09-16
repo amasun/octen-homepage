@@ -459,13 +459,48 @@
 }
 
 /* ==========================================================================
-   4.0 Topic Title (Figma node 13661:7381: News Search)
+   4.0 Topic Title & Header (Figma 13661:163789)
+   - Step 1: Centered horizontally at top: 172px, NO icon visible
+   - Step 2-5: Smoothly transitions to top-left (left: 64px, top: 166px) with 28px icon in front
    ========================================================================== */
-.canvas-topic-title {
+.canvas-topic-header {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%) translateY(0);
   top: 172px;
+  transform: translateX(-50%) translateY(0);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+  transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.topic-header-icon {
+  width: 0;
+  height: 28px;
+  opacity: 0;
+  transform: scale(0.6);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, transform 0.45s var(--ease-spring);
+}
+
+.topic-header-icon img,
+.topic-header-icon svg {
+  width: 28px;
+  height: 28px;
+  display: block;
+  object-fit: contain;
+}
+
+.canvas-topic-title {
   font-family: var(--font-serif, 'Fraunces', Georgia, serif);
   font-style: normal;
   font-weight: 600;
@@ -475,24 +510,42 @@
   margin: 0;
   padding: 0;
   white-space: nowrap;
-  text-align: center;
-  pointer-events: none;
-  z-index: 10;
+  text-align: left;
   letter-spacing: -0.01em;
-  opacity: 1;
-  transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  font-variation-settings: "SOFT" 0, "WONK" 1;
 }
 
-/* Step 2, 3, 4, 5: Title smoothly slides to top-left (left: 68px, top: 168px) and stays visible */
-.hero-canvas[data-news-step="2"] .canvas-topic-title,
-.hero-canvas[data-news-step="3"] .canvas-topic-title,
-.hero-canvas[data-news-step="4"] .canvas-topic-title,
-.hero-canvas[data-news-step="5"] .canvas-topic-title {
-  left: 68px;
-  top: 168px;
+/* Step 1: Centered, icon completely collapsed/hidden */
+.hero-canvas[data-news-step="1"] .canvas-topic-header {
+  left: 50%;
+  top: 172px;
+  transform: translateX(-50%) translateY(0);
+}
+
+.hero-canvas[data-news-step="1"] .topic-header-icon {
+  width: 0;
+  opacity: 0;
+  display: none;
+}
+
+/* Step 2, 3, 4, 5: Header smoothly slides to top-left (left: 64px, top: 166px) and reveals 28px icon in front */
+.hero-canvas[data-news-step="2"] .canvas-topic-header,
+.hero-canvas[data-news-step="3"] .canvas-topic-header,
+.hero-canvas[data-news-step="4"] .canvas-topic-header,
+.hero-canvas[data-news-step="5"] .canvas-topic-header {
+  left: 64px;
+  top: 166px;
   transform: translateX(0) translateY(0);
+}
+
+.hero-canvas[data-news-step="2"] .topic-header-icon,
+.hero-canvas[data-news-step="3"] .topic-header-icon,
+.hero-canvas[data-news-step="4"] .topic-header-icon,
+.hero-canvas[data-news-step="5"] .topic-header-icon {
+  width: 28px;
   opacity: 1;
-  text-align: left;
+  transform: scale(1);
+  display: inline-flex;
 }
 
 /* 4.1 Floating Search Pill (Figma Frame 427319254: 518x66, border: 8px solid rgba(255, 255, 255, 0.4)) */
