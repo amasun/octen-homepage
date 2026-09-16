@@ -369,9 +369,11 @@
         // B. Update background watermark icon with the exact same icon as the bottom buttons
         if (canvasWatermarkIcon) {
           canvasWatermarkIcon.innerHTML = `<img src="${iconSrc}" alt="${iconKey}" width="280" height="280" />`;
-          canvasWatermarkIcon.classList.remove('watermark-pop');
-          void canvasWatermarkIcon.offsetWidth; // Force CSS reflow
-          canvasWatermarkIcon.classList.add('watermark-pop');
+          if (currentStep === 1) {
+            canvasWatermarkIcon.classList.remove('watermark-pop');
+            void canvasWatermarkIcon.offsetWidth; // Force CSS reflow
+            canvasWatermarkIcon.classList.add('watermark-pop');
+          }
         }
       }
     
@@ -390,6 +392,11 @@
         }
 
         if (stepNum === 1) {
+          if (canvasWatermarkIcon) {
+            canvasWatermarkIcon.style.opacity = '';
+            canvasWatermarkIcon.style.visibility = '';
+            canvasWatermarkIcon.style.pointerEvents = '';
+          }
           clearTimelineStepTimer();
           currentTimelineIndex = 0;
           if (timelineDrilldownTrack) {
@@ -400,12 +407,20 @@
           }
           const allTimelineArticles = document.querySelectorAll('.timeline-article-card');
           allTimelineArticles.forEach(c => c.classList.remove('article-revealed'));
-        } else if (stepNum === 5) {
-          if (subState === 'expanded') {
-            // State 5A: First timeline article is revealed below Subject 1
-            const allTimelineArticles = document.querySelectorAll('.timeline-article-card');
-            if (allTimelineArticles[0]) {
-              allTimelineArticles[0].classList.add('article-revealed');
+        } else {
+          // Rule: 除了第一步，其他步骤中左侧的大logo都隐藏
+          if (canvasWatermarkIcon) {
+            canvasWatermarkIcon.style.opacity = '0';
+            canvasWatermarkIcon.style.visibility = 'hidden';
+            canvasWatermarkIcon.style.pointerEvents = 'none';
+          }
+          if (stepNum === 5) {
+            if (subState === 'expanded') {
+              // State 5A: First timeline article is revealed below Subject 1
+              const allTimelineArticles = document.querySelectorAll('.timeline-article-card');
+              if (allTimelineArticles[0]) {
+                allTimelineArticles[0].classList.add('article-revealed');
+              }
             }
           }
         }

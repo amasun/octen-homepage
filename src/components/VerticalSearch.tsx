@@ -306,8 +306,19 @@ export const VerticalSearch: React.FC = () => {
         >
           <div className="canvas-aura" />
 
-          {/* Ambient Watermark Icon (Step 1) */}
-          <div className="canvas-watermark-icon" id="canvasWatermarkIcon" aria-hidden="true">
+          {/* Ambient Watermark Icon (Strictly only visible in Step 1) */}
+          <div
+            className="canvas-watermark-icon"
+            id="canvasWatermarkIcon"
+            aria-hidden="true"
+            style={{
+              opacity: step === 1 ? 0.12 : 0,
+              visibility: step === 1 ? 'visible' : 'hidden',
+              pointerEvents: 'none',
+              transform: step === 1 ? 'translateY(-50%) scale(1)' : 'translateY(-50%) scale(0.85)',
+              transition: 'opacity 0.35s ease, transform 0.35s ease, visibility 0.35s',
+            }}
+          >
             <img src={scenarioIcons[currentScenario] || '/assets/icon-news.svg'} alt="" width={280} height={280} />
           </div>
 

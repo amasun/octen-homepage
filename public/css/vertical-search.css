@@ -444,14 +444,18 @@
   display: none !important;
 }
 
-/* Huge Watermark Icon hidden in steps 2-5 */
+/* Huge Watermark Icon: ONLY visible in Step 1, strictly hidden in all other steps (2, 3, 4, 5) */
+.hero-canvas:not([data-news-step="1"]) .canvas-watermark-icon,
 .hero-canvas[data-news-step="2"] .canvas-watermark-icon,
 .hero-canvas[data-news-step="3"] .canvas-watermark-icon,
 .hero-canvas[data-news-step="4"] .canvas-watermark-icon,
 .hero-canvas[data-news-step="5"] .canvas-watermark-icon {
-  opacity: 0;
-  transform: translateY(-50%) scale(0.92);
-  pointer-events: none;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(-50%) scale(0.85) !important;
+  animation: none !important;
+  transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s !important;
 }
 
 /* ==========================================================================
