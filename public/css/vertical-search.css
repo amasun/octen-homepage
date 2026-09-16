@@ -1112,13 +1112,12 @@ number-flow,
    ========================================================================== */
 .timeline-drilldown-container {
   position: absolute;
-  left: 635px;
+  left: 617px;
   right: 64px;
   top: 36px;
   bottom: 36px;
   display: flex;
-  flex-direction: row;
-  gap: 12px;
+  flex-direction: column;
   z-index: 10;
   opacity: 0;
   transform: translateY(16px);
@@ -1132,28 +1131,8 @@ number-flow,
   pointer-events: auto;
 }
 
-.timeline-vertical-spine {
-  width: 20px;
-  min-width: 20px;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.spine-svg-img {
-  width: 20px;
-  height: auto;
-  display: block;
-  position: absolute;
-  top: 10px;
-  left: 0;
-  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
-}
-
 .timeline-drilldown-viewport {
-  flex: 1;
+  width: 100%;
   height: 100%;
   overflow: hidden;
   position: relative;
@@ -1166,22 +1145,77 @@ number-flow,
   flex-direction: column;
   gap: 16px;
   width: 100%;
+  position: relative;
   transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
-.timeline-header-card {
+/* Continuous 6px vertical spine line behind spheres */
+.timeline-spine-line {
+  position: absolute;
+  left: 7px;
+  top: 78px;
+  bottom: 50px;
+  width: 6px;
+  background: #FFFFFF;
+  border-radius: 3px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Individual timeline row: strictly aligns sphere with card center */
+.timeline-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
   width: 100%;
-  height: 140px;
-  min-height: 140px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* 20px column container for the center sphere */
+.timeline-node {
+  width: 20px;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+/* Center sphere: 20px circle, 4px white border, #4AAC80 green core */
+.timeline-sphere {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #4AAC80;
+  border: 4px solid #FFFFFF;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
+.timeline-header-item {
+  height: 156px;
+}
+
+.timeline-header-card {
+  flex: 1;
+  min-width: 0;
+  height: 156px;
+  min-height: 156px;
   background: #FFFFFF;
   background-clip: padding-box;
   border: 8px solid rgba(255, 255, 255, 0.4);
   border-radius: 24px;
-  padding: 12px 18px;
+  padding: 14px 18px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   box-sizing: border-box;
   text-align: left;
   box-shadow: none;
@@ -1191,12 +1225,24 @@ number-flow,
 .timeline-articles-group {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   width: 100%;
 }
 
+.timeline-article-item {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.45s ease, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.timeline-article-item.article-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .timeline-article-card {
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   min-height: 96px;
   background: #FFFFFF;
   background-clip: padding-box;
@@ -1210,9 +1256,7 @@ number-flow,
   box-sizing: border-box;
   text-align: left;
   box-shadow: none;
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.45s ease, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s;
+  transition: border-color 0.2s, transform 0.2s;
   cursor: pointer;
 }
 

@@ -779,25 +779,28 @@
 
         <!-- Right Side: Step 5 Timeline Stream with Spine -->
         <div class="timeline-drilldown-container" id="timelineDrilldownContainer">
-          <!-- Timeline Vertical Spine with Dots -->
-          <div class="timeline-vertical-spine" id="timelineVerticalSpine">
-            <img class="spine-svg-img" src="/images/vertical/timeline-spine.svg" alt="" />
-          </div>
-
           <!-- Scrolling Timeline Articles Track -->
           <div class="timeline-drilldown-viewport" id="timelineDrilldownViewport">
             <div class="timeline-drilldown-track" id="timelineDrilldownTrack">
+              <!-- Continuous 6px Vertical Spine Line behind Spheres -->
+              <div class="timeline-spine-line"></div>
+
               <!-- Root Subject 1 Header Card -->
-              <div class="timeline-header-card" id="timelineHeaderCard">
-                <div class="subject-card-header">
-                  <span class="subject-card-date">2026/09/14 – 2026/09/15</span>
-                  <span class="subject-card-tag">Subject1</span>
+              <div class="timeline-item timeline-header-item">
+                <div class="timeline-node">
+                  <div class="timeline-sphere"></div>
                 </div>
-                <div class="subject-card-body">
-                  <img class="subject-thumb" src="/images/vertical/subject-1.png" alt="Subject 1" width="116" height="87" />
-                  <div class="subject-card-text">
-                    <h4 class="subject-card-title">Iranian hardliners attacked three commercial ships in Strait of Hormuz to sabotage US peace deal</h4>
-                    <p class="subject-card-desc">A clandestine hard-line faction in Iran, led by former IRGC intelligence director Hossein Taeb, attacked three commercial ships in the Strait of Hormuz, including a Qatari LNG tanker, to derail a recently signed peace agreement with the United States...</p>
+                <div class="timeline-header-card" id="timelineHeaderCard">
+                  <div class="subject-card-header">
+                    <span class="subject-card-date">2026/09/14 – 2026/09/15</span>
+                    <span class="subject-card-tag">Subject1</span>
+                  </div>
+                  <div class="subject-card-body">
+                    <img class="subject-thumb" src="/images/vertical/subject-1.png" alt="Subject 1" width="116" height="87" />
+                    <div class="subject-card-text">
+                      <h4 class="subject-card-title">Iranian hardliners attacked three commercial ships in Strait of Hormuz to sabotage US peace deal</h4>
+                      <p class="subject-card-desc">A clandestine hard-line faction in Iran, led by former IRGC intelligence director Hossein Taeb, attacked three commercial ships in the Strait of Hormuz, including a Qatari LNG tanker, to derail a recently signed peace agreement with the United States...</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -805,63 +808,88 @@
               <!-- Chronological Timeline Articles -->
               <div class="timeline-articles-group" id="timelineArticlesGroup">
                 <!-- Article 1 (05:26:15) -->
-                <div class="timeline-article-card" data-article-index="0">
-                  <div class="article-meta">
-                    <div class="article-time">
-                      <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
-                      <span>05:26:15</span>
-                    </div>
-                    <span class="article-domain">sbs.com.au</span>
+                <div class="timeline-item timeline-article-item" data-article-index="0">
+                  <div class="timeline-node">
+                    <div class="timeline-sphere"></div>
                   </div>
-                  <h4 class="article-title">Houthis advance along Yemen coast, threaten Saudi oil exports in the Red Sea</h4>
+                  <div class="timeline-article-card">
+                    <div class="article-meta">
+                      <div class="article-time">
+                        <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
+                        <span>05:26:15</span>
+                      </div>
+                      <span class="article-domain">sbs.com.au</span>
+                    </div>
+                    <h4 class="article-title">Houthis advance along Yemen coast, threaten Saudi oil exports in the Red Sea</h4>
+                  </div>
                 </div>
 
                 <!-- Article 2 (05:27:44) -->
-                <div class="timeline-article-card" data-article-index="1">
-                  <div class="article-meta">
-                    <div class="article-time">
-                      <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
-                      <span>05:27:44</span>
-                    </div>
-                    <span class="article-domain">sbs.com.au</span>
+                <div class="timeline-item timeline-article-item" data-article-index="1">
+                  <div class="timeline-node">
+                    <div class="timeline-sphere"></div>
                   </div>
-                  <h4 class="article-title">Houthi rebels seize strategic port city in Yemen, escalating US-Iran crisis</h4>
+                  <div class="timeline-article-card">
+                    <div class="article-meta">
+                      <div class="article-time">
+                        <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
+                        <span>05:27:44</span>
+                      </div>
+                      <span class="article-domain">sbs.com.au</span>
+                    </div>
+                    <h4 class="article-title">Houthi rebels seize strategic port city in Yemen, escalating US-Iran crisis</h4>
+                  </div>
                 </div>
 
                 <!-- Article 3 (06:45:31) -->
-                <div class="timeline-article-card" data-article-index="2">
-                  <div class="article-meta">
-                    <div class="article-time">
-                      <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
-                      <span>06:45:31</span>
-                    </div>
-                    <span class="article-domain">cnbc.com</span>
+                <div class="timeline-item timeline-article-item" data-article-index="2">
+                  <div class="timeline-node">
+                    <div class="timeline-sphere"></div>
                   </div>
-                  <h4 class="article-title">While You Were Sleeping: 5 stories you might have missed, Sept 11, 2026</h4>
+                  <div class="timeline-article-card">
+                    <div class="article-meta">
+                      <div class="article-time">
+                        <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
+                        <span>06:45:31</span>
+                      </div>
+                      <span class="article-domain">cnbc.com</span>
+                    </div>
+                    <h4 class="article-title">While You Were Sleeping: 5 stories you might have missed, Sept 11, 2026</h4>
+                  </div>
                 </div>
 
                 <!-- Article 4 (16:24:02) -->
-                <div class="timeline-article-card" data-article-index="3">
-                  <div class="article-meta">
-                    <div class="article-time">
-                      <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
-                      <span>16:24:02</span>
-                    </div>
-                    <span class="article-domain">indiatoday.in</span>
+                <div class="timeline-item timeline-article-item" data-article-index="3">
+                  <div class="timeline-node">
+                    <div class="timeline-sphere"></div>
                   </div>
-                  <h4 class="article-title">While You Were Sleeping: 5 stories you might have missed, Sept 11, 2026 | The Straits Times</h4>
+                  <div class="timeline-article-card">
+                    <div class="article-meta">
+                      <div class="article-time">
+                        <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
+                        <span>16:24:02</span>
+                      </div>
+                      <span class="article-domain">indiatoday.in</span>
+                    </div>
+                    <h4 class="article-title">While You Were Sleeping: 5 stories you might have missed, Sept 11, 2026 | The Straits Times</h4>
+                  </div>
                 </div>
 
                 <!-- Article 5 (10 mins ago) -->
-                <div class="timeline-article-card" data-article-index="4">
-                  <div class="article-meta">
-                    <div class="article-time">
-                      <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
-                      <span>10 mins ago</span>
-                    </div>
-                    <span class="article-domain">bloomberg.com</span>
+                <div class="timeline-item timeline-article-item" data-article-index="4">
+                  <div class="timeline-node">
+                    <div class="timeline-sphere"></div>
                   </div>
-                  <h4 class="article-title">Hormuz is blocked. Now Bab el-Mandeb is under threat: Why fuel crisis could get worse – IndiaToday</h4>
+                  <div class="timeline-article-card">
+                    <div class="article-meta">
+                      <div class="article-time">
+                        <img src="/assets/fe-clock.svg" alt="Clock" width="16" height="16" />
+                        <span>10 mins ago</span>
+                      </div>
+                      <span class="article-domain">bloomberg.com</span>
+                    </div>
+                    <h4 class="article-title">Hormuz is blocked. Now Bab el-Mandeb is under threat: Why fuel crisis could get worse – IndiaToday</h4>
+                  </div>
                 </div>
               </div>
             </div>

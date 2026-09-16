@@ -48,9 +48,11 @@
      - **阶梯时序与阻尼物理**：进入 Step 3 时，`subjects` 延时 120ms 滚动至 `4`（900ms 弹簧缓动），`articles` 延时 280ms 滚动至 `10`（1100ms 弹簧缓动）；Step 4 与 5 保持目标数值锁定；循环回到 Step 1/2 时执行隐式静默归零（`animated = false; update(0); animated = true;`），杜绝逆向倒转；右侧展示 4 个 Subject 卡片（持续 2.5s）。
      - **排版与样式严格继承**：`DM Sans:Light` (`font-weight: 300`, 30px, `#000000`)，数字高度 36px，标签 22.5px `#626262`，间距 9px，彻底废弃旧版脆弱的 CSS `@keyframes roll-slot-1/2` 与纯手工长条 translateY 偏移。
   5. **Step 4 (Frame 4 - 聚焦 Subject 1)**: Subject 2~4 向下滑隐，Subject 1 卡片在右侧居中聚焦，卡片右下方浮现带有脉冲微动效的 `timeline ↓` 提示（持续 1.5s）。
-  6. **Step 5 (Frame 5 & Frame 6 - 同一步的两个状态: 展开与向上滚动)**:
-     - **状态 5A (Frame 5 - 时间轴展开)**: 绿色圆点节点脊椎线（`#4AAC80`）自左侧展开，Subject 1 作为 Header 卡片锚定在顶部，下方展开第一条时间轴新闻卡片（05:26:15 / sbs.com.au，持续 1.8s）。
-     - **状态 5B (Frame 6 - 向上滚动遍历)**: 时间轴轨道与脊椎线节点保持等距步进，平滑向上逐条滑动展示 5 篇按时序推进的新闻报道（05:26:15 ➔ 05:27:44 ➔ 06:45:31 ➔ 16:24:02 ➔ 10 mins ago）；最后一条展示完毕后平稳停留 3.0s，无缝闭环重循环回到 Step 1。
+  6. **Step 5 (Frame 5 & Frame 6 - 时间轴组件核心球体严格中心对齐与行级 Flexbox 架构)**:
+     - **严格中心对齐架构 (Row-Based Flexbox Architecture)**: 彻底废弃以往独立的静态 SVG 脊椎图（`timeline-spine.svg`），重构为行级 Flex 容器（`.timeline-item { display: flex; flex-direction: row; align-items: center; gap: 16px; }`）。卡片与对应的绿色中心球体（`width: 20px, height: 20px; border: 4px solid white; background: #4AAC80`）处于同一行级弹性盒内，由 CSS Flex 引擎原生数学保障球体中心与卡片高度物理中心 100% 严格亚像素对齐。
+     - **贯穿式垂直白线脊椎 (`.timeline-spine-line`)**: 在时间轴轨道内绘制连续 6px 宽白色实线（`left: 7px; top: 78px; bottom: 50px; width: 6px; background: white; border-radius: 3px;`），从首个 Header 球体几何中心贯穿至末尾新闻球体背后，各球体（`z-index: 2`）覆盖于白线之上，天然无错位、无缝隙。
+     - **状态 5A (Frame 5 - 时间轴展开)**: Subject 1 作为 Header 卡片锚定在顶部，左侧严格对齐首个绿色球体，下方展开第一条时间轴新闻卡片（05:26:15 / sbs.com.au，持续 1.8s）。
+     - **状态 5B (Frame 6 - 向上滚动遍历)**: 时间轴轨道采用精准卡片步进位移数组 `[0, 172, 288, 404, 520]`，平滑向上逐条滑动展示 5 篇按时序推进的新闻报道（05:26:15 ➔ 05:27:44 ➔ 06:45:31 ➔ 16:24:02 ➔ 10 mins ago），球体、卡片与脊椎线完全同频移动，永不漂移；最后一条展示完毕后平稳停留 3.0s，无缝闭环重循环回到 Step 1。
   7. **悬停暂停与移出恢复**: 鼠标悬停在巨型画布区域时立即冻结当前步时序，移出后平滑继续推进或重置循环。
 - **底部 More scenarios 走马灯交互 (Hover 驱动 & Unhover 恢复)**:
   - **悬停打断动画并即时呈现 Query**：鼠标悬停在走马灯中任意场景按钮（如 Legal、Sport、Code、Design 等）时，会立即打断当前的 News 动画播放，重置到 Step 1 居中状态，并**无动画直接显示该场景对应的真实检索 Query**（例如 Legal 对应 `Antitrust precedents in AI agent autonomous transactions`），同时将背景水印图标同步切换为该场景图标。已彻底移除点击交互逻辑。

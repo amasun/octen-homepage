@@ -120,7 +120,7 @@ const TIMELINE_ARTICLES: TimelineArticle[] = [
   { time: '10 mins ago', domain: 'bloomberg.com', title: 'Hormuz is blocked. Now Bab el-Mandeb is under threat: Why fuel crisis could get worse – IndiaToday' },
 ];
 
-const TIMELINE_OFFSETS = [0, 120, 230, 340, 450];
+const TIMELINE_OFFSETS = [0, 172, 288, 404, 520];
 
 export const VerticalSearch: React.FC = () => {
   const [bgTheme, setBgTheme] = useState<'news' | 'academic' | 'business' | 'purple'>('news');
@@ -480,16 +480,6 @@ export const VerticalSearch: React.FC = () => {
 
           {/* Right Side: Step 5 Timeline Stream with Spine */}
           <div className="timeline-drilldown-container" id="timelineDrilldownContainer">
-            <div className="timeline-vertical-spine" id="timelineVerticalSpine">
-              <img
-                className="spine-svg-img"
-                src="/images/vertical/timeline-spine.svg"
-                alt=""
-                style={{
-                  transform: `translateY(-${TIMELINE_OFFSETS[timelineIndex] || 0}px)`,
-                }}
-              />
-            </div>
             <div className="timeline-drilldown-viewport">
               <div
                 className="timeline-drilldown-track"
@@ -498,34 +488,50 @@ export const VerticalSearch: React.FC = () => {
                   transform: `translateY(-${TIMELINE_OFFSETS[timelineIndex] || 0}px)`,
                 }}
               >
-                <div className="timeline-header-card">
-                  <div className="subject-card-header">
-                    <span className="subject-card-date">{SUBJECT_CARDS[0].date}</span>
-                    <span className="subject-card-tag">{SUBJECT_CARDS[0].tag}</span>
+                {/* Continuous 6px Vertical Spine Line behind Spheres */}
+                <div className="timeline-spine-line" />
+
+                {/* Root Subject 1 Header Card */}
+                <div className="timeline-item timeline-header-item">
+                  <div className="timeline-node">
+                    <div className="timeline-sphere" />
                   </div>
-                  <div className="subject-card-body">
-                    <img className="subject-thumb" src={SUBJECT_CARDS[0].thumb} alt="Subject 1" width={116} height={87} />
-                    <div className="subject-card-text">
-                      <h4 className="subject-card-title">{SUBJECT_CARDS[0].title}</h4>
-                      <p className="subject-card-desc">{SUBJECT_CARDS[0].desc}</p>
+                  <div className="timeline-header-card">
+                    <div className="subject-card-header">
+                      <span className="subject-card-date">{SUBJECT_CARDS[0].date}</span>
+                      <span className="subject-card-tag">{SUBJECT_CARDS[0].tag}</span>
+                    </div>
+                    <div className="subject-card-body">
+                      <img className="subject-thumb" src={SUBJECT_CARDS[0].thumb} alt="Subject 1" width={116} height={87} />
+                      <div className="subject-card-text">
+                        <h4 className="subject-card-title">{SUBJECT_CARDS[0].title}</h4>
+                        <p className="subject-card-desc">{SUBJECT_CARDS[0].desc}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
 
+                {/* Chronological Timeline Articles */}
                 <div className="timeline-articles-group">
                   {TIMELINE_ARTICLES.map((art, idx) => (
                     <div
                       key={idx}
-                      className={`timeline-article-card ${idx <= timelineIndex ? 'article-revealed' : ''}`}
+                      className={`timeline-item timeline-article-item ${idx <= timelineIndex ? 'article-revealed' : ''}`}
+                      data-article-index={idx}
                     >
-                      <div className="article-meta">
-                        <div className="article-time">
-                          <img src="/assets/fe-clock.svg" alt="Clock" width={16} height={16} />
-                          <span>{art.time}</span>
-                        </div>
-                        <span className="article-domain">{art.domain}</span>
+                      <div className="timeline-node">
+                        <div className="timeline-sphere" />
                       </div>
-                      <h4 className="article-title">{art.title}</h4>
+                      <div className="timeline-article-card">
+                        <div className="article-meta">
+                          <div className="article-time">
+                            <img src="/assets/fe-clock.svg" alt="Clock" width={16} height={16} />
+                            <span>{art.time}</span>
+                          </div>
+                          <span className="article-domain">{art.domain}</span>
+                        </div>
+                        <h4 className="article-title">{art.title}</h4>
+                      </div>
                     </div>
                   ))}
                 </div>

@@ -480,7 +480,7 @@
           if (spineSvgImg) {
             spineSvgImg.style.transform = 'translateY(0)';
           }
-          const allTimelineArticles = document.querySelectorAll('.timeline-article-card');
+          const allTimelineArticles = document.querySelectorAll('.timeline-article-item, .timeline-article-card');
           allTimelineArticles.forEach(c => c.classList.remove('article-revealed'));
 
           // Quiet reset numbers without animation when left panel is hidden
@@ -549,9 +549,13 @@
           if (stepNum === 5) {
             if (subState === 'expanded') {
               // State 5A: First timeline article is revealed below Subject 1
-              const allTimelineArticles = document.querySelectorAll('.timeline-article-card');
-              if (allTimelineArticles[0]) {
-                allTimelineArticles[0].classList.add('article-revealed');
+              const firstTimelineItem = document.querySelector('.timeline-article-item');
+              if (firstTimelineItem) {
+                firstTimelineItem.classList.add('article-revealed');
+              }
+              const firstTimelineCard = document.querySelector('.timeline-article-card');
+              if (firstTimelineCard) {
+                firstTimelineCard.classList.add('article-revealed');
               }
             }
           }
@@ -579,13 +583,14 @@
       // 5 and 6 are different states of Step 5:
       // State 5A: First timeline card expands under Subject 1
       // State 5B: Stream scrolls upward stepping through articles 1 to 5
-      const TIMELINE_SCROLL_OFFSETS = [0, 120, 230, 340, 450];
+      const TIMELINE_SCROLL_OFFSETS = [0, 172, 288, 404, 520];
 
       function stepTimelineStream(index) {
         if (currentStep !== 5 || currentScenario !== 'news') return;
         currentTimelineIndex = index;
 
-        const allTimelineArticles = document.querySelectorAll('.timeline-article-card');
+        const allTimelineItems = document.querySelectorAll('.timeline-article-item');
+        const allTimelineCards = document.querySelectorAll('.timeline-article-card');
         const offset = TIMELINE_SCROLL_OFFSETS[index] || 0;
 
         if (timelineDrilldownTrack) {
@@ -596,11 +601,14 @@
         }
 
         // Reveal the active article
-        if (allTimelineArticles[index]) {
-          allTimelineArticles[index].classList.add('article-revealed');
+        if (allTimelineItems[index]) {
+          allTimelineItems[index].classList.add('article-revealed');
+        }
+        if (allTimelineCards[index]) {
+          allTimelineCards[index].classList.add('article-revealed');
         }
 
-        if (index < allTimelineArticles.length - 1) {
+        if (index < allTimelineItems.length - 1) {
           // Advance to next article after 1.6s
           timelineStepTimer = setTimeout(() => {
             if (isLoopPaused || currentStep !== 5 || currentScenario !== 'news') return;
