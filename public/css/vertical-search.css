@@ -891,10 +891,11 @@ number-flow,
 
 .searching-label {
   font-family: var(--font-sans, 'DM Sans', sans-serif);
-  font-weight: 500;
-  font-size: 20px;
+  font-weight: 600;
+  font-size: 18px;
   line-height: 24px;
-  color: #4B4B4B;
+  color: #000000;
+  opacity: 0.6;
   letter-spacing: -0.01em;
 }
 

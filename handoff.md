@@ -41,7 +41,7 @@
 - **新版 5 步动态流水线时序 (Figma 13661:163623)**:
   1. **首屏静态保底**: 页面初次加载时为待输入静态状态，严禁后台空跑动画。挂载 `IntersectionObserver`，当画布滚入可视区域达 15% 时正式激活流水线。
   2. **Step 1 (Frame 1 - 居中打字机)**: 搜索框与水印居中，逐字平滑输出 Query（`Strait of Hormuz shipping disruptions`），光标呼吸闪烁，输入完成后停留 1.2s。
-  3. **Step 2 (Frame 2 - 搜索移位与波浪)**: 搜索框平滑移至左侧（`left: 64px, top: 220px`），标题平移至左上方（`left: 68px, top: 168px`），水印渐隐；右侧居中展示 `searching...` 与 14 个黑色脉冲圆点（采用紧凑短波长波纹动效，单周期跨度由 15 个点缩短至 ~6.7 个点，整排呈现连续起伏的双峰涟漪，持续 1.8s）。
+  3. **Step 2 (Frame 2 - 搜索移位与波浪)**: 搜索框平滑移至左侧（`left: 64px, top: 220px`），标题平移至左上方（`left: 68px, top: 168px`），水印渐隐；右侧居中展示 `Searching...`（首字母大写，`font-weight: 600; font-size: 18px; color: #000000; opacity: 0.6;` 严格对齐 Figma `13661:162700`）与 14 个黑色脉冲圆点（采用紧凑短波长波纹动效，单周期跨度由 15 个点缩短至 ~6.7 个点，整排呈现连续起伏的双峰涟漪，持续 1.8s）。
   4. **Step 3 (Frame 3 - 主题卡片总览 & 关键数据走马灯)**: 搜索框溶解隐去，左侧浮现统计数据行（`4 subjects` 与 `10 articles`，已按设计图规范移除耗时 ms 与分隔圆点）及 3 条特性 Bullet 列表。**关键数据搭载开源库 [barvian/number-flow](https://github.com/barvian/number-flow) 支撑的真实弹簧物理走马灯动效**：
      - **双端对齐架构**：[index.html](file:///x:/XCoding/Octen/hompage/index.html) 中采用原生 `<number-flow>` Custom Element，由 [public/js/vertical-search.js](file:///x:/XCoding/Octen/hompage/public/js/vertical-search.js) 全局控制器驱动；React 组件 [src/components/VerticalSearch.tsx](file:///x:/XCoding/Octen/hompage/src/components/VerticalSearch.tsx) 采用 `@number-flow/react` 封装。
      - **真实滚轮动效 (Continuous Odometer Tumbler)**：集成 `continuous` 插件，确保数字由 `0` 顺次翻滚遍历至目标数值，呈现丝滑且真实的里程表式走马灯质感。

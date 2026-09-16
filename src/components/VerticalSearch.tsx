@@ -446,7 +446,7 @@ export const VerticalSearch: React.FC = () => {
 
           {/* Right Side: Step 2 Searching State */}
           <div className="searching-state-container" id="searchingStateContainer">
-            <span className="searching-label">searching...</span>
+            <span className="searching-label">Searching...</span>
             <div className="searching-dots-wave">
               {Array.from({ length: 14 }).map((_, i) => (
                 <span key={i} className="pulse-dot" />
