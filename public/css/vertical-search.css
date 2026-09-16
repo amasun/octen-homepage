@@ -1046,7 +1046,7 @@
   gap: 8px;
   box-sizing: border-box;
   text-align: left;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.03);
+  box-shadow: none;
   transition: all 0.55s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   flex-shrink: 0;
@@ -1150,7 +1150,7 @@
 .hero-canvas[data-news-step="4"] .subject-card-1 {
   transform: translateY(140px);
   border-color: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
 }
 
 .hero-canvas[data-news-step="4"] .subject-card-1 .subject-timeline-hint {
@@ -1250,7 +1250,7 @@
   gap: 6px;
   box-sizing: border-box;
   text-align: left;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.03);
+  box-shadow: none;
   flex-shrink: 0;
 }
 
@@ -1275,7 +1275,7 @@
   gap: 6px;
   box-sizing: border-box;
   text-align: left;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.03);
+  box-shadow: none;
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 0.45s ease, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s;
