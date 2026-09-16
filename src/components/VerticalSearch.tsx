@@ -249,12 +249,12 @@ export const VerticalSearch: React.FC = () => {
     return () => clearTimeout(timer);
   }, [step, currentScenario, isHovered]);
 
-  // Step 3: 4 Subject cards overview (2.5s)
+  // Step 3: 4 Subject cards overview (4.0s for sequential appearance & scroll)
   useEffect(() => {
     if (step !== 3 || currentScenario !== 'news' || isHovered) return;
     const timer = setTimeout(() => {
       setStep(4);
-    }, 2500);
+    }, 4000);
     return () => clearTimeout(timer);
   }, [step, currentScenario, isHovered]);
 
@@ -456,26 +456,28 @@ export const VerticalSearch: React.FC = () => {
 
           {/* Right Side: Step 3 & 4 Subjects Overview */}
           <div className="subjects-overview-container" id="subjectsOverviewContainer">
-            {SUBJECT_CARDS.map((sub, idx) => (
-              <div
-                key={idx}
-                className={`subject-card subject-card-${idx + 1}`}
-                id={`subjectCard${idx + 1}`}
-              >
-                <div className="subject-card-header">
-                  <span className="subject-card-date">{sub.date}</span>
-                  <span className="subject-card-tag">{sub.tag}</span>
-                </div>
-                <div className="subject-card-body">
-                  <img className="subject-thumb" src={sub.thumb} alt={sub.tag} width={116} height={87} />
-                  <div className="subject-card-text">
-                    <h4 className="subject-card-title">{sub.title}</h4>
-                    <p className="subject-card-desc">{sub.desc}</p>
+            <div className="subjects-cards-track" id="subjectsCardsTrack">
+              {SUBJECT_CARDS.map((sub, idx) => (
+                <div
+                  key={idx}
+                  className={`subject-card subject-card-${idx + 1}`}
+                  id={`subjectCard${idx + 1}`}
+                >
+                  <div className="subject-card-header">
+                    <span className="subject-card-date">{sub.date}</span>
+                    <span className="subject-card-tag">{sub.tag}</span>
                   </div>
+                  <div className="subject-card-body">
+                    <img className="subject-thumb" src={sub.thumb} alt={sub.tag} width={116} height={87} />
+                    <div className="subject-card-text">
+                      <h4 className="subject-card-title">{sub.title}</h4>
+                      <p className="subject-card-desc">{sub.desc}</p>
+                    </div>
+                  </div>
+                  {idx === 0 && <div className="subject-timeline-hint">timeline ↓</div>}
                 </div>
-                {idx === 0 && <div className="subject-timeline-hint">timeline ↓</div>}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* Right Side: Step 5 Timeline Stream with Spine */}

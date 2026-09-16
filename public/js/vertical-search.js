@@ -646,7 +646,7 @@
           autoLoopTimer = setTimeout(() => {
             if (isLoopPaused || currentStep !== 2 || currentScenario !== 'news') return;
 
-            // Step 3: Search dissolves into left panel, right side shows 4 Subject cards (2.5s)
+            // Step 3: Search dissolves into left panel, right side shows 4 Subject cards (4.0s for sequential & scroll)
             setNewsStep(3);
 
             autoLoopTimer = setTimeout(() => {
@@ -710,7 +710,7 @@
                       stepTimelineStream(1);
                     }, 1800);
                   }, 1500);
-                }, 2500);
+                }, 4000);
               }, 1000);
             } else if (currentStep === 3) {
               autoLoopTimer = setTimeout(() => {
@@ -725,7 +725,7 @@
                     stepTimelineStream(1);
                   }, 1800);
                 }, 1500);
-              }, 1200);
+              }, 2000);
             } else if (currentStep === 4) {
               autoLoopTimer = setTimeout(() => {
                 if (isLoopPaused || currentScenario !== 'news') return;
