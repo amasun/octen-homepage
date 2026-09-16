@@ -836,7 +836,8 @@ number-flow,
   font-weight: 300;
   font-size: 22.5px;
   line-height: 30px;
-  color: #626262;
+  color: #000000;
+  opacity: 0.6;
   margin-bottom: 2px;
 }
 
