@@ -46,6 +46,7 @@
      - **双端对齐架构**：[index.html](file:///x:/XCoding/Octen/hompage/index.html) 中采用原生 `<number-flow>` Custom Element，由 [public/js/vertical-search.js](file:///x:/XCoding/Octen/hompage/public/js/vertical-search.js) 全局控制器驱动；React 组件 [src/components/VerticalSearch.tsx](file:///x:/XCoding/Octen/hompage/src/components/VerticalSearch.tsx) 采用 `@number-flow/react` 封装。
      - **真实滚轮动效 (Continuous Odometer Tumbler)**：集成 `continuous` 插件，确保数字由 `0` 顺次翻滚遍历至目标数值，呈现丝滑且真实的里程表式走马灯质感。
      - **阶梯时序与阻尼物理**：进入 Step 3 时，`subjects` 延时 120ms 滚动至 `4`（900ms 弹簧缓动），`articles` 延时 280ms 滚动至 `10`（1100ms 弹簧缓动）；Step 4 与 5 保持目标数值锁定；循环回到 Step 1/2 时执行隐式静默归零（`animated = false; update(0); animated = true;`），杜绝逆向倒转；右侧展示 4 个 Subject 卡片（持续 2.5s）。
+     - **特性 Bullet 列表阶梯式渐进动画 (Progressive Staggered Entrance)**：3 条特性文本（`• Fresh news, delivered in milliseconds.` ➔ `• Track the progress of each subject across the timeline.` ➔ `• Dive deep into the story's development.`）采用基于 CSS 弹簧缓动阶梯延时机制（分别延时 200ms、420ms、640ms），伴随数字走马灯滚动以优雅韵律依次自下方平滑滑入并淡出（`translateY(12px) ➔ 0; opacity: 0 ➔ 1`），在 Step 4 与 Step 5 保持静止锁定，重置时无缝复位。
      - **排版与样式严格继承**：`DM Sans:Light` (`font-weight: 300`, 30px, `#000000`)，数字高度 36px，标签 22.5px `#626262`，间距 9px，彻底废弃旧版脆弱的 CSS `@keyframes roll-slot-1/2` 与纯手工长条 translateY 偏移。
   5. **Step 4 (Frame 4 - 聚焦 Subject 1)**: Subject 2~4 向下滑隐，Subject 1 卡片在右侧居中聚焦，卡片右下方浮现带有脉冲微动效的 `timeline ↓` 提示（持续 1.5s）。
   6. **Step 5 (Frame 5 & Frame 6 - 时间轴组件核心球体严格中心对齐与行级 Flexbox 架构)**:
