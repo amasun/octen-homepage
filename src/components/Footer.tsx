@@ -202,17 +202,27 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
             </ul>
           </div>
 
-          {/* Col 3: Others */}
-          <div>
-            <h4 style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#71717a', marginBottom: '16px', fontWeight: 400, lineHeight: 1.5 }}>
-              OTHERS
-            </h4>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '16px', lineHeight: '24px' }}>
-              <li><a href="https://docs.octen.ai/capabilities/embedding" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Embedding</a></li>
-              <li><a href="https://docs.octen.ai/capabilities/vl-embedding" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>VL Embedding</a></li>
-              <li><a href="https://docs.octen.ai/capabilities/extract" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Extract</a></li>
-              <li><a href="https://docs.octen.ai/capabilities/model-gateway" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Model Gateway</a></li>
-            </ul>
+          {/* Col 3: Models & Tools */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div>
+              <h4 style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#71717a', marginBottom: '16px', fontWeight: 400, lineHeight: 1.5 }}>
+                MODELS
+              </h4>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '16px', lineHeight: '24px' }}>
+                <li><a href="https://docs.octen.ai/capabilities/model-gateway" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Model Gateway</a></li>
+                <li><a href="https://docs.octen.ai/capabilities/embedding" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Embedding</a></li>
+                <li><a href="https://docs.octen.ai/capabilities/vl-embedding" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>VL Embedding</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#71717a', marginBottom: '16px', fontWeight: 400, lineHeight: 1.5 }}>
+                TOOLS
+              </h4>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '16px', lineHeight: '24px' }}>
+                <li><a href="https://docs.octen.ai/capabilities/extract" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Extract</a></li>
+                <li><a href="https://docs.octen.ai/capabilities/collect" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Collect</a></li>
+              </ul>
+            </div>
           </div>
 
           {/* Col 4: Application */}
