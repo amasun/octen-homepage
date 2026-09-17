@@ -380,7 +380,7 @@
 .nav-dropdown-col-middle {
   width: 220px;
   flex-shrink: 0;
-  border-left: 1px solid #CACACA;
+  border-left: 1px solid rgba(202, 202, 202, 0.5);
   padding-left: 20px;
   box-sizing: content-box;
   display: flex;
@@ -397,7 +397,7 @@
 .nav-dropdown-col-application {
   width: 250px;
   flex-shrink: 0;
-  border-left: 1px solid #CACACA;
+  border-left: 1px solid rgba(202, 202, 202, 0.5);
   padding-left: 20px;
   box-sizing: content-box;
   display: flex;
