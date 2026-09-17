@@ -95,3 +95,58 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   transform: none !important;
   filter: none !important;
 }
+
+/* Products Dropdown - Compact Items & Default Achromatic Icons */
+.nav-dropdown-split .nav-dropdown-col-list {
+  gap: 2px !important;
+}
+.nav-dropdown-split .nav-product-link {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 6px 8px !important;
+  border-radius: 6px !important;
+  transition: background-color 0.15s ease !important;
+}
+.nav-dropdown-split .nav-product-link:hover {
+  background-color: #F7F7F7 !important;
+}
+.nav-dropdown-split .nav-product-icon {
+  width: 20px !important;
+  height: 20px !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.nav-dropdown-split .nav-product-icon svg {
+  width: 18px !important;
+  height: 18px !important;
+  max-width: 18px !important;
+  max-height: 18px !important;
+  display: block !important;
+  object-fit: contain !important;
+  filter: grayscale(100%) brightness(0.85) !important;
+  opacity: 0.7 !important;
+  transition: filter 0.2s ease, opacity 0.2s ease, transform 0.15s ease !important;
+}
+.nav-dropdown-split .nav-product-link:hover .nav-product-icon svg,
+.nav-dropdown-split .nav-product-link:focus-visible .nav-product-icon svg {
+  filter: grayscale(0%) brightness(1) !important;
+  opacity: 1 !important;
+  transform: scale(1.05) !important;
+}
+.nav-dropdown-split .nav-product-name {
+  font-size: 15px !important;
+  line-height: 20px !important;
+  color: #181D27 !important;
+}
+.nav-dropdown-split .nav-product-link:hover .nav-product-name {
+  color: #0E121B !important;
+}
+.nav-dropdown-split .nav-dropdown-col-title {
+  padding: 0 8px !important;
+  font-size: 13px !important;
+  line-height: 18px !important;
+}
+
