@@ -159,9 +159,9 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  filter: grayscale(100%) !important;
-  opacity: 0.75 !important;
-  transition: filter 0.2s ease, opacity 0.2s ease, transform 0.15s ease !important;
+  filter: none !important;
+  opacity: 1 !important;
+  transition: transform 0.15s ease !important;
 }
 .nav-dropdown-split .nav-product-icon svg {
   width: 18px !important;
@@ -170,42 +170,36 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   max-height: 18px !important;
   display: block !important;
   object-fit: contain !important;
-  transition: transform 0.15s ease !important;
+  transition: transform 0.15s ease, stroke 0.15s ease, fill 0.15s ease !important;
 }
-/* Vector SVG stroke/fill color recoloring to neutral gray */
-.nav-dropdown-split .nav-product-icon svg[stroke="#039855" i],
-.nav-dropdown-split .nav-product-icon svg [stroke="#039855" i],
+/* Vector SVG stroke/fill color recoloring to #628A78 */
+.nav-dropdown-split .nav-product-icon svg[stroke],
 .nav-dropdown-split .nav-product-icon svg [stroke]:not([stroke="none"]):not([stroke="transparent"]) {
-  stroke: #717680 !important;
+  stroke: #628A78 !important;
   transition: stroke 0.15s ease !important;
 }
-.nav-dropdown-split .nav-product-icon svg[fill="#039855" i],
-.nav-dropdown-split .nav-product-icon svg [fill="#039855" i],
+.nav-dropdown-split .nav-product-icon svg[fill],
 .nav-dropdown-split .nav-product-icon svg [fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]) {
-  fill: #717680 !important;
+  fill: #628A78 !important;
   transition: fill 0.15s ease !important;
 }
 
-/* Hover state: restore brand green */
+/* Hover state: highlight brand green #039855 */
 .nav-dropdown-split .nav-product-link:hover .nav-product-icon,
 .nav-dropdown-split .nav-product-link:focus-visible .nav-product-icon {
-  filter: grayscale(0%) !important;
+  filter: none !important;
   opacity: 1 !important;
   transform: scale(1.05) !important;
 }
-.nav-dropdown-split .nav-product-link:hover .nav-product-icon svg[stroke="#039855" i],
-.nav-dropdown-split .nav-product-link:hover .nav-product-icon svg [stroke="#039855" i],
+.nav-dropdown-split .nav-product-link:hover .nav-product-icon svg[stroke],
 .nav-dropdown-split .nav-product-link:hover .nav-product-icon svg [stroke]:not([stroke="none"]):not([stroke="transparent"]),
-.nav-dropdown-split .nav-product-link:focus-visible .nav-product-icon svg[stroke="#039855" i],
-.nav-dropdown-split .nav-product-link:focus-visible .nav-product-icon svg [stroke="#039855" i],
+.nav-dropdown-split .nav-product-link:focus-visible .nav-product-icon svg[stroke],
 .nav-dropdown-split .nav-product-link:focus-visible .nav-product-icon svg [stroke]:not([stroke="none"]):not([stroke="transparent"]) {
   stroke: #039855 !important;
 }
-.nav-dropdown-split .nav-product-link:hover .nav-product-icon svg[fill="#039855" i],
-.nav-dropdown-split .nav-product-link:hover .nav-product-icon svg [fill="#039855" i],
+.nav-dropdown-split .nav-product-link:hover .nav-product-icon svg[fill],
 .nav-dropdown-split .nav-product-link:hover .nav-product-icon svg [fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]),
-.nav-dropdown-split .nav-product-link:focus-visible .nav-product-icon svg[fill="#039855" i],
-.nav-dropdown-split .nav-product-link:focus-visible .nav-product-icon svg [fill="#039855" i],
+.nav-dropdown-split .nav-product-link:focus-visible .nav-product-icon svg[fill],
 .nav-dropdown-split .nav-product-link:focus-visible .nav-product-icon svg [fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]) {
   fill: #039855 !important;
 }

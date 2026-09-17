@@ -435,9 +435,9 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  filter: grayscale(100%);
-  opacity: 0.75;
-  transition: filter 0.2s ease, opacity 0.2s ease, transform 0.15s ease;
+  filter: none;
+  opacity: 1;
+  transition: transform 0.15s ease;
 }
 .nav-product-icon svg {
   width: 18px;
@@ -446,39 +446,33 @@
   max-height: 18px;
   display: block;
   object-fit: contain;
-  transition: transform 0.15s ease;
+  transition: transform 0.15s ease, stroke 0.15s ease, fill 0.15s ease;
 }
-.nav-product-icon svg[stroke="#039855" i],
-.nav-product-icon svg [stroke="#039855" i],
+.nav-product-icon svg[stroke],
 .nav-product-icon svg [stroke]:not([stroke="none"]):not([stroke="transparent"]) {
-  stroke: #717680 !important;
+  stroke: #628A78 !important;
   transition: stroke 0.15s ease !important;
 }
-.nav-product-icon svg[fill="#039855" i],
-.nav-product-icon svg [fill="#039855" i],
+.nav-product-icon svg[fill],
 .nav-product-icon svg [fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]) {
-  fill: #717680 !important;
+  fill: #628A78 !important;
   transition: fill 0.15s ease !important;
 }
 .nav-product-link:hover .nav-product-icon,
 .nav-product-link:focus-visible .nav-product-icon {
-  filter: grayscale(0%);
+  filter: none;
   opacity: 1;
   transform: scale(1.05);
 }
-.nav-product-link:hover .nav-product-icon svg[stroke="#039855" i],
-.nav-product-link:hover .nav-product-icon svg [stroke="#039855" i],
+.nav-product-link:hover .nav-product-icon svg[stroke],
 .nav-product-link:hover .nav-product-icon svg [stroke]:not([stroke="none"]):not([stroke="transparent"]),
-.nav-product-link:focus-visible .nav-product-icon svg[stroke="#039855" i],
-.nav-product-link:focus-visible .nav-product-icon svg [stroke="#039855" i],
+.nav-product-link:focus-visible .nav-product-icon svg[stroke],
 .nav-product-link:focus-visible .nav-product-icon svg [stroke]:not([stroke="none"]):not([stroke="transparent"]) {
   stroke: #039855 !important;
 }
-.nav-product-link:hover .nav-product-icon svg[fill="#039855" i],
-.nav-product-link:hover .nav-product-icon svg [fill="#039855" i],
+.nav-product-link:hover .nav-product-icon svg[fill],
 .nav-product-link:hover .nav-product-icon svg [fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]),
-.nav-product-link:focus-visible .nav-product-icon svg[fill="#039855" i],
-.nav-product-link:focus-visible .nav-product-icon svg [fill="#039855" i],
+.nav-product-link:focus-visible .nav-product-icon svg[fill],
 .nav-product-link:focus-visible .nav-product-icon svg [fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]) {
   fill: #039855 !important;
 }
