@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,700&display=swap');
+
 @media (min-width: 1024px) {
   .lg\:grid-cols-5 {
     grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
@@ -222,9 +224,45 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   color: #0E121B !important;
 }
 .nav-dropdown-split .nav-dropdown-col-title {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
   padding: 0 10px !important;
-  font-size: 13px !important;
-  line-height: 18px !important;
+  font-family: var(--font-sans, 'Inter', -apple-system, sans-serif) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 20px !important;
+  color: #717680 !important;
   margin: 0 0 2px 0 !important;
+}
+.nav-dropdown-split .nav-title-prefix {
+  font-family: var(--font-sans, 'Inter', -apple-system, sans-serif) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 20px !important;
+  color: #717680 !important;
+}
+.nav-dropdown-split .nav-title-divider {
+  display: inline-block !important;
+  width: 1px !important;
+  height: 12px !important;
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  flex-shrink: 0 !important;
+}
+.nav-dropdown-split .nav-title-keyword {
+  font-family: var(--font-fraunces, 'Fraunces', Georgia, serif) !important;
+  font-weight: 700 !important;
+  font-style: italic !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  letter-spacing: -0.42px !important;
+  font-variation-settings: 'SOFT' 0, 'WONK' 1 !important;
+  white-space: nowrap !important;
+}
+.nav-dropdown-split .nav-keyword-fast {
+  color: #43BD2B !important;
+}
+.nav-dropdown-split .nav-keyword-premier {
+  color: #793FFF !important;
 }
 
