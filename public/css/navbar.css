@@ -165,35 +165,35 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   opacity: 1 !important;
   transition: transform 0.15s ease !important;
 }
-/* Vector SVG stroke/fill color recoloring: strictly outline/stroke-based, no filled blocks */
+/* Vector SVG stroke/fill color recoloring: strictly uniform 1.67 stroke, completely transparent fill */
 .nav-dropdown-split .nav-product-icon svg {
-  width: 18px !important;
-  height: 18px !important;
-  max-width: 18px !important;
-  max-height: 18px !important;
+  width: 20px !important;
+  height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
   display: block !important;
   object-fit: contain !important;
   fill: none !important;
   transition: transform 0.15s ease, stroke 0.15s ease !important;
 }
 
-/* Ensure all outline icons and paths without explicit fill remain hollow/transparent */
-.nav-dropdown-split .nav-product-icon svg *:not([fill]):not(style):not(clipPath):not(defs) {
+/* Ensure all icon elements have stroke-width 1.67 and zero fill */
+.nav-dropdown-split .nav-product-icon svg,
+.nav-dropdown-split .nav-product-icon svg * {
   fill: none !important;
+  stroke-width: 1.67px !important;
 }
 
-/* Default state: stroke recoloring to #628A78 */
+/* Default state: stroke color #628A78 */
 .nav-dropdown-split .nav-product-icon svg,
-.nav-dropdown-split .nav-product-icon svg [stroke]:not([stroke="none"]):not([stroke="transparent"]) {
+.nav-dropdown-split .nav-product-icon svg [stroke],
+.nav-dropdown-split .nav-product-icon svg path,
+.nav-dropdown-split .nav-product-icon svg circle,
+.nav-dropdown-split .nav-product-icon svg rect,
+.nav-dropdown-split .nav-product-icon svg line,
+.nav-dropdown-split .nav-product-icon svg polygon {
   stroke: #628A78 !important;
   transition: stroke 0.15s ease !important;
-}
-
-/* For compound outline paths that have explicit fill, keep them #628A78 without filling the SVG root */
-.nav-dropdown-split .nav-product-icon svg path[fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]),
-.nav-dropdown-split .nav-product-icon svg circle[fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]) {
-  fill: #628A78 !important;
-  transition: fill 0.15s ease !important;
 }
 
 /* Hover state: highlight brand green #039855 on stroke */
@@ -203,17 +203,14 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   opacity: 1 !important;
   transform: scale(1.05) !important;
 }
+
 .nav-dropdown-split .nav-product-link:hover .nav-product-icon svg,
-.nav-dropdown-split .nav-product-link:hover .nav-product-icon svg [stroke]:not([stroke="none"]):not([stroke="transparent"]),
+.nav-dropdown-split .nav-product-link:hover .nav-product-icon svg *,
 .nav-dropdown-split .nav-product-link:focus-visible .nav-product-icon svg,
-.nav-dropdown-split .nav-product-link:focus-visible .nav-product-icon svg [stroke]:not([stroke="none"]):not([stroke="transparent"]) {
+.nav-dropdown-split .nav-product-link:focus-visible .nav-product-icon svg * {
   stroke: #039855 !important;
-}
-.nav-dropdown-split .nav-product-link:hover .nav-product-icon svg path[fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]),
-.nav-dropdown-split .nav-product-link:hover .nav-product-icon svg circle[fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]),
-.nav-dropdown-split .nav-product-link:focus-visible .nav-product-icon svg path[fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]),
-.nav-dropdown-split .nav-product-link:focus-visible .nav-product-icon svg circle[fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]) {
-  fill: #039855 !important;
+  fill: none !important;
+  stroke-width: 1.67px !important;
 }
 .nav-dropdown-split .nav-product-name {
   font-size: 16px !important;
