@@ -347,9 +347,121 @@
   background-color: rgba(51, 51, 51, 0.5) !important;
 }
 
-/* Developers compact dropdown styling */
-.nav-dropdown-developers { padding: 16px !important; width: 208px !important; }
-.nav-dropdown-developers .min-w-44, .nav-dropdown-developers .min-w-70 { min-width: 176px !important; width: 176px !important; }
+/* Developers Dropdown - Consistent with Products Dropdown Rules */
+.nav-dropdown-developers {
+  padding: 16px !important;
+  width: 208px !important;
+  background: #FFFFFF !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 12px !important;
+}
+.nav-dropdown-developers .min-w-44,
+.nav-dropdown-developers .min-w-70 {
+  min-width: 176px !important;
+  width: 176px !important;
+}
+.nav-dropdown-developers .nav-dropdown-col-title,
+.nav-dropdown-developers span.text-sm.font-semibold.text-gray-500 {
+  display: block !important;
+  padding: 0 10px !important;
+  margin: 0 0 2px 0 !important;
+  font-family: var(--font-sans, 'Inter', -apple-system, sans-serif) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 20px !important;
+  color: #717680 !important;
+}
+.nav-dropdown-developers .nav-dropdown-col-list {
+  gap: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+}
+.nav-dropdown-developers .nav-product-link,
+.nav-dropdown-developers a {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  height: 44px !important;
+  padding: 0 10px !important;
+  border-radius: 8px !important;
+  box-sizing: border-box !important;
+  background-color: transparent !important;
+  text-decoration: none !important;
+  transition: background-color 0.15s ease !important;
+}
+.nav-dropdown-developers .nav-product-link:hover,
+.nav-dropdown-developers a:hover {
+  background-color: #F7F7F7 !important;
+}
+.nav-dropdown-developers .nav-product-name,
+.nav-dropdown-developers a span.text-base {
+  font-family: var(--font-sans, 'Inter', -apple-system, sans-serif) !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  line-height: 24px !important;
+  color: #181D27 !important;
+  white-space: nowrap !important;
+}
+.nav-dropdown-developers .nav-product-link:hover .nav-product-name,
+.nav-dropdown-developers a:hover span.text-base {
+  color: #0E121B !important;
+}
+.nav-dropdown-developers .nav-product-icon,
+.nav-dropdown-developers .shrink-0.size-6 {
+  width: 20px !important;
+  height: 20px !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  filter: none !important;
+  opacity: 1 !important;
+  transition: transform 0.15s ease !important;
+}
+.nav-dropdown-developers svg {
+  width: 20px !important;
+  height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  display: block !important;
+  object-fit: contain !important;
+  fill: none !important;
+  transition: transform 0.15s ease, stroke 0.15s ease !important;
+}
+.nav-dropdown-developers svg,
+.nav-dropdown-developers svg * {
+  fill: none !important;
+  stroke-width: 1.67px !important;
+}
+.nav-dropdown-developers svg,
+.nav-dropdown-developers svg [stroke],
+.nav-dropdown-developers svg path,
+.nav-dropdown-developers svg circle,
+.nav-dropdown-developers svg rect,
+.nav-dropdown-developers svg line,
+.nav-dropdown-developers svg polygon {
+  stroke: #628A78 !important;
+  transition: stroke 0.15s ease !important;
+}
+.nav-dropdown-developers a:hover .nav-product-icon,
+.nav-dropdown-developers a:hover .shrink-0.size-6,
+.nav-dropdown-developers a:focus-visible .nav-product-icon,
+.nav-dropdown-developers a:focus-visible .shrink-0.size-6 {
+  filter: none !important;
+  opacity: 1 !important;
+  transform: scale(1.05) !important;
+}
+.nav-dropdown-developers a:hover svg,
+.nav-dropdown-developers a:hover svg *,
+.nav-dropdown-developers a:focus-visible svg,
+.nav-dropdown-developers a:focus-visible svg * {
+  stroke: #039855 !important;
+  fill: none !important;
+  stroke-width: 1.67px !important;
+}
 
 .nav-dropdown-section-app {
   width: 236px;
