@@ -446,15 +446,19 @@
   max-height: 18px;
   display: block;
   object-fit: contain;
-  transition: transform 0.15s ease, stroke 0.15s ease, fill 0.15s ease;
+  fill: none !important;
+  transition: transform 0.15s ease, stroke 0.15s ease;
 }
-.nav-product-icon svg[stroke],
+.nav-product-icon svg *:not([fill]):not(style):not(clipPath):not(defs) {
+  fill: none !important;
+}
+.nav-product-icon svg,
 .nav-product-icon svg [stroke]:not([stroke="none"]):not([stroke="transparent"]) {
   stroke: #628A78 !important;
   transition: stroke 0.15s ease !important;
 }
-.nav-product-icon svg[fill],
-.nav-product-icon svg [fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]) {
+.nav-product-icon svg path[fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]),
+.nav-product-icon svg circle[fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]) {
   fill: #628A78 !important;
   transition: fill 0.15s ease !important;
 }
@@ -464,16 +468,16 @@
   opacity: 1;
   transform: scale(1.05);
 }
-.nav-product-link:hover .nav-product-icon svg[stroke],
+.nav-product-link:hover .nav-product-icon svg,
 .nav-product-link:hover .nav-product-icon svg [stroke]:not([stroke="none"]):not([stroke="transparent"]),
-.nav-product-link:focus-visible .nav-product-icon svg[stroke],
+.nav-product-link:focus-visible .nav-product-icon svg,
 .nav-product-link:focus-visible .nav-product-icon svg [stroke]:not([stroke="none"]):not([stroke="transparent"]) {
   stroke: #039855 !important;
 }
-.nav-product-link:hover .nav-product-icon svg[fill],
-.nav-product-link:hover .nav-product-icon svg [fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]),
-.nav-product-link:focus-visible .nav-product-icon svg[fill],
-.nav-product-link:focus-visible .nav-product-icon svg [fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]) {
+.nav-product-link:hover .nav-product-icon svg path[fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]),
+.nav-product-link:hover .nav-product-icon svg circle[fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]),
+.nav-product-link:focus-visible .nav-product-icon svg path[fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]),
+.nav-product-link:focus-visible .nav-product-icon svg circle[fill]:not([fill="none"]):not([fill="white"]):not([fill="#fff"]):not([fill="#ffffff"]):not([fill="transparent"]) {
   fill: #039855 !important;
 }
 .nav-product-name {
