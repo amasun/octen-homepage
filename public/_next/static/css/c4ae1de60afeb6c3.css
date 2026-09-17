@@ -404,15 +404,16 @@
 .nav-dropdown-col-list {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0;
   width: 100%;
 }
 .nav-product-link {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 8px;
-  border-radius: 6px;
+  gap: 10px;
+  height: 44px;
+  padding: 0 10px;
+  border-radius: 8px;
   text-decoration: none;
   background: transparent;
   transition: background-color 0.15s ease;
@@ -451,14 +452,14 @@
 .nav-product-name {
   font-family: var(--font-sans, 'Inter', -apple-system, sans-serif);
   font-weight: 600;
-  font-size: 15px;
-  line-height: 20px;
+  font-size: 16px;
+  line-height: 24px;
   color: #181D27;
   white-space: nowrap;
 }
 .nav-dropdown-col-title {
-  padding: 0 8px;
-  margin: 0;
+  padding: 0 10px;
+  margin: 0 0 4px 0;
   font-family: var(--font-sans, 'Inter', -apple-system, sans-serif);
   font-size: 13px;
   font-weight: 600;

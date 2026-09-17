@@ -96,16 +96,18 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   filter: none !important;
 }
 
-/* Products Dropdown - Compact Items & Default Achromatic Icons */
+/* Products Dropdown - Exact Sizing: Height=44px, Gap=0, Radius=8px */
 .nav-dropdown-split .nav-dropdown-col-list {
-  gap: 2px !important;
+  gap: 0 !important;
 }
 .nav-dropdown-split .nav-product-link {
   display: flex !important;
   align-items: center !important;
-  gap: 8px !important;
-  padding: 6px 8px !important;
-  border-radius: 6px !important;
+  gap: 10px !important;
+  height: 44px !important;
+  padding: 0 10px !important;
+  border-radius: 8px !important;
+  box-sizing: border-box !important;
   transition: background-color 0.15s ease !important;
 }
 .nav-dropdown-split .nav-product-link:hover {
@@ -137,16 +139,17 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   transform: scale(1.05) !important;
 }
 .nav-dropdown-split .nav-product-name {
-  font-size: 15px !important;
-  line-height: 20px !important;
+  font-size: 16px !important;
+  line-height: 24px !important;
   color: #181D27 !important;
 }
 .nav-dropdown-split .nav-product-link:hover .nav-product-name {
   color: #0E121B !important;
 }
 .nav-dropdown-split .nav-dropdown-col-title {
-  padding: 0 8px !important;
+  padding: 0 10px !important;
   font-size: 13px !important;
   line-height: 18px !important;
+  margin-bottom: 4px !important;
 }
 
