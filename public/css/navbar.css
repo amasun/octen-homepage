@@ -61,6 +61,37 @@
   width: 821px !important;
   max-width: calc(100vw - 32px) !important;
   background: #FFFFFF !important;
+  display: flex !important;
+  align-items: stretch !important;
+  gap: 20px !important;
+}
+
+/* Products Dropdown - 3 Column Layout & Vertical Column Dividers */
+.nav-dropdown-split .nav-dropdown-col-search {
+  width: 220px !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.nav-dropdown-split .nav-dropdown-col-middle {
+  width: 220px !important;
+  flex-shrink: 0 !important;
+  border-left: 1px solid #CACACA !important;
+  padding-left: 20px !important;
+  box-sizing: content-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-self: stretch !important;
+}
+.nav-dropdown-split .nav-dropdown-col-application {
+  width: 250px !important;
+  flex-shrink: 0 !important;
+  border-left: 1px solid #CACACA !important;
+  padding-left: 20px !important;
+  box-sizing: content-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-self: stretch !important;
 }
 .nav-dropdown-developers {
   padding: 16px !important;

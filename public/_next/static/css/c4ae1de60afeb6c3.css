@@ -380,9 +380,13 @@
 .nav-dropdown-col-middle {
   width: 220px;
   flex-shrink: 0;
+  border-left: 1px solid #CACACA;
+  padding-left: 20px;
+  box-sizing: content-box;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
+  align-self: stretch;
 }
 .nav-dropdown-col-section {
   display: flex;
@@ -394,7 +398,7 @@
   width: 250px;
   flex-shrink: 0;
   border-left: 1px solid #CACACA;
-  padding-left: 28px;
+  padding-left: 20px;
   box-sizing: content-box;
   display: flex;
   flex-direction: column;
