@@ -197,8 +197,8 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
               <li><a href="https://docs.octen.ai/capabilities/web-search" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Web Search</a></li>
               <li><a href="https://docs.octen.ai/capabilities/image-search" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Image Search</a></li>
               <li><a href="https://docs.octen.ai/capabilities/video-search" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Video Search</a></li>
-              <li><a href="https://docs.octen.ai/capabilities/broad-search" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Omni Search</a></li>
-              <li><a href="https://docs.octen.ai/capabilities/broad-search" target="_blank" rel="noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Vertical Search</a></li>
+              <li><a href="#vertical-search" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>News Search</a></li>
+              <li><a href="#vertical-search" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Business Search</a></li>
             </ul>
           </div>
 

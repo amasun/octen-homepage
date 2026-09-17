@@ -23,7 +23,7 @@
 ## 🎨 3. 核心功能模块与重要设计决策
 
 ### A. 导航栏 (Navbar)
-- **下拉菜单**: Products（821px 三列布局）与 Developers（208px 紧凑布局）下拉卡片，采用原生防抖事件驱动，尺寸锁死无形变抖动。
+- **下拉菜单**: Products（821px 三列布局，其中 Search 列已隐去 Omni Search，并将原 Vertical Search 删除拆分为 News Search 与 Business Search，保持 6 项对称平衡）与 Developers（208px 紧凑布局）下拉卡片，采用原生防抖事件驱动，点击内部锚点自动收起。
 - **关联文件**: [public/css/navbar.css](file:///x:/XCoding/Octen/hompage/public/css/navbar.css) 与 [public/js/navbar.js](file:///x:/XCoding/Octen/hompage/public/js/navbar.js)。
 
 ### B. Web Search (General Search)

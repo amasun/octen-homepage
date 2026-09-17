@@ -74,6 +74,22 @@
     if (navRoot) {
       navRoot.addEventListener('mouseleave', closeAll);
     }
+
+    var innerLinks = document.querySelectorAll('.pc-nav_Content__Dr4EA a');
+    innerLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        triggers.forEach(function(btn) {
+          btn.setAttribute('data-state', 'closed');
+          btn.setAttribute('aria-expanded', 'false');
+        });
+        contents.forEach(function(content) {
+          content.setAttribute('data-state', 'closed');
+          content.style.display = 'none';
+        });
+        viewport.setAttribute('data-state', 'closed');
+        viewport.style.display = 'none';
+      });
+    });
   }
 
   if (document.readyState === 'loading') {
