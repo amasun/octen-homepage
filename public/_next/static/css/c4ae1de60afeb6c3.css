@@ -375,7 +375,7 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 26px;
 }
 .nav-dropdown-col-middle {
   width: 220px;
@@ -385,13 +385,13 @@
   box-sizing: content-box;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 30px;
   align-self: stretch;
 }
 .nav-dropdown-col-section {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 2px;
   width: 100%;
 }
 .nav-dropdown-col-application {
@@ -492,7 +492,7 @@
 }
 .nav-dropdown-col-title {
   padding: 0 10px;
-  margin: 0 0 4px 0;
+  margin: 0 0 2px 0;
   font-family: var(--font-sans, 'Inter', -apple-system, sans-serif);
   font-size: 13px;
   font-weight: 600;

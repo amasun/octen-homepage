@@ -72,6 +72,7 @@
   flex-shrink: 0 !important;
   display: flex !important;
   flex-direction: column !important;
+  gap: 26px !important;
 }
 .nav-dropdown-split .nav-dropdown-col-middle {
   width: 220px !important;
@@ -81,6 +82,7 @@
   box-sizing: content-box !important;
   display: flex !important;
   flex-direction: column !important;
+  gap: 30px !important;
   align-self: stretch !important;
 }
 .nav-dropdown-split .nav-dropdown-col-application {
@@ -92,6 +94,12 @@
   display: flex !important;
   flex-direction: column !important;
   align-self: stretch !important;
+}
+.nav-dropdown-split .nav-dropdown-col-section {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  width: 100% !important;
 }
 .nav-dropdown-developers {
   padding: 16px !important;
@@ -213,6 +221,6 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   padding: 0 10px !important;
   font-size: 13px !important;
   line-height: 18px !important;
-  margin-bottom: 4px !important;
+  margin: 0 0 2px 0 !important;
 }
 
