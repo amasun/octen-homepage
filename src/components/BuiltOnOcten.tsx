@@ -159,15 +159,15 @@ export const BuiltOnOcten: React.FC<BuiltOnOctenProps> = ({ version: propVersion
                 <span style={{ fontSize: '12px', fontWeight: 600, color: isV2 ? '#64748b' : 'var(--text-dim)', textTransform: 'uppercase' }}>
                   Application 04
                 </span>
-                <span className="pill-badge" style={{ fontSize: '11px', padding: '1px 6px', backgroundColor: isV2 ? '#f1f5f9' : undefined, color: isV2 ? '#16a34a' : undefined, borderColor: isV2 ? '#cbd5e1' : undefined }}>Visual</span>
+                <span className="pill-badge" style={{ fontSize: '11px', padding: '1px 6px', backgroundColor: isV2 ? 'rgba(112, 254, 126, 0.3)' : undefined, color: isV2 ? '#039855' : undefined, borderColor: isV2 ? '#03985580' : undefined }}>Early Access</span>
               </div>
-              <h3 style={{ fontSize: '22px', color: isV2 ? '#0f172a' : '#fff', marginBottom: '10px' }}>Visual Search</h3>
+              <h3 style={{ fontSize: '22px', color: isV2 ? '#0f172a' : '#fff', marginBottom: '10px' }}>Grounded Generation</h3>
               <p style={{ fontSize: '13.5px', color: isV2 ? '#475569' : 'var(--text-muted)', marginBottom: '20px' }}>
-                Retrieve fine-grained visual details across live web image repositories.
+                Generate images grounded in real-world references found by live web search.
               </p>
             </div>
-            <a href="https://octen.ai/platform/overview" target="_blank" rel="noreferrer" className={isV2 ? '' : 'btn-secondary'} style={{ fontSize: '13px', width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '6px', padding: '10px 16px', borderRadius: '8px', backgroundColor: isV2 ? '#f8fafc' : undefined, border: isV2 ? '1px solid #cbd5e1' : undefined, color: isV2 ? '#0f172a' : undefined, fontWeight: 600, textDecoration: 'none' }}>
-              <span>Try Visual Search</span>
+            <a href="https://docs.octen.ai/capabilities/answer" target="_blank" rel="noreferrer" className={isV2 ? '' : 'btn-secondary'} style={{ fontSize: '13px', width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '6px', padding: '10px 16px', borderRadius: '8px', backgroundColor: isV2 ? '#f8fafc' : undefined, border: isV2 ? '1px solid #cbd5e1' : undefined, color: isV2 ? '#0f172a' : undefined, fontWeight: 600, textDecoration: 'none' }}>
+              <span>Try Grounded Generation</span>
               <ArrowRight size={13} />
             </a>
           </div>

@@ -28,6 +28,18 @@
 - **Image Search 卡片**：Firecrawl 螺旋力学自转/公转抵消与 120° T型平顶光束扫描已落地。
 - **Video Search 卡片**：四卡单向无限向右走马灯、Figma 17.55px 宽域羽化扫描光带、对称式多模态提取闭环。
 
+### 5. Built on Octen Search 辅助描述文字还原 (Showcase Cards Description Visibility)
+- **问题现象**：`Built on Octen Search / Try it for Free` 模块中，4 张卡片（Answer, Deep Research, Multimodal Chat, Grounded Generation）标题下的辅助说明文字在页面上不可见/消失。
+- **根因分析**：
+  1. `src/sections/06-retrieval-stack.html` 中的 4 张卡片包裹层 `.sm:w-98.5` 遗留了 Framer Motion SSR 冻结内联样式 `style="opacity:0;transform:translateY(40px)"`。
+  2. 此前为了消除对 Omni Search 的绝对居中干扰，在 `public/css/navbar.css` 中移除了全局 `[style*="opacity:0"] { transform: none !important; }`，导致卡片向下偏移了 40px。
+  3. 卡片横向滚动父容器设置了 `sm:overflow-y-hidden`（高度固定为 581.14px），向下偏移的 40px 使得卡片底部 40px 高的 `<p>` 描述文案（`top: 9125px -> 9165px`）恰好被超出裁剪。
+- **修复方案**：
+  1. 在 `src/sections/06-retrieval-stack.html` 中将 4 张卡片的内联样式修正为 `style="opacity:1;transform:none"`，并将横向滚动容器增加 `pb-6` (padding-bottom: 24px) 确保底部留有安全行高间隙。
+  2. 在 `public/css/navbar.css` 中增加精准定向样式 `.sm\:w-98\.5 { transform: none !important; opacity: 1 !important; }`，杜绝任何外部或内联 translateY 裁剪，同时不影响 Omni Search 的居中样式。
+  3. 同步更新 `src/components/BuiltOnOcten.tsx` 第 4 张卡片为 Grounded Generation，保持 React 与静态 HTML 双轨一致。
+  4. 经 CDP 无头浏览器与本地服务（3001端口）实测，4 张卡片的所有描述段落完全处于滚动容器内部，`display: block; visibility: visible; opacity: 1` 正常完整渲染。
+
 ---
 
 ## 🎬 Video Search 动效架构与关键注意事项 (Crucial Notes & Gotchas)
@@ -85,8 +97,34 @@
 
 ---
 
+### 6. Navbar Products 菜单重构与 Figma 像素级还原 (Products Dropdown Alignment)
+- **原型稿参照**：Figma 节点 [13625:174324](https://www.figma.com/design/jnIlRSuXffn5g2OxnsqYIE/Octen_%E6%B1%87%E6%80%BB?node-id=13625-174324&t=7uy39MOcdDWVIOA4-4)
+- **核心优化与修改点**：
+  1. **分类与文本校准 (Text & Structure)**：
+     - 将第四个 Application 菜单项文字修正为 Figma 原型稿标准的 `Ground Generation`（原代码为 `Grounded Generation`）。
+     - 三列分类完全对齐：第一列 `Search | FAST`（Web Search, Broad Search）与 `Search | Premier`（Image Search, Video Search, News Search, Business Search）；第二列 `Models`（Embedding, VL Embedding, Model Gateway）与 `Models`（Extract, Collect）；第三列 `Application`（Answer, Deep Research, Multimodal Chat, Ground Generation）。
+  2. **15 个矢量图标重构 (Pure SVGs Restoration)**：
+     - 完全移除此前使用的外部 `<img>` 结合 CSS 伪滤镜（`filter: invert(53%) sepia(...)`）方案（如 News Search、Business Search 等），杜绝网络图片加载失败或颜色偏差。
+     - 直接从 Figma 原型资产服务提取全部高精度矢量路径，统一采用 `currentColor` 进行笔触与填充控制。
+     - 包含复合矢量如图标定位（VL Embedding、Model Gateway 晶体折射镜面、Extract 3×3 点阵矩阵、Answer 同心星芒等），保证 20×20 像素级清晰锐利。
+  3. **布局与尺寸标准规范 (Layout & Dimensions)**：
+     - 下拉菜单总宽度规范为 `860px`（Column 1: 250px + Gap: 20px + Column 2: 250px + Gap: 20px + Column 3: 280px + Padding: 40px），彻底解决此前 `840px` 导致的列宽挤压。
+     - 第二列内边距 `pl: 28px`，第三列内边距 `pl: 29px`，两处纵向分割线统一为 `1px solid rgba(202, 202, 202, 0.5)`。
+     - 单项菜单项高度严格统一为 `44px`（`padding: 0 10px; border-radius: 8px;`）。
+  4. **交互动效与高亮状态 (Hover State)**：
+     - 默认状态：文字 `#181D27`，图标颜色 `#628A78`。
+     - 悬停状态（`.nav-product-link:hover`）：背景变为 `#F7F7F7`，文字变为 `#0E121B`，图标颜色平滑过渡为品牌绿 `#039855` 并伴随微放大 `transform: scale(1.05)`。
+  5. **代码清理与验证**：
+     - 清理了 `public/css/navbar.css` 中多处重复及相互冲突的旧属性声明，形成清晰的分组规则。
+     - 经无头浏览器与本地服务（3001 端口）自动化校验，所有 15 个子项纯 SVG 渲染无报错，Developers 菜单联动正常。
+
+---
+
 ## 📂 核心代码入口
+- **导航栏模板**：`src/sections/01-navbar.html`
+- **导航栏全局样式**：`public/css/navbar.css`
 - **标签与全栈模块**：`src/sections/06-retrieval-stack.html`
 - **Vertical Search**：`src/sections/05-vertical-search.html`，`public/css/vertical-search.css`，`src/styles/vertical-search.css`
 - **Modalities Search**：`src/sections/04-modalities.html`，`public/css/modalities-search.css`，`public/js/modalities-search.js`，`src/components/ImageVideoSearch.tsx`
 - **本地开发服务**：`http://localhost:3001`
+
