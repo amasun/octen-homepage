@@ -305,9 +305,9 @@ export const VerticalSearch: React.FC = () => {
             </div>
             <span>Vertical Search</span>
           </div>
-          <h2 className="hero-heading">Search built for every vertical</h2>
+          <h2 className="hero-heading">News Search</h2>
           <p className="hero-desc">
-            Give every industry the real-time context it needs with search tuned to its sources, language, and workflows. <strong>News search is live now.</strong>
+            Real-time global reporting indexed at wire speed. Curated across trusted publications, cross-verified, and structured for autonomous reasoning.
           </p>
           <a className="btn-request" href="/platform/overview" target="_blank" rel="noreferrer">
             Request Access

@@ -122,22 +122,25 @@
 
 /* Capsule Tag (Figma Node 13625:179118) */
 .tag-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  height: 32px;
-  padding: 6px 20px 6px 16px;
-  border-radius: 19.462px;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid #bcbcbc;
-  font-family: var(--font-sans, 'DM Sans', sans-serif);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-  color: #000000;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  height: 32px !important;
+  padding: 0 16px !important;
+  border: 0 solid #e5e7eb !important;
+  border-radius: 1.5rem !important;
+  background-color: #ffffff1a !important;
+  color: #ffffff !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 20px !important;
+  white-space: nowrap !important;
+  box-shadow: 0px 8px 16px 0px #00000014, inset -.5px -.5px 1px 0px #ffffff4d, inset .5px .5px 1px 0px #ffffffe6 !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  cursor: default !important;
   user-select: none;
   box-sizing: border-box;
 }
@@ -1665,29 +1668,53 @@ number-flow,
 }
 
 .vertical-search-section .tag-pill {
-  height: 30px;
-  padding: 5px 16px;
-  gap: 0;
-  color: #ffffff;
-  background: #101412;
-  border-color: rgba(255, 255, 255, 0.22);
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  height: 32px !important;
+  padding: 0 16px !important;
+  border: 0 solid #e5e7eb !important;
+  border-radius: 1.5rem !important;
+  background-color: #ffffff1a !important;
+  color: #ffffff !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 20px !important;
+  white-space: nowrap !important;
+  box-shadow: 0px 8px 16px 0px #00000014, inset -.5px -.5px 1px 0px #ffffff4d, inset .5px .5px 1px 0px #ffffffe6 !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  cursor: default !important;
+  user-select: none;
 }
 
-.vertical-search-section .vertical-search-tag-prefix {
-  color: #ffffff;
+
+.vertical-search-section .vertical-search-tag-prefix,
+.tag-pill .vertical-search-tag-prefix,
+.tag-pill .octen-search-fast-prefix {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff !important;
 }
 
-.vertical-search-section .vertical-search-tag-divider {
-  margin: 0 7px;
-  color: rgba(255, 255, 255, 0.42);
+.vertical-search-section .vertical-search-tag-divider,
+.tag-pill .vertical-search-tag-divider,
+.tag-pill .octen-search-fast-divider {
+  color: rgba(255, 255, 255, 0.4) !important;
+  margin: 0 2px !important;
 }
 
-.vertical-search-section .vertical-search-tag-keyword {
-  color: #ffffff;
-  font-family: var(--font-mono, 'DM Mono', monospace);
-  font-size: 0.9em;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+.vertical-search-section .vertical-search-tag-keyword,
+.tag-pill .vertical-search-tag-keyword,
+.tag-pill .octen-search-fast-keyword {
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  color: #ffffff !important;
 }
 
 .vertical-search-section .btn-request {
@@ -1760,7 +1787,60 @@ number-flow,
   border-top-color: #090b11;
 }
 
-/* The API introduction follows the Vertical Search content without an extra top gap. */
-.vertical-search-section #api-introduce {
-  padding-top: 0 !important;
+/* ==========================================================================
+   Hero Canvas Status Tip (Subtle Right-Floating Notice)
+   ========================================================================== */
+.hero-canvas-tip {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  z-index: 45;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 13px;
+  font-family: inherit;
+  font-size: 11.5px;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: rgba(226, 232, 240, 0.72);
+  background: rgba(13, 17, 23, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  user-select: none;
+  animation: tipFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-canvas-tip-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: rgba(148, 163, 184, 0.85);
+  flex-shrink: 0;
+}
+
+@keyframes tipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-canvas-tip {
+    top: 12px;
+    right: 12px;
+    padding: 4px 9px;
+    font-size: 10px;
+    gap: 5px;
+    max-width: calc(100% - 24px);
+  }
 }

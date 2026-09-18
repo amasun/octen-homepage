@@ -12,11 +12,19 @@
 }
 
 .octen-modalities-container {
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0;
   position: relative;
   z-index: 10;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1320px) {
+  .octen-modalities-container {
+    padding: 0 24px;
+  }
 }
 
 .octen-modalities-grid {
@@ -56,26 +64,39 @@
 }
 
 .octen-modality-tag {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 30px;
-  padding: 5px 16px;
-  border-radius: 9999px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  height: 32px !important;
+  padding: 0 16px !important;
+  border: 0 solid #e5e7eb !important;
+  border-radius: 1.5rem !important;
+  background-color: #ffffff1a !important;
+  color: #ffffff !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 20px !important;
+  white-space: nowrap !important;
+  box-shadow: 0px 8px 16px 0px #00000014, inset -.5px -.5px 1px 0px #ffffff4d, inset .5px .5px 1px 0px #ffffffe6 !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  cursor: default !important;
+  user-select: none;
   margin-bottom: 12px;
 }
 
 .octen-modality-tag-text {
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 400;
+  font-family: inherit;
+  font-weight: 500;
   font-size: 14px;
   line-height: 20px;
   color: #FFFFFF;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .octen-modality-title-row {
@@ -231,11 +252,8 @@
 .octen-modality-title-row { display: flex; flex-wrap: wrap; justify-content: flex-start; height: auto; gap: 12px; }
 .octen-modality-title { color: #181d27; }
 .octen-modality-desc { max-width: 540px; margin: 16px 0 0; color: #667085; text-align: left; }
-.octen-modality-tag { display: inline-flex; margin-bottom: 14px; background: #101412; border-color: #101412; }
-.octen-modality-tag-text { color: #ffffff; font-size: 13px; font-weight: 600; }
-
-/* Shared black variant used by the Web/Image/Video search labels. */
-.octen-search-fast-tag { display: inline-flex; align-items: center; gap: 4px; padding: 6px 14px; border-radius: 9999px; border: 1px solid rgba(255, 255, 255, 0.22); background: #101412; color: #ffffff; font-size: 14px; line-height: 20px; white-space: nowrap; }
+.octen-modality-tag { margin-bottom: 14px; }
+.octen-modality-tag-text { color: #ffffff; font-size: 14px; font-weight: 500; }
 .octen-early-access-badge { position: static; transform: none; margin-top: 10px; }
 .octen-modality-request-btn { margin-top: 24px; }
 .octen-feature-item { background: #fbfcfc; border-color: #eaecf0; }
@@ -366,32 +384,59 @@
 }
 
 
-/* Search label lockup: neutral product family name with a green speed tier. */
-.octen-search-fast-prefix { color: inherit; }
-.octen-search-fast-divider { margin: 0 7px; color: rgba(255, 255, 255, 0.42); }
-.octen-search-fast-keyword { color: #70fe7e; font-family: var(--font-mono, 'DM Mono', monospace); font-size: 0.9em; font-weight: 700; letter-spacing: 0.08em; }
-
-
-/* Keep every Search / FAST label on the same black surface and border. */
+/* ==========================================================================
+   Modality Search Glassmorphism Tags (Image & Video & Omni)
+   Matches Web Search Faux Bevel Inset Glass Component
+   ========================================================================== */
 .octen-modality-tag,
-.octen-search-fast-tag {
-  background: #101412;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  box-sizing: border-box;
+.octen-search-fast-tag,
+.octen-search-premier-tag {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  height: 32px !important;
+  padding: 0 16px !important;
+  border: 0 solid #e5e7eb !important;
+  border-radius: 1.5rem !important;
+  background-color: #ffffff1a !important;
+  color: #ffffff !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 20px !important;
+  white-space: nowrap !important;
+  box-shadow: 0px 8px 16px 0px #00000014, inset -.5px -.5px 1px 0px #ffffff4d, inset .5px .5px 1px 0px #ffffffe6 !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  cursor: default !important;
+  user-select: none;
+  box-sizing: border-box !important;
 }
 
+.octen-search-fast-prefix {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff !important;
+}
+
+.octen-search-fast-divider {
+  color: rgba(255, 255, 255, 0.4) !important;
+  margin: 0 2px !important;
+}
+
+.octen-search-fast-keyword,
+.octen-search-premier-keyword {
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  color: #ffffff !important;
+}
 
 /* Let the modalities section inherit the page background. */
 .octen-modalities-section { background: transparent; }
-
-
-.octen-search-premier-keyword {
-  color: #b58cff;
-  font-family: var(--font-mono, 'DM Mono', monospace);
-  font-size: 0.9em;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
 
 .octen-search-premier-tag {
   margin-bottom: 0;
@@ -648,3 +693,819 @@
 .octen-modalities-section {
   background: #090b11;
 }
+
+/* ==========================================================================
+   Image Search Spiral 6-Arm Motion Card (Figma 13709:170101)
+   Concentric Rings, 6 Cantilever Arms, 24 Polar Nodes, Radial Gradient Mask
+   ========================================================================== */
+.octen-modality-visual-placeholder.octen-spiral-card {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  height: 400px;
+  border-radius: 22px;
+  border: 1px solid rgba(163, 169, 166, 0.25);
+  background: rgba(9, 11, 18, 0.25);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(112, 254, 126, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  justify-self: center;
+  align-self: center;
+}
+
+.octen-spiral-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(9, 11, 18, 0.25);
+  pointer-events: none;
+}
+
+/* Viewport wrapper */
+.octen-spiral-viewport {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Vignette overlay: fades edges smoothly to dark without suppressing child backdrop-filter */
+.octen-spiral-vignette {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, transparent 54%, rgba(9, 11, 18, 0.72) 74%, #090b12 95%);
+  z-index: 5;
+}
+
+
+/* Radar Layer: concentric rings & sector highlight oscillating 40deg - 270deg */
+.octen-spiral-radar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 606px;
+  height: 606px;
+  transform: translate(-50%, -50%) rotate(40deg);
+  transform-origin: center center;
+  pointer-events: none;
+  z-index: 1;
+  animation: octen-radar-sweep 14s ease-in-out infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Concentric rings background vector */
+.octen-spiral-rings {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+/* Radar Sector Highlight (扇形高光扫描束) */
+.octen-spiral-radar-sweep {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Radar Cone: trapezoidal (T-profile) flat-center emerald beam (120deg, 30deg central plateau) */
+.octen-spiral-radar-cone {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.8;
+  background: conic-gradient(
+    from -60deg at 50% 50%,
+    transparent 0deg,
+    rgba(112, 254, 126, 0.015) 10deg,
+    rgba(112, 254, 126, 0.06) 25deg,
+    rgba(112, 254, 126, 0.12) 45deg,
+    rgba(112, 254, 126, 0.12) 75deg,
+    rgba(112, 254, 126, 0.06) 95deg,
+    rgba(112, 254, 126, 0.015) 110deg,
+    transparent 120deg,
+    transparent 360deg
+  );
+  mask-image: radial-gradient(circle at 50% 50%, black 0%, black 302.3px, transparent 303px);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, black 0%, black 302.3px, transparent 303px);
+  mix-blend-mode: screen;
+}
+
+/* Concentric ring arcs highlighted inside the 120deg trapezoidal sector */
+.octen-spiral-radar-arcs {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 50%,
+    transparent 63px,
+    rgba(112, 254, 126, 0.26) 64px,
+    transparent 65.5px,
+    transparent 122px,
+    rgba(112, 254, 126, 0.23) 123px,
+    transparent 124.5px,
+    transparent 185px,
+    rgba(112, 254, 126, 0.20) 186px,
+    transparent 187.5px,
+    transparent 241px,
+    rgba(112, 254, 126, 0.17) 242px,
+    transparent 243.5px,
+    transparent 301px,
+    rgba(112, 254, 126, 0.14) 302px,
+    transparent 303.5px
+  );
+  mask-image: conic-gradient(
+    from -60deg at 50% 50%,
+    transparent 0deg,
+    black 45deg,
+    black 75deg,
+    transparent 120deg,
+    transparent 360deg
+  );
+  -webkit-mask-image: conic-gradient(
+    from -60deg at 50% 50%,
+    transparent 0deg,
+    black 45deg,
+    black 75deg,
+    transparent 120deg,
+    transparent 360deg
+  );
+  mix-blend-mode: screen;
+}
+
+
+/* Wheel containing 24 nodes - rotates counter-clockwise */
+.octen-spiral-wheel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 606px;
+  height: 606px;
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
+  pointer-events: auto;
+  z-index: 2;
+  animation: octen-spiral-spin-ccw 36s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Polar positioned nodes (dx, dy offsets from center) */
+.octen-spiral-node {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 39px;
+  height: 39px;
+  margin-left: -19.5px;
+  margin-top: -19.5px;
+  transform: translate(var(--dx), var(--dy));
+  pointer-events: auto;
+}
+
+/* 39x39 icon box with frosted glass - counter-rotates clockwise to always face user upright */
+.octen-spiral-icon-box {
+  width: 39px;
+  height: 39px;
+  border-radius: 8px;
+  border: 1px solid rgba(164, 167, 181, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.65s ease, background 0.65s ease;
+  box-sizing: border-box;
+  transform-origin: center center;
+  animation: octen-icon-counter-spin 36s linear infinite;
+  will-change: transform;
+}
+
+/* Pulse highlight for icon box when active */
+.octen-spiral-icon-box.is-pulsing {
+  border-color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.octen-spiral-node:hover .octen-spiral-icon-box {
+  border-color: rgba(112, 254, 126, 0.6);
+  background: rgba(15, 24, 20, 0.85);
+}
+
+.octen-spiral-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.5;
+  filter: brightness(1);
+  transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1), filter 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, filter;
+}
+
+/* Flash pulse: opacity 0.5 -> 1.0, color #A4A7B5 -> #FFF */
+.octen-spiral-icon.is-pulsing {
+  opacity: 1;
+  filter: brightness(1.65);
+}
+
+.octen-spiral-node:hover .octen-spiral-icon {
+  opacity: 1 !important;
+  filter: brightness(1.65) !important;
+  transition-duration: 0.2s;
+}
+
+/* Central glowing Octen core chip */
+.octen-spiral-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 52px;
+  height: 52px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(0 0 16px rgba(79, 246, 96, 0.35));
+}
+
+.octen-spiral-center-logo {
+  width: 51.3px;
+  height: 51.3px;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Counter-clockwise rotation for the spiral wheel */
+@keyframes octen-spiral-spin-ccw {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+/* Clockwise counter-rotation so icons ALWAYS stay upright facing the user */
+@keyframes octen-icon-counter-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Radar sector & concentric rings swing back and forth organically between 40deg and 270deg */
+@keyframes octen-radar-sweep {
+  0% {
+    transform: translate(-50%, -50%) rotate(40deg);
+  }
+  18% {
+    transform: translate(-50%, -50%) rotate(190deg);
+  }
+  32% {
+    transform: translate(-50%, -50%) rotate(270deg);
+  }
+  48% {
+    transform: translate(-50%, -50%) rotate(135deg);
+  }
+  60% {
+    transform: translate(-50%, -50%) rotate(60deg);
+  }
+  74% {
+    transform: translate(-50%, -50%) rotate(240deg);
+  }
+  86% {
+    transform: translate(-50%, -50%) rotate(155deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(40deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .octen-spiral-wheel,
+  .octen-spiral-icon-box,
+  .octen-spiral-radar {
+    animation: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .octen-modality-visual-placeholder.octen-spiral-card,
+  .octen-modality-visual-placeholder.octen-video-card {
+    height: 360px;
+  }
+}
+
+/* ==========================================================================
+   VIDEO SEARCH ANIMATED CARD (Figma 13716:172855)
+   Multi-scene loop:
+   1) Video step-carousel, bottom-aligned, dual-frequency audio sine waves
+   2) Green laser scanning & Octen robot mascot core
+   3) Multimodal extract decomposition & slide next
+   ========================================================================== */
+
+.octen-video-card {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  height: 400px;
+  border-radius: 22px;
+  border: 1px solid rgba(163, 169, 166, 0.25);
+  background: rgba(9, 11, 18, 0.25);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: inset 0px 0px 0px 1px rgba(112, 254, 126, 0.04);
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.octen-video-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #090b12;
+  z-index: 0;
+}
+
+.octen-video-viewport {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.octen-video-track {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Three slides bottom-aligned at bottom: 103px */
+.octen-video-slide {
+  position: absolute;
+  bottom: 103px;
+  transform-origin: bottom center;
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.85s ease;
+  will-change: transform, opacity;
+}
+
+/* Center card: 317px x 208px, centered at 50% */
+.octen-video-slide.is-center {
+  left: 50%;
+  width: 317px;
+  height: 208px;
+  transform: translateX(-50%) scale(1);
+  z-index: 3;
+  opacity: 1;
+}
+
+/* Left card: 238.3px x 156.4px (scale ~0.7517), center at calc(50% - 326px) */
+.octen-video-slide.is-left {
+  left: calc(50% - 326px);
+  width: 238.3px;
+  height: 156.4px;
+  transform: translateX(-50%) scale(1);
+  z-index: 2;
+  opacity: 0.75;
+}
+
+/* Right card: 238.3px x 156.4px (scale ~0.7517), center at calc(50% + 319px) */
+.octen-video-slide.is-right {
+  left: calc(50% + 319px);
+  width: 238.3px;
+  height: 156.4px;
+  transform: translateX(-50%) scale(1);
+  z-index: 2;
+  opacity: 0.75;
+}
+
+/* Transition to next scene (Carousel shift right) */
+.octen-video-card.is-shifting .octen-video-slide.is-center {
+  transform: translateX(calc(-50% + 319px)) scale(0.7517);
+  opacity: 0.75;
+}
+
+.octen-video-card.is-shifting .octen-video-slide.is-left {
+  transform: translateX(calc(-50% + 326px)) scale(1.33);
+  opacity: 1;
+}
+
+.octen-video-card.is-shifting .octen-video-slide.is-right {
+  transform: translateX(calc(-50% + 319px)) scale(0.6);
+  opacity: 0;
+}
+
+/* Video card inner container */
+.octen-vcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: rgba(34, 34, 34, 0.5);
+  border: 1px solid rgba(164, 167, 181, 0.2);
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.octen-video-slide.is-left .octen-vcard-inner,
+.octen-video-slide.is-right .octen-vcard-inner {
+  border-radius: 9px;
+  border-width: 0.75px;
+}
+
+/* Top bar on video player (circle dot + pill bar) */
+.octen-vcard-header {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.octen-vcard-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #D9D9D9;
+  opacity: 0.1;
+  flex-shrink: 0;
+}
+
+.octen-vcard-titlebar {
+  width: 175px;
+  max-width: 65%;
+  height: 12px;
+  border-radius: 4px;
+  background: #D9D9D9;
+  opacity: 0.1;
+}
+
+/* Play button & Robot icon */
+.octen-vcard-body {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.octen-vcard-play-icon {
+  width: 44px;
+  height: 44px;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.octen-video-slide.is-left .octen-vcard-play-icon {
+  width: 32px;
+  height: 32px;
+  opacity: 0.5;
+}
+
+.octen-vcard-robot {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 0 14px rgba(112, 254, 126, 0.7));
+}
+
+.octen-vcard-robot img {
+  width: 48px;
+  height: auto;
+}
+
+/* Green laser scanline */
+.octen-vcard-scanline {
+  position: absolute;
+  left: -10%;
+  width: 120%;
+  height: 20px;
+  top: -25px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(112, 254, 126, 0.15) 30%,
+    rgba(112, 254, 126, 0.85) 50%,
+    rgba(112, 254, 126, 0.15) 70%,
+    transparent 100%
+  );
+  box-shadow: 0 0 16px rgba(112, 254, 126, 0.8);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.octen-vcard-scan-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(112, 254, 126, 0.12) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+/* Timeline scrubber at bottom of video */
+.octen-vcard-timeline {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.octen-vcard-timeline-track {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(217, 217, 217, 0.15);
+  overflow: visible;
+}
+
+.octen-vcard-timeline-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 38%;
+  background: rgba(144, 144, 144, 0.8);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.octen-vcard-timeline-thumb {
+  position: absolute;
+  top: 50%;
+  left: 38%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: linear-gradient(to bottom, #ffffff, #acacac);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  border: 1px solid #ffffff;
+  transition: left 0.3s ease;
+}
+
+/* Extract card layout */
+.octen-vcard-extract {
+  position: absolute;
+  inset: 0;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  opacity: 0;
+  transform: scale(0.96);
+  pointer-events: none;
+  background: rgba(34, 34, 34, 0.5);
+  border: 1px solid rgba(164, 167, 181, 0.2);
+  border-radius: 12px;
+}
+
+.octen-extract-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.octen-extract-tag {
+  width: 35px;
+  height: 10px;
+  border-radius: 3px;
+  background: #D9D9D9;
+  opacity: 0.15;
+}
+
+.octen-extract-title-1 {
+  width: 85%;
+  height: 10px;
+  border-radius: 3px;
+  background: #D9D9D9;
+  opacity: 0.15;
+}
+
+.octen-extract-title-2 {
+  width: 60%;
+  height: 10px;
+  border-radius: 3px;
+  background: #D9D9D9;
+  opacity: 0.15;
+}
+
+.octen-extract-body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.octen-extract-line-tag {
+  width: 35px;
+  height: 9px;
+  border-radius: 3px;
+  background: #D9D9D9;
+  opacity: 0.12;
+}
+
+.octen-extract-line-1 {
+  width: 90%;
+  height: 9px;
+  border-radius: 3px;
+  background: #D9D9D9;
+  opacity: 0.12;
+}
+
+.octen-extract-line-2 {
+  width: 55%;
+  height: 9px;
+  border-radius: 3px;
+  background: #D9D9D9;
+  opacity: 0.12;
+}
+
+.octen-extract-line-3 {
+  width: 75%;
+  height: 9px;
+  border-radius: 3px;
+  background: #D9D9D9;
+  opacity: 0.12;
+}
+
+.octen-extract-grid {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.octen-extract-chip {
+  flex: 1;
+  height: 32px;
+  border-radius: 4px;
+  background: #D9D9D9;
+  opacity: 0.12;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.octen-video-slide.is-right .octen-vcard-extract {
+  opacity: 1;
+  transform: scale(1);
+  padding: 12px 14px;
+  border-radius: 9px;
+  border-width: 0.75px;
+}
+
+.octen-video-slide.is-right .octen-extract-chip {
+  height: 24px;
+}
+
+/* Scene states */
+/* Scene 1: Video playing */
+.octen-video-card[data-scene="1"] #octen-vcard-center-video {
+  opacity: 1;
+}
+.octen-video-card[data-scene="1"] #octen-vcard-center-play {
+  opacity: 0.85;
+}
+.octen-video-card[data-scene="1"] #octen-vcard-center-robot {
+  opacity: 0;
+  transform: scale(0.85);
+}
+.octen-video-card[data-scene="1"] #octen-vcard-center-extract {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Scene 2: Laser Scanning & Octen Robot */
+.octen-video-card[data-scene="2"] #octen-vcard-center-video {
+  opacity: 1;
+}
+.octen-video-card[data-scene="2"] #octen-vcard-center-play {
+  opacity: 0;
+  transform: scale(0.8);
+}
+.octen-video-card[data-scene="2"] #octen-vcard-center-robot {
+  opacity: 1;
+  transform: scale(1);
+}
+.octen-video-card[data-scene="2"] #octen-vcard-center-glow {
+  opacity: 1;
+}
+.octen-video-card[data-scene="2"] #octen-vcard-center-scan {
+  opacity: 1;
+  animation: octen-laser-sweep 1.4s ease-in-out infinite;
+}
+
+@keyframes octen-laser-sweep {
+  0% {
+    top: -20px;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    top: calc(100% + 10px);
+    opacity: 0;
+  }
+}
+
+/* Scene 3: Deconstructed Extract Card */
+.octen-video-card[data-scene="3"] #octen-vcard-center-video {
+  opacity: 0;
+  transform: scale(0.96);
+  pointer-events: none;
+}
+.octen-video-card[data-scene="3"] #octen-vcard-center-extract {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+/* Audio wave canvas */
+.octen-video-wave-container {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 716px;
+  height: 60px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.octen-audio-waves-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.octen-video-wave-static {
+  display: none;
+}
+
+/* Edge Vignette overlay */
+.octen-video-vignette {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    rgba(9, 11, 18, 0.95) 0%,
+    rgba(9, 11, 18, 0.4) 8%,
+    transparent 18%,
+    transparent 82%,
+    rgba(9, 11, 18, 0.4) 92%,
+    rgba(9, 11, 18, 0.95) 100%
+  );
+  z-index: 4;
+}
+
+

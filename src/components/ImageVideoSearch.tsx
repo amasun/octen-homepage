@@ -65,7 +65,293 @@ const modalitiesData: ModalityCardData[] = [
   },
 ];
 
+const spiralNodes = [
+  // Ring 1 (r ≈ 123px, 6 icons)
+  { dx: 102.5, dy: 68.2, icon: 'icon-squirrel.svg', alt: 'squirrel' },
+  { dx: 0, dy: 114.5, icon: 'icon-tulip.svg', alt: 'flower' },
+  { dx: -104.2, dy: 68.8, icon: 'icon-bag.svg', alt: 'bag' },
+  { dx: -107, dy: -56, icon: 'icon-shirt.svg', alt: 'shirt' },
+  { dx: 0, dy: -122.2, icon: 'icon-dog.svg', alt: 'dog' },
+  { dx: 107, dy: -56, icon: 'icon-haze.svg', alt: 'sun' },
+
+  // Ring 2 (r ≈ 186px, 6 icons)
+  { dx: 131, dy: 135.6, icon: 'icon-vr.svg', alt: 'vr' },
+  { dx: -65.2, dy: 167.1, icon: 'icon-car.svg', alt: 'car' },
+  { dx: -178, dy: 52.3, icon: 'icon-basketball.svg', alt: 'sports' },
+  { dx: -146, dy: -114.7, icon: 'icon-image.svg', alt: 'photo' },
+  { dx: 96.5, dy: -156, icon: 'icon-basket.svg', alt: 'shopping' },
+  { dx: 186.6, dy: -1, icon: 'icon-citrus.svg', alt: 'food' },
+
+  // Ring 3 (r ≈ 242px, 6 icons)
+  { dx: 102, dy: 213.6, icon: 'icon-compass.svg', alt: 'navigation' },
+  { dx: -163.5, dy: 182.6, icon: 'icon-bird.svg', alt: 'nature' },
+  { dx: -242.7, dy: -25.5, icon: 'icon-salad.svg', alt: 'healthy' },
+  { dx: -124, dy: -195, icon: 'icon-butterfly.svg', alt: 'wildlife' },
+  { dx: 197.1, dy: -151.2, icon: 'icon-book.svg', alt: 'education' },
+  { dx: 225.6, dy: 78.2, icon: 'icon-carton.svg', alt: 'product' },
+
+  // Ring 4 (r ≈ 302px, 6 icons)
+  { dx: 27, dy: 299.5, icon: 'icon-dog.svg', alt: 'pets' },
+  { dx: -252.2, dy: 174.6, icon: 'icon-book.svg', alt: 'knowledge' },
+  { dx: -271.7, dy: -136, icon: 'icon-citrus.svg', alt: 'grocery' },
+  { dx: -77.2, dy: -293.1, icon: 'icon-carton.svg', alt: 'package' },
+  { dx: 286.8, dy: -105.2, icon: 'icon-bird.svg', alt: 'animals' },
+  { dx: 255.8, dy: 170.1, icon: 'icon-butterfly.svg', alt: 'fauna' },
+];
+
+/**
+ * VideoSearchCard - React sub-component matching Figma 13716:172855
+ */
+const VideoSearchCard: React.FC = () => {
+  const [scene, setScene] = React.useState<number>(1);
+  const [isShifting, setIsShifting] = React.useState<boolean>(false);
+  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+
+  React.useEffect(() => {
+    let t1: any, t2: any, t3: any, t4: any;
+    const interval = setInterval(() => {
+      setIsShifting(false);
+      setScene(1);
+      t1 = setTimeout(() => {
+        setScene(2);
+        t2 = setTimeout(() => {
+          setScene(3);
+          t3 = setTimeout(() => {
+            setIsShifting(true);
+            t4 = setTimeout(() => {
+              setIsShifting(false);
+              setScene(1);
+            }, 850);
+          }, 2200);
+        }, 2100);
+      }, 2300);
+    }, 7800);
+
+    t1 = setTimeout(() => {
+      setScene(2);
+      t2 = setTimeout(() => {
+        setScene(3);
+        t3 = setTimeout(() => {
+          setIsShifting(true);
+          t4 = setTimeout(() => {
+            setIsShifting(false);
+            setScene(1);
+          }, 850);
+        }, 2200);
+      }, 2100);
+    }, 2300);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      clearTimeout(t4);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animId: number;
+    let waveTime = 0;
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = 716 * dpr;
+      canvas.height = 60 * dpr;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const draw = () => {
+      const w = 716;
+      const h = 60;
+      ctx.clearRect(0, 0, w, h);
+      waveTime += 0.03;
+      const isScanning = scene === 2;
+
+      ctx.beginPath();
+      ctx.lineWidth = 1.2;
+      ctx.strokeStyle = isScanning ? 'rgba(112, 254, 126, 0.45)' : 'rgba(209, 209, 209, 0.25)';
+      for (let x = 0; x <= w; x += 4) {
+        const y = 32 + Math.sin(x * 0.0095 + waveTime * 1.2) * 14 + Math.sin(x * 0.021 - waveTime * 0.8) * 4;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.lineWidth = 1.2;
+      ctx.strokeStyle = isScanning ? 'rgba(112, 254, 126, 0.35)' : 'rgba(209, 209, 209, 0.22)';
+      for (let x = 0; x <= w; x += 4) {
+        const y = 30 + Math.sin(x * 0.0165 - waveTime * 1.5) * 11 + Math.cos(x * 0.008 + waveTime * 0.6) * 5;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      animId = requestAnimationFrame(draw);
+    };
+
+    animId = requestAnimationFrame(draw);
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', resize);
+    };
+  }, [scene]);
+
+  return (
+    <div
+      className={`octen-modality-visual-placeholder octen-video-card ${isShifting ? 'is-shifting' : ''}`}
+      data-scene={scene}
+      data-node-id="13716:172855"
+      id="octen-video-card"
+    >
+      <div className="octen-video-bg" aria-hidden="true" />
+      <div className="octen-video-viewport">
+        <div className="octen-video-track" id="octen-video-track">
+          <div className="octen-video-slide is-left" id="octen-video-slide-left">
+            <div className="octen-vcard-inner octen-vcard-video">
+              <div className="octen-vcard-header">
+                <div className="octen-vcard-dot" />
+                <div className="octen-vcard-titlebar" />
+              </div>
+              <div className="octen-vcard-body">
+                <img src="/images/video/videoplayer-play.svg" alt="" className="octen-vcard-play-icon" />
+              </div>
+            </div>
+          </div>
+
+          <div className="octen-video-slide is-center" id="octen-video-slide-center">
+            <div className="octen-vcard-inner octen-vcard-video" id="octen-vcard-center-video">
+              <div className="octen-vcard-header">
+                <div className="octen-vcard-dot" />
+                <div className="octen-vcard-titlebar" />
+              </div>
+              <div className="octen-vcard-body">
+                <img
+                  src="/images/video/videoplayer-play.svg"
+                  alt=""
+                  className="octen-vcard-play-icon"
+                  id="octen-vcard-center-play"
+                />
+                <div className="octen-vcard-robot" id="octen-vcard-center-robot">
+                  <img src="/images/video/octen-robot.svg" alt="Octen Core" />
+                </div>
+              </div>
+              <div className="octen-vcard-scanline" id="octen-vcard-center-scan" />
+              <div className="octen-vcard-scan-glow" id="octen-vcard-center-glow" />
+              <div className="octen-vcard-timeline">
+                <div className="octen-vcard-timeline-track">
+                  <div
+                    className="octen-vcard-timeline-fill"
+                    id="octen-vcard-timeline-fill"
+                    style={{ width: scene === 1 ? '48%' : '65%' }}
+                  />
+                  <div
+                    className="octen-vcard-timeline-thumb"
+                    id="octen-vcard-timeline-thumb"
+                    style={{ left: scene === 1 ? '48%' : '65%' }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="octen-vcard-inner octen-vcard-extract" id="octen-vcard-center-extract">
+              <div className="octen-extract-header">
+                <div className="octen-extract-tag" />
+                <div className="octen-extract-title-1" />
+                <div className="octen-extract-title-2" />
+              </div>
+              <div className="octen-extract-body">
+                <div className="octen-extract-line-tag" />
+                <div className="octen-extract-line-1" />
+                <div className="octen-extract-line-2" />
+                <div className="octen-extract-line-3" />
+              </div>
+              <div className="octen-extract-grid">
+                <div className="octen-extract-chip" />
+                <div className="octen-extract-chip" />
+                <div className="octen-extract-chip" />
+                <div className="octen-extract-chip" />
+              </div>
+            </div>
+          </div>
+
+          <div className="octen-video-slide is-right" id="octen-video-slide-right">
+            <div className="octen-vcard-inner octen-vcard-extract">
+              <div className="octen-extract-header">
+                <div className="octen-extract-tag" />
+                <div className="octen-extract-title-1" />
+                <div className="octen-extract-title-2" />
+              </div>
+              <div className="octen-extract-body">
+                <div className="octen-extract-line-tag" />
+                <div className="octen-extract-line-1" />
+                <div className="octen-extract-line-2" />
+                <div className="octen-extract-line-3" />
+              </div>
+              <div className="octen-extract-grid">
+                <div className="octen-extract-chip" />
+                <div className="octen-extract-chip" />
+                <div className="octen-extract-chip" />
+                <div className="octen-extract-chip" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="octen-video-wave-container" aria-hidden="true">
+        <canvas ref={canvasRef} id="octen-audio-waves" className="octen-audio-waves-canvas" />
+        <img src="/images/video/wave.svg" alt="" className="octen-video-wave-static" />
+      </div>
+
+      <div className="octen-video-vignette" aria-hidden="true" />
+    </div>
+  );
+};
+
 export const ImageVideoSearch: React.FC = () => {
+  const [pulsingSet, setPulsingSet] = React.useState<Set<number>>(new Set());
+
+  React.useEffect(() => {
+    let previousSet = new Set<number>();
+    const pulseNext = () => {
+      const count = Math.floor(Math.random() * 3) + 1;
+      const pool: number[] = [];
+      for (let i = 0; i < spiralNodes.length; i++) {
+        if (!previousSet.has(i)) pool.push(i);
+      }
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+      const selected = new Set(pool.slice(0, count));
+      previousSet = selected;
+      setPulsingSet(selected);
+
+      setTimeout(() => {
+        setPulsingSet(new Set());
+      }, 900);
+    };
+
+    const interval = setInterval(pulseNext, 1800);
+    const initialTimeout = setTimeout(pulseNext, 300);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(initialTimeout);
+    };
+  }, []);
+
   return (
     <section id="modalities-search" className="octen-modalities-section" data-node-id="13631:182359">
       {/* Anchor Targets for Navigation Compatibility */}
@@ -73,23 +359,22 @@ export const ImageVideoSearch: React.FC = () => {
       <div id="video-search" style={{ position: 'absolute', top: '-80px', left: 0 }} />
 
       <div className="octen-modalities-container">
-        <div className="octen-modalities-grid" data-node-id="13631:182376">
+        <div className="octen-modalities-grid">
           {modalitiesData.map((col) => (
             <div key={col.id} className="octen-modality-col" data-node-id={col.nodeId}>
-              {/* Header Block */}
               <div className="octen-modality-header" data-node-id={col.headerNodeId}>
-                <span className="octen-modality-tag"><span className="octen-modality-tag-text"><span className="octen-search-fast-prefix">Search</span><span className="octen-search-fast-divider">/</span><span className="octen-search-premier-keyword">PREMIER</span></span></span>
+                <span className="octen-modality-tag octen-search-fast-tag">
+                  <span className="octen-search-fast-prefix">Search</span>
+                  <span className="octen-search-fast-divider">/</span>
+                  <span className="octen-search-premier-keyword octen-search-fast-keyword">PREMIER</span>
+                </span>
                 <div className="octen-modality-title-row">
                   <h2 className="octen-modality-title">{col.title}</h2>
                   <span className="octen-early-access-badge">{col.badge}</span>
                 </div>
-
                 <p className="octen-modality-desc">{col.description}</p>
-
-
               </div>
 
-              {/* Bottom Feature Card */}
               <ul className="octen-modality-card" data-node-id={col.cardNodeId}>
                 {col.items.map((item, idx) => (
                   <li key={idx} className="octen-feature-item">
@@ -104,30 +389,81 @@ export const ImageVideoSearch: React.FC = () => {
                 ))}
               </ul>
 
-                <a
-                  href="https://octen.ai/platform/overview"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="octen-modality-request-btn"
+              <a
+                href="https://octen.ai/platform/overview"
+                target="_blank"
+                rel="noreferrer"
+                className="octen-modality-request-btn octen-request-access-btn"
+              >
+                <span>Request Access</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="octen-modality-btn-arrow"
                 >
-                  <span>Request Access</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="octen-modality-btn-arrow"
-                  >
-                    <path d="M3 13L13 3M13 13V3H3" />
-                  </svg>
-                </a>
+                  <path d="M3 13L13 3M13 13V3H3" />
+                </svg>
+              </a>
 
-              <div className="octen-modality-visual-placeholder" aria-hidden="true" />
+              {col.id === 'image-search' ? (
+                <div
+                  className="octen-modality-visual-placeholder octen-spiral-card"
+                  data-node-id="13709:170101"
+                  aria-label="Octen Multimodal Image Search Spiral Coverage"
+                >
+                  <div className="octen-spiral-bg" aria-hidden="true" />
+                  <div className="octen-spiral-viewport">
+                    {/* Oscillating Radar & Concentric Rings Layer (40° - 270° Sweep) */}
+                    <div className="octen-spiral-radar" aria-hidden="true">
+                      <img
+                        src="/images/spiral/concentric-rings.svg"
+                        alt=""
+                        className="octen-spiral-rings"
+                      />
+                      <div className="octen-spiral-radar-sweep">
+                        <div className="octen-spiral-radar-cone" />
+                        <div className="octen-spiral-radar-arcs" />
+                      </div>
+                    </div>
+
+                    {/* Revolving Icon Nodes Wheel (36s CCW) */}
+                    <div className="octen-spiral-wheel">
+                      {spiralNodes.map((node, idx) => (
+                        <div
+                          key={idx}
+                          className="octen-spiral-node"
+                          style={{ '--dx': `${node.dx}px`, '--dy': `${node.dy}px` } as React.CSSProperties}
+                        >
+                          <div className={`octen-spiral-icon-box ${pulsingSet.has(idx) ? 'is-pulsing' : ''}`}>
+                            <img
+                              src={`/images/spiral/${node.icon}`}
+                              alt={node.alt}
+                              className={`octen-spiral-icon ${pulsingSet.has(idx) ? 'is-pulsing' : ''}`}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="octen-spiral-center">
+                      <img
+                        src="/images/spiral/octen-chip.svg"
+                        alt="Octen Multimodal Core"
+                        className="octen-spiral-center-logo"
+                      />
+                    </div>
+                  </div>
+                  <div className="octen-spiral-vignette" aria-hidden="true" />
+                </div>
+              ) : (
+                <VideoSearchCard />
+              )}
             </div>
           ))}
         </div>

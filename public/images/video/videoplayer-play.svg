@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="138 84 41 40" fill="none">
+  <defs>
+    <linearGradient id="play-gradient" x1="158.5" y1="85" x2="158.5" y2="123" gradientUnits="userSpaceOnUse">
+      <stop stop-color="white"/>
+      <stop offset="1" stop-color="white" stop-opacity="0.7"/>
+    </linearGradient>
+    <filter id="play-drop-shadow" x="127" y="76" width="63" height="63" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="4"/>
+      <feGaussianBlur stdDeviation="6"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+    </filter>
+  </defs>
+  <g opacity="0.85" filter="url(#play-drop-shadow)">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M158.5 85.0077C168.989 85.0077 177.492 93.5112 177.492 104C177.492 114.489 168.989 122.992 158.5 122.992C148.011 122.992 139.508 114.489 139.508 104C139.508 93.5112 148.011 85.0077 158.5 85.0077ZM156.526 96.8187C155.044 95.9629 153.191 97.0325 153.191 98.7441V109.334C153.191 111.046 155.044 112.115 156.526 111.259L165.697 105.965C167.179 105.109 167.179 102.969 165.697 102.113L156.526 96.8187Z" fill="url(#play-gradient)"/>
+    <path d="M158.5 85.5146C168.709 85.5147 176.984 93.7912 176.985 104C176.984 114.209 168.709 122.485 158.5 122.485C148.291 122.485 140.015 114.209 140.015 104C140.015 93.7911 148.291 85.5146 158.5 85.5146ZM156.78 96.3798C154.959 95.3288 152.684 96.642 152.684 98.7441V109.334C152.684 111.37 154.819 112.667 156.608 111.79L156.78 111.699L165.95 106.404C167.771 105.353 167.771 102.725 165.95 101.674L156.78 96.3798Z" stroke="white" stroke-opacity="0.68" stroke-width="1"/>
+  </g>
+</svg>

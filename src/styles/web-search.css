@@ -179,3 +179,54 @@
 .octen-skeleton-bar.line-bottom-2 {
   width: 65%;
 }
+
+/* ==========================================================================
+   Search / FAST Glassmorphism Tag (Faux Bevel Inset Glass Component)
+   ========================================================================== */
+.octen-search-fast-tag,
+.search-fast-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  height: 32px !important;
+  padding: 0 16px !important;
+  border: 0 solid #e5e7eb !important;
+  border-radius: 1.5rem !important;
+  background-color: #ffffff1a !important;
+  color: #ffffff !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 20px !important;
+  white-space: nowrap !important;
+  box-shadow: 0px 8px 16px 0px #00000014, inset -.5px -.5px 1px 0px #ffffff4d, inset .5px .5px 1px 0px #ffffffe6 !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  cursor: default !important;
+  user-select: none;
+}
+
+.octen-search-fast-tag .octen-search-fast-prefix,
+.search-fast-pill .octen-search-fast-prefix {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.octen-search-fast-tag .octen-search-fast-divider,
+.search-fast-pill .octen-search-fast-divider {
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0 2px;
+}
+
+.octen-search-fast-tag .octen-search-fast-keyword,
+.search-fast-pill .octen-search-fast-keyword {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+}
+
