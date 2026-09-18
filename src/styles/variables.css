@@ -1,0 +1,34 @@
+:root {
+  /* Brand Color Tokens */
+  --bg-dark: #050806;
+  --bg-card: #0c110e;
+  --bg-card-hover: #121814;
+  --bg-surface: #101612;
+  --accent-green: #60ff70;
+  --accent-green-hover: #7bff89;
+  --accent-green-glow: rgba(96, 255, 112, 0.3);
+  --accent-green-dim: rgba(96, 255, 112, 0.08);
+  --mermaid-tail: #34773c;
+  --palm-green: #71b263;
+  --border-card: rgba(255, 255, 255, 0.08);
+  --border-card-bright: rgba(96, 255, 112, 0.35);
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  
+  /* Typography */
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Spacing */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 26px;
+  --space-lg: 56px;
+  --space-xl: 108px;
+
+  /* Shadows */
+  --shadow-neon: rgba(88, 255, 104, 0.4) 0px 0px 20px 0px, rgba(112, 254, 126, 0.2) 0px 0px 40px 0px;
+  --shadow-subtle: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}

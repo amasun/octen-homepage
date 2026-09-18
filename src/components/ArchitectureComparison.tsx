@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Layers, Zap, GitFork, RefreshCw, CheckCircle, Globe } from 'lucide-react';
+import { ArrowRight, Layers, Zap, GitFork, RefreshCw, CheckCircle, Globe, User, Search } from 'lucide-react';
 
 const TOPICS = [
   'AI search engines',
@@ -20,9 +20,8 @@ export const ArchitectureComparison: React.FC = () => {
       <div className="container">
         {/* Section Title */}
         <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 56px' }}>
-          <div className="pill-badge" style={{ marginBottom: '16px' }}>
-            <Globe size={14} color="#60ff70" />
-            <span>General Search</span>
+          <div className="pill-badge search-fast-pill" style={{ marginBottom: '16px' }}>
+            <span className="octen-search-fast-prefix">Search</span><span className="octen-search-fast-divider">/</span><span className="octen-search-fast-keyword">FAST</span>
           </div>
           <h2>
             Web Search
@@ -43,41 +42,57 @@ export const ArchitectureComparison: React.FC = () => {
         >
           {/* Traditional Search Card */}
           <div
-            className="card-glass"
+            className="card-glass octen-web-search-card"
             style={{
-              borderColor: 'rgba(255, 255, 255, 0.08)',
-              background: 'linear-gradient(180deg, #101411 0%, #0d100e 100%)'
+              borderColor: 'var(--octen-web-search-border)',
+              background: 'linear-gradient(180deg, #101411 0%, #0d100e 100%)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              padding: '32px 24px'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-              <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Legacy Search Engine
-              </span>
-              <span className="pill-badge" style={{ backgroundColor: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)', color: 'var(--text-muted)', fontSize: '12px' }}>
-                Sequential Pipeline
-              </span>
-            </div>
-
-            <h3 style={{ fontSize: '24px', color: '#cbd5e1', marginBottom: '16px' }}>
+            <h3 style={{ fontSize: '24px', fontFamily: 'var(--font-heading)', color: '#ffffff', marginBottom: '6px' }}>
               Human Search
             </h3>
 
-            <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginBottom: '24px' }}>
-              Single keyword query sent to traditional index. Evaluates web pages sequentially, returning static blue links.
-            </p>
+            <div style={{ fontSize: '15px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px' }}>
+              <span>Single Query</span>
+              <span style={{ opacity: 0.6 }}>→</span>
+              <span>Sequential Results</span>
+            </div>
 
-            {/* Pipeline visual diagram */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 14px', backgroundColor: 'rgba(0,0,0,0.4)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#94a3b8' }} />
-                <span style={{ fontSize: '13.5px', fontFamily: 'var(--font-mono)', color: '#94a3b8' }}>Single User Query</span>
+            {/* Human Search Interactive Flow */}
+            <div className="octen-human-search-container">
+              {/* Query Pill */}
+              <div className="octen-human-query-pill">
+                <div className="octen-human-user-avatar">
+                  <User size={14} color="#ffffff" />
+                </div>
+                <span className="octen-human-query-text">What is the best AI search engine?</span>
+                <Search size={16} color="#ffffff" strokeWidth={2.2} className="shrink-0" />
               </div>
-              
-              <div style={{ textAlign: 'center', color: 'var(--text-dim)', fontSize: '12px' }}>↓ Sequential processing</div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 14px', backgroundColor: 'rgba(0,0,0,0.4)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#64748b' }} />
-                <span style={{ fontSize: '13.5px', fontFamily: 'var(--font-mono)', color: '#64748b' }}>10 Sequential Blue Links</span>
+              {/* Vertical Connector Line */}
+              <div className="octen-human-connector-line" />
+
+              {/* 5 Sequential Result Cards */}
+              <div className="octen-human-results-panel">
+                {[1, 2, 3, 4, 5].map((itemIndex) => (
+                  <div key={itemIndex} className="octen-human-result-item">
+                    <div className="octen-human-result-top">
+                      <Globe className="octen-human-globe" strokeWidth={1.8} />
+                      <div className="octen-human-lines-top">
+                        <div className="octen-skeleton-bar line-bright" />
+                        <div className="octen-skeleton-bar line-top-2" />
+                      </div>
+                    </div>
+                    <div className="octen-human-lines-bottom">
+                      <div className="octen-skeleton-bar line-bottom-1" />
+                      <div className="octen-skeleton-bar line-bottom-2" />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

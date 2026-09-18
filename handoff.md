@@ -9,28 +9,79 @@
 ---
 
 ## 📂 2. 代码架构分层与核心决策
-1. **单一真实数据源架构**：
-   - 核心运行入口为根目录 [index.html](file:///x:/XCoding/Octen/hompage/index.html)。
-   - 历史混淆的 Next.js 客户端脚本已全量清除，彻底根除客户端水合冲突与双重页面渲染隐患。
-   - 原内联在 HTML 中的庞大样式和交互脚本已按 DOM 结构解耦抽取至 `public/css/` 与 `public/js/`，主 HTML 结构清晰轻量。
-2. **双端同步机制**：
-   - 当前页面直接依赖 [index.html](file:///x:/XCoding/Octen/hompage/index.html) + `public/css/` + `public/js/` + `public/assets/` 运行。
+1. **单一真实数据源与切片化架构 (HTML Partials)**：
+   - 核心运行入口为根目录 [index.html](file:///x:/XCoding/Octen/hompage/index.html)（轻量总装骨架，仅 ~5KB）。
+   - 页面 8 大业务模块已切片至 `src/sections/`（各模块独立，体积仅 1KB~90KB），由 Vite 自定义插件 `htmlPartialsPlugin` 在构建与开发时无感组装：
+     - `src/sections/01-navbar.html`：导航栏与下拉菜单
+     - `src/sections/02-hero.html`：首屏搜索体验与生产评测表格
+     - `src/sections/03-web-search.html`：Web Search 架构对比 (Search / FAST)
+     - `src/sections/04-modalities.html`：Image & Video Search (图文/多模态混搜)
+     - `src/sections/05-vertical-search.html`：Vertical Search (5 步动态打字机与时间轴)
+     - `src/sections/06-retrieval-stack.html`：The Complete Retrieval Stack 与 Partners
+     - `src/sections/07-footer.html`：全宽页脚与资质徽章
+     - `src/sections/08-scripts.html`：底层脚本与 NumberFlow 注册
+   - **Token 暴降 85%+**：修改具体模块时只需针对性读取/编辑对应 `src/sections/*.html`，彻底规避 400KB 单文件与 10 万字符单行造成的截断与性能卡顿。
+2. **CSS 模块化分层架构 (`src/styles/`)**：
+   - 原 `src/index.css`（1084 行单体巨石文件）已拆分为高内聚的模块化样式并使用标准 `@import` 汇聚：
+     - `src/styles/variables.css`：全局 CSS 变量、颜色 Token、排版、间距与阴影
+     - `src/styles/base.css`：全局 Reset、自定义滚动条、排版 (`h1`-`p`)、通用按钮 (`.btn-primary-solid` 等)、磨砂玻璃卡片 (`.card-glass`)、胶囊标签与代码块
+     - `src/styles/vertical-search.css`：Vertical Search (Figma 13625:179114) 动态标签、展示卡片与时间轴响应式样式
+     - `src/styles/modalities-search.css`：Image & Video Search 模态卡片 (Figma 13631:182359) 双列网格与特性徽章样式
+     - `src/styles/web-search.css`：Web Search 架构对比卡片轻浅微透描边与分割线样式
+   - **Token 与维护提升**：避免每次排查或微调样式时重复解析千行单体 CSS，提升 AI 交互与开发构建效率。
+3. **双端同步机制**：
+   - 当前页面直接由 Vite 基于 `index.html` + `src/sections/` + `public/` 驱动。
    - `src/components/*.tsx` 为手写的高质量 React 18 + TS 组件（供工程化维护）。
-   - **核心约束**：修改界面样式或结构时，需同步维护 `public/` 静态资源与 `src/components/` 源码组件，确保双端一致。
+   - **核心约束**：修改界面样式或结构时，同步维护 `src/sections/` 与 `src/components/` 源码组件，确保双端一致。
 
 ---
 
 ## 🎨 3. 核心功能模块与重要设计决策
 
 ### A. 导航栏 (Navbar)
-- **下拉菜单**: Products（821px 三列布局，其中 Search 列已隐去 Omni Search，并将原 Vertical Search 删除拆分为 News Search 与 Business Search，保持 6 项对称平衡）与 Developers（208px 紧凑布局）下拉卡片，采用原生防抖事件驱动，点击内部锚点自动收起。
-- **关联文件**: [public/css/navbar.css](file:///x:/XCoding/Octen/hompage/public/css/navbar.css) 与 [public/js/navbar.js](file:///x:/XCoding/Octen/hompage/public/js/navbar.js)。
+- **下拉菜单**: 
+  - **Products 下拉菜单 (深度对齐 Figma node 13625:174324)**：
+    - **尺寸与投影**: 容器宽度定格为 `827px`，内边距 `20px`，双层微阴影 `box-shadow: 0px 12px 8px rgba(10, 13, 18, 0.08), 0px 4px 3px rgba(10, 13, 18, 0.03)`，圆角 `12px`。
+    - **三列布局结构**:
+      - **第一列 Search**：宽度 `220px`，上下段间距 `24px`。
+        - **FAST 分组**：Web Search (`/platform/web-search`)、Broad Search (`/platform/broad-search`)。
+        - **Premier 分组**：Image Search (`/products/image`)、Video Search (`/products/video`)、News Search (`/products/news`)（Business Search 暂时隐去）。
+      - **第二列 Models / Tools**：宽度 `249px`，左内边距 `28px`，左侧半透明灰实线分割 `1px solid rgba(202, 202, 202, 0.5)`，上下段间距 `24px`。
+        - **上部 Models 分组**：Embedding、VL Embedding、Model Gateway。
+        - **下部 Tools 分组**：标题明确为 `Tools`，仅保留 Extract（Collect 暂时隐去）。
+      - **高度对称与标题间距对齐**：三列分类标题 `.nav-dropdown-col-title` 统一采用 `margin: 0`，消除原本后两列的额外下外边距。前两列（第一列 2+3=5 项，第二列 3+2=5 项）总高度均严格为 `284px`，达成亚像素级等高对齐。
+      - **第三列 Application**：宽度 `278px`，左内边距 `28px`，左侧半透明灰实线分割 `1px solid rgba(202, 202, 202, 0.5)`。包含 Answer、Deep Research、Multimodal Chat、Ground Generation，菜单项垂直间距严格为 `10px`。
+    - **全量 15 款图标矢量化与色彩架构**:
+      - **Web Search / News Search / Business Search 图标原生化**：Web Search、News Search（`lucide:newspaper` 带标准 clipPath）与 Business Search（`lucide:briefcase` 公文包）均已采用原生 `20×20` 规格高质量矢量 SVG（`stroke="#628A78"`），并同步归档至 [public/assets/icons/products/](file:///x:/XCoding/Octen/hompage/public/assets/icons/products/)。描边、尺寸与设计稿严格 1:1 吻合。
+      - 彻底清除原 CSS 强行全局给所有 svg 子节点注入 `fill: none !important;` 与覆写 `stroke-width` 的破坏性样式 Bug，修复 Image/Video Search、Answer、Extract、Collect、Ground Generation 及复合点状图形（Embedding、VL Embedding）的镂空撕裂。
+      - 统一基于 `currentColor` 响应式架构：常态下图标与链接文字保持 `#628A78`，悬停时连动变为翠绿 `#039855`，标题为黑底 `#181D27`（悬停 `#0E121B`），保证线框与面填充图标均呈现完美视觉一致性。
+  - **Developers 下拉菜单**：`208px` 紧凑单列布局，包含 API Platform 与 Docs。
+- **关联文件**: [public/css/navbar.css](file:///x:/XCoding/Octen/hompage/public/css/navbar.css)、[public/js/navbar.js](file:///x:/XCoding/Octen/hompage/public/js/navbar.js) 及 [index.html](file:///x:/XCoding/Octen/hompage/index.html)。
 
-### B. Web Search (General Search)
-- **标签规范**: 顶部标签由 `Web Search API` 统一更名为 `General Search`（与垂直搜索分类对齐）。
-- **卡片实线**: Human Search 与 Octen Search 的外框及纵向列分割线已全量改为**实线**（`border-solid`），杜绝草稿感。
+### B. Web Search (Search · Fast)
+- **标签规范**: 顶部标签改为纯文本 `Search · Fast`，并彻底去除标签内的图标（移除原 Globe 图标）。
+- **边框与分割线调浅微透**: 
+  - 将原厚重生硬的深灰实线（`#555555`）优化为高精轻浅半透明微描边（`rgba(255, 255, 255, 0.14)`），杜绝突兀切割感与厚重线框感。
+  - 外层对比大卡片：`.octen-web-search-card`（`border: 1px solid rgba(255, 255, 255, 0.14)`，悬停柔光 0.22）。
+  - 中间纵向分割线：`.octen-web-search-divider`（桌面端 `border-right: 1px solid rgba(255, 255, 255, 0.14)`；移动端自适应为底分割线）。
+- **左侧 Human Search 对齐设计图完美补全**:
+  - **副标题完整呈现**：`Single Query → Sequential Results`，彻底修复原先 `width: 0px` 导致箭头与文本隐藏的问题。
+  - **搜索框 Query Bar**：左侧用户头像徽标（圆底 + `lucide:user`）、Query 预置文本 `What is the best AI search engine?`、右侧放大镜图标 `lucide:search`。
+  - **垂向连接脊线 (Connector Line)**：自搜索框底端居中垂直连接至下方结果卡片（`w-[1.5px] h-[38px]`，`rgba(255, 255, 255, 0.22)`）。
+  - **5 条连续骨架结果卡片 (5 Sequential Results)**：
+    - 每行独立条目：左侧带地球图标（`lucide:globe`，半透浅灰）。
+    - 顶部双行骨架：首行中长（高亮 `0.45` 透明度，宽度 `62%`），次行较长（`0.22` 透明度，宽度 `90%`）。
+    - 底部折返全宽双行：折返至地球图标下方左对齐排布，上行近全宽（`98%`），下行中长（`65%`）。
+    - 结构严格 1:1 吻合参考图。
+  - **底对齐与元素间距微调 (Bottom Alignment)**：
+    - 将 `.octen-human-results-panel` 容器高度固定为 `322px`，内边距调整为 `padding: 17px 14px`，配置 `justify-content: space-between` 与 `gap: 29px`。
+    - 结合上方 `38px` 连接线与 `42px` 搜索胶囊，总高度完美达到 `402px`，与右侧 Octen Search 流程（60px 树状括号 + 140px 子查询卡片 + 28px 间距 + 132px 检索结果卡片 = 360px 流程 + 42px 搜索框 = 402px）实现像素级绝对底对齐。
+    - 统一 Human Search 标题的负边距为 `-mb-3`，确保左右两栏标题、副标题、搜索框与底端卡片四重水平均衡对齐。
+- **关联文件**: [public/css/web-search.css](file:///x:/XCoding/Octen/hompage/public/css/web-search.css)、[src/styles/web-search.css](file:///x:/XCoding/Octen/hompage/src/styles/web-search.css)、[src/sections/03-web-search.html](file:///x:/XCoding/Octen/hompage/src/sections/03-web-search.html) 及 [src/components/ArchitectureComparison.tsx](file:///x:/XCoding/Octen/hompage/src/components/ArchitectureComparison.tsx)。
+
 
 ### C. Image & Video Search
+- **胶囊标签规范**: 标题上方统一配置纯文本 `Search · Fast` 胶囊标签（`.octen-modality-tag`，居中对齐，圆角 `9999px`，内边距 `5px 16px`，半透明边框与磨砂背景），与 Web Search 视觉规范保持一致。
 - **并排架构**: 深度对齐 Figma 13631:182359，左右各 630px 双列并排，居中挂载于 1280px 容器。
 - **标题绝对居中**: `Early Access` 标签采用绝对定位脱离文档流（`left: calc(100% + 12px); top: 50%`），确保标题与下方卡片 100% 绝对数学居中。
 - **行动点 CTA**: 描述文字下方居中配置高精幽灵外框按钮 `Request Access ↗`，带绿色柔光悬停微动效。
@@ -83,13 +134,17 @@
 ---
 
 ## 🗂️ 4. 关键资产与文件速查
-| 模块 / 区域 | 静态样式 (CSS) | 交互脚本 (JS) | React 源码组件 |
-| :--- | :--- | :--- | :--- |
-| **Navbar 导航栏** | `public/css/navbar.css` | `public/js/navbar.js` | `src/components/Navbar.tsx` |
-| **Image & Video** | `public/css/modalities-search.css` | 页面静态 DOM | `src/components/ImageVideoSearch.tsx` |
-| **Vertical Search** | `public/css/vertical-search.css` | `public/js/vertical-search.js` | `src/components/VerticalSearch.tsx` |
-| **Footer 页脚** | `public/css/footer.css` | 页面静态 DOM | `src/components/Footer.tsx` |
-| **主入口 / 全局** | `public/_next/static/css/c4ae1de60afeb6c3.css` | - | `index.html` / `src/App.tsx` |
+| 模块 / 区域 | HTML 片段 (src/sections/) | 静态样式 (CSS) | 交互脚本 (JS) | React 源码组件 |
+| :--- | :--- | :--- | :--- | :--- |
+| **Navbar 导航栏** | `src/sections/01-navbar.html` | `public/css/navbar.css` | `public/js/navbar.js` | `src/components/Navbar.tsx` |
+| **Hero 检索区** | `src/sections/02-hero.html` | `c4ae1de60afeb6c3.css` | 页面静态 DOM | `src/components/Hero.tsx` |
+| **Web Search 对比** | `src/sections/03-web-search.html` | `c4ae1de60afeb6c3.css` | 页面静态 DOM | `src/components/ArchitectureComparison.tsx` |
+| **Image & Video** | `src/sections/04-modalities.html` | `public/css/modalities-search.css` | 页面静态 DOM | `src/components/ImageVideoSearch.tsx` |
+| **Vertical Search** | `src/sections/05-vertical-search.html` | `public/css/vertical-search.css` | `public/js/vertical-search.js` | `src/components/VerticalSearch.tsx` |
+| **Retrieval Stack** | `src/sections/06-retrieval-stack.html`| `c4ae1de60afeb6c3.css` | 页面静态 DOM | `src/components/RetrievalStack.tsx` |
+| **Footer 页脚** | `src/sections/07-footer.html` | `public/css/footer.css` | 页面静态 DOM | `src/components/Footer.tsx` |
+| **底层脚本/挂载** | `src/sections/08-scripts.html`| - | `vertical-search.js` | - |
+| **主入口 / 骨架** | `index.html` (~5 KB) | - | - | `src/App.tsx` |
 
 ---
 

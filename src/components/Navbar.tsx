@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Terminal, ArrowUpRight, Check, Layers, Cpu } from 'lucide-react';
+import { Terminal, ArrowUpRight, Check } from 'lucide-react';
 
-interface NavbarProps {
-  activeSite: 'octen' | 'vercel';
-  onToggleSite: (site: 'octen' | 'vercel') => void;
-}
-
-export const Navbar: React.FC<NavbarProps> = ({ activeSite, onToggleSite }) => {
+export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [copiedKey, setCopiedKey] = useState(false);
 
@@ -59,28 +54,17 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSite, onToggleSite }) => {
               <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#60ff70', boxShadow: '0 0 8px #60ff70' }} />
             </div>
             <span style={{ fontFamily: 'var(--font-heading)', fontSize: '24px', fontWeight: 600, color: '#fff', letterSpacing: '-0.02em' }}>
-              {activeSite === 'octen' ? 'Octen' : 'Vercel Agentic'}
+              Octen
             </span>
           </a>
         </div>
 
-        {/* Desktop Navigation Links based on active site */}
+        {/* Desktop Navigation Links */}
         <nav style={{ display: 'flex', alignItems: 'center', gap: '28px' }} className="desktop-nav">
-          {activeSite === 'octen' ? (
-            <>
-              <a href="#architecture" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Architecture</a>
-              <a href="#multimodal" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Multimodal</a>
-              <a href="#stack" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Retrieval Stack</a>
-              <a href="#benchmarks" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Benchmarks</a>
-            </>
-          ) : (
-            <>
-              <a href="#case-studies" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Scale Cases</a>
-              <a href="https://vercel.com/ai-sdk" target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Agent Stack</a>
-              <a href="https://vercel.com/fluid" target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Fluid Compute</a>
-              <a href="https://vercel.com/pricing" target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Pricing</a>
-            </>
-          )}
+          <a href="#architecture" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Architecture</a>
+          <a href="#multimodal" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Multimodal</a>
+          <a href="#stack" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Retrieval Stack</a>
+          <a href="#benchmarks" style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '14px' }}>Benchmarks</a>
         </nav>
 
         {/* Header Right CTA */}
@@ -89,8 +73,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSite, onToggleSite }) => {
             {copiedKey ? <Check size={14} color="#60ff70" /> : <Terminal size={14} />}
             <span>{copiedKey ? 'Key Copied!' : 'API Key'}</span>
           </button>
-          <a href="https://vercel.com/new" target="_blank" rel="noreferrer" className="btn-primary-solid" style={{ padding: '8px 18px', fontSize: '13px' }}>
-            <span>Deploy</span>
+          <a href="https://octen.ai" target="_blank" rel="noreferrer" className="btn-primary-solid" style={{ padding: '8px 18px', fontSize: '13px' }}>
+            <span>Sign in</span>
             <ArrowUpRight size={14} />
           </a>
         </div>
@@ -98,3 +82,5 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSite, onToggleSite }) => {
     </header>
   );
 };
+
+export default Navbar;

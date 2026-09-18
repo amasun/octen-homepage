@@ -1,0 +1,17 @@
+<!-- ================= MODULAR SCRIPTS ================= -->
+  <!-- Vertical Search Interactive Engine -->
+  <script src="/js/vertical-search.js" defer></script>
+  <!-- Navigation Dropdown Controller -->
+  <script src="/js/navbar.js" defer></script>
+
+
+  <!-- NumberFlow Library for digital rolling odometer counter (走马灯效果) -->
+  <script type="module">
+    import NumberFlow, { continuous } from 'number-flow';
+    window.NumberFlow = NumberFlow;
+    window.NumberFlowContinuous = continuous;
+    if (window.__initNumberFlow) {
+      window.__initNumberFlow();
+    }
+    window.dispatchEvent(new CustomEvent('numberflow-ready'));
+  </script>

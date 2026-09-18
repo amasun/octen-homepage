@@ -45,14 +45,40 @@ function localNextImageProxy() {
   };
 }
 
+function htmlPartialsPlugin() {
+  return {
+    name: 'html-partials-plugin',
+    transformIndexHtml: {
+      order: 'pre' as const,
+      handler(html: string) {
+        const includeRegex = /<include\s+src=["']([^"']+)["']\s*(?:\/>|><\/include>)/g;
+        return html.replace(includeRegex, (_match, srcPath) => {
+          const resolvedPath = path.resolve(process.cwd(), srcPath);
+          if (fs.existsSync(resolvedPath)) {
+            return fs.readFileSync(resolvedPath, 'utf8');
+          }
+          console.warn(`[html-partials] Missing partial file: ${srcPath} (resolved: ${resolvedPath})`);
+          return _match;
+        });
+      },
+    },
+  };
+}
+
 function liveReloadPlugin() {
   return {
     name: 'live-reload-public-and-assets',
     configureServer(server: any) {
       const publicPath = path.resolve(process.cwd(), 'public');
+      const sectionsPath = path.resolve(process.cwd(), 'src', 'sections');
       server.watcher.add(publicPath);
+      server.watcher.add(sectionsPath);
       server.watcher.on('change', (changedFile: string) => {
-        if (changedFile.includes('public') || changedFile.includes('index.html')) {
+        if (
+          changedFile.includes('public') ||
+          changedFile.includes('index.html') ||
+          changedFile.includes('sections')
+        ) {
           server.ws.send({ type: 'full-reload', path: '*' });
         }
       });
@@ -61,7 +87,7 @@ function liveReloadPlugin() {
 }
 
 export default defineConfig({
-  plugins: [react(), localNextImageProxy(), liveReloadPlugin()],
+  plugins: [htmlPartialsPlugin(), react(), localNextImageProxy(), liveReloadPlugin()],
   server: {
     port: 3001,
     strictPort: true,

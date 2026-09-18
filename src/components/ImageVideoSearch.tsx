@@ -21,22 +21,22 @@ const modalitiesData: ModalityCardData[] = [
     id: 'image-search',
     title: 'Image Search',
     badge: 'Early Access',
-    description: 'When words fall short, find the exact visual you need. Search with text or another image to discover references, design inspiration, and ready-to-use layouts.',
+    description: 'Search visuals by text or image. Find the right reference, faster.',
     nodeId: '13631:182378',
     headerNodeId: '13631:182584',
     cardNodeId: '13631:182389',
     items: [
       {
-        title: 'Find What You Mean',
-        desc: 'Describe a look or upload an image to find matching real-world examples.',
+        title: 'Text & image queries',
+        desc: 'Search with a prompt or reference image.',
       },
       {
-        title: 'From Idea to Reality',
-        desc: 'Turn visual inspiration directly into design summaries and workable layouts.',
+        title: 'Visual matches',
+        desc: 'Find similar images across the web.',
       },
       {
-        title: 'Stay Focused',
-        desc: 'Search only the sites and creative spaces you care about most.',
+        title: 'Focused results',
+        desc: 'Search the sources that matter.',
       },
     ],
   },
@@ -44,22 +44,22 @@ const modalitiesData: ModalityCardData[] = [
     id: 'video-search',
     title: 'Video Search',
     badge: 'Early Access',
-    description: 'When showing beats telling. Find the exact clip, tutorial, or real-world moment across the web—ready to play, learn from, or inspire new creations.',
+    description: 'Find the right clip, tutorial, or moment—instantly.',
     nodeId: '13631:182427',
     headerNodeId: '13631:182741',
     cardNodeId: '13631:182438',
     items: [
       {
-        title: 'Answers You Can Watch',
-        desc: 'Step-by-step guides, live demos, and talks ready to stream right where you are.',
+        title: 'Search by intent',
+        desc: 'Describe the clip or moment you need.',
       },
       {
-        title: 'Real-World Inspiration',
-        desc: 'Discover authentic footage and real motion to ground your creative ideas.',
+        title: 'Moment-level matches',
+        desc: 'Find the exact scene, frame, or timestamp.',
       },
       {
-        title: 'Moments That Just Happened',
-        desc: 'Catch up on recent events and key highlights fresh from this week.',
+        title: 'Fresh video results',
+        desc: 'Retrieve relevant clips from the live web.',
       },
     ],
   },
@@ -78,12 +78,31 @@ export const ImageVideoSearch: React.FC = () => {
             <div key={col.id} className="octen-modality-col" data-node-id={col.nodeId}>
               {/* Header Block */}
               <div className="octen-modality-header" data-node-id={col.headerNodeId}>
+                <span className="octen-modality-tag"><span className="octen-modality-tag-text"><span className="octen-search-fast-prefix">Search</span><span className="octen-search-fast-divider">/</span><span className="octen-search-premier-keyword">PREMIER</span></span></span>
                 <div className="octen-modality-title-row">
                   <h2 className="octen-modality-title">{col.title}</h2>
                   <span className="octen-early-access-badge">{col.badge}</span>
                 </div>
 
                 <p className="octen-modality-desc">{col.description}</p>
+
+
+              </div>
+
+              {/* Bottom Feature Card */}
+              <ul className="octen-modality-card" data-node-id={col.cardNodeId}>
+                {col.items.map((item, idx) => (
+                  <li key={idx} className="octen-feature-item">
+                    <div className="octen-feature-icon-box">
+                      <span>✦</span>
+                    </div>
+                    <div className="octen-feature-content">
+                      <h4 className="octen-feature-title">{item.title}</h4>
+                      <p className="octen-feature-desc">{item.desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
 
                 <a
                   href="https://octen.ai/platform/overview"
@@ -107,22 +126,8 @@ export const ImageVideoSearch: React.FC = () => {
                     <path d="M3 13L13 3M13 13V3H3" />
                   </svg>
                 </a>
-              </div>
 
-              {/* Bottom Feature Card */}
-              <div className="octen-modality-card" data-node-id={col.cardNodeId}>
-                {col.items.map((item, idx) => (
-                  <div key={idx} className="octen-feature-item">
-                    <div className="octen-feature-icon-box">
-                      <span>✦</span>
-                    </div>
-                    <div className="octen-feature-content">
-                      <h4 className="octen-feature-title">{item.title}</h4>
-                      <p className="octen-feature-desc">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <div className="octen-modality-visual-placeholder" aria-hidden="true" />
             </div>
           ))}
         </div>

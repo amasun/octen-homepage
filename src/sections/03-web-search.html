@@ -1,0 +1,1018 @@
+<!-- ==========================================================================
+     SECTION 3: WEB SEARCH (ARCHITECTURE COMPARISON)
+     Human Search (Sequential Pipeline) vs Octen Search (Concurrent AI Execution)
+     ========================================================================== -->
+<div class="relative bg-bg-dark py-30 px-8">
+  <div class="relative z-1 max-w-7xl mx-auto space-y-15">
+    <!-- 1. Header: Search / FAST Badge, Title & Description -->
+    <div class="flex flex-col items-center text-center gap-4">
+      <span
+        class="octen-search-fast-tag"
+        style="opacity: 0; filter: blur(8px); transform: translateY(24px)"
+        ><span class="octen-search-fast-prefix">Search</span
+        ><span class="octen-search-fast-divider">/</span
+        ><span class="octen-search-fast-keyword">FAST</span></span
+      ><span
+        class="text-5xl lg:text-[44px] font-serif text-white"
+        style="opacity: 0; filter: blur(8px); transform: translateY(24px)"
+        >Web Search</span
+      >
+      <p
+        class="max-w-155 text-base text-white leading-relaxed px-4 mb-2"
+        style="opacity: 0; filter: blur(8px); transform: translateY(24px)"
+      >
+        LLM-native web search, delivering industry-leading real-time
+        intelligence with the lowest latency and enterprise-grade reliability.
+      </p>
+    </div>
+
+    <!-- 2. Dual Architecture Comparison Card -->
+    <div style="opacity: 0; filter: blur(10px); transform: translateY(32px)">
+      <div
+        class="w-full bg-[#080B12] border border-solid px-6 py-8 md:px-10 md:py-10 rounded-md octen-web-search-card"
+      >
+        <div
+          class="max-md:flex max-md:flex-col md:grid md:grid-cols-[1fr_1.9fr] gap-8 md:gap-4"
+        >
+          <!-- Column 1: Human Search (Single Query -> Sequential 10 Blue Links) -->
+          <div
+            class="flex flex-col items-center gap-5 flex-1 min-w-0 border border-transparent pr-4 border-solid octen-web-search-divider"
+          >
+            <h3
+              class="text-2xl font-serif text-white -mb-3"
+            >
+              Human Search
+            </h3>
+            <div
+              class="text-base text-white/60 flex items-center gap-2 h-5 mb-5"
+            >
+              <span>Single Query</span>
+              <span class="text-[#999999] opacity-60">→</span>
+              <span>Sequential Results</span>
+            </div>
+
+            <!-- Human Search Interactive Flow: Query Bar + Connector + 5 Sequential Results -->
+            <div class="octen-human-search-container">
+              <!-- Query Pill -->
+              <div class="octen-human-query-pill">
+                <div class="octen-human-user-avatar">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                </div>
+                <span class="octen-human-query-text">What is the best AI search engine?</span>
+                <svg class="octen-human-search-icon" viewBox="0 0 24 24">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </div>
+
+              <!-- Vertical Connector Line -->
+              <div class="octen-human-connector-line"></div>
+
+              <!-- 5 Sequential Result Cards -->
+              <div class="octen-human-results-panel">
+                <!-- Result Item 1 -->
+                <div class="octen-human-result-item">
+                  <div class="octen-human-result-top">
+                    <svg class="octen-human-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="2" y1="12" x2="22" y2="12"></line>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                    <div class="octen-human-lines-top">
+                      <div class="octen-skeleton-bar line-bright"></div>
+                      <div class="octen-skeleton-bar line-top-2"></div>
+                    </div>
+                  </div>
+                  <div class="octen-human-lines-bottom">
+                    <div class="octen-skeleton-bar line-bottom-1"></div>
+                    <div class="octen-skeleton-bar line-bottom-2"></div>
+                  </div>
+                </div>
+
+                <!-- Result Item 2 -->
+                <div class="octen-human-result-item">
+                  <div class="octen-human-result-top">
+                    <svg class="octen-human-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="2" y1="12" x2="22" y2="12"></line>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                    <div class="octen-human-lines-top">
+                      <div class="octen-skeleton-bar line-bright"></div>
+                      <div class="octen-skeleton-bar line-top-2"></div>
+                    </div>
+                  </div>
+                  <div class="octen-human-lines-bottom">
+                    <div class="octen-skeleton-bar line-bottom-1"></div>
+                    <div class="octen-skeleton-bar line-bottom-2"></div>
+                  </div>
+                </div>
+
+                <!-- Result Item 3 -->
+                <div class="octen-human-result-item">
+                  <div class="octen-human-result-top">
+                    <svg class="octen-human-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="2" y1="12" x2="22" y2="12"></line>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                    <div class="octen-human-lines-top">
+                      <div class="octen-skeleton-bar line-bright"></div>
+                      <div class="octen-skeleton-bar line-top-2"></div>
+                    </div>
+                  </div>
+                  <div class="octen-human-lines-bottom">
+                    <div class="octen-skeleton-bar line-bottom-1"></div>
+                    <div class="octen-skeleton-bar line-bottom-2"></div>
+                  </div>
+                </div>
+
+                <!-- Result Item 4 -->
+                <div class="octen-human-result-item">
+                  <div class="octen-human-result-top">
+                    <svg class="octen-human-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="2" y1="12" x2="22" y2="12"></line>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                    <div class="octen-human-lines-top">
+                      <div class="octen-skeleton-bar line-bright"></div>
+                      <div class="octen-skeleton-bar line-top-2"></div>
+                    </div>
+                  </div>
+                  <div class="octen-human-lines-bottom">
+                    <div class="octen-skeleton-bar line-bottom-1"></div>
+                    <div class="octen-skeleton-bar line-bottom-2"></div>
+                  </div>
+                </div>
+
+                <!-- Result Item 5 -->
+                <div class="octen-human-result-item">
+                  <div class="octen-human-result-top">
+                    <svg class="octen-human-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="2" y1="12" x2="22" y2="12"></line>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                    <div class="octen-human-lines-top">
+                      <div class="octen-skeleton-bar line-bright"></div>
+                      <div class="octen-skeleton-bar line-top-2"></div>
+                    </div>
+                  </div>
+                  <div class="octen-human-lines-bottom">
+                    <div class="octen-skeleton-bar line-bottom-1"></div>
+                    <div class="octen-skeleton-bar line-bottom-2"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Column 2: Octen Search (Concurrent Execution Architecture) -->
+          <div class="flex flex-col items-center gap-5 flex-1 min-w-0">
+            <h3
+              class="text-2xl font-serif text-transparent bg-clip-text -mb-3"
+              style="
+                background-image: linear-gradient(
+                  90deg,
+                  #ffffff 0%,
+                  #999999 100%
+                );
+              "
+            >
+              Octen Search
+            </h3>
+            <div
+              class="text-base text-white/60 flex items-center gap-1.5 h-5 mb-5"
+            >
+              <span>Multiple Sub-Queries</span
+              ><span
+                class="flex items-center gap-2 overflow-hidden whitespace-nowrap"
+                style="width: 0px; opacity: 0; transform: translateX(-4px)"
+                ><span class="text-[#999999] opacity-40">→</span
+                ><span>Concurrent Results</span></span
+              >
+            </div>
+
+            <!-- Octen Search Input Field -->
+            <div class="w-full max-w-84">
+              <div
+                class="w-full rounded-sm text-sm border border-[#FFFFFF33] overflow-hidden"
+              >
+                <div
+                  class="flex items-center w-full h-10 gap-2 pl-1.5 pr-2 py-2"
+                  style="
+                    background: linear-gradient(
+                      90deg,
+                      rgba(255, 255, 255, 0.1) 0%,
+                      rgba(255, 255, 255, 0) 100%
+                    );
+                  "
+                >
+                  <img
+                    alt=""
+                    loading="lazy"
+                    width="24"
+                    height="24"
+                    decoding="async"
+                    data-nimg="1"
+                    class="size-6"
+                    style="color: transparent"
+                    src="/_next/static/media/icon-octen-search-box.db2a72f2.svg"
+                  /><span
+                    class="flex-1 text-white whitespace-nowrap overflow-hidden text-ellipsis min-w-0"
+                  ></span
+                  ><img
+                    alt=""
+                    loading="lazy"
+                    width="16"
+                    height="16"
+                    decoding="async"
+                    data-nimg="1"
+                    class="size-4 shrink-0"
+                    style="color: transparent"
+                    src="/_next/static/media/icon-ai-search.b1cc9258.svg"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Subquery Pipeline: Branching Connector -> 10 Subqueries -> 10 Concurrent Results -->
+            <div
+              class="w-full max-w-172 mx-auto flex flex-col items-stretch -mt-5"
+            >
+              <!-- SVG Bracket Tree Connector -->
+              <div class="w-[85%] mx-auto px-3" style="opacity: 0">
+                <div class="w-full opacity-30">
+                  <svg
+                    width="400"
+                    height="60"
+                    fill="none"
+                    overflow="visible"
+                    style="display: block"
+                  >
+                    <defs>
+                      <linearGradient
+                        id="brace-grad-left"
+                        x1="200"
+                        y1="0"
+                        x2="0"
+                        y2="0"
+                        gradientUnits="userSpaceOnUse"
+                      >
+                        <stop offset="0%" stop-color="#5A5A5A"></stop>
+                        <stop offset="100%" stop-color="#C0C0C0"></stop>
+                      </linearGradient>
+                      <linearGradient
+                        id="brace-grad-right"
+                        x1="200"
+                        y1="0"
+                        x2="400"
+                        y2="0"
+                        gradientUnits="userSpaceOnUse"
+                      >
+                        <stop offset="0%" stop-color="#5A5A5A"></stop>
+                        <stop offset="100%" stop-color="#C0C0C0"></stop>
+                      </linearGradient>
+                    </defs>
+                    <path
+                      d="M 200 2 L 200 18 Q 200 36 176 36 L 20 36 A 20 20 0 0 0 0 56"
+                      stroke="url(#brace-grad-left)"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      pathLength="1"
+                      stroke-dashoffset="0px"
+                      stroke-dasharray="0px 1px"
+                    ></path>
+                    <path
+                      d="M 200 2 L 200 18 Q 200 36 224 36 L 380 36 A 20 20 0 0 1 400 56"
+                      stroke="url(#brace-grad-right)"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      pathLength="1"
+                      stroke-dashoffset="0px"
+                      stroke-dasharray="0px 1px"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <!-- 1. Grid of 10 Concurrent Sub-Query Decomposition Chips -->
+              <div
+                class="relative h-35 border border-[#FFFFFF33] rounded-lg grid gap-2.5 mb-7 px-2 py-4"
+                style="grid-template-columns: repeat(5, 1fr)"
+              >
+                <div
+                  class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg bg-[#32353880] text-sm text-white/80 overflow-hidden"
+                  style="opacity: 0; transform: scale(0.9)"
+                >
+                  <img
+                    alt=""
+                    loading="lazy"
+                    width="16"
+                    height="16"
+                    decoding="async"
+                    data-nimg="1"
+                    class="size-4 text-primary-dark"
+                    style="color: transparent"
+                    src="/_next/static/media/icon-octen-dark.2c5e3d2d.svg"
+                  /><span class="truncate">AI search engines</span>
+                </div>
+                <div
+                  class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg bg-[#32353880] text-sm text-white/80 overflow-hidden"
+                  style="opacity: 0; transform: scale(0.9)"
+                >
+                  <img
+                    alt=""
+                    loading="lazy"
+                    width="16"
+                    height="16"
+                    decoding="async"
+                    data-nimg="1"
+                    class="size-4 text-primary-dark"
+                    style="color: transparent"
+                    src="/_next/static/media/icon-octen-dark.2c5e3d2d.svg"
+                  /><span class="truncate">LLM vs keyword</span>
+                </div>
+                <div
+                  class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg bg-[#32353880] text-sm text-white/80 overflow-hidden"
+                  style="opacity: 0; transform: scale(0.9)"
+                >
+                  <img
+                    alt=""
+                    loading="lazy"
+                    width="16"
+                    height="16"
+                    decoding="async"
+                    data-nimg="1"
+                    class="size-4 text-primary-dark"
+                    style="color: transparent"
+                    src="/_next/static/media/icon-octen-dark.2c5e3d2d.svg"
+                  /><span class="truncate">Search accuracy</span>
+                </div>
+                <div
+                  class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg bg-[#32353880] text-sm text-white/80 overflow-hidden"
+                  style="opacity: 0; transform: scale(0.9)"
+                >
+                  <img
+                    alt=""
+                    loading="lazy"
+                    width="16"
+                    height="16"
+                    decoding="async"
+                    data-nimg="1"
+                    class="size-4 text-primary-dark"
+                    style="color: transparent"
+                    src="/_next/static/media/icon-octen-dark.2c5e3d2d.svg"
+                  /><span class="truncate">Retrieval methods</span>
+                </div>
+                <div
+                  class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg bg-[#32353880] text-sm text-white/80 overflow-hidden"
+                  style="opacity: 0; transform: scale(0.9)"
+                >
+                  <img
+                    alt=""
+                    loading="lazy"
+                    width="16"
+                    height="16"
+                    decoding="async"
+                    data-nimg="1"
+                    class="size-4 text-primary-dark"
+                    style="color: transparent"
+                    src="/_next/static/media/icon-octen-dark.2c5e3d2d.svg"
+                  /><span class="truncate">Vector databases</span>
+                </div>
+                <div
+                  class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg bg-[#32353880] text-sm text-white/80 overflow-hidden"
+                  style="opacity: 0; transform: scale(0.9)"
+                >
+                  <img
+                    alt=""
+                    loading="lazy"
+                    width="16"
+                    height="16"
+                    decoding="async"
+                    data-nimg="1"
+                    class="size-4 text-primary-dark"
+                    style="color: transparent"
+                    src="/_next/static/media/icon-octen-dark.2c5e3d2d.svg"
+                  /><span class="truncate">Hybrid search</span>
+                </div>
+                <div
+                  class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg bg-[#32353880] text-sm text-white/80 overflow-hidden"
+                  style="opacity: 0; transform: scale(0.9)"
+                >
+                  <img
+                    alt=""
+                    loading="lazy"
+                    width="16"
+                    height="16"
+                    decoding="async"
+                    data-nimg="1"
+                    class="size-4 text-primary-dark"
+                    style="color: transparent"
+                    src="/_next/static/media/icon-octen-dark.2c5e3d2d.svg"
+                  /><span class="truncate">AI agent search</span>
+                </div>
+                <div
+                  class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg bg-[#32353880] text-sm text-white/80 overflow-hidden"
+                  style="opacity: 0; transform: scale(0.9)"
+                >
+                  <img
+                    alt=""
+                    loading="lazy"
+                    width="16"
+                    height="16"
+                    decoding="async"
+                    data-nimg="1"
+                    class="size-4 text-primary-dark"
+                    style="color: transparent"
+                    src="/_next/static/media/icon-octen-dark.2c5e3d2d.svg"
+                  /><span class="truncate">LLM search</span>
+                </div>
+                <div
+                  class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg bg-[#32353880] text-sm text-white/80 overflow-hidden"
+                  style="opacity: 0; transform: scale(0.9)"
+                >
+                  <img
+                    alt=""
+                    loading="lazy"
+                    width="16"
+                    height="16"
+                    decoding="async"
+                    data-nimg="1"
+                    class="size-4 text-primary-dark"
+                    style="color: transparent"
+                    src="/_next/static/media/icon-octen-dark.2c5e3d2d.svg"
+                  /><span class="truncate">Real-time results</span>
+                </div>
+                <div
+                  class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg bg-[#32353880] text-sm text-white/80 overflow-hidden"
+                  style="opacity: 0; transform: scale(0.9)"
+                >
+                  <img
+                    alt=""
+                    loading="lazy"
+                    width="16"
+                    height="16"
+                    decoding="async"
+                    data-nimg="1"
+                    class="size-4 text-primary-dark"
+                    style="color: transparent"
+                    src="/_next/static/media/icon-octen-dark.2c5e3d2d.svg"
+                  /><span class="truncate">Semantic search</span>
+                </div>
+                <div
+                  class="absolute left-0 right-0 mx-auto -bottom-6 w-full grid"
+                  style="grid-template-columns: repeat(5, 1fr); opacity: 0"
+                >
+                  <div class="flex justify-center">
+                    <div
+                      class="w-0.5 h-4.5 opacity-30"
+                      style="
+                        background: linear-gradient(
+                          to bottom,
+                          #5a5a5a,
+                          #c0c0c0
+                        );
+                      "
+                    ></div>
+                  </div>
+                  <div class="flex justify-center">
+                    <div
+                      class="w-0.5 h-4.5 opacity-30"
+                      style="
+                        background: linear-gradient(
+                          to bottom,
+                          #5a5a5a,
+                          #c0c0c0
+                        );
+                      "
+                    ></div>
+                  </div>
+                  <div class="flex justify-center">
+                    <div
+                      class="w-0.5 h-4.5 opacity-30"
+                      style="
+                        background: linear-gradient(
+                          to bottom,
+                          #5a5a5a,
+                          #c0c0c0
+                        );
+                      "
+                    ></div>
+                  </div>
+                  <div class="flex justify-center">
+                    <div
+                      class="w-0.5 h-4.5 opacity-30"
+                      style="
+                        background: linear-gradient(
+                          to bottom,
+                          #5a5a5a,
+                          #c0c0c0
+                        );
+                      "
+                    ></div>
+                  </div>
+                  <div class="flex justify-center">
+                    <div
+                      class="w-0.5 h-4.5 opacity-30"
+                      style="
+                        background: linear-gradient(
+                          to bottom,
+                          #5a5a5a,
+                          #c0c0c0
+                        );
+                      "
+                    ></div>
+                  </div>
+                </div>
+              </div>
+              <!-- 2. Grid of 10 Concurrent Live Web Document Retrieval Results -->
+              <div
+                class="w-full h-33 grid gap-2.5 border border-[#FFFFFF33] rounded-xl px-2 py-4 transition-colors"
+                style="grid-template-columns: repeat(5, 1fr)"
+              >
+                <div
+                  class="relative shrink-0 w-full h-9 sm:h-10 xl:h-11 mr-1.5"
+                  style="opacity: 0"
+                >
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 4px; left: 4px; opacity: 0.49999999999999994"
+                  ></div>
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 2px; left: 2px; opacity: 0.6"
+                  ></div>
+                  <div
+                    class="absolute inset-0 flex items-center gap-1 sm:gap-1.5 bg-[#0E1F16] rounded-sm md:rounded-lg px-2 xl:px-3 border border-[#2F4B3B]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-globe shrink-0 size-3 sm:size-3.5 xl:size-4 text-primary"
+                      aria-hidden="true"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path
+                        d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                      ></path>
+                      <path d="M2 12h20"></path>
+                    </svg>
+                    <div class="w-full flex flex-col gap-0.5 md:gap-1 flex-1">
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/60"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/30"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full w-3/5 bg-[#679987]/30"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative shrink-0 w-full h-9 sm:h-10 xl:h-11 mr-1.5"
+                  style="opacity: 0"
+                >
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 4px; left: 4px; opacity: 0.49999999999999994"
+                  ></div>
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 2px; left: 2px; opacity: 0.6"
+                  ></div>
+                  <div
+                    class="absolute inset-0 flex items-center gap-1 sm:gap-1.5 bg-[#0E1F16] rounded-sm md:rounded-lg px-2 xl:px-3 border border-[#2F4B3B]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-globe shrink-0 size-3 sm:size-3.5 xl:size-4 text-primary"
+                      aria-hidden="true"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path
+                        d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                      ></path>
+                      <path d="M2 12h20"></path>
+                    </svg>
+                    <div class="w-full flex flex-col gap-0.5 md:gap-1 flex-1">
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/60"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/30"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full w-3/5 bg-[#679987]/30"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative shrink-0 w-full h-9 sm:h-10 xl:h-11 mr-1.5"
+                  style="opacity: 0"
+                >
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 4px; left: 4px; opacity: 0.49999999999999994"
+                  ></div>
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 2px; left: 2px; opacity: 0.6"
+                  ></div>
+                  <div
+                    class="absolute inset-0 flex items-center gap-1 sm:gap-1.5 bg-[#0E1F16] rounded-sm md:rounded-lg px-2 xl:px-3 border border-[#2F4B3B]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-globe shrink-0 size-3 sm:size-3.5 xl:size-4 text-primary"
+                      aria-hidden="true"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path
+                        d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                      ></path>
+                      <path d="M2 12h20"></path>
+                    </svg>
+                    <div class="w-full flex flex-col gap-0.5 md:gap-1 flex-1">
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/60"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/30"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full w-3/5 bg-[#679987]/30"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative shrink-0 w-full h-9 sm:h-10 xl:h-11 mr-1.5"
+                  style="opacity: 0"
+                >
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 4px; left: 4px; opacity: 0.49999999999999994"
+                  ></div>
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 2px; left: 2px; opacity: 0.6"
+                  ></div>
+                  <div
+                    class="absolute inset-0 flex items-center gap-1 sm:gap-1.5 bg-[#0E1F16] rounded-sm md:rounded-lg px-2 xl:px-3 border border-[#2F4B3B]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-globe shrink-0 size-3 sm:size-3.5 xl:size-4 text-primary"
+                      aria-hidden="true"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path
+                        d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                      ></path>
+                      <path d="M2 12h20"></path>
+                    </svg>
+                    <div class="w-full flex flex-col gap-0.5 md:gap-1 flex-1">
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/60"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/30"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full w-3/5 bg-[#679987]/30"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative shrink-0 w-full h-9 sm:h-10 xl:h-11 mr-1.5"
+                  style="opacity: 0"
+                >
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 4px; left: 4px; opacity: 0.49999999999999994"
+                  ></div>
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 2px; left: 2px; opacity: 0.6"
+                  ></div>
+                  <div
+                    class="absolute inset-0 flex items-center gap-1 sm:gap-1.5 bg-[#0E1F16] rounded-sm md:rounded-lg px-2 xl:px-3 border border-[#2F4B3B]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-globe shrink-0 size-3 sm:size-3.5 xl:size-4 text-primary"
+                      aria-hidden="true"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path
+                        d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                      ></path>
+                      <path d="M2 12h20"></path>
+                    </svg>
+                    <div class="w-full flex flex-col gap-0.5 md:gap-1 flex-1">
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/60"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/30"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full w-3/5 bg-[#679987]/30"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative shrink-0 w-full h-9 sm:h-10 xl:h-11 mr-1.5"
+                  style="opacity: 0"
+                >
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 4px; left: 4px; opacity: 0.49999999999999994"
+                  ></div>
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 2px; left: 2px; opacity: 0.6"
+                  ></div>
+                  <div
+                    class="absolute inset-0 flex items-center gap-1 sm:gap-1.5 bg-[#0E1F16] rounded-sm md:rounded-lg px-2 xl:px-3 border border-[#2F4B3B]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-globe shrink-0 size-3 sm:size-3.5 xl:size-4 text-primary"
+                      aria-hidden="true"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path
+                        d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                      ></path>
+                      <path d="M2 12h20"></path>
+                    </svg>
+                    <div class="w-full flex flex-col gap-0.5 md:gap-1 flex-1">
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/60"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/30"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full w-3/5 bg-[#679987]/30"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative shrink-0 w-full h-9 sm:h-10 xl:h-11 mr-1.5"
+                  style="opacity: 0"
+                >
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 4px; left: 4px; opacity: 0.49999999999999994"
+                  ></div>
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 2px; left: 2px; opacity: 0.6"
+                  ></div>
+                  <div
+                    class="absolute inset-0 flex items-center gap-1 sm:gap-1.5 bg-[#0E1F16] rounded-sm md:rounded-lg px-2 xl:px-3 border border-[#2F4B3B]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-globe shrink-0 size-3 sm:size-3.5 xl:size-4 text-primary"
+                      aria-hidden="true"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path
+                        d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                      ></path>
+                      <path d="M2 12h20"></path>
+                    </svg>
+                    <div class="w-full flex flex-col gap-0.5 md:gap-1 flex-1">
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/60"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/30"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full w-3/5 bg-[#679987]/30"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative shrink-0 w-full h-9 sm:h-10 xl:h-11 mr-1.5"
+                  style="opacity: 0"
+                >
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 4px; left: 4px; opacity: 0.49999999999999994"
+                  ></div>
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 2px; left: 2px; opacity: 0.6"
+                  ></div>
+                  <div
+                    class="absolute inset-0 flex items-center gap-1 sm:gap-1.5 bg-[#0E1F16] rounded-sm md:rounded-lg px-2 xl:px-3 border border-[#2F4B3B]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-globe shrink-0 size-3 sm:size-3.5 xl:size-4 text-primary"
+                      aria-hidden="true"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path
+                        d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                      ></path>
+                      <path d="M2 12h20"></path>
+                    </svg>
+                    <div class="w-full flex flex-col gap-0.5 md:gap-1 flex-1">
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/60"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/30"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full w-3/5 bg-[#679987]/30"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative shrink-0 w-full h-9 sm:h-10 xl:h-11 mr-1.5"
+                  style="opacity: 0"
+                >
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 4px; left: 4px; opacity: 0.49999999999999994"
+                  ></div>
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 2px; left: 2px; opacity: 0.6"
+                  ></div>
+                  <div
+                    class="absolute inset-0 flex items-center gap-1 sm:gap-1.5 bg-[#0E1F16] rounded-sm md:rounded-lg px-2 xl:px-3 border border-[#2F4B3B]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-globe shrink-0 size-3 sm:size-3.5 xl:size-4 text-primary"
+                      aria-hidden="true"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path
+                        d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                      ></path>
+                      <path d="M2 12h20"></path>
+                    </svg>
+                    <div class="w-full flex flex-col gap-0.5 md:gap-1 flex-1">
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/60"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/30"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full w-3/5 bg-[#679987]/30"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="relative shrink-0 w-full h-9 sm:h-10 xl:h-11 mr-1.5"
+                  style="opacity: 0"
+                >
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 4px; left: 4px; opacity: 0.49999999999999994"
+                  ></div>
+                  <div
+                    class="w-full h-full absolute inset-0 rounded-sm md:rounded-lg bg-[#0E1F16] border border-[#2F4B3B]"
+                    style="top: 2px; left: 2px; opacity: 0.6"
+                  ></div>
+                  <div
+                    class="absolute inset-0 flex items-center gap-1 sm:gap-1.5 bg-[#0E1F16] rounded-sm md:rounded-lg px-2 xl:px-3 border border-[#2F4B3B]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-globe shrink-0 size-3 sm:size-3.5 xl:size-4 text-primary"
+                      aria-hidden="true"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path
+                        d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                      ></path>
+                      <path d="M2 12h20"></path>
+                    </svg>
+                    <div class="w-full flex flex-col gap-0.5 md:gap-1 flex-1">
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/60"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full bg-[#679987]/30"
+                      ></div>
+                      <div
+                        class="h-0.5 sm:h-1 rounded-full w-3/5 bg-[#679987]/30"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Background Ambient Particles Overlay -->
+  <div class="absolute-center size-full z-0 opacity-40">
+    <div class="particles-container undefined"></div>
+  </div>
+</div>

@@ -1,0 +1,181 @@
+/* ==========================================================================
+   Octen Design System - Web Search (Architecture Comparison)
+   Light, subtle glassmorphic borders and dividers
+   ========================================================================== */
+
+:root {
+  --octen-web-search-border: rgba(255, 255, 255, 0.14);
+  --octen-web-search-border-hover: rgba(255, 255, 255, 0.22);
+  --octen-web-search-divider: rgba(255, 255, 255, 0.14);
+}
+
+.octen-web-search-card {
+  border: 1px solid var(--octen-web-search-border) !important;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.octen-web-search-card:hover {
+  border-color: var(--octen-web-search-border-hover) !important;
+}
+
+@media (min-width: 768px) {
+  .octen-web-search-divider {
+    border-right: 1px solid var(--octen-web-search-divider) !important;
+    border-bottom: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .octen-web-search-divider {
+    border-right: none !important;
+    border-bottom: 1px solid var(--octen-web-search-divider) !important;
+    padding-bottom: 2rem;
+  }
+}
+
+/* ==========================================================================
+   Human Search Visual Representation (Reference Mockup)
+   ========================================================================== */
+.octen-human-search-container {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.octen-human-query-pill {
+  width: 100%;
+  height: 42px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.octen-human-user-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #3e444f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.octen-human-user-avatar svg {
+  width: 14px;
+  height: 14px;
+  stroke: #ffffff;
+  stroke-width: 2;
+  fill: none;
+}
+
+.octen-human-query-text {
+  flex: 1;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13.5px;
+  font-weight: 400;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}
+
+.octen-human-search-icon {
+  width: 16px;
+  height: 16px;
+  stroke: #ffffff;
+  stroke-width: 2.2;
+  fill: none;
+  flex-shrink: 0;
+}
+
+.octen-human-connector-line {
+  width: 1.5px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.22);
+  flex-shrink: 0;
+}
+
+.octen-human-results-panel {
+  width: 100%;
+  height: 322px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(12, 16, 22, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 17px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 29px;
+  box-sizing: border-box;
+}
+
+.octen-human-result-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.octen-human-result-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.octen-human-globe {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.octen-human-lines-top {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.octen-human-lines-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.octen-skeleton-bar {
+  height: 3.5px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.octen-skeleton-bar.line-bright {
+  background: rgba(255, 255, 255, 0.45);
+  width: 62%;
+}
+
+.octen-skeleton-bar.line-top-2 {
+  width: 90%;
+}
+
+.octen-skeleton-bar.line-bottom-1 {
+  width: 98%;
+}
+
+.octen-skeleton-bar.line-bottom-2 {
+  width: 65%;
+}

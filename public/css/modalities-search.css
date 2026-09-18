@@ -60,13 +60,13 @@
   align-items: center;
   justify-content: center;
   height: 30px;
-  padding: 6px 20px 6px 16px;
-  border-radius: 19.462px;
+  padding: 5px 16px;
+  border-radius: 9999px;
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .octen-modality-tag-text {
@@ -222,6 +222,34 @@
   }
 }
 
+/* Image and Video Search are presented as two stacked product stories. */
+.octen-modalities-grid { display: flex; flex-direction: column; gap: 72px; padding-top: 48px; }
+.octen-modality-col { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; column-gap: clamp(36px, 7vw, 104px); filter: none; }
+.octen-modality-col::after { grid-column: 2; grid-row: 1 / span 2; display: block; width: 100%; min-height: 360px; content: ''; border: 1px solid #e4e7ec; border-radius: 22px; background: #f7f8f9; }
+.octen-modality-header { grid-column: 1; grid-row: 1; align-items: flex-start; margin-bottom: 28px; text-align: left; }
+.octen-modality-card { grid-column: 1; grid-row: 2; background: #fff; border-color: #e4e7ec; box-shadow: 0 18px 42px rgba(16, 24, 40, 0.06); }
+.octen-modality-title-row { display: flex; flex-wrap: wrap; justify-content: flex-start; height: auto; gap: 12px; }
+.octen-modality-title { color: #181d27; }
+.octen-modality-desc { max-width: 540px; margin: 16px 0 0; color: #667085; text-align: left; }
+.octen-modality-tag { display: inline-flex; margin-bottom: 14px; background: #101412; border-color: #101412; }
+.octen-modality-tag-text { color: #ffffff; font-size: 13px; font-weight: 600; }
+
+/* Shared black variant used by the Web/Image/Video search labels. */
+.octen-search-fast-tag { display: inline-flex; align-items: center; gap: 4px; padding: 6px 14px; border-radius: 9999px; border: 1px solid rgba(255, 255, 255, 0.22); background: #101412; color: #ffffff; font-size: 14px; line-height: 20px; white-space: nowrap; }
+.octen-early-access-badge { position: static; transform: none; margin-top: 10px; }
+.octen-modality-request-btn { margin-top: 24px; }
+.octen-feature-item { background: #fbfcfc; border-color: #eaecf0; }
+.octen-feature-title { color: #344054; }
+.octen-feature-desc { color: #667085; }
+
+@media (max-width: 800px) {
+  .octen-modality-col { grid-template-columns: 1fr; row-gap: 28px; }
+  .octen-modality-col::after { grid-column: 1; grid-row: 3; min-height: 260px; }
+  .octen-modality-header, .octen-modality-card { grid-column: 1; }
+  .octen-modality-header { grid-row: 1; }
+  .octen-modality-card { grid-row: 2; }
+}
+
 .octen-feature-item {
   background: rgba(23, 23, 23, 0.6);
   border: 1px solid rgba(38, 38, 38, 0.6);
@@ -291,4 +319,332 @@
   line-height: 16px;
   color: #A3A3A3;
   margin: 2px 0 0 0;
+}
+
+
+/* Dark treatment for the Image and Video Search stories. */
+.octen-modalities-section {
+  background: #050806;
+}
+
+.octen-modality-col::after {
+  border-color: #26352e;
+  background: #0b110e;
+  box-shadow: inset 0 0 0 1px rgba(112, 254, 126, 0.04);
+}
+
+.octen-modality-card {
+  background: #0d1210;
+  border-color: #26352e;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+}
+
+.octen-modality-title {
+  color: #f5f7f6;
+}
+
+.octen-modality-desc {
+  color: #a6b3ab;
+}
+
+.octen-feature-item {
+  background: #111814;
+  border-color: #26352e;
+}
+
+.octen-feature-item:hover {
+  background: #17221b;
+  border-color: #385340;
+}
+
+.octen-feature-title {
+  color: #edf2ee;
+}
+
+.octen-feature-desc {
+  color: #9aa89f;
+}
+
+
+/* Search label lockup: neutral product family name with a green speed tier. */
+.octen-search-fast-prefix { color: inherit; }
+.octen-search-fast-divider { margin: 0 7px; color: rgba(255, 255, 255, 0.42); }
+.octen-search-fast-keyword { color: #70fe7e; font-family: var(--font-mono, 'DM Mono', monospace); font-size: 0.9em; font-weight: 700; letter-spacing: 0.08em; }
+
+
+/* Keep every Search / FAST label on the same black surface and border. */
+.octen-modality-tag,
+.octen-search-fast-tag {
+  background: #101412;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-sizing: border-box;
+}
+
+
+/* Let the modalities section inherit the page background. */
+.octen-modalities-section { background: transparent; }
+
+
+.octen-search-premier-keyword {
+  color: #b58cff;
+  font-family: var(--font-mono, 'DM Mono', monospace);
+  font-size: 0.9em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.octen-search-premier-tag {
+  margin-bottom: 0;
+}
+
+
+/* Feature cards are semantic unordered lists without a surrounding border. */
+.octen-modality-card {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  list-style: none;
+}
+.octen-modality-card:hover { border-color: transparent; box-shadow: none; }
+.octen-modality-card .octen-feature-item { list-style: none; }
+
+
+/* Figma 13700:167900 — borderless modality feature list. */
+.octen-modality-card {
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.octen-feature-item {
+  width: 100%;
+  min-height: 48px;
+  padding: 14px 16px;
+  gap: 14px;
+  background: transparent;
+  border: 0;
+  border-radius: 12px;
+  align-items: center;
+}
+
+.octen-feature-item:hover {
+  background: rgba(112, 254, 126, 0.04);
+  border-color: transparent;
+  transform: none;
+}
+
+.octen-feature-icon-box {
+  width: auto;
+  min-width: 10px;
+  height: 16px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #70fe7e;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.octen-feature-item:hover .octen-feature-icon-box {
+  transform: none;
+  border-color: transparent;
+}
+
+.octen-feature-title {
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.octen-feature-desc {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 2px;
+}
+
+
+.octen-modality-request-btn {
+  width: 182px;
+  height: 40px;
+  min-width: 182px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+.octen-modality-card {
+  margin-left: 0;
+}
+
+.octen-modality-card:hover,
+.octen-modality-card .octen-feature-item:hover {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+.octen-modality-card .octen-feature-item:hover .octen-feature-icon-box {
+  transform: none;
+  border-color: transparent;
+}
+
+
+.octen-modalities-grid {
+  row-gap: 240px;
+}
+
+
+.octen-feature-item {
+  padding-left: 0;
+}
+
+
+/* Keep each feature title and description in one natural inline text flow. */
+.octen-feature-content {
+  display: block;
+}
+
+.octen-feature-title,
+.octen-feature-desc {
+  display: inline;
+  white-space: normal;
+}
+
+.octen-feature-desc {
+  margin: 0 0 0 8px;
+}
+
+
+/* Search tier labels stay pure white in every state. */
+.octen-search-fast-prefix,
+.octen-search-fast-divider,
+.octen-search-fast-keyword,
+.octen-search-premier-keyword {
+  color: #ffffff;
+}
+
+
+.octen-modality-card,
+.octen-modality-card .octen-feature-title,
+.octen-modality-card .octen-feature-desc {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+
+/* Keep the left content stack within the height of the right visual panel. */
+.octen-modality-header {
+  margin-bottom: 8px;
+}
+
+.octen-modality-tag {
+  margin-bottom: 8px;
+}
+
+.octen-modality-desc {
+  margin-top: 10px;
+}
+
+.octen-modality-request-btn {
+  margin-top: 16px;
+}
+
+
+/* The visual placeholder spans header, feature list, and CTA rows. */
+.octen-modality-col::after {
+  grid-row: 1 / span 3;
+  align-self: stretch;
+  min-height: 0;
+  height: auto;
+}
+
+
+.octen-feature-item {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  min-height: 40px;
+}
+
+
+.octen-modality-desc,
+.octen-feature-desc {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+
+/* Figma 13700:168245 — exact Image Search content spacing. */
+.octen-modality-col {
+  row-gap: 20px;
+}
+
+.octen-modality-header {
+  margin-bottom: 0;
+}
+
+.octen-modality-desc {
+  margin-top: 6px;
+}
+
+.octen-feature-item {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  min-height: 0;
+}
+
+.octen-feature-desc {
+  margin-left: 12px;
+}
+
+.octen-modality-request-btn {
+  margin-top: 0;
+}
+
+
+/* Real DOM visual slot for future Image/Video motion content. */
+.octen-modality-col::after { display: none; content: none; }
+.octen-modality-visual-placeholder {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: center;
+  width: 100%;
+  height: 330px;
+  border: 1px solid #26352e;
+  border-radius: 22px;
+  background: #0b110e;
+  box-shadow: inset 0 0 0 1px rgba(112, 254, 126, 0.04);
+}
+@media (max-width: 800px) {
+  .octen-modality-visual-placeholder { grid-column: 1; grid-row: 4; height: 330px; }
+}
+
+
+/* Match Omni Search: badge sits beside the title, centered slightly upward. */
+.octen-modality-title-row {
+  position: relative;
+}
+
+.octen-early-access-badge {
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  margin-top: 0;
+  transform: translateY(calc(-50% - 4px));
+}
+
+@media (max-width: 640px) {
+  .octen-early-access-badge {
+    left: calc(100% + 8px);
+  }
+}
+
+/* Image and Video Search parent surface. */
+.octen-modalities-section {
+  background: #090b11;
 }
