@@ -104,51 +104,52 @@ const spiralNodes = [
  */
 const VideoSearchCard: React.FC = () => {
   const [scene, setScene] = React.useState<number>(1);
-  const [isShifting, setIsShifting] = React.useState<boolean>(false);
+  const [centerIdx, setCenterIdx] = React.useState<number>(2);
+  const [extractedIdx, setExtractedIdx] = React.useState<number>(-1);
+  const [noTransition, setNoTransition] = React.useState<boolean>(false);
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
   React.useEffect(() => {
-    let t1: any, t2: any, t3: any, t4: any;
-    const interval = setInterval(() => {
-      setIsShifting(false);
-      setScene(1);
-      t1 = setTimeout(() => {
-        setScene(2);
-        t2 = setTimeout(() => {
-          setScene(3);
-          t3 = setTimeout(() => {
-            setIsShifting(true);
-            t4 = setTimeout(() => {
-              setIsShifting(false);
-              setScene(1);
-            }, 850);
-          }, 2200);
-        }, 2100);
-      }, 2300);
-    }, 7800);
+    let timeouts: any[] = [];
+    const schedule = (fn: () => void, delay: number) => {
+      const t = setTimeout(fn, delay);
+      timeouts.push(t);
+      return t;
+    };
 
-    t1 = setTimeout(() => {
-      setScene(2);
-      t2 = setTimeout(() => {
-        setScene(3);
-        t3 = setTimeout(() => {
-          setIsShifting(true);
-          t4 = setTimeout(() => {
-            setIsShifting(false);
-            setScene(1);
-          }, 850);
-        }, 2200);
-      }, 2100);
-    }, 2300);
+    const run = () => {
+      setScene(1);
+
+      schedule(() => {
+        setScene(2);
+
+        schedule(() => {
+          setScene(3);
+          setExtractedIdx(centerIdx);
+
+          schedule(() => {
+            setScene(4);
+
+            schedule(() => {
+              setNoTransition(true);
+              setCenterIdx((prev) => (prev - 1 + 4) % 4);
+
+              requestAnimationFrame(() => {
+                setNoTransition(false);
+                run();
+              });
+            }, 860);
+          }, 2100);
+        }, 2000);
+      }, 2200);
+    };
+
+    run();
 
     return () => {
-      clearInterval(interval);
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-      clearTimeout(t4);
+      timeouts.forEach((t) => clearTimeout(t));
     };
-  }, []);
+  }, [centerIdx]);
 
   React.useEffect(() => {
     const canvas = canvasRef.current;
@@ -207,105 +208,93 @@ const VideoSearchCard: React.FC = () => {
     };
   }, [scene]);
 
+  // Compute position class for each slide based on current centerIdx and scene
+  const getSlotClass = (idx: number) => {
+    const isShift = scene === 4;
+    // normal relative offsets: 0: center, -1: left, +1: right, -2: incoming
+    let offset = (idx - centerIdx + 4) % 4;
+    if (offset === 3) offset = -1; // left
+    else if (offset === 2) offset = -2; // incoming
+
+    if (isShift) {
+      // During shift to right:
+      // incoming (-2) -> left (-1)
+      // left (-1) -> center (0)
+      // center (0) -> right (+1)
+      // right (+1) -> outgoing (+2)
+      if (offset === -2) return 'pos-left';
+      if (offset === -1) return 'pos-center';
+      if (offset === 0) return 'pos-right';
+      if (offset === 1) return 'pos-outgoing';
+    }
+
+    if (offset === 0) return 'pos-center';
+    if (offset === -1) return 'pos-left';
+    if (offset === 1) return 'pos-right';
+    return 'pos-incoming';
+  };
+
   return (
     <div
-      className={`octen-modality-visual-placeholder octen-video-card ${isShifting ? 'is-shifting' : ''}`}
+      className="octen-modality-visual-placeholder octen-video-card"
       data-scene={scene}
       data-node-id="13716:172855"
       id="octen-video-card"
     >
       <div className="octen-video-bg" aria-hidden="true" />
       <div className="octen-video-viewport">
-        <div className="octen-video-track" id="octen-video-track">
-          <div className="octen-video-slide is-left" id="octen-video-slide-left">
-            <div className="octen-vcard-inner octen-vcard-video">
-              <div className="octen-vcard-header">
-                <div className="octen-vcard-dot" />
-                <div className="octen-vcard-titlebar" />
-              </div>
-              <div className="octen-vcard-body">
-                <img src="/images/video/videoplayer-play.svg" alt="" className="octen-vcard-play-icon" />
-              </div>
-            </div>
-          </div>
+        <div className={`octen-video-track ${noTransition ? 'no-transition' : ''}`} id="octen-video-track">
+          {[0, 1, 2, 3].map((slideNum) => {
+            const isExtracted = extractedIdx === slideNum;
+            const slotClass = getSlotClass(slideNum);
+            return (
+              <div
+                key={slideNum}
+                className={`octen-video-slide ${slotClass} ${isExtracted ? 'is-extracted' : ''}`}
+                id={`octen-video-slide-${slideNum}`}
+              >
+                <div className="octen-vcard-inner octen-vcard-video">
+                  <div className="octen-vcard-header">
+                    <div className="octen-vcard-dot" />
+                    <div className="octen-vcard-titlebar" />
+                  </div>
+                  <div className="octen-vcard-body">
+                    <img src="/images/video/videoplayer-play.svg" alt="" className="octen-vcard-play-icon" />
+                    <div className="octen-vcard-robot">
+                      <img src="/images/video/octen-robot.svg" alt="Octen Core" />
+                    </div>
+                  </div>
+                  <div className="octen-vcard-scanline" />
+                  <div className="octen-vcard-timeline">
+                    <div className="octen-vcard-timeline-track">
+                      <div className="octen-vcard-timeline-fill" style={{ width: '25%' }} />
+                      <div className="octen-vcard-timeline-thumb" style={{ left: '25%' }} />
+                    </div>
+                  </div>
+                </div>
 
-          <div className="octen-video-slide is-center" id="octen-video-slide-center">
-            <div className="octen-vcard-inner octen-vcard-video" id="octen-vcard-center-video">
-              <div className="octen-vcard-header">
-                <div className="octen-vcard-dot" />
-                <div className="octen-vcard-titlebar" />
-              </div>
-              <div className="octen-vcard-body">
-                <img
-                  src="/images/video/videoplayer-play.svg"
-                  alt=""
-                  className="octen-vcard-play-icon"
-                  id="octen-vcard-center-play"
-                />
-                <div className="octen-vcard-robot" id="octen-vcard-center-robot">
-                  <img src="/images/video/octen-robot.svg" alt="Octen Core" />
+                <div className="octen-vcard-inner octen-vcard-extract">
+                  <div className="octen-extract-header">
+                    <div className="octen-extract-tag" />
+                    <div className="octen-extract-title-1" />
+                    <div className="octen-extract-title-2" />
+                  </div>
+                  <div className="octen-extract-body">
+                    <div className="octen-extract-line-tag" />
+                    <div className="octen-extract-line-1" />
+                    <div className="octen-extract-line-2" />
+                    <div className="octen-extract-line-3" />
+                  </div>
+                  <div className="octen-extract-grid">
+                    <div className="octen-extract-chip" />
+                    <div className="octen-extract-chip" />
+                    <div className="octen-extract-chip" />
+                    <div className="octen-extract-chip" />
+                  </div>
                 </div>
               </div>
-              <div className="octen-vcard-scanline" id="octen-vcard-center-scan" />
-              <div className="octen-vcard-scan-glow" id="octen-vcard-center-glow" />
-              <div className="octen-vcard-timeline">
-                <div className="octen-vcard-timeline-track">
-                  <div
-                    className="octen-vcard-timeline-fill"
-                    id="octen-vcard-timeline-fill"
-                    style={{ width: scene === 1 ? '48%' : '65%' }}
-                  />
-                  <div
-                    className="octen-vcard-timeline-thumb"
-                    id="octen-vcard-timeline-thumb"
-                    style={{ left: scene === 1 ? '48%' : '65%' }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="octen-vcard-inner octen-vcard-extract" id="octen-vcard-center-extract">
-              <div className="octen-extract-header">
-                <div className="octen-extract-tag" />
-                <div className="octen-extract-title-1" />
-                <div className="octen-extract-title-2" />
-              </div>
-              <div className="octen-extract-body">
-                <div className="octen-extract-line-tag" />
-                <div className="octen-extract-line-1" />
-                <div className="octen-extract-line-2" />
-                <div className="octen-extract-line-3" />
-              </div>
-              <div className="octen-extract-grid">
-                <div className="octen-extract-chip" />
-                <div className="octen-extract-chip" />
-                <div className="octen-extract-chip" />
-                <div className="octen-extract-chip" />
-              </div>
-            </div>
-          </div>
-
-          <div className="octen-video-slide is-right" id="octen-video-slide-right">
-            <div className="octen-vcard-inner octen-vcard-extract">
-              <div className="octen-extract-header">
-                <div className="octen-extract-tag" />
-                <div className="octen-extract-title-1" />
-                <div className="octen-extract-title-2" />
-              </div>
-              <div className="octen-extract-body">
-                <div className="octen-extract-line-tag" />
-                <div className="octen-extract-line-1" />
-                <div className="octen-extract-line-2" />
-                <div className="octen-extract-line-3" />
-              </div>
-              <div className="octen-extract-grid">
-                <div className="octen-extract-chip" />
-                <div className="octen-extract-chip" />
-                <div className="octen-extract-chip" />
-                <div className="octen-extract-chip" />
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
 

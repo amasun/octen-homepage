@@ -79,17 +79,18 @@
 })();
 
 /**
- * Video Search - Multi-Scene State Machine & Dual Sine Wave Audio Simulator
+ * Video Search - Multi-Scene Infinite Rightward State Machine & Dual Sine Wave Audio Simulator
  * 1) Video play carousel (bottom-aligned, scrubber active)
- * 2) Green laser scanning & Octen mascot recognition
+ * 2) Single green laser scanning (reduced opacity) & Octen mascot recognition
  * 3) Multimodal extract card decomposition
- * 4) Step-motion carousel shift & loop
+ * 4) Continuous rightward carousel shift (left card moves to center, new card slides in from left)
  */
 (function initVideoSearchEngine() {
   function start() {
     const card = document.getElementById('octen-video-card');
+    const track = document.getElementById('octen-video-track');
     const canvas = document.getElementById('octen-audio-waves');
-    if (!card || !canvas) return;
+    if (!card || !track || !canvas) return;
 
     // ----------------------------------------------------
     // 1. Dual-Frequency Audio Sine Wave Canvas Simulator
@@ -124,7 +125,6 @@
       ctx.strokeStyle = isScanning ? 'rgba(112, 254, 126, 0.45)' : 'rgba(209, 209, 209, 0.25)';
 
       for (let x = 0; x <= w; x += 4) {
-        // Dual harmonic: primary + subtle secondary
         const y = 32 + Math.sin(x * 0.0095 + waveTime * 1.2) * 14 + Math.sin(x * 0.021 - waveTime * 0.8) * 4;
         if (x === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
@@ -149,62 +149,142 @@
     animFrameId = requestAnimationFrame(drawWaves);
 
     // ----------------------------------------------------
-    // 2. Multi-Scene State Machine Loop
+    // 2. 4-Slide Infinite Rightward State Machine Loop
     // ----------------------------------------------------
-    const fillEl = document.getElementById('octen-vcard-timeline-fill');
-    const thumbEl = document.getElementById('octen-vcard-timeline-thumb');
-    let stateTimeout = null;
-    let loopInterval = null;
+    const slides = [
+      document.getElementById('octen-video-slide-0'),
+      document.getElementById('octen-video-slide-1'),
+      document.getElementById('octen-video-slide-2'),
+      document.getElementById('octen-video-slide-3')
+    ].filter(Boolean);
 
-    function runCycle() {
-      // Scene 1: Video Playing
-      card.classList.remove('is-shifting');
-      card.setAttribute('data-scene', '1');
-      if (fillEl && thumbEl) {
-        fillEl.style.width = '25%';
-        thumbEl.style.left = '25%';
-        setTimeout(() => {
-          if (fillEl && thumbEl) {
-            fillEl.style.width = '48%';
-            thumbEl.style.left = '48%';
-          }
-        }, 100);
-      }
+    if (slides.length < 4) return;
 
-      // Scene 2: Green Laser Scanning & Octen Robot Mascot
-      stateTimeout = setTimeout(() => {
-        card.setAttribute('data-scene', '2');
-        if (fillEl && thumbEl) {
-          fillEl.style.width = '62%';
-          thumbEl.style.left = '62%';
-        }
+    // Initial slot assignments:
+    // S0: pos-incoming (offscreen left)
+    // S1: pos-left
+    // S2: pos-center (active center)
+    // S3: pos-right
+    let centerIndex = 2;
+    let timeouts = [];
 
-        // Scene 3: Deconstructed Extract Card
-        stateTimeout = setTimeout(() => {
-          card.setAttribute('data-scene', '3');
-
-          // Scene 4: Carousel shift to right
-          stateTimeout = setTimeout(() => {
-            card.classList.add('is-shifting');
-
-            // Quick reset back to Scene 1
-            stateTimeout = setTimeout(() => {
-              card.classList.remove('is-shifting');
-              card.setAttribute('data-scene', '1');
-            }, 850);
-          }, 2200);
-        }, 2100);
-      }, 2300);
+    function clearAllTimeouts() {
+      timeouts.forEach((t) => clearTimeout(t));
+      timeouts = [];
     }
 
-    // Start immediately then repeat every 7.8s
+    function schedule(fn, delay) {
+      const t = setTimeout(fn, delay);
+      timeouts.push(t);
+      return t;
+    }
+
+    function runCycle() {
+      const centerSlide = slides[centerIndex];
+      const incomingSlide = slides[(centerIndex - 2 + 4) % 4];
+      const leftSlide = slides[(centerIndex - 1 + 4) % 4];
+      const rightSlide = slides[(centerIndex + 1) % 4];
+
+      // === SCENE 1: Video Playing on Center Card ===
+      card.setAttribute('data-scene', '1');
+
+      // Animate active timeline scrubber on center slide
+      const fillEl = centerSlide.querySelector('.octen-vcard-timeline-fill');
+      const thumbEl = centerSlide.querySelector('.octen-vcard-timeline-thumb');
+      if (fillEl && thumbEl) {
+        fillEl.style.transition = 'none';
+        thumbEl.style.transition = 'none';
+        fillEl.style.width = '24%';
+        thumbEl.style.left = '24%';
+        requestAnimationFrame(() => {
+          fillEl.style.transition = 'width 2.0s linear';
+          thumbEl.style.transition = 'left 2.0s linear';
+          fillEl.style.width = '52%';
+          thumbEl.style.left = '52%';
+        });
+      }
+
+      // === SCENE 2: Single Green Laser Scan & Octen Robot Mascot ===
+      schedule(() => {
+        card.setAttribute('data-scene', '2');
+        if (fillEl && thumbEl) {
+          fillEl.style.transition = 'width 1.8s linear';
+          thumbEl.style.transition = 'left 1.8s linear';
+          fillEl.style.width = '66%';
+          thumbEl.style.left = '66%';
+        }
+
+        // === SCENE 3: Deconstructed Extract Card ===
+        schedule(() => {
+          card.setAttribute('data-scene', '3');
+          centerSlide.classList.add('is-extracted');
+
+          // === SCENE 4: Continuous Carousel Shift Right ===
+          // (Left card moves to center, center moves to right, new card enters from left)
+          schedule(() => {
+            card.setAttribute('data-scene', '4');
+
+            // Make sure incoming slide is prepared before sliding into view
+            incomingSlide.classList.remove('is-extracted');
+            const incFill = incomingSlide.querySelector('.octen-vcard-timeline-fill');
+            const incThumb = incomingSlide.querySelector('.octen-vcard-timeline-thumb');
+            if (incFill && incThumb) {
+              incFill.style.transition = 'none';
+              incThumb.style.transition = 'none';
+              incFill.style.width = '24%';
+              incThumb.style.left = '24%';
+            }
+
+            // Animate positions to the right simultaneously:
+            // incoming (offscreen left) -> left slot
+            // left -> center slot (becomes new center active card!)
+            // center (extract) -> right slot
+            // right -> outgoing (offscreen right)
+            incomingSlide.className = 'octen-video-slide pos-left';
+            leftSlide.className = 'octen-video-slide pos-center';
+            centerSlide.className = 'octen-video-slide pos-right is-extracted';
+            rightSlide.className = 'octen-video-slide pos-outgoing';
+
+            // Wait for 850ms CSS transition to complete
+            schedule(() => {
+              // Instantly recycle outgoing slide to incoming position without animation
+              track.classList.add('no-transition');
+
+              rightSlide.className = 'octen-video-slide pos-incoming';
+              rightSlide.classList.remove('is-extracted');
+
+              // Force layout reflow
+              void track.offsetHeight;
+
+              // Re-enable smooth transitions
+              track.classList.remove('no-transition');
+
+              // Advance centerIndex to the slide that just entered center
+              centerIndex = (centerIndex - 1 + 4) % 4;
+
+              // Immediately start next cycle smoothly!
+              runCycle();
+            }, 860);
+          }, 2100);
+        }, 2000);
+      }, 2200);
+    }
+
+    // Start running immediately
     runCycle();
-    loopInterval = setInterval(runCycle, 7800);
 
     window.addEventListener('pagehide', () => {
       if (animFrameId) cancelAnimationFrame(animFrameId);
-      if (stateTimeout) clearTimeout(stateTimeout);
-      if (loopInterval) clearInterval(loopInterval);
+      clearAllTimeouts();
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        clearAllTimeouts();
+      } else {
+        clearAllTimeouts();
+        runCycle();
+      }
     });
   }
 

@@ -1073,59 +1073,61 @@
   height: 100%;
 }
 
-/* Three slides bottom-aligned at bottom: 103px */
+/* Continuous 4-Slide Infinite Track (Bottom-aligned at bottom: 103px) */
 .octen-video-slide {
   position: absolute;
   bottom: 103px;
+  width: 317px;
+  height: 208px;
   transform-origin: bottom center;
-  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.85s ease;
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform, opacity;
 }
 
-/* Center card: 317px x 208px, centered at 50% */
-.octen-video-slide.is-center {
-  left: 50%;
-  width: 317px;
-  height: 208px;
-  transform: translateX(-50%) scale(1);
-  z-index: 3;
-  opacity: 1;
+.octen-video-track.no-transition .octen-video-slide,
+.octen-video-slide.no-transition {
+  transition: none !important;
 }
 
-/* Left card: 238.3px x 156.4px (scale ~0.7517), center at calc(50% - 326px) */
-.octen-video-slide.is-left {
-  left: calc(50% - 326px);
-  width: 238.3px;
-  height: 156.4px;
-  transform: translateX(-50%) scale(1);
-  z-index: 2;
-  opacity: 0.75;
-}
-
-/* Right card: 238.3px x 156.4px (scale ~0.7517), center at calc(50% + 319px) */
-.octen-video-slide.is-right {
-  left: calc(50% + 319px);
-  width: 238.3px;
-  height: 156.4px;
-  transform: translateX(-50%) scale(1);
-  z-index: 2;
-  opacity: 0.75;
-}
-
-/* Transition to next scene (Carousel shift right) */
-.octen-video-card.is-shifting .octen-video-slide.is-center {
-  transform: translateX(calc(-50% + 319px)) scale(0.7517);
-  opacity: 0.75;
-}
-
-.octen-video-card.is-shifting .octen-video-slide.is-left {
-  transform: translateX(calc(-50% + 326px)) scale(1.33);
-  opacity: 1;
-}
-
-.octen-video-card.is-shifting .octen-video-slide.is-right {
-  transform: translateX(calc(-50% + 319px)) scale(0.6);
+/* 5 Position Slots for Infinite Rightward Travel */
+.octen-video-slide.pos-incoming {
+  left: calc(50% - 640px);
+  transform: translateX(-50%) scale(0.7517);
   opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.octen-video-slide.pos-left {
+  left: calc(50% - 326px);
+  transform: translateX(-50%) scale(0.7517);
+  opacity: 0.72;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.octen-video-slide.pos-center {
+  left: 50%;
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  z-index: 5;
+  pointer-events: auto;
+}
+
+.octen-video-slide.pos-right {
+  left: calc(50% + 319px);
+  transform: translateX(-50%) scale(0.7517);
+  opacity: 0.72;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.octen-video-slide.pos-outgoing {
+  left: calc(50% + 640px);
+  transform: translateX(-50%) scale(0.6);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* Video card inner container */
@@ -1213,34 +1215,21 @@
   height: auto;
 }
 
-/* Green laser scanline */
+/* Wide soft green laser scanband (Figma node 13716:172855) */
 .octen-vcard-scanline {
   position: absolute;
-  left: -10%;
-  width: 120%;
-  height: 20px;
-  top: -25px;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(112, 254, 126, 0.15) 30%,
-    rgba(112, 254, 126, 0.85) 50%,
-    rgba(112, 254, 126, 0.15) 70%,
-    transparent 100%
-  );
-  box-shadow: 0 0 16px rgba(112, 254, 126, 0.8);
+  width: 343.15px;
+  height: 17.55px;
+  left: calc(50% - 343.15px / 2);
+  top: 0;
+  background: linear-gradient(180deg, rgba(112, 254, 126, 0) 0%, #70FE7E 50%, rgba(112, 254, 126, 0) 100%);
   opacity: 0;
   pointer-events: none;
-  z-index: 5;
+  z-index: 10;
 }
 
 .octen-vcard-scan-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(112, 254, 126, 0.12) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  pointer-events: none;
+  display: none !important;
 }
 
 /* Timeline scrubber at bottom of video */
@@ -1388,79 +1377,79 @@
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.octen-video-slide.is-right .octen-vcard-extract {
+/* Extraction state overrides */
+.octen-video-slide.is-extracted .octen-vcard-extract {
   opacity: 1;
   transform: scale(1);
-  padding: 12px 14px;
-  border-radius: 9px;
-  border-width: 0.75px;
+  pointer-events: auto;
 }
 
-.octen-video-slide.is-right .octen-extract-chip {
-  height: 24px;
+.octen-video-slide.is-extracted .octen-vcard-video {
+  opacity: 0;
+  transform: scale(0.96);
+  pointer-events: none;
 }
 
 /* Scene states */
 /* Scene 1: Video playing */
-.octen-video-card[data-scene="1"] #octen-vcard-center-video {
+.octen-video-card[data-scene="1"] .octen-video-slide.pos-center .octen-vcard-video {
   opacity: 1;
+  transform: scale(1);
 }
-.octen-video-card[data-scene="1"] #octen-vcard-center-play {
+.octen-video-card[data-scene="1"] .octen-video-slide.pos-center .octen-vcard-play-icon {
   opacity: 0.85;
+  transform: scale(1);
 }
-.octen-video-card[data-scene="1"] #octen-vcard-center-robot {
+.octen-video-card[data-scene="1"] .octen-video-slide.pos-center .octen-vcard-robot {
   opacity: 0;
   transform: scale(0.85);
 }
-.octen-video-card[data-scene="1"] #octen-vcard-center-extract {
+.octen-video-card[data-scene="1"] .octen-video-slide.pos-center .octen-vcard-extract {
   opacity: 0;
   pointer-events: none;
 }
 
-/* Scene 2: Laser Scanning & Octen Robot */
-.octen-video-card[data-scene="2"] #octen-vcard-center-video {
+/* Scene 2: Laser Scanning & Octen Robot (single subtle green line) */
+.octen-video-card[data-scene="2"] .octen-video-slide.pos-center .octen-vcard-video {
   opacity: 1;
 }
-.octen-video-card[data-scene="2"] #octen-vcard-center-play {
+.octen-video-card[data-scene="2"] .octen-video-slide.pos-center .octen-vcard-play-icon {
   opacity: 0;
   transform: scale(0.8);
 }
-.octen-video-card[data-scene="2"] #octen-vcard-center-robot {
-  opacity: 1;
+.octen-video-card[data-scene="2"] .octen-video-slide.pos-center .octen-vcard-robot {
+  opacity: 0.92;
   transform: scale(1);
 }
-.octen-video-card[data-scene="2"] #octen-vcard-center-glow {
+.octen-video-card[data-scene="2"] .octen-video-slide.pos-center .octen-vcard-scanline {
   opacity: 1;
-}
-.octen-video-card[data-scene="2"] #octen-vcard-center-scan {
-  opacity: 1;
-  animation: octen-laser-sweep 1.4s ease-in-out infinite;
+  animation: octen-laser-sweep 1.6s ease-in-out forwards;
 }
 
 @keyframes octen-laser-sweep {
   0% {
-    top: -20px;
+    top: -18px;
     opacity: 0;
   }
   15% {
-    opacity: 1;
+    opacity: 0.25;
   }
   85% {
-    opacity: 1;
+    opacity: 0.25;
   }
   100% {
-    top: calc(100% + 10px);
+    top: calc(100% - 6px);
     opacity: 0;
   }
 }
 
 /* Scene 3: Deconstructed Extract Card */
-.octen-video-card[data-scene="3"] #octen-vcard-center-video {
+.octen-video-card[data-scene="3"] .octen-video-slide.pos-center .octen-vcard-video {
   opacity: 0;
   transform: scale(0.96);
   pointer-events: none;
 }
-.octen-video-card[data-scene="3"] #octen-vcard-center-extract {
+.octen-video-card[data-scene="3"] .octen-video-slide.pos-center .octen-vcard-extract {
   opacity: 1;
   transform: scale(1);
   pointer-events: auto;

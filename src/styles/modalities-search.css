@@ -6,7 +6,6 @@
 .octen-modalities-section {
   position: relative;
   width: 100%;
-  background-color: transparent;
   overflow: hidden;
   padding: 96px 0 120px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -244,6 +243,31 @@
   }
 }
 
+/* Image and Video Search are presented as two stacked product stories. */
+.octen-modalities-grid { display: flex; flex-direction: column; gap: 72px; padding-top: 48px; }
+.octen-modality-col { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; column-gap: clamp(36px, 7vw, 104px); filter: none; }
+.octen-modality-col::after { grid-column: 2; grid-row: 1 / span 2; display: block; width: 100%; min-height: 360px; content: ''; border: 1px solid #e4e7ec; border-radius: 22px; background: #f7f8f9; }
+.octen-modality-header { grid-column: 1; grid-row: 1; align-items: flex-start; margin-bottom: 28px; text-align: left; }
+.octen-modality-card { grid-column: 1; grid-row: 2; background: #fff; border-color: #e4e7ec; box-shadow: 0 18px 42px rgba(16, 24, 40, 0.06); }
+.octen-modality-title-row { display: flex; flex-wrap: wrap; justify-content: flex-start; height: auto; gap: 12px; }
+.octen-modality-title { color: #181d27; }
+.octen-modality-desc { max-width: 540px; margin: 16px 0 0; color: #667085; text-align: left; }
+.octen-modality-tag { margin-bottom: 14px; }
+.octen-modality-tag-text { color: #ffffff; font-size: 14px; font-weight: 500; }
+.octen-early-access-badge { position: static; transform: none; margin-top: 10px; }
+.octen-modality-request-btn { margin-top: 24px; }
+.octen-feature-item { background: #fbfcfc; border-color: #eaecf0; }
+.octen-feature-title { color: #344054; }
+.octen-feature-desc { color: #667085; }
+
+@media (max-width: 800px) {
+  .octen-modality-col { grid-template-columns: 1fr; row-gap: 28px; }
+  .octen-modality-col::after { grid-column: 1; grid-row: 3; min-height: 260px; }
+  .octen-modality-header, .octen-modality-card { grid-column: 1; }
+  .octen-modality-header { grid-row: 1; }
+  .octen-modality-card { grid-row: 2; }
+}
+
 .octen-feature-item {
   background: rgba(23, 23, 23, 0.6);
   border: 1px solid rgba(38, 38, 38, 0.6);
@@ -313,6 +337,361 @@
   line-height: 16px;
   color: #A3A3A3;
   margin: 2px 0 0 0;
+}
+
+
+/* Dark treatment for the Image and Video Search stories. */
+.octen-modalities-section {
+  background: #050806;
+}
+
+.octen-modality-col::after {
+  border-color: #26352e;
+  background: #0b110e;
+  box-shadow: inset 0 0 0 1px rgba(112, 254, 126, 0.04);
+}
+
+.octen-modality-card {
+  background: #0d1210;
+  border-color: #26352e;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+}
+
+.octen-modality-title {
+  color: #f5f7f6;
+}
+
+.octen-modality-desc {
+  color: #a6b3ab;
+}
+
+.octen-feature-item {
+  background: #111814;
+  border-color: #26352e;
+}
+
+.octen-feature-item:hover {
+  background: #17221b;
+  border-color: #385340;
+}
+
+.octen-feature-title {
+  color: #edf2ee;
+}
+
+.octen-feature-desc {
+  color: #9aa89f;
+}
+
+
+/* ==========================================================================
+   Modality Search Glassmorphism Tags (Image & Video & Omni)
+   Matches Web Search Faux Bevel Inset Glass Component
+   ========================================================================== */
+.octen-modality-tag,
+.octen-search-fast-tag,
+.octen-search-premier-tag {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  height: 32px !important;
+  padding: 0 16px !important;
+  border: 0 solid #e5e7eb !important;
+  border-radius: 1.5rem !important;
+  background-color: #ffffff1a !important;
+  color: #ffffff !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 20px !important;
+  white-space: nowrap !important;
+  box-shadow: 0px 8px 16px 0px #00000014, inset -.5px -.5px 1px 0px #ffffff4d, inset .5px .5px 1px 0px #ffffffe6 !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  cursor: default !important;
+  user-select: none;
+  box-sizing: border-box !important;
+}
+
+.octen-search-fast-prefix {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff !important;
+}
+
+.octen-search-fast-divider {
+  color: rgba(255, 255, 255, 0.4) !important;
+  margin: 0 2px !important;
+}
+
+.octen-search-fast-keyword,
+.octen-search-premier-keyword {
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  color: #ffffff !important;
+}
+
+/* Let the modalities section inherit the page background. */
+.octen-modalities-section { background: transparent; }
+
+.octen-search-premier-tag {
+  margin-bottom: 0;
+}
+
+
+/* Feature cards are semantic unordered lists without a surrounding border. */
+.octen-modality-card {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  list-style: none;
+}
+.octen-modality-card:hover { border-color: transparent; box-shadow: none; }
+.octen-modality-card .octen-feature-item { list-style: none; }
+
+
+/* Figma 13700:167900 — borderless modality feature list. */
+.octen-modality-card {
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.octen-feature-item {
+  width: 100%;
+  min-height: 48px;
+  padding: 14px 16px;
+  gap: 14px;
+  background: transparent;
+  border: 0;
+  border-radius: 12px;
+  align-items: center;
+}
+
+.octen-feature-item:hover {
+  background: rgba(112, 254, 126, 0.04);
+  border-color: transparent;
+  transform: none;
+}
+
+.octen-feature-icon-box {
+  width: auto;
+  min-width: 10px;
+  height: 16px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #70fe7e;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.octen-feature-item:hover .octen-feature-icon-box {
+  transform: none;
+  border-color: transparent;
+}
+
+.octen-feature-title {
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.octen-feature-desc {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 2px;
+}
+
+
+.octen-modality-request-btn {
+  width: 182px;
+  height: 40px;
+  min-width: 182px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+.octen-modality-card {
+  margin-left: 0;
+}
+
+.octen-modality-card:hover,
+.octen-modality-card .octen-feature-item:hover {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+.octen-modality-card .octen-feature-item:hover .octen-feature-icon-box {
+  transform: none;
+  border-color: transparent;
+}
+
+
+.octen-modalities-grid {
+  row-gap: 240px;
+}
+
+
+.octen-feature-item {
+  padding-left: 0;
+}
+
+
+/* Keep each feature title and description in one natural inline text flow. */
+.octen-feature-content {
+  display: block;
+}
+
+.octen-feature-title,
+.octen-feature-desc {
+  display: inline;
+  white-space: normal;
+}
+
+.octen-feature-desc {
+  margin: 0 0 0 8px;
+}
+
+
+/* Search tier labels stay pure white in every state. */
+.octen-search-fast-prefix,
+.octen-search-fast-divider,
+.octen-search-fast-keyword,
+.octen-search-premier-keyword {
+  color: #ffffff;
+}
+
+
+.octen-modality-card,
+.octen-modality-card .octen-feature-title,
+.octen-modality-card .octen-feature-desc {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+
+/* Keep the left content stack within the height of the right visual panel. */
+.octen-modality-header {
+  margin-bottom: 8px;
+}
+
+.octen-modality-tag {
+  margin-bottom: 8px;
+}
+
+.octen-modality-desc {
+  margin-top: 10px;
+}
+
+.octen-modality-request-btn {
+  margin-top: 16px;
+}
+
+
+/* The visual placeholder spans header, feature list, and CTA rows. */
+.octen-modality-col::after {
+  grid-row: 1 / span 3;
+  align-self: stretch;
+  min-height: 0;
+  height: auto;
+}
+
+
+.octen-feature-item {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  min-height: 40px;
+}
+
+
+.octen-modality-desc,
+.octen-feature-desc {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+
+/* Figma 13700:168245 — exact Image Search content spacing. */
+.octen-modality-col {
+  row-gap: 20px;
+}
+
+.octen-modality-header {
+  margin-bottom: 0;
+}
+
+.octen-modality-desc {
+  margin-top: 6px;
+}
+
+.octen-feature-item {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  min-height: 0;
+}
+
+.octen-feature-desc {
+  margin-left: 12px;
+}
+
+.octen-modality-request-btn {
+  margin-top: 0;
+}
+
+
+/* Real DOM visual slot for future Image/Video motion content. */
+.octen-modality-col::after { display: none; content: none; }
+.octen-modality-visual-placeholder {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: center;
+  width: 100%;
+  height: 330px;
+  border: 1px solid #26352e;
+  border-radius: 22px;
+  background: #0b110e;
+  box-shadow: inset 0 0 0 1px rgba(112, 254, 126, 0.04);
+}
+@media (max-width: 800px) {
+  .octen-modality-visual-placeholder { grid-column: 1; grid-row: 4; height: 330px; }
+}
+
+
+/* Match Omni Search: badge sits beside the title, centered slightly upward. */
+.octen-modality-title-row {
+  position: relative;
+}
+
+.octen-early-access-badge {
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  margin-top: 0;
+  transform: translateY(calc(-50% - 4px));
+}
+
+@media (max-width: 640px) {
+  .octen-early-access-badge {
+    left: calc(100% + 8px);
+  }
+}
+
+/* Image and Video Search parent surface. */
+.octen-modalities-section {
+  background: #090b11;
 }
 
 /* ==========================================================================
@@ -694,59 +1073,61 @@
   height: 100%;
 }
 
-/* Three slides bottom-aligned at bottom: 103px */
+/* Continuous 4-Slide Infinite Track (Bottom-aligned at bottom: 103px) */
 .octen-video-slide {
   position: absolute;
   bottom: 103px;
+  width: 317px;
+  height: 208px;
   transform-origin: bottom center;
-  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.85s ease;
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform, opacity;
 }
 
-/* Center card: 317px x 208px, centered at 50% */
-.octen-video-slide.is-center {
-  left: 50%;
-  width: 317px;
-  height: 208px;
-  transform: translateX(-50%) scale(1);
-  z-index: 3;
-  opacity: 1;
+.octen-video-track.no-transition .octen-video-slide,
+.octen-video-slide.no-transition {
+  transition: none !important;
 }
 
-/* Left card: 238.3px x 156.4px (scale ~0.7517), center at calc(50% - 326px) */
-.octen-video-slide.is-left {
-  left: calc(50% - 326px);
-  width: 238.3px;
-  height: 156.4px;
-  transform: translateX(-50%) scale(1);
-  z-index: 2;
-  opacity: 0.75;
-}
-
-/* Right card: 238.3px x 156.4px (scale ~0.7517), center at calc(50% + 319px) */
-.octen-video-slide.is-right {
-  left: calc(50% + 319px);
-  width: 238.3px;
-  height: 156.4px;
-  transform: translateX(-50%) scale(1);
-  z-index: 2;
-  opacity: 0.75;
-}
-
-/* Transition to next scene (Carousel shift right) */
-.octen-video-card.is-shifting .octen-video-slide.is-center {
-  transform: translateX(calc(-50% + 319px)) scale(0.7517);
-  opacity: 0.75;
-}
-
-.octen-video-card.is-shifting .octen-video-slide.is-left {
-  transform: translateX(calc(-50% + 326px)) scale(1.33);
-  opacity: 1;
-}
-
-.octen-video-card.is-shifting .octen-video-slide.is-right {
-  transform: translateX(calc(-50% + 319px)) scale(0.6);
+/* 5 Position Slots for Infinite Rightward Travel */
+.octen-video-slide.pos-incoming {
+  left: calc(50% - 640px);
+  transform: translateX(-50%) scale(0.7517);
   opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.octen-video-slide.pos-left {
+  left: calc(50% - 326px);
+  transform: translateX(-50%) scale(0.7517);
+  opacity: 0.72;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.octen-video-slide.pos-center {
+  left: 50%;
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  z-index: 5;
+  pointer-events: auto;
+}
+
+.octen-video-slide.pos-right {
+  left: calc(50% + 319px);
+  transform: translateX(-50%) scale(0.7517);
+  opacity: 0.72;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.octen-video-slide.pos-outgoing {
+  left: calc(50% + 640px);
+  transform: translateX(-50%) scale(0.6);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* Video card inner container */
@@ -834,34 +1215,21 @@
   height: auto;
 }
 
-/* Green laser scanline */
+/* Wide soft green laser scanband (Figma node 13716:172855) */
 .octen-vcard-scanline {
   position: absolute;
-  left: -10%;
-  width: 120%;
-  height: 20px;
-  top: -25px;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(112, 254, 126, 0.15) 30%,
-    rgba(112, 254, 126, 0.85) 50%,
-    rgba(112, 254, 126, 0.15) 70%,
-    transparent 100%
-  );
-  box-shadow: 0 0 16px rgba(112, 254, 126, 0.8);
+  width: 343.15px;
+  height: 17.55px;
+  left: calc(50% - 343.15px / 2);
+  top: 0;
+  background: linear-gradient(180deg, rgba(112, 254, 126, 0) 0%, #70FE7E 50%, rgba(112, 254, 126, 0) 100%);
   opacity: 0;
   pointer-events: none;
-  z-index: 5;
+  z-index: 10;
 }
 
 .octen-vcard-scan-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(112, 254, 126, 0.12) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  pointer-events: none;
+  display: none !important;
 }
 
 /* Timeline scrubber at bottom of video */
@@ -1009,79 +1377,79 @@
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.octen-video-slide.is-right .octen-vcard-extract {
+/* Extraction state overrides */
+.octen-video-slide.is-extracted .octen-vcard-extract {
   opacity: 1;
   transform: scale(1);
-  padding: 12px 14px;
-  border-radius: 9px;
-  border-width: 0.75px;
+  pointer-events: auto;
 }
 
-.octen-video-slide.is-right .octen-extract-chip {
-  height: 24px;
+.octen-video-slide.is-extracted .octen-vcard-video {
+  opacity: 0;
+  transform: scale(0.96);
+  pointer-events: none;
 }
 
 /* Scene states */
 /* Scene 1: Video playing */
-.octen-video-card[data-scene="1"] #octen-vcard-center-video {
+.octen-video-card[data-scene="1"] .octen-video-slide.pos-center .octen-vcard-video {
   opacity: 1;
+  transform: scale(1);
 }
-.octen-video-card[data-scene="1"] #octen-vcard-center-play {
+.octen-video-card[data-scene="1"] .octen-video-slide.pos-center .octen-vcard-play-icon {
   opacity: 0.85;
+  transform: scale(1);
 }
-.octen-video-card[data-scene="1"] #octen-vcard-center-robot {
+.octen-video-card[data-scene="1"] .octen-video-slide.pos-center .octen-vcard-robot {
   opacity: 0;
   transform: scale(0.85);
 }
-.octen-video-card[data-scene="1"] #octen-vcard-center-extract {
+.octen-video-card[data-scene="1"] .octen-video-slide.pos-center .octen-vcard-extract {
   opacity: 0;
   pointer-events: none;
 }
 
-/* Scene 2: Laser Scanning & Octen Robot */
-.octen-video-card[data-scene="2"] #octen-vcard-center-video {
+/* Scene 2: Laser Scanning & Octen Robot (single subtle green line) */
+.octen-video-card[data-scene="2"] .octen-video-slide.pos-center .octen-vcard-video {
   opacity: 1;
 }
-.octen-video-card[data-scene="2"] #octen-vcard-center-play {
+.octen-video-card[data-scene="2"] .octen-video-slide.pos-center .octen-vcard-play-icon {
   opacity: 0;
   transform: scale(0.8);
 }
-.octen-video-card[data-scene="2"] #octen-vcard-center-robot {
-  opacity: 1;
+.octen-video-card[data-scene="2"] .octen-video-slide.pos-center .octen-vcard-robot {
+  opacity: 0.92;
   transform: scale(1);
 }
-.octen-video-card[data-scene="2"] #octen-vcard-center-glow {
+.octen-video-card[data-scene="2"] .octen-video-slide.pos-center .octen-vcard-scanline {
   opacity: 1;
-}
-.octen-video-card[data-scene="2"] #octen-vcard-center-scan {
-  opacity: 1;
-  animation: octen-laser-sweep 1.4s ease-in-out infinite;
+  animation: octen-laser-sweep 1.6s ease-in-out forwards;
 }
 
 @keyframes octen-laser-sweep {
   0% {
-    top: -20px;
+    top: -18px;
     opacity: 0;
   }
   15% {
-    opacity: 1;
+    opacity: 0.25;
   }
   85% {
-    opacity: 1;
+    opacity: 0.25;
   }
   100% {
-    top: calc(100% + 10px);
+    top: calc(100% - 6px);
     opacity: 0;
   }
 }
 
 /* Scene 3: Deconstructed Extract Card */
-.octen-video-card[data-scene="3"] #octen-vcard-center-video {
+.octen-video-card[data-scene="3"] .octen-video-slide.pos-center .octen-vcard-video {
   opacity: 0;
   transform: scale(0.96);
   pointer-events: none;
 }
-.octen-video-card[data-scene="3"] #octen-vcard-center-extract {
+.octen-video-card[data-scene="3"] .octen-video-slide.pos-center .octen-vcard-extract {
   opacity: 1;
   transform: scale(1);
   pointer-events: auto;

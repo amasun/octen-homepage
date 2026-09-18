@@ -183,8 +183,8 @@
         <!-- Carousel Track with 3 cards bottom-aligned -->
         <div class="octen-video-viewport">
           <div class="octen-video-track" id="octen-video-track">
-            <!-- Left Slide (small video entering / previous) -->
-            <div class="octen-video-slide is-left" id="octen-video-slide-left">
+            <!-- Slide 0 (Starts at pos-incoming: offscreen left) -->
+            <div class="octen-video-slide pos-incoming" id="octen-video-slide-0">
               <div class="octen-vcard-inner octen-vcard-video">
                 <div class="octen-vcard-header">
                   <div class="octen-vcard-dot"></div>
@@ -192,43 +192,19 @@
                 </div>
                 <div class="octen-vcard-body">
                   <img src="/images/video/videoplayer-play.svg" alt="" class="octen-vcard-play-icon" />
-                </div>
-              </div>
-            </div>
-
-            <!-- Center Slide (active: video -> scan -> extract) -->
-            <div class="octen-video-slide is-center" id="octen-video-slide-center">
-              <!-- Video Player Layer (Scene 1 & 2) -->
-              <div class="octen-vcard-inner octen-vcard-video" id="octen-vcard-center-video">
-                <div class="octen-vcard-header">
-                  <div class="octen-vcard-dot"></div>
-                  <div class="octen-vcard-titlebar"></div>
-                </div>
-                <div class="octen-vcard-body">
-                  <!-- Play Icon (Scene 1) -->
-                  <img src="/images/video/videoplayer-play.svg" alt="" class="octen-vcard-play-icon" id="octen-vcard-center-play" />
-                  
-                  <!-- Octen Robot Mascot (Scene 2) -->
-                  <div class="octen-vcard-robot" id="octen-vcard-center-robot">
+                  <div class="octen-vcard-robot">
                     <img src="/images/video/octen-robot.svg" alt="Octen Core" />
                   </div>
                 </div>
-
-                <!-- Green Laser Scanline (Scene 2) -->
-                <div class="octen-vcard-scanline" id="octen-vcard-center-scan"></div>
-                <div class="octen-vcard-scan-glow" id="octen-vcard-center-glow"></div>
-
-                <!-- Timeline Scrubber Bar -->
+                <div class="octen-vcard-scanline"></div>
                 <div class="octen-vcard-timeline">
                   <div class="octen-vcard-timeline-track">
-                    <div class="octen-vcard-timeline-fill" id="octen-vcard-timeline-fill"></div>
-                    <div class="octen-vcard-timeline-thumb" id="octen-vcard-timeline-thumb"></div>
+                    <div class="octen-vcard-timeline-fill" style="width: 25%;"></div>
+                    <div class="octen-vcard-timeline-thumb" style="left: 25%;"></div>
                   </div>
                 </div>
               </div>
-
-              <!-- Deconstructed Extract Card Layer (Scene 3) -->
-              <div class="octen-vcard-inner octen-vcard-extract" id="octen-vcard-center-extract">
+              <div class="octen-vcard-inner octen-vcard-extract">
                 <div class="octen-extract-header">
                   <div class="octen-extract-tag"></div>
                   <div class="octen-extract-title-1"></div>
@@ -249,8 +225,111 @@
               </div>
             </div>
 
-            <!-- Right Slide (small extract / outgoing) -->
-            <div class="octen-video-slide is-right" id="octen-video-slide-right">
+            <!-- Slide 1 (Starts at pos-left: small video card) -->
+            <div class="octen-video-slide pos-left" id="octen-video-slide-1">
+              <div class="octen-vcard-inner octen-vcard-video">
+                <div class="octen-vcard-header">
+                  <div class="octen-vcard-dot"></div>
+                  <div class="octen-vcard-titlebar"></div>
+                </div>
+                <div class="octen-vcard-body">
+                  <img src="/images/video/videoplayer-play.svg" alt="" class="octen-vcard-play-icon" />
+                  <div class="octen-vcard-robot">
+                    <img src="/images/video/octen-robot.svg" alt="Octen Core" />
+                  </div>
+                </div>
+                <div class="octen-vcard-scanline"></div>
+                <div class="octen-vcard-timeline">
+                  <div class="octen-vcard-timeline-track">
+                    <div class="octen-vcard-timeline-fill" style="width: 25%;"></div>
+                    <div class="octen-vcard-timeline-thumb" style="left: 25%;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="octen-vcard-inner octen-vcard-extract">
+                <div class="octen-extract-header">
+                  <div class="octen-extract-tag"></div>
+                  <div class="octen-extract-title-1"></div>
+                  <div class="octen-extract-title-2"></div>
+                </div>
+                <div class="octen-extract-body">
+                  <div class="octen-extract-line-tag"></div>
+                  <div class="octen-extract-line-1"></div>
+                  <div class="octen-extract-line-2"></div>
+                  <div class="octen-extract-line-3"></div>
+                </div>
+                <div class="octen-extract-grid">
+                  <div class="octen-extract-chip"></div>
+                  <div class="octen-extract-chip"></div>
+                  <div class="octen-extract-chip"></div>
+                  <div class="octen-extract-chip"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 2 (Starts at pos-center: large active video card) -->
+            <div class="octen-video-slide pos-center" id="octen-video-slide-2">
+              <div class="octen-vcard-inner octen-vcard-video">
+                <div class="octen-vcard-header">
+                  <div class="octen-vcard-dot"></div>
+                  <div class="octen-vcard-titlebar"></div>
+                </div>
+                <div class="octen-vcard-body">
+                  <img src="/images/video/videoplayer-play.svg" alt="" class="octen-vcard-play-icon" />
+                  <div class="octen-vcard-robot">
+                    <img src="/images/video/octen-robot.svg" alt="Octen Core" />
+                  </div>
+                </div>
+                <div class="octen-vcard-scanline"></div>
+                <div class="octen-vcard-timeline">
+                  <div class="octen-vcard-timeline-track">
+                    <div class="octen-vcard-timeline-fill" style="width: 25%;"></div>
+                    <div class="octen-vcard-timeline-thumb" style="left: 25%;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="octen-vcard-inner octen-vcard-extract">
+                <div class="octen-extract-header">
+                  <div class="octen-extract-tag"></div>
+                  <div class="octen-extract-title-1"></div>
+                  <div class="octen-extract-title-2"></div>
+                </div>
+                <div class="octen-extract-body">
+                  <div class="octen-extract-line-tag"></div>
+                  <div class="octen-extract-line-1"></div>
+                  <div class="octen-extract-line-2"></div>
+                  <div class="octen-extract-line-3"></div>
+                </div>
+                <div class="octen-extract-grid">
+                  <div class="octen-extract-chip"></div>
+                  <div class="octen-extract-chip"></div>
+                  <div class="octen-extract-chip"></div>
+                  <div class="octen-extract-chip"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3 (Starts at pos-right: small video card) -->
+            <div class="octen-video-slide pos-right" id="octen-video-slide-3">
+              <div class="octen-vcard-inner octen-vcard-video">
+                <div class="octen-vcard-header">
+                  <div class="octen-vcard-dot"></div>
+                  <div class="octen-vcard-titlebar"></div>
+                </div>
+                <div class="octen-vcard-body">
+                  <img src="/images/video/videoplayer-play.svg" alt="" class="octen-vcard-play-icon" />
+                  <div class="octen-vcard-robot">
+                    <img src="/images/video/octen-robot.svg" alt="Octen Core" />
+                  </div>
+                </div>
+                <div class="octen-vcard-scanline"></div>
+                <div class="octen-vcard-timeline">
+                  <div class="octen-vcard-timeline-track">
+                    <div class="octen-vcard-timeline-fill" style="width: 25%;"></div>
+                    <div class="octen-vcard-timeline-thumb" style="left: 25%;"></div>
+                  </div>
+                </div>
+              </div>
               <div class="octen-vcard-inner octen-vcard-extract">
                 <div class="octen-extract-header">
                   <div class="octen-extract-tag"></div>
