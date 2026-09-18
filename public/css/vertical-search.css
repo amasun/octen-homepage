@@ -1764,3 +1764,21 @@ number-flow,
 .vertical-search-section #api-introduce {
   padding-top: 0 !important;
 }
+
+/* Keep the API introduction in the same continuous search surface. */
+#api-introduce {
+  padding-top: 0 !important;
+  background: #090b11 !important;
+  border-bottom-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff;
+}
+
+#api-introduce h1,
+#api-introduce h2,
+#api-introduce h3,
+#api-introduce h4,
+#api-introduce p,
+#api-introduce span,
+#api-introduce a {
+  color: inherit;
+}
