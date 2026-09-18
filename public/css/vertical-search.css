@@ -1646,7 +1646,7 @@ number-flow,
    the surrounding typography, controls, cards, and scenario rail.
    ========================================================================== */
 .vertical-search-section {
-  background: #050806;
+  background: #090b11;
   border-top-color: rgba(255, 255, 255, 0.06);
   color: #ffffff;
 }
@@ -1758,4 +1758,9 @@ number-flow,
 /* Seamlessly join Vertical Search to the following dark modality surface. */
 .vertical-search-section + .octen-modalities-section {
   border-top-color: #090b11;
+}
+
+/* The API introduction follows the Vertical Search content without an extra top gap. */
+.vertical-search-section #api-introduce {
+  padding-top: 0 !important;
 }

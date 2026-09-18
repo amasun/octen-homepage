@@ -9,6 +9,11 @@
   --octen-web-search-divider: rgba(255, 255, 255, 0.14);
 }
 
+/* Shared surface for the search story from Web Search through Omni Search. */
+.octen-search-surface {
+  background-color: #090b11 !important;
+}
+
 .octen-web-search-card {
   border: 1px solid var(--octen-web-search-border) !important;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;

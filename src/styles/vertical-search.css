@@ -1759,3 +1759,8 @@ number-flow,
 .vertical-search-section + .octen-modalities-section {
   border-top-color: #090b11;
 }
+
+/* The API introduction follows the Vertical Search content without an extra top gap. */
+.vertical-search-section #api-introduce {
+  padding-top: 0 !important;
+}
