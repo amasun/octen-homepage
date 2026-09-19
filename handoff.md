@@ -4,11 +4,35 @@
 
 ---
 
-## 🌐 核心访问入口
-- **线上部署预览**：https://octen-homepage.vercel.app/
-- **独立备用模态预览**：`http://localhost:3001/backup-modules.html`
-- **本地开发服务**：`http://localhost:3001/`（启动命令：`pnpm dev`）
-- **开发者交接简报**：[DEVELOPER_HANDOVER.md](file:///x:/XCoding/Octen/hompage/DEVELOPER_HANDOVER.md)
+## 🖥️ 预览与运行方式 (How to Preview & Run)
+
+### 1. 线上免安装即时预览
+无需本地运行环境，浏览器直接打开即可体验最新线上部署版本：
+- **线上部署地址**：[https://octen-homepage.vercel.app/](https://octen-homepage.vercel.app/)
+
+### 2. 本地开发环境启动与预览
+本地调试样式或进行二次开发：
+1. **安装依赖**（首次运行）：
+   ```bash
+   pnpm install
+   ```
+2. **启动本地开发服务器**：
+   ```bash
+   pnpm dev
+   ```
+3. **在浏览器中打开预览**：
+   - **主页预览**：👉 [http://localhost:3001/](http://localhost:3001/)
+   - **独立备用模态测试页**：👉 [http://localhost:3001/backup-modules.html](http://localhost:3001/backup-modules.html)
+   *(服务固定监听 `3001` 端口，局域网同网段设备可通过 `http://<本机IP>:3001/` 同步预览)*
+
+### 3. 生产打包与构建预览
+验证生产环境打包与静态资源加载完整性：
+```bash
+pnpm build     # TypeScript 类型校验并打包产物至 dist/
+pnpm preview   # 本地静态托管并预览构建产物
+```
+
+- **相关文档**：详见 [DEVELOPER_HANDOVER.md](./DEVELOPER_HANDOVER.md)（开发者重点改动与设计交接说明）
 
 ---
 
