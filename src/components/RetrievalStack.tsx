@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Database, Eye, FileText, Cpu, Award, ExternalLink, ArrowRight, Check } from 'lucide-react';
+import { Eye, FileText, Cpu, Award, ExternalLink, ArrowRight, Check } from 'lucide-react';
 
 interface LeaderboardBarItem {
   model: string;
@@ -69,12 +69,8 @@ export const RetrievalStack: React.FC<RetrievalStackProps> = ({ version: propVer
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         {/* Title */}
         <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 56px' }}>
-          <div className="pill-badge" style={{ marginBottom: '16px', backgroundColor: isWhiteBg ? 'rgba(34, 197, 94, 0.1)' : 'rgba(96, 255, 112, 0.1)', borderColor: isWhiteBg ? '#16a34a' : '#60ff70', color: isWhiteBg ? '#15803d' : '#60ff70' }}>
-            <Database size={14} color={isWhiteBg ? '#16a34a' : '#60ff70'} />
-            <span>Beyond Search</span>
-          </div>
           <h2 style={{ color: isWhiteBg ? '#0f172a' : '#fff', marginBottom: '16px' }}>
-            The complete retrieval stack
+            The complete<br />retrieval stack
           </h2>
           <p style={{ fontSize: '17.5px', color: isWhiteBg ? '#475569' : 'var(--text-muted)' }}>
             Pull clean content from any URL, and embed meaning with the #1 retrieval model for text and vision.
@@ -110,6 +106,7 @@ export const RetrievalStack: React.FC<RetrievalStackProps> = ({ version: propVer
                 transition: 'all 0.2s ease'
               }}
             >
+              <div className="tag-v" style={{ marginBottom: '10px' }}>Models</div>
               <div style={{ fontSize: '20px', fontWeight: 600, color: isWhiteBg ? '#0f172a' : '#fff', marginBottom: '8px' }}>
                 1. Embedding
               </div>
@@ -141,6 +138,7 @@ export const RetrievalStack: React.FC<RetrievalStackProps> = ({ version: propVer
                 transition: 'all 0.2s ease'
               }}
             >
+              <div className="tag-v" style={{ marginBottom: '10px' }}>Models</div>
               <div style={{ fontSize: '20px', fontWeight: 600, color: isWhiteBg ? '#0f172a' : '#fff', marginBottom: '8px' }}>
                 2. VL Embedding
               </div>
@@ -156,39 +154,7 @@ export const RetrievalStack: React.FC<RetrievalStackProps> = ({ version: propVer
               </div>
             </div>
 
-            {/* Item 3: Extract */}
-            <div
-              onClick={() => setActiveItem('extract')}
-              className={isWhiteBg ? '' : 'card-glass'}
-              style={{
-                cursor: 'pointer',
-                padding: '24px',
-                borderRadius: '16px',
-                borderColor: activeItem === 'extract' ? (isWhiteBg ? '#16a34a' : '#60ff70') : (isWhiteBg ? '#e2e8f0' : 'rgba(255,255,255,0.08)'),
-                borderWidth: activeItem === 'extract' ? '2px' : '1px',
-                borderStyle: 'solid',
-                backgroundColor: isWhiteBg ? (activeItem === 'extract' ? '#f0fdf4' : '#ffffff') : (activeItem === 'extract' ? 'rgba(96, 255, 112, 0.06)' : 'var(--bg-card)'),
-                boxShadow: isWhiteBg ? '0 4px 16px rgba(0,0,0,0.04)' : 'none',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              <div style={{ fontSize: '20px', fontWeight: 600, color: isWhiteBg ? '#0f172a' : '#fff', marginBottom: '8px' }}>
-                3. Extract
-              </div>
-              <p style={{ fontSize: '14px', color: isWhiteBg ? '#475569' : 'var(--text-muted)', marginBottom: '16px' }}>
-                Turn any URL into clean markdown, with intent-focused highlights and page classification.
-              </p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <a href="https://octen.ai/platform/extract" target="_blank" rel="noreferrer" className="btn-primary" style={{ fontSize: '12px', padding: '4px 12px', backgroundColor: isWhiteBg ? '#16a34a' : undefined, color: isWhiteBg ? '#fff' : undefined }}>
-                  Get started
-                </a>
-                <a href="https://docs.octen.ai" target="_blank" rel="noreferrer" style={{ fontSize: '13px', color: isWhiteBg ? '#475569' : 'var(--text-muted)', textDecoration: 'none' }}>
-                  View Docs
-                </a>
-              </div>
-            </div>
-
-            {/* Item 4: Model Gateway */}
+            {/* Item 3: Model Gateway */}
             <div
               onClick={() => setActiveItem('gateway')}
               className={isWhiteBg ? '' : 'card-glass'}
@@ -204,14 +170,48 @@ export const RetrievalStack: React.FC<RetrievalStackProps> = ({ version: propVer
                 transition: 'all 0.2s ease'
               }}
             >
+              <div className="tag-v" style={{ marginBottom: '10px' }}>Models</div>
               <div style={{ fontSize: '20px', fontWeight: 600, color: isWhiteBg ? '#0f172a' : '#fff', marginBottom: '8px' }}>
-                4. Model Gateway
+                3. Model Gateway
               </div>
               <p style={{ fontSize: '14px', color: isWhiteBg ? '#475569' : 'var(--text-muted)', marginBottom: '16px' }}>
                 One API to access top-tier models with Octen Search integration. Supports text and image generation.
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <a href="https://octen.ai/platform/model" target="_blank" rel="noreferrer" className="btn-primary" style={{ fontSize: '12px', padding: '4px 12px', backgroundColor: isWhiteBg ? '#16a34a' : undefined, color: isWhiteBg ? '#fff' : undefined }}>
+                  Get started
+                </a>
+                <a href="https://docs.octen.ai" target="_blank" rel="noreferrer" style={{ fontSize: '13px', color: isWhiteBg ? '#475569' : 'var(--text-muted)', textDecoration: 'none' }}>
+                  View Docs
+                </a>
+              </div>
+            </div>
+
+            {/* Item 4: Extract */}
+            <div
+              onClick={() => setActiveItem('extract')}
+              className={isWhiteBg ? '' : 'card-glass'}
+              style={{
+                cursor: 'pointer',
+                padding: '24px',
+                borderRadius: '16px',
+                borderColor: activeItem === 'extract' ? (isWhiteBg ? '#16a34a' : '#60ff70') : (isWhiteBg ? '#e2e8f0' : 'rgba(255,255,255,0.08)'),
+                borderWidth: activeItem === 'extract' ? '2px' : '1px',
+                borderStyle: 'solid',
+                backgroundColor: isWhiteBg ? (activeItem === 'extract' ? '#f0fdf4' : '#ffffff') : (activeItem === 'extract' ? 'rgba(96, 255, 112, 0.06)' : 'var(--bg-card)'),
+                boxShadow: isWhiteBg ? '0 4px 16px rgba(0,0,0,0.04)' : 'none',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <div className="tag-v" style={{ marginBottom: '10px' }}>Tool</div>
+              <div style={{ fontSize: '20px', fontWeight: 600, color: isWhiteBg ? '#0f172a' : '#fff', marginBottom: '8px' }}>
+                4. Extract
+              </div>
+              <p style={{ fontSize: '14px', color: isWhiteBg ? '#475569' : 'var(--text-muted)', marginBottom: '16px' }}>
+                Turn any URL into clean markdown, with intent-focused highlights and page classification.
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <a href="https://octen.ai/platform/extract" target="_blank" rel="noreferrer" className="btn-primary" style={{ fontSize: '12px', padding: '4px 12px', backgroundColor: isWhiteBg ? '#16a34a' : undefined, color: isWhiteBg ? '#fff' : undefined }}>
                   Get started
                 </a>
                 <a href="https://docs.octen.ai" target="_blank" rel="noreferrer" style={{ fontSize: '13px', color: isWhiteBg ? '#475569' : 'var(--text-muted)', textDecoration: 'none' }}>

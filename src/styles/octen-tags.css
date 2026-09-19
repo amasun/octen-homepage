@@ -1,0 +1,156 @@
+/* ==========================================================================
+   Octen Unified Search Tags (Search / FAST, Search / PREMIER, News Search Tag)
+   Faux Bevel Inset Glass Component:
+   Height: 30px | Radius: 24px | Padding: 0 16px | Font-Size: 14px | Gap: 4px
+   ========================================================================== */
+
+/* 1. Universal Container Selector for All Search Tags */
+.octen-search-tag,
+.octen-search-fast-tag,
+.octen-search-premier-tag,
+.search-fast-pill,
+.octen-modality-tag,
+.tag-pill,
+.octen-glass-tag,
+.start-building-tag,
+.vertical-search-section .tag-pill {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 0px 16px !important;
+  gap: 4px !important;
+  height: 30px !important;
+  width: auto !important;
+  min-width: unset !important;
+  max-width: fit-content !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 20px !important;
+  border: none !important;
+  border-radius: 24px !important;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08),
+              inset -0.5px -0.5px 1px rgba(255, 255, 255, 0.3),
+              inset 0.5px 0.5px 1px rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  cursor: default !important;
+  user-select: none !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+  flex: none !important;
+  order: 0 !important;
+  flex-grow: 0 !important;
+  margin: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* 2. Prefix: "Search" (Font Size 14px, Weight 500) */
+.octen-search-tag .octen-search-prefix,
+.octen-search-tag .octen-search-fast-prefix,
+.octen-search-fast-tag .octen-search-fast-prefix,
+.octen-search-premier-tag .octen-search-fast-prefix,
+.search-fast-pill .octen-search-fast-prefix,
+.tag-pill .octen-search-fast-prefix,
+.tag-pill .vertical-search-tag-prefix,
+.vertical-search-section .vertical-search-tag-prefix,
+.vertical-search-section .tag-pill .vertical-search-tag-prefix,
+.vertical-search-section .tag-pill .octen-search-fast-prefix {
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 20px !important;
+  color: #ffffff !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+/* 3. Divider: "/" (Font Size 14px) */
+.octen-search-tag .octen-search-divider,
+.octen-search-tag .octen-search-fast-divider,
+.octen-search-fast-tag .octen-search-fast-divider,
+.octen-search-premier-tag .octen-search-fast-divider,
+.search-fast-pill .octen-search-fast-divider,
+.tag-pill .octen-search-fast-divider,
+.tag-pill .vertical-search-tag-divider,
+.vertical-search-section .vertical-search-tag-divider,
+.vertical-search-section .tag-pill .vertical-search-tag-divider,
+.vertical-search-section .tag-pill .octen-search-fast-divider {
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 20px !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+  margin: 0 2px !important;
+  padding: 0 !important;
+  letter-spacing: normal !important;
+  opacity: 1 !important;
+}
+
+/* 4. Keyword: "FAST" / "PREMIER" (Font Size 14px, Weight 700) */
+.octen-search-tag .octen-search-keyword,
+.octen-search-tag .octen-search-fast-keyword,
+.octen-search-tag .octen-search-premier-keyword,
+.octen-search-fast-tag .octen-search-fast-keyword,
+.octen-search-fast-tag .octen-search-premier-keyword,
+.octen-search-premier-tag .octen-search-fast-keyword,
+.octen-search-premier-tag .octen-search-premier-keyword,
+.search-fast-pill .octen-search-fast-keyword,
+.tag-pill .octen-search-fast-keyword,
+.tag-pill .octen-search-premier-keyword,
+.tag-pill .vertical-search-tag-keyword,
+.vertical-search-section .vertical-search-tag-keyword,
+.vertical-search-section .tag-pill .vertical-search-tag-keyword,
+.vertical-search-section .tag-pill .octen-search-fast-keyword,
+.vertical-search-section .tag-pill .octen-search-premier-keyword {
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 20px !important;
+  letter-spacing: 0.04em !important;
+  color: #ffffff !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-transform: uppercase !important;
+}
+
+/* ==========================================================================
+   5. API Introduce Sub-item Tag (tag -v: Models / Tool)
+   Height: 30px | Radius: 19.4617px | Padding: 6px 16px | Font: DM Sans 14px
+   ========================================================================== */
+.tag-v,
+.octen-subitem-tag {
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 6px 16px !important;
+  gap: 4px !important;
+  height: 30px !important;
+  width: fit-content !important;
+  background: rgba(255, 255, 255, 0.3) !important;
+  border: 1px solid #BCBCBC !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border-radius: 19.4617px !important;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  text-align: center !important;
+  color: #000000 !important;
+  margin-bottom: 12px !important;
+  flex: none !important;
+  order: 0 !important;
+  flex-grow: 0 !important;
+  user-select: none !important;
+  white-space: nowrap !important;
+}
+

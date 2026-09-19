@@ -392,38 +392,63 @@
 .octen-search-fast-tag,
 .octen-search-premier-tag {
   display: inline-flex !important;
-  align-items: center !important;
+  flex-direction: row !important;
   justify-content: center !important;
+  align-items: center !important;
+  padding: 0px 16px !important;
   gap: 4px !important;
-  height: 32px !important;
-  padding: 0 16px !important;
-  border: 0 solid #e5e7eb !important;
-  border-radius: 1.5rem !important;
-  background-color: #ffffff1a !important;
+  height: 30px !important;
+  width: auto !important;
+  min-width: unset !important;
+  background: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
   font-family: inherit !important;
   font-size: 14px !important;
   font-weight: 500 !important;
   line-height: 20px !important;
-  white-space: nowrap !important;
-  box-shadow: 0px 8px 16px 0px #00000014, inset -.5px -.5px 1px 0px #ffffff4d, inset .5px .5px 1px 0px #ffffffe6 !important;
+  border: none !important;
+  border-radius: 24px !important;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08), inset -0.5px -0.5px 1px rgba(255, 255, 255, 0.3), inset 0.5px 0.5px 1px rgba(255, 255, 255, 0.3) !important;
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
   cursor: default !important;
   user-select: none;
   box-sizing: border-box !important;
+  white-space: nowrap !important;
+  flex: none !important;
+  order: 0 !important;
+  flex-grow: 0 !important;
+  margin: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.octen-search-premier-tag {
+  height: 30px !important;
+  flex: none !important;
+  order: 0 !important;
+  flex-grow: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .octen-search-fast-prefix {
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 500;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 20px !important;
   color: #ffffff !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .octen-search-fast-divider {
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 20px !important;
   color: rgba(255, 255, 255, 0.4) !important;
   margin: 0 2px !important;
+  padding: 0 !important;
+  opacity: 1 !important;
 }
 
 .octen-search-fast-keyword,
@@ -431,16 +456,38 @@
   font-family: inherit !important;
   font-size: 14px !important;
   font-weight: 700 !important;
+  line-height: 20px !important;
   letter-spacing: 0.04em !important;
   color: #ffffff !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-transform: uppercase !important;
+}
+
+/* ==========================================================================
+   Image & Video Search Dual-Column Layout (Explicit 500px Width Enforcement)
+   ========================================================================== */
+[data-node-id="13720:174563"],
+[data-node-id="13720:174564"],
+.octen-search-column {
+  width: 500px !important;
+  max-width: 100% !important;
+  flex: 0 0 500px !important;
+  box-sizing: border-box !important;
+}
+
+[data-node-id="13720:174548"],
+[data-node-id="I13720:174564;13720:174548"],
+.octen-modality-desc-text {
+  width: 500px !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 /* Let the modalities section inherit the page background. */
 .octen-modalities-section { background: transparent; }
-
-.octen-search-premier-tag {
-  margin-bottom: 0;
-}
 
 
 /* Feature cards are semantic unordered lists without a surrounding border. */

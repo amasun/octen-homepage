@@ -199,7 +199,7 @@
 .nav-dropdown-developers svg rect,
 .nav-dropdown-developers svg line,
 .nav-dropdown-developers svg polygon {
-  stroke: #628A78 !important;
+  stroke: #039855 !important;
   transition: stroke 0.15s ease !important;
 }
 .nav-dropdown-developers a:hover .nav-product-icon,
@@ -326,9 +326,9 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   display: inline-block !important;
   width: 1px !important;
   height: 12px !important;
-  background-color: rgba(0, 0, 0, 0.2) !important;
   flex-shrink: 0 !important;
   margin: 0 !important;
+  border: none !important;
 }
 
 .nav-dropdown-split .nav-title-keyword {
@@ -404,8 +404,19 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   align-items: center !important;
   justify-content: center !important;
   position: relative !important;
-  color: #628A78 !important;
+  color: #039855 !important;
   transition: transform 0.15s ease, color 0.15s ease !important;
+}
+
+.nav-dropdown-split .nav-product-icon img {
+  width: 20px !important;
+  height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  display: block !important;
+  flex-shrink: 0 !important;
+  object-fit: contain !important;
+  transition: transform 0.15s ease !important;
 }
 
 .nav-dropdown-split .nav-product-icon svg {
@@ -421,6 +432,10 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
 /* Hover State for Icons: Brand Green #039855 & scale(1.05) */
 .nav-dropdown-split .nav-product-link:hover .nav-product-icon {
   color: #039855 !important;
+  transform: scale(1.05) !important;
+}
+
+.nav-dropdown-split .nav-product-link:hover .nav-product-icon img {
   transform: scale(1.05) !important;
 }
 

@@ -352,7 +352,7 @@ export const ImageVideoSearch: React.FC = () => {
           {modalitiesData.map((col) => (
             <div key={col.id} className="octen-modality-col" data-node-id={col.nodeId}>
               <div className="octen-modality-header" data-node-id={col.headerNodeId}>
-                <span className="octen-modality-tag octen-search-fast-tag">
+                <span className="octen-modality-tag octen-search-fast-tag octen-search-premier-tag">
                   <span className="octen-search-fast-prefix">Search</span>
                   <span className="octen-search-fast-divider">/</span>
                   <span className="octen-search-premier-keyword octen-search-fast-keyword">PREMIER</span>

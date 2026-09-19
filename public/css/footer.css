@@ -13,7 +13,8 @@
   width: 100%;
   margin: 0 auto;
   position: relative;
-  padding-top: 80px;
+  z-index: 1;
+  padding-top: 0;
   padding-left: 24px;
   padding-right: 24px;
   box-sizing: border-box;
@@ -21,73 +22,85 @@
   flex-direction: column;
 }
 
-/* Header: Logo & Slogan */
+/* Header: Logo & Slogan (Figma Node 13625:178499) */
 .octen-footer-header {
   border-bottom: 1px solid rgba(207, 207, 207, 0.2) !important;
-  padding-bottom: 60px !important;
-  margin-bottom: 40px !important;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  width: 100%;
+  padding-top: 40px !important;
+  padding-bottom: 40px !important;
+  margin-bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .octen-footer-logo-wrap {
-  display: flex;
-  align-items: center;
-  padding-top: 20px;
-  padding-bottom: 10px;
+  display: flex !important;
+  align-items: center !important;
+  padding: 4px 0 !important;
 }
 
 .octen-footer-logo-img {
-  width: 184px;
-  height: 62.5px;
-  display: block;
-  object-fit: contain;
+  width: 119.4px !important;
+  height: 40.5px !important;
+  display: block !important;
+  object-fit: contain !important;
 }
 
 .octen-footer-slogan {
-  display: flex;
-  align-items: center;
-  gap: 17px;
-  flex-wrap: wrap;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-wrap: nowrap;
 }
 
 .octen-footer-slogan-light {
   font-family: Fraunces, serif;
-  font-weight: 300;
-  font-size: 41.5px;
-  line-height: 1;
-  color: #ffffff;
+  font-weight: 300 !important;
+  font-size: 24px !important;
+  line-height: 1 !important;
+  color: #ffffff !important;
+  letter-spacing: normal !important;
 }
 
 .octen-footer-slogan-italic {
   font-family: Fraunces, serif;
-  font-style: italic;
-  font-size: 41.5px;
-  line-height: 1;
-  background: linear-gradient(218.78deg, #07AA5A 0%, #9ACC53 50%, #07AA5A 100%);
-  background-size: 200%;
-  background-position-y: 50%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: #70fe7e;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  font-size: 24px !important;
+  line-height: 1 !important;
+  background: linear-gradient(85.39deg, rgb(172, 244, 95) 5.8%, rgb(112, 254, 126) 99.3%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: transparent !important;
+  letter-spacing: normal !important;
 }
 
 @media (max-width: 767px) {
+  .octen-footer-header {
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+  }
+  .octen-footer-slogan {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
   .octen-footer-slogan-light,
   .octen-footer-slogan-italic {
-    font-size: 28px;
+    font-size: 20px !important;
   }
 }
 
-/* 5-Column Navigation Grid */
+/* 5-Column Navigation (Figma 13625:174221 & 13625:174239) */
 .octen-footer-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-top: 40px !important;
   padding-bottom: 110px !important;
   width: 100%;
   position: relative;
@@ -96,13 +109,20 @@
 
 @media (max-width: 1023px) {
   .octen-footer-grid {
+    display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 32px;
+  }
+  .octen-footer-col-dev-comp {
+    width: auto !important;
+    max-width: none !important;
+    flex: initial !important;
   }
 }
 
 @media (max-width: 639px) {
   .octen-footer-grid {
+    display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px;
   }
@@ -114,9 +134,10 @@
   font-weight: 400 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em;
-  color: #71717a !important;
+  color: rgba(255, 255, 255, 0.4) !important;
   line-height: 1.5;
   margin-bottom: 16px !important;
+  white-space: nowrap !important;
 }
 
 .octen-footer-col-list {
@@ -135,6 +156,7 @@
   color: rgba(255, 255, 255, 0.8) !important;
   text-decoration: none !important;
   display: block;
+  white-space: nowrap !important;
   transition: color 0.2s ease;
 }
 
@@ -146,6 +168,7 @@
 .octen-footer-col-touch {
   padding-left: 24px;
   position: relative;
+  flex-shrink: 0;
 }
 
 .octen-footer-touch-item {
@@ -175,96 +198,90 @@
   top: 4px;
   width: 16px;
   height: 16px;
-  stroke: #039855;
+  stroke: #18FB6F !important;
 }
 
 .octen-footer-touch-label {
   font-family: "DM Sans", sans-serif;
   font-size: 14px !important;
-  color: #71717a !important;
+  color: rgba(255, 255, 255, 0.4) !important;
   text-transform: uppercase !important;
   line-height: 1 !important;
   letter-spacing: 0.05em;
+  white-space: nowrap !important;
 }
 
-/* Col 5: Developers & Company */
+/* Col 2: Search (Fast & Premier Stacked) */
+.octen-footer-col-search-stacked {
+  display: flex;
+  flex-direction: column;
+  gap: 50px !important;
+  min-width: 140px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Col 3: Others */
+.octen-footer-col-others {
+  width: 115px;
+  flex-shrink: 0;
+}
+
+/* Col 4: Application */
+.octen-footer-col-app {
+  flex-shrink: 0;
+}
+
+/* Col 5: Developers & Company (Figma 13625:178329) */
 .octen-footer-col-dev-comp {
   display: flex;
   flex-direction: column;
-  gap: 30px !important;
-  width: 110px;
+  gap: 50px !important;
+  width: 110px !important;
+  min-width: 110px !important;
+  max-width: 110px !important;
+  flex: 0 0 110px !important;
+  box-sizing: border-box;
+  white-space: nowrap;
 }
 
 /* SOC 2 Certification Badge (Figma 13625:174285) */
 .octen-footer-certified {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 2px;
   padding: 6px 14px 6px 12px;
   border-radius: 8px;
   border: 1px solid #41535b;
   background: rgba(15, 32, 24, 0.53);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
-  position: absolute;
-  right: 24px;
-  bottom: 91px;
-  z-index: 10;
   user-select: none;
-}
-
-@media (max-width: 1023px) {
-  .octen-footer-certified {
-    position: static;
-    margin-bottom: 24px;
-    align-self: flex-start;
-  }
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .octen-footer-badge-icon {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
   display: block;
 }
 
-.octen-footer-badge-text {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  line-height: 1.1;
-}
-
-.octen-footer-badge-soc {
-  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: #ffffff;
-  display: flex;
-  align-items: flex-start;
-}
-
-.octen-footer-badge-reg {
-  font-size: 8px;
-  font-weight: 400;
-  margin-left: 2px;
-  vertical-align: super;
-}
-
-.octen-footer-badge-type {
-  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: rgba(255, 255, 255, 0.5);
+.octen-footer-badge-text-img {
+  width: 58px;
+  height: 46px;
+  flex-shrink: 0;
+  display: block;
 }
 
 /* Bottom Legal Bar (Figma 13625:174279) */
 .octen-footer-bottom-bar {
-  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-  padding-top: 30px !important;
-  padding-bottom: 30px !important;
+  border: none !important;
+  border-top: none !important;
+  height: 84px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
@@ -276,6 +293,10 @@
 
 @media (max-width: 767px) {
   .octen-footer-bottom-bar {
+    height: auto !important;
+    min-height: 84px !important;
+    padding-top: 20px !important;
+    padding-bottom: 24px !important;
     flex-direction: column-reverse !important;
     align-items: flex-start !important;
     gap: 20px;

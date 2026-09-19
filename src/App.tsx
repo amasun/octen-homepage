@@ -24,7 +24,8 @@ export const App: React.FC = () => {
       <main>
         <Hero version={version} />
         <ArchitectureComparison />
-        <ImageVideoSearch />
+        {/* [RESERVED / BACKUP: Image & Video Search moved to standalone backup page (/backup-modules.html)] */}
+        {/* <ImageVideoSearch /> */}
         <MultimodalShowcase version={version} />
         <VerticalSearch />
         <RetrievalStack version={version} />

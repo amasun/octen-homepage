@@ -299,11 +299,10 @@ export const VerticalSearch: React.FC = () => {
     <section id="vertical-search" ref={sectionRef} className="vertical-search-section" data-node-id="13625:179114">
       <div className="hero-header-box">
         <div className="hero-title-group">
-          <div className="tag-pill" data-node-id="13625:179118">
-            <div className="tag-pill-icon" data-name="vertical">
-              <img src="/assets/icon-vertical-tag.svg" alt="" width={15} height={15} />
-            </div>
-            <span>Vertical Search</span>
+          <div className="tag-pill octen-search-fast-tag octen-search-premier-tag" data-node-id="13625:179118">
+            <span className="octen-search-fast-prefix vertical-search-tag-prefix">Search</span>
+            <span className="octen-search-fast-divider vertical-search-tag-divider">/</span>
+            <span className="octen-search-fast-keyword octen-search-premier-keyword vertical-search-tag-keyword">PREMIER</span>
           </div>
           <h2 className="hero-heading">News Search</h2>
           <p className="hero-desc">
@@ -544,51 +543,13 @@ export const VerticalSearch: React.FC = () => {
         </div>
       </div>
 
-      {/* More Scenarios Marquee */}
-      <div className="future-scenarios-section">
-        <h3 className="scenarios-heading">More scenarios in future releases</h3>
-        <div
-          className="scenarios-marquee-container"
-          onMouseEnter={clearUnhoverTimer}
-          onMouseLeave={() => {
-            clearUnhoverTimer();
-            unhoverTimerRef.current = setTimeout(resetToNews, 120);
-          }}
-        >
-          <div className="marquee-mask-left" />
-          <div className="marquee-mask-right" />
-          <div className="marquee-track">
-            <div className="marquee-group">
-              {MORE_SCENARIOS.map((item) => (
-                <div
-                  key={item.key}
-                  className="scenario-chip"
-                  onMouseEnter={() => handleScenarioEnter(item.key)}
-                  onMouseLeave={handleScenarioLeave}
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <img src={scenarioIcons[item.key]} alt={item.label} width={18} height={18} />
-                  <span>{item.label}</span>
-                </div>
-              ))}
-            </div>
-            <div className="marquee-group" aria-hidden="true">
-              {MORE_SCENARIOS.map((item) => (
-                <div
-                  key={`${item.key}-dup`}
-                  className="scenario-chip"
-                  onMouseEnter={() => handleScenarioEnter(item.key)}
-                  onMouseLeave={handleScenarioLeave}
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <img src={scenarioIcons[item.key]} alt={item.label} width={18} height={18} />
-                  <span>{item.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* ========================================================================= */}
+      {/* [RESERVED / BACKUP: "More scenarios in future releases" Marquee Section]   */}
+      {/* This module has been extracted to standalone backup staging:              */}
+      {/* Page: /backup-modules.html                                                */}
+      {/* File: src/sections/backup/backup-future-scenarios.html                    */}
+      {/* Reserved location for future releases.                                    */}
+      {/* ========================================================================= */}
     </section>
   );
 };

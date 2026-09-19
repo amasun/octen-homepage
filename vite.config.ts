@@ -52,14 +52,19 @@ function htmlPartialsPlugin() {
       order: 'pre' as const,
       handler(html: string) {
         const includeRegex = /<include\s+src=["']([^"']+)["']\s*(?:\/>|><\/include>)/g;
-        return html.replace(includeRegex, (_match, srcPath) => {
-          const resolvedPath = path.resolve(process.cwd(), srcPath);
-          if (fs.existsSync(resolvedPath)) {
-            return fs.readFileSync(resolvedPath, 'utf8');
-          }
-          console.warn(`[html-partials] Missing partial file: ${srcPath} (resolved: ${resolvedPath})`);
-          return _match;
-        });
+        let depth = 0;
+        while (includeRegex.test(html) && depth < 10) {
+          depth++;
+          html = html.replace(includeRegex, (_match, srcPath) => {
+            const resolvedPath = path.resolve(process.cwd(), srcPath);
+            if (fs.existsSync(resolvedPath)) {
+              return fs.readFileSync(resolvedPath, 'utf8');
+            }
+            console.warn(`[html-partials] Missing partial file: ${srcPath} (resolved: ${resolvedPath})`);
+            return _match;
+          });
+        }
+        return html;
       },
     },
   };
@@ -93,5 +98,13 @@ export default defineConfig({
     strictPort: true,
     host: '0.0.0.0',
     open: false,
+  },
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(process.cwd(), 'index.html'),
+        backup: path.resolve(process.cwd(), 'backup-modules.html'),
+      },
+    },
   },
 });

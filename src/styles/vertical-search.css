@@ -62,7 +62,7 @@
   --max-content-width: 1280px;
   --max-canvas-width: 1260px;
   --canvas-height: 532px;
-  --canvas-radius: 40px;
+  --canvas-radius: 24px;
 
   /* Transitions */
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
@@ -84,9 +84,9 @@
   justify-content: center;
   margin: 0 auto;
   padding-top: 80px;
-  padding-bottom: 110px;
+  padding-bottom: 80px !important;
   background: #ffffff;
-  border-top: 1px solid #f9f9f9;
+  border-top: none !important;
   position: relative;
   overflow: hidden;
   font-family: var(--font-sans);
@@ -120,29 +120,39 @@
   text-align: center;
 }
 
-/* Capsule Tag (Figma Node 13625:179118) */
-.tag-pill {
+/* Capsule Tag (Unified Glass Pill Treatment) */
+.tag-pill,
+.octen-search-fast-tag,
+.octen-search-premier-tag {
   display: inline-flex !important;
-  align-items: center !important;
+  flex-direction: row !important;
   justify-content: center !important;
-  gap: 4px !important;
-  height: 32px !important;
+  align-items: center !important;
   padding: 0 16px !important;
-  border: 0 solid #e5e7eb !important;
-  border-radius: 1.5rem !important;
-  background-color: #ffffff1a !important;
+  gap: 4px !important;
+  height: 30px !important;
+  width: auto !important;
+  min-width: unset !important;
+  border: none !important;
+  border-radius: 24px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
   font-family: inherit !important;
   font-size: 14px !important;
   font-weight: 500 !important;
   line-height: 20px !important;
   white-space: nowrap !important;
-  box-shadow: 0px 8px 16px 0px #00000014, inset -.5px -.5px 1px 0px #ffffff4d, inset .5px .5px 1px 0px #ffffffe6 !important;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08), inset -0.5px -0.5px 1px rgba(255, 255, 255, 0.3), inset 0.5px 0.5px 1px rgba(255, 255, 255, 0.3) !important;
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
   cursor: default !important;
   user-select: none;
-  box-sizing: border-box;
+  box-sizing: border-box !important;
+  flex: none !important;
+  order: 0 !important;
+  flex-grow: 0 !important;
+  margin: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .tag-pill-icon {
@@ -317,7 +327,7 @@
   height: 532px !important;
   min-height: 532px !important;
   max-height: 532px !important;
-  border-radius: var(--canvas-radius);
+  border-radius: 24px !important;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -1450,7 +1460,7 @@ number-flow,
 @media (max-width: 1024px) {
   .hero-canvas {
     height: 420px;
-    border-radius: 28px;
+    border-radius: 24px;
   }
 
   .canvas-topic-title {
@@ -1650,7 +1660,7 @@ number-flow,
    ========================================================================== */
 .vertical-search-section {
   background: #050806;
-  border-top-color: rgba(255, 255, 255, 0.06);
+  border-top: none !important;
   color: #ffffff;
 }
 
@@ -1669,52 +1679,74 @@ number-flow,
 
 .vertical-search-section .tag-pill {
   display: inline-flex !important;
-  align-items: center !important;
+  flex-direction: row !important;
   justify-content: center !important;
-  gap: 4px !important;
-  height: 32px !important;
+  align-items: center !important;
   padding: 0 16px !important;
-  border: 0 solid #e5e7eb !important;
-  border-radius: 1.5rem !important;
-  background-color: #ffffff1a !important;
+  gap: 4px !important;
+  height: 30px !important;
+  width: auto !important;
+  min-width: unset !important;
+  border: none !important;
+  border-radius: 24px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
   font-family: inherit !important;
   font-size: 14px !important;
   font-weight: 500 !important;
   line-height: 20px !important;
   white-space: nowrap !important;
-  box-shadow: 0px 8px 16px 0px #00000014, inset -.5px -.5px 1px 0px #ffffff4d, inset .5px .5px 1px 0px #ffffffe6 !important;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08), inset -0.5px -0.5px 1px rgba(255, 255, 255, 0.3), inset 0.5px 0.5px 1px rgba(255, 255, 255, 0.3) !important;
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
   cursor: default !important;
   user-select: none;
+  box-sizing: border-box !important;
+  flex: none !important;
+  order: 0 !important;
+  flex-grow: 0 !important;
+  margin: 0 !important;
+  margin-bottom: 0 !important;
 }
-
 
 .vertical-search-section .vertical-search-tag-prefix,
 .tag-pill .vertical-search-tag-prefix,
 .tag-pill .octen-search-fast-prefix {
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 500;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 20px !important;
   color: #ffffff !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .vertical-search-section .vertical-search-tag-divider,
 .tag-pill .vertical-search-tag-divider,
 .tag-pill .octen-search-fast-divider {
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 20px !important;
   color: rgba(255, 255, 255, 0.4) !important;
   margin: 0 2px !important;
+  padding: 0 !important;
+  opacity: 1 !important;
 }
 
 .vertical-search-section .vertical-search-tag-keyword,
 .tag-pill .vertical-search-tag-keyword,
-.tag-pill .octen-search-fast-keyword {
+.tag-pill .octen-search-fast-keyword,
+.tag-pill .octen-search-premier-keyword {
   font-family: inherit !important;
   font-size: 14px !important;
   font-weight: 700 !important;
+  line-height: 20px !important;
   letter-spacing: 0.04em !important;
   color: #ffffff !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-transform: uppercase !important;
 }
 
 .vertical-search-section .btn-request {
@@ -1866,5 +1898,53 @@ number-flow,
   .hero-canvas-tip-line {
     white-space: normal;
   }
+}
+
+/* Shared Request Access button treatment (8px radius) */
+.vertical-search-section .btn-request,
+.octen-modalities-section .octen-modality-request-btn,
+.octen-search-surface button[class*="border-[#60ff70]"],
+.octen-search-surface a[class*="border-[#60ff70]"],
+.octen-search-surface .octen-request-access-btn {
+  height: 40px;
+  min-height: 40px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid #60ff70;
+  border-radius: 8px;
+  background: rgba(8, 11, 18, 0.1);
+  color: #70fe7e;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: none;
+  text-decoration: none;
+}
+
+.octen-request-access-btn {
+  height: 40px !important;
+  min-height: 40px !important;
+  padding: 0 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  border: 1px solid #60ff70 !important;
+  border-radius: 8px !important;
+  background: rgba(8, 11, 18, 0.1) !important;
+  color: #70fe7e !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 24px !important;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: none !important;
+  white-space: nowrap !important;
+  flex-wrap: nowrap !important;
 }
 

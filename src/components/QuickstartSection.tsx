@@ -94,9 +94,8 @@ export const QuickstartSection: React.FC<QuickstartSectionProps> = ({ version })
       <div className="container">
         {/* Title */}
         <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 56px' }}>
-          <div className="pill-badge" style={{ marginBottom: '16px' }}>
-            <Terminal size={14} color="#60ff70" />
-            <span>Developer Onboarding</span>
+          <div className="octen-glass-tag start-building-tag" style={{ marginBottom: '16px' }}>
+            <span>Start Building</span>
           </div>
           <h2>
             Get Started <span className="text-gradient">in Minutes</span>

@@ -443,7 +443,7 @@
 .nav-dropdown-developers svg rect,
 .nav-dropdown-developers svg line,
 .nav-dropdown-developers svg polygon {
-  stroke: #628A78 !important;
+  stroke: #454B48 !important;
   transition: stroke 0.15s ease !important;
 }
 .nav-dropdown-developers a:hover .nav-product-icon,
@@ -573,7 +573,7 @@
 .nav-product-icon svg rect,
 .nav-product-icon svg line,
 .nav-product-icon svg polygon {
-  stroke: #628A78 !important;
+  stroke: #454B48 !important;
   transition: stroke 0.15s ease !important;
 }
 .nav-product-link:hover .nav-product-icon,

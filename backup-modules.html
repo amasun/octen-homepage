@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" class="__variable_21b599 __variable_56bdf6 __variable_89a64d __variable_3c557b">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Octen | Standalone Backup Modules (Image Search, Video Search, Future Scenarios)</title>
+  <meta name="description" content="Dedicated standalone staging preview for Octen Image Search, Video Search, and More Scenarios modules." />
+  <link rel="icon" href="/favicon.ico?61c18f53744654a7" type="image/x-icon" sizes="16x16" />
+
+  <!-- Base Next/Font Styles -->
+  <link rel="preload" href="/_next/static/media/11dedeb847bfe47e-s.p.woff2" as="font" crossorigin="" type="font/woff2" />
+  <link rel="preload" href="/_next/static/media/6448e9c529f1ef4a-s.p.woff2" as="font" crossorigin="" type="font/woff2" />
+  <link rel="preload" href="/_next/static/media/bb3ef058b751a6ad-s.p.woff2" as="font" crossorigin="" type="font/woff2" />
+  <link rel="preload" href="/_next/static/media/c9cac29382a46c9d-s.p.woff2" as="font" crossorigin="" type="font/woff2" />
+  <link rel="preload" href="/_next/static/media/cb9f64d62d112b41-s.p.woff2" as="font" crossorigin="" type="font/woff2" />
+  
+  <link rel="stylesheet" href="/_next/static/css/c4ae1de60afeb6c3.css" data-precedence="next" />
+  <link rel="stylesheet" href="/_next/static/css/c6e1029b5b95b0bf.css" data-precedence="next" />
+  <link rel="stylesheet" href="/_next/static/css/6c2bde89f67c188e.css" data-precedence="next" />
+  <link rel="stylesheet" href="/_next/static/css/1adee65643e185e9.css" data-precedence="next" />
+  <link rel="stylesheet" href="/_next/static/css/503e83cf43eead11.css" data-precedence="next" />
+
+  <!-- Component Scoped Stylesheets -->
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/modalities-search.css" />
+  <link rel="stylesheet" href="/css/vertical-search.css" />
+  <link rel="stylesheet" href="/css/octen-tags.css" />
+
+  <style>
+    body {
+      background-color: #050806;
+      color: #ffffff;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+      overflow-x: hidden;
+    }
+
+    .backup-preview-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 28px;
+      background: rgba(10, 15, 12, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .backup-preview-badge-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .backup-preview-logo {
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .backup-preview-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(24, 251, 111, 0.12);
+      border: 1px solid rgba(24, 251, 111, 0.35);
+      color: #18FB6F;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: var(--font-jetbrains-mono, monospace);
+    }
+
+    .backup-preview-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #18FB6F;
+      box-shadow: 0 0 8px #18FB6F;
+    }
+
+    .backup-preview-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 6px;
+      color: #e5e5e5;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .backup-preview-back-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      border-color: rgba(24, 251, 111, 0.5);
+    }
+
+    .backup-module-divider {
+      max-width: 1280px;
+      margin: 60px auto 30px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .backup-module-divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.15), rgba(255,255,255,0.02));
+    }
+
+    .backup-module-divider-tag {
+      font-family: var(--font-jetbrains-mono, monospace);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px 12px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+<body>
+  <!-- Staging / Backup Navigation Header -->
+  <header class="backup-preview-header">
+    <div class="backup-preview-badge-group">
+      <a href="/" class="backup-preview-logo">
+        <span style="color:#18FB6F">✦</span> Octen AI
+      </a>
+      <span class="backup-preview-status">
+        <span class="backup-preview-dot"></span> Standalone Backup Staging
+      </span>
+    </div>
+    <a href="/" class="backup-preview-back-btn">
+      ← Return to Main Homepage
+    </a>
+  </header>
+
+  <main style="padding-bottom: 100px;">
+    <!-- Divider 1: Modalities Search -->
+    <div class="backup-module-divider">
+      <div class="backup-module-divider-line"></div>
+      <div class="backup-module-divider-tag">MODULE 1 & 2: IMAGE SEARCH & VIDEO SEARCH (MODALITIES)</div>
+      <div class="backup-module-divider-line"></div>
+    </div>
+
+    <!-- 1 & 2. Modalities Search (Image & Video) -->
+    <include src="./src/sections/backup/backup-modalities-search.html"></include>
+
+    <!-- Divider 2: Future Scenarios -->
+    <div class="backup-module-divider" style="margin-top: 80px;">
+      <div class="backup-module-divider-line"></div>
+      <div class="backup-module-divider-tag">MODULE 3: MORE SCENARIOS IN FUTURE RELEASES</div>
+      <div class="backup-module-divider-line"></div>
+    </div>
+
+    <!-- 3. Future Scenarios Section & Infinite Marquee -->
+    <div style="position: relative; max-width: 1280px; margin: 0 auto; padding-top: 20px;">
+      <include src="./src/sections/backup/backup-future-scenarios.html"></include>
+    </div>
+  </main>
+
+  <!-- Interactive Scripts (Image Radar & Video Carousel State Machine) -->
+  <script src="/js/modalities-search.js" defer></script>
+</body>
+</html>
