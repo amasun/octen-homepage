@@ -120,15 +120,5 @@
   4. **认证徽章与版权栏重构**：
      - SOC 2® Type 2 认证徽章与隐私政策、服务条款组合排版，统一居右对齐，与左侧版权信息呈水平轴分布。
 
----
-
-## 🛠️ 本地运行与验证指南
-```bash
-# 1. 启动本地开发服务 (默认端口 3001)
-pnpm dev
-
-# 2. 生产打包验证 (TypeScript 校验 + Vite 构建)
-pnpm build
-```
-- **主页预览**：`http://localhost:3001/`
-- **备用多模态页面预览**：`http://localhost:3001/backup-modules.html`
+## 🌐 预览地址
+- **线上预览地址**：https://octen-homepage.vercel.app/

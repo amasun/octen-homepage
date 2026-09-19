@@ -442,6 +442,7 @@
 - **模块化交互脚本**：`src/sections/10-scripts.html`
 - **独立备用预览页面**：`backup-modules.html` (`http://localhost:3001/backup-modules.html`)
 - **备用模块代码仓库**：`src/sections/backup/`（包含 `backup-modalities-search.html`、`backup-future-scenarios.html` 等）
+- **线上预览地址**：https://octen-homepage.vercel.app/
 - **本地开发服务**：`http://localhost:3001`
 
 
