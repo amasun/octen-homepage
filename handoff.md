@@ -1,6 +1,22 @@
 # Octen 官网开发交接 (Handoff)
 
-## 📌 当前最新进展 (Latest Progress)
+> 💡 **快速查阅**：已为您生成按页面从上到下编排的独立精简版交接说明文档 👉 **[DEVELOPER_HANDOVER.md](file:///x:/XCoding/Octen/hompage/DEVELOPER_HANDOVER.md)**。
+
+---
+
+## 🧭 重点改动快速导览（按页面从上到下排序）
+1. **顶部导航栏 (Navbar)**：下拉菜单去除三角箭头；正名为 `Search FAST/PREMIER`、`Models`、`Tool`（单数）；图标统一 20px。
+2. **全局胶囊标签 (Glass Tags)**：移除前置 Icon；暗色底统一磨砂微倒角内阴影无描边质感（`octen-tags.css`）；浅色底统一 `tag-v`。
+3. **Web 与 News Search 衔接**：彻底移除了两区块之间的浅色硬分割线（`border-top: none`）。
+4. **News Search (Vertical Search)**：底部 padding-bottom 调整为 `80px`；中央大卡片圆角调整为 `24px`；⚠️ 5 步动效需前端微调，参考 [Figma 静态分步稿 (13661:163623)](https://www.figma.com/design/jnIlRSuXffn5g2OxnsqYIE/Octen_%E6%B1%87%E6%80%BB?node-id=13661-163623&t=7uy39MOcdDWVIOA4-4)。
+5. **Omni Search (模态拆解)**：文本拆解为 Image Search 与 Video Search 两列，排版宽度严格锁定 `500px`；已归档暂存至 `backup-modules.html`。
+6. **The Complete Retrieval Stack**：移除顶头 More APIs 标签；主标题换行 `The complete<br />retrieval stack`；子项挂载独立 Models/Tool 标签；Extract 调整至第 4 位；1,291 行架构图 SVG 抽取为独立 Partial。
+7. **Start Building CTA**：边框标签升级为全站统一磨砂玻璃胶囊。
+8. **页脚 (Footer)**：Slogan 字号修正为 24px + 最新草绿渐变；Logo 尺寸对齐 Figma 修正为 119.4px × 40.5px；导航列 50px 间距对称；SOC 2 认证徽章居右排版。
+
+---
+
+## 📌 当前详细迭代记录 (Detailed Progress)
 
 ### 1. 标题标签图标清理 (Section Tag Icons)
 - **范围**：`src/sections/06-retrieval-stack.html`
