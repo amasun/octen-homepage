@@ -1,969 +1,1281 @@
-(function() {
-  function initVerticalSearchSubpage() {
-    /**
-     * Octen Vertical Search - Interactive Controller
-     * High-Fidelity Figma Node 13625-179114 Implementation
-     */
-    
-    
-      // 1. High-Fidelity Vector SVG Icon Definitions (24x24 Lucide Standard & Octen Logo Variable)
-      const ICONS = {
-        logoVariable: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-node-id="13631:181644">
-          <g transform="translate(0.05, 2.4)">
-            <path d="M23.0596 12.9756C23.5218 12.9758 23.8973 13.3624 23.8975 13.8389V15.2236C23.8975 15.7003 23.5219 16.0877 23.0596 16.0879H21.9658C21.7427 16.0879 21.5299 16.1791 21.373 16.3408L21.123 16.5986C20.9664 16.7615 20.878 16.9804 20.8779 17.209V18.3369C20.8777 18.8135 20.5024 19.2002 20.04 19.2002H18.6973C18.2349 19.2002 17.8596 18.8135 17.8594 18.3369V16.9512C17.8596 16.4746 18.2349 16.0879 18.6973 16.0879H20.04C20.2631 16.0879 20.4759 15.9967 20.6328 15.835C20.7897 15.672 20.8779 15.4524 20.8779 15.2236V13.8389C20.8781 13.3623 21.2535 12.9756 21.7158 12.9756H23.0596ZM2.17969 12.9746C2.64212 12.9746 3.01749 13.3612 3.01758 13.8379V15.1582H3.02051C3.02051 15.387 3.10875 15.6066 3.26562 15.7695C3.46197 15.973 3.72909 16.0869 4.00781 16.0869H5.13867C5.60102 16.087 5.97645 16.4736 5.97656 16.9502V18.335C5.97656 18.8117 5.60109 19.1991 5.13867 19.1992H3.79492C3.33256 19.1991 2.95703 18.8117 2.95703 18.335V17.1699C2.95703 16.8824 2.84692 16.6079 2.64941 16.4043C2.45311 16.2007 2.186 16.087 1.90723 16.0869H0.837891C0.375401 16.0869 0 15.6995 0 15.2227V13.8379C8.95772e-05 13.3612 0.375456 12.9758 0.837891 12.9746H2.17969ZM10.1045 16.0869C10.5671 16.0869 10.9422 16.4733 10.9424 16.9502V18.334C10.9424 18.811 10.5672 19.1982 10.1045 19.1982H8.7627C8.3 19.1982 7.9248 18.811 7.9248 18.334V16.9502C7.925 16.4733 8.30012 16.0869 8.7627 16.0869H10.1045ZM15.0723 16.0869C15.5347 16.0871 15.91 16.4734 15.9102 16.9502V18.334C15.9102 18.8109 15.5348 19.1981 15.0723 19.1982H13.7295C13.2669 19.1981 12.8916 18.8109 12.8916 18.334V16.9502C12.8918 16.4734 13.267 16.0871 13.7295 16.0869H15.0723ZM15.9277 0C16.3902 0 16.7656 0.387461 16.7656 0.864258V1.95312C16.7657 2.2154 16.867 2.46693 17.0459 2.65137L17.1729 2.78223C17.3517 2.96646 17.5955 3.07028 17.8486 3.07031H18.8721C19.3346 3.07031 19.71 3.45777 19.71 3.93457V12.4414L19.7129 12.4434C19.7129 12.9201 19.3374 13.3075 18.875 13.3076H6.87695C6.41446 13.3076 6.03906 12.9202 6.03906 12.4434V11.2578C6.03906 11.0278 5.95082 10.8082 5.79395 10.6465L5.79004 10.6426C5.56929 10.4152 5.26925 10.2871 4.95801 10.2871H3.94531C3.48292 10.2871 3.10758 9.90048 3.10742 9.42383V0.864258C3.10742 0.387461 3.48282 0 3.94531 0H15.9277ZM6.89844 3.0459C6.43618 3.04616 6.06154 3.43256 6.06152 3.90918V9.15039C6.06153 9.47262 6.18452 9.7802 6.40527 10.0078C6.56331 10.1695 6.7761 10.2607 6.99805 10.2607H15.9199C16.3823 10.2607 16.7577 9.87408 16.7578 9.39746V4.03223C16.7577 3.77 16.6564 3.51839 16.4775 3.33398H16.4785C16.2984 3.14962 16.054 3.0459 15.8008 3.0459H6.89844ZM9.70117 5.31934C10.1635 5.31959 10.5378 5.70596 10.5381 6.18262V7.39258C10.5381 7.86945 10.1637 8.25658 9.70117 8.25684H8.52734C8.06462 8.25684 7.68945 7.86961 7.68945 7.39258V6.18262C7.6897 5.7058 8.06477 5.31934 8.52734 5.31934H9.70117ZM14.2383 5.31934C14.7009 5.31934 15.0759 5.7058 15.0762 6.18262V7.39258C15.0762 7.86961 14.701 8.25684 14.2383 8.25684H13.0645C12.6019 8.25667 12.2266 7.86951 12.2266 7.39258V6.18262C12.2268 5.7059 12.602 5.3195 13.0645 5.31934H14.2383Z" fill="#000000"/>
-          </g>
-        </svg>`,
-    
-        news: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path>
-          <path d="M18 14h-8"></path>
-          <path d="M15 18h-5"></path>
-          <path d="M10 6h8v4h-8V6Z"></path>
-        </svg>`,
-    
-        academic: `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16.5 7.49978V11.9998M16.065 8.19128C16.1992 8.13205 16.3132 8.03473 16.3927 7.91138C16.4722 7.78803 16.5137 7.64407 16.5122 7.49733C16.5107 7.35059 16.4662 7.20752 16.3841 7.08584C16.3021 6.96416 16.1862 6.86922 16.0507 6.81278L9.62247 3.88478C9.42705 3.79564 9.21476 3.74951 8.99997 3.74951C8.78518 3.74951 8.57289 3.79564 8.37747 3.88478L1.94997 6.80978C1.81645 6.86826 1.70286 6.96438 1.6231 7.08639C1.54333 7.2084 1.50085 7.35101 1.50085 7.49678C1.50085 7.64255 1.54333 7.78516 1.6231 7.90717C1.70286 8.02918 1.81645 8.1253 1.94997 8.18378L8.37747 11.1148C8.57289 11.2039 8.78518 11.25 8.99997 11.25C9.21476 11.25 9.42705 11.2039 9.62247 11.1148L16.065 8.19128Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M4.5 9.375V12C4.5 12.5967 4.97411 13.169 5.81802 13.591C6.66193 14.0129 7.80653 14.25 9 14.25C10.1935 14.25 11.3381 14.0129 12.182 13.591C13.0259 13.169 13.5 12.5967 13.5 12V9.375" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>`,
-    
-        business: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-          <rect width="20" height="14" x="2" y="6" rx="2"></rect>
-        </svg>`,
-    
-        legal: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path>
-          <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path>
-          <path d="M7 21h10"></path>
-          <path d="M12 3v18"></path>
-          <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path>
-        </svg>`,
-    
-        sport: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <path d="M2.1 13.4A10.1 10.1 0 0 0 13.4 21.9"></path>
-          <path d="M21.9 10.6A10.1 10.1 0 0 0 10.6 2.1"></path>
-          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
-          <path d="M2 12a14.5 14.5 0 0 0 20 0 14.5 14.5 0 0 0-20 0"></path>
-        </svg>`,
-    
-        code: `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M13.5 12L16.5 9L13.5 6M4.5 6L1.5 9L4.5 12M10.875 3L7.125 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>`,
-    
-        design: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle>
-          <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle>
-          <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle>
-          <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle>
-          <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2Z"></path>
-        </svg>`,
-    
-        travel: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path>
-        </svg>`,
-    
-        game: `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M13.5 1.5H4.5C4.08579 1.5 3.75 1.83579 3.75 2.25V15.75C3.75 16.1642 4.08579 16.5 4.5 16.5H13.5C13.9142 16.5 14.25 16.1642 14.25 15.75V2.25C14.25 1.83579 13.9142 1.5 13.5 1.5Z" stroke="currentColor" stroke-width="1.5"/>
-          <path d="M6 12.75H9M7.5 11.25V14.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M6 3.75H12V7.125H6V3.75Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-          <path d="M11.625 12C12.0392 12 12.375 11.6642 12.375 11.25C12.375 10.8358 12.0392 10.5 11.625 10.5C11.2108 10.5 10.875 10.8358 10.875 11.25C10.875 11.6642 11.2108 12 11.625 12Z" fill="currentColor"/>
-          <path d="M11.625 15C12.0392 15 12.375 14.6642 12.375 14.25C12.375 13.8358 12.0392 13.5 11.625 13.5C11.2108 13.5 10.875 13.8358 10.875 14.25C10.875 14.6642 11.2108 15 11.625 15Z" fill="currentColor"/>
-        </svg>`,
-    
-        'real-estate': `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
-        </svg>`,
-    
-        shopping: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
-          <path d="M3 6h18"></path>
-          <path d="M16 10a4 4 0 0 1-8 0"></path>
-        </svg>`,
-    
-        finance: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 5v4"></path>
-          <rect width="4" height="6" x="7" y="9" rx="1"></rect>
-          <path d="M9 15v2"></path>
-          <path d="M17 3v2"></path>
-          <rect width="4" height="8" x="15" y="5" rx="1"></rect>
-          <path d="M17 13v3"></path>
-          <path d="M3 3v16a2 2 0 0 0 2 2h16"></path>
-        </svg>`
-      };
-    
-      // 2. Data configuration for verticals (News, Academic, Business)
-      const verticalsData = {
-        news: {
-          theme: 'news',
-          title: 'News',
-          iconKey: 'news',
-          query: 'Strait of Hormuz shipping disruptions',
-          sparkleColor: '#039855',
-          metaStats: '4 subjects 10 articles',
-          cards: [
-            {
-              time: '05:26:15',
-              domain: 'sbs.com.au',
-              title: 'Houthis advance along Yemen coast, threaten Saudi oil exports in the Red Sea',
-              isLatest: false
-            },
-            {
-              time: '05:27:44',
-              domain: 'sbs.com.au',
-              title: 'Houthi rebels seize strategic port city in Yemen, escalating US-Iran crisis',
-              isLatest: false
-            },
-            {
-              time: '06:45:31',
-              domain: 'cnbc.com',
-              title: 'While You Were Sleeping: 5 stories you might have missed, Sept 11, 2026',
-              isLatest: false
-            },
-            {
-              time: '16:24:02',
-              domain: 'indiatoday.in',
-              title: 'While You Were Sleeping: 5 stories you might have missed, Sept 11, 2026 | The Straits Timesstraitstimes.com',
-              isLatest: false
-            },
-            {
-              time: '10min ago',
-              domain: 'bloomberg.com',
-              title: 'Hormuz is blocked. Now Bab el-Mandeb is under threat: Why fuel crisis could get worse – IndiaToday',
-              isLatest: true
-            }
-          ]
-        },
-        academic: {
-          theme: 'academic',
-          title: 'Academic',
-          iconKey: 'academic',
-          query: 'Quantum error correction in superconducting qubits',
-          sparkleColor: '#0284C7',
-          metaStats: '4 journals · 18 papers · 64 ms',
-          cards: [
-            {
-              time: 'May 12, 2026',
-              domain: 'nature.com',
-              title: 'Demonstration of fault-tolerant logical qubit operations using distributed surface codes',
-              isLatest: false
-            },
-            {
-              time: 'June 28, 2026',
-              domain: 'arxiv.org',
-              title: 'Threshold theorem improvements for transmon qubit architectures under correlated flux noise',
-              isLatest: false
-            },
-            {
-              time: 'Aug 14, 2026',
-              domain: 'science.org',
-              title: 'Real-time decoding of topological color codes using low-latency neuromorphic FPGA coprocessors',
-              isLatest: false
-            },
-            {
-              time: 'Yesterday',
-              domain: 'aps.org',
-              title: 'High-fidelity two-qubit gates beyond the fault-tolerance threshold in 3D circuit QED',
-              isLatest: false
-            },
-            {
-              time: '10min ago',
-              domain: 'nature.com',
-              title: 'Breakthrough: Exponential suppression of bit-flip errors in a 100-qubit planar architecture',
-              isLatest: true
-            }
-          ]
-        },
-        business: {
-          theme: 'business',
-          title: 'Business',
-          iconKey: 'business',
-          query: 'Semiconductor supply chain CAPEX forecasts 2026',
-          sparkleColor: '#D97706',
-          metaStats: '8 filings · 12 reports · 92 ms',
-          cards: [
-            {
-              time: '06:15:20',
-              domain: 'wsj.com',
-              title: 'Global foundry utilization rates surge to 94% amid AI accelerator demand boom',
-              isLatest: false
-            },
-            {
-              time: '08:42:11',
-              domain: 'ft.com',
-              title: 'TSMC, Samsung revise 2nm fab equipment procurement timelines forward by two quarters',
-              isLatest: false
-            },
-            {
-              time: '11:30:45',
-              domain: 'reuters.com',
-              title: 'ASML raises 2026 High-NA EUV lithography tool shipment guidance to record highs',
-              isLatest: false
-            },
-            {
-              time: '14:05:18',
-              domain: 'bloomberg.com',
-              title: 'Enterprise memory makers announce $18B combined greenfield packaging CAPEX expansions',
-              isLatest: false
-            },
-            {
-              time: '10min ago',
-              domain: 'bloomberg.com',
-              title: 'Semiconductor CAPEX expected to top $215B in 2026 as hyperscaler silicon demand outpaces supply',
-              isLatest: true
-            }
-          ]
-        }
-      };
-    
-      // Scenario quick queries mapping for future chips
-      const scenarioQueries = {
-        'legal': 'Antitrust precedents in AI agent autonomous transactions',
-        'sport': 'Champions league tactical pressing metrics and injury risk',
-        'code': 'Zero-allocation ring buffer implementation in Rust',
-        'design': 'Neomorphic vs Glassmorphic accessible contrast ratios',
-        'travel': 'Direct flight routes with biometric passport gates 2026',
-        'academic': 'Quantum error correction in superconducting qubits',
-        'business': 'Semiconductor supply chain CAPEX forecasts 2026',
-        'game': 'Unreal Engine 5.5 Nanite skeletal mesh deformation limits',
-        'real estate': 'Commercial logistics yield trends in EMEA ports',
-        'real-estate': 'Commercial logistics yield trends in EMEA ports',
-        'shopping': 'Carbon-neutral cashmere yarn suppliers global index',
-        'finance': 'Federal Reserve repurchase facility liquidity distribution',
-        'news': 'Strait of Hormuz shipping disruptions'
-      };
+(function () {
+  /**
+   * Octen Vertical Search - Interactive News Search Controller
+   * High-Fidelity 5-Step Motion System & Timing Specification
+   * Aligned with Figma Node 13784-6606 & NEWS_SEARCH_ANIMATION_SPEC.md
+   */
 
-      // Scenario topic title mapping (Figma node 13661:7381)
-      const scenarioTitles = {
-        'news': 'News Search',
-        'academic': 'Academic Search',
-        'business': 'Business Search',
-        'legal': 'Legal Search',
-        'sport': 'Sport Search',
-        'code': 'Code Search',
-        'design': 'Design Search',
-        'travel': 'Travel Search',
-        'game': 'Game Search',
-        'real-estate': 'Real Estate Search',
-        'real estate': 'Real Estate Search',
-        'shopping': 'Shopping Search',
-        'finance': 'Finance Search'
-      };
+  function initVerticalSearch() {
+    const cardCanvas = document.getElementById('newsSearchCard') || document.getElementById('heroCanvas');
+    if (!cardCanvas) return;
 
-      // Scenario icon mapping directly using bottom button asset paths as source of truth
-      const scenarioIcons = {
-        'news': '/assets/icon-news.svg',
-        'academic': '/assets/icon-academic.svg',
-        'business': '/assets/icon-business.svg',
-        'legal': '/assets/icon-legal.svg',
-        'sport': '/assets/icon-sport.svg',
-        'code': '/assets/icon-code.svg',
-        'design': '/assets/icon-design.svg',
-        'travel': '/assets/icon-travel.svg',
-        'game': '/assets/icon-game.svg',
-        'real-estate': '/assets/icon-real-estate.svg',
-        'real estate': '/assets/icon-real-estate.svg',
-        'shopping': '/assets/icon-shopping.svg',
-        'finance': '/assets/icon-finance.svg'
-      };
-    
-      // 3. Element selectors
-      const tabButtons = document.querySelectorAll('.tab-trigger');
-      const heroCanvas = document.getElementById('heroCanvas');
-      const canvasTopicHeader = document.getElementById('canvasTopicHeader');
-      const topicHeaderIcon = document.getElementById('topicHeaderIcon');
-      const canvasTopicTitle = document.getElementById('canvasTopicTitle');
-      const canvasWatermarkIcon = document.getElementById('canvasWatermarkIcon');
-      const searchInput = document.getElementById('searchPillInput');
-      const searchPillIcon = document.getElementById('searchPillIcon');
-      const searchPill = document.getElementById('searchPill');
-      const searchQueryText = document.getElementById('searchQueryText');
-      const typingCursor = document.getElementById('typingCursor');
-      const aiSearchAction = document.getElementById('aiSearchAction');
-      const scenarioChips = document.querySelectorAll('.scenario-chip');
-      const canvasLeftPanel = document.getElementById('canvasLeftPanel');
-      const searchingStateContainer = document.getElementById('searchingStateContainer');
-      const subjectsOverviewContainer = document.getElementById('subjectsOverviewContainer');
-      const subjectCard1 = document.getElementById('subjectCard1');
-      const timelineDrilldownContainer = document.getElementById('timelineDrilldownContainer');
-      const timelineDrilldownTrack = document.getElementById('timelineDrilldownTrack');
-      const timelineVerticalSpine = document.getElementById('timelineVerticalSpine');
-      const spineSvgImg = document.querySelector('.spine-svg-img');
-      const timelineArticleCards = document.querySelectorAll('.timeline-article-card');
+    // ==========================================
+    // 1. DATA CONFIGURATION
+    // ==========================================
+    const QUERY_TEXT = 'Strait of Hormuz shipping disruptions';
 
-      // Animation Loop Timers & Configuration
-      let typeInterval = null;
-      let typeTimeout = null;
-      let autoLoopTimer = null;
-      let timelineStepTimer = null;
-      let isLoopPaused = false;
-      let hasStartedAnimation = false;
-      let currentStep = 1;
-      let currentTimelineIndex = 0;
-      let currentScenario = 'news';
+    const SUBJECTS_DATA = [
+      {
+        name: 'Saudi Arabia halts East-West pipeline after drone attacks from Iraq, with repairs expected to take three to five weeks',
+        summary: 'Saudi Arabia suspended operations on its East-West oil pipeline following drone attacks launched from Iraq that damaged pumping stations in the Riyadh and Medina regions. Satellite imagery confirmed major damage to a key facility, and officials told AP that repairs will take three to five weeks, potentially depleting export stocks at Yanbu.',
+        timeStart: '2026-09-11T00:00:00Z',
+        timeLatest: '2026-09-15T21:40:00Z',
+        cover: '/images/vertical/subject-1.png',
+        fallbackCover: 'https://www.reuters.com/resizer/v2/NBVC6SDELNITTNCA4X55OSSPKM.jpg?auth=45ddc3632d960da3fa4dc5652e455479277bdb7240c23991d56f1ff7164c973d&height=1005&width=1920&quality=80&smart=true',
+        articles: [
+          {
+            title: 'Global Oil Prices Could Hit Highest Levels in Months After Saudi Pipeline Attacks',
+            timePublished: '2026-09-15T05:26:15Z',
+            url: 'https://www.sbs.com.au/news/article/global-oil-prices-could-hit-highest-levels-in-months-after-saudi-pipeline-attacks/2958h2'
+          },
+          {
+            title: 'Saudi Arabia: Satellite image reveals major damage that shut crucial oil pipeline',
+            timePublished: '2026-09-15T05:27:44Z',
+            url: 'https://www.sbs.com.au/news/article/saudi-arabia-satellite-image-reveals-major-damage/c65yw2gq2nrno'
+          },
+          {
+            title: 'Oil squeeze tightens as Iran-backed attacks cripple Hormuz escape routes',
+            timePublished: '2026-09-15T06:45:31Z',
+            url: 'https://www.cnbc.com/politics/oil-squeeze-tightens-iran-backed-attacks-cripple-hormuz-escape-routes.print'
+          },
+          {
+            title: 'Aramco activates emergency storage tankers at Yanbu port amid transit deadlock',
+            timePublished: '2026-09-15T09:04:31Z',
+            url: 'https://www.bloomberg.com/news/articles/2026-09-15/aramco-activates-emergency-yanbu-storage-tankers'
+          },
+          {
+            title: 'Saudi pipeline outage threatens loss of 4% of global oil supply',
+            timePublished: '2026-09-15T12:04:04Z',
+            url: 'https://www.reuters.com/business/energy/saudi-pipeline-outage-threatens-loss-4-global-oil-supply-2026-09-15/'
+          }
+        ]
+      },
+      {
+        name: "Ghalibaf says Strait of Hormuz will remain closed until Iran's seven conditions are met",
+        summary: "Iranian Parliament Speaker Mohammad Bagher Ghalibaf stated on September 20 that the Strait of Hormuz will not be reopened until the United States meets Iran's seven specific conditions. He announced that Tehran has conveyed these conditions to Washington through mediators and emphasized that Iran will pursue a strategy combining military action with diplomacy.",
+        timeStart: '2026-09-19T00:00:00Z',
+        timeLatest: '2026-09-20T21:40:00Z',
+        cover: '/images/vertical/subject-2.png',
+        fallbackCover: 'https://th-i.thgim.com/public/incoming/hc96xo/article71487642.ece/alternates/LANDSCAPE_1200/2026-08-21T070048Z_1945003085_RC2V2NAMLYIS_RTRMADP_3_IRAN-CRISIS-IRAQ-QALIBAF-NAJAF.JPG',
+        articles: [
+          {
+            title: 'Tehran outlines seven non-negotiable conditions for Hormuz strait access',
+            timePublished: '2026-09-20T06:15:20Z',
+            url: 'https://www.aljazeera.com/news/2026/9/20/tehran-outlines-seven-conditions-hormuz'
+          },
+          {
+            title: "Swiss diplomatic backchannel receives Iran's formal demands on sanctions relief",
+            timePublished: '2026-09-20T08:38:54Z',
+            url: 'https://www.reuters.com/world/middle-east/swiss-backchannel-receives-iran-demands-2026-09-20/'
+          },
+          {
+            title: "No reopening of Strait of Hormuz until Iran's conditions are met, says Ghalibaf",
+            timePublished: '2026-09-20T10:44:29Z',
+            url: 'https://www.thehindu.com/news/international/no-reopening-of-strait-of-hormuz-until-irans-conditions-are-met-says-ghalibaf/article71487500.ece'
+          },
+          {
+            title: 'US State Department rejects Tehran ultimatum, calls maritime blockade unacceptable',
+            timePublished: '2026-09-20T13:20:10Z',
+            url: 'https://www.cnn.com/2026/09/20/politics/state-department-rejects-iran-hormuz-ultimatum/index.html'
+          },
+          {
+            title: 'UN Security Council convenes emergency session on Persian Gulf naval standoff',
+            timePublished: '2026-09-20T18:05:42Z',
+            url: 'https://apnews.com/article/un-security-council-iran-hormuz-standoff-2026'
+          }
+        ]
+      },
+      {
+        name: 'Houthi rebels seize Greater and Lesser Hanish islands, tightening control of Bab el-Mandeb Strait',
+        summary: "Yemen's Houthi rebels have captured the strategic islands of Greater and Lesser Hanish in the southern Red Sea, displacing more than 80,000 people in recent fighting. The seizure strengthens the Iran-backed group's grip on the Bab el-Mandeb shipping route and has intensified concerns over global oil supply disruptions.",
+        timeStart: '2026-09-14T00:00:00Z',
+        timeLatest: '2026-09-15T21:40:00Z',
+        cover: '/images/vertical/subject-3.png',
+        fallbackCover: 'https://i.guim.co.uk/img/media/0d73d909d1a2538485c626492748c53674c1966e/0_0_3840_3072/master/3840.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=75486fa313ea5ee36d3db5532d4f7a78',
+        articles: [
+          {
+            title: 'Houthis seize strategic Red Sea islands as analysts warn of impending oil crunch',
+            timePublished: '2026-09-15T04:22:16Z',
+            url: 'https://www.theguardian.com/world/2026/sep/15/houthi-rebels-seize-red-sea-hanish-islands-saudi-oil-warning'
+          },
+          {
+            title: 'Houthi naval units launch amphibious assault on Red Sea navigation hubs',
+            timePublished: '2026-09-15T07:47:23Z',
+            url: 'https://apnews.com/article/yemen-houthi-red-sea-amphibious-assault-2026'
+          },
+          {
+            title: 'Commercial vessels reroute around Cape of Good Hope, adding two weeks to transit',
+            timePublished: '2026-09-15T11:30:45Z',
+            url: 'https://www.ft.com/content/red-sea-rerouting-cape-good-hope-delays'
+          },
+          {
+            title: 'Coalition warships reposition toward southern Bab el-Mandeb following island capture',
+            timePublished: '2026-09-15T14:28:31Z',
+            url: 'https://news.usni.org/2026/09/15/coalition-warships-reposition-bab-el-mandeb'
+          },
+          {
+            title: 'Insurance syndicates declare entire southern Red Sea high-risk war exclusion zone',
+            timePublished: '2026-09-15T19:18:00Z',
+            url: 'https://www.lloydslist.com/insurance/red-sea-war-exclusion-zone-declaration'
+          }
+        ]
+      },
+      {
+        name: 'Oil prices rise 1.75% to $107.50 as traders assess impact of Saudi pipeline shutdown',
+        summary: "Brent crude futures rose 1.75% to $107.50 per barrel and WTI rose 1.8% to $103.17 per barrel on Tuesday, September 15, 2026, as traders assessed the impact of the shutdown of Saudi Arabia's East-West pipeline. The closure, caused by recent strikes, threatens up to 4% of global oil supply, with the true extent of the damage to the pipeline not yet confirmed.",
+        timeStart: '2026-09-13T00:00:00Z',
+        timeLatest: '2026-09-15T21:40:00Z',
+        cover: '/images/vertical/subject-4.png',
+        fallbackCover: 'https://images.wsj.net/im-48341995/social',
+        articles: [
+          {
+            title: 'Oil Prices Rise as Traders Gauge Lost Saudi Arabian Volumes After Pipeline Attack',
+            timePublished: '2026-09-15T05:37:00Z',
+            url: 'https://www.wsj.com/finance/currencies/oil-rises-as-stabilizers-in-crude-market-start-to-weaken-5dc85781'
+          },
+          {
+            title: 'Iran dismisses US talks as Strait of Hormuz crisis deepens across commodities',
+            timePublished: '2026-09-15T08:31:14Z',
+            url: 'https://www.thenationalnews.com/news/gulf/2026/09/15/iran-dismisses-us-talks-as-hormuz-crisis-deepens/'
+          },
+          {
+            title: 'Brent crude surges past $105 as Asian markets open to Middle East supply shock',
+            timePublished: '2026-09-15T11:23:00Z',
+            url: 'https://www.bloomberg.com/news/articles/2026-09-15/brent-crude-surges-past-105-middle-east-shock'
+          },
+          {
+            title: 'IEA considers coordinated strategic petroleum reserve release to calm markets',
+            timePublished: '2026-09-15T16:40:22Z',
+            url: 'https://www.reuters.com/business/energy/iea-emergency-reserve-release-deliberations-2026-09-15/'
+          },
+          {
+            title: 'OPEC+ delegates signal no immediate quota hikes despite spiking global futures',
+            timePublished: '2026-09-15T20:15:30Z',
+            url: 'https://www.cnbc.com/2026/09/15/opec-no-quota-hike-oil-crisis.html'
+          }
+        ]
+      }
+    ];
 
-      // NumberFlow elements for 4 subjects & 10 articles (走马灯效果)
-      let subjectsFlowEl = null;
-      let articlesFlowEl = null;
-      let numberFlowInitialized = false;
-      let subjectsTimer = null;
-      let articlesTimer = null;
+    const TOTAL_SUBJECTS = SUBJECTS_DATA.length;
+    const TOTAL_ARTICLES = SUBJECTS_DATA.reduce((acc, s) => acc + (s.articles ? s.articles.length : 0), 0);
 
-      function clearNumberFlowTimers() {
-        if (subjectsTimer) {
-          clearTimeout(subjectsTimer);
-          subjectsTimer = null;
-        }
-        if (articlesTimer) {
-          clearTimeout(articlesTimer);
-          articlesTimer = null;
+    // Preload cover images in background
+    SUBJECTS_DATA.forEach(s => {
+      if (s.cover) {
+        const img = new Image();
+        img.src = s.cover;
+      }
+    });
+
+    // Date & string formatting helpers
+    const formatDate = d => d.slice(0, 10).replace(/-/g, '/');
+    const formatDateTime = d => `${d.slice(0, 10)} ${d.slice(11, 19)}`;
+    const formatTimeOnly = d => {
+      if (!d) return '';
+      if (d.includes('T')) return d.split('T')[1].slice(0, 8);
+      return d;
+    };
+    const extractDomain = url => {
+      try {
+        return new URL(url).hostname.replace(/^www\./, '');
+      } catch (e) {
+        return '';
+      }
+    };
+
+    // ==========================================
+    // 2. DOM ELEMENTS
+    // ==========================================
+    const canvasRightPanel = document.getElementById('canvasRightPanel');
+    const queryTextSpan = document.getElementById('queryTextSpan');
+    const statSubjectsEl = document.getElementById('statSubjects');
+    const statArticlesEl = document.getElementById('statArticles');
+    const waveDotsTrack = document.getElementById('waveDotsTrack');
+    const cardListContainer = document.getElementById('cardListContainer');
+    const resultsViewport = document.getElementById('resultsViewport');
+    const morphCardsOverlay = document.getElementById('morphCardsOverlay');
+    const subjectsHBar = document.getElementById('subjectsHBar');
+    const eventsWhiteCard = document.getElementById('eventsWhiteCard');
+    const stageFocusContainer = document.getElementById('stageFocusContainer');
+    const replayBtn = document.getElementById('replayBtn');
+    const searchBoxWrapper = document.getElementById('searchBoxWrapper');
+    const summaryBox = document.getElementById('summaryBox');
+
+    // Setup 14 Wave Dots with sine delays
+    if (waveDotsTrack && waveDotsTrack.children.length === 0) {
+      for (let i = 0; i < 14; i++) {
+        const dot = document.createElement('span');
+        dot.className = 'wave-dot';
+        dot.style.animationDelay = `${(i / 14) * 1.4}s`;
+        waveDotsTrack.appendChild(dot);
+      }
+    }
+
+    // ==========================================
+    // 3. RENDER CARD TEMPLATES
+    // ==========================================
+    function createSubjectCardHTML(subject, index, isFirst = false) {
+      return `
+        <div class="subject-card-wrapper" data-subject-card="true" ${isFirst ? 'data-first-subject="true"' : 'data-other-subject="true"'} style="position: relative;">
+          <article class="subject-card-box">
+            <div class="subject-card-top">
+              <span class="subject-date-range">${formatDate(subject.timeStart)} – ${formatDate(subject.timeLatest)}</span>
+              <span class="subject-badge">Subject${index + 1}</span>
+            </div>
+            <div class="subject-card-body">
+              <div class="subject-text-content">
+                <h3 class="subject-name">${subject.name}</h3>
+                <p class="subject-summary">${subject.summary}</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      `;
+    }
+
+    function updateTopNewsCard(subjectIdx = 0) {
+      const subj = SUBJECTS_DATA[subjectIdx];
+      if (!subj) return;
+      const topTitle = document.getElementById('topNewsTitle');
+      const topDesc = document.getElementById('topNewsDesc');
+      const topThumb = document.getElementById('topNewsThumb');
+      const topTime = document.getElementById('topNewsTime');
+      const topSource = document.getElementById('topNewsSource');
+
+      if (topTitle) topTitle.textContent = subj.name;
+      if (topDesc) topDesc.textContent = subj.summary;
+      if (topThumb && subj.cover) {
+        topThumb.src = subj.cover;
+        if (subj.fallbackCover) {
+          topThumb.onerror = () => { topThumb.src = subj.fallbackCover; };
         }
       }
+      if (topTime && subj.timeLatest) {
+        topTime.textContent = formatDateTime(subj.timeLatest).replace(/-/g, '/');
+      }
+      if (topSource && subj.articles && subj.articles[0]) {
+        topSource.textContent = extractDomain(subj.articles[0].url) || 'reuters.com';
+      }
+    }
 
-      function initNumberFlow() {
-        subjectsFlowEl = document.getElementById('statSubjectsFlow');
-        articlesFlowEl = document.getElementById('statArticlesFlow');
+    function renderTimelineStream(subjectIdx = 0, makeVisible = false) {
+      const spineTrack = document.getElementById('timelineSpineTrack');
+      const articlesGroup = document.getElementById('timelineArticlesSubgroup');
+      if (!spineTrack || !articlesGroup) return;
 
-        if (!subjectsFlowEl || !articlesFlowEl) return;
+      const subject = SUBJECTS_DATA[subjectIdx] || SUBJECTS_DATA[0];
+      // Chronological order: earlier timestamps on top, later at the bottom
+      const articles = (subject.articles || []).slice().sort((a, b) => new Date(a.timePublished) - new Date(b.timePublished));
 
-        if (window.NumberFlowContinuous) {
-          subjectsFlowEl.plugins = [window.NumberFlowContinuous];
-          articlesFlowEl.plugins = [window.NumberFlowContinuous];
-        }
+      // Stem height connects Dot 0 (center 30px) to Dot (N - 1) (center 30 + (N - 1) * 68px)
+      const stemHeight = articles.length > 1 ? (articles.length - 1) * 68 : 0;
+      let spineHTML = `<div class="timeline-spine-stem" id="timelineSpineStem" style="height: ${stemHeight}px; transform: scaleY(${makeVisible ? 1 : 0});"></div>`;
 
-        // Spring physics and timing matching barvian/number-flow standards
-        subjectsFlowEl.spinTiming = { duration: 900, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' };
-        articlesFlowEl.spinTiming = { duration: 1100, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' };
+      articles.forEach((art, i) => {
+        const dotTop = i * 68 + 24;
+        spineHTML += `<div class="timeline-dot-node ${makeVisible ? 'visible' : ''}" data-dot-idx="${i}" style="top: ${dotTop}px;"></div>`;
+      });
+      spineTrack.innerHTML = spineHTML;
 
-        if (!numberFlowInitialized) {
-          numberFlowInitialized = true;
-          const targetSub = currentStep >= 3 ? 4 : 0;
-          const targetArt = currentStep >= 3 ? 10 : 0;
+      let articlesHTML = '';
+      articles.forEach((art, i) => {
+        const domain = extractDomain(art.url);
+        const timeStr = formatTimeOnly(art.timePublished);
+        articlesHTML += `
+          <div class="timeline-sub-article ${makeVisible ? 'visible' : ''}" data-article-idx="${i}">
+            <div class="sub-article-meta">
+              <span class="sub-article-time">${timeStr}</span>
+              <span class="sub-article-domain">${domain}</span>
+            </div>
+            <p class="sub-article-title" title="${art.title.replace(/"/g, '&quot;')}">${art.title}</p>
+          </div>
+        `;
+      });
+      articlesGroup.innerHTML = articlesHTML;
+    }
 
-          if (typeof subjectsFlowEl.update === 'function') {
-            subjectsFlowEl.animated = false;
-            subjectsFlowEl.update(targetSub);
-            subjectsFlowEl.animated = true;
-          }
+    // ==========================================
+    // 4. ANIMATION ENGINE & STATE MANAGEMENT
+    // ==========================================
+    let isUserHovered = false;
+    let currentSequenceId = 0;
+    let currentActiveStep = 'typing';
+    let activeAnimations = [];
+    let timelineScrollCleanup = null;
 
-          if (typeof articlesFlowEl.update === 'function') {
-            articlesFlowEl.animated = false;
-            articlesFlowEl.update(targetArt);
-            articlesFlowEl.animated = true;
-          }
-        }
+    function setCanvasState(state) {
+      currentActiveStep = state;
+      cardCanvas.classList.remove('is-typing', 'is-searching', 'has-results', 'not-typing', 'is-stage4', 'is-stage5');
+
+      if (replayBtn && state !== 'timeline') {
+        replayBtn.classList.remove('visible');
       }
 
-      window.__initNumberFlow = initNumberFlow;
-      window.addEventListener('numberflow-ready', initNumberFlow);
-      if (typeof customElements !== 'undefined') {
-        customElements.whenDefined('number-flow').then(initNumberFlow);
+      if (timelineScrollCleanup) {
+        timelineScrollCleanup();
+        timelineScrollCleanup = null;
       }
-      initNumberFlow();
-
-      // 4. Character-by-Character Typewriter Function for query input
-      function clearTypewriter() {
-        if (typeInterval) {
-          clearInterval(typeInterval);
-          typeInterval = null;
-        }
-        if (typeTimeout) {
-          clearTimeout(typeTimeout);
-          typeTimeout = null;
-        }
-      }
-    
-      function startTypewriter(targetQuery, onComplete) {
-        clearTypewriter();
-    
-        if (!searchQueryText) {
-          if (searchInput) searchInput.value = targetQuery;
-          if (onComplete) onComplete();
-          return;
-        }
-    
-        if (typingCursor) {
-          typingCursor.style.display = 'inline-block';
-        }
-    
-        searchQueryText.textContent = '';
-        if (searchInput) searchInput.value = '';
-    
-        let charIdx = 0;
-        typeInterval = setInterval(() => {
-          charIdx++;
-          if (charIdx <= targetQuery.length) {
-            const partial = targetQuery.slice(0, charIdx);
-            searchQueryText.textContent = partial;
-            if (searchInput) searchInput.value = partial;
-          } else {
-            clearInterval(typeInterval);
-            typeInterval = null;
-            searchQueryText.textContent = targetQuery;
-            if (searchInput) searchInput.value = targetQuery;
-    
-            // Keep blinking cursor for 1.2s so user can read complete prompt before next step
-            if (onComplete) {
-              typeTimeout = setTimeout(() => {
-                if (typingCursor && currentStep !== 1) {
-                  typingCursor.style.display = 'none';
-                }
-                onComplete();
-              }, 1200);
-            }
-          }
-        }, 36); // ~36ms per char (smooth human typing rhythm)
-      }
-    
-      // 5. Update All Icons in the Huge Card (Watermark icon & title icon match bottom buttons)
-      function updateCardIcons(iconKey, customIconSrc = null) {
-        const iconSrc = customIconSrc || scenarioIcons[iconKey] || '/assets/icon-news.svg';
-    
-        // A. Update search pill icon (Figma node-id=13631:181644: logo-variable)
-        if (searchPillIcon) {
-          searchPillIcon.innerHTML = ICONS.logoVariable;
-          searchPillIcon.classList.remove('icon-pop');
-          void searchPillIcon.offsetWidth; // Force CSS reflow to re-trigger animation
-          searchPillIcon.classList.add('icon-pop');
-        }
-    
-        // B. Update background watermark icon with the exact same icon as the bottom buttons
-        if (canvasWatermarkIcon) {
-          canvasWatermarkIcon.innerHTML = `<img src="${iconSrc}" alt="${iconKey}" width="280" height="280" />`;
-          if (currentStep === 1) {
-            canvasWatermarkIcon.classList.remove('watermark-pop');
-            void canvasWatermarkIcon.offsetWidth; // Force CSS reflow
-            canvasWatermarkIcon.classList.add('watermark-pop');
-          }
-        }
-
-        // C. Update 28px icon in front of topic title (Figma node-id=13661:163784)
-        if (topicHeaderIcon) {
-          if (iconKey === 'news') {
-            topicHeaderIcon.innerHTML = `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M17.4999 21.0002H11.6666M20.9999 16.3335H11.6666M4.66659 25.6668H23.3333C23.9521 25.6668 24.5456 25.421 24.9832 24.9834C25.4208 24.5458 25.6666 23.9523 25.6666 23.3335V4.66683C25.6666 4.04799 25.4208 3.4545 24.9832 3.01691C24.5456 2.57933 23.9521 2.3335 23.3333 2.3335H9.33325C8.71441 2.3335 8.12092 2.57933 7.68334 3.01691C7.24575 3.4545 6.99992 4.04799 6.99992 4.66683V23.3335C6.99992 23.9523 6.75409 24.5458 6.3165 24.9834C5.87892 25.421 5.28542 25.6668 4.66659 25.6668ZM4.66659 25.6668C4.04775 25.6668 3.45425 25.421 3.01667 24.9834C2.57908 24.5458 2.33325 23.9523 2.33325 23.3335V12.8335C2.33325 12.2147 2.57908 11.6212 3.01667 11.1836C3.45425 10.746 4.04775 10.5002 4.66659 10.5002H6.99992" stroke="black" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M19.8332 7H12.8332C12.1888 7 11.6665 7.52233 11.6665 8.16667V10.5C11.6665 11.1443 12.1888 11.6667 12.8332 11.6667H19.8332C20.4775 11.6667 20.9998 11.1443 20.9998 10.5V8.16667C20.9998 7.52233 20.4775 7 19.8332 7Z" stroke="black" stroke-width="2.33333" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>`;
-          } else {
-            topicHeaderIcon.innerHTML = `<img src="${iconSrc}" alt="" width="28" height="28" />`;
-          }
-        }
-      }
-    
-      // 6. Set Step Function (Steps 1 through 5, with 5A and 5B sub-states)
-      function setNewsStep(stepNum, subState = 'initial') {
-        currentStep = stepNum;
-        if (heroCanvas) {
-          heroCanvas.setAttribute('data-news-step', String(stepNum));
-          heroCanvas.setAttribute('data-timeline-state', subState);
-        }
-
-        if (stepNum !== 1) {
-          if (typingCursor) {
-            typingCursor.style.display = 'none';
-          }
-        }
-
-        clearNumberFlowTimers();
-
-        if (stepNum === 1) {
-          if (canvasWatermarkIcon) {
-            canvasWatermarkIcon.style.opacity = '';
-            canvasWatermarkIcon.style.visibility = '';
-            canvasWatermarkIcon.style.pointerEvents = '';
-          }
-          clearTimelineStepTimer();
-          currentTimelineIndex = 0;
-          if (timelineDrilldownTrack) {
-            timelineDrilldownTrack.style.transform = 'translateY(0)';
-          }
-          if (spineSvgImg) {
-            spineSvgImg.style.transform = 'translateY(0)';
-          }
-          const allTimelineArticles = document.querySelectorAll('.timeline-article-item, .timeline-article-card');
-          allTimelineArticles.forEach(c => c.classList.remove('article-revealed'));
-
-          // Quiet reset numbers without animation when left panel is hidden
-          if (subjectsFlowEl && typeof subjectsFlowEl.update === 'function') {
-            subjectsFlowEl.animated = false;
-            subjectsFlowEl.update(0);
-            subjectsFlowEl.animated = true;
-          }
-          if (articlesFlowEl && typeof articlesFlowEl.update === 'function') {
-            articlesFlowEl.animated = false;
-            articlesFlowEl.update(0);
-            articlesFlowEl.animated = true;
-          }
-        } else {
-          // Rule: 除了第一步，其他步骤中左侧的大logo都隐藏
-          if (canvasWatermarkIcon) {
-            canvasWatermarkIcon.style.opacity = '0';
-            canvasWatermarkIcon.style.visibility = 'hidden';
-            canvasWatermarkIcon.style.pointerEvents = 'none';
-          }
-
-          if (stepNum === 2) {
-            // Keep stats zeroed in preparation for step 3 reveal
-            if (subjectsFlowEl && typeof subjectsFlowEl.update === 'function') {
-              subjectsFlowEl.animated = false;
-              subjectsFlowEl.update(0);
-              subjectsFlowEl.animated = true;
-            }
-            if (articlesFlowEl && typeof articlesFlowEl.update === 'function') {
-              articlesFlowEl.animated = false;
-              articlesFlowEl.update(0);
-              articlesFlowEl.animated = true;
-            }
-          } else if (stepNum === 3) {
-            // Staggered roll to 4 subjects and 10 articles (走马灯效果 via number-flow)
-            if (subjectsFlowEl && typeof subjectsFlowEl.update === 'function') {
-              subjectsFlowEl.animated = false;
-              subjectsFlowEl.update(0);
-              subjectsFlowEl.animated = true;
-              subjectsTimer = setTimeout(() => {
-                subjectsFlowEl.update(4);
-              }, 120);
-            }
-            if (articlesFlowEl && typeof articlesFlowEl.update === 'function') {
-              articlesFlowEl.animated = false;
-              articlesFlowEl.update(0);
-              articlesFlowEl.animated = true;
-              articlesTimer = setTimeout(() => {
-                articlesFlowEl.update(10);
-              }, 280);
-            }
-          } else if (stepNum >= 4) {
-            // Ensure firmly settled at target values
-            if (subjectsFlowEl && typeof subjectsFlowEl.update === 'function') {
-              if (subjectsFlowEl.value !== 4) {
-                subjectsFlowEl.update(4);
-              }
-            }
-            if (articlesFlowEl && typeof articlesFlowEl.update === 'function') {
-              if (articlesFlowEl.value !== 10) {
-                articlesFlowEl.update(10);
-              }
-            }
-          }
-
-          if (stepNum === 5) {
-            if (subState === 'expanded') {
-              // State 5A: First timeline article is revealed below Subject 1
-              const firstTimelineItem = document.querySelector('.timeline-article-item');
-              if (firstTimelineItem) {
-                firstTimelineItem.classList.add('article-revealed');
-              }
-              const firstTimelineCard = document.querySelector('.timeline-article-card');
-              if (firstTimelineCard) {
-                firstTimelineCard.classList.add('article-revealed');
-              }
-            }
-          }
-        }
-      }
-    
-      function clearTimelineStepTimer() {
-        if (timelineStepTimer) {
-          clearTimeout(timelineStepTimer);
-          timelineStepTimer = null;
-        }
-      }
-    
-      function clearNewsAutoLoop() {
-        clearTypewriter();
-        clearNumberFlowTimers();
-        if (autoLoopTimer) {
-          clearTimeout(autoLoopTimer);
-          autoLoopTimer = null;
-        }
-        clearTimelineStepTimer();
-      }
-    
-      // 7. Step 5B: Upward Scrolling Timeline Stream Animation
-      // 5 and 6 are different states of Step 5:
-      // State 5A: First timeline card expands under Subject 1
-      // State 5B: Stream scrolls upward stepping through articles 1 to 5
-      const TIMELINE_SCROLL_OFFSETS = [0, 172, 288, 404, 520];
-
-      function stepTimelineStream(index) {
-        if (currentStep !== 5 || currentScenario !== 'news') return;
-        currentTimelineIndex = index;
-
-        const allTimelineItems = document.querySelectorAll('.timeline-article-item');
-        const allTimelineCards = document.querySelectorAll('.timeline-article-card');
-        const offset = TIMELINE_SCROLL_OFFSETS[index] || 0;
-
-        if (timelineDrilldownTrack) {
-          timelineDrilldownTrack.style.transform = `translateY(-${offset}px)`;
-        }
-        if (spineSvgImg) {
-          spineSvgImg.style.transform = `translateY(-${offset}px)`;
-        }
-
-        // Reveal the active article
-        if (allTimelineItems[index]) {
-          allTimelineItems[index].classList.add('article-revealed');
-        }
-        if (allTimelineCards[index]) {
-          allTimelineCards[index].classList.add('article-revealed');
-        }
-
-        if (index < allTimelineItems.length - 1) {
-          // Advance to next article after 1.6s
-          timelineStepTimer = setTimeout(() => {
-            if (isLoopPaused || currentStep !== 5 || currentScenario !== 'news') return;
-            stepTimelineStream(index + 1);
-          }, 1600);
-        } else {
-          // Final article displayed! Hold for 3.0s, then loop back to Step 1
-          timelineStepTimer = setTimeout(() => {
-            if (isLoopPaused || currentStep !== 5 || currentScenario !== 'news') return;
-            runVerticalCycle();
-          }, 3000);
-        }
+      const streamBlock = document.getElementById('timelineStreamBlock');
+      if (streamBlock && state !== 'timeline') {
+        streamBlock.scrollTop = 0;
+        streamBlock.classList.remove('is-animating');
+        streamBlock.style.overflowY = '';
       }
 
-      // 8. Continuous Automated 5-Step Animation Loop for News Vertical
-      function runVerticalCycle() {
-        // Except for News, giant box animation must NEVER play
-        if (currentScenario !== 'news') return;
-        clearNewsAutoLoop();
-
-        // Step 1: Query Input with Character-by-Character Typewriter effect
-        setNewsStep(1);
-        if (canvasTopicTitle) {
-          canvasTopicTitle.textContent = 'News Search';
-        }
-        updateCardIcons('news', '/assets/icon-news.svg');
-
-        const queryTarget = 'Strait of Hormuz shipping disruptions';
-        startTypewriter(queryTarget, () => {
-          if (isLoopPaused || currentStep !== 1 || currentScenario !== 'news') return;
-
-          // Step 2: Searching with 14 pulse wave dots (1.8s)
-          setNewsStep(2);
-
-          autoLoopTimer = setTimeout(() => {
-            if (isLoopPaused || currentStep !== 2 || currentScenario !== 'news') return;
-
-            // Step 3: Search dissolves into left panel, right side shows 4 Subject cards (4.0s for sequential & scroll)
-            setNewsStep(3);
-
-            autoLoopTimer = setTimeout(() => {
-              if (isLoopPaused || currentStep !== 3 || currentScenario !== 'news') return;
-
-              // Step 4: Focus on Subject 1 with timeline hint (1.5s)
-              setNewsStep(4);
-
-              autoLoopTimer = setTimeout(() => {
-                if (isLoopPaused || currentStep !== 4 || currentScenario !== 'news') return;
-
-                // Step 5A (Frame 5): Timeline expansion with Subject 1 header (1.8s)
-                setNewsStep(5, 'expanded');
-
-                autoLoopTimer = setTimeout(() => {
-                  if (isLoopPaused || currentStep !== 5 || currentScenario !== 'news') return;
-
-                  // Step 5B (Frame 6): Upward scrolling through timeline articles
-                  setNewsStep(5, 'scrolling');
-                  stepTimelineStream(1);
-                }, 1800);
-
-              }, 1500);
-
-            }, 2500);
-
-          }, 1800);
-        });
+      if (morphCardsOverlay) morphCardsOverlay.innerHTML = '';
+      if (subjectsHBar) subjectsHBar.style.opacity = '';
+      if (eventsWhiteCard) {
+        eventsWhiteCard.style.opacity = '';
+        eventsWhiteCard.style.transform = '';
+      }
+      if (stageFocusContainer) {
+        stageFocusContainer.style.opacity = '';
+        stageFocusContainer.style.pointerEvents = '';
       }
 
-      // Hover on hero canvas pauses animation playback; resume on mouseleave
-      if (heroCanvas) {
-        heroCanvas.addEventListener('mouseenter', () => {
-          if (currentScenario !== 'news') return;
-          isLoopPaused = true;
-          clearNewsAutoLoop();
-        });
+      const allCards = cardListContainer ? cardListContainer.querySelectorAll('.subject-card-box') : [];
+      allCards.forEach(c => { c.style.opacity = ''; c.style.transform = ''; c.style.visibility = ''; });
+      const allBadges = cardListContainer ? cardListContainer.querySelectorAll('.subject-badge') : [];
+      allBadges.forEach(b => { b.style.visibility = ''; });
 
-        heroCanvas.addEventListener('mouseleave', () => {
-          if (currentScenario !== 'news') return;
-          if (isLoopPaused) {
-            isLoopPaused = false;
-            clearNewsAutoLoop();
-
-            // Resume smoothly from current state
-            if (currentStep === 1) {
-              runVerticalCycle();
-            } else if (currentStep === 2) {
-              autoLoopTimer = setTimeout(() => {
-                if (isLoopPaused || currentScenario !== 'news') return;
-                setNewsStep(3);
-                autoLoopTimer = setTimeout(() => {
-                  if (isLoopPaused || currentScenario !== 'news') return;
-                  setNewsStep(4);
-                  autoLoopTimer = setTimeout(() => {
-                    if (isLoopPaused || currentScenario !== 'news') return;
-                    setNewsStep(5, 'expanded');
-                    autoLoopTimer = setTimeout(() => {
-                      if (isLoopPaused || currentScenario !== 'news') return;
-                      setNewsStep(5, 'scrolling');
-                      stepTimelineStream(1);
-                    }, 1800);
-                  }, 1500);
-                }, 4000);
-              }, 1000);
-            } else if (currentStep === 3) {
-              autoLoopTimer = setTimeout(() => {
-                if (isLoopPaused || currentScenario !== 'news') return;
-                setNewsStep(4);
-                autoLoopTimer = setTimeout(() => {
-                  if (isLoopPaused || currentScenario !== 'news') return;
-                  setNewsStep(5, 'expanded');
-                  autoLoopTimer = setTimeout(() => {
-                    if (isLoopPaused || currentScenario !== 'news') return;
-                    setNewsStep(5, 'scrolling');
-                    stepTimelineStream(1);
-                  }, 1800);
-                }, 1500);
-              }, 2000);
-            } else if (currentStep === 4) {
-              autoLoopTimer = setTimeout(() => {
-                if (isLoopPaused || currentScenario !== 'news') return;
-                setNewsStep(5, 'expanded');
-                autoLoopTimer = setTimeout(() => {
-                  if (isLoopPaused || currentScenario !== 'news') return;
-                  setNewsStep(5, 'scrolling');
-                  stepTimelineStream(1);
-                }, 1800);
-              }, 800);
-            } else if (currentStep === 5) {
-              if (currentTimelineIndex < TIMELINE_SCROLL_OFFSETS.length - 1) {
-                stepTimelineStream(currentTimelineIndex + 1);
-              } else {
-                runVerticalCycle();
-              }
-            }
-          }
-        });
-      }
-
-      // 9. Initial / Static Setup for News Vertical
-      function switchVertical(key = 'news', autoStart = true) {
-        const target = verticalsData.news;
-        if (!target) return;
-
-        // Keep current theme if already set, or initialize to news
-        if (heroCanvas && !heroCanvas.getAttribute('data-theme')) {
-          heroCanvas.setAttribute('data-theme', 'news');
+      if (state === 'typing') {
+        cardCanvas.classList.add('is-typing');
+        if (searchBoxWrapper) {
+          searchBoxWrapper.style.display = 'block';
+          searchBoxWrapper.style.opacity = '1';
+          searchBoxWrapper.style.transform = 'none';
         }
-
-        // Update topic title
-        if (canvasTopicTitle) {
-          canvasTopicTitle.textContent = scenarioTitles[key] || 'News Search';
+        if (summaryBox) {
+          summaryBox.style.display = 'none';
         }
-
-        // Update both the search pill icon & the card watermark icon to News
-        updateCardIcons('news', '/assets/icon-news.svg');
-
-        // Reset loop state
-        clearNewsAutoLoop();
-        isLoopPaused = false;
-
-        if (autoStart && currentScenario === 'news') {
-          hasStartedAnimation = true;
-          runVerticalCycle();
-        } else {
-          // Prepare static initial layout (Step 1) without triggering timers
-          setNewsStep(1);
-          if (searchQueryText) searchQueryText.textContent = '';
-          if (searchInput) searchInput.value = '';
-          if (typingCursor) typingCursor.style.display = 'inline-block';
+      } else if (state === 'searching') {
+        cardCanvas.classList.add('not-typing', 'is-searching');
+        if (searchBoxWrapper) {
+          searchBoxWrapper.style.display = 'block';
+          searchBoxWrapper.style.opacity = '1';
+          searchBoxWrapper.style.transform = 'none';
+        }
+        if (summaryBox) {
+          summaryBox.style.display = 'none';
+        }
+      } else if (state === 'overview') {
+        cardCanvas.classList.add('not-typing', 'has-results');
+        if (searchBoxWrapper) {
+          searchBoxWrapper.style.display = 'none';
+        }
+        if (summaryBox) {
+          summaryBox.style.display = 'flex';
+          summaryBox.style.opacity = '1';
+          summaryBox.style.transform = 'none';
+        }
+      } else if (state === 'focus') {
+        cardCanvas.classList.add('not-typing', 'has-results', 'is-stage4');
+        if (searchBoxWrapper) {
+          searchBoxWrapper.style.display = 'none';
+        }
+        if (summaryBox) {
+          summaryBox.style.display = 'flex';
+          summaryBox.style.opacity = '1';
+          summaryBox.style.transform = 'none';
+        }
+      } else if (state === 'timeline') {
+        cardCanvas.classList.add('not-typing', 'has-results', 'is-stage4', 'is-stage5');
+        if (searchBoxWrapper) {
+          searchBoxWrapper.style.display = 'none';
+        }
+        if (summaryBox) {
+          summaryBox.style.display = 'flex';
+          summaryBox.style.opacity = '1';
+          summaryBox.style.transform = 'none';
         }
       }
+    }
 
-      // 10. Interactive Scenario Chips (Hover Driven)
-      // Hovering on any chip:
-      // 1) Interrupts current news animation playback
-      // 2) Directly displays the scenario's query without typewriter animation
-      // 3) Updates the watermark icon (using the exact same icon from the bottom button)
-      // 4) Randomly changes the giant card's background gradient
-      //
-      // Unhovering (leaving bottom buttons):
-      // Returns to News theme, restores News background gradient, title, icon, and resumes animation playback
-      const GRADIENT_THEMES = ['academic', 'business', 'purple', 'news'];
-      let lastHoveredScenario = null;
-      let unhoverTimer = null;
+    // Metamorphic Card-to-Pill Transition (Stage 3 Overview -> Stage 4 Top News)
+    async function transitionOverviewToFocus(isValid, currentSeq) {
+      if (!canvasRightPanel || !cardListContainer) return;
+      const panelRect = canvasRightPanel.getBoundingClientRect();
+      const subjectWrappers = cardListContainer.querySelectorAll('.subject-card-wrapper');
+      const targetPills = subjectsHBar ? subjectsHBar.querySelectorAll('.subject-h-pill') : [];
 
-      function clearUnhoverTimer() {
-        if (unhoverTimer) {
-          clearTimeout(unhoverTimer);
-          unhoverTimer = null;
-        }
+      if (!subjectWrappers.length || !targetPills.length || !morphCardsOverlay) {
+        setCanvasState('focus');
+        return;
       }
 
-      function resetToNews() {
-        if (currentScenario === 'news') return;
-        currentScenario = 'news';
-        lastHoveredScenario = null;
-        clearUnhoverTimer();
+      // 1. Position target tabs to get destination bounds
+      stageFocusContainer.style.opacity = '1';
+      stageFocusContainer.style.pointerEvents = 'auto';
+      subjectsHBar.style.opacity = '0';
+      eventsWhiteCard.style.opacity = '0';
+      eventsWhiteCard.style.transform = 'translateY(36px) scale(0.97)';
 
-        // 1. Restore News card background gradient
-        if (heroCanvas) {
-          heroCanvas.setAttribute('data-theme', 'news');
-        }
-
-        // 2. Restore News topic title
-        if (canvasTopicTitle) {
-          canvasTopicTitle.textContent = 'News Search';
-        }
-
-        // 3. Restore News watermark icon
-        updateCardIcons('news', '/assets/icon-news.svg');
-
-        // 4. Resume News theme animation loop
-        clearNewsAutoLoop();
-        isLoopPaused = false;
-        runVerticalCycle();
-      }
-
-      scenarioChips.forEach(chip => {
-        // Eliminate click interaction
-        chip.addEventListener('click', (e) => {
-          e.preventDefault();
-        });
-
-        chip.addEventListener('mouseenter', () => {
-          clearUnhoverTimer();
-
-          const span = chip.querySelector('span');
-          const rawText = (span ? span.textContent : chip.textContent).trim().toLowerCase();
-          const normalizedKey = rawText.replace(/\s+/g, '-');
-          if (normalizedKey === lastHoveredScenario) return;
-          lastHoveredScenario = normalizedKey;
-          currentScenario = normalizedKey;
-
-          const customQuery = scenarioQueries[rawText] || scenarioQueries[normalizedKey] || 'Strait of Hormuz shipping disruptions';
-
-          // 1. Interrupt current News animation playback
-          clearNewsAutoLoop();
-          isLoopPaused = true;
-          setNewsStep(1);
-
-          // 2. Instantly display query without typewriter animation
-          if (searchQueryText) {
-            searchQueryText.textContent = customQuery;
-          }
-          if (searchInput) {
-            searchInput.value = customQuery;
-          }
-          if (typingCursor) {
-            typingCursor.style.display = 'inline-block';
-          }
-
-          // 2.1 Update topic title (Figma node 13661:7381)
-          if (canvasTopicTitle) {
-            const topicText = scenarioTitles[rawText] || scenarioTitles[normalizedKey] || (rawText.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') + ' Search');
-            canvasTopicTitle.textContent = topicText;
-          }
-
-          // 3. Update watermark icon: strictly identical source as the bottom button's icon
-          const chipImg = chip.querySelector('img');
-          const chipIconSrc = chipImg ? chipImg.getAttribute('src') : (scenarioIcons[normalizedKey] || '/assets/icon-news.svg');
-          updateCardIcons(normalizedKey, chipIconSrc);
-
-          // 4. Pick a random gradient different from the current one
-          const currentTheme = heroCanvas ? heroCanvas.getAttribute('data-theme') || 'news' : 'news';
-          const availableThemes = GRADIENT_THEMES.filter(t => t !== currentTheme);
-          const nextTheme = availableThemes[Math.floor(Math.random() * availableThemes.length)];
-
-          if (heroCanvas) {
-            heroCanvas.setAttribute('data-theme', nextTheme);
-          }
-        });
-
-        chip.addEventListener('mouseleave', () => {
-          clearUnhoverTimer();
-          unhoverTimer = setTimeout(resetToNews, 150);
-        });
+      const targetRects = Array.from(targetPills).map(pill => {
+        const r = pill.getBoundingClientRect();
+        return {
+          left: Math.round(r.left - panelRect.left),
+          top: Math.round(r.top - panelRect.top),
+          width: Math.round(r.width),
+          height: Math.round(r.height)
+        };
       });
 
-      const scenariosMarqueeContainer = document.querySelector('.scenarios-marquee-container');
-      if (scenariosMarqueeContainer) {
-        scenariosMarqueeContainer.addEventListener('mouseenter', () => {
-          clearUnhoverTimer();
-        });
-        scenariosMarqueeContainer.addEventListener('mouseleave', () => {
-          clearUnhoverTimer();
-          unhoverTimer = setTimeout(resetToNews, 100);
+      // 2. Measure starting positions of the 4 big subject card boxes
+      const sourceCards = Array.from(subjectWrappers).slice(0, 4);
+      const startData = sourceCards.map((wrapper, idx) => {
+        const cardBox = wrapper.querySelector('.subject-card-box') || wrapper;
+        const r = cardBox.getBoundingClientRect();
+        const dateEl = wrapper.querySelector('.subject-date-range');
+        const titleEl = wrapper.querySelector('.subject-name');
+        const summaryEl = wrapper.querySelector('.subject-summary');
+        return {
+          left: Math.round(r.left - panelRect.left),
+          top: Math.round(r.top - panelRect.top),
+          width: Math.round(r.width) || 520,
+          height: Math.round(r.height) || 96,
+          date: dateEl ? dateEl.textContent : '2026/09/12 – 2026/09/15',
+          title: titleEl ? titleEl.textContent : `Subject ${idx + 1}`,
+          summary: summaryEl ? summaryEl.textContent : '',
+          cardEl: cardBox
+        };
+      });
+
+      while (startData.length < 4) {
+        const idx = startData.length;
+        startData.push({
+          left: targetRects[idx].left,
+          top: targetRects[idx].top + 80,
+          width: 520,
+          height: 96,
+          date: '2026/09/12 – 2026/09/15',
+          title: `Subject ${idx + 1}`,
+          summary: '',
+          cardEl: null
         });
       }
-    
-      function playVerticalFlow() {
-        // Except for News, giant box animation must NEVER play!
-        if (currentScenario !== 'news') return;
-        hasStartedAnimation = true;
-        clearNewsAutoLoop();
-        isLoopPaused = false;
-        runVerticalCycle();
-      }
-    
-      // 12. AI Search Button Click Effect
-      // Rule: "除了news，巨型框中的动画，不能播放，比如用户点击搜索按钮，不要播放动画"
-      if (aiSearchAction) {
-        aiSearchAction.addEventListener('click', (e) => {
-          e.preventDefault();
-          // Clicking search button must NEVER play animation
-          return;
+
+      // 3. Construct 4 Morphing Proxy Cards inside overlay
+      morphCardsOverlay.innerHTML = '';
+      const morphEntities = [];
+
+      for (let i = 0; i < 4; i++) {
+        const s = startData[i];
+        const t = targetRects[i];
+
+        const card = document.createElement('div');
+        card.className = 'morph-proxy-card';
+        card.style.cssText = `
+          left: ${s.left}px;
+          top: ${s.top}px;
+          width: ${s.width}px;
+          height: ${s.height}px;
+          background-color: #FFFFFF;
+          border: 8px solid rgba(255, 255, 255, 0.4);
+          border-radius: 24px;
+          box-shadow: 0 8px 24px rgba(31, 72, 28, 0.08);
+        `;
+
+        card.innerHTML = `
+          <div class="morph-proxy-inner">
+            <div class="morph-proxy-card-view">
+              <div class="morph-proxy-top-row">
+                <span class="morph-proxy-date">${s.date}</span>
+                <span class="morph-proxy-badge">Subject${i + 1}</span>
+              </div>
+              <div class="morph-proxy-title">${s.title}</div>
+              <div class="morph-proxy-summary">${s.summary}</div>
+            </div>
+            <div class="morph-proxy-pill-tag">Subject${i + 1}</div>
+          </div>
+        `;
+        morphCardsOverlay.appendChild(card);
+
+        morphEntities.push({
+          card,
+          cardView: card.querySelector('.morph-proxy-card-view'),
+          pillTag: card.querySelector('.morph-proxy-pill-tag'),
+          s,
+          t,
+          index: i
         });
       }
-    
-      // 13. Enter key in search input
-      if (searchInput) {
-        searchInput.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
+
+      // 4. Hide original cards in Stage 3 scroller
+      sourceCards.forEach(wrap => {
+        const box = wrap.querySelector('.subject-card-box') || wrap;
+        box.style.visibility = 'hidden';
+      });
+
+      // 5. Metamorphic Animation Execution
+      const morphDuration = 600;
+      const morphEase = 'cubic-bezier(0.2, 0.9, 0.28, 1)';
+
+      morphEntities.forEach(({ card, cardView, pillTag, s, t, index }) => {
+        // Content collapse
+        const viewAnim = cardView.animate([
+          { offset: 0, opacity: 1, transform: 'scale(1)' },
+          { offset: 0.28, opacity: 1, transform: 'scale(0.98)' },
+          { offset: 0.48, opacity: 0, transform: 'scale(0.90) translateY(-4px)' },
+          { offset: 1, opacity: 0, transform: 'scale(0.90) translateY(-4px)' }
+        ], {
+          duration: morphDuration,
+          delay: index * 20,
+          easing: 'ease-out',
+          fill: 'forwards'
+        });
+        activeAnimations.push(viewAnim);
+
+        // Pill label tag
+        const tagAnim = pillTag.animate([
+          { offset: 0, opacity: 0, transform: 'scale(0.85)' },
+          { offset: 0.35, opacity: 0, transform: 'scale(0.85)' },
+          { offset: 0.70, opacity: 1, transform: 'scale(1)' },
+          { offset: 1, opacity: 1, transform: 'scale(1)' }
+        ], {
+          duration: morphDuration,
+          delay: index * 20,
+          easing: 'cubic-bezier(0.2, 0.9, 0.28, 1)',
+          fill: 'forwards'
+        });
+        activeAnimations.push(tagAnim);
+
+        // Card Frame Metamorphosis from Big White Card to Pill
+        const dx = t.left - s.left;
+        const dy = t.top - s.top;
+        const targetBg = index === 0 ? '#039855' : 'rgba(76, 94, 86, 0.57)';
+
+        const cardAnim = card.animate([
+          {
+            offset: 0,
+            transform: 'translate(0, 0)',
+            width: `${s.width}px`,
+            height: `${s.height}px`,
+            backgroundColor: '#FFFFFF',
+            borderColor: 'rgba(255, 255, 255, 0.5)',
+            borderWidth: '8px',
+            borderRadius: '24px',
+            boxShadow: '0 8px 24px rgba(31, 72, 28, 0.08)'
+          },
+          {
+            offset: 0.32,
+            backgroundColor: '#FFFFFF',
+            borderColor: 'rgba(255, 255, 255, 0.4)',
+            borderWidth: '6px',
+            borderRadius: '20px',
+            boxShadow: '0 6px 18px rgba(31, 72, 28, 0.06)'
+          },
+          {
+            offset: 0.72,
+            backgroundColor: targetBg,
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            borderWidth: '1px',
+            borderRadius: '16px',
+            boxShadow: 'none'
+          },
+          {
+            offset: 1,
+            transform: `translate(${dx}px, ${dy}px)`,
+            width: `${t.width}px`,
+            height: `${t.height}px`,
+            backgroundColor: targetBg,
+            borderColor: 'transparent',
+            borderWidth: '0px',
+            borderRadius: '16px',
+            boxShadow: 'none'
+          }
+        ], {
+          duration: morphDuration,
+          delay: index * 20,
+          easing: morphEase,
+          fill: 'forwards'
+        });
+        activeAnimations.push(cardAnim);
+      });
+
+      // 6. Top News white card slides up
+      setTimeout(() => {
+        if (isValid && !isValid()) return;
+        eventsWhiteCard.style.opacity = '1';
+        eventsWhiteCard.style.transform = 'translateY(0) scale(1)';
+        const cardEnterAnim = eventsWhiteCard.animate([
+          { opacity: 0, transform: 'translateY(36px) scale(0.97)' },
+          { opacity: 1, transform: 'translateY(0) scale(1)' }
+        ], {
+          duration: 480,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+        activeAnimations.push(cardEnterAnim);
+      }, 190);
+
+      await sleep(morphDuration + 4 * 20 + 20);
+      if (isValid && !isValid()) return;
+
+      // 7. Flawless zero-flicker handover to native Stage 4 layout
+      currentActiveStep = 'focus';
+      cardCanvas.classList.remove('is-typing', 'is-searching', 'is-stage5');
+      cardCanvas.classList.add('not-typing', 'has-results', 'is-stage4');
+
+      stageFocusContainer.style.opacity = '1';
+      stageFocusContainer.style.pointerEvents = 'auto';
+      subjectsHBar.style.opacity = '1';
+      eventsWhiteCard.style.opacity = '1';
+      eventsWhiteCard.style.transform = 'none';
+
+      const pills = document.querySelectorAll('.subject-h-pill');
+      pills.forEach((p, idx) => p.classList.toggle('active', idx === 0));
+      updateTopNewsCard(0);
+      renderTimelineStream(0, false);
+
+      void subjectsHBar.offsetWidth;
+      morphCardsOverlay.innerHTML = '';
+
+      sourceCards.forEach(wrap => {
+        const box = wrap.querySelector('.subject-card-box') || wrap;
+        box.style.visibility = '';
+      });
+    }
+
+    // FLIP Layout Transition from typing to searching
+    function transitionToSearching() {
+      const headingRow = document.querySelector('.canvas-heading-row');
+      if (!headingRow || !searchBoxWrapper) {
+        setCanvasState('searching');
+        return;
+      }
+
+      const firstHeadingRect = headingRow.getBoundingClientRect();
+      const firstSearchRect = searchBoxWrapper.getBoundingClientRect();
+
+      cardCanvas.classList.remove('is-typing', 'has-results');
+      cardCanvas.classList.add('not-typing', 'is-searching');
+
+      searchBoxWrapper.style.display = 'block';
+      searchBoxWrapper.style.opacity = '1';
+      searchBoxWrapper.style.transform = 'none';
+
+      const lastHeadingRect = headingRow.getBoundingClientRect();
+      const lastSearchRect = searchBoxWrapper.getBoundingClientRect();
+
+      const dxHeading = firstHeadingRect.left - lastHeadingRect.left;
+      const dyHeading = firstHeadingRect.top - lastHeadingRect.top;
+
+      const dxSearch = firstSearchRect.left - lastSearchRect.left;
+      const dySearch = firstSearchRect.top - lastSearchRect.top;
+
+      const duration = 600;
+      const easeCurve = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
+      const headingAnim = headingRow.animate([
+        { transform: `translate(${dxHeading}px, ${dyHeading}px)` },
+        { transform: 'translate(0, 0)' }
+      ], {
+        duration,
+        easing: easeCurve,
+        fill: 'none'
+      });
+      activeAnimations.push(headingAnim);
+
+      const searchAnim = searchBoxWrapper.animate([
+        {
+          transform: `translate(${dxSearch}px, ${dySearch}px)`,
+          width: `${firstSearchRect.width}px`
+        },
+        {
+          transform: 'translate(0, 0)',
+          width: `${lastSearchRect.width}px`
+        }
+      ], {
+        duration,
+        easing: easeCurve,
+        fill: 'none'
+      });
+      activeAnimations.push(searchAnim);
+    }
+
+    // FLIP Layout Transition from searching to overview
+    function transitionToOverview() {
+      const headingRow = document.querySelector('.canvas-heading-row');
+      if (!headingRow) {
+        setCanvasState('overview');
+        return;
+      }
+
+      const firstHeadingRect = headingRow.getBoundingClientRect();
+
+      if (searchBoxWrapper && searchBoxWrapper.style.display !== 'none') {
+        const searchExitAnim = searchBoxWrapper.animate([
+          { opacity: 1, transform: 'translateY(0)' },
+          { opacity: 0, transform: 'translateY(-10px)' }
+        ], {
+          duration: 280,
+          easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          fill: 'forwards'
+        });
+        activeAnimations.push(searchExitAnim);
+      }
+
+      setCanvasState('overview');
+      if (searchBoxWrapper) searchBoxWrapper.style.display = 'none';
+      if (summaryBox) {
+        summaryBox.style.display = 'flex';
+        summaryBox.style.opacity = '1';
+        summaryBox.style.transform = 'none';
+      }
+
+      const lastHeadingRect = headingRow.getBoundingClientRect();
+
+      const dxHeading = firstHeadingRect.left - lastHeadingRect.left;
+      const dyHeading = firstHeadingRect.top - lastHeadingRect.top;
+
+      const duration = 520;
+      const easeCurve = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
+      if (Math.abs(dxHeading) > 0.5 || Math.abs(dyHeading) > 0.5) {
+        const headingAnim = headingRow.animate([
+          { transform: `translate(${dxHeading}px, ${dyHeading}px)` },
+          { transform: 'translate(0, 0)' }
+        ], {
+          duration,
+          easing: easeCurve,
+          fill: 'none'
+        });
+        activeAnimations.push(headingAnim);
+      }
+
+      if (summaryBox) {
+        const summaryAnim = summaryBox.animate([
+          { opacity: 0, transform: 'translateY(16px)' },
+          { opacity: 1, transform: 'translateY(0)' }
+        ], {
+          duration: 480,
+          delay: 40,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+        activeAnimations.push(summaryAnim);
+      }
+    }
+
+    function sleep(ms) {
+      return new Promise(resolve => {
+        const startId = currentSequenceId;
+        const start = Date.now();
+        function check() {
+          if (currentSequenceId !== startId) return; // aborted
+          if (isUserHovered) {
+            setTimeout(check, 100);
             return;
           }
+          if (Date.now() - start >= ms) {
+            resolve();
+          } else {
+            setTimeout(check, 25);
+          }
+        }
+        setTimeout(check, ms);
+      });
+    }
+
+    function animateNumber(element, start, end, duration = 1800) {
+      if (!element) return;
+      const startTime = performance.now();
+      function frame(now) {
+        const progress = Math.min(1, (now - startTime) / duration);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        element.textContent = Math.round(start + (end - start) * ease);
+        if (progress < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    // Hover pause / resume
+    if (resultsViewport) {
+      resultsViewport.addEventListener('mouseenter', () => {
+        isUserHovered = true;
+        activeAnimations.forEach(a => {
+          try { if (a.playState === 'running') a.pause(); } catch (e) {}
         });
-      }
-    
-      // 14. Initial static setup to populate icons, cards & layout cleanly (without auto-animating yet)
-      switchVertical('news', false);
+      });
+      resultsViewport.addEventListener('mouseleave', () => {
+        isUserHovered = false;
+        activeAnimations.forEach(a => {
+          try { if (a.playState === 'paused') a.play(); } catch (e) {}
+        });
+      });
+    }
 
-      // 15. Scroll-triggered animation entry: Only start animation cycle when scrolled into visible area
-      function startAnimationSequence() {
-        if (hasStartedAnimation) return;
-        if (currentScenario !== 'news') return;
-        hasStartedAnimation = true;
-        runVerticalCycle();
-      }
+    if (eventsWhiteCard) {
+      eventsWhiteCard.addEventListener('mouseenter', () => { isUserHovered = true; });
+      eventsWhiteCard.addEventListener('mouseleave', () => { isUserHovered = false; });
+    }
 
-      const triggerTarget = heroCanvas || document.getElementById('vertical-search') || document.querySelector('.vertical-search-section');
+    // Smooth scroll with easeOutQuart curve (cubic-bezier(0.25, 1, 0.5, 1))
+    function smoothScrollTo(element, targetTop, duration = 650, isValid = () => true) {
+      return new Promise(resolve => {
+        if (!element) return resolve();
+        const startTop = element.scrollTop;
+        const distance = targetTop - startTop;
+        if (Math.abs(distance) < 0.5) {
+          element.scrollTop = targetTop;
+          return resolve();
+        }
 
-      if (triggerTarget && 'IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries, obs) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              startAnimationSequence();
-              obs.disconnect(); // Animation cycle initiated, disconnect observer
+        let startTime = null;
+        let pausedDuration = 0;
+        let isCurrentlyPaused = false;
+        let pauseStartTime = null;
+
+        const easeOutQuart = t => 1 - Math.pow(1 - t, 4);
+
+        function step(currentTime) {
+          if (!isValid()) return resolve();
+
+          if (isUserHovered) {
+            if (!isCurrentlyPaused) {
+              isCurrentlyPaused = true;
+              pauseStartTime = currentTime;
             }
-          });
-        }, {
-          threshold: 0.15, // Trigger when at least 15% of the canvas/section enters the viewport
-          rootMargin: '0px 0px -30px 0px'
-        });
+            requestAnimationFrame(step);
+            return;
+          } else if (isCurrentlyPaused) {
+            isCurrentlyPaused = false;
+            if (pauseStartTime !== null) {
+              pausedDuration += (currentTime - pauseStartTime);
+              pauseStartTime = null;
+            }
+          }
 
-        observer.observe(triggerTarget);
-      } else {
-        // Fallback for environments without IntersectionObserver
-        startAnimationSequence();
+          if (startTime === null) startTime = currentTime;
+          const elapsed = currentTime - startTime - pausedDuration;
+          const progress = Math.min(Math.max(elapsed / duration, 0), 1);
+          const easedProgress = easeOutQuart(progress);
+
+          element.scrollTop = Math.round(startTop + distance * easedProgress);
+
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            element.scrollTop = targetTop;
+            resolve();
+          }
+        }
+
+        requestAnimationFrame(step);
+      });
+    }
+
+    // Stage 5 Sequential Timeline Unfold
+    async function playStage5TimelineAnimation(isValid = () => true) {
+      const streamBlock = document.getElementById('timelineStreamBlock');
+      const activePill = document.querySelector('.subject-h-pill.active');
+      const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
+
+      if (timelineScrollCleanup) {
+        timelineScrollCleanup();
+        timelineScrollCleanup = null;
       }
-    
+
+      if (!streamBlock) return;
+
+      renderTimelineStream(activeIdx, false);
+      streamBlock.scrollTop = 0;
+
+      streamBlock.classList.add('is-animating');
+      streamBlock.style.overflowY = 'hidden';
+
+      const blockScroll = (e) => { e.preventDefault(); };
+      streamBlock.addEventListener('wheel', blockScroll, { passive: false });
+      streamBlock.addEventListener('touchmove', blockScroll, { passive: false });
+
+      timelineScrollCleanup = () => {
+        streamBlock.removeEventListener('wheel', blockScroll);
+        streamBlock.removeEventListener('touchmove', blockScroll);
+        streamBlock.classList.remove('is-animating');
+        streamBlock.style.overflowY = 'auto';
+        streamBlock.style.pointerEvents = 'auto';
+      };
+
+      const stem = document.getElementById('timelineSpineStem');
+      const dots = document.querySelectorAll('.timeline-dot-node');
+      const subArticles = document.querySelectorAll('.timeline-sub-article');
+      const total = subArticles.length;
+
+      if (stem) stem.style.transform = 'scaleY(0)';
+
+      for (let i = 0; i < total; i++) {
+        if (stem && total > 1) {
+          const stemProgress = i === 0 ? 0 : (i / (total - 1));
+          stem.style.transform = `scaleY(${stemProgress})`;
+        }
+
+        if (i > 0) {
+          await sleep(120);
+          if (!isValid()) {
+            if (timelineScrollCleanup) timelineScrollCleanup();
+            timelineScrollCleanup = null;
+            return;
+          }
+        }
+
+        if (dots[i]) dots[i].classList.add('visible');
+        if (subArticles[i]) subArticles[i].classList.add('visible');
+
+        if (i < 3) {
+          // Cards 1, 2, 3: strictly guaranteed no scroll (scrollTop = 0)
+          if (streamBlock) streamBlock.scrollTop = 0;
+          await sleep(i === 0 ? 800 : 680);
+        } else if (streamBlock && subArticles[i]) {
+          // Card 4 and onwards: smooth auto-scroll to reveal new card at bottom
+          const containerHeight = streamBlock.clientHeight;
+          const containerRect = streamBlock.getBoundingClientRect();
+          const cardRect = subArticles[i].getBoundingClientRect();
+          const cardBottomFromContentTop = (cardRect.bottom - containerRect.top) + streamBlock.scrollTop;
+          const bottomSafety = 6;
+          const maxScroll = Math.max(0, streamBlock.scrollHeight - containerHeight);
+
+          const targetScroll = Math.max(streamBlock.scrollTop, cardBottomFromContentTop + bottomSafety - containerHeight);
+          const boundedTarget = Math.min(maxScroll, targetScroll);
+
+          if (boundedTarget > streamBlock.scrollTop) {
+            const scrollDuration = 520;
+            await smoothScrollTo(streamBlock, boundedTarget, scrollDuration, isValid);
+            if (!isValid()) {
+              if (timelineScrollCleanup) timelineScrollCleanup();
+              timelineScrollCleanup = null;
+              return;
+            }
+            await sleep(160);
+          } else {
+            await sleep(680);
+          }
+        } else {
+          await sleep(680);
+        }
+
+        if (!isValid()) {
+          if (timelineScrollCleanup) timelineScrollCleanup();
+          timelineScrollCleanup = null;
+          return;
+        }
+      }
+
+      await sleep(350);
+      if (!isValid()) {
+        if (timelineScrollCleanup) timelineScrollCleanup();
+        timelineScrollCleanup = null;
+        return;
+      }
+
+      if (timelineScrollCleanup) {
+        timelineScrollCleanup();
+        timelineScrollCleanup = null;
+      }
+    }
+
+    // ==========================================
+    // 5. THE 5-STAGE SEQUENCE
+    // ==========================================
+    async function runCycle(fromStep = 'typing') {
+      currentSequenceId++;
+      const seq = currentSequenceId;
+      const isValid = () => seq === currentSequenceId;
+
+      activeAnimations.forEach(a => { try { a.cancel(); } catch (e) {} });
+      activeAnimations = [];
+      if (replayBtn) replayBtn.classList.remove('visible');
+
+      const stepOrder = ['typing', 'searching', 'overview', 'focus', 'timeline'];
+      let startIndex = stepOrder.indexOf(fromStep);
+      if (startIndex < 0) startIndex = 0;
+
+      // --------------------------------------------------
+      // STAGE 1: TYPING
+      // --------------------------------------------------
+      if (startIndex <= 0) {
+        if (searchBoxWrapper) {
+          searchBoxWrapper.style.display = 'block';
+          searchBoxWrapper.style.opacity = '1';
+          searchBoxWrapper.style.transform = 'none';
+        }
+        if (summaryBox) {
+          summaryBox.style.opacity = '1';
+          summaryBox.style.transform = 'none';
+        }
+
+        setCanvasState('typing');
+        if (queryTextSpan) queryTextSpan.textContent = '';
+        if (cardListContainer) cardListContainer.style.transform = 'none';
+        await sleep(500);
+        if (!isValid()) return;
+
+        for (let i = 1; i <= QUERY_TEXT.length; i++) {
+          if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT.slice(0, i);
+          await sleep(32);
+          if (!isValid()) return;
+        }
+        await sleep(700);
+        if (!isValid()) return;
+      }
+
+      // --------------------------------------------------
+      // STAGE 2: SEARCHING (Smooth Gliding Transition)
+      // --------------------------------------------------
+      if (startIndex <= 1) {
+        if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
+        if (startIndex === 1 && !cardCanvas.classList.contains('is-typing')) {
+          setCanvasState('searching');
+        } else {
+          transitionToSearching();
+        }
+        await sleep(1100);
+        if (!isValid()) return;
+      }
+
+      // --------------------------------------------------
+      // STAGE 3: RESULTS OVERVIEW
+      // --------------------------------------------------
+      if (startIndex <= 2) {
+        if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
+
+        if (startIndex === 2 && !cardCanvas.classList.contains('is-searching')) {
+          setCanvasState('overview');
+        } else {
+          transitionToOverview();
+        }
+
+        animateNumber(statSubjectsEl, 0, TOTAL_SUBJECTS, 1400);
+        animateNumber(statArticlesEl, 0, TOTAL_ARTICLES, 1400);
+
+        if (cardListContainer && resultsViewport) {
+          const tempFirstWrap = document.createElement('div');
+          tempFirstWrap.innerHTML = createSubjectCardHTML(SUBJECTS_DATA[0], 0, true);
+          const firstCard = tempFirstWrap.firstElementChild;
+          firstCard.style.opacity = '0';
+          firstCard.style.transform = 'translateY(24px) scale(0.97)';
+          cardListContainer.innerHTML = '';
+          cardListContainer.appendChild(firstCard);
+
+          const viewportH = resultsViewport.clientHeight;
+          const firstCardH = firstCard.offsetHeight || 96;
+          const firstCardTop = firstCard.offsetTop;
+
+          let currentTranslateY = Math.round((viewportH - firstCardH) / 2 - firstCardTop);
+          cardListContainer.style.transform = `translateY(${currentTranslateY}px)`;
+
+          await sleep(100);
+          if (!isValid()) return;
+
+          const firstAnim = firstCard.animate([
+            { opacity: 0, transform: 'translateY(24px) scale(0.97)', filter: 'blur(4px)' },
+            { opacity: 0.65, offset: 0.45, filter: 'blur(1px)' },
+            { opacity: 1, transform: 'translateY(0) scale(1)', filter: 'blur(0px)' }
+          ], {
+            duration: 420,
+            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            fill: 'forwards'
+          });
+          activeAnimations.push(firstAnim);
+
+          await sleep(420);
+          if (!isValid()) return;
+
+          firstCard.style.opacity = '1';
+          firstCard.style.transform = 'none';
+
+          await sleep(380);
+          if (!isValid()) return;
+
+          for (let i = 1; i < SUBJECTS_DATA.length; i++) {
+            const tempWrap = document.createElement('div');
+            tempWrap.innerHTML = createSubjectCardHTML(SUBJECTS_DATA[i], i, false);
+            const nextCard = tempWrap.firstElementChild;
+            nextCard.style.opacity = '0';
+            nextCard.style.transform = 'translateY(28px) scale(0.97)';
+            cardListContainer.appendChild(nextCard);
+
+            const vH = resultsViewport.clientHeight;
+            const cardTopBase = firstCard.offsetTop;
+            const nextCardBottom = nextCard.offsetTop + nextCard.offsetHeight;
+            const clusterH = nextCardBottom - cardTopBase;
+            const bottomSafetyMargin = 20;
+
+            let targetTranslateY;
+            if (clusterH + bottomSafetyMargin <= vH) {
+              targetTranslateY = Math.round((vH - clusterH) / 2 - cardTopBase);
+            } else {
+              targetTranslateY = Math.round(vH - nextCardBottom - bottomSafetyMargin);
+            }
+
+            const stepDuration = 420;
+            const carouselPushEase = 'cubic-bezier(0.25, 1, 0.5, 1)';
+            const cardEntranceEase = 'cubic-bezier(0.16, 1, 0.3, 1)';
+
+            const shiftAnim = cardListContainer.animate([
+              { transform: `translateY(${currentTranslateY}px)` },
+              { transform: `translateY(${targetTranslateY}px)` }
+            ], {
+              duration: stepDuration,
+              easing: carouselPushEase,
+              fill: 'forwards'
+            });
+            activeAnimations.push(shiftAnim);
+
+            const cardEnterAnim = nextCard.animate([
+              { opacity: 0, transform: 'translateY(28px) scale(0.97)', filter: 'blur(4px)' },
+              { opacity: 1, transform: 'translateY(0) scale(1)', filter: 'blur(0px)' }
+            ], {
+              duration: stepDuration,
+              easing: cardEntranceEase,
+              fill: 'forwards'
+            });
+            activeAnimations.push(cardEnterAnim);
+
+            currentTranslateY = targetTranslateY;
+            cardListContainer.style.transform = `translateY(${currentTranslateY}px)`;
+
+            await sleep(stepDuration);
+            if (!isValid()) return;
+
+            nextCard.style.opacity = '1';
+            nextCard.style.transform = 'none';
+
+            if (i < SUBJECTS_DATA.length - 1) {
+              await sleep(380);
+              if (!isValid()) return;
+            }
+          }
+
+          await sleep(380);
+          if (!isValid()) return;
+        }
+      }
+
+      // --------------------------------------------------
+      // STAGE 4: TOP NEWS & HORIZONTAL SUBJECT TABS
+      // --------------------------------------------------
+      if (startIndex <= 3) {
+        if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
+        if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
+        if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
+
+        if (startIndex === 3 && !cardCanvas.classList.contains('has-results')) {
+          setCanvasState('focus');
+        } else {
+          await transitionOverviewToFocus(isValid, seq);
+          if (!isValid()) return;
+        }
+
+        const activePill = document.querySelector('.subject-h-pill.active');
+        const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
+        updateTopNewsCard(activeIdx);
+        renderTimelineStream(activeIdx, false);
+
+        await sleep(750);
+        if (!isValid()) return;
+      }
+
+      // --------------------------------------------------
+      // STAGE 5: TIMELINE STREAM UNFOLD UNDER TOP NEWS
+      // --------------------------------------------------
+      if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
+      if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
+      if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
+
+      setCanvasState('timeline');
+
+      const activePill = document.querySelector('.subject-h-pill.active');
+      const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
+      updateTopNewsCard(activeIdx);
+
+      await playStage5TimelineAnimation(isValid);
+      if (!isValid()) return;
+
+      // Animation complete: reveal replay button in bottom-left corner
+      if (replayBtn) replayBtn.classList.add('visible');
+    }
+
+    // ==========================================
+    // 6. INTERACTIVE CONTROLS & LISTENERS
+    // ==========================================
+    if (replayBtn) {
+      replayBtn.addEventListener('click', () => {
+        replayBtn.classList.remove('visible');
+        const pills = document.querySelectorAll('.subject-h-pill');
+        pills.forEach((p, idx) => p.classList.toggle('active', idx === 0));
+        runCycle('typing');
+      });
+    }
+
+    // Horizontal Subject Pills Interactive Switching
+    const subjectPills = document.querySelectorAll('.subject-h-pill');
+    subjectPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        if (pill.classList.contains('active')) return;
+        subjectPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        const idx = parseInt(pill.dataset.subjectIdx, 10);
+        updateTopNewsCard(idx);
+        const isTimelineActive = cardCanvas.classList.contains('is-stage5');
+        if (isTimelineActive) {
+          currentSequenceId++;
+          if (timelineScrollCleanup) {
+            timelineScrollCleanup();
+            timelineScrollCleanup = null;
+          }
+          const streamBlock = document.getElementById('timelineStreamBlock');
+          if (streamBlock) {
+            streamBlock.classList.remove('is-animating');
+            streamBlock.style.overflowY = 'auto';
+            streamBlock.style.pointerEvents = 'auto';
+            streamBlock.scrollTop = 0;
+          }
+          renderTimelineStream(idx, true);
+        } else {
+          renderTimelineStream(idx, false);
+        }
+      });
+    });
+
+    // Initial setup for Top News and Timeline stream
+    updateTopNewsCard(0);
+    renderTimelineStream(0, false);
+
+    // ==========================================
+    // 7. VIEWPORT SCROLL TRIGGER (IntersectionObserver)
+    // ==========================================
+    let hasStartedAnimation = false;
+    function startAnimationSequence() {
+      if (hasStartedAnimation) return;
+      hasStartedAnimation = true;
+      runCycle();
+    }
+
+    const triggerTarget = cardCanvas || document.getElementById('vertical-search') || document.querySelector('.vertical-search-section');
+
+    if (triggerTarget && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            startAnimationSequence();
+            obs.disconnect();
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -30px 0px'
+      });
+
+      observer.observe(triggerTarget);
+    } else {
+      startAnimationSequence();
+    }
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initVerticalSearchSubpage);
+    document.addEventListener('DOMContentLoaded', initVerticalSearch);
   } else {
-    initVerticalSearchSubpage();
+    initVerticalSearch();
   }
 })();

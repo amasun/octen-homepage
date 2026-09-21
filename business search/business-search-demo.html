@@ -1,0 +1,1252 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Business Search 控制台 · 交互 Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>/*! tailwindcss v4.1.18 | MIT License | https://tailwindcss.com */
+@layer properties{@supports (((-webkit-hyphens:none)) and (not (margin-trim:inline))) or ((-moz-orient:inline) and (not (color:rgb(from red r g b)))){*,:before,:after,::backdrop{--tw-space-y-reverse:0;--tw-border-style:solid;--tw-leading:initial;--tw-font-weight:initial;--tw-tracking:initial;--tw-ordinal:initial;--tw-slashed-zero:initial;--tw-numeric-figure:initial;--tw-numeric-spacing:initial;--tw-numeric-fraction:initial;--tw-shadow:0 0 #0000;--tw-shadow-color:initial;--tw-shadow-alpha:100%;--tw-inset-shadow:0 0 #0000;--tw-inset-shadow-color:initial;--tw-inset-shadow-alpha:100%;--tw-ring-color:initial;--tw-ring-shadow:0 0 #0000;--tw-inset-ring-color:initial;--tw-inset-ring-shadow:0 0 #0000;--tw-ring-inset:initial;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-offset-shadow:0 0 #0000;--tw-blur:initial;--tw-brightness:initial;--tw-contrast:initial;--tw-grayscale:initial;--tw-hue-rotate:initial;--tw-invert:initial;--tw-opacity:initial;--tw-saturate:initial;--tw-sepia:initial;--tw-drop-shadow:initial;--tw-drop-shadow-color:initial;--tw-drop-shadow-alpha:100%;--tw-drop-shadow-size:initial}}}@layer theme{:root,:host{--font-sans:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--font-mono:ui-monospace,SFMono-Regular,Menlo,monospace;--color-red-500:oklch(63.7% .237 25.331);--color-red-600:oklch(57.7% .245 27.325);--color-green-50:oklch(98.2% .018 155.826);--color-green-200:oklch(92.5% .084 155.995);--color-green-700:oklch(52.7% .154 150.069);--color-emerald-600:oklch(59.6% .145 163.225);--color-emerald-700:oklch(50.8% .118 165.612);--color-sky-50:oklch(97.7% .013 236.62);--color-sky-700:oklch(50% .134 242.749);--color-violet-50:oklch(96.9% .016 293.756);--color-violet-700:oklch(49.1% .27 292.581);--color-slate-50:oklch(98.4% .003 247.858);--color-slate-100:oklch(96.8% .007 247.896);--color-slate-200:oklch(92.9% .013 255.508);--color-slate-300:oklch(86.9% .022 252.894);--color-slate-400:oklch(70.4% .04 256.788);--color-slate-500:oklch(55.4% .046 257.417);--color-slate-600:oklch(44.6% .043 257.281);--color-slate-700:oklch(37.2% .044 257.287);--color-slate-800:oklch(27.9% .041 260.031);--color-slate-900:oklch(20.8% .042 265.755);--color-gray-500:oklch(55.1% .027 264.364);--color-black:#000;--color-white:#fff;--spacing:.25rem;--container-xl:36rem;--text-xs:.75rem;--text-xs--line-height:calc(1/.75);--text-sm:.875rem;--text-sm--line-height:calc(1.25/.875);--text-base:1rem;--text-base--line-height:calc(1.5/1);--text-lg:1.125rem;--text-lg--line-height:calc(1.75/1.125);--font-weight-normal:400;--font-weight-medium:500;--font-weight-semibold:600;--font-weight-bold:700;--tracking-wide:.025em;--leading-snug:1.375;--leading-relaxed:1.625;--radius-sm:.25rem;--radius-md:.375rem;--radius-lg:.5rem;--radius-xl:.75rem;--default-transition-duration:.15s;--default-transition-timing-function:cubic-bezier(.4,0,.2,1);--default-font-family:var(--font-sans);--default-mono-font-family:var(--font-mono);--text-3xs:.625rem;--text-2xs:.6875rem;--color-primary:#039855;--color-primary-lite:#00a63e}}@layer base{*,:after,:before,::backdrop{box-sizing:border-box;border:0 solid;margin:0;padding:0}::file-selector-button{box-sizing:border-box;border:0 solid;margin:0;padding:0}html,:host{-webkit-text-size-adjust:100%;tab-size:4;line-height:1.5;font-family:var(--default-font-family,ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji");font-feature-settings:var(--default-font-feature-settings,normal);font-variation-settings:var(--default-font-variation-settings,normal);-webkit-tap-highlight-color:transparent}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;-webkit-text-decoration:inherit;-webkit-text-decoration:inherit;-webkit-text-decoration:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:var(--default-mono-font-family,ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace);font-feature-settings:var(--default-mono-font-feature-settings,normal);font-variation-settings:var(--default-mono-font-variation-settings,normal);font-size:1em}small{font-size:80%}sub,sup{vertical-align:baseline;font-size:75%;line-height:0;position:relative}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}:-moz-focusring{outline:auto}progress{vertical-align:baseline}summary{display:list-item}ol,ul,menu{list-style:none}img,svg,video,canvas,audio,iframe,embed,object{vertical-align:middle;display:block}img,video{max-width:100%;height:auto}button,input,select,optgroup,textarea{font:inherit;font-feature-settings:inherit;font-variation-settings:inherit;letter-spacing:inherit;color:inherit;opacity:1;background-color:#0000;border-radius:0}::file-selector-button{font:inherit;font-feature-settings:inherit;font-variation-settings:inherit;letter-spacing:inherit;color:inherit;opacity:1;background-color:#0000;border-radius:0}:where(select:is([multiple],[size])) optgroup{font-weight:bolder}:where(select:is([multiple],[size])) optgroup option{padding-inline-start:20px}::file-selector-button{margin-inline-end:4px}::placeholder{opacity:1}@supports (not ((-webkit-appearance:-apple-pay-button))) or (contain-intrinsic-size:1px){::placeholder{color:currentColor}@supports (color:color-mix(in lab, red, red)){::placeholder{color:color-mix(in oklab,currentcolor 50%,transparent)}}}textarea{resize:vertical}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-date-and-time-value{min-height:1lh;text-align:inherit}::-webkit-datetime-edit{display:inline-flex}::-webkit-datetime-edit-fields-wrapper{padding:0}::-webkit-datetime-edit{padding-block:0}::-webkit-datetime-edit-year-field{padding-block:0}::-webkit-datetime-edit-month-field{padding-block:0}::-webkit-datetime-edit-day-field{padding-block:0}::-webkit-datetime-edit-hour-field{padding-block:0}::-webkit-datetime-edit-minute-field{padding-block:0}::-webkit-datetime-edit-second-field{padding-block:0}::-webkit-datetime-edit-millisecond-field{padding-block:0}::-webkit-datetime-edit-meridiem-field{padding-block:0}::-webkit-calendar-picker-indicator{line-height:1}:-moz-ui-invalid{box-shadow:none}button,input:where([type=button],[type=reset],[type=submit]){appearance:button}::file-selector-button{appearance:button}::-webkit-inner-spin-button{height:auto}::-webkit-outer-spin-button{height:auto}[hidden]:where(:not([hidden=until-found])){display:none!important}}@layer components;@layer utilities{.pointer-events-none{pointer-events:none}.visible{visibility:visible}.absolute{position:absolute}.fixed{position:fixed}.relative{position:relative}.inset-0{inset:calc(var(--spacing)*0)}.top-2{top:calc(var(--spacing)*2)}.top-full{top:100%}.right-0{right:calc(var(--spacing)*0)}.left-0{left:calc(var(--spacing)*0)}.left-2{left:calc(var(--spacing)*2)}.left-3{left:calc(var(--spacing)*3)}.z-20{z-index:20}.z-50{z-index:50}.-mx-3{margin-inline:calc(var(--spacing)*-3)}.mt-0\.5{margin-top:calc(var(--spacing)*.5)}.mt-1{margin-top:calc(var(--spacing)*1)}.mt-1\.5{margin-top:calc(var(--spacing)*1.5)}.mt-2{margin-top:calc(var(--spacing)*2)}.mt-3\.5{margin-top:calc(var(--spacing)*3.5)}.mt-auto{margin-top:auto}.-mb-3{margin-bottom:calc(var(--spacing)*-3)}.mb-1\.5{margin-bottom:calc(var(--spacing)*1.5)}.mb-2{margin-bottom:calc(var(--spacing)*2)}.ml-0\.5{margin-left:calc(var(--spacing)*.5)}.ml-1{margin-left:calc(var(--spacing)*1)}.ml-2{margin-left:calc(var(--spacing)*2)}.ml-auto{margin-left:auto}.line-clamp-2{-webkit-line-clamp:2;-webkit-box-orient:vertical;display:-webkit-box;overflow:hidden}.line-clamp-3{-webkit-line-clamp:3;-webkit-box-orient:vertical;display:-webkit-box;overflow:hidden}.line-clamp-4{-webkit-line-clamp:4;-webkit-box-orient:vertical;display:-webkit-box;overflow:hidden}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.inline-flex{display:inline-flex}.h-1\.5{height:calc(var(--spacing)*1.5)}.h-2{height:calc(var(--spacing)*2)}.h-3{height:calc(var(--spacing)*3)}.h-3\.5{height:calc(var(--spacing)*3.5)}.h-4{height:calc(var(--spacing)*4)}.h-5{height:calc(var(--spacing)*5)}.h-8{height:calc(var(--spacing)*8)}.h-9{height:calc(var(--spacing)*9)}.h-10{height:calc(var(--spacing)*10)}.h-11{height:calc(var(--spacing)*11)}.h-16{height:calc(var(--spacing)*16)}.h-20{height:calc(var(--spacing)*20)}.h-31{height:calc(var(--spacing)*31)}.h-34{height:calc(var(--spacing)*34)}.h-auto{height:auto}.h-full{height:100%}.h-px{height:1px}.h-screen{height:100vh}.max-h-48{max-height:calc(var(--spacing)*48)}.max-h-full{max-height:100%}.min-h-0{min-height:calc(var(--spacing)*0)}.w-2{width:calc(var(--spacing)*2)}.w-3{width:calc(var(--spacing)*3)}.w-3\.5{width:calc(var(--spacing)*3.5)}.w-4{width:calc(var(--spacing)*4)}.w-5{width:calc(var(--spacing)*5)}.w-8{width:calc(var(--spacing)*8)}.w-11{width:calc(var(--spacing)*11)}.w-20{width:calc(var(--spacing)*20)}.w-24{width:calc(var(--spacing)*24)}.w-52{width:calc(var(--spacing)*52)}.w-\[49\%\]{width:49%}.w-\[200px\]{width:200px}.w-auto{width:auto}.w-fit{width:fit-content}.w-full{width:100%}.w-px{width:1px}.max-w-80{max-width:calc(var(--spacing)*80)}.max-w-full{max-width:100%}.max-w-xl{max-width:var(--container-xl)}.min-w-0{min-width:calc(var(--spacing)*0)}.flex-1{flex:1}.flex-auto{flex:auto}.shrink-0{flex-shrink:0}.cursor-not-allowed{cursor:not-allowed}.cursor-pointer{cursor:pointer}.cursor-zoom-in{cursor:zoom-in}.resize{resize:both}.resize-none{resize:none}.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-baseline{align-items:baseline}.items-center{align-items:center}.items-start{align-items:flex-start}.justify-between{justify-content:space-between}.justify-end{justify-content:flex-end}.gap-0\.5{gap:calc(var(--spacing)*.5)}.gap-1{gap:calc(var(--spacing)*1)}.gap-1\.5{gap:calc(var(--spacing)*1.5)}.gap-2{gap:calc(var(--spacing)*2)}.gap-2\.5{gap:calc(var(--spacing)*2.5)}.gap-3{gap:calc(var(--spacing)*3)}.gap-4{gap:calc(var(--spacing)*4)}:where(.space-y-2\.5>:not(:last-child)){--tw-space-y-reverse:0;margin-block-start:calc(calc(var(--spacing)*2.5)*var(--tw-space-y-reverse));margin-block-end:calc(calc(var(--spacing)*2.5)*calc(1 - var(--tw-space-y-reverse)))}:where(.space-y-3>:not(:last-child)){--tw-space-y-reverse:0;margin-block-start:calc(calc(var(--spacing)*3)*var(--tw-space-y-reverse));margin-block-end:calc(calc(var(--spacing)*3)*calc(1 - var(--tw-space-y-reverse)))}:where(.space-y-3\.5>:not(:last-child)){--tw-space-y-reverse:0;margin-block-start:calc(calc(var(--spacing)*3.5)*var(--tw-space-y-reverse));margin-block-end:calc(calc(var(--spacing)*3.5)*calc(1 - var(--tw-space-y-reverse)))}:where(.space-y-4>:not(:last-child)){--tw-space-y-reverse:0;margin-block-start:calc(calc(var(--spacing)*4)*var(--tw-space-y-reverse));margin-block-end:calc(calc(var(--spacing)*4)*calc(1 - var(--tw-space-y-reverse)))}.gap-x-3{column-gap:calc(var(--spacing)*3)}.gap-x-4{column-gap:calc(var(--spacing)*4)}.gap-x-5{column-gap:calc(var(--spacing)*5)}.gap-y-1{row-gap:calc(var(--spacing)*1)}.gap-y-1\.5{row-gap:calc(var(--spacing)*1.5)}.gap-y-3{row-gap:calc(var(--spacing)*3)}.truncate{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.rounded{border-radius:.25rem}.rounded-full{border-radius:3.40282e38px}.rounded-lg{border-radius:var(--radius-lg)}.rounded-md{border-radius:var(--radius-md)}.rounded-sm{border-radius:var(--radius-sm)}.rounded-xl{border-radius:var(--radius-xl)}.border{border-style:var(--tw-border-style);border-width:1px}.border-b{border-bottom-style:var(--tw-border-style);border-bottom-width:1px}.border-b-2{border-bottom-style:var(--tw-border-style);border-bottom-width:2px}.border-l-4{border-left-style:var(--tw-border-style);border-left-width:4px}.border-l-\[3px\]{border-left-style:var(--tw-border-style);border-left-width:3px}.border-\[\#E7E7E7\]{border-color:#e7e7e7}.border-green-200{border-color:var(--color-green-200)}.border-primary{border-color:var(--color-primary)}.border-slate-100{border-color:var(--color-slate-100)}.border-slate-200{border-color:var(--color-slate-200)}.border-slate-300{border-color:var(--color-slate-300)}.border-transparent{border-color:#0000}.bg-\[\#f7f7f8\]{background-color:#f7f7f8}.bg-black\/20{background-color:#0003}@supports (color:color-mix(in lab, red, red)){.bg-black\/20{background-color:color-mix(in oklab,var(--color-black)20%,transparent)}}.bg-black\/40{background-color:#0006}@supports (color:color-mix(in lab, red, red)){.bg-black\/40{background-color:color-mix(in oklab,var(--color-black)40%,transparent)}}.bg-black\/70{background-color:#000000b3}@supports (color:color-mix(in lab, red, red)){.bg-black\/70{background-color:color-mix(in oklab,var(--color-black)70%,transparent)}}.bg-gray-500\/60{background-color:#6a728299}@supports (color:color-mix(in lab, red, red)){.bg-gray-500\/60{background-color:color-mix(in oklab,var(--color-gray-500)60%,transparent)}}.bg-green-50{background-color:var(--color-green-50)}.bg-primary{background-color:var(--color-primary)}.bg-primary\/40{background-color:#03985566}@supports (color:color-mix(in lab, red, red)){.bg-primary\/40{background-color:color-mix(in oklab,var(--color-primary)40%,transparent)}}.bg-sky-50{background-color:var(--color-sky-50)}.bg-slate-50{background-color:var(--color-slate-50)}.bg-slate-100{background-color:var(--color-slate-100)}.bg-slate-200{background-color:var(--color-slate-200)}.bg-slate-300{background-color:var(--color-slate-300)}.bg-slate-900{background-color:var(--color-slate-900)}.bg-slate-900\/75{background-color:#0f172bbf}@supports (color:color-mix(in lab, red, red)){.bg-slate-900\/75{background-color:color-mix(in oklab,var(--color-slate-900)75%,transparent)}}.bg-violet-50{background-color:var(--color-violet-50)}.bg-white{background-color:var(--color-white)}.stroke-1{stroke-width:1px}.object-contain{object-fit:contain}.object-cover{object-fit:cover}.p-0\.5{padding:calc(var(--spacing)*.5)}.p-1{padding:calc(var(--spacing)*1)}.p-1\.5{padding:calc(var(--spacing)*1.5)}.p-2{padding:calc(var(--spacing)*2)}.p-2\.5{padding:calc(var(--spacing)*2.5)}.p-3{padding:calc(var(--spacing)*3)}.p-4{padding:calc(var(--spacing)*4)}.p-6{padding:calc(var(--spacing)*6)}.p-8{padding:calc(var(--spacing)*8)}.px-1\.5{padding-inline:calc(var(--spacing)*1.5)}.px-2{padding-inline:calc(var(--spacing)*2)}.px-2\.5{padding-inline:calc(var(--spacing)*2.5)}.px-3{padding-inline:calc(var(--spacing)*3)}.px-4{padding-inline:calc(var(--spacing)*4)}.px-6{padding-inline:calc(var(--spacing)*6)}.py-0\.5{padding-block:calc(var(--spacing)*.5)}.py-1{padding-block:calc(var(--spacing)*1)}.py-1\.5{padding-block:calc(var(--spacing)*1.5)}.py-2{padding-block:calc(var(--spacing)*2)}.py-2\.5{padding-block:calc(var(--spacing)*2.5)}.py-12{padding-block:calc(var(--spacing)*12)}.pt-0{padding-top:calc(var(--spacing)*0)}.pt-1{padding-top:calc(var(--spacing)*1)}.pb-1\.5{padding-bottom:calc(var(--spacing)*1.5)}.pb-2\.5{padding-bottom:calc(var(--spacing)*2.5)}.pb-3{padding-bottom:calc(var(--spacing)*3)}.pl-3{padding-left:calc(var(--spacing)*3)}.pl-5{padding-left:calc(var(--spacing)*5)}.pl-\[58px\]{padding-left:58px}.text-center{text-align:center}.text-left{text-align:left}.font-mono{font-family:var(--font-mono)}.font-sans{font-family:var(--font-sans)}.text-base{font-size:var(--text-base);line-height:var(--tw-leading,var(--text-base--line-height))}.text-lg{font-size:var(--text-lg);line-height:var(--tw-leading,var(--text-lg--line-height))}.text-sm{font-size:var(--text-sm);line-height:var(--tw-leading,var(--text-sm--line-height))}.text-xs{font-size:var(--text-xs);line-height:var(--tw-leading,var(--text-xs--line-height))}.text-2xs{font-size:var(--text-2xs)}.text-3xs{font-size:var(--text-3xs)}.leading-4{--tw-leading:calc(var(--spacing)*4);line-height:calc(var(--spacing)*4)}.leading-5{--tw-leading:calc(var(--spacing)*5);line-height:calc(var(--spacing)*5)}.leading-6{--tw-leading:calc(var(--spacing)*6);line-height:calc(var(--spacing)*6)}.leading-relaxed{--tw-leading:var(--leading-relaxed);line-height:var(--leading-relaxed)}.leading-snug{--tw-leading:var(--leading-snug);line-height:var(--leading-snug)}.font-bold{--tw-font-weight:var(--font-weight-bold);font-weight:var(--font-weight-bold)}.font-medium{--tw-font-weight:var(--font-weight-medium);font-weight:var(--font-weight-medium)}.font-normal{--tw-font-weight:var(--font-weight-normal);font-weight:var(--font-weight-normal)}.font-semibold{--tw-font-weight:var(--font-weight-semibold);font-weight:var(--font-weight-semibold)}.tracking-wide{--tw-tracking:var(--tracking-wide);letter-spacing:var(--tracking-wide)}.break-all{word-break:break-all}.whitespace-pre-wrap{white-space:pre-wrap}.text-emerald-600{color:var(--color-emerald-600)}.text-green-700{color:var(--color-green-700)}.text-primary{color:var(--color-primary)}.text-primary-lite{color:var(--color-primary-lite)}.text-red-500{color:var(--color-red-500)}.text-red-600{color:var(--color-red-600)}.text-sky-700{color:var(--color-sky-700)}.text-slate-300{color:var(--color-slate-300)}.text-slate-400{color:var(--color-slate-400)}.text-slate-500{color:var(--color-slate-500)}.text-slate-600{color:var(--color-slate-600)}.text-slate-700{color:var(--color-slate-700)}.text-slate-800{color:var(--color-slate-800)}.text-slate-900{color:var(--color-slate-900)}.text-violet-700{color:var(--color-violet-700)}.text-white{color:var(--color-white)}.normal-case{text-transform:none}.uppercase{text-transform:uppercase}.tabular-nums{--tw-numeric-spacing:tabular-nums;font-variant-numeric:var(--tw-ordinal,)var(--tw-slashed-zero,)var(--tw-numeric-figure,)var(--tw-numeric-spacing,)var(--tw-numeric-fraction,)}.opacity-0{opacity:0}.shadow-lg{--tw-shadow:0 10px 15px -3px var(--tw-shadow-color,#0000001a),0 4px 6px -4px var(--tw-shadow-color,#0000001a);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 3px 0 var(--tw-shadow-color,#0000001a),0 1px 2px -1px var(--tw-shadow-color,#0000001a);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.ring-2{--tw-ring-shadow:var(--tw-ring-inset,)0 0 0 calc(2px + var(--tw-ring-offset-width))var(--tw-ring-color,currentcolor);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.ring-white{--tw-ring-color:var(--color-white)}.blur{--tw-blur:blur(8px);filter:var(--tw-blur,)var(--tw-brightness,)var(--tw-contrast,)var(--tw-grayscale,)var(--tw-hue-rotate,)var(--tw-invert,)var(--tw-saturate,)var(--tw-sepia,)var(--tw-drop-shadow,)}.filter{filter:var(--tw-blur,)var(--tw-brightness,)var(--tw-contrast,)var(--tw-grayscale,)var(--tw-hue-rotate,)var(--tw-invert,)var(--tw-saturate,)var(--tw-sepia,)var(--tw-drop-shadow,)}.transition{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to,opacity,box-shadow,transform,translate,scale,rotate,filter,-webkit-backdrop-filter,backdrop-filter,display,content-visibility,overlay,pointer-events;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.transition-all{transition-property:all;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.transition-colors{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.transition-opacity{transition-property:opacity;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.outline-none{--tw-outline-style:none;outline-style:none}@media (hover:hover){.group-hover\:opacity-100:is(:where(.group):hover *){opacity:1}.hover\:border-slate-200:hover{border-color:var(--color-slate-200)}.hover\:border-slate-300:hover{border-color:var(--color-slate-300)}.hover\:border-slate-400:hover{border-color:var(--color-slate-400)}.hover\:bg-primary\/90:hover{background-color:#039855e6}@supports (color:color-mix(in lab, red, red)){.hover\:bg-primary\/90:hover{background-color:color-mix(in oklab,var(--color-primary)90%,transparent)}}.hover\:bg-slate-50:hover{background-color:var(--color-slate-50)}.hover\:bg-slate-100:hover{background-color:var(--color-slate-100)}.hover\:bg-slate-800:hover{background-color:var(--color-slate-800)}.hover\:text-emerald-700:hover{color:var(--color-emerald-700)}.hover\:text-primary:hover{color:var(--color-primary)}.hover\:text-slate-700:hover{color:var(--color-slate-700)}.hover\:underline:hover{text-decoration-line:underline}.hover\:shadow-sm:hover{--tw-shadow:0 1px 3px 0 var(--tw-shadow-color,#0000001a),0 1px 2px -1px var(--tw-shadow-color,#0000001a);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}}.focus\:border-primary:focus{border-color:var(--color-primary)}.focus\:ring-2:focus{--tw-ring-shadow:var(--tw-ring-inset,)0 0 0 calc(2px + var(--tw-ring-offset-width))var(--tw-ring-color,currentcolor);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.focus\:ring-primary\/15:focus{--tw-ring-color:#03985526}@supports (color:color-mix(in lab, red, red)){.focus\:ring-primary\/15:focus{--tw-ring-color:color-mix(in oklab,var(--color-primary)15%,transparent)}}@media not all and (min-width:64rem){.max-lg\:grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}.max-lg\:overflow-y-auto{overflow-y:auto}}@media not all and (min-width:48rem){.max-md\:p-3{padding:calc(var(--spacing)*3)}}@media (min-width:40rem){.sm\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (min-width:64rem){.lg\:grid-cols-\[minmax\(0\,1\.05fr\)_minmax\(0\,1\.1fr\)\]{grid-template-columns:minmax(0,1.05fr) minmax(0,1.1fr)}}@media (min-width:80rem){.xl\:w-fit{width:fit-content}.xl\:flex-row{flex-direction:row}}}@property --tw-space-y-reverse{syntax:"*";inherits:false;initial-value:0}@property --tw-border-style{syntax:"*";inherits:false;initial-value:solid}@property --tw-leading{syntax:"*";inherits:false}@property --tw-font-weight{syntax:"*";inherits:false}@property --tw-tracking{syntax:"*";inherits:false}@property --tw-ordinal{syntax:"*";inherits:false}@property --tw-slashed-zero{syntax:"*";inherits:false}@property --tw-numeric-figure{syntax:"*";inherits:false}@property --tw-numeric-spacing{syntax:"*";inherits:false}@property --tw-numeric-fraction{syntax:"*";inherits:false}@property --tw-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-shadow-color{syntax:"*";inherits:false}@property --tw-shadow-alpha{syntax:"<percentage>";inherits:false;initial-value:100%}@property --tw-inset-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-inset-shadow-color{syntax:"*";inherits:false}@property --tw-inset-shadow-alpha{syntax:"<percentage>";inherits:false;initial-value:100%}@property --tw-ring-color{syntax:"*";inherits:false}@property --tw-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-inset-ring-color{syntax:"*";inherits:false}@property --tw-inset-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-ring-inset{syntax:"*";inherits:false}@property --tw-ring-offset-width{syntax:"<length>";inherits:false;initial-value:0}@property --tw-ring-offset-color{syntax:"*";inherits:false;initial-value:#fff}@property --tw-ring-offset-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-blur{syntax:"*";inherits:false}@property --tw-brightness{syntax:"*";inherits:false}@property --tw-contrast{syntax:"*";inherits:false}@property --tw-grayscale{syntax:"*";inherits:false}@property --tw-hue-rotate{syntax:"*";inherits:false}@property --tw-invert{syntax:"*";inherits:false}@property --tw-opacity{syntax:"*";inherits:false}@property --tw-saturate{syntax:"*";inherits:false}@property --tw-sepia{syntax:"*";inherits:false}@property --tw-drop-shadow{syntax:"*";inherits:false}@property --tw-drop-shadow-color{syntax:"*";inherits:false}@property --tw-drop-shadow-alpha{syntax:"<percentage>";inherits:false;initial-value:100%}@property --tw-drop-shadow-size{syntax:"*";inherits:false}</style>
+<style>
+  body { font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  .flex-center { display: flex; align-items: center; justify-content: center; }
+  .platform-wrapper { width: 100%; height: 100%; background: #fff; border-radius: .5rem; border: 1px solid #E7E7E7; overflow-y: auto; }
+  /* 滚动条压细一点，跟控制台里一致 */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body class="bg-[#f7f7f8] text-slate-900 text-sm">
+
+<div class="h-screen flex flex-col">
+  <!-- 顶栏：只是给 demo 一个交代，正式控制台这里是侧边导航 -->
+  <header class="shrink-0 flex items-center gap-3 px-4 py-2 bg-white border-b border-[#E7E7E7]">
+    <span class="font-sans font-semibold text-slate-800">Business Search</span>
+    <span class="text-2xs text-slate-400">控制台交互 Demo · 假数据 · 不连后端</span>
+    <button id="help-btn" class="ml-auto text-2xs text-primary-lite hover:text-primary hover:underline">这个 demo 是什么？</button>
+  </header>
+
+  <div class="min-h-0 flex-1 grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1.1fr)] gap-2 p-2.5 max-md:p-3 max-lg:grid-cols-1 max-lg:overflow-y-auto">
+    <!-- ══════════ 左：Configuration ══════════ -->
+    <div class="platform-wrapper p-4 space-y-4" id="config-panel"></div>
+    <!-- ══════════ 右：Request / Response ══════════ -->
+    <div class="platform-wrapper flex flex-col overflow-hidden" id="response-panel"></div>
+  </div>
+</div>
+
+<!-- 图片放大 -->
+<div id="lightbox" class="fixed inset-0 z-50 bg-black/70 flex-center p-8" hidden>
+  <img id="lightbox-img" class="max-h-full max-w-full rounded" alt="">
+</div>
+
+<!-- 说明 -->
+<div id="help" class="fixed inset-0 z-50 bg-black/40 flex-center p-6" hidden>
+  <div class="max-w-xl bg-white rounded-xl p-6 space-y-3 text-sm leading-relaxed text-slate-700">
+    <h2 class="font-sans text-base font-semibold text-slate-900">这个 demo 是什么</h2>
+    <p>Octen 控制台 <span class="font-medium">Business Search</span> 这一页的交互复刻。单个 HTML，双击就开，不用装任何东西，也不请求任何接口 —— 数据是假的，从本地 mock 层导出来的原样 JSON。样式已经编进文件里了，断网也不花；只有 DM Sans 走 Google Fonts，拿不到就退回系统字体。</p>
+    <p><span class="font-medium">这个端点返回什么：</span>右边 <span class="font-medium">Entities</span> 是解析出来的公司 / 人物档案 —— 摘要、硬属性、指标、关键人物、履历；<span class="font-medium">Results</span> 是普通的文本结果，每条带 authority（来源是不是官网 / IR 这类一手材料）。实体是从 query 里认出来的，不是照 Count 硬凑的：查一句跟本地语料无关的话，Results 照样有，Entities 就是空的。</p>
+    <p><span class="font-medium">公司卡上的股价：</span>灰底那块里横过一整行，跟下面的营收估值用一条细线隔开 —— 它是整张卡上唯一跟着收盘价走的数，混进那些季度快照里会被当成又一个季度数。右边那条轨道是 52 周区间，当前价按比例钉在上面，不用自己拿三个数做减法就能看出现在贴着哪头。</p>
+    <p><span class="font-medium">Activities 和 News 为什么长得不一样：</span>Activities 是这家公司自己发出来的事（财报、公告、任命），一条接一条，所以画成时间线；News 是各家媒体各写各的，先后不构成因果，就退回朴素列表每条自带时间。两段都是网页条目，画成一样只会让人以为重复了一遍。</p>
+    <p><span class="font-medium">能点的：</span>改 query 再 Run、Return entities 开关、Count / Max Activities、Count（结果条数）、Time Basis、Language、Highlights / Content 两个开关、结果页签、Show more、折叠展开、图片放大、JSON / Preview 切换、Request 页签里的三种代码。</p>
+    <p><span class="font-medium">不能点的：</span>Date Range 的日历、点赞点踩。这两个在正式控制台里是好的，demo 里为了单文件省掉了。</p>
+    <p class="text-2xs text-slate-500">正式实现在 <span class="font-mono">apps/web/src/app/platform/business-search/</span>。这个 demo 是照着重写的一份，不是同一套代码。</p>
+    <button id="help-close" class="w-full mt-2 h-9 rounded-lg bg-slate-900 text-white text-sm font-medium hover:bg-slate-800">知道了</button>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════
+   数据：从本地 mock（src/mocks/gateway-fixtures.ts）导出的最大响应，下面按配置
+   切片，切法跟 mock 里那段一模一样。
+   占位图压成了 {$ph:[label,bg,w,h]}，用同一个模板还原。
+   ════════════════════════════════════════════════════════════════════ */
+
+const RAW = {"code":0,"msg":"success","data":{"query":"Coupang 近况与经营指标","results":[{"title":"Coupang Announces Results for Second Quarter 2026","url":"https://ir.example-aboutcoupang.com/news/2026/q2-results","highlight":"Total net revenues were $8.9 billion, up 4% year-over-year, or 10% on a constant currency basis. Product Commerce revenue grew 6%, while Developing Offerings more than doubled.","full_content":"Coupang Announces Results for Second Quarter 2026\n\nTotal net revenues were $8.9 billion, up 4% year-over-year, or 10% on a constant currency basis. Product Commerce revenue grew 6%, while Developing Offerings more than doubled.\n\n（正文来自 src/mocks/gateway-fixtures.ts 的本地 mock，这个 checkout 没有后端。）","authority":"high","authors":"Coupang IR","time_published":"2026-09-10T23:58:07.191Z","time_last_crawled":"2026-09-11T11:58:07.191Z","favicon":{"$ph":["·","#2f6f4f",32,32]},"cover_image":{"url":{"$ph":["Q2 2026 · Investor Relations","#2f6f4f",640,400]},"description":"Q2 2026 · Investor Relations"},"images":[{"url":{"$ph":["Revenue by segment","#3d5a80",640,400]},"description":"Revenue by segment"}]},{"title":"Coupang (CPNG) Q2 2026 Earnings Call Transcript","url":"https://www.example-fool.com/earnings/coupang-cpng-q2-2026-transcript","highlight":"Bom Kim: \"The vast majority of our customer spend never moved.\" 剔除数据事件后未回流的那部分客户，整体客户消费同比仍增长约 16%。","full_content":"Coupang (CPNG) Q2 2026 Earnings Call Transcript\n\nBom Kim: \"The vast majority of our customer spend never moved.\" 剔除数据事件后未回流的那部分客户，整体客户消费同比仍增长约 16%。\n\n（正文来自 src/mocks/gateway-fixtures.ts 的本地 mock，这个 checkout 没有后端。）","authority":"standard","authors":"Motley Fool Transcribing","time_published":"2026-09-11T03:58:07.191Z","time_last_crawled":"2026-09-11T15:58:07.191Z","favicon":{"$ph":["·","#2f6f4f",32,32]},"cover_image":{"url":"","description":""},"images":[]},{"title":"Coupang expands Rocket Delivery to two more provinces","url":"https://www.example-koreaherald.com/business/20260901/rocket-delivery-expansion","highlight":"新增的两个道意味着次日达覆盖到全国约 92% 的人口。公司称本轮扩张的履约中心投资已在上一财年计提。","full_content":"Coupang expands Rocket Delivery to two more provinces\n\n新增的两个道意味着次日达覆盖到全国约 92% 的人口。公司称本轮扩张的履约中心投资已在上一财年计提。\n\n（正文来自 src/mocks/gateway-fixtures.ts 的本地 mock，这个 checkout 没有后端。）","authority":"high","authors":"","time_published":"2026-09-04T15:58:07.191Z","time_last_crawled":"2026-09-05T03:58:07.191Z","favicon":{"$ph":["·","#2f6f4f",32,32]},"cover_image":{"url":{"$ph":["履约中心 · 大邱","#2f6f4f",640,400]},"description":"履约中心 · 大邱"},"images":[{"url":{"$ph":["Coverage map","#3d5a80",640,400]},"description":"Coverage map"}]},{"title":"쿠팡플레이, 스포츠 중계 확대…OTT 경쟁 격화","url":"https://www.example-mk.co.kr/news/business/20260828/coupang-play-sports","highlight":"쿠팡플레이가 해외 축구 중계권을 추가로 확보하면서 국내 OTT 시장의 경쟁이 한층 치열해지고 있다.","full_content":"쿠팡플레이, 스포츠 중계 확대…OTT 경쟁 격화\n\n쿠팡플레이가 해외 축구 중계권을 추가로 확보하면서 국내 OTT 시장의 경쟁이 한층 치열해지고 있다.\n\n（正文来自 src/mocks/gateway-fixtures.ts 的本地 mock，这个 checkout 没有后端。）","authority":"standard","authors":"매일경제","time_published":"2026-08-30T15:58:07.191Z","time_last_crawled":"2026-08-31T03:58:07.191Z","favicon":{"$ph":["·","#2f6f4f",32,32]},"cover_image":{"url":"","description":""},"images":[]},{"title":"Analysts split on Coupang's margin path after Q2","url":"https://www.example-barrons.com/articles/coupang-margin-outlook-2026","highlight":"Bulls point to Developing Offerings turning contribution-positive a quarter early; bears note that fulfillment capex has not peaked.","full_content":"Analysts split on Coupang's margin path after Q2\n\nBulls point to Developing Offerings turning contribution-positive a quarter early; bears note that fulfillment capex has not peaked.\n\n（正文来自 src/mocks/gateway-fixtures.ts 的本地 mock，这个 checkout 没有后端。）","authority":"standard","authors":"","time_published":"2026-09-11T11:58:07.191Z","time_last_crawled":"2026-09-11T23:58:07.191Z","favicon":{"$ph":["·","#2f6f4f",32,32]},"cover_image":{"url":"","description":""},"images":[]},{"title":"Coupang names new head of Fulfillment Technology","url":"https://www.example-biz.com/people/20260905/coupang-fulfillment-tech-lead","highlight":"新任负责人将直接向 CEO 汇报，统管自动化分拣与最后一公里调度两条线。","full_content":"Coupang names new head of Fulfillment Technology\n\n新任负责人将直接向 CEO 汇报，统管自动化分拣与最后一公里调度两条线。\n\n（正文来自 src/mocks/gateway-fixtures.ts 的本地 mock，这个 checkout 没有后端。）","authority":"high","authors":"","time_published":"2026-09-11T23:58:07.191Z","time_last_crawled":"2026-09-12T11:58:07.191Z","favicon":{"$ph":["·","#2f6f4f",32,32]},"cover_image":{"url":"","description":""},"images":[]}],"entities":[{"type":"company","name":"Coupang, Inc.","summary":"韩国最大电商平台之一，2010 年创立，NYSE 上市，主营电商、物流履约与 OTT 业务。自建的 Rocket Delivery 网络覆盖全国大部分人口，近年把增量押在广告、外卖与海外市场这几项 Developing Offerings 上。","aliases":["쿠팡","Coupang"],"identifiers":{"website":"aboutcoupang.com","linkedin_url":"https://www.linkedin.com/company/coupang","stock_ticker":"NYSE:CPNG","sec_cik":"0001834584"},"attributes":{"industry":"E-commerce","hq_country":"US","founded_year":2010,"employee_range":"10,001+"},"metrics":{"financials":{"revenue":8900000000,"net_income":-570000000,"currency":"USD","period":"2026Q2"},"stock":{"price":14.29,"todays_change_percent":-1.18,"week_52_high":34.08,"week_52_low":14.15,"date":"2026-09-18","currency":"USD"},"funding":{"valuation":9000000000,"round":"Series F","amount":2000000000,"date":"2018-11-20","total_funding":3400000000,"currency":"USD"},"web_traffic":{"visits_monthly":288090220,"rank":5,"period":"2026-07"}},"key_people":[{"name":"Bom Kim","title":"Founder & CEO"},{"name":"Gaurav Anand","title":"CFO"}],"logo":{"url":{"$ph":["CP","#c9252d",160,160]}},"activities":[{"title":"Coupang names new head of Fulfillment Technology","url":"https://www.example-biz.com/people/20260905/coupang-fulfillment-tech-lead","highlight":"新任负责人将直接向 CEO 汇报，统管自动化分拣与最后一公里调度两条线。","full_content":"Coupang names new head of Fulfillment Technology\n\n新任负责人将直接向 CEO 汇报，统管自动化分拣与最后一公里调度两条线。\n\n（正文来自 src/mocks/gateway-fixtures.ts 的本地 mock，这个 checkout 没有后端。）","authority":"high","authors":"","time_published":"2026-09-11T23:58:07.191Z","time_last_crawled":"2026-09-12T11:58:07.191Z","favicon":{"$ph":["·","#2f6f4f",32,32]},"cover_image":{"url":"","description":""},"images":[]},{"title":"Coupang Announces Results for Second Quarter 2026","url":"https://ir.example-aboutcoupang.com/news/2026/q2-results","highlight":"Total net revenues were $8.9 billion, up 4% year-over-year, or 10% on a constant currency basis. Product Commerce revenue grew 6%, while Developing Offerings more than doubled.","full_content":"Coupang Announces Results for Second Quarter 2026\n\nTotal net revenues were $8.9 billion, up 4% year-over-year, or 10% on a constant currency basis. Product Commerce revenue grew 6%, while Developing Offerings more than doubled.\n\n（正文来自 src/mocks/gateway-fixtures.ts 的本地 mock，这个 checkout 没有后端。）","authority":"high","authors":"Coupang IR","time_published":"2026-09-10T23:58:07.191Z","time_last_crawled":"2026-09-11T11:58:07.191Z","favicon":{"$ph":["·","#2f6f4f",32,32]},"cover_image":{"url":{"$ph":["Q2 2026 · Investor Relations","#2f6f4f",640,400]},"description":"Q2 2026 · Investor Relations"},"images":[{"url":{"$ph":["Revenue by segment","#3d5a80",640,400]},"description":"Revenue by segment"}]},{"title":"Coupang expands Rocket Delivery to two more provinces","url":"https://www.example-koreaherald.com/business/20260901/rocket-delivery-expansion","highlight":"新增的两个道意味着次日达覆盖到全国约 92% 的人口。公司称本轮扩张的履约中心投资已在上一财年计提。","full_content":"Coupang expands Rocket Delivery to two more provinces\n\n新增的两个道意味着次日达覆盖到全国约 92% 的人口。公司称本轮扩张的履约中心投资已在上一财年计提。\n\n（正文来自 src/mocks/gateway-fixtures.ts 的本地 mock，这个 checkout 没有后端。）","authority":"high","authors":"","time_published":"2026-09-04T15:58:07.191Z","time_last_crawled":"2026-09-05T03:58:07.191Z","favicon":{"$ph":["·","#2f6f4f",32,32]},"cover_image":{"url":{"$ph":["履约中心 · 大邱","#2f6f4f",640,400]},"description":"履约中心 · 大邱"},"images":[{"url":{"$ph":["Coverage map","#3d5a80",640,400]},"description":"Coverage map"}]}],"news":[{"title":"Analysts split on Coupang's margin path after Q2","url":"https://www.example-barrons.com/articles/coupang-margin-outlook-2026","highlight":"Bulls point to Developing Offerings turning contribution-positive a quarter early; bears note that fulfillment capex has not peaked.","full_content":"Analysts split on Coupang's margin path after Q2\n\nBulls point to Developing Offerings turning contribution-positive a quarter early; bears note that fulfillment capex has not peaked.\n\n（正文来自 src/mocks/gateway-fixtures.ts 的本地 mock，这个 checkout 没有后端。）","authority":"standard","authors":"","time_published":"2026-09-11T11:58:07.191Z","time_last_crawled":"2026-09-11T23:58:07.191Z","favicon":{"$ph":["·","#2f6f4f",32,32]},"cover_image":{"url":"","description":""},"images":[]},{"title":"Coupang (CPNG) Q2 2026 Earnings Call Transcript","url":"https://www.example-fool.com/earnings/coupang-cpng-q2-2026-transcript","highlight":"Bom Kim: \"The vast majority of our customer spend never moved.\" 剔除数据事件后未回流的那部分客户，整体客户消费同比仍增长约 16%。","full_content":"Coupang (CPNG) Q2 2026 Earnings Call Transcript\n\nBom Kim: \"The vast majority of our customer spend never moved.\" 剔除数据事件后未回流的那部分客户，整体客户消费同比仍增长约 16%。\n\n（正文来自 src/mocks/gateway-fixtures.ts 的本地 mock，这个 checkout 没有后端。）","authority":"standard","authors":"Motley Fool Transcribing","time_published":"2026-09-11T03:58:07.191Z","time_last_crawled":"2026-09-11T15:58:07.191Z","favicon":{"$ph":["·","#2f6f4f",32,32]},"cover_image":{"url":"","description":""},"images":[]},{"title":"쿠팡플레이, 스포츠 중계 확대…OTT 경쟁 격화","url":"https://www.example-mk.co.kr/news/business/20260828/coupang-play-sports","highlight":"쿠팡플레이가 해외 축구 중계권을 추가로 확보하면서 국내 OTT 시장의 경쟁이 한층 치열해지고 있다.","full_content":"쿠팡플레이, 스포츠 중계 확대…OTT 경쟁 격화\n\n쿠팡플레이가 해외 축구 중계권을 추가로 확보하면서 국내 OTT 시장의 경쟁이 한층 치열해지고 있다.\n\n（正文来自 src/mocks/gateway-fixtures.ts 的本地 mock，这个 checkout 没有后端。）","authority":"standard","authors":"매일경제","time_published":"2026-08-30T15:58:07.191Z","time_last_crawled":"2026-08-31T03:58:07.191Z","favicon":{"$ph":["·","#2f6f4f",32,32]},"cover_image":{"url":"","description":""},"images":[]}]},{"type":"person","name":"Bom Kim","summary":"Coupang 创始人兼 CEO，2010 年创立 Coupang；此前联合创办杂志《02138》，2008 年停刊。哈佛大学毕业，曾短暂就读哈佛商学院后退学创业。","linkedin_url":"https://www.linkedin.com/in/bom-kim","current_position":{"title":"Founder & CEO","organization":"Coupang, Inc."},"career":[{"organization":"Coupang, Inc.","title":"Founder & CEO","start":"2010","end":null},{"organization":"02138 Magazine","title":"Co-founder","start":"2006","end":"2008"},{"organization":"The Boston Consulting Group","title":"Associate","start":"2005","end":"2006"}],"photo":{"url":{"$ph":["BK","#3d5a80",160,160]}},"activities":[{"title":"Coupang (CPNG) Q2 2026 Earnings Call Transcript","url":"https://www.example-fool.com/earnings/coupang-cpng-q2-2026-transcript","highlight":"Bom Kim: \"The vast majority of our customer spend never moved.\" 剔除数据事件后未回流的那部分客户，整体客户消费同比仍增长约 16%。","full_content":"Coupang (CPNG) Q2 2026 Earnings Call Transcript\n\nBom Kim: \"The vast majority of our customer spend never moved.\" 剔除数据事件后未回流的那部分客户，整体客户消费同比仍增长约 16%。\n\n（正文来自 src/mocks/gateway-fixtures.ts 的本地 mock，这个 checkout 没有后端。）","authority":"standard","authors":"Motley Fool Transcribing","time_published":"2026-09-11T03:58:07.191Z","time_last_crawled":"2026-09-11T15:58:07.191Z","favicon":{"$ph":["·","#2f6f4f",32,32]},"cover_image":{"url":"","description":""},"images":[]},{"title":"쿠팡플레이, 스포츠 중계 확대…OTT 경쟁 격화","url":"https://www.example-mk.co.kr/news/business/20260828/coupang-play-sports","highlight":"쿠팡플레이가 해외 축구 중계권을 추가로 확보하면서 국내 OTT 시장의 경쟁이 한층 치열해지고 있다.","full_content":"쿠팡플레이, 스포츠 중계 확대…OTT 경쟁 격화\n\n쿠팡플레이가 해외 축구 중계권을 추가로 확보하면서 국내 OTT 시장의 경쟁이 한층 치열해지고 있다.\n\n（正文来自 src/mocks/gateway-fixtures.ts 的本地 mock，这个 checkout 没有后端。）","authority":"standard","authors":"매일경제","time_published":"2026-08-30T15:58:07.191Z","time_last_crawled":"2026-08-31T03:58:07.191Z","favicon":{"$ph":["·","#2f6f4f",32,32]},"cover_image":{"url":"","description":""},"images":[]}],"news":[{"title":"Analysts split on Coupang's margin path after Q2","url":"https://www.example-barrons.com/articles/coupang-margin-outlook-2026","highlight":"Bulls point to Developing Offerings turning contribution-positive a quarter early; bears note that fulfillment capex has not peaked.","full_content":"Analysts split on Coupang's margin path after Q2\n\nBulls point to Developing Offerings turning contribution-positive a quarter early; bears note that fulfillment capex has not peaked.\n\n（正文来自 src/mocks/gateway-fixtures.ts 的本地 mock，这个 checkout 没有后端。）","authority":"standard","authors":"","time_published":"2026-09-11T11:58:07.191Z","time_last_crawled":"2026-09-11T23:58:07.191Z","favicon":{"$ph":["·","#2f6f4f",32,32]},"cover_image":{"url":"","description":""},"images":[]},{"title":"Coupang Announces Results for Second Quarter 2026","url":"https://ir.example-aboutcoupang.com/news/2026/q2-results","highlight":"Total net revenues were $8.9 billion, up 4% year-over-year, or 10% on a constant currency basis. Product Commerce revenue grew 6%, while Developing Offerings more than doubled.","full_content":"Coupang Announces Results for Second Quarter 2026\n\nTotal net revenues were $8.9 billion, up 4% year-over-year, or 10% on a constant currency basis. Product Commerce revenue grew 6%, while Developing Offerings more than doubled.\n\n（正文来自 src/mocks/gateway-fixtures.ts 的本地 mock，这个 checkout 没有后端。）","authority":"high","authors":"Coupang IR","time_published":"2026-09-10T23:58:07.191Z","time_last_crawled":"2026-09-11T11:58:07.191Z","favicon":{"$ph":["·","#2f6f4f",32,32]},"cover_image":{"url":{"$ph":["Q2 2026 · Investor Relations","#2f6f4f",640,400]},"description":"Q2 2026 · Investor Relations"},"images":[{"url":{"$ph":["Revenue by segment","#3d5a80",640,400]},"description":"Revenue by segment"}]}]}]},"meta":{"usage":{"num_search_queries":1,"full_content_extra_count":1},"latency":180,"warning":""}};
+function ph(label, bg, w, h) {
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">' +
+    '<rect width="' + w + '" height="' + h + '" fill="' + bg + '"/>' +
+    '<text x="50%" y="50%" fill="#ffffff" font-family="system-ui,sans-serif" font-size="28" text-anchor="middle" dominant-baseline="middle">' + label + '</text></svg>';
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+}
+function hydrate(o) {
+  if (Array.isArray(o)) return o.map(hydrate);
+  if (o && typeof o === 'object') {
+    if (Array.isArray(o.$ph)) return ph.apply(null, o.$ph);
+    const r = {};
+    for (const k in o) r[k] = hydrate(o[k]);
+    return r;
+  }
+  return o;
+}
+const BIZ = hydrate(RAW);
+
+/** 本地语料只认识这一家公司和这一个人。沾不到就返回空 entities —— 跟 mock 同一份表 */
+const BUSINESS_TOPICS = ['coupang','쿠팡','cpng','bom kim','bom suk kim','김범석','酷澎',
+  '韩国','电商','ecommerce','e-commerce','commerce','retail','korea','korean',
+  'logistics','rocket delivery'];
+
+/** 取自 PRD 的典型 query：一句话概览、只要指标、只要人、几家横向比 */
+const QUERY_EXAMPLES = [
+  'Coupang 近况与经营指标',
+  'Coupang company overview financials',
+  'Bom Kim background career',
+  'Compare the ARR of Databricks, MongoDB, Snowflake',
+];
+
+const API_URL = 'https://api.octen.ai/business-search';
+const MASKED_KEY = 'sk-octen-0••••••••••••••••••3f7a';
+
+const LANGUAGES = [
+  { value: 'zh', label: 'Chinese' }, { value: 'en', label: 'English' },
+  { value: 'ja', label: 'Japanese' }, { value: 'ko', label: 'Korean' },
+];
+
+/* ════════════════════════ 状态 ════════════════════════ */
+const DEFAULTS = {
+  count: 5, timeBasis: 'auto', language: [],
+  includeDomains: '', excludeDomains: '',
+  highlightEnabled: true, highlightMaxTokens: 512,
+  fullContentEnabled: false, fullContentMaxTokens: 2048,
+  entitiesEnabled: true, entitiesCount: 2, entitiesMaxActivities: 5, entitiesMaxNews: 5,
+};
+
+let cfg = Object.assign({}, DEFAULTS);
+let query = 'Coupang 近况与经营指标';
+let resp = null;
+let langOpen = false;
+let queryFocused = false;
+const ui = { outer: 'response', code: 'python', view: 'preview', tab: 'entities', tl: {}, txt: {}, img: {}, copied: false };
+
+/* ════════════════════════ 工具 ════════════════════════ */
+const p2 = (n) => String(n).padStart(2, '0');
+function parts(iso) {
+  if (!iso) return null;
+  const d = new Date(iso);
+  return isNaN(d.getTime()) ? null : d;
+}
+function fmtDateTime(iso) { const d = parts(iso); return d && d.getFullYear() + '/' + p2(d.getMonth() + 1) + '/' + p2(d.getDate()) + ' ' + p2(d.getHours()) + ':' + p2(d.getMinutes()) + ':' + p2(d.getSeconds()); }
+function fmtDate(iso)     { const d = parts(iso); return d && d.getFullYear() + '/' + p2(d.getMonth() + 1) + '/' + p2(d.getDate()); }
+function fmtTime(iso)     { const d = parts(iso); return d && p2(d.getHours()) + ':' + p2(d.getMinutes()) + ':' + p2(d.getSeconds()); }
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function hostname(url) { try { return new URL(url).hostname.replace(/^www\./, ''); } catch (e) { return ''; } }
+function cn() { return [].slice.call(arguments).filter(Boolean).join(' '); }
+
+/* 图标：lucide 的路径，size 用 class 控制 */
+function icon(paths, cls) {
+  return '<svg class="' + (cls || 'w-4 h-4') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + paths + '</svg>';
+}
+const I = {
+  chevronDown: 'm6 9 6 6 6-6',
+  chevronUp: 'm18 15-6-6-6 6',
+  idCard: '<path d="M16 10h2"/><path d="M16 14h2"/><path d="M6.17 15a3 3 0 0 1 5.66 0"/><circle cx="9" cy="11" r="2"/><rect x="2" y="5" width="20" height="14" rx="2"/>',
+  newspaper: '<path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>',
+  searchX: '<path d="m13.5 8.5-5 5"/><path d="m8.5 8.5 5 5"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  play: '<polygon points="6 3 20 12 6 21 6 3" fill="currentColor" stroke="none"/>',
+  rotate: '<path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/>',
+  info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+  docs: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+  copy: '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>',
+  up: '<path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/>',
+  down: '<path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/>',
+  calendar: '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',
+  search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  building: '<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
+  user: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  globe: '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+  linkedin: '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/>',
+  trending: '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+  file: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+  briefcase: '<path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/>',
+};
+const ico = (k, cls) => icon(I[k].indexOf('<') === 0 ? I[k] : '<path d="' + I[k] + '"/>', cls);
+
+/* ════════════════════════ 请求体 / 响应 ════════════════════════
+   跟 response-panel/index.tsx 的 buildRequestBody、
+   mocks/gateway-fixtures.ts 的 businessSearch 一一对应
+   ════════════════════════════════════════════════════════════════ */
+function parseLines(s) { return String(s || '').split('\n').map((x) => x.trim()).filter(Boolean); }
+
+function buildRequestBody(q, c) {
+  const req = {
+    query: q,
+    count: c.count,
+    time_basis: c.timeBasis,
+    highlight: Object.assign({ enable: c.highlightEnabled }, c.highlightEnabled ? { max_tokens: c.highlightMaxTokens } : {}),
+    full_content: Object.assign({ enable: c.fullContentEnabled }, c.fullContentEnabled ? { max_tokens: c.fullContentMaxTokens } : {}),
+    // 关掉实体卡时只发 enable:false，不带 count / 两个上限 —— 左边看到的代码示例
+    // 得跟真正发出去的那份一模一样，摆几个不起作用的参数会让人以为还能调
+    entities: Object.assign({ enable: c.entitiesEnabled },
+      c.entitiesEnabled ? { count: c.entitiesCount, max_activities: c.entitiesMaxActivities, max_news: c.entitiesMaxNews } : {}),
+  };
+  if (c.language.length) req.language = c.language;
+  const inc = parseLines(c.includeDomains); if (inc.length) req.include_domains = inc;
+  const exc = parseLines(c.excludeDomains); if (exc.length) req.exclude_domains = exc;
+  return req;
+}
+
+function buildResponse(q, c) {
+  const strip = (item) => {
+    const o = Object.assign({}, item);
+    if (!c.highlightEnabled) o.highlight = '';
+    if (!c.fullContentEnabled) o.full_content = '';
+    return o;
+  };
+  const results = BIZ.data.results.slice(0, c.count).map(strip);
+
+  // 实体是解析出来的，不是照 count 硬凑的：查跟本地语料无关的词，results 照样有，
+  // entities 就该是空数组 —— 「No entity resolved」那一屏靠这条路径才走得到
+  const onTopic = BUSINESS_TOPICS.some((t) => q.toLowerCase().indexOf(t) !== -1);
+
+  // 两段各认各的上限，互不影响 —— 只想多看几条报道时不该被迫连动态一起放宽
+  const entities = c.entitiesEnabled
+    ? (onTopic ? BIZ.data.entities : []).slice(0, c.entitiesCount).map(function (e) {
+        return Object.assign({}, e, {
+          activities: (e.activities || []).slice(0, c.entitiesMaxActivities).map(strip),
+          news: (e.news || []).slice(0, c.entitiesMaxNews).map(strip),
+        });
+      })
+    : undefined;
+
+  const usage = {
+    num_search_queries: 1,
+    full_content_extra_count: c.fullContentEnabled ? Math.max(0, results.length - 5) : 0,
+  };
+
+  const out = {
+    code: 0, msg: 'success',
+    request_id: 'req_' + Math.random().toString(36).slice(2, 12),
+    data: { query: q, results: results },
+    meta: { usage: usage, latency: 180, warning: '' },
+  };
+  if (entities) out.data.entities = entities;
+  return out;
+}
+
+/* ════════════════════════ 代码片段（照 code.ts） ════════════════════════ */
+function toPython(body) {
+  return 'import requests\nimport json\n\nurl = "' + API_URL + '"\nheaders = {\n    "X-Api-Key": "' + MASKED_KEY +
+    '",\n    "Content-Type": "application/json",\n}\n\npayload = ' +
+    JSON.stringify(body, null, 2).replace(/true/g, 'True').replace(/false/g, 'False') +
+    '\n\nresponse = requests.post(url, headers=headers, json=payload)\ndata = response.json()\nprint(json.dumps(data, indent=2))';
+}
+function toJavaScript(body) {
+  return 'const response = await fetch("' + API_URL + '", {\n  method: "POST",\n  headers: {\n    "X-Api-Key": "' +
+    MASKED_KEY + '",\n    "Content-Type": "application/json",\n  },\n  body: JSON.stringify(' +
+    JSON.stringify(body, null, 2).replace(/\n/g, '\n  ') + '),\n});\n\nconst data = await response.json();';
+}
+function toCurl(body) {
+  return 'curl ' + API_URL + ' \\\n  -X POST \\\n  -H \'X-Api-Key: ' + MASKED_KEY +
+    '\' \\\n  -H \'Content-Type: application/json\' \\\n  -d \'' + JSON.stringify(body, null, 2) + '\'';
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   Preview 里的组件。跟仓库里的文件一一对应，注释也照搬，方便对着看：
+     newsLink         → components/news-link.tsx
+     expandable       → components/expandable-text.tsx
+     imageStrip       → components/image-strip.tsx
+     activityTimeline → components/timeline.tsx（activities / news 共用）
+     entityHeader     → components/entity-header.tsx
+     entityMeta       → components/entity-meta.tsx
+     companyMetrics   → components/company-metrics.tsx
+     companyCard      → components/company-card.tsx
+     careerRail       → components/career-rail.tsx
+     personCard       → components/person-card.tsx
+     entityCard       → components/entity-card.tsx（按 type 分发）
+     newsCard         → components/news-card.tsx
+     resultTabs       → components/result-tabs.tsx
+     resultList       → result-list.tsx
+   ════════════════════════════════════════════════════════════════════ */
+
+/**
+ * 折叠长文本。只有真的溢出时才出现 Show more —— 靠 scrollHeight/clientHeight
+ * 实测，不按字数猜，中英文混排下字数阈值很不准。测量在 render 之后统一做。
+ */
+function expandable(key, text, clampLines, cls) {
+  const open = !!ui.txt[key];
+  const clamp = { 2: 'line-clamp-2', 3: 'line-clamp-3', 4: 'line-clamp-4' }[clampLines || 3];
+  return '<div class="xt" data-xt-box="' + key + '">' +
+      '<p class="' + cn('whitespace-pre-wrap overflow-hidden', !open && clamp, cls) + '">' + esc(text) + '</p>' +
+      '<button data-xt="' + key + '" class="flex items-center gap-1 mt-1 text-primary-lite hover:text-primary"' + (open ? '' : ' hidden') + '>' +
+        (open ? ico('chevronUp', 'w-3.5 h-3.5') + 'Show less' : ico('chevronDown', 'w-3.5 h-3.5') + 'Show more') +
+      '</button>' +
+    '</div>';
+}
+
+/**
+ * 实体卡时间线里的一条网页（Activities 与 News 共用）。
+ * 这里不写时间 —— 两段都在时间线里，每行左边已经钉着时分秒。
+ * 层级照 Google News 的报道条目：标题是这一行的主体（14px 深色），来源压成
+ * 下面一行 11px 浅灰。来源只写域名不写整条 url —— 列表里一行七十个字符的
+ * url 会把标题挤没。域名本身是链接，跟 web search 的结果条目一套配色。
+ */
+function newsLink(item) {
+  const host = hostname(item.url);
+
+  let out = '<div class="min-w-0">';
+  if (item.url) {
+    out += '<a href="' + esc(item.url) + '" target="_blank" rel="noreferrer" class="' +
+      'line-clamp-2 text-sm leading-5 font-medium text-slate-800 transition-colors hover:text-primary">' +
+      esc(item.title || item.url) + '</a>';
+  } else {
+    out += '<p class="line-clamp-2 text-sm leading-5 font-medium text-slate-800">' + esc(item.title) + '</p>';
+  }
+
+  if (host) {
+    out += '<div class="mt-0.5 flex items-center gap-1.5 text-2xs text-slate-400">';
+    if (item.favicon) out += '<img src="' + esc(item.favicon) + '" alt="" class="w-3 h-3 shrink-0 rounded-sm">';
+    out += '<span class="truncate">';
+    out += item.url
+      ? '<a href="' + esc(item.url) + '" target="_blank" rel="noreferrer" class="text-primary-lite transition-colors hover:text-primary hover:underline">' + esc(host) + '</a>'
+      : esc(host);
+    out += '</span></div>';
+  }
+  return out + '</div>';
+}
+
+/** 先摆这么多条。正好是 max_activities / max_news 的默认值 —— 默认那次请求不会出现 Show more */
+const COLLAPSED_COUNT = 5;
+
+/**
+ * 实体卡里的时间线，activities 与 news 共用。
+ *
+ * 两段共用一套骨架，只有圆点不同：activities 实心（主体自己发的），news 空心
+ * （第三方写的）。区分手法跟履历那条轨道上「在职实心 / 离任空心」是同一套，
+ * 一张卡上不该为了同一个意思发明第二种画法。
+ *
+ * 日期只在换天的时候出现一次，行里只留时分秒，跟标题同一行 —— 一条本来
+ * 三行（整时间戳 / 标题 / 来源），压到两行，20 条就少 20 行重复的年月日。
+ * 左侧竖线拆成「圆点上方一小段 + 下方撑满剩余高度」两截，日期组头那行的栏位里
+ * 也放一截线，整列连成一条不断的轨道。收起时末尾那条的线继续往下接到
+ * Show more 上，表示时间线还没结束，所以按钮贴着轨道左对齐。
+ */
+function activityTimeline(key, activities, selfPublished) {
+  const expanded = !!ui.tl[key];
+  const collapsible = activities.length > COLLAPSED_COUNT;
+  const visible = collapsible && !expanded ? activities.slice(0, COLLAPSED_COUNT) : activities;
+  const hidden = activities.length - visible.length;
+
+  // 按天分组。接口已按时间降序返回，同一天必然相邻，所以顺着扫一遍就行，不重排
+  const rows = [];
+  let current = '';
+  visible.forEach((item) => {
+    const date = fmtDate(item.time_published) || '';
+    if (date && date !== current) { current = date; rows.push({ kind: 'date', date: date }); }
+    rows.push({ kind: 'item', item: item });
+  });
+  const firstItemIndex = rows.findIndex((r) => r.kind === 'item');
+
+  let out = '<div><ol>';
+  rows.forEach((row, i) => {
+    const hasLineAbove = i > firstItemIndex;          // 第一个圆点之前不画线
+    const isLast = i === rows.length - 1 && hidden === 0;
+
+    out += '<li class="flex gap-3">';
+    out += '<div class="flex w-2 shrink-0 flex-col items-center" aria-hidden="true">';
+    if (row.kind === 'date') {
+      out += '<span class="' + cn('w-px flex-1', hasLineAbove && 'bg-slate-300') + '"></span>';
+    } else {
+      out += '<span class="' + cn('h-1.5 w-px', hasLineAbove && 'bg-slate-300') + '"></span>' +
+        '<span class="' + cn('w-2 h-2 shrink-0 rounded-full ring-2 ring-white',
+          selfPublished ? 'bg-primary' : 'border border-slate-300 bg-white') + '"></span>' +
+        (!isLast ? '<span class="w-px flex-1 bg-slate-300"></span>' : '');
+    }
+    out += '</div>';
+
+    if (row.kind === 'date') {
+      out += '<div class="pb-1.5 text-2xs leading-5 font-semibold text-slate-500 tabular-nums">' + esc(row.date) + '</div>';
+    } else {
+      out += '<div class="' + cn('flex min-w-0 flex-1 gap-2.5', !isLast && 'pb-3') + '">' +
+        '<span class="shrink-0 text-2xs leading-5 text-slate-400 tabular-nums">' + esc(fmtTime(row.item.time_published)) + '</span>' +
+        '<div class="min-w-0 flex-1">' + newsLink(row.item) + '</div></div>';
+    }
+    out += '</li>';
+  });
+  out += '</ol>';
+
+  if (collapsible) {
+    out += '<button data-tl="' + key + '" class="' + cn(
+      // pl-5 = 轨道 8px + 间距 12px，跟上面每行的内容列对齐，线正好落在图标上
+      'flex items-center gap-1 pl-5 text-xs text-primary-lite transition-colors hover:text-primary',
+      // 展开后最后一条没有下边距（不然卡片底部会空一块），按钮自己补上
+      hidden === 0 && 'mt-2') + '">' +
+      (expanded ? ico('chevronUp', 'w-3.5 h-3.5') + 'Show less'
+                : ico('chevronDown', 'w-3.5 h-3.5') + 'Show ' + hidden + ' more') +
+      '</button>';
+  }
+  return out + '</div>';
+}
+
+/** 裸域名补协议才能点；补不成的（拼错、内网名）返回空，宁可不给链接也不给死链 */
+function toExternalHref(value) {
+  const raw = String(value || '').trim();
+  if (!raw) return '';
+  const absolute = /^https?:\/\//i.test(raw) ? raw : 'https://' + raw;
+  try {
+    const host = new URL(absolute).hostname;
+    return host.indexOf('.') !== -1 && host.slice(-1) !== '.' ? absolute : '';
+  } catch (e) { return ''; }
+}
+
+/** 实体卡里的小节标题。名字照抄字段名（key_people / career / activities），不转全大写 */
+function sectionLabel(text) {
+  return '<p class="text-2xs font-semibold text-slate-400">' + esc(text) + '</p>';
+}
+
+/** 公司用方图标、人物用圆头像 —— 形状本身就在说这是哪一类，不必等读到徽标 */
+const ENTITY = {
+  company: { avatar: 'rounded-lg', fit: 'object-contain p-1', icon: 'building', label: 'Company', badge: 'bg-sky-50 text-sky-700' },
+  person: { avatar: 'rounded-full', fit: 'object-cover', icon: 'user', label: 'Person', badge: 'bg-violet-50 text-violet-700' },
+};
+
+/**
+ * company 和 person 两张实体卡共用的抬头。
+ *
+ * 共用不是为了省几行，是为了让两张卡的第一眼严格一致：头像、名字、类型徽标
+ * 永远在同一个位置、同一个尺寸。混排的列表里这三样就是扫读的锚点，各写各的
+ * 话滚动时会觉得版面在跳。名字跟 event 卡的 subject 名同级（18px / 600）——
+ * 三种 subject 在同一个页签下轮流出现，主标题不该因为 type 不同而变大变小。
+ *
+ * 头像底下一直垫着图标底板，图片压在上面：取不到图的时候不塌尺寸。
+ */
+function entityHeader(kind, name, imageUrl, aliases, inner) {
+  const shape = ENTITY[kind];
+  const alias = (aliases || []).filter(Boolean).join(' · ');
+
+  let out = '<div class="flex items-start gap-3">' +
+    '<div class="' + cn('relative w-11 h-11 shrink-0 overflow-hidden border border-slate-200 bg-slate-50', shape.avatar) + '">' +
+      '<div class="absolute inset-0 flex-center">' + ico(shape.icon, 'w-5 h-5 stroke-1 text-slate-300') + '</div>' +
+      (imageUrl ? '<img src="' + esc(imageUrl) + '" alt="" class="' + cn('relative w-full h-full bg-white', shape.fit) + '">' : '') +
+    '</div>';
+
+  out += '<div class="min-w-0 flex-1"><div class="flex items-center gap-2">';
+  if (name) out += '<h3 class="min-w-0 truncate font-sans text-lg leading-snug font-semibold text-slate-900">' + esc(name) + '</h3>';
+  out += '<span class="' + cn('shrink-0 rounded px-1.5 py-0.5 text-3xs leading-4 font-semibold', shape.badge) + '">' + shape.label + '</span></div>';
+  if (alias) out += '<p class="mt-0.5 truncate text-2xs text-slate-400">' + esc(alias) + '</p>';
+  return out + (inner || '') + '</div></div>';
+}
+
+/**
+ * 抬头下面那行身份信息：公司是官网 / LinkedIn / 股票代码 / SEC 编号，人物是
+ * 现任职务 / LinkedIn。每项前面挂个图标，不写「Website:」这类标签 —— 一行里
+ * 塞四组「标签 + 值」会比公司名还长。可点的是绿色，不可点的留在 slate-500，
+ * 鼠标移上去之前就看得出哪些能点。
+ */
+function entityMeta(items) {
+  if (!items.length) return '';
+  let out = '<div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-2xs">';
+  items.forEach(function (item) {
+    const glyph = ico(item.icon, 'w-3 h-3 shrink-0 stroke-1');
+    out += item.href
+      ? '<a href="' + esc(item.href) + '" target="_blank" rel="noreferrer" class="flex max-w-full items-center gap-1 text-primary-lite transition-colors hover:text-primary hover:underline">' +
+          glyph + '<span class="truncate">' + esc(item.text) + '</span></a>'
+      : '<span class="flex max-w-full items-center gap-1 text-slate-500">' +
+          glyph + '<span class="truncate tabular-nums">' + esc(item.text) + '</span></span>';
+  });
+  return out + '</div>';
+}
+
+/**
+ * 紧凑货币：8_900_000_000 → "$8.9B"。营收和估值是十亿量级，写全一格塞不下，
+ * 读的人还得自己数位数。Intl 不认的币种退回纯数字，宁可少个符号也不能整张卡崩掉。
+ */
+function money(value, currency) {
+  const opts = { notation: 'compact', maximumFractionDigits: 1 };
+  if (currency) {
+    try { return new Intl.NumberFormat('en-US', Object.assign({ style: 'currency', currency: currency }, opts)).format(value); }
+    catch (e) { /* 不认的币种走下面的纯数字 */ }
+  }
+  return new Intl.NumberFormat('en-US', opts).format(value);
+}
+const compactNum = (v) => new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 }).format(v);
+/** "2018-11-20" → "2018"。轮次旁边只需要年份，完整日期在 JSON 页签里 */
+const yearOf = (d) => (d ? String(d).slice(0, 4) : '');
+const joinMeta = function () { return [].slice.call(arguments).filter(Boolean).join(' · '); };
+
+/**
+ * 把 metrics 摊成一串格子，不按 financials / funding / web_traffic 分三段加小标题：
+ * 这三组任何一组都可能整组缺失，分段之后一家只有流量数据的公司会剩两个空标题。
+ * 摊平之后每格自带 caption 说明口径（2026Q2 / Series F / 2026-07），少了哪格
+ * 就只是少一格。格子的名字跟字段一一对得上（revenue / net_income /
+ * valuation / total_funding / visits_monthly / rank），对着 JSON 页签看的人
+ * 不用猜哪个数是哪个字段；visits_monthly 按英文语序写成 Monthly visits，照字段的
+ * 词序念是倒的；rank 补一个口径写成 Global rank，光写 Rank 看不出是哪个范围的名次。
+ */
+/**
+ * 股价按币种原样写两位小数。
+ *
+ * 不像营收那样压成 "$14.3" —— 营收看的是量级，股价看的是分。currency 缺失或是个
+ * Intl 不认的代码时退回纯数字，宁可少个符号，也不能让一张卡整个渲染不出来。
+ */
+function exact(value, currency) {
+  const options = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+  if (currency) {
+    try {
+      return new Intl.NumberFormat('en-US', Object.assign({}, options, { style: 'currency', currency: currency })).format(value);
+    } catch (e) { /* 不认的币种走下面的纯数字 */ }
+  }
+  return new Intl.NumberFormat('en-US', options).format(value);
+}
+
+/** 涨跌幅带符号：-1.18 → "-1.18%"，正数补个加号，不然一眼看不出方向 */
+function percentText(value) { return (value > 0 ? '+' : '') + value.toFixed(2) + '%'; }
+
+function toTiles(metrics) {
+  const fin = metrics.financials || {};
+  const fund = metrics.funding || {};
+  const traffic = metrics.web_traffic || {};
+  const stock = metrics.stock || {};
+  const tiles = [];
+
+  if (stock.price != null) tiles.push({ label: 'Stock price', value: exact(stock.price, stock.currency), change: stock.todays_change_percent, caption: stock.date });
+  if (stock.week_52_high != null) tiles.push({ label: '52-week high', value: exact(stock.week_52_high, stock.currency) });
+  if (stock.week_52_low != null) tiles.push({ label: '52-week low', value: exact(stock.week_52_low, stock.currency) });
+
+  if (fin.revenue != null) tiles.push({ label: 'Revenue', value: money(fin.revenue, fin.currency), caption: fin.period });
+  if (fin.net_income != null) tiles.push({ label: 'Net income', value: money(fin.net_income, fin.currency), caption: fin.period, negative: fin.net_income < 0 });
+  if (fund.valuation != null) tiles.push({ label: 'Valuation', value: money(fund.valuation, fund.currency), caption: joinMeta(fund.round, yearOf(fund.date)) });
+  if (fund.total_funding != null) tiles.push({ label: 'Total funding', value: money(fund.total_funding, fund.currency), caption: 'All rounds' });
+  if (traffic.visits_monthly != null) tiles.push({ label: 'Monthly visits', value: compactNum(traffic.visits_monthly), caption: traffic.period });
+  // 全球排名。上游只给全球口径，这格不写国家代码
+  if (traffic.rank != null) tiles.push({ label: 'Global rank', value: '#' + compactNum(traffic.rank), caption: traffic.period });
+  return tiles;
+}
+
+/**
+ * 公司的指标区 —— 整张卡上唯一上底色的一块。别的部分都是白底靠字号分层，这里
+ * 给一块浅灰把「数字」圈起来，扫一眼就知道去哪找营收估值。三列是按面板宽度定的：
+ * 右栏大约 700px，三列每格 200 出头，"Monthly visits" 这种最长的标签正好一行放得下。
+ * 最后一行不满不补空格 —— 格子本身没有边框，缺的地方看不出是个洞。
+ */
+function companyMetrics(metrics) {
+  const tiles = metrics ? toTiles(metrics) : [];
+  if (!tiles.length) return '';
+
+  let out = '<div class="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-3 rounded-lg bg-slate-50 p-3">';
+  tiles.forEach(function (tile) {
+    out += '<div class="min-w-0">' +
+      '<p class="truncate text-2xs font-medium text-slate-400">' + esc(tile.label) + '</p>' +
+      '<p class="mt-0.5 flex items-baseline gap-1.5">' +
+        '<span class="' + cn('truncate font-sans text-base leading-6 font-semibold tabular-nums',
+          tile.negative ? 'text-red-600' : 'text-slate-900') + '">' + esc(tile.value) + '</span>' +
+        (tile.change != null
+          ? '<span class="' + cn('shrink-0 text-xs font-medium tabular-nums',
+              tile.change < 0 ? 'text-red-600' : 'text-primary') + '">' + esc(percentText(tile.change)) + '</span>'
+          : '') +
+      '</p>' +
+      (tile.caption ? '<p class="truncate text-3xs text-slate-400 tabular-nums">' + esc(tile.caption) + '</p>' : '') +
+      '</div>';
+  });
+  return out + '</div>';
+}
+
+/** "US" → "United States"。认不出来的码原样显示，总比空着强 */
+function countryName(code) {
+  if (!code) return '';
+  try { return new Intl.DisplayNames(['en'], { type: 'region' }).of(String(code).toUpperCase()) || code; }
+  catch (e) { return code; }
+}
+
+/**
+ * 行业 / 总部 / 成立年份 / 员工规模，摆成一行「小灰标签 + 深色值」，不做成带框
+ * 的表格：这四项是短字符串，撑成四行会把下面的指标和动态挤出首屏；而它们本身
+ * 不是数字，混进指标那块灰底里会让人以为也是个可比的指标。字号和字重差一档
+ * 就够把标签和值分开，不用加冒号或分隔线 —— 换行时分隔线会掉到行首。
+ */
+function attributeStrip(attributes) {
+  const pairs = [
+    { label: 'Industry', value: attributes.industry },
+    { label: 'HQ country', value: countryName(attributes.hq_country) },
+    { label: 'Founded year', value: attributes.founded_year != null ? String(attributes.founded_year) : '' },
+    { label: 'Employee range', value: attributes.employee_range },
+  ].filter((pair) => Boolean(pair.value));
+  if (!pairs.length) return '';
+
+  let out = '<div class="flex flex-wrap items-baseline gap-x-5 gap-y-1.5">';
+  pairs.forEach(function (pair) {
+    out += '<p class="flex items-baseline gap-1.5">' +
+      '<span class="text-2xs font-medium text-slate-400">' + pair.label + '</span>' +
+      '<span class="text-xs font-medium text-slate-700">' + esc(pair.value) + '</span></p>';
+  });
+  return out + '</div>';
+}
+
+/** 身份标识那行。website 是裸域名，要补协议才能点 */
+function companyMetaItems(entity) {
+  const ids = entity.identifiers;
+  if (!ids) return [];
+  const items = [];
+  if (ids.website) items.push({ icon: 'globe', text: ids.website, href: toExternalHref(ids.website) });
+  const linkedin = toExternalHref(ids.linkedin_url);
+  if (linkedin) items.push({ icon: 'linkedin', text: 'LinkedIn', href: linkedin });
+  if (ids.stock_ticker) items.push({ icon: 'trending', text: ids.stock_ticker });
+  if (ids.sec_cik) items.push({ icon: 'file', text: 'CIK ' + ids.sec_cik });
+  return items;
+}
+
+/**
+ * 一家公司的实体卡（type=company）。
+ *
+ * 从上到下就是「这是谁 → 一句话是什么 → 硬属性 → 数字 → 谁在管 → 最近在干嘛 →
+ * 别人怎么说」，越往下越细。翻一屏卡片时只有前两段会被扫到，所以名字、徽标、
+ * 摘要必须在最上面。每一段都可能整段缺失（文档：字段取不到就不返回），所以段与
+ * 段之间靠外层 space-y 拉开，不各自写 margin-top —— 少哪段就只是少一段，不会
+ * 留下说不清的空白。
+ */
+function companyCard(entity, idx) {
+  const key = 'c' + idx;
+  const keyPeople = (entity.key_people || []).filter((p) => p.name);
+  const activities = entity.activities || [];
+  const news = entity.news || [];
+
+  let out = '<div class="space-y-3.5 rounded-xl border border-slate-200 p-4 transition-colors hover:border-slate-300">';
+  out += entityHeader('company', entity.name, entity.logo && entity.logo.url, entity.aliases,
+    entityMeta(companyMetaItems(entity)));
+
+  if (entity.summary) {
+    out += '<div class="text-xs">' + expandable('sum:' + key, entity.summary, 2, 'leading-relaxed text-slate-600') + '</div>';
+  }
+  if (entity.attributes) out += attributeStrip(entity.attributes);
+  out += companyMetrics(entity.metrics);
+
+  if (keyPeople.length) {
+    out += '<div>' + sectionLabel('Key people') + '<div class="mt-1.5 flex flex-wrap gap-x-5 gap-y-1">';
+    keyPeople.forEach(function (person) {
+      out += '<p class="flex items-baseline gap-1.5"><span class="text-xs font-medium text-slate-800">' + esc(person.name) + '</span>' +
+        (person.title ? '<span class="text-2xs text-slate-400">' + esc(person.title) + '</span>' : '') + '</p>';
+    });
+    out += '</div></div>';
+  }
+  if (activities.length) {
+    out += '<div>' + sectionLabel('Activities') + '<div class="mt-2">' + activityTimeline(key, activities, true) + '</div></div>';
+  }
+  if (news.length) {
+    out += '<div>' + sectionLabel('News') + '<div class="mt-2">' + activityTimeline('n' + key, news, false) + '</div></div>';
+  }
+  return out + '</div>';
+}
+
+/**
+ * 任职区间。end 有三种状态，文档只说了前两种，渲染层三种都得认：
+ *   null      在职 → "2010 – Present"
+ *   有值      离任 → "2006 – 2008"
+ *   字段缺失  不知道到什么时候 → 只写 "2006"，不替服务端猜一个 Present
+ */
+function careerSpan(item) {
+  if (!item.start) return item.end || '';
+  if (item.end === null) return item.start + ' – Present';
+  return item.end ? item.start + ' – ' + item.end : item.start;
+}
+
+/**
+ * 人物的履历。骨架跟动态时间线是同一套（8px 轨道 + 圆点 + 左侧定宽时间列），
+ * 故意的：一张 person 卡上下两段都是「这个人按时间排的一串事」，两段用不同的
+ * 画法会让人以为它们是两类东西。只有一处不一样 —— 在职那条是实心绿点，离任的
+ * 是空心灰点。年份列定宽 w-24，不然每行的职位名起点都在飘。职位和机构写在同一
+ * 行（「职位 · 机构」），跟抬头那行现任职务的排法一致：一条履历本来就是一件事，
+ * 拆成上下两行会让五段履历看着像十段。一行放不下时截断机构那半，职位在前。
+ */
+function careerRail(career) {
+  let out = '<ol>';
+  career.forEach(function (item, i) {
+    const isLast = i === career.length - 1;
+    const current = item.end === null;
+    // 职位缺失时机构顶上来当主字，不然这行只剩一段小灰字，看着像渲染坏了
+    const lead = item.title || item.organization || '';
+    const trail = item.title ? item.organization || '' : '';
+
+    out += '<li class="flex gap-3">' +
+      '<div class="flex w-2 shrink-0 flex-col items-center" aria-hidden="true">' +
+        '<span class="' + cn('h-1.5 w-px', i > 0 && 'bg-slate-300') + '"></span>' +
+        '<span class="' + cn('w-2 h-2 shrink-0 rounded-full ring-2 ring-white',
+          current ? 'bg-primary' : 'border border-slate-300 bg-white') + '"></span>' +
+        (!isLast ? '<span class="w-px flex-1 bg-slate-300"></span>' : '') +
+      '</div>' +
+      '<div class="' + cn('flex min-w-0 flex-1 gap-2.5', !isLast && 'pb-2.5') + '">' +
+        '<span class="w-24 shrink-0 text-2xs leading-5 text-slate-400 tabular-nums">' + esc(careerSpan(item)) + '</span>' +
+        '<p class="min-w-0 flex-1 truncate text-sm leading-5 font-medium text-slate-800">' + esc(lead) +
+          (trail ? '<span class="text-xs font-normal text-slate-400"> · ' + esc(trail) + '</span>' : '') +
+        '</p></div></li>';
+  });
+  return out + '</ol>';
+}
+
+/**
+ * 一个人的实体卡（type=person）。
+ *
+ * 跟 company 卡共用抬头和小节标题，段落顺序也对齐：认人 → 一句话是谁 → 履历 →
+ * 最近动态 → 相关报道。两张卡在同一个页签里混着出现，段落错位会让人每张卡都得
+ * 重新找一遍。人物没有指标那一块 —— 接口不给，也不该给，所以这块灰底不出现。
+ */
+function personCard(entity, idx) {
+  const key = 'p' + idx;
+  const position = entity.current_position || {};
+  const role = [position.title, position.organization].filter(Boolean).join(' · ');
+  const linkedin = toExternalHref(entity.linkedin_url);
+  const items = [];
+  if (role) items.push({ icon: 'briefcase', text: role });
+  if (linkedin) items.push({ icon: 'linkedin', text: 'LinkedIn', href: linkedin });
+
+  const career = entity.career || [];
+  const activities = entity.activities || [];
+  const news = entity.news || [];
+
+  let out = '<div class="space-y-3.5 rounded-xl border border-slate-200 p-4 transition-colors hover:border-slate-300">';
+  out += entityHeader('person', entity.name, entity.photo && entity.photo.url, null, entityMeta(items));
+
+  if (entity.summary) {
+    out += '<div class="text-xs">' + expandable('sum:' + key, entity.summary, 2, 'leading-relaxed text-slate-600') + '</div>';
+  }
+  if (career.length) out += '<div>' + sectionLabel('Career') + '<div class="mt-2">' + careerRail(career) + '</div></div>';
+  if (activities.length) {
+    out += '<div>' + sectionLabel('Activities') + '<div class="mt-2">' + activityTimeline(key, activities, true) + '</div></div>';
+  }
+  if (news.length) {
+    out += '<div>' + sectionLabel('News') + '<div class="mt-2">' + activityTimeline('n' + key, news, false) + '</div></div>';
+  }
+  return out + '</div>';
+}
+
+/**
+ * 按 type 分发。认不出来的 type 整张不画 —— 上游以后加了新实体，宁可这张卡不
+ * 出现，也不要用公司的模板去套一个不是公司的东西。
+ */
+function entityCard(entity, idx) {
+  if (entity.type === 'company') return companyCard(entity, idx);
+  if (entity.type === 'person') return personCard(entity, idx);
+  return '';
+}
+
+/** 正文配图缩略图条 */
+function imageStrip(key, images) {
+  const list = (images || []).filter((i) => i.url);
+  if (!list.length) return '';
+  const open = !!ui.img[key];
+  const visible = open ? list : list.slice(0, 4);
+
+  let out = '<div class="flex flex-col gap-1.5"><div class="flex flex-wrap gap-2">';
+  visible.forEach((img) => {
+    out += '<img src="' + esc(img.url) + '" alt="' + esc(img.description || '') + '" data-zoom="' + esc(img.url) +
+      '" class="w-20 h-20 object-cover rounded border border-slate-200 hover:border-slate-400 transition-colors cursor-zoom-in">';
+  });
+  out += '</div>';
+  if (list.length > 4) {
+    out += '<button data-img="' + key + '" class="flex items-center gap-1 text-sm text-primary-lite hover:text-primary w-fit">' +
+      (open ? ico('chevronUp', 'w-3.5 h-3.5') + 'Show less' : ico('chevronDown', 'w-3.5 h-3.5') + (list.length - 4) + ' more images') + '</button>';
+  }
+  return out + '</div>';
+}
+
+/** Sort by article 页签里的一条完整结果。结构对齐 web search 的 result-item */
+function newsCard(item, idx) {
+  const published = fmtDateTime(item.time_published);
+  const crawled = fmtDateTime(item.time_last_crawled);
+  const key = 'r' + idx;
+
+  let out = '<div class="flex flex-col gap-2 border border-slate-200 rounded-lg p-4 hover:border-slate-300 transition-colors">';
+
+  if (item.cover_image && item.cover_image.url) {
+    out += '<img src="' + esc(item.cover_image.url) + '" alt="' + esc(item.cover_image.description || item.title || '') +
+      '" data-zoom="' + esc(item.cover_image.url) + '" class="w-full max-h-48 object-cover rounded cursor-zoom-in">';
+  }
+  if (item.title) out += '<h3 class="text-lg font-sans font-semibold text-slate-900">' + esc(item.title) + '</h3>';
+  if (item.url) {
+    out += '<a href="' + esc(item.url) + '" target="_blank" rel="noreferrer" class="flex items-center gap-1.5 text-sm text-primary-lite hover:text-primary hover:underline truncate">' +
+      (item.favicon ? '<img src="' + esc(item.favicon) + '" alt="" class="w-4 h-4 shrink-0 rounded-sm">' : '') +
+      '<span class="truncate">' + esc(item.url) + '</span></a>';
+  }
+  if (item.highlight) {
+    out += '<div class="flex flex-col gap-2 text-sm"><h4 class="font-sans font-semibold text-slate-700">Highlights</h4>' +
+      '<div class="border-l-[3px] border-slate-300 pl-3 py-1">' + expandable('hl:' + key, item.highlight, 3, 'text-slate-600') + '</div></div>';
+  }
+  if (item.full_content) {
+    out += '<div class="flex flex-col gap-2 text-sm"><h4 class="font-sans font-semibold text-slate-700">Content</h4>' +
+      '<div class="border-l-4 border-slate-300 pl-3 py-1">' + expandable('fc:' + key, item.full_content, 4, 'text-slate-600') + '</div></div>';
+  }
+  if ((item.images || []).length) {
+    out += '<div class="flex flex-col gap-1.5"><h4 class="text-sm font-sans font-semibold text-slate-700">Images</h4>' + imageStrip(key, item.images) + '</div>';
+  }
+  // authority 是这个端点独有的：来源是不是官网 / IR / 备案这类一手材料，
+  // 决定了上面 highlight 里那些数字能不能直接采信，所以跟两个时间摆在一起
+  if (item.authority || published || crawled) {
+    out += '<div class="flex flex-wrap gap-x-4 text-sm text-slate-500">' +
+      (item.authority ? '<span>Authority: ' + esc(item.authority) + '</span>' : '') +
+      (published ? '<span>Published: ' + esc(published) + '</span>' : '') +
+      (crawled ? '<span>Crawled: ' + esc(crawled) + '</span>' : '') + '</div>';
+  }
+  return out + '</div>';
+}
+
+/**
+ * 结果页签。
+ *
+ * 两块内容各自是一次独立执行的检索：实体卡走实体解析，文本结果走普通检索，
+ * 体量也差着量级，所以分开看而不是拼成一个流。
+ *
+ * 名字直接照抄字段名（entities / results），不另起一套说法 —— 右边看到的
+ * 是哪个页签，切到 JSON 里就该按那个 key 去找。
+ *
+ * 一行排开，用 flex-auto 而不是等分的 grid：宽度先按各自内容算，剩下的富余再
+ * 平摊，长一点的名字不会被短的挤成省略号。
+ */
+const TAB_LABELS = { entities: 'Entities', results: 'Results' };
+const TAB_ICONS = { entities: 'idCard', results: 'newspaper' };
+
+function resultTabs(tabs) {
+  let out = '<div role="tablist" class="flex flex-wrap gap-2">';
+  tabs.forEach((tab) => {
+    const selected = tab.value === ui.tab;
+    out += '<button type="button" role="tab" aria-selected="' + selected + '" data-tab="' + tab.value + '" class="' + cn(
+      'flex flex-auto min-w-0 items-center gap-1.5 rounded-lg border px-2.5 py-2 text-xs font-medium transition-colors',
+      selected ? 'border-green-200 bg-green-50 text-green-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300') + '">' +
+      ico(TAB_ICONS[tab.value], 'w-3.5 h-3.5 shrink-0') +
+      '<span class="truncate">' + TAB_LABELS[tab.value] + '</span>' +
+      '<span class="ml-auto shrink-0 tabular-nums">' + tab.count + '</span></button>';
+  });
+  return out + '</div>';
+}
+
+function emptyState(title, description) {
+  return '<div class="flex-center flex-col gap-2 px-6 py-12 text-center">' +
+    ico('searchX', 'w-8 h-8 stroke-1 text-slate-300') +
+    '<p class="text-sm font-medium text-slate-500">' + esc(title) + '</p>' +
+    '<p class="max-w-80 text-xs text-slate-400">' + esc(description) + '</p></div>';
+}
+
+/** entities 为空时那句解释：先看是不是压根没开，再看是不是这个 query 里没有主体 */
+function noEntityHint(entitiesEnabled) {
+  if (!entitiesEnabled) return 'Turn on "Return entities" in the configuration.';
+  return 'This query names no company or person we could resolve. The results are all still there.';
+}
+
+/**
+ * Preview 里的结果页签。
+ *
+ * 默认落在 Entities —— 结构化的公司 / 人物档案是这个端点相比 web search 的主要
+ * 差异。但一个都没认出来的时候不能把人扔在一个空页面上：这时默认切到 Results，
+ * 文本结果本来就都在；标题栏上的 0 已经说明没有实体，想确认的人点过去会看到
+ * No entity resolved 那一屏，连为什么都写着。
+ */
+function resultList(results, entities) {
+  const tabs = [
+    { value: 'entities', count: entities.length },
+    { value: 'results', count: results.length },
+  ];
+
+  let out = '<div class="space-y-3 p-3">' + resultTabs(tabs);
+
+  if (ui.tab === 'entities') {
+    out += entities.length
+      ? '<div class="space-y-3">' + entities.map(entityCard).join('') + '</div>'
+      : emptyState('No entity resolved', noEntityHint(cfg.entitiesEnabled));
+  } else {
+    out += results.length
+      ? '<div class="space-y-3">' + results.map(newsCard).join('') + '</div>'
+      : emptyState('No results found', 'Try adjusting your query or search filters.');
+  }
+  return out + '</div>';
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   左：Configuration。shadcn 那几个组件（Select / RadioGroup / MultiSelect /
+   DateRangePicker）没有搬，按控制台里的样子重画的，看起来一样但不是同一套。
+   ════════════════════════════════════════════════════════════════════ */
+const INPUT_CLS = 'w-full h-9 px-3 rounded-lg border border-slate-200 bg-white text-sm text-slate-800 outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 transition';
+const LABEL_CLS = 'w-auto flex items-center gap-1 mb-2 text-slate-700 text-xs font-medium uppercase tracking-wide';
+const H2_CLS = 'text-slate-800 text-sm font-sans font-semibold';
+
+function configLabel(label, hint, req) {
+  return '<div class="' + LABEL_CLS + '"' + (hint ? ' title="' + esc(hint) + '"' : '') + '>' + label +
+    (req ? '<span class="text-red-500 ml-0.5">*</span>' : '') +
+    (hint ? ico('info', 'w-3 h-3 text-slate-400 shrink-0') : '') + '</div>';
+}
+function numberField(field, value, cls) {
+  return '<input type="text" data-num="' + field + '" value="' + esc(value) + '" class="' + INPUT_CLS + (cls ? ' ' + cls : '') + '">';
+}
+function checkbox(field, checked, label) {
+  return '<label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">' +
+    '<span data-check="' + field + '" class="' + cn('w-4 h-4 shrink-0 rounded border flex-center transition-colors',
+      checked ? 'bg-primary border-primary text-white' : 'bg-white border-slate-300') + '">' +
+      (checked ? ico('check', 'w-3 h-3') : '') + '</span><span>' + label + '</span></label>';
+}
+function sep() { return '<div class="h-px bg-slate-100"></div>'; }
+
+function renderConfig() {
+  const c = cfg;
+  let h = '';
+
+  h += '<div class="flex items-center justify-between">' +
+    '<span class="text-slate-800 text-base font-sans font-semibold">Configuration</span>' +
+    '<a href="https://docs.octen.ai/api-reference/business-search" target="_blank" rel="noreferrer" class="flex items-center gap-1 h-8 px-2.5 rounded-lg border border-slate-200 text-xs text-slate-600 hover:border-slate-300">' +
+      ico('docs', 'w-3.5 h-3.5') + 'Docs</a></div>';
+
+  // ── Query ──
+  h += '<section><label class="block text-sm font-sans font-semibold text-slate-800 mb-1.5">Query<span class="text-red-500 ml-0.5">*</span></label>' +
+    '<div class="flex flex-col xl:flex-row items-start gap-2">' +
+      '<div class="relative w-full flex items-center">' +
+        '<div class="absolute left-3 flex items-center gap-2 pointer-events-none">' +
+          '<span class="text-sm font-sans font-bold text-slate-600 shrink-0">Find</span>' +
+          '<span class="w-px h-4 bg-gray-500/60"></span></div>' +
+        '<input id="query" value="' + esc(query) + '" autocomplete="off" placeholder="Coupang 近况与经营指标" class="' + INPUT_CLS + ' h-10 pl-[58px]">' +
+        (queryFocused ? '<div class="absolute z-20 top-full left-0 right-0 mt-1 py-2.5 bg-white border border-slate-200 rounded-xl shadow-lg">' +
+          QUERY_EXAMPLES.map(function (ex) {
+            return '<button data-example="' + esc(ex) + '" class="w-full flex items-center gap-1.5 px-2.5 py-1.5 text-left text-sm text-slate-600 hover:bg-slate-100 transition-colors">' +
+              ico('search', 'w-4 h-4 text-primary shrink-0') + esc(ex) + '</button>';
+          }).join('') + '</div>' : '') +
+        '</div>' +
+      '<div class="w-full xl:w-fit flex justify-end gap-2">' +
+        '<button id="run" class="' + cn('flex items-center gap-1.5 h-10 px-4 rounded-lg text-sm font-medium text-white transition-colors',
+          query.trim() ? 'bg-primary hover:bg-primary/90' : 'bg-primary/40 cursor-not-allowed') + '">' +
+          ico('play', 'w-3.5 h-3.5') + 'Run</button>' +
+        '<button id="clear" class="flex items-center gap-1.5 h-10 px-4 rounded-lg border border-slate-200 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">' +
+          ico('rotate', 'w-3.5 h-3.5') + 'Clear</button>' +
+      '</div></div></section>';
+
+  h += sep();
+
+  // ── Basic settings ──
+  // 这里只剩 count 一个参数 —— business 是独立端点，请求体里没有 vertical 可选。
+  // 单独一个输入框还是占半栏，不铺满：下面 Entities 那两个框也是半栏，对齐之后
+  // 整个面板的输入框都在同一条竖线上起头。
+  h += '<div class="space-y-3"><h2 class="' + H2_CLS + '">Basic settings</h2>' +
+    '<div class="grid grid-cols-2 gap-3">' +
+      '<div>' + configLabel('Count', 'Number of results to return, 1–100.') + numberField('count', c.count) + '</div>' +
+    '</div></div>';
+
+  h += sep();
+
+  // ── Entities ──
+  // Count 是这次返回几张卡（query 里提到几个主体就可能出几张），后面两个各管卡里
+  // 的一段：Max Activities 管自家动态，Max News 管第三方报道。两段分开控制而不是
+  // 合成一个上限 —— 只想多看几条报道的人不该被迫连动态一起放宽。
+  // 关掉开关整段就不返回 data.entities，只剩文本结果 —— 那时这几个框也没有意义，
+  // 一起收起来。
+  h += '<div class="space-y-3"><h2 class="' + H2_CLS + '">Entities</h2>' +
+    checkbox('entitiesEnabled', c.entitiesEnabled, 'Return entities');
+  if (c.entitiesEnabled) {
+    h += '<div class="grid grid-cols-2 gap-3">' +
+      '<div>' + configLabel('Count', 'Number of entity cards to return, 1–5.') + numberField('entitiesCount', c.entitiesCount) + '</div>' +
+      '<div>' + configLabel('Max Activities', 'Recent activities on each entity, 1–20.') + numberField('entitiesMaxActivities', c.entitiesMaxActivities) + '</div>' +
+      '<div>' + configLabel('Max News', 'Related news on each entity, 1–20.') + numberField('entitiesMaxNews', c.entitiesMaxNews) + '</div>' +
+      '</div>';
+  }
+  h += '</div>';
+
+  h += sep();
+
+  // ── Filters ──
+  const basisOpts = [['auto', 'Auto'], ['published', 'Published'], ['crawled', 'Crawled']];
+  h += '<div class="space-y-3"><h2 class="' + H2_CLS + '">Filters</h2>' +
+    '<div class="flex items-start justify-between gap-3">' +
+      '<div class="flex-1">' + configLabel('Time Basis', 'Which time field is used for filtering. published uses time_published; crawled uses time_last_crawled.') +
+        '<div class="flex items-center gap-1.5">' +
+        basisOpts.map(function (o) {
+          const on = c.timeBasis === o[0];
+          return '<button data-basis="' + o[0] + '" class="' + cn('h-9 px-3 rounded-lg border text-xs font-medium transition-colors',
+            on ? 'border-green-200 bg-green-50 text-green-700' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300') + '">' + o[1] + '</button>';
+        }).join('') + '</div></div>' +
+      '<div class="flex-1">' +
+        '<div class="' + LABEL_CLS + '">Date Range<span class="text-slate-400 font-normal normal-case ml-1">(UTC+8)</span></div>' +
+        '<div class="' + INPUT_CLS + ' flex items-center gap-2 text-slate-400 cursor-not-allowed" title="demo 里没搬日历组件">' +
+        ico('calendar', 'w-4 h-4') + 'Custom range</div></div>' +
+    '</div>' +
+    '<div class="grid grid-cols-2 gap-3">' +
+      '<div>' + configLabel('Include Domains', 'Restrict results to these domains. At most 1200 entries, one per line.') +
+        '<textarea data-text="includeDomains" rows="3" placeholder="e.g. reuters.com (one per line)" class="' + INPUT_CLS + ' h-auto py-2 text-2xs resize-none">' + esc(c.includeDomains) + '</textarea></div>' +
+      '<div>' + configLabel('Exclude Domains', 'Drop these domains from results. Wins over Include Domains.') +
+        '<textarea data-text="excludeDomains" rows="3" placeholder="e.g. reuters.com (one per line)" class="' + INPUT_CLS + ' h-auto py-2 text-2xs resize-none">' + esc(c.excludeDomains) + '</textarea></div>' +
+    '</div>' +
+    '<div class="w-[49%] relative">' + configLabel('Language', 'Follow ISO 639-1, the International Standard for two-letter language codes. Multiple languages are supported.') +
+      '<button id="lang-trigger" class="' + INPUT_CLS + ' flex items-center justify-between ' + (c.language.length ? 'text-slate-800' : 'text-slate-400') + '">' +
+        '<span class="truncate">' + (c.language.length ? c.language.map(function (v) { return (LANGUAGES.find(function (l) { return l.value === v; }) || {}).label; }).join(', ') : 'Please select') + '</span>' +
+        ico('chevronDown', 'w-4 h-4 text-slate-400 shrink-0') + '</button>' +
+      (langOpen ? '<div class="absolute z-20 top-full left-0 right-0 mt-1 py-1 bg-white border border-slate-200 rounded-lg shadow-lg">' +
+        LANGUAGES.map(function (l) {
+          const on = c.language.indexOf(l.value) !== -1;
+          return '<button data-lang="' + l.value + '" class="w-full flex items-center gap-2 px-2.5 py-1.5 text-left text-sm text-slate-700 hover:bg-slate-50">' +
+            '<span class="' + cn('w-4 h-4 shrink-0 rounded border flex-center', on ? 'bg-primary border-primary text-white' : 'bg-white border-slate-300') + '">' +
+            (on ? ico('check', 'w-3 h-3') : '') + '</span>' + l.label + '</button>';
+        }).join('') + '</div>' : '') +
+    '</div></div>';
+
+  h += sep();
+
+  // ── Output options ──
+  function toggleRow(field, label, desc, tokenField, tokenLabel) {
+    const on = cfg[field];
+    return '<div class="flex items-start gap-3"><div class="flex-1">' + checkbox(field, on, label) +
+      '<p class="text-2xs text-slate-500 mt-1">' + desc + '</p></div>' +
+      (on ? '<div class="w-[200px]">' + configLabel(tokenLabel) + numberField(tokenField, cfg[tokenField], 'h-8 text-xs') + '</div>' : '') + '</div>';
+  }
+  h += '<div class="space-y-3"><h2 class="' + H2_CLS + '">Output options</h2>' +
+    toggleRow('highlightEnabled', 'Return highlights', 'Extract query-relevant highlights from the content.', 'highlightMaxTokens', 'Highlights Max Tokens') +
+    toggleRow('fullContentEnabled', 'Return full content', 'Billed via full_content_max_tokens.', 'fullContentMaxTokens', 'Full Content Max Tokens') +
+    '</div>';
+
+  document.getElementById('config-panel').innerHTML = h;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   右：Request / Response。外壳对应 components/modules/api-playground
+   ════════════════════════════════════════════════════════════════════ */
+function renderResponse() {
+  const el = document.getElementById('response-panel');
+  const body = buildRequestBody(query, cfg);
+  const results = resp ? (resp.data.results || []) : [];
+  const entities = resp ? (resp.data.entities || []) : [];
+
+  const outerTab = function (v, label) {
+    const on = ui.outer === v;
+    return '<button data-outer="' + v + '" class="' + cn('px-3 py-2 text-sm font-medium border-b-2 transition-colors',
+      on ? 'border-primary text-slate-900' : 'border-transparent text-slate-500 hover:text-slate-700') + '">' + label + '</button>';
+  };
+
+  let h = '<div class="shrink-0 flex items-center gap-1 px-3 border-b border-slate-100">' +
+    outerTab('request', 'Request') + outerTab('response', 'Response') + '</div>';
+
+  /* ── 工具条 ── */
+  const pill = function (attr, v, label, on) {
+    return '<button data-' + attr + '="' + v + '" class="' + cn('px-2.5 py-1 rounded-md text-xs font-medium transition-colors',
+      on ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700') + '">' + label + '</button>';
+  };
+
+  h += '<div class="shrink-0 flex items-center gap-2 px-3 py-2 border-b border-slate-100">';
+  if (ui.outer === 'response') {
+    h += '<div class="flex items-center gap-0.5 p-0.5 rounded-lg bg-slate-100">' +
+      pill('view', 'json', 'JSON', ui.view === 'json') + pill('view', 'preview', 'Preview', ui.view === 'preview') + '</div>';
+    /**
+     * 两项各对应一次独立执行的检索，摊开比只报 latency 有用。用词跟 Preview 的
+     * 页签、跟 JSON 里的 key 严格一致（entities / results）—— 同一个东西在一屏里
+     * 只能有一个名字。
+     */
+    if (resp) {
+      const counts = [
+        { text: entities.length, unit: 'entities' },
+        { text: results.length, unit: 'results' },
+      ];
+      counts.push({ text: resp.meta.latency + ' ms' });
+      h += '<div class="ml-2 text-2xs text-slate-500 tabular-nums">' + counts.map(function (item, i) {
+        return (i > 0 ? ' · ' : '') + '<span class="text-primary font-sans font-semibold">' + item.text + '</span>' + (item.unit ? ' ' + item.unit : '');
+      }).join('') + '</div>';
+    }
+    h += '<div class="ml-auto flex items-center gap-1">' +
+      '<span class="p-1.5 rounded-md text-slate-300 cursor-not-allowed" title="demo 里没接反馈">' + ico('up', 'w-3.5 h-3.5') + '</span>' +
+      '<span class="p-1.5 rounded-md text-slate-300 cursor-not-allowed" title="demo 里没接反馈">' + ico('down', 'w-3.5 h-3.5') + '</span>' +
+      '<button id="copy" class="flex items-center gap-1 px-2 py-1.5 rounded-md text-xs text-slate-600 hover:bg-slate-100">' +
+        (ui.copied ? ico('check', 'w-3.5 h-3.5') + 'Copied' : ico('copy', 'w-3.5 h-3.5') + 'Copy') + '</button></div>';
+  } else {
+    h += '<div class="flex items-center gap-0.5 p-0.5 rounded-lg bg-slate-100">' +
+      pill('code', 'python', 'Python', ui.code === 'python') +
+      pill('code', 'javascript', 'JavaScript', ui.code === 'javascript') +
+      pill('code', 'curl', 'cURL', ui.code === 'curl') + '</div>' +
+      '<button id="copy" class="ml-auto flex items-center gap-1 px-2 py-1.5 rounded-md text-xs text-slate-600 hover:bg-slate-100">' +
+        (ui.copied ? ico('check', 'w-3.5 h-3.5') + 'Copied' : ico('copy', 'w-3.5 h-3.5') + 'Copy') + '</button>';
+  }
+  h += '</div>';
+
+  /* ── 正文 ── */
+  h += '<div class="min-h-0 flex-1 overflow-y-auto" id="panel-body">';
+  if (ui.outer === 'request') {
+    const code = ui.code === 'python' ? toPython(body) : ui.code === 'javascript' ? toJavaScript(body) : toCurl(body);
+    h += '<pre class="p-3 text-xs leading-relaxed font-mono text-slate-700 whitespace-pre-wrap break-all">' + esc(code) + '</pre>';
+  } else if (!resp) {
+    h += emptyState('No response yet', 'Type a query and hit Run.');
+  } else if (ui.view === 'json') {
+    h += '<pre class="p-3 text-xs leading-relaxed font-mono text-slate-700 whitespace-pre-wrap break-all">' + esc(JSON.stringify(resp, null, 2)) + '</pre>';
+  } else {
+    h += resultList(results, entities);
+  }
+  h += '</div>';
+
+  el.innerHTML = h;
+}
+
+/* ════════════════════════ 测量 ExpandableText ════════════════════════
+   只有真的溢出时才亮出 Show more。render 之后统一跑一遍。
+   ════════════════════════════════════════════════════════════════════ */
+function measureExpandables() {
+  document.querySelectorAll('[data-xt-box]').forEach(function (box) {
+    const p = box.querySelector('p');
+    const btn = box.querySelector('button');
+    if (!p || !btn) return;
+    const open = !!ui.txt[box.getAttribute('data-xt-box')];
+    btn.hidden = !(open || p.scrollHeight > p.clientHeight + 1);
+  });
+}
+
+function render() {
+  const active = document.activeElement;
+  const activeKey = active && (active.id === 'query' ? 'query' : active.getAttribute && (active.getAttribute('data-num') || active.getAttribute('data-text')));
+  const caret = active && active.selectionStart;
+
+  renderConfig();
+  renderResponse();
+  measureExpandables();
+
+  // 重绘会丢焦点，把正在敲的那个框还回去
+  if (activeKey) {
+    const next = activeKey === 'query' ? document.getElementById('query')
+      : document.querySelector('[data-num="' + activeKey + '"], [data-text="' + activeKey + '"]');
+    if (next) {
+      next.focus();
+      if (caret != null && next.setSelectionRange) { try { next.setSelectionRange(caret, caret); } catch (e) {} }
+    }
+  }
+}
+
+/**
+ * 复制。navigator.clipboard 要安全上下文，双击打开的 file:// 页面上拿不到，
+ * 所以退回老办法 —— 不然同事本地打开时 Copy 按钮会静默失效。
+ */
+function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).catch(function () { legacyCopy(text); });
+    return;
+  }
+  legacyCopy(text);
+}
+function legacyCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.setAttribute('readonly', '');
+  ta.style.cssText = 'position:fixed;top:-9999px;opacity:0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch (e) {}
+  ta.remove();
+}
+
+/* ════════════════════════ 事件 ════════════════════════ */
+const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
+const BOUNDS = {
+  count: [1, 100], entitiesCount: [1, 5], entitiesMaxActivities: [1, 20], entitiesMaxNews: [1, 20],
+  highlightMaxTokens: [100, 20000], fullContentMaxTokens: [100, 100000],
+};
+
+function run() {
+  if (!query.trim()) return;
+  resp = buildResponse(query, cfg);
+  ui.outer = 'response';
+  ui.view = 'preview';
+  // key 换一次请求就重挂载，页签回到默认那个：一个实体都没认出来的那次落到 Results
+  ui.tab = (resp.data.entities || []).length > 0 ? 'entities' : 'results';
+  ui.tl = {}; ui.txt = {}; ui.img = {};
+  render();
+}
+
+document.addEventListener('click', function (e) {
+  const t = e.target.closest('button, [data-check], [data-zoom]');
+  if (!t) { if (langOpen) { langOpen = false; render(); } return; }
+  const a = (n) => t.getAttribute(n);
+
+  if (t.id === 'run') return run();
+  if (t.id === 'clear') { query = ''; resp = null; cfg = Object.assign({}, DEFAULTS); render(); return; }
+  if (t.id === 'help-btn') { document.getElementById('help').hidden = false; return; }
+  if (t.id === 'help-close') { document.getElementById('help').hidden = true; return; }
+  if (t.id === 'lang-trigger') { langOpen = !langOpen; render(); return; }
+  if (t.id === 'copy') {
+    const text = ui.outer === 'request'
+      ? (ui.code === 'python' ? toPython(buildRequestBody(query, cfg)) : ui.code === 'javascript' ? toJavaScript(buildRequestBody(query, cfg)) : toCurl(buildRequestBody(query, cfg)))
+      : JSON.stringify(resp, null, 2);
+    copyText(text);
+    ui.copied = true; render();
+    setTimeout(function () { ui.copied = false; render(); }, 1400);
+    return;
+  }
+
+  if (a('data-zoom')) {
+    document.getElementById('lightbox-img').src = a('data-zoom');
+    document.getElementById('lightbox').hidden = false;
+    return;
+  }
+  if (a('data-outer')) { ui.outer = a('data-outer'); render(); return; }
+  if (a('data-view')) { ui.view = a('data-view'); render(); return; }
+  if (a('data-code')) { ui.code = a('data-code'); render(); return; }
+  if (a('data-tab')) { ui.tab = a('data-tab'); render(); return; }
+  if (a('data-tl')) { const k = a('data-tl'); ui.tl[k] = !ui.tl[k]; render(); return; }
+  if (a('data-xt')) { const k = a('data-xt'); ui.txt[k] = !ui.txt[k]; render(); return; }
+  if (a('data-img')) { const k = a('data-img'); ui.img[k] = !ui.img[k]; render(); return; }
+  if (a('data-basis')) { cfg.timeBasis = a('data-basis'); render(); return; }
+  if (a('data-example')) return;   // 候选词在 mousedown 里就处理掉了
+  if (a('data-lang')) {
+    const v = a('data-lang');
+    const i = cfg.language.indexOf(v);
+    if (i === -1) cfg.language.push(v); else cfg.language.splice(i, 1);
+    render();
+    return;
+  }
+  if (a('data-check')) {
+    const f = a('data-check');
+    cfg[f] = !cfg[f];
+    render();
+    return;
+  }
+});
+
+/* 候选词得在 mousedown 上接 —— 等到 click，输入框已经先失焦把下拉收了 */
+document.addEventListener('mousedown', function (e) {
+  const btn = e.target.closest && e.target.closest('[data-example]');
+  if (!btn) return;
+  e.preventDefault();
+  query = btn.getAttribute('data-example');
+  queryFocused = false;
+  render();
+});
+
+/* 输入框聚焦时才出候选。render() 会重建 DOM 再把焦点还回去，所以只在状态真的
+   变了的时候重绘，不然会自己跟自己循环 */
+document.addEventListener('focusin', function (e) {
+  if (e.target.id === 'query' && !queryFocused) { queryFocused = true; render(); }
+});
+document.addEventListener('focusout', function (e) {
+  if (e.target.id !== 'query') return;
+  setTimeout(function () {
+    if (document.activeElement && document.activeElement.id === 'query') return;
+    if (queryFocused) { queryFocused = false; render(); }
+  }, 120);
+});
+
+document.addEventListener('input', function (e) {
+  const el = e.target;
+  if (el.id === 'query') { query = el.value.slice(0, 500); render(); return; }
+  const num = el.getAttribute && el.getAttribute('data-num');
+  if (num) {
+    if (el.value !== '' && isNaN(Number(el.value))) return;
+    // 输入框里存原始字符串，clamp 只发生在往外抛值的时候 —— 否则清空重输会被顶回 min
+    if (el.value !== '') cfg[num] = clamp(Number(el.value), BOUNDS[num][0], BOUNDS[num][1]);
+    return;
+  }
+  const txt = el.getAttribute && el.getAttribute('data-text');
+  if (txt) { cfg[txt] = el.value; }
+});
+
+document.addEventListener('blur', function (e) {
+  const num = e.target.getAttribute && e.target.getAttribute('data-num');
+  if (num) render();
+}, true);
+
+document.addEventListener('keydown', function (e) {
+  if (e.target.id === 'query' && e.key === 'Enter') { e.preventDefault(); queryFocused = false; run(); }
+  if (e.key === 'Escape') {
+    document.getElementById('lightbox').hidden = true;
+    document.getElementById('help').hidden = true;
+    if (langOpen) { langOpen = false; render(); }
+  }
+});
+
+document.getElementById('lightbox').addEventListener('click', function () { this.hidden = true; });
+document.getElementById('help').addEventListener('click', function (e) { if (e.target === this) this.hidden = true; });
+window.addEventListener('resize', measureExpandables);
+
+/* 打开就是一次已经跑过的请求，省得同事先自己敲一遍 */
+run();
+</script>
+</body>
+</html>

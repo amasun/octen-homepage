@@ -1,0 +1,2881 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Octen · News Search Animation Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        --primary: #039855;
+        --primary-lite: #00a63e;
+        --primary-dark: #60ff70;
+
+        /* Rationalized Motion System (Bézier Curves) */
+        --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);    /* Fluid entrance & expansion */
+        --ease-pop: cubic-bezier(0.34, 1.18, 0.64, 1);   /* Subtle refined micro-elastic pop */
+        --ease-carousel: cubic-bezier(0.25, 1, 0.5, 1);  /* Smooth continuous marquee push & glide */
+        --ease-layout: cubic-bezier(0.4, 0, 0.2, 1);     /* Standard FLIP shared-element flight */
+        --ease-morph: cubic-bezier(0.2, 0.9, 0.28, 1);   /* Geometric card metamorphosis */
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 32px 20px;
+        background: #080b12;
+        color: #ffffff;
+      }
+      .demo-wrapper {
+        width: min(1260px, 100%);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .demo-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .header-meta .eyebrow {
+        margin: 0 0 8px;
+        color: #8be49a;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .header-meta h1 {
+        margin: 0;
+        font: 500 clamp(24px, 3.5vw, 38px) / 1.1 'Playfair Display', Georgia, serif;
+        color: #fff;
+      }
+      .demo-controls-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+      }
+      .demo-controls-hint {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.45);
+        letter-spacing: 0.02em;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .demo-controls-hint::before {
+        content: "";
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-color: #8be49a;
+        opacity: 0.8;
+      }
+      .demo-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .step-btn {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 9999px;
+        padding: 6px 14px;
+        font-size: 12px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .step-btn:hover {
+        background: rgba(255, 255, 255, 0.16);
+        color: #fff;
+      }
+      .step-btn.active {
+        background: #039855;
+        border-color: #039855;
+        color: #fff;
+        box-shadow: 0 0 12px rgba(3, 152, 85, 0.4);
+      }
+      .pause-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 9999px;
+        padding: 6px 14px;
+        font-size: 12px;
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .pause-btn:hover {
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      /* ======================================================== */
+      /* EXACT OCTEN CARD SECTION: relative aspect-[3/4] w-full overflow-hidden rounded-3xl sm:aspect-2/1 lg:aspect-[2.4/1] */
+      /* ======================================================== */
+      .card-canvas {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 24px;
+        aspect-ratio: 3 / 4;
+        background: radial-gradient(60% 70% at 50% 55%, #DCEEC6 0%, #A6CE86 55%, #8FBD73 100%);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+      }
+      @media (min-width: 640px) {
+        .card-canvas {
+          aspect-ratio: 2 / 1;
+        }
+      }
+      @media (min-width: 1024px) {
+        .card-canvas {
+          aspect-ratio: 2.4 / 1;
+        }
+      }
+
+      /* 1. Ambient Background Watermark (Lucide Newspaper) */
+      .canvas-watermark {
+        position: absolute;
+        top: 50%;
+        left: 6%;
+        aspect-ratio: 1 / 1;
+        height: 35%;
+        transform: translateY(-50%);
+        color: rgba(95, 140, 71, 0.25);
+        pointer-events: none;
+        z-index: 1;
+        transition: opacity 0.5s ease;
+      }
+      @media (min-width: 1024px) {
+        .canvas-watermark {
+          left: 9%;
+          height: 46%;
+        }
+      }
+      .canvas-watermark svg {
+        width: 100%;
+        height: 100%;
+      }
+      .card-canvas.not-typing .canvas-watermark {
+        opacity: 0;
+      }
+
+      /* 2. Left / Center Dynamic Panel */
+      .canvas-left-panel {
+        position: absolute;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+      }
+      /* Centered state (typing) - Figma exact node: top 171.62px on 532px canvas */
+      .card-canvas.is-typing .canvas-left-panel {
+        left: 0;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        align-items: center;
+        gap: 24px;
+      }
+      @media (min-width: 1024px) {
+        .card-canvas.is-typing .canvas-left-panel {
+          top: calc(171.62 / 532 * 100%);
+          transform: none;
+          gap: 36px;
+        }
+      }
+
+      /* Shifted state (searching & results) */
+      .card-canvas.not-typing .canvas-left-panel {
+        left: 6%;
+        right: 6%;
+        top: 5%;
+        transform: none;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      @media (min-width: 1024px) {
+        .card-canvas.not-typing .canvas-left-panel {
+          left: 4%;
+          right: auto;
+          top: 50%;
+          width: 38%;
+          max-width: 440px;
+          transform: translateY(-50%);
+          gap: 20px;
+        }
+      }
+
+      /* Title & Spring Heading Icon (Figma exact node) */
+      .canvas-heading-row {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'Fraunces', Georgia, serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 30px;
+        line-height: 24px;
+        color: #000000;
+        letter-spacing: -0.01em;
+        font-variation-settings: "SOFT" 0, "WONK" 1;
+        white-space: nowrap;
+        will-change: transform;
+      }
+      .heading-icon-spring {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        flex-shrink: 0;
+        color: #0B1F0E;
+        overflow: hidden;
+        transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.34, 1.18, 0.64, 1), opacity 0.35s ease, margin 0.45s ease;
+      }
+      .card-canvas.is-typing .heading-icon-spring {
+        width: 0;
+        opacity: 0;
+        transform: scale(0.4);
+        margin-right: -8px;
+        pointer-events: none;
+      }
+      .card-canvas.not-typing .heading-icon-spring {
+        width: 28px;
+        opacity: 1;
+        transform: scale(1);
+        margin-right: 0;
+      }
+
+      /* Search Box */
+      .search-box-wrapper {
+        box-sizing: border-box;
+        will-change: transform, width;
+      }
+      .card-canvas.is-typing .search-box-wrapper {
+        width: 78%;
+        max-width: 520px;
+      }
+      @media (min-width: 1024px) {
+        .card-canvas.is-typing .search-box-wrapper {
+          width: 40%;
+        }
+      }
+      .card-canvas.not-typing .search-box-wrapper {
+        width: 100%;
+        max-width: 100%;
+      }
+      .card-canvas.has-results .search-box-wrapper {
+        opacity: 0;
+        transform: translateY(-8px);
+        pointer-events: none;
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .search-pill {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        gap: 12px;
+        border-radius: 24px;
+        border: 8px solid rgba(255, 255, 255, 0.4);
+        background-color: #ffffff;
+        background-clip: padding-box;
+        padding: 10px 20px;
+        box-sizing: border-box;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      }
+      .octen-logo-mark {
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: octen-pop 0.6s cubic-bezier(0.34, 1.18, 0.64, 1) both;
+      }
+      @keyframes octen-pop {
+        0% { transform: scale(0) rotate(-25deg); }
+        100% { transform: scale(1) rotate(0); }
+      }
+      .query-display {
+        min-width: 0;
+        flex: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: clamp(14px, 1.4vw, 18px);
+        font-weight: 600;
+        color: #0B1F0E;
+      }
+      .typing-caret {
+        display: inline-block;
+        width: 2px;
+        height: 1.1em;
+        margin-left: 2px;
+        background-color: #0B1F0E;
+        vertical-align: middle;
+        animation: caret-blink 1.1s ease-in-out infinite;
+      }
+      .card-canvas.not-typing .typing-caret {
+        display: none;
+      }
+      @keyframes caret-blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+      .sparkle-search-icon {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        color: #0B1F0E;
+      }
+
+      /* Summary Box (Stage 3, 4, 5) - Proportional spacing matching design screenshot */
+      .summary-box {
+        display: none;
+        flex-direction: column;
+        gap: 20px;
+        animation: summary-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      .card-canvas.has-results .summary-box {
+        display: flex;
+      }
+      @media (min-width: 1024px) {
+        .summary-box {
+          gap: 24px;
+        }
+      }
+      @keyframes summary-enter {
+        from { opacity: 0; transform: translateY(14px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .summary-stats-row {
+        display: flex;
+        align-items: baseline;
+        gap: 24px;
+        color: #0B1F0E;
+      }
+      @media (min-width: 1024px) {
+        .summary-stats-row {
+          gap: 28px;
+        }
+      }
+      .stat-counter-unit {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .stat-number-val {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: clamp(26px, 2.5vw, 32px);
+        font-variant-numeric: tabular-nums;
+        font-weight: 400;
+        line-height: 1;
+        color: #0B1F0E;
+      }
+      .stat-unit-label {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: clamp(16px, 1.4vw, 20px);
+        font-weight: 400;
+        color: #3B4D3F;
+        line-height: 1;
+      }
+      .summary-bullets-list {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        color: #0B1F0E;
+        font-size: 15px;
+        line-height: 1.45;
+      }
+      @media (min-width: 1024px) {
+        .summary-bullets-list {
+          display: flex;
+        }
+      }
+      .summary-bullets-list li {
+        display: block;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* 3. Right Content Panel */
+      .canvas-right-panel {
+        position: absolute;
+        inset-inline: 6%;
+        top: 26%;
+        bottom: 0;
+        overflow: hidden;
+        z-index: 5;
+      }
+      @media (min-width: 1024px) {
+        .canvas-right-panel {
+          inset-inline: auto;
+          right: 28px;
+          top: 0;
+          bottom: 0;
+          width: 590px;
+          max-width: 55%;
+        }
+      }
+
+      /* Stage 2 Searching Overlay */
+      .searching-center-box {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+      }
+      .card-canvas.is-searching .searching-center-box {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .searching-text {
+        margin: 0;
+        font-size: 20px;
+        color: #4A5A4E;
+        font-weight: 500;
+      }
+      .wave-dots-track {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 24px;
+      }
+      .wave-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: #0B1F0E;
+        animation: sine-wave 1.4s linear infinite;
+      }
+      @keyframes sine-wave {
+        0% { transform: translateY(0); }
+        25% { transform: translateY(-7px); }
+        50% { transform: translateY(0); }
+        75% { transform: translateY(7px); }
+        100% { transform: translateY(0); }
+      }
+
+      /* Stage 3-5 Results Viewport (Extends to card edges with symmetrical top & bottom fade mask) */
+      .results-scroller-viewport {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+        /* Symmetrical Top & Bottom Soft Fade Masks - Cards dissolve at outermost boundary */
+        mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          rgba(0, 0, 0, 0.25) 12px,
+          rgba(0, 0, 0, 0.8) 32px,
+          black 52px,
+          black calc(100% - 64px),
+          rgba(0, 0, 0, 0.8) calc(100% - 36px),
+          rgba(0, 0, 0, 0.25) calc(100% - 14px),
+          transparent 100%
+        );
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          rgba(0, 0, 0, 0.25) 12px,
+          rgba(0, 0, 0, 0.8) 32px,
+          black 52px,
+          black calc(100% - 64px),
+          rgba(0, 0, 0, 0.8) calc(100% - 36px),
+          rgba(0, 0, 0, 0.25) calc(100% - 14px),
+          transparent 100%
+        );
+      }
+      .card-canvas.has-results:not(.is-stage4):not(.is-stage5) .results-scroller-viewport {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .card-canvas.is-stage4 .results-scroller-viewport,
+      .card-canvas.is-stage5 .results-scroller-viewport {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .results-card-list {
+        position: relative;
+        padding-left: 56px;
+        padding-top: 16px;
+        padding-bottom: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        will-change: transform;
+        transition: transform 0.1s linear;
+      }
+      @media (min-width: 1024px) {
+        .results-card-list {
+          padding-top: 20px;
+          padding-bottom: 28px;
+          gap: 4px;
+        }
+      }
+
+
+
+      /* Cards Styling (Subject Card & Article Card) */
+      .subject-card-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 520px;
+      }
+      .subject-card-box,
+      .article-card-box {
+        position: relative;
+        width: 100%;
+        max-width: 520px;
+        border-radius: 24px;
+        border: 8px solid rgba(255, 255, 255, 0.35);
+        background-color: #ffffff;
+        background-clip: padding-box;
+        box-sizing: border-box;
+        box-shadow: 0 8px 24px rgba(31, 72, 28, 0.08);
+        transition: border-color 0.2s ease;
+      }
+      .subject-card-box:hover,
+      .article-card-box:hover {
+        border-color: rgba(255, 255, 255, 0.6);
+      }
+      @media (min-width: 1024px) {
+        .subject-card-wrapper {
+          width: 520px;
+        }
+        .subject-card-box,
+        .article-card-box {
+          width: 520px;
+        }
+      }
+
+      /* Subject Card */
+      .subject-card-box {
+        padding: 14px 20px;
+      }
+      .subject-card-top {
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .subject-date-range {
+        font-size: clamp(11px, 1vw, 14px);
+        color: #5A6B5E;
+      }
+      .subject-badge {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 4px 8px;
+        gap: 10px;
+        width: 66px;
+        height: 20px;
+        background: #6EAE92;
+        border-radius: 4px;
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 100%;
+        color: #FFFFFF;
+        flex: none;
+        order: 1;
+        flex-grow: 0;
+      }
+      .subject-card-body {
+        display: flex;
+        gap: 12px;
+      }
+      @media (min-width: 1024px) {
+        .subject-card-body {
+          gap: 16px;
+        }
+      }
+      .subject-cover-box {
+        position: relative;
+        height: 88px;
+        width: 120px;
+        flex-shrink: 0;
+        overflow: hidden;
+        border-radius: 12px;
+        background-size: cover;
+        background-position: center;
+      }
+      .subject-cover-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .subject-text-content {
+        min-width: 0;
+        flex: 1;
+        width: 100%;
+      }
+      .subject-name {
+        margin: 0;
+        font-size: clamp(13px, 1.1vw, 16px);
+        line-height: 1.25;
+        font-weight: 700;
+        color: #0B1F0E;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      @media (min-width: 1024px) {
+        .subject-name {
+          -webkit-line-clamp: 2;
+        }
+      }
+      .subject-summary {
+        margin: 4px 0 0;
+        font-size: 13px;
+        line-height: 1.4;
+        color: #4A5A4E;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      @media (min-width: 768px) {
+        .subject-summary {
+          -webkit-line-clamp: 3;
+        }
+      }
+
+      /* Article Card */
+      .article-card-box {
+        padding: 16px 20px;
+      }
+      .article-card-top {
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      @media (min-width: 1024px) {
+        .article-card-top {
+          margin-bottom: 8px;
+          gap: 12px;
+        }
+      }
+      .article-timestamp {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: clamp(11px, 1vw, 13px);
+        color: #0B1F0E;
+      }
+      .article-timestamp svg {
+        width: 15px;
+        height: 15px;
+        color: #5A6B5E;
+      }
+      .article-source-domain {
+        flex-shrink: 0;
+        font-size: clamp(11px, 1vw, 13px);
+        color: #5A6B5E;
+      }
+      .article-title {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.35;
+        font-weight: 500;
+        color: #0B1F0E;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      /* Gradient presets for subject cover fallbacks */
+      .grad-0 { background: linear-gradient(135deg, #8FA5B8, #5F7488); }
+      .grad-1 { background: linear-gradient(135deg, #A8B49A, #6E7F63); }
+      .grad-2 { background: linear-gradient(135deg, #BCAE93, #867A62); }
+      .grad-3 { background: linear-gradient(135deg, #9B9FB5, #6B6F85); }
+
+      /* ========================================================
+         Stages 4 & 5: Horizontal Subject Tabs + Top News & Timeline
+         Exact Figma Nodes: 13784:7160, 13784:7317, 13784:6893
+         ======================================================== */
+      .stage-focus-container {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+        justify-content: center;
+        padding: 16px 12px;
+        box-sizing: border-box;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 10;
+      }
+      @media (min-width: 1024px) {
+        .stage-focus-container {
+          top: 30px;
+          bottom: 30px;
+          left: 0;
+          right: 0;
+          padding: 0 14px 0 56px;
+          gap: 12px;
+          justify-content: flex-start;
+          align-items: flex-start;
+          box-sizing: border-box;
+        }
+      }
+      .card-canvas.is-stage4 .stage-focus-container,
+      .card-canvas.is-stage5 .stage-focus-container {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* Morphing Cards Overlay Layer (Metamorphosis from 4 Subject Cards to 4 Horizontal Pills) */
+      .morph-cards-overlay {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 45;
+        overflow: visible;
+      }
+      .morph-proxy-card {
+        position: absolute;
+        box-sizing: border-box;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform-origin: center center;
+        background-color: #FFFFFF;
+        background-clip: padding-box;
+        border: 8px solid rgba(255, 255, 255, 0.4);
+        border-radius: 24px;
+        box-shadow: 0 8px 24px rgba(31, 72, 28, 0.08);
+        will-change: transform, width, height, background-color, border-radius, border-width, border-color, box-shadow;
+      }
+      .morph-proxy-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .morph-proxy-card-view {
+        position: absolute;
+        inset: 10px 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 3px;
+        pointer-events: none;
+      }
+      .morph-proxy-top-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2px;
+      }
+      .morph-proxy-date {
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 11px;
+        color: #5A6B5E;
+      }
+      .morph-proxy-badge {
+        box-sizing: border-box;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2px 8px;
+        height: 18px;
+        background: #6EAE92;
+        border-radius: 4px;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 700;
+        font-size: 11px;
+        color: #FFFFFF;
+      }
+      .morph-proxy-title {
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        color: #0B1F0E;
+        line-height: 1.25;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .morph-proxy-summary {
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 11px;
+        color: #4A5A4E;
+        line-height: 1.25;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .morph-proxy-pill-tag {
+        position: absolute;
+        inset: 0;
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 700;
+        font-size: 12px;
+        color: #FFFFFF;
+        letter-spacing: 0.02em;
+        line-height: 1;
+        white-space: nowrap;
+        user-select: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* Horizontal Subjects Bar (Stage 4 & 5) */
+      .subjects-horizontal-bar {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        max-width: 520px;
+      }
+      @media (min-width: 1024px) {
+        .subjects-horizontal-bar {
+          width: 520px;
+        }
+      }
+      .subject-h-pill {
+        flex: 1 0 0;
+        min-width: 0;
+        height: 30px;
+        border-radius: 16px;
+        background: rgba(76, 94, 86, 0.57);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        color: #FFFFFF;
+        letter-spacing: 0.02em;
+        white-space: nowrap;
+        user-select: none;
+        cursor: pointer;
+        transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, border-radius 0.3s ease;
+      }
+      .subject-h-pill:hover {
+        background: rgba(76, 94, 86, 0.75);
+      }
+      .subject-h-pill.active {
+        background: #039855;
+        box-shadow: none;
+      }
+      .card-canvas.is-stage4 .subject-h-pill,
+      .card-canvas.is-stage5 .subject-h-pill {
+        border-radius: 16px;
+        box-shadow: none;
+      }
+      .card-canvas.is-stage4 .subject-h-pill.active,
+      .card-canvas.is-stage5 .subject-h-pill.active {
+        box-shadow: none;
+      }
+
+      /* White Events Card (Stage 4 & 5) */
+      .events-white-card {
+        width: 100%;
+        max-width: 520px;
+        background: #FFFFFF;
+        background-clip: padding-box;
+        border: 8px solid rgba(255, 255, 255, 0.4);
+        border-radius: 24px;
+        padding: 16px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        text-align: left;
+        transition: height 0.5s cubic-bezier(0.22, 1, 0.36, 1), flex 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      @media (min-width: 1024px) {
+        .events-white-card {
+          width: 520px;
+        }
+      }
+      @media (min-width: 1024px) {
+        .card-canvas.is-stage5 .events-white-card {
+          flex: 1 1 0;
+          min-height: 0;
+          height: calc(100% - 42px);
+        }
+      }
+
+      /* Top News Block */
+      .top-news-block {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+        flex-shrink: 0;
+      }
+      .top-news-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: 24px;
+      }
+      .top-news-tag {
+        background: #039855;
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        color: #FFFFFF;
+        line-height: 1;
+      }
+      .top-news-time {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13px;
+        color: #868686;
+      }
+      .top-news-time svg {
+        width: 15px;
+        height: 15px;
+        color: #868686;
+      }
+      .top-news-content {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        width: 100%;
+      }
+      .top-news-cover-box {
+        width: 108px;
+        height: 82px;
+        min-width: 108px;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #E5E7EB;
+        flex-shrink: 0;
+      }
+      .top-news-cover-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .top-news-text-box {
+        flex: 1 0 0;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .top-news-title {
+        margin: 0;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 15px;
+        color: #000000;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .top-news-source {
+        margin: 0;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13px;
+        color: #868686;
+        line-height: 1;
+      }
+      .top-news-summary {
+        margin: 0;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 12px;
+        line-height: 1.4;
+        color: #000000;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      /* Stage 5 Timeline Details Stream */
+      .timeline-stream-block {
+        display: flex;
+        gap: 6px;
+        align-items: stretch;
+        width: 100%;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        pointer-events: none;
+        transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, margin-top 0.4s ease;
+        margin-top: 0;
+      }
+      .card-canvas.is-stage5 .timeline-stream-block {
+        position: relative;
+        flex: 1 1 0;
+        min-height: 204px;
+        max-height: 232px;
+        opacity: 1;
+        pointer-events: auto;
+        margin-top: 8px;
+        overflow-y: auto;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
+      }
+      .card-canvas.is-stage5 .timeline-stream-block::-webkit-scrollbar {
+        display: none !important; /* Chrome, Safari, Edge */
+        width: 0 !important;
+        height: 0 !important;
+      }
+      .card-canvas.is-stage5 .timeline-stream-block.is-animating {
+        overflow-y: hidden !important;
+        pointer-events: none;
+      }
+      .timeline-spine-track {
+        width: 32px;
+        min-width: 32px;
+        position: relative;
+        align-self: stretch;
+      }
+      .timeline-spine-stem {
+        position: absolute;
+        left: 14px;
+        top: 30px;
+        height: 272px;
+        width: 4px;
+        border-radius: 2px;
+        background: #D0D5DD;
+        transform: scaleY(0);
+        transform-origin: top;
+        transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      .timeline-dot-node {
+        position: absolute;
+        left: 10px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #4AAC80;
+        border: 2px solid #FFFFFF;
+        box-sizing: border-box;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+        transform: scale(0);
+        transition: transform 0.35s cubic-bezier(0.34, 1.18, 0.64, 1);
+        z-index: 2;
+      }
+      .card-canvas.is-stage5 .timeline-dot-node.visible {
+        transform: scale(1);
+      }
+
+      .timeline-articles-subgroup {
+        flex: 1 0 0;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .timeline-sub-article {
+        background: #F3F3F3;
+        border-radius: 8px;
+        padding: 8px 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 3px;
+        height: 60px;
+        min-height: 60px;
+        max-height: 60px;
+        box-sizing: border-box;
+        opacity: 0;
+        transform: translateY(14px);
+        transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+      }
+      .timeline-sub-article:hover {
+        background: #EAEAEA;
+      }
+      .timeline-sub-article.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .sub-article-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
+      .sub-article-time {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 12px;
+        color: #868686;
+      }
+      .sub-article-domain {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 12px;
+        color: #868686;
+      }
+      .sub-article-title {
+        margin: 0;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 1.35;
+        color: #000000;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* Footer note */
+      .demo-footer-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.4);
+        padding: 0 4px;
+      }
+
+      /* Replay Button (Figma Node: 13784:144363) */
+      .replay-btn {
+        position: absolute;
+        left: 20px;
+        bottom: 20px;
+        width: 40px;
+        height: 40px;
+        border-radius: 99px;
+        background: rgba(0, 0, 0, 0.2);
+        border: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 30;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        opacity: 0;
+        transform: scale(0.7);
+        pointer-events: none;
+        transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.34, 1.18, 0.64, 1), background-color 0.2s ease;
+        box-shadow: none;
+      }
+      .replay-btn.visible {
+        opacity: 1;
+        transform: scale(1);
+        pointer-events: auto;
+      }
+      .replay-btn:hover {
+        background: rgba(0, 0, 0, 0.35);
+        transform: scale(1.08);
+        box-shadow: none;
+      }
+      .replay-btn:active {
+        transform: scale(0.94);
+      }
+      .replay-btn .replay-icon {
+        width: 20px;
+        height: 20px;
+        opacity: 0.6;
+        transition: opacity 0.2s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .replay-btn:hover .replay-icon {
+        opacity: 1;
+        transform: rotate(-35deg);
+      }
+      @media (max-width: 640px) {
+        .replay-btn {
+          left: 14px;
+          bottom: 14px;
+          width: 36px;
+          height: 36px;
+        }
+        .replay-btn .replay-icon {
+          width: 18px;
+          height: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="demo-wrapper">
+      <div class="demo-header">
+        <div class="header-meta">
+          <p class="eyebrow">Octen / Vertical Search Infrastructure</p>
+          <h1>News Search Animation Demo</h1>
+        </div>
+        <div class="demo-controls-wrapper">
+          <div class="demo-controls-hint">只作为步骤拆解用，不出现该控件</div>
+          <div class="demo-controls">
+            <button type="button" class="pause-btn" id="togglePlayBtn" title="Toggle Auto-loop">⏸ Pause</button>
+            <button type="button" class="step-btn" data-step="typing">1. Typing</button>
+            <button type="button" class="step-btn" data-step="searching">2. Searching</button>
+            <button type="button" class="step-btn" data-step="overview">3. Overview</button>
+            <button type="button" class="step-btn" data-step="focus">4. Top News</button>
+            <button type="button" class="step-btn" data-step="timeline">5. Timeline</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- TARGET SECTION: relative aspect-[3/4] w-full overflow-hidden rounded-3xl sm:aspect-2/1 lg:aspect-[2.4/1] -->
+      <!-- ======================================================== -->
+      <section
+        class="card-canvas is-typing"
+        id="newsSearchCard"
+        aria-label="News Search Interactive Stage"
+      >
+        <!-- 1. Ambient Background Watermark -->
+        <div class="canvas-watermark" aria-hidden="true">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-newspaper"
+          >
+            <path d="M15 18h-5"></path>
+            <path d="M18 14h-8"></path>
+            <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path>
+            <rect width="8" height="4" x="10" y="6" rx="1"></rect>
+          </svg>
+        </div>
+
+        <!-- 2. Left / Center Dynamic Panel -->
+        <div class="canvas-left-panel" id="canvasLeftPanel">
+          <h2 class="canvas-heading-row">
+            <span class="heading-icon-spring" aria-hidden="true">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-newspaper"
+              >
+                <path d="M15 18h-5"></path>
+                <path d="M18 14h-8"></path>
+                <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path>
+                <rect width="8" height="4" x="10" y="6" rx="1"></rect>
+              </svg>
+            </span>
+            <span>News Search</span>
+          </h2>
+
+          <!-- Search Pill (Stages 1 & 2) -->
+          <div class="search-box-wrapper" id="searchBoxWrapper">
+            <div class="search-pill">
+              <!-- Octen Black Mark Icon -->
+              <span class="octen-logo-mark" aria-hidden="true">
+                <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16.9822 12.0394V4.95035C16.9822 4.55302 16.6588 4.23057 16.2603 4.23057H15.3782C15.16 4.23057 14.9497 4.14371 14.7955 3.98997L14.6864 3.88115C14.5322 3.72741 14.4451 3.51777 14.4451 3.29913V2.39166C14.4451 1.99433 14.1217 1.67188 13.7232 1.67188H3.39872C3.00023 1.67188 2.67684 1.99433 2.67684 2.39166V9.52465C2.67684 9.92198 3.00023 10.2444 3.39872 10.2444H4.27178C4.5401 10.2444 4.79842 10.3513 4.98865 10.5409L4.99165 10.5439C5.12681 10.6787 5.20291 10.8614 5.20291 11.0531V12.0414C5.20291 12.4387 5.5263 12.7612 5.92478 12.7612H16.2623C16.6608 12.7612 16.9842 12.4387 16.9842 12.0414L16.9822 12.0394ZM14.1968 4.4502C14.351 4.60394 14.4381 4.81358 14.4381 5.03222V9.50269C14.4381 9.90002 14.1147 10.2225 13.7162 10.2225H6.02891C5.83767 10.2225 5.65445 10.1466 5.51829 10.0118C5.32806 9.82215 5.22193 9.56558 5.22193 9.29703V4.92939C5.22193 4.53206 5.54532 4.2096 5.9438 4.2096H13.6141C13.8324 4.2096 14.0426 4.29646 14.1978 4.4502H14.1968Z" fill="black"/>
+                  <path d="M8.35803 6.10437H7.34681C6.94813 6.10437 6.62493 6.42663 6.62493 6.82416V7.83246C6.62493 8.22999 6.94813 8.55225 7.34681 8.55225H8.35803C8.75672 8.55225 9.07991 8.22999 9.07991 7.83246V6.82416C9.07991 6.42663 8.75672 6.10437 8.35803 6.10437Z" fill="black"/>
+                  <path d="M12.2678 6.10437H11.2566C10.8579 6.10437 10.5347 6.42663 10.5347 6.82416V7.83246C10.5347 8.22999 10.8579 8.55225 11.2566 8.55225H12.2678C12.6665 8.55225 12.9897 8.22999 12.9897 7.83246V6.82416C12.9897 6.42663 12.6665 6.10437 12.2678 6.10437Z" fill="black"/>
+                  <path d="M8.70555 15.0773H7.54915C7.15047 15.0773 6.82727 15.3995 6.82727 15.7971V16.9501C6.82727 17.3476 7.15047 17.6699 7.54915 17.6699H8.70555C9.10423 17.6699 9.42743 17.3476 9.42743 16.9501V15.7971C9.42743 15.3995 9.10423 15.0773 8.70555 15.0773Z" fill="black"/>
+                  <path d="M12.9858 15.0773H11.8294C11.4307 15.0773 11.1075 15.3995 11.1075 15.7971V16.9501C11.1075 17.3476 11.4307 17.6699 11.8294 17.6699H12.9858C13.3845 17.6699 13.7076 17.3476 13.7076 16.9501V15.7971C13.7076 15.3995 13.3845 15.0773 12.9858 15.0773Z" fill="black"/>
+                  <path d="M20.589 14.3583V13.2043C20.589 12.807 20.2656 12.4845 19.8671 12.4845H18.7097C18.3112 12.4845 17.9878 12.807 17.9878 13.2043V14.3583C17.9878 14.549 17.9117 14.7317 17.7766 14.8675C17.6414 15.0023 17.4582 15.0781 17.2659 15.0781H16.1085C15.71 15.0781 15.3867 15.4006 15.3867 15.7979V16.952C15.3867 17.3493 15.71 17.6718 16.1085 17.6718H17.2659C17.6644 17.6718 17.9878 17.3493 17.9878 16.952V16.0126C17.9878 15.8219 18.0639 15.6392 18.1991 15.5034L18.4143 15.2888C18.5495 15.154 18.7327 15.0781 18.9249 15.0781H19.8671C20.2656 15.0781 20.589 14.7557 20.589 14.3583Z" fill="black"/>
+                  <path d="M2.60015 14.3035V13.2033C2.60015 12.806 2.27676 12.4835 1.87828 12.4835H0.721875C0.323392 12.4845 0 12.806 0 13.2033V14.3574C0 14.7547 0.323392 15.0772 0.721875 15.0772H1.64299C1.88328 15.0772 2.11356 15.172 2.28277 15.3417C2.45297 15.5114 2.54809 15.7401 2.54809 15.9797V16.951C2.54809 17.3483 2.87148 17.6708 3.26996 17.6708H4.42737C4.82585 17.6708 5.14924 17.3483 5.14924 16.951V15.797C5.14924 15.3996 4.82585 15.0772 4.42737 15.0772H3.45319C3.2129 15.0772 2.98262 14.9823 2.81341 14.8126C2.67825 14.6768 2.60215 14.4942 2.60215 14.3035H2.60015Z" fill="black"/>
+                </svg>
+              </span>
+
+              <!-- Query text display -->
+              <span class="query-display">
+                <span id="queryTextSpan"></span><span class="typing-caret" id="queryCaret"></span>
+              </span>
+
+              <!-- Sparkle Search Icon -->
+              <span class="sparkle-search-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.3335 1.54785C7.5518 1.54785 7.76747 1.55915 7.97998 1.58105L7.25732 3.34961C4.84427 3.39043 2.90105 5.35849 2.90088 7.78125C2.90088 10.2296 4.88518 12.2147 7.3335 12.2148C9.7109 12.2148 11.6506 10.3432 11.7612 7.99316L13.564 7.88867C13.541 9.24379 13.0873 10.4934 12.3315 11.5059L14.6362 13.8115C14.9877 14.163 14.9877 14.7325 14.6362 15.084C14.2848 15.4355 13.7152 15.4355 13.3638 15.084L11.0581 12.7793C10.0189 13.555 8.72998 14.0146 7.3335 14.0146C3.89107 14.0145 1.1001 11.2237 1.1001 7.78125C1.10027 4.33893 3.89118 1.54803 7.3335 1.54785Z" fill="#0B1F0E"/>
+                  <path d="M11.9032 0.220321C11.8333 0.267491 11.779 0.334482 11.7473 0.412706L11.5351 0.923219C11.1801 1.7879 10.5069 2.48348 9.65432 2.86668L9.0544 3.13405C8.97747 3.16944 8.91229 3.22615 8.8666 3.29745C8.82091 3.36876 8.79663 3.45167 8.79663 3.53636C8.79663 3.62104 8.82091 3.70395 8.8666 3.77526C8.91229 3.84657 8.97747 3.90328 9.0544 3.93867L9.68941 4.22108C10.5212 4.59386 11.1831 5.26495 11.5443 6.10187L11.7498 6.57395C11.782 6.65096 11.8362 6.71674 11.9056 6.76301C11.975 6.80928 12.0566 6.83397 12.14 6.83397C12.2235 6.83397 12.305 6.80928 12.3745 6.76301C12.4439 6.71674 12.4981 6.65096 12.5302 6.57395L12.7366 6.10103C13.0976 5.26473 13.7588 4.594 14.5898 4.22108L15.2248 3.93867C15.3018 3.90328 15.3669 3.84657 15.4126 3.77526C15.4583 3.70395 15.4826 3.62104 15.4826 3.53636C15.4826 3.45167 15.4583 3.36876 15.4126 3.29745C15.3669 3.22615 15.3018 3.16944 15.2248 3.13405L14.6249 2.86668C13.7727 2.48331 13.0998 1.78775 12.745 0.923219L12.5327 0.412706C12.5011 0.334482 12.4468 0.267491 12.3768 0.220321C12.3069 0.17315 12.2244 0.147949 12.14 0.147949C12.0557 0.147949 11.9732 0.17315 11.9032 0.220321Z" fill="#039855"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Summary Box (Stages 3, 4, 5) -->
+          <div class="summary-box" id="summaryBox">
+            <div class="summary-stats-row">
+              <span class="stat-counter-unit">
+                <span class="stat-number-val" id="statSubjects">4</span>
+                <span class="stat-unit-label">subjects</span>
+              </span>
+              <span class="stat-counter-unit">
+                <span class="stat-number-val" id="statArticles">10</span>
+                <span class="stat-unit-label">articles</span>
+              </span>
+            </div>
+            <ul class="summary-bullets-list">
+              <li>• Fresh news, delivered in milliseconds.</li>
+              <li>• Track the progress of each subject across the timeline.</li>
+              <li>• Dive deep into the story's development.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 3. Right Content Panel -->
+        <div class="canvas-right-panel" id="canvasRightPanel">
+          <!-- Morph Cards FLIP Overlay -->
+          <div class="morph-cards-overlay" id="morphCardsOverlay"></div>
+
+          <!-- Stage 2: Searching Indicator -->
+          <div class="searching-center-box" id="searchingBox">
+            <p class="searching-text">Searching...</p>
+            <div class="wave-dots-track" id="waveDotsTrack">
+              <!-- 14 Sine Wave Jumping Dots -->
+            </div>
+          </div>
+
+          <!-- Stage 3 Results Viewport (Subject Cards Stream) -->
+          <div class="results-scroller-viewport" id="resultsViewport">
+            <div class="results-card-list" id="cardListContainer">
+              <!-- Cards rendered dynamically via JS -->
+            </div>
+          </div>
+
+          <!-- Stages 4 & 5: Horizontal Subject Tabs + Top News & Timeline Stream (Figma exact: 13784:7160, 13784:7317, 13784:6893) -->
+          <div class="stage-focus-container" id="stageFocusContainer">
+            <!-- Horizontal Subject Tabs Bar -->
+            <div class="subjects-horizontal-bar" id="subjectsHBar">
+              <div class="subject-h-pill active" data-subject-idx="0">Subject1</div>
+              <div class="subject-h-pill" data-subject-idx="1">Subject2</div>
+              <div class="subject-h-pill" data-subject-idx="2">Subject3</div>
+              <div class="subject-h-pill" data-subject-idx="3">Subject4</div>
+            </div>
+
+            <!-- White Events Card -->
+            <div class="events-white-card" id="eventsWhiteCard">
+              <!-- Top News Block (Stage 4) -->
+              <div class="top-news-block" id="topNewsBlock">
+                <div class="top-news-header">
+                  <span class="top-news-tag">Top News</span>
+                  <span class="top-news-time">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span id="topNewsTime">2026/09/15 21:40:00</span>
+                  </span>
+                </div>
+                <div class="top-news-content">
+                  <div class="top-news-cover-box">
+                    <img class="top-news-cover-img" id="topNewsThumb" src="./images/vertical/subject-1.png" alt="Top News Cover" onerror="this.src='https://www.reuters.com/resizer/v2/NBVC6SDELNITTNCA4X55OSSPKM.jpg?auth=45ddc3632d960da3fa4dc5652e455479277bdb7240c23991d56f1ff7164c973d&height=1005&width=1920&quality=80&smart=true'" />
+                  </div>
+                  <div class="top-news-text-box">
+                    <h4 class="top-news-title" id="topNewsTitle">US military says over 1B barrels of oil shipped through Strait of Hormuz under US blockade</h4>
+                    <p class="top-news-source" id="topNewsSource">Aaa.com.tr</p>
+                    <p class="top-news-summary" id="topNewsDesc">A clandestine hard-line faction in Iran, led by former IRGC intelligence director Hossein Taeb, attacked three commercial ships in the Strait of Hormuz, including a Qatari LNG tanker, to derail a recently signed peace agreement with the United States. Regime insiders say the attack was not authorized by President Masoud Pezeshkian or the IRGC commander, triggering a collapse in diplomatic negotiations and renewed US military strikes.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Stage 5: Timeline Stream Details (Unfolds below Top News) -->
+              <div class="timeline-stream-block" id="timelineStreamBlock">
+                <div class="timeline-spine-track" id="timelineSpineTrack">
+                  <div class="timeline-spine-stem" id="timelineSpineStem"></div>
+                </div>
+                <div class="timeline-articles-subgroup" id="timelineArticlesSubgroup"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Replay Button (Figma Node: 13784:144363) -->
+        <button class="replay-btn" id="replayBtn" type="button" aria-label="Replay animation" title="Replay animation">
+          <svg class="replay-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g id="Group">
+              <path d="M1 10C1 11.78 1.52784 13.5201 2.51677 15.0001C3.50571 16.4802 4.91131 17.6337 6.55585 18.3149C8.20038 18.9961 10.01 19.1743 11.7558 18.8271C13.5016 18.4798 15.1053 17.6226 16.364 16.364C17.6226 15.1053 18.4798 13.5016 18.8271 11.7558C19.1743 10.01 18.9961 8.20039 18.3149 6.55586C17.6337 4.91132 16.4802 3.50571 15.0001 2.51678C13.5201 1.52785 11.78 1.00001 10 1.00001C7.48395 1.00947 5.06897 1.99123 3.26 3.74001" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2.6543 1.00001V4.98926H6.64355" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M7.97614 10.3527V7.70493C7.97614 7.31628 8.40012 7.07622 8.73339 7.27618L10.9185 8.58726L13.1463 9.92395C13.47 10.1181 13.47 10.5872 13.1463 10.7814L10.9185 12.1181L8.73339 13.4292C8.40012 13.6292 7.97614 13.3891 7.97614 13.0005V10.3527Z" fill="white"/>
+            </g>
+          </svg>
+        </button>
+      </section>
+
+      <div class="demo-footer-info">
+        <span>Source: <code>https://octen-dev-ddanceg0heg4eeam.a02.azurefd.net/</code></span>
+        <span>Hover over results area to pause scrolling</span>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        // ==========================================
+        // 1. DATA CONFIGURATION (Direct from Azure dev bundle)
+        // ==========================================
+        const QUERY_TEXT = 'Strait of Hormuz shipping disruptions';
+
+        const SUBJECTS_DATA = [
+          {
+            name: 'Saudi Arabia halts East-West pipeline after drone attacks from Iraq, with repairs expected to take three to five weeks',
+            summary: 'Saudi Arabia suspended operations on its East-West oil pipeline following drone attacks launched from Iraq that damaged pumping stations in the Riyadh and Medina regions. Satellite imagery confirmed major damage to a key facility, and officials told AP that repairs will take three to five weeks, potentially depleting export stocks at Yanbu.',
+            timeStart: '2026-09-11T00:00:00Z',
+            timeLatest: '2026-09-15T21:40:00Z',
+            cover: 'https://www.reuters.com/resizer/v2/NBVC6SDELNITTNCA4X55OSSPKM.jpg?auth=45ddc3632d960da3fa4dc5652e455479277bdb7240c23991d56f1ff7164c973d&height=1005&width=1920&quality=80&smart=true',
+            articles: [
+              {
+                title: 'Global Oil Prices Could Hit Highest Levels in Months After Saudi Pipeline Attacks',
+                timePublished: '2026-09-15T05:26:15Z',
+                url: 'https://www.sbs.com.au/news/article/global-oil-prices-could-hit-highest-levels-in-months-after-saudi-pipeline-attacks/2958h2'
+              },
+              {
+                title: 'Saudi Arabia: Satellite image reveals major damage that shut crucial oil pipeline',
+                timePublished: '2026-09-15T05:27:44Z',
+                url: 'https://www.sbs.com.au/news/article/saudi-arabia-satellite-image-reveals-major-damage/c65yw2gq2nrno'
+              },
+              {
+                title: 'Oil squeeze tightens as Iran-backed attacks cripple Hormuz escape routes',
+                timePublished: '2026-09-15T06:45:31Z',
+                url: 'https://www.cnbc.com/politics/oil-squeeze-tightens-iran-backed-attacks-cripple-hormuz-escape-routes.print'
+              },
+              {
+                title: 'Aramco activates emergency storage tankers at Yanbu port amid transit deadlock',
+                timePublished: '2026-09-15T09:04:31Z',
+                url: 'https://www.bloomberg.com/news/articles/2026-09-15/aramco-activates-emergency-yanbu-storage-tankers'
+              },
+              {
+                title: 'Saudi pipeline outage threatens loss of 4% of global oil supply',
+                timePublished: '2026-09-15T12:04:04Z',
+                url: 'https://www.reuters.com/business/energy/saudi-pipeline-outage-threatens-loss-4-global-oil-supply-2026-09-15/'
+              }
+            ]
+          },
+          {
+            name: "Ghalibaf says Strait of Hormuz will remain closed until Iran's seven conditions are met",
+            summary: "Iranian Parliament Speaker Mohammad Bagher Ghalibaf stated on September 20 that the Strait of Hormuz will not be reopened until the United States meets Iran's seven specific conditions. He announced that Tehran has conveyed these conditions to Washington through mediators and emphasized that Iran will pursue a strategy combining military action with diplomacy.",
+            timeStart: '2026-09-19T00:00:00Z',
+            timeLatest: '2026-09-20T21:40:00Z',
+            cover: 'https://th-i.thgim.com/public/incoming/hc96xo/article71487642.ece/alternates/LANDSCAPE_1200/2026-08-21T070048Z_1945003085_RC2V2NAMLYIS_RTRMADP_3_IRAN-CRISIS-IRAQ-QALIBAF-NAJAF.JPG',
+            articles: [
+              {
+                title: 'Tehran outlines seven non-negotiable conditions for Hormuz strait access',
+                timePublished: '2026-09-20T06:15:20Z',
+                url: 'https://www.aljazeera.com/news/2026/9/20/tehran-outlines-seven-conditions-hormuz'
+              },
+              {
+                title: "Swiss diplomatic backchannel receives Iran's formal demands on sanctions relief",
+                timePublished: '2026-09-20T08:38:54Z',
+                url: 'https://www.reuters.com/world/middle-east/swiss-backchannel-receives-iran-demands-2026-09-20/'
+              },
+              {
+                title: "No reopening of Strait of Hormuz until Iran's conditions are met, says Ghalibaf",
+                timePublished: '2026-09-20T10:44:29Z',
+                url: 'https://www.thehindu.com/news/international/no-reopening-of-strait-of-hormuz-until-irans-conditions-are-met-says-ghalibaf/article71487500.ece'
+              },
+              {
+                title: 'US State Department rejects Tehran ultimatum, calls maritime blockade unacceptable',
+                timePublished: '2026-09-20T13:20:10Z',
+                url: 'https://www.cnn.com/2026/09/20/politics/state-department-rejects-iran-hormuz-ultimatum/index.html'
+              },
+              {
+                title: 'UN Security Council convenes emergency session on Persian Gulf naval standoff',
+                timePublished: '2026-09-20T18:05:42Z',
+                url: 'https://apnews.com/article/un-security-council-iran-hormuz-standoff-2026'
+              }
+            ]
+          },
+          {
+            name: 'Houthi rebels seize Greater and Lesser Hanish islands, tightening control of Bab el-Mandeb Strait',
+            summary: "Yemen's Houthi rebels have captured the strategic islands of Greater and Lesser Hanish in the southern Red Sea, displacing more than 80,000 people in recent fighting. The seizure strengthens the Iran-backed group's grip on the Bab el-Mandeb shipping route and has intensified concerns over global oil supply disruptions.",
+            timeStart: '2026-09-14T00:00:00Z',
+            timeLatest: '2026-09-15T21:40:00Z',
+            cover: 'https://i.guim.co.uk/img/media/0d73d909d1a2538485c626492748c53674c1966e/0_0_3840_3072/master/3840.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=75486fa313ea5ee36d3db5532d4f7a78',
+            articles: [
+              {
+                title: 'Houthis seize strategic Red Sea islands as analysts warn of impending oil crunch',
+                timePublished: '2026-09-15T04:22:16Z',
+                url: 'https://www.theguardian.com/world/2026/sep/15/houthi-rebels-seize-red-sea-hanish-islands-saudi-oil-warning'
+              },
+              {
+                title: 'Houthi naval units launch amphibious assault on Red Sea navigation hubs',
+                timePublished: '2026-09-15T07:47:23Z',
+                url: 'https://apnews.com/article/yemen-houthi-red-sea-amphibious-assault-2026'
+              },
+              {
+                title: 'Commercial vessels reroute around Cape of Good Hope, adding two weeks to transit',
+                timePublished: '2026-09-15T11:30:45Z',
+                url: 'https://www.ft.com/content/red-sea-rerouting-cape-good-hope-delays'
+              },
+              {
+                title: 'Coalition warships reposition toward southern Bab el-Mandeb following island capture',
+                timePublished: '2026-09-15T14:28:31Z',
+                url: 'https://news.usni.org/2026/09/15/coalition-warships-reposition-bab-el-mandeb'
+              },
+              {
+                title: 'Insurance syndicates declare entire southern Red Sea high-risk war exclusion zone',
+                timePublished: '2026-09-15T19:18:00Z',
+                url: 'https://www.lloydslist.com/insurance/red-sea-war-exclusion-zone-declaration'
+              }
+            ]
+          },
+          {
+            name: 'Oil prices rise 1.75% to $107.50 as traders assess impact of Saudi pipeline shutdown',
+            summary: "Brent crude futures rose 1.75% to $107.50 per barrel and WTI rose 1.8% to $103.17 per barrel on Tuesday, September 15, 2026, as traders assessed the impact of the shutdown of Saudi Arabia's East-West pipeline. The closure, caused by recent strikes, threatens up to 4% of global oil supply, with the true extent of the damage to the pipeline not yet confirmed.",
+            timeStart: '2026-09-13T00:00:00Z',
+            timeLatest: '2026-09-15T21:40:00Z',
+            cover: 'https://images.wsj.net/im-48341995/social',
+            articles: [
+              {
+                title: 'Oil Prices Rise as Traders Gauge Lost Saudi Arabian Volumes After Pipeline Attack',
+                timePublished: '2026-09-15T05:37:00Z',
+                url: 'https://www.wsj.com/finance/currencies/oil-rises-as-stabilizers-in-crude-market-start-to-weaken-5dc85781'
+              },
+              {
+                title: 'Iran dismisses US talks as Strait of Hormuz crisis deepens across commodities',
+                timePublished: '2026-09-15T08:31:14Z',
+                url: 'https://www.thenationalnews.com/news/gulf/2026/09/15/iran-dismisses-us-talks-as-hormuz-crisis-deepens/'
+              },
+              {
+                title: 'Brent crude surges past $105 as Asian markets open to Middle East supply shock',
+                timePublished: '2026-09-15T11:23:00Z',
+                url: 'https://www.bloomberg.com/news/articles/2026-09-15/brent-crude-surges-past-105-middle-east-shock'
+              },
+              {
+                title: 'IEA considers coordinated strategic petroleum reserve release to calm markets',
+                timePublished: '2026-09-15T16:40:22Z',
+                url: 'https://www.reuters.com/business/energy/iea-emergency-reserve-release-deliberations-2026-09-15/'
+              },
+              {
+                title: 'OPEC+ delegates signal no immediate quota hikes despite spiking global futures',
+                timePublished: '2026-09-15T20:15:30Z',
+                url: 'https://www.cnbc.com/2026/09/15/opec-no-quota-hike-oil-crisis.html'
+              }
+            ]
+          }
+        ];
+
+        const TOTAL_SUBJECTS = SUBJECTS_DATA.length;
+        const TOTAL_ARTICLES = SUBJECTS_DATA.reduce((acc, s) => acc + (s.articles ? s.articles.length : 0), 0);
+
+        // Preload image covers in browser background
+        SUBJECTS_DATA.forEach(s => {
+          if (s.cover) {
+            const img = new Image();
+            img.src = s.cover;
+          }
+        });
+
+        // Helpers
+        const formatDate = d => d.slice(0, 10).replace(/-/g, '/');
+        const formatDateTime = d => `${d.slice(0, 10)} ${d.slice(11, 19)}`;
+        const formatTimeOnly = d => {
+          if (!d) return '';
+          if (d.includes('T')) {
+            return d.split('T')[1].slice(0, 8);
+          }
+          return d;
+        };
+        const extractDomain = url => {
+          try {
+            return new URL(url).hostname.replace(/^www\./, '');
+          } catch (e) {
+            return '';
+          }
+        };
+
+        // ==========================================
+        // 2. DOM ELEMENTS
+        // ==========================================
+        const cardCanvas = document.getElementById('newsSearchCard');
+        const queryTextSpan = document.getElementById('queryTextSpan');
+        const statSubjectsEl = document.getElementById('statSubjects');
+        const statArticlesEl = document.getElementById('statArticles');
+        const waveDotsTrack = document.getElementById('waveDotsTrack');
+        const cardListContainer = document.getElementById('cardListContainer');
+        const resultsViewport = document.getElementById('resultsViewport');
+        const togglePlayBtn = document.getElementById('togglePlayBtn');
+        const stepBtns = document.querySelectorAll('.step-btn');
+
+        // Setup 14 Wave Dots with sine delays
+        for (let i = 0; i < 14; i++) {
+          const dot = document.createElement('span');
+          dot.className = 'wave-dot';
+          dot.style.animationDelay = `${(i / 14) * 1.4}s`;
+          waveDotsTrack.appendChild(dot);
+        }
+
+        // ==========================================
+        // 3. RENDER CARD TEMPLATES
+        // ==========================================
+        function createSubjectCardHTML(subject, index, isFirst = false) {
+          const gradClass = `grad-${index % 4}`;
+          return `
+            <div class="subject-card-wrapper" data-subject-card="true" ${isFirst ? 'data-first-subject="true"' : 'data-other-subject="true"'} style="position: relative;">
+              <article class="subject-card-box">
+                <div class="subject-card-top">
+                  <span class="subject-date-range">${formatDate(subject.timeStart)} – ${formatDate(subject.timeLatest)}</span>
+                  <span class="subject-badge">Subject${index + 1}</span>
+                </div>
+                <div class="subject-card-body">
+                  <div class="subject-text-content">
+                    <h3 class="subject-name">${subject.name}</h3>
+                    <p class="subject-summary">${subject.summary}</p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          `;
+        }
+
+        function createArticleCardHTML(article, index) {
+          return `
+            <div class="article-card-wrapper" data-article="${index}" style="position: relative; opacity: 0; transform: translateY(28px);">
+              <span class="timeline-node-circle visible" data-rail-node="true">
+                <span class="core-dot"></span>
+              </span>
+              <article class="article-card-box">
+                <div class="article-card-top">
+                  <span class="article-timestamp">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    ${formatDateTime(article.timePublished)}
+                  </span>
+                  <span class="article-source-domain">${extractDomain(article.url)}</span>
+                </div>
+                <p class="article-title">${article.title}</p>
+              </article>
+            </div>
+          `;
+        }
+
+        let currentSelectedSubjectIdx = 0;
+
+        function updateTopNewsCard(subjectIdx = 0) {
+          const subj = SUBJECTS_DATA[subjectIdx];
+          if (!subj) return;
+          const topTitle = document.getElementById('topNewsTitle');
+          const topDesc = document.getElementById('topNewsDesc');
+          const topThumb = document.getElementById('topNewsThumb');
+          const topTime = document.getElementById('topNewsTime');
+          const topSource = document.getElementById('topNewsSource');
+
+          if (topTitle) topTitle.textContent = subj.name;
+          if (topDesc) topDesc.textContent = subj.summary;
+          if (topThumb && subj.cover) topThumb.src = subj.cover;
+          if (topTime && subj.timeLatest) {
+            topTime.textContent = formatDateTime(subj.timeLatest).replace(/-/g, '/');
+          }
+          if (topSource && subj.articles && subj.articles[0]) {
+            topSource.textContent = extractDomain(subj.articles[0].url) || 'reuters.com';
+          }
+        }
+
+        function renderTimelineStream(subjectIdx = 0, makeVisible = false) {
+          const spineTrack = document.getElementById('timelineSpineTrack');
+          const articlesGroup = document.getElementById('timelineArticlesSubgroup');
+          if (!spineTrack || !articlesGroup) return;
+
+          currentSelectedSubjectIdx = subjectIdx;
+          const subject = SUBJECTS_DATA[subjectIdx] || SUBJECTS_DATA[0];
+          // Ensure chronological order: earlier timestamps on top, later timestamps at the bottom
+          const articles = (subject.articles || []).slice().sort((a, b) => new Date(a.timePublished) - new Date(b.timePublished));
+
+          // Stem height connects Dot 0 (center 30px) to Dot (N - 1) (center 30 + (N - 1) * 68px)
+          const stemHeight = articles.length > 1 ? (articles.length - 1) * 68 : 0;
+          let spineHTML = `<div class="timeline-spine-stem" id="timelineSpineStem" style="height: ${stemHeight}px; transform: scaleY(${makeVisible ? 1 : 0});"></div>`;
+
+          articles.forEach((art, i) => {
+            const dotTop = i * 68 + 24; // Center at i * 68 + 30px (12px node with 2px white border)
+            spineHTML += `<div class="timeline-dot-node ${makeVisible ? 'visible' : ''}" data-dot-idx="${i}" style="top: ${dotTop}px;"></div>`;
+          });
+          spineTrack.innerHTML = spineHTML;
+
+          let articlesHTML = '';
+          articles.forEach((art, i) => {
+            const domain = extractDomain(art.url);
+            const timeStr = formatTimeOnly(art.timePublished);
+            articlesHTML += `
+              <div class="timeline-sub-article ${makeVisible ? 'visible' : ''}" data-article-idx="${i}">
+                <div class="sub-article-meta">
+                  <span class="sub-article-time">${timeStr}</span>
+                  <span class="sub-article-domain">${domain}</span>
+                </div>
+                <p class="sub-article-title" title="${art.title.replace(/"/g, '&quot;')}">${art.title}</p>
+              </div>
+            `;
+          });
+          articlesGroup.innerHTML = articlesHTML;
+        }
+
+        // ==========================================
+        // 4. ANIMATION ENGINE & STATE MANAGEMENT
+        // ==========================================
+        let isAutoLooping = true;
+        let isUserHovered = false;
+        let currentSequenceId = 0;
+        let currentActiveStep = 'typing';
+        let activeAnimations = [];
+
+        // DOM Elements for Stages 4 & 5 Focus & Morph Animation
+        const morphCardsOverlay = document.getElementById('morphCardsOverlay') || document.getElementById('flyingTagsOverlay');
+        const subjectsHBar = document.getElementById('subjectsHBar');
+        const eventsWhiteCard = document.getElementById('eventsWhiteCard');
+        const stageFocusContainer = document.getElementById('stageFocusContainer');
+        const replayBtn = document.getElementById('replayBtn');
+
+        function setCanvasState(state) {
+          currentActiveStep = state;
+          // state: 'typing' | 'searching' | 'overview' | 'focus' | 'timeline'
+          cardCanvas.classList.remove('is-typing', 'is-searching', 'has-results', 'not-typing', 'is-stage4', 'is-stage5');
+          stepBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.step === state));
+
+          if (replayBtn && state !== 'timeline') {
+            replayBtn.classList.remove('visible');
+          }
+
+          if (timelineScrollCleanup) {
+            timelineScrollCleanup();
+            timelineScrollCleanup = null;
+          }
+          const streamBlock = document.getElementById('timelineStreamBlock');
+          if (streamBlock && state !== 'timeline') {
+            streamBlock.scrollTop = 0;
+            streamBlock.classList.remove('is-animating');
+            streamBlock.style.overflowY = '';
+          }
+
+          if (morphCardsOverlay) morphCardsOverlay.innerHTML = '';
+          if (subjectsHBar) subjectsHBar.style.opacity = '';
+          if (eventsWhiteCard) {
+            eventsWhiteCard.style.opacity = '';
+            eventsWhiteCard.style.transform = '';
+          }
+          if (stageFocusContainer) {
+            stageFocusContainer.style.opacity = '';
+            stageFocusContainer.style.pointerEvents = '';
+          }
+
+          // Restore any hidden subject cards and badges in overview scroller
+          const allCards = cardListContainer.querySelectorAll('.subject-card-box');
+          allCards.forEach(c => { c.style.opacity = ''; c.style.transform = ''; c.style.visibility = ''; });
+          const allBadges = cardListContainer.querySelectorAll('.subject-badge');
+          allBadges.forEach(b => { b.style.visibility = ''; });
+
+          const searchBoxWrapper = document.getElementById('searchBoxWrapper');
+          const summaryBox = document.getElementById('summaryBox');
+
+          if (state === 'typing') {
+            cardCanvas.classList.add('is-typing');
+            if (searchBoxWrapper) {
+              searchBoxWrapper.style.display = 'block';
+              searchBoxWrapper.style.opacity = '1';
+              searchBoxWrapper.style.transform = 'none';
+            }
+            if (summaryBox) {
+              summaryBox.style.display = 'none';
+            }
+          } else if (state === 'searching') {
+            cardCanvas.classList.add('not-typing', 'is-searching');
+            if (searchBoxWrapper) {
+              searchBoxWrapper.style.display = 'block';
+              searchBoxWrapper.style.opacity = '1';
+              searchBoxWrapper.style.transform = 'none';
+            }
+            if (summaryBox) {
+              summaryBox.style.display = 'none';
+            }
+          } else if (state === 'overview') {
+            cardCanvas.classList.add('not-typing', 'has-results');
+            if (searchBoxWrapper) {
+              searchBoxWrapper.style.display = 'none';
+            }
+            if (summaryBox) {
+              summaryBox.style.display = 'flex';
+              summaryBox.style.opacity = '1';
+              summaryBox.style.transform = 'none';
+            }
+          } else if (state === 'focus') {
+            cardCanvas.classList.add('not-typing', 'has-results', 'is-stage4');
+            if (searchBoxWrapper) {
+              searchBoxWrapper.style.display = 'none';
+            }
+            if (summaryBox) {
+              summaryBox.style.display = 'flex';
+              summaryBox.style.opacity = '1';
+              summaryBox.style.transform = 'none';
+            }
+          } else if (state === 'timeline') {
+            cardCanvas.classList.add('not-typing', 'has-results', 'is-stage4', 'is-stage5');
+            if (searchBoxWrapper) {
+              searchBoxWrapper.style.display = 'none';
+            }
+            if (summaryBox) {
+              summaryBox.style.display = 'flex';
+              summaryBox.style.opacity = '1';
+              summaryBox.style.transform = 'none';
+            }
+          }
+        }
+
+        // Metamorphic Card-to-Pill Transition from Overview (Stage 3) to Top News (Stage 4)
+        // Four large subject cards shrink, collapse content, re-layout, and morph into four horizontal pill tabs
+        async function transitionOverviewToFocus(isValid, currentSeq) {
+          const panelRect = canvasRightPanel.getBoundingClientRect();
+          const subjectWrappers = cardListContainer.querySelectorAll('.subject-card-wrapper');
+          const targetPills = subjectsHBar ? subjectsHBar.querySelectorAll('.subject-h-pill') : [];
+
+          if (!subjectWrappers.length || !targetPills.length || !morphCardsOverlay) {
+            setCanvasState('focus');
+            return;
+          }
+
+          // 1. Temporarily activate Stage 4 focus container in layout to get precise pill target coordinates
+          stageFocusContainer.style.opacity = '1';
+          stageFocusContainer.style.pointerEvents = 'auto';
+          subjectsHBar.style.opacity = '0';
+          eventsWhiteCard.style.opacity = '0';
+          eventsWhiteCard.style.transform = 'translateY(36px) scale(0.97)';
+
+          const targetRects = Array.from(targetPills).map(pill => {
+            const r = pill.getBoundingClientRect();
+            return {
+              left: Math.round(r.left - panelRect.left),
+              top: Math.round(r.top - panelRect.top),
+              width: Math.round(r.width),
+              height: Math.round(r.height)
+            };
+          });
+
+          // 2. Measure starting positions of the 4 big subject card boxes
+          const sourceCards = Array.from(subjectWrappers).slice(0, 4);
+          const startData = sourceCards.map((wrapper, idx) => {
+            const cardBox = wrapper.querySelector('.subject-card-box') || wrapper;
+            const r = cardBox.getBoundingClientRect();
+            const dateEl = wrapper.querySelector('.subject-date-range');
+            const titleEl = wrapper.querySelector('.subject-name');
+            const summaryEl = wrapper.querySelector('.subject-summary');
+            return {
+              left: Math.round(r.left - panelRect.left),
+              top: Math.round(r.top - panelRect.top),
+              width: Math.round(r.width) || 520,
+              height: Math.round(r.height) || 96,
+              date: dateEl ? dateEl.textContent : '2026/09/12 – 2026/09/15',
+              title: titleEl ? titleEl.textContent : `Subject ${idx + 1}`,
+              summary: summaryEl ? summaryEl.textContent : '',
+              cardEl: cardBox
+            };
+          });
+
+          // Fill any missing cards if fewer than 4 were rendered
+          while (startData.length < 4) {
+            const idx = startData.length;
+            startData.push({
+              left: targetRects[idx].left,
+              top: targetRects[idx].top + 80,
+              width: 520,
+              height: 96,
+              date: '2026/09/12 – 2026/09/15',
+              title: `Subject ${idx + 1}`,
+              summary: '',
+              cardEl: null
+            });
+          }
+
+          // 3. Construct 4 Morphing Proxy Cards inside overlay
+          morphCardsOverlay.innerHTML = '';
+          const morphEntities = [];
+
+          for (let i = 0; i < 4; i++) {
+            const s = startData[i];
+            const t = targetRects[i];
+
+            const card = document.createElement('div');
+            card.className = 'morph-proxy-card';
+            card.style.cssText = `
+              left: ${s.left}px;
+              top: ${s.top}px;
+              width: ${s.width}px;
+              height: ${s.height}px;
+              background-color: #FFFFFF;
+              border: 8px solid rgba(255, 255, 255, 0.4);
+              border-radius: 24px;
+              box-shadow: 0 8px 24px rgba(31, 72, 28, 0.08);
+            `;
+
+            card.innerHTML = `
+              <div class="morph-proxy-inner">
+                <div class="morph-proxy-card-view">
+                  <div class="morph-proxy-top-row">
+                    <span class="morph-proxy-date">${s.date}</span>
+                    <span class="morph-proxy-badge">Subject${i + 1}</span>
+                  </div>
+                  <div class="morph-proxy-title">${s.title}</div>
+                  <div class="morph-proxy-summary">${s.summary}</div>
+                </div>
+                <div class="morph-proxy-pill-tag">Subject${i + 1}</div>
+              </div>
+            `;
+            morphCardsOverlay.appendChild(card);
+
+            morphEntities.push({
+              card,
+              cardView: card.querySelector('.morph-proxy-card-view'),
+              pillTag: card.querySelector('.morph-proxy-pill-tag'),
+              s,
+              t,
+              index: i
+            });
+          }
+
+          // 4. Immediately hide the original cards in Stage 3 scroller
+          sourceCards.forEach(wrap => {
+            const box = wrap.querySelector('.subject-card-box') || wrap;
+            box.style.visibility = 'hidden';
+          });
+
+          // 5. Metamorphic Animation Execution:
+          // A) Inner title & summary text quickly shrinks and dissolves
+          // B) The 4 big card frames shrink in dimensions, border melts into pill, background blooms to brand emerald
+          // C) Cards glide & re-layout into the horizontal pill track
+          const morphDuration = 600;
+          const morphEase = 'cubic-bezier(0.2, 0.9, 0.28, 1)';
+
+          morphEntities.forEach(({ card, cardView, pillTag, s, t, index }) => {
+            // A) Content collapse: card content remains fully visible while card begins moving, then softly dissolves
+            const viewAnim = cardView.animate([
+              { offset: 0, opacity: 1, transform: 'scale(1)' },
+              { offset: 0.28, opacity: 1, transform: 'scale(0.98)' },
+              { offset: 0.48, opacity: 0, transform: 'scale(0.90) translateY(-4px)' },
+              { offset: 1, opacity: 0, transform: 'scale(0.90) translateY(-4px)' }
+            ], {
+              duration: morphDuration,
+              delay: index * 20,
+              easing: 'ease-out',
+              fill: 'forwards'
+            });
+            activeAnimations.push(viewAnim);
+
+            // B) Pill label tag: fades in as the card background transitions to emerald/dark pill color
+            const tagAnim = pillTag.animate([
+              { offset: 0, opacity: 0, transform: 'scale(0.85)' },
+              { offset: 0.35, opacity: 0, transform: 'scale(0.85)' },
+              { offset: 0.70, opacity: 1, transform: 'scale(1)' },
+              { offset: 1, opacity: 1, transform: 'scale(1)' }
+            ], {
+              duration: morphDuration,
+              delay: index * 20,
+              easing: 'cubic-bezier(0.2, 0.9, 0.28, 1)',
+              fill: 'forwards'
+            });
+            activeAnimations.push(tagAnim);
+
+            // C) Card Frame Metamorphosis from Big White Card to Pill:
+            // 0% -> 32%: Stays pure white #FFFFFF (clearly preserving the original white card identity!)
+            // 32% -> 72%: Background color smoothly blooms from white into the current pill color!
+            // 72% -> 100%: Perfectly settles into pill geometry and slot position
+            const dx = t.left - s.left;
+            const dy = t.top - s.top;
+            const targetBg = index === 0 ? '#039855' : 'rgba(76, 94, 86, 0.57)';
+            const targetShadow = 'none';
+
+            const cardAnim = card.animate([
+              {
+                offset: 0,
+                transform: 'translate(0, 0)',
+                width: `${s.width}px`,
+                height: `${s.height}px`,
+                backgroundColor: '#FFFFFF',
+                borderColor: 'rgba(255, 255, 255, 0.5)',
+                borderWidth: '8px',
+                borderRadius: '24px',
+                boxShadow: '0 8px 24px rgba(31, 72, 28, 0.08)'
+              },
+              {
+                offset: 0.32,
+                backgroundColor: '#FFFFFF', // Retains white card body clearly
+                borderColor: 'rgba(255, 255, 255, 0.4)',
+                borderWidth: '6px',
+                borderRadius: '20px',
+                boxShadow: '0 6px 18px rgba(31, 72, 28, 0.06)'
+              },
+              {
+                offset: 0.72,
+                backgroundColor: targetBg, // Smoothly changes from white to target pill color!
+                borderColor: 'rgba(255, 255, 255, 0.1)',
+                borderWidth: '1px',
+                borderRadius: '16px',
+                boxShadow: targetShadow
+              },
+              {
+                offset: 1,
+                transform: `translate(${dx}px, ${dy}px)`,
+                width: `${t.width}px`,
+                height: `${t.height}px`,
+                backgroundColor: targetBg,
+                borderColor: 'transparent',
+                borderWidth: '0px',
+                borderRadius: '16px',
+                boxShadow: targetShadow
+              }
+            ], {
+              duration: morphDuration,
+              delay: index * 20,
+              easing: morphEase,
+              fill: 'forwards'
+            });
+            activeAnimations.push(cardAnim);
+          });
+
+          // 6. As cards collapse into horizontal pill tabs, Top News white card slides up below them
+          setTimeout(() => {
+            if (isValid && !isValid()) return;
+            eventsWhiteCard.style.opacity = '1';
+            eventsWhiteCard.style.transform = 'translateY(0) scale(1)';
+            const cardEnterAnim = eventsWhiteCard.animate([
+              { opacity: 0, transform: 'translateY(36px) scale(0.97)' },
+              { opacity: 1, transform: 'translateY(0) scale(1)' }
+            ], {
+              duration: 480,
+              easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+              fill: 'forwards'
+            });
+            activeAnimations.push(cardEnterAnim);
+          }, 190);
+
+          await sleep(morphDuration + 4 * 20 + 20);
+          if (isValid && !isValid()) return;
+
+          // 7. Flawless zero-flicker handover to native Stage 4 layout
+          currentActiveStep = 'focus';
+          stepBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.step === 'focus'));
+
+          // Directly set active stage classes on cardCanvas without intermediate wipe
+          cardCanvas.classList.remove('is-typing', 'is-searching', 'is-stage5');
+          cardCanvas.classList.add('not-typing', 'has-results', 'is-stage4');
+
+          // Ensure stageFocusContainer and subjectsHBar are 100% visible immediately
+          stageFocusContainer.style.opacity = '1';
+          stageFocusContainer.style.pointerEvents = 'auto';
+          subjectsHBar.style.opacity = '1';
+          eventsWhiteCard.style.opacity = '1';
+          eventsWhiteCard.style.transform = 'none';
+
+          const pills = document.querySelectorAll('.subject-h-pill');
+          pills.forEach((p, idx) => p.classList.toggle('active', idx === 0));
+          updateTopNewsCard(0);
+          renderTimelineStream(0, false);
+
+          // Force browser to paint real pills before removing proxy cards
+          void subjectsHBar.offsetWidth;
+
+          // Now safely clear overlay — zero frame gap, zero flicker!
+          morphCardsOverlay.innerHTML = '';
+
+          sourceCards.forEach(wrap => {
+            const box = wrap.querySelector('.subject-card-box') || wrap;
+            box.style.visibility = '';
+          });
+        }
+
+        // FLIP-based Butter-Smooth Layout Transition from typing to searching
+        function transitionToSearching() {
+          const headingRow = document.querySelector('.canvas-heading-row');
+          const searchBoxWrapper = document.getElementById('searchBoxWrapper');
+
+          // 1. Measure First (Current Center Positions)
+          const firstHeadingRect = headingRow.getBoundingClientRect();
+          const firstSearchRect = searchBoxWrapper.getBoundingClientRect();
+
+          // 2. Apply target state classes
+          cardCanvas.classList.remove('is-typing', 'has-results');
+          cardCanvas.classList.add('not-typing', 'is-searching');
+          stepBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.step === 'searching'));
+
+          // Ensure searchBoxWrapper is visible and styled properly
+          searchBoxWrapper.style.display = 'block';
+          searchBoxWrapper.style.opacity = '1';
+          searchBoxWrapper.style.transform = 'none';
+
+          // 3. Measure Last (Target Left Positions)
+          const lastHeadingRect = headingRow.getBoundingClientRect();
+          const lastSearchRect = searchBoxWrapper.getBoundingClientRect();
+
+          // 4. Invert (Calculate spatial deltas)
+          const dxHeading = firstHeadingRect.left - lastHeadingRect.left;
+          const dyHeading = firstHeadingRect.top - lastHeadingRect.top;
+
+          const dxSearch = firstSearchRect.left - lastSearchRect.left;
+          const dySearch = firstSearchRect.top - lastSearchRect.top;
+
+          // 5. Play Smooth Gliding Animation
+          const duration = 600;
+          const easeCurve = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
+          const headingAnim = headingRow.animate([
+            { transform: `translate(${dxHeading}px, ${dyHeading}px)` },
+            { transform: 'translate(0, 0)' }
+          ], {
+            duration,
+            easing: easeCurve,
+            fill: 'none'
+          });
+          activeAnimations.push(headingAnim);
+
+          const searchAnim = searchBoxWrapper.animate([
+            {
+              transform: `translate(${dxSearch}px, ${dySearch}px)`,
+              width: `${firstSearchRect.width}px`
+            },
+            {
+              transform: 'translate(0, 0)',
+              width: `${lastSearchRect.width}px`
+            }
+          ], {
+            duration,
+            easing: easeCurve,
+            fill: 'none'
+          });
+          activeAnimations.push(searchAnim);
+        }
+
+        // FLIP-based Butter-Smooth Layout Transition from searching to overview (Heading transform glide)
+        function transitionToOverview() {
+          const headingRow = document.querySelector('.canvas-heading-row');
+          const searchBoxWrapper = document.getElementById('searchBoxWrapper');
+          const summaryBox = document.getElementById('summaryBox');
+
+          // 1. Measure First (Current Heading Position in searching state)
+          const firstHeadingRect = headingRow.getBoundingClientRect();
+
+          // 2. Animate searchBox exiting
+          if (searchBoxWrapper && searchBoxWrapper.style.display !== 'none') {
+            const searchExitAnim = searchBoxWrapper.animate([
+              { opacity: 1, transform: 'translateY(0)' },
+              { opacity: 0, transform: 'translateY(-10px)' }
+            ], {
+              duration: 280,
+              easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+              fill: 'forwards'
+            });
+            activeAnimations.push(searchExitAnim);
+          }
+
+          // 3. Switch Canvas to Overview State
+          setCanvasState('overview');
+          if (searchBoxWrapper) searchBoxWrapper.style.display = 'none';
+          if (summaryBox) {
+            summaryBox.style.display = 'flex';
+            summaryBox.style.opacity = '1';
+            summaryBox.style.transform = 'none';
+          }
+
+          // 4. Measure Last (Target Heading Position in overview state)
+          const lastHeadingRect = headingRow.getBoundingClientRect();
+
+          // 5. Invert (Calculate spatial deltas)
+          const dxHeading = firstHeadingRect.left - lastHeadingRect.left;
+          const dyHeading = firstHeadingRect.top - lastHeadingRect.top;
+
+          // 6. Play Smooth Transform Gliding Animation on Heading
+          const duration = 520;
+          const easeCurve = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
+          if (Math.abs(dxHeading) > 0.5 || Math.abs(dyHeading) > 0.5) {
+            const headingAnim = headingRow.animate([
+              { transform: `translate(${dxHeading}px, ${dyHeading}px)` },
+              { transform: 'translate(0, 0)' }
+            ], {
+              duration,
+              easing: easeCurve,
+              fill: 'none'
+            });
+            activeAnimations.push(headingAnim);
+          }
+
+          // 7. Play Smooth Enter Animation on Summary Box
+          if (summaryBox) {
+            const summaryAnim = summaryBox.animate([
+              { opacity: 0, transform: 'translateY(16px)' },
+              { opacity: 1, transform: 'translateY(0)' }
+            ], {
+              duration: 480,
+              delay: 40,
+              easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+              fill: 'forwards'
+            });
+            activeAnimations.push(summaryAnim);
+          }
+        }
+
+        function sleep(ms) {
+          return new Promise(resolve => {
+            const startId = currentSequenceId;
+            const start = Date.now();
+            function check() {
+              if (currentSequenceId !== startId) return; // aborted
+              if (isUserHovered) {
+                setTimeout(check, 100);
+                return;
+              }
+              if (Date.now() - start >= ms) {
+                resolve();
+              } else {
+                setTimeout(check, 25);
+              }
+            }
+            setTimeout(check, ms);
+          });
+        }
+
+        function animateNumber(element, start, end, duration = 1800) {
+          const startTime = performance.now();
+          function frame(now) {
+            const progress = Math.min(1, (now - startTime) / duration);
+            // Ease out cubic
+            const ease = 1 - Math.pow(1 - progress, 3);
+            element.textContent = Math.round(start + (end - start) * ease);
+            if (progress < 1) requestAnimationFrame(frame);
+          }
+          requestAnimationFrame(frame);
+        }
+
+        // Hover pause / play
+        resultsViewport.addEventListener('mouseenter', () => {
+          isUserHovered = true;
+          activeAnimations.forEach(a => {
+            try { if (a.playState === 'running') a.pause(); } catch (e) {}
+          });
+        });
+        resultsViewport.addEventListener('mouseleave', () => {
+          isUserHovered = false;
+          activeAnimations.forEach(a => {
+            try { if (a.playState === 'paused') a.play(); } catch (e) {}
+          });
+        });
+
+        if (eventsWhiteCard) {
+          eventsWhiteCard.addEventListener('mouseenter', () => {
+            isUserHovered = true;
+          });
+          eventsWhiteCard.addEventListener('mouseleave', () => {
+            isUserHovered = false;
+          });
+        }
+
+        let timelineScrollCleanup = null;
+
+        // Custom silky-smooth requestAnimationFrame scroll animation to allow leisurely, refined timeline scrolling
+        function smoothScrollTo(element, targetTop, duration = 650, isValid = () => true) {
+          return new Promise(resolve => {
+            if (!element) return resolve();
+            const startTop = element.scrollTop;
+            const distance = targetTop - startTop;
+            if (Math.abs(distance) < 0.5) {
+              element.scrollTop = targetTop;
+              return resolve();
+            }
+
+            let startTime = null;
+            let pausedDuration = 0;
+            let isCurrentlyPaused = false;
+            let pauseStartTime = null;
+
+            // Ease-out Quart curve matching cubic-bezier(0.25, 1, 0.5, 1) for seamless deceleration
+            const easeOutQuart = t => 1 - Math.pow(1 - t, 4);
+
+            function step(currentTime) {
+              if (!isValid()) return resolve();
+
+              // Respect hover pause if active
+              if (isUserHovered) {
+                if (!isCurrentlyPaused) {
+                  isCurrentlyPaused = true;
+                  pauseStartTime = currentTime;
+                }
+                requestAnimationFrame(step);
+                return;
+              } else if (isCurrentlyPaused) {
+                isCurrentlyPaused = false;
+                if (pauseStartTime !== null) {
+                  pausedDuration += (currentTime - pauseStartTime);
+                  pauseStartTime = null;
+                }
+              }
+
+              if (startTime === null) startTime = currentTime;
+              const elapsed = currentTime - startTime - pausedDuration;
+              const progress = Math.min(Math.max(elapsed / duration, 0), 1);
+              const easedProgress = easeOutQuart(progress);
+
+              element.scrollTop = Math.round(startTop + distance * easedProgress);
+
+              if (progress < 1) {
+                requestAnimationFrame(step);
+              } else {
+                element.scrollTop = targetTop;
+                resolve();
+              }
+            }
+
+            requestAnimationFrame(step);
+          });
+        }
+
+        // Progressive Stage 5 Sequential Timeline Unfold:
+        // Top cards stay in visible viewport as long as height is sufficient;
+        // only when height overflows do subsequent cards slowly push top cards upwards out of view;
+        // manual scrolling is enabled only after animation finishes.
+        async function playStage5TimelineAnimation(isValid = () => true) {
+          const streamBlock = document.getElementById('timelineStreamBlock');
+          const activePill = document.querySelector('.subject-h-pill.active');
+          const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
+
+          if (timelineScrollCleanup) {
+            timelineScrollCleanup();
+            timelineScrollCleanup = null;
+          }
+
+          if (!streamBlock) return;
+
+          // 1. Initial setup: collapse all stream items and reset scroll to top
+          renderTimelineStream(activeIdx, false);
+          streamBlock.scrollTop = 0;
+
+          // Lock manual scrolling and hide scrollbar during unfold animation
+          streamBlock.classList.add('is-animating');
+          streamBlock.style.overflowY = 'hidden';
+
+          const blockScroll = (e) => { e.preventDefault(); };
+          streamBlock.addEventListener('wheel', blockScroll, { passive: false });
+          streamBlock.addEventListener('touchmove', blockScroll, { passive: false });
+
+          timelineScrollCleanup = () => {
+            streamBlock.removeEventListener('wheel', blockScroll);
+            streamBlock.removeEventListener('touchmove', blockScroll);
+            streamBlock.classList.remove('is-animating');
+            streamBlock.style.overflowY = 'auto';
+            streamBlock.style.pointerEvents = 'auto';
+          };
+
+          const stem = document.getElementById('timelineSpineStem');
+          const dots = document.querySelectorAll('.timeline-dot-node');
+          const subArticles = document.querySelectorAll('.timeline-sub-article');
+          const total = subArticles.length;
+
+          if (stem) stem.style.transform = 'scaleY(0)';
+
+          // 2. Sequential progressive unfold of timeline spine, dots, and news cards
+          for (let i = 0; i < total; i++) {
+            // A) Progressively extend stem down to current dot
+            if (stem && total > 1) {
+              const stemProgress = i === 0 ? 0 : (i / (total - 1));
+              stem.style.transform = `scaleY(${stemProgress})`;
+            }
+
+            // Lead-in pause for spine line to reach target position before node lights up
+            if (i > 0) {
+              await sleep(120);
+              if (!isValid()) {
+                if (timelineScrollCleanup) timelineScrollCleanup();
+                timelineScrollCleanup = null;
+                return;
+              }
+            }
+
+            // B) Reveal current dot and sub-article
+            if (dots[i]) dots[i].classList.add('visible');
+            if (subArticles[i]) subArticles[i].classList.add('visible');
+
+            // C) Auto-scroll container / cadence strictly averaged and balanced with Step 3 subjects carousel (~800ms rate)
+            if (i < 3) {
+              // Cards 1, 2, 3 (indices 0, 1, 2): STRICTLY GUARANTEED NO SCROLL!
+              // Ensure streamBlock remains cleanly at the top (scrollTop = 0) so all 3 cards stay fully in view
+              if (streamBlock) streamBlock.scrollTop = 0;
+              await sleep(i === 0 ? 800 : 680);
+            } else if (streamBlock && subArticles[i]) {
+              // Card 4 and onwards (i >= 3): height overflows, smooth scroll to reveal new card at bottom,
+              // causing older top cards to be pushed out of the viewport.
+              const containerHeight = streamBlock.clientHeight;
+              const containerRect = streamBlock.getBoundingClientRect();
+              const cardRect = subArticles[i].getBoundingClientRect();
+              const cardBottomFromContentTop = (cardRect.bottom - containerRect.top) + streamBlock.scrollTop;
+              const bottomSafety = 6;
+              const maxScroll = Math.max(0, streamBlock.scrollHeight - containerHeight);
+
+              const targetScroll = Math.max(streamBlock.scrollTop, cardBottomFromContentTop + bottomSafety - containerHeight);
+              const boundedTarget = Math.min(maxScroll, targetScroll);
+
+              if (boundedTarget > streamBlock.scrollTop) {
+                const scrollDuration = 520;
+                await smoothScrollTo(streamBlock, boundedTarget, scrollDuration, isValid);
+                if (!isValid()) {
+                  if (timelineScrollCleanup) timelineScrollCleanup();
+                  timelineScrollCleanup = null;
+                  return;
+                }
+                await sleep(160);
+              } else {
+                await sleep(680);
+              }
+            } else {
+              await sleep(680);
+            }
+
+            if (!isValid()) {
+              if (timelineScrollCleanup) timelineScrollCleanup();
+              timelineScrollCleanup = null;
+              return;
+            }
+          }
+
+          // 3. Animation finished: dwell for final smooth scroll to settle, then unlock scrollbar
+          await sleep(350);
+          if (!isValid()) {
+            if (timelineScrollCleanup) timelineScrollCleanup();
+            timelineScrollCleanup = null;
+            return;
+          }
+
+          if (timelineScrollCleanup) {
+            timelineScrollCleanup();
+            timelineScrollCleanup = null;
+          }
+        }
+
+        // ==========================================
+        // 5. THE 5-STAGE SEQUENCE
+        // ==========================================
+        async function runCycle(fromStep = 'typing') {
+          currentSequenceId++;
+          const seq = currentSequenceId;
+          const isValid = () => seq === currentSequenceId;
+
+          // Clear running animations
+          activeAnimations.forEach(a => { try { a.cancel(); } catch (e) {} });
+          activeAnimations = [];
+          if (replayBtn) replayBtn.classList.remove('visible');
+
+          const stepOrder = ['typing', 'searching', 'overview', 'focus', 'timeline'];
+          let startIndex = stepOrder.indexOf(fromStep);
+          if (startIndex < 0) startIndex = 0;
+
+          // --------------------------------------------------
+          // STAGE 1: TYPING
+          // --------------------------------------------------
+          if (startIndex <= 0) {
+            const searchBoxWrapper = document.getElementById('searchBoxWrapper');
+            const summaryBox = document.getElementById('summaryBox');
+            searchBoxWrapper.style.display = 'block';
+            searchBoxWrapper.style.opacity = '1';
+            searchBoxWrapper.style.transform = 'none';
+            summaryBox.style.opacity = '1';
+            summaryBox.style.transform = 'none';
+
+            setCanvasState('typing');
+            queryTextSpan.textContent = '';
+            cardListContainer.style.transform = 'none';
+            await sleep(500);
+            if (!isValid()) return;
+
+            for (let i = 1; i <= QUERY_TEXT.length; i++) {
+              queryTextSpan.textContent = QUERY_TEXT.slice(0, i);
+              await sleep(32);
+              if (!isValid()) return;
+            }
+            await sleep(700);
+            if (!isValid()) return;
+          }
+
+          // --------------------------------------------------
+          // STAGE 2: SEARCHING (Smooth Gliding Transition)
+          // --------------------------------------------------
+          if (startIndex <= 1) {
+            queryTextSpan.textContent = QUERY_TEXT;
+            if (startIndex === 1 && !cardCanvas.classList.contains('is-typing')) {
+              setCanvasState('searching');
+            } else {
+              transitionToSearching();
+            }
+            await sleep(1100);
+            if (!isValid()) return;
+          }
+
+          // --------------------------------------------------
+          // STAGE 3: RESULTS OVERVIEW
+          // --------------------------------------------------
+          if (startIndex <= 2) {
+            queryTextSpan.textContent = QUERY_TEXT;
+
+            if (startIndex === 2 && !cardCanvas.classList.contains('is-searching')) {
+              setCanvasState('overview');
+            } else {
+              // Smooth FLIP transform animation for News Search heading from searching to overview
+              transitionToOverview();
+            }
+
+            animateNumber(statSubjectsEl, 0, TOTAL_SUBJECTS, 1400);
+            animateNumber(statArticlesEl, 0, TOTAL_ARTICLES, 1400);
+
+            // 1. Initial State: Only Subject 1 is present, vertically centered in resultsViewport
+            const tempFirstWrap = document.createElement('div');
+            tempFirstWrap.innerHTML = createSubjectCardHTML(SUBJECTS_DATA[0], 0, true);
+            const firstCard = tempFirstWrap.firstElementChild;
+            firstCard.style.opacity = '0';
+            firstCard.style.transform = 'translateY(24px) scale(0.97)';
+            cardListContainer.innerHTML = '';
+            cardListContainer.appendChild(firstCard);
+
+            const viewportH = resultsViewport.clientHeight;
+            const firstCardH = firstCard.offsetHeight || 96;
+            const firstCardTop = firstCard.offsetTop;
+
+            // Vertically center the first subject card
+            let currentTranslateY = Math.round((viewportH - firstCardH) / 2 - firstCardTop);
+            cardListContainer.style.transform = `translateY(${currentTranslateY}px)`;
+
+            // Subtle lead-in delay so the card enters gracefully in sync with heading motion
+            await sleep(100);
+            if (!isValid()) return;
+
+            // Subject 1 enters with fluid opacity and subtle scale motion
+            const firstAnim = firstCard.animate([
+              { opacity: 0, transform: 'translateY(24px) scale(0.97)', filter: 'blur(4px)' },
+              { opacity: 0.65, offset: 0.45, filter: 'blur(1px)' },
+              { opacity: 1, transform: 'translateY(0) scale(1)', filter: 'blur(0px)' }
+            ], {
+              duration: 420,
+              easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+              fill: 'forwards'
+            });
+            activeAnimations.push(firstAnim);
+
+            await sleep(420);
+            if (!isValid()) return;
+
+            firstCard.style.opacity = '1';
+            firstCard.style.transform = 'none';
+
+            // Balanced dwell on first subject (380ms)
+            await sleep(380);
+            if (!isValid()) return;
+
+            // 2. Stream in subsequent subject cards (Subject 2, 3, 4)
+            for (let i = 1; i < SUBJECTS_DATA.length; i++) {
+              const tempWrap = document.createElement('div');
+              tempWrap.innerHTML = createSubjectCardHTML(SUBJECTS_DATA[i], i, false);
+              const nextCard = tempWrap.firstElementChild;
+              nextCard.style.opacity = '0';
+              nextCard.style.transform = 'translateY(28px) scale(0.97)';
+              cardListContainer.appendChild(nextCard);
+
+              // Calculate layout positions
+              const vH = resultsViewport.clientHeight;
+              const cardTopBase = firstCard.offsetTop;
+              const nextCardBottom = nextCard.offsetTop + nextCard.offsetHeight;
+              const clusterH = nextCardBottom - cardTopBase;
+              const bottomSafetyMargin = 20;
+
+              let targetTranslateY;
+              if (clusterH + bottomSafetyMargin <= vH) {
+                // Height is sufficient: keep the visible cluster centered, pushing older cards upwards
+                targetTranslateY = Math.round((vH - clusterH) / 2 - cardTopBase);
+              } else {
+                // Height is not enough: new card pushes top cards out of the top of the viewport
+                targetTranslateY = Math.round(vH - nextCardBottom - bottomSafetyMargin);
+              }
+
+              const stepDuration = 420;
+              const carouselPushEase = 'cubic-bezier(0.25, 1, 0.5, 1)';
+              const cardEntranceEase = 'cubic-bezier(0.16, 1, 0.3, 1)';
+
+              // Animate container moving up with gentle continuous deceleration
+              const shiftAnim = cardListContainer.animate([
+                { transform: `translateY(${currentTranslateY}px)` },
+                { transform: `translateY(${targetTranslateY}px)` }
+              ], {
+                duration: stepDuration,
+                easing: carouselPushEase,
+                fill: 'forwards'
+              });
+              activeAnimations.push(shiftAnim);
+
+              // Animate new card entering with fluid opacity and scale
+              const cardEnterAnim = nextCard.animate([
+                { opacity: 0, transform: 'translateY(28px) scale(0.97)', filter: 'blur(4px)' },
+                { opacity: 1, transform: 'translateY(0) scale(1)', filter: 'blur(0px)' }
+              ], {
+                duration: stepDuration,
+                easing: cardEntranceEase,
+                fill: 'forwards'
+              });
+              activeAnimations.push(cardEnterAnim);
+
+              currentTranslateY = targetTranslateY;
+              cardListContainer.style.transform = `translateY(${currentTranslateY}px)`;
+
+              await sleep(stepDuration);
+              if (!isValid()) return;
+
+              nextCard.style.opacity = '1';
+              nextCard.style.transform = 'none';
+
+              // Reading pause between intermediate subjects (balanced to 380ms)
+              if (i < SUBJECTS_DATA.length - 1) {
+                await sleep(380);
+                if (!isValid()) return;
+              }
+            }
+
+            // Crisp dwell pause after all subject cards have appeared before transitioning to Stage 4 Focus
+            await sleep(380);
+            if (!isValid()) return;
+          }
+
+          // --------------------------------------------------
+          // STAGE 4: TOP NEWS & HORIZONTAL SUBJECT TABS
+          // (Figma Node: 13784:7160)
+          // --------------------------------------------------
+          if (startIndex <= 3) {
+            queryTextSpan.textContent = QUERY_TEXT;
+            statSubjectsEl.textContent = TOTAL_SUBJECTS;
+            statArticlesEl.textContent = TOTAL_ARTICLES;
+
+            if (startIndex === 3 && !cardCanvas.classList.contains('has-results')) {
+              // Direct jump or resumed at stage 4 without overview cards
+              setCanvasState('focus');
+            } else {
+              // Butter-smooth FLIP tags flight and rearrange!
+              await transitionOverviewToFocus(isValid, seq);
+              if (!isValid()) return;
+            }
+
+            // Reset stage 5 timeline details to collapsed
+            const activePill = document.querySelector('.subject-h-pill.active');
+            const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
+            updateTopNewsCard(activeIdx);
+            renderTimelineStream(activeIdx, false);
+
+            // Brief pause on Top News before timeline unfold begins (shortened from 1800ms)
+            await sleep(750);
+            if (!isValid()) return;
+          }
+
+          // --------------------------------------------------
+          // STAGE 5: TIMELINE STREAM UNFOLD UNDER TOP NEWS
+          // (Figma Nodes: 13784:7317, 13784:6893)
+          // --------------------------------------------------
+          queryTextSpan.textContent = QUERY_TEXT;
+          statSubjectsEl.textContent = TOTAL_SUBJECTS;
+          statArticlesEl.textContent = TOTAL_ARTICLES;
+
+          setCanvasState('timeline');
+
+          const activePill = document.querySelector('.subject-h-pill.active');
+          const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
+          updateTopNewsCard(activeIdx);
+
+          await playStage5TimelineAnimation(isValid);
+          if (!isValid()) return;
+
+          // Animation is now completely finished! Reveal the replay button in bottom-left corner
+          if (replayBtn) replayBtn.classList.add('visible');
+
+          // Stop auto-loop so user can inspect finished timeline or click replay to restart
+          isAutoLooping = false;
+          if (togglePlayBtn) togglePlayBtn.textContent = '▶ Resume';
+        }
+
+        // ==========================================
+        // 6. CONTROLS INTERACTION
+        // ==========================================
+        togglePlayBtn.addEventListener('click', () => {
+          isAutoLooping = !isAutoLooping;
+          togglePlayBtn.textContent = isAutoLooping ? '⏸ Pause' : '▶ Resume';
+          if (isAutoLooping) {
+            if (replayBtn) replayBtn.classList.remove('visible');
+            runCycle(currentActiveStep === 'timeline' ? 'typing' : currentActiveStep);
+          } else {
+            currentSequenceId++;
+            activeAnimations.forEach(a => { try { a.pause(); } catch (e) {} });
+          }
+        });
+
+        // Step Navigation Buttons (For developer inspection)
+        stepBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            isAutoLooping = false;
+            togglePlayBtn.textContent = '▶ Resume';
+            currentSequenceId++; // Cancel current loop
+            activeAnimations.forEach(a => { try { a.cancel(); } catch (e) {} });
+            activeAnimations = [];
+            if (replayBtn) replayBtn.classList.remove('visible');
+
+            const targetStep = btn.dataset.step;
+
+            if (targetStep === 'typing') {
+              setCanvasState('typing');
+              queryTextSpan.textContent = QUERY_TEXT;
+              cardListContainer.innerHTML = '';
+            } else if (targetStep === 'searching') {
+              queryTextSpan.textContent = QUERY_TEXT;
+              cardListContainer.innerHTML = '';
+              if (cardCanvas.classList.contains('is-typing')) {
+                transitionToSearching();
+              } else {
+                setCanvasState('searching');
+              }
+            } else if (targetStep === 'overview') {
+              if (currentActiveStep === 'searching') {
+                transitionToOverview();
+              } else {
+                setCanvasState('overview');
+              }
+              queryTextSpan.textContent = QUERY_TEXT;
+              statSubjectsEl.textContent = TOTAL_SUBJECTS;
+              statArticlesEl.textContent = TOTAL_ARTICLES;
+              let html = '';
+              SUBJECTS_DATA.forEach((s, i) => { html += createSubjectCardHTML(s, i, i === 0); });
+              cardListContainer.innerHTML = html;
+              cardListContainer.style.transform = 'translateY(0px)';
+            } else if (targetStep === 'focus') {
+              const prevStep = currentActiveStep;
+              if (prevStep === 'overview' && cardListContainer.querySelector('.subject-badge')) {
+                transitionOverviewToFocus(() => true, currentSequenceId);
+              } else {
+                setCanvasState('focus');
+              }
+              queryTextSpan.textContent = QUERY_TEXT;
+              statSubjectsEl.textContent = TOTAL_SUBJECTS;
+              statArticlesEl.textContent = TOTAL_ARTICLES;
+              const activePill = document.querySelector('.subject-h-pill.active');
+              const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
+              updateTopNewsCard(activeIdx);
+              renderTimelineStream(activeIdx, false);
+            } else if (targetStep === 'timeline') {
+              setCanvasState('timeline');
+              queryTextSpan.textContent = QUERY_TEXT;
+              statSubjectsEl.textContent = TOTAL_SUBJECTS;
+              statArticlesEl.textContent = TOTAL_ARTICLES;
+              const activePill = document.querySelector('.subject-h-pill.active');
+              const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
+              updateTopNewsCard(activeIdx);
+              const seq = currentSequenceId;
+              playStage5TimelineAnimation(() => seq === currentSequenceId).then(() => {
+                if (seq === currentSequenceId && replayBtn) {
+                  replayBtn.classList.add('visible');
+                }
+              });
+            }
+          });
+        });
+
+        // Replay Button (Figma Node: 13784:144363) Click Handler
+        if (replayBtn) {
+          replayBtn.addEventListener('click', () => {
+            replayBtn.classList.remove('visible');
+            // Reset subject pills to Subject 1
+            const pills = document.querySelectorAll('.subject-h-pill');
+            pills.forEach((p, idx) => p.classList.toggle('active', idx === 0));
+            isAutoLooping = true;
+            if (togglePlayBtn) togglePlayBtn.textContent = '⏸ Pause';
+            runCycle('typing');
+          });
+        }
+
+        // Horizontal Subject Pills Interactive Switching
+        const subjectPills = document.querySelectorAll('.subject-h-pill');
+        subjectPills.forEach(pill => {
+          pill.addEventListener('click', () => {
+            if (pill.classList.contains('active')) return;
+            subjectPills.forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            const idx = parseInt(pill.dataset.subjectIdx, 10);
+            updateTopNewsCard(idx);
+            const isTimelineActive = cardCanvas.classList.contains('is-stage5');
+            if (isTimelineActive) {
+              // Cancel any ongoing unfold sequence or scroll lock
+              currentSequenceId++;
+              if (timelineScrollCleanup) {
+                timelineScrollCleanup();
+                timelineScrollCleanup = null;
+              }
+              const streamBlock = document.getElementById('timelineStreamBlock');
+              if (streamBlock) {
+                streamBlock.classList.remove('is-animating');
+                streamBlock.style.overflowY = 'auto';
+                streamBlock.style.pointerEvents = 'auto';
+                streamBlock.scrollTop = 0;
+              }
+              // Directly render full timeline stream without repeating the unfold animation
+              renderTimelineStream(idx, true);
+            } else {
+              renderTimelineStream(idx, false);
+            }
+          });
+        });
+
+        // Initial setup for Top News and Timeline stream
+        updateTopNewsCard(0);
+        renderTimelineStream(0, false);
+
+        // Start Initial Auto Loop
+        runCycle();
+      })();
+    </script>
+  </body>
+</html>

@@ -318,7 +318,7 @@ export const VerticalSearch: React.FC = () => {
       {/* Central Interactive Display Canvas (1260x532) */}
       <div className="canvas-section">
         <div
-          className="hero-canvas"
+          className={`hero-canvas ${hasStarted ? 'is-visible' : ''}`}
           id="heroCanvas"
           data-theme={bgTheme}
           data-news-step={step}
@@ -467,7 +467,6 @@ export const VerticalSearch: React.FC = () => {
                     <span className="subject-card-tag">{sub.tag}</span>
                   </div>
                   <div className="subject-card-body">
-                    <img className="subject-thumb" src={sub.thumb} alt={sub.tag} width={116} height={87} />
                     <div className="subject-card-text">
                       <h4 className="subject-card-title">{sub.title}</h4>
                       <p className="subject-card-desc">{sub.desc}</p>
@@ -503,7 +502,6 @@ export const VerticalSearch: React.FC = () => {
                       <span className="subject-card-tag">{SUBJECT_CARDS[0].tag}</span>
                     </div>
                     <div className="subject-card-body">
-                      <img className="subject-thumb" src={SUBJECT_CARDS[0].thumb} alt="Subject 1" width={116} height={87} />
                       <div className="subject-card-text">
                         <h4 className="subject-card-title">{SUBJECT_CARDS[0].title}</h4>
                         <p className="subject-card-desc">{SUBJECT_CARDS[0].desc}</p>

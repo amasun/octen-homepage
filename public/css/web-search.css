@@ -14,6 +14,11 @@
   background-color: #090b11 !important;
 }
 
+/* Keep the dark More APIs CTA text white without changing other buttons. */
+.retrieval-stack-section .retrieval-stack-get-started {
+  color: #ffffff !important;
+}
+
 .octen-web-search-card {
   border: 1px solid var(--octen-web-search-border) !important;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
@@ -259,5 +264,4 @@
   padding: 0 !important;
   text-transform: uppercase !important;
 }
-
 

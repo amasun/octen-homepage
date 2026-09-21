@@ -102,6 +102,8 @@ pnpm preview   # 本地静态托管并预览构建产物
 ---
 
 ## 🚨 已知问题与下一步计划 (Next Steps)
-- **News Search 5 步动效优化**：
-  - 中央舞台动画时序和状态流转仍需前端进一步微调。
-  - **参考设计稿**：请对照 👉 [Figma News 动效 5 步静态分步设计稿 (Node 13661:163623)](https://www.figma.com/design/jnIlRSuXffn5g2OxnsqYIE/Octen_%E6%B1%87%E6%80%BB?node-id=13661-163623&t=7uy39MOcdDWVIOA4-4)。
+- ✅ **News Search 5 步动效全套移植**（已完成）：
+  - 中央舞台 5 步时序动画（逐字打字 ➔ 正弦波脉冲 ➔ 卡片总览翻滚 ➔ 药丸形态形变 ➔ 时间线滚动延展）已由 `news-search-demo.html` 完整落地至 `src/sections/05-vertical-search.html` 与 `public/js/vertical-search.js`。
+  - 支持进入视口自动播放、悬浮暂停、药丸 Tab 切换与 Replay 重播。
+  - **参考设计稿**：👉 [Figma News 动效 5 步静态分步设计稿 (Node 13661:163623)](https://www.figma.com/design/jnIlRSuXffn5g2OxnsqYIE/Octen_%E6%B1%87%E6%80%BB?node-id=13661-163623&t=7uy39MOcdDWVIOA4-4)。
+
