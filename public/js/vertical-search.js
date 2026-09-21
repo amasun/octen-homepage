@@ -10,162 +10,302 @@
     if (!cardCanvas) return;
 
     // ==========================================
-    // 1. DATA CONFIGURATION
+    // 1. DUAL VERTICAL DATA CONFIGURATION
     // ==========================================
-    const QUERY_TEXT = 'Strait of Hormuz shipping disruptions';
-
-    const SUBJECTS_DATA = [
-      {
-        name: 'Saudi Arabia halts East-West pipeline after drone attacks from Iraq, with repairs expected to take three to five weeks',
-        summary: 'Saudi Arabia suspended operations on its East-West oil pipeline following drone attacks launched from Iraq that damaged pumping stations in the Riyadh and Medina regions. Satellite imagery confirmed major damage to a key facility, and officials told AP that repairs will take three to five weeks, potentially depleting export stocks at Yanbu.',
-        timeStart: '2026-09-11T00:00:00Z',
-        timeLatest: '2026-09-15T21:40:00Z',
-        cover: '/images/vertical/subject-1.png',
-        fallbackCover: 'https://www.reuters.com/resizer/v2/NBVC6SDELNITTNCA4X55OSSPKM.jpg?auth=45ddc3632d960da3fa4dc5652e455479277bdb7240c23991d56f1ff7164c973d&height=1005&width=1920&quality=80&smart=true',
-        articles: [
+    const VERTICALS = {
+      news: {
+        id: 'news',
+        title: 'News Search',
+        heading: 'News Search',
+        desc: 'Real-time global reporting indexed at wire speed. Curated across trusted publications, cross-verified, and structured for autonomous reasoning.',
+        theme: 'news',
+        query: 'Strait of Hormuz shipping disruptions',
+        iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M15 18h-5"></path><path d="M18 14h-8"></path><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg>`,
+        watermarkSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M15 18h-5"></path><path d="M18 14h-8"></path><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg>`,
+        badgeText: 'Top News',
+        stats: { num1: 4, label1: 'subjects', num2: 10, label2: 'articles' },
+        bullets: [
+          '• Fresh news, delivered in milliseconds.',
+          '• Track the progress of each subject across the timeline.',
+          "• Dive deep into the story's development."
+        ],
+        subjects: [
           {
-            title: 'Global Oil Prices Could Hit Highest Levels in Months After Saudi Pipeline Attacks',
-            timePublished: '2026-09-15T05:26:15Z',
-            url: 'https://www.sbs.com.au/news/article/global-oil-prices-could-hit-highest-levels-in-months-after-saudi-pipeline-attacks/2958h2'
+            name: 'Saudi Arabia halts East-West pipeline after drone attacks from Iraq, with repairs expected to take three to five weeks',
+            summary: 'Saudi Arabia suspended operations on its East-West oil pipeline following drone attacks launched from Iraq that damaged pumping stations in the Riyadh and Medina regions. Satellite imagery confirmed major damage to a key facility, and officials told AP that repairs will take three to five weeks, potentially depleting export stocks at Yanbu.',
+            timeStart: '2026-09-11T00:00:00Z',
+            timeLatest: '2026-09-15T21:40:00Z',
+            cover: '/images/vertical/subject-1.png',
+            fallbackCover: 'https://www.reuters.com/resizer/v2/NBVC6SDELNITTNCA4X55OSSPKM.jpg?auth=45ddc3632d960da3fa4dc5652e455479277bdb7240c23991d56f1ff7164c973d&height=1005&width=1920&quality=80&smart=true',
+            articles: [
+              {
+                title: 'Global Oil Prices Could Hit Highest Levels in Months After Saudi Pipeline Attacks',
+                timePublished: '2026-09-15T05:26:15Z',
+                url: 'https://www.sbs.com.au/news/article/global-oil-prices-could-hit-highest-levels-in-months-after-saudi-pipeline-attacks/2958h2'
+              },
+              {
+                title: 'Saudi Arabia: Satellite image reveals major damage that shut crucial oil pipeline',
+                timePublished: '2026-09-15T05:27:44Z',
+                url: 'https://www.sbs.com.au/news/article/saudi-arabia-satellite-image-reveals-major-damage/c65yw2gq2nrno'
+              },
+              {
+                title: 'Oil squeeze tightens as Iran-backed attacks cripple Hormuz escape routes',
+                timePublished: '2026-09-15T06:45:31Z',
+                url: 'https://www.cnbc.com/politics/oil-squeeze-tightens-iran-backed-attacks-cripple-hormuz-escape-routes.print'
+              },
+              {
+                title: 'Aramco activates emergency storage tankers at Yanbu port amid transit deadlock',
+                timePublished: '2026-09-15T09:04:31Z',
+                url: 'https://www.bloomberg.com/news/articles/2026-09-15/aramco-activates-emergency-yanbu-storage-tankers'
+              },
+              {
+                title: 'Saudi pipeline outage threatens loss of 4% of global oil supply',
+                timePublished: '2026-09-15T12:04:04Z',
+                url: 'https://www.reuters.com/business/energy/saudi-pipeline-outage-threatens-loss-4-global-oil-supply-2026-09-15/'
+              }
+            ]
           },
           {
-            title: 'Saudi Arabia: Satellite image reveals major damage that shut crucial oil pipeline',
-            timePublished: '2026-09-15T05:27:44Z',
-            url: 'https://www.sbs.com.au/news/article/saudi-arabia-satellite-image-reveals-major-damage/c65yw2gq2nrno'
+            name: "Ghalibaf says Strait of Hormuz will remain closed until Iran's seven conditions are met",
+            summary: "Iranian Parliament Speaker Mohammad Bagher Ghalibaf stated on September 20 that the Strait of Hormuz will not be reopened until the United States meets Iran's seven specific conditions. He announced that Tehran has conveyed these conditions to Washington through mediators and emphasized that Iran will pursue a strategy combining military action with diplomacy.",
+            timeStart: '2026-09-19T00:00:00Z',
+            timeLatest: '2026-09-20T21:40:00Z',
+            cover: '/images/vertical/subject-2.png',
+            fallbackCover: 'https://th-i.thgim.com/public/incoming/hc96xo/article71487642.ece/alternates/LANDSCAPE_1200/2026-08-21T070048Z_1945003085_RC2V2NAMLYIS_RTRMADP_3_IRAN-CRISIS-IRAQ-QALIBAF-NAJAF.JPG',
+            articles: [
+              {
+                title: 'Tehran outlines seven non-negotiable conditions for Hormuz strait access',
+                timePublished: '2026-09-20T06:15:20Z',
+                url: 'https://www.aljazeera.com/news/2026/9/20/tehran-outlines-seven-conditions-hormuz'
+              },
+              {
+                title: "Swiss diplomatic backchannel receives Iran's formal demands on sanctions relief",
+                timePublished: '2026-09-20T08:38:54Z',
+                url: 'https://www.reuters.com/world/middle-east/swiss-backchannel-receives-iran-demands-2026-09-20/'
+              },
+              {
+                title: "No reopening of Strait of Hormuz until Iran's conditions are met, says Ghalibaf",
+                timePublished: '2026-09-20T10:44:29Z',
+                url: 'https://www.thehindu.com/news/international/no-reopening-of-strait-of-hormuz-until-irans-conditions-are-met-says-ghalibaf/article71487500.ece'
+              },
+              {
+                title: 'US State Department rejects Tehran ultimatum, calls maritime blockade unacceptable',
+                timePublished: '2026-09-20T13:20:10Z',
+                url: 'https://www.cnn.com/2026/09/20/politics/state-department-rejects-iran-hormuz-ultimatum/index.html'
+              },
+              {
+                title: 'UN Security Council convenes emergency session on Persian Gulf naval standoff',
+                timePublished: '2026-09-20T18:05:42Z',
+                url: 'https://apnews.com/article/un-security-council-iran-hormuz-standoff-2026'
+              }
+            ]
           },
           {
-            title: 'Oil squeeze tightens as Iran-backed attacks cripple Hormuz escape routes',
-            timePublished: '2026-09-15T06:45:31Z',
-            url: 'https://www.cnbc.com/politics/oil-squeeze-tightens-iran-backed-attacks-cripple-hormuz-escape-routes.print'
+            name: 'Houthi rebels seize Greater and Lesser Hanish islands, tightening control of Bab el-Mandeb Strait',
+            summary: "Yemen's Houthi rebels have captured the strategic islands of Greater and Lesser Hanish in the southern Red Sea, displacing more than 80,000 people in recent fighting. The seizure strengthens the Iran-backed group's grip on the Bab el-Mandeb shipping route and has intensified concerns over global oil supply disruptions.",
+            timeStart: '2026-09-14T00:00:00Z',
+            timeLatest: '2026-09-15T21:40:00Z',
+            cover: '/images/vertical/subject-3.png',
+            fallbackCover: 'https://i.guim.co.uk/img/media/0d73d909d1a2538485c626492748c53674c1966e/0_0_3840_3072/master/3840.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=75486fa313ea5ee36d3db5532d4f7a78',
+            articles: [
+              {
+                title: 'Houthis seize strategic Red Sea islands as analysts warn of impending oil crunch',
+                timePublished: '2026-09-15T04:22:16Z',
+                url: 'https://www.theguardian.com/world/2026/sep/15/houthi-rebels-seize-red-sea-hanish-islands-saudi-oil-warning'
+              },
+              {
+                title: 'Houthi naval units launch amphibious assault on Red Sea navigation hubs',
+                timePublished: '2026-09-15T07:47:23Z',
+                url: 'https://apnews.com/article/yemen-houthi-red-sea-amphibious-assault-2026'
+              },
+              {
+                title: 'Commercial vessels reroute around Cape of Good Hope, adding two weeks to transit',
+                timePublished: '2026-09-15T11:30:45Z',
+                url: 'https://www.ft.com/content/red-sea-rerouting-cape-good-hope-delays'
+              },
+              {
+                title: 'Coalition warships reposition toward southern Bab el-Mandeb following island capture',
+                timePublished: '2026-09-15T14:28:31Z',
+                url: 'https://news.usni.org/2026/09/15/coalition-warships-reposition-bab-el-mandeb'
+              },
+              {
+                title: 'Insurance syndicates declare entire southern Red Sea high-risk war exclusion zone',
+                timePublished: '2026-09-15T19:18:00Z',
+                url: 'https://www.lloydslist.com/insurance/red-sea-war-exclusion-zone-declaration'
+              }
+            ]
           },
           {
-            title: 'Aramco activates emergency storage tankers at Yanbu port amid transit deadlock',
-            timePublished: '2026-09-15T09:04:31Z',
-            url: 'https://www.bloomberg.com/news/articles/2026-09-15/aramco-activates-emergency-yanbu-storage-tankers'
-          },
-          {
-            title: 'Saudi pipeline outage threatens loss of 4% of global oil supply',
-            timePublished: '2026-09-15T12:04:04Z',
-            url: 'https://www.reuters.com/business/energy/saudi-pipeline-outage-threatens-loss-4-global-oil-supply-2026-09-15/'
+            name: 'Oil prices rise 1.75% to $107.50 as traders assess impact of Saudi pipeline shutdown',
+            summary: "Brent crude futures rose 1.75% to $107.50 per barrel and WTI rose 1.8% to $103.17 per barrel on Tuesday, September 15, 2026, as traders assessed the impact of the shutdown of Saudi Arabia's East-West pipeline. The closure, caused by recent strikes, threatens up to 4% of global oil supply, with the true extent of the damage to the pipeline not yet confirmed.",
+            timeStart: '2026-09-13T00:00:00Z',
+            timeLatest: '2026-09-15T21:40:00Z',
+            cover: '/images/vertical/subject-4.png',
+            fallbackCover: 'https://images.wsj.net/im-48341995/social',
+            articles: [
+              {
+                title: 'Oil Prices Rise as Traders Gauge Lost Saudi Arabian Volumes After Pipeline Attack',
+                timePublished: '2026-09-15T05:37:00Z',
+                url: 'https://www.wsj.com/finance/currencies/oil-rises-as-stabilizers-in-crude-market-start-to-weaken-5dc85781'
+              },
+              {
+                title: 'Iran dismisses US talks as Strait of Hormuz crisis deepens across commodities',
+                timePublished: '2026-09-15T08:31:14Z',
+                url: 'https://www.thenationalnews.com/news/gulf/2026/09/15/iran-dismisses-us-talks-as-hormuz-crisis-deepens/'
+              },
+              {
+                title: 'Brent crude surges past $105 as Asian markets open to Middle East supply shock',
+                timePublished: '2026-09-15T11:23:00Z',
+                url: 'https://www.bloomberg.com/news/articles/2026-09-15/brent-crude-surges-past-105-middle-east-shock'
+              },
+              {
+                title: 'IEA considers coordinated strategic petroleum reserve release to calm markets',
+                timePublished: '2026-09-15T16:40:22Z',
+                url: 'https://www.reuters.com/business/energy/iea-emergency-reserve-release-deliberations-2026-09-15/'
+              },
+              {
+                title: 'OPEC+ delegates signal no immediate quota hikes despite spiking global futures',
+                timePublished: '2026-09-15T20:15:30Z',
+                url: 'https://www.cnbc.com/2026/09/15/opec-no-quota-hike-oil-crisis.html'
+              }
+            ]
           }
         ]
       },
-      {
-        name: "Ghalibaf says Strait of Hormuz will remain closed until Iran's seven conditions are met",
-        summary: "Iranian Parliament Speaker Mohammad Bagher Ghalibaf stated on September 20 that the Strait of Hormuz will not be reopened until the United States meets Iran's seven specific conditions. He announced that Tehran has conveyed these conditions to Washington through mediators and emphasized that Iran will pursue a strategy combining military action with diplomacy.",
-        timeStart: '2026-09-19T00:00:00Z',
-        timeLatest: '2026-09-20T21:40:00Z',
-        cover: '/images/vertical/subject-2.png',
-        fallbackCover: 'https://th-i.thgim.com/public/incoming/hc96xo/article71487642.ece/alternates/LANDSCAPE_1200/2026-08-21T070048Z_1945003085_RC2V2NAMLYIS_RTRMADP_3_IRAN-CRISIS-IRAQ-QALIBAF-NAJAF.JPG',
-        articles: [
+      business: {
+        id: 'business',
+        title: 'Business Search',
+        heading: 'Business Search',
+        desc: 'Enterprise registries, SEC filings, and capital expenditure forecasts indexed at wire speed. Structured for financial models and market intelligence.',
+        theme: 'business',
+        query: 'Semiconductor supply chain CAPEX forecasts 2026',
+        iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>`,
+        watermarkSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>`,
+        badgeText: 'Top Business',
+        stats: { num1: 8, label1: 'filings', num2: 12, label2: 'reports' },
+        bullets: [
+          '• Real-time SEC filings & earnings disclosures.',
+          '• Supply chain capex & capacity utilization shifts.',
+          '• Comprehensive corporate registry intelligence.'
+        ],
+        subjects: [
           {
-            title: 'Tehran outlines seven non-negotiable conditions for Hormuz strait access',
-            timePublished: '2026-09-20T06:15:20Z',
-            url: 'https://www.aljazeera.com/news/2026/9/20/tehran-outlines-seven-conditions-hormuz'
+            name: 'TSMC & Samsung revise 2nm equipment procurement timelines ahead of schedule',
+            summary: 'Leading foundry operators have accelerated 2nm fab equipment installations in response to unprecedented hyperscaler AI accelerator allocations, committing over $62B in combined near-term capex.',
+            timeStart: '2026-09-11T00:00:00Z',
+            timeLatest: '2026-09-20T21:40:00Z',
+            cover: '/images/vertical/subject-1.png',
+            fallbackCover: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80',
+            articles: [
+              {
+                title: 'Global foundry utilization rates surge to 94% amid AI accelerator demand boom',
+                timePublished: '2026-09-20T06:15:20Z',
+                url: 'https://www.wsj.com/business/semiconductor-foundry-capacity-surge'
+              },
+              {
+                title: 'TSMC, Samsung revise 2nm fab equipment procurement timelines forward by two quarters',
+                timePublished: '2026-09-20T08:42:11Z',
+                url: 'https://www.ft.com/content/tsmc-samsung-advance-2nm-procurement'
+              },
+              {
+                title: 'ASML raises 2026 High-NA EUV lithography tool shipment guidance to record highs',
+                timePublished: '2026-09-20T11:30:45Z',
+                url: 'https://www.reuters.com/technology/asml-raises-high-na-euv-shipment-guidance-2026/'
+              },
+              {
+                title: 'Enterprise memory makers announce $18B combined greenfield packaging CAPEX expansions',
+                timePublished: '2026-09-20T14:05:18Z',
+                url: 'https://www.bloomberg.com/news/articles/memory-makers-announce-18b-packaging-capex'
+              },
+              {
+                title: 'Semiconductor CAPEX expected to top $215B in 2026 as hyperscaler silicon demand outpaces supply',
+                timePublished: '2026-09-20T17:10:00Z',
+                url: 'https://www.bloomberg.com/news/articles/semiconductor-capex-tops-215b-2026'
+              }
+            ]
           },
           {
-            title: "Swiss diplomatic backchannel receives Iran's formal demands on sanctions relief",
-            timePublished: '2026-09-20T08:38:54Z',
-            url: 'https://www.reuters.com/world/middle-east/swiss-backchannel-receives-iran-demands-2026-09-20/'
+            name: 'NVIDIA & AMD lock in advanced CoWoS packaging capacity through 2027',
+            summary: 'Multi-year capacity reservations for advanced silicon interposers and high-bandwidth memory (HBM4) integration have reached historic contract values across Asian manufacturing hubs.',
+            timeStart: '2026-09-12T00:00:00Z',
+            timeLatest: '2026-09-18T18:30:00Z',
+            cover: '/images/vertical/subject-2.png',
+            fallbackCover: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80',
+            articles: [
+              {
+                title: 'Hyperscalers sign multi-billion dollar long-term supply agreements for custom silicon',
+                timePublished: '2026-09-18T07:22:00Z',
+                url: 'https://www.wsj.com/tech/custom-silicon-supply-agreements'
+              },
+              {
+                title: 'Next-gen HBM4 memory packaging yields improve significantly across test batches',
+                timePublished: '2026-09-18T09:40:00Z',
+                url: 'https://www.eetimes.com/hbm4-packaging-yields'
+              },
+              {
+                title: 'Substrate manufacturers report full order books extending well into fiscal 2027',
+                timePublished: '2026-09-18T12:15:00Z',
+                url: 'https://www.digitimes.com/news/substrate-capacity-2027'
+              }
+            ]
           },
           {
-            title: "No reopening of Strait of Hormuz until Iran's conditions are met, says Ghalibaf",
-            timePublished: '2026-09-20T10:44:29Z',
-            url: 'https://www.thehindu.com/news/international/no-reopening-of-strait-of-hormuz-until-irans-conditions-are-met-says-ghalibaf/article71487500.ece'
+            name: 'Regulatory approvals cleared for European semiconductor mega-fab clusters',
+            summary: 'European authorities finalize state aid authorizations under the Chips Act framework, unlocking €38B in co-investment for leading-edge automotive and industrial semiconductor fabrication.',
+            timeStart: '2026-09-08T00:00:00Z',
+            timeLatest: '2026-09-16T15:20:00Z',
+            cover: '/images/vertical/subject-3.png',
+            fallbackCover: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200&q=80',
+            articles: [
+              {
+                title: 'EU Commission gives final green light to Dresden silicon cluster financing',
+                timePublished: '2026-09-16T08:10:00Z',
+                url: 'https://www.reuters.com/technology/eu-greenlights-dresden-chip-fab/'
+              },
+              {
+                title: 'Automotive OEMs secure direct silicon equity stakes to guarantee microcontroller supply',
+                timePublished: '2026-09-16T11:45:00Z',
+                url: 'https://www.ft.com/automotive-silicon-equity-stakes'
+              }
+            ]
           },
           {
-            title: 'US State Department rejects Tehran ultimatum, calls maritime blockade unacceptable',
-            timePublished: '2026-09-20T13:20:10Z',
-            url: 'https://www.cnn.com/2026/09/20/politics/state-department-rejects-iran-hormuz-ultimatum/index.html'
-          },
-          {
-            title: 'UN Security Council convenes emergency session on Persian Gulf naval standoff',
-            timePublished: '2026-09-20T18:05:42Z',
-            url: 'https://apnews.com/article/un-security-council-iran-hormuz-standoff-2026'
-          }
-        ]
-      },
-      {
-        name: 'Houthi rebels seize Greater and Lesser Hanish islands, tightening control of Bab el-Mandeb Strait',
-        summary: "Yemen's Houthi rebels have captured the strategic islands of Greater and Lesser Hanish in the southern Red Sea, displacing more than 80,000 people in recent fighting. The seizure strengthens the Iran-backed group's grip on the Bab el-Mandeb shipping route and has intensified concerns over global oil supply disruptions.",
-        timeStart: '2026-09-14T00:00:00Z',
-        timeLatest: '2026-09-15T21:40:00Z',
-        cover: '/images/vertical/subject-3.png',
-        fallbackCover: 'https://i.guim.co.uk/img/media/0d73d909d1a2538485c626492748c53674c1966e/0_0_3840_3072/master/3840.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=75486fa313ea5ee36d3db5532d4f7a78',
-        articles: [
-          {
-            title: 'Houthis seize strategic Red Sea islands as analysts warn of impending oil crunch',
-            timePublished: '2026-09-15T04:22:16Z',
-            url: 'https://www.theguardian.com/world/2026/sep/15/houthi-rebels-seize-red-sea-hanish-islands-saudi-oil-warning'
-          },
-          {
-            title: 'Houthi naval units launch amphibious assault on Red Sea navigation hubs',
-            timePublished: '2026-09-15T07:47:23Z',
-            url: 'https://apnews.com/article/yemen-houthi-red-sea-amphibious-assault-2026'
-          },
-          {
-            title: 'Commercial vessels reroute around Cape of Good Hope, adding two weeks to transit',
-            timePublished: '2026-09-15T11:30:45Z',
-            url: 'https://www.ft.com/content/red-sea-rerouting-cape-good-hope-delays'
-          },
-          {
-            title: 'Coalition warships reposition toward southern Bab el-Mandeb following island capture',
-            timePublished: '2026-09-15T14:28:31Z',
-            url: 'https://news.usni.org/2026/09/15/coalition-warships-reposition-bab-el-mandeb'
-          },
-          {
-            title: 'Insurance syndicates declare entire southern Red Sea high-risk war exclusion zone',
-            timePublished: '2026-09-15T19:18:00Z',
-            url: 'https://www.lloydslist.com/insurance/red-sea-war-exclusion-zone-declaration'
-          }
-        ]
-      },
-      {
-        name: 'Oil prices rise 1.75% to $107.50 as traders assess impact of Saudi pipeline shutdown',
-        summary: "Brent crude futures rose 1.75% to $107.50 per barrel and WTI rose 1.8% to $103.17 per barrel on Tuesday, September 15, 2026, as traders assessed the impact of the shutdown of Saudi Arabia's East-West pipeline. The closure, caused by recent strikes, threatens up to 4% of global oil supply, with the true extent of the damage to the pipeline not yet confirmed.",
-        timeStart: '2026-09-13T00:00:00Z',
-        timeLatest: '2026-09-15T21:40:00Z',
-        cover: '/images/vertical/subject-4.png',
-        fallbackCover: 'https://images.wsj.net/im-48341995/social',
-        articles: [
-          {
-            title: 'Oil Prices Rise as Traders Gauge Lost Saudi Arabian Volumes After Pipeline Attack',
-            timePublished: '2026-09-15T05:37:00Z',
-            url: 'https://www.wsj.com/finance/currencies/oil-rises-as-stabilizers-in-crude-market-start-to-weaken-5dc85781'
-          },
-          {
-            title: 'Iran dismisses US talks as Strait of Hormuz crisis deepens across commodities',
-            timePublished: '2026-09-15T08:31:14Z',
-            url: 'https://www.thenationalnews.com/news/gulf/2026/09/15/iran-dismisses-us-talks-as-hormuz-crisis-deepens/'
-          },
-          {
-            title: 'Brent crude surges past $105 as Asian markets open to Middle East supply shock',
-            timePublished: '2026-09-15T11:23:00Z',
-            url: 'https://www.bloomberg.com/news/articles/2026-09-15/brent-crude-surges-past-105-middle-east-shock'
-          },
-          {
-            title: 'IEA considers coordinated strategic petroleum reserve release to calm markets',
-            timePublished: '2026-09-15T16:40:22Z',
-            url: 'https://www.reuters.com/business/energy/iea-emergency-reserve-release-deliberations-2026-09-15/'
-          },
-          {
-            title: 'OPEC+ delegates signal no immediate quota hikes despite spiking global futures',
-            timePublished: '2026-09-15T20:15:30Z',
-            url: 'https://www.cnbc.com/2026/09/15/opec-no-quota-hike-oil-crisis.html'
+            name: 'Power utility grid connections become primary bottleneck for AI datacenter expansion',
+            summary: 'Regional transmission operators warn of multi-year interconnection queues for multi-hundred megawatt campus facilities, driving demand for co-located nuclear and renewable microgrids.',
+            timeStart: '2026-09-05T00:00:00Z',
+            timeLatest: '2026-09-14T20:10:00Z',
+            cover: '/images/vertical/subject-4.png',
+            fallbackCover: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1200&q=80',
+            articles: [
+              {
+                title: 'Utilities demand dedicated power purchase agreements before approving datacenter substations',
+                timePublished: '2026-09-14T09:30:00Z',
+                url: 'https://www.bloomberg.com/news/datacenter-grid-bottlenecks'
+              },
+              {
+                title: 'Tech giants explore private nuclear reactor partnerships to power next-gen clusters',
+                timePublished: '2026-09-14T14:15:00Z',
+                url: 'https://www.wsj.com/articles/tech-nuclear-power-datacenters'
+              }
+            ]
           }
         ]
       }
-    ];
+    };
 
-    const TOTAL_SUBJECTS = SUBJECTS_DATA.length;
-    const TOTAL_ARTICLES = SUBJECTS_DATA.reduce((acc, s) => acc + (s.articles ? s.articles.length : 0), 0);
+    let currentVerticalKey = 'news';
+    function getCurrentData() {
+      return VERTICALS[currentVerticalKey] || VERTICALS.news;
+    }
 
-    // Preload cover images in background
-    SUBJECTS_DATA.forEach(s => {
-      if (s.cover) {
-        const img = new Image();
-        img.src = s.cover;
-      }
+    // Preload cover images in background across all verticals
+    Object.values(VERTICALS).forEach(v => {
+      v.subjects.forEach(s => {
+        if (s.cover) {
+          const img = new Image();
+          img.src = s.cover;
+        }
+      });
     });
 
     // Date & string formatting helpers
@@ -235,14 +375,19 @@
     }
 
     function updateTopNewsCard(subjectIdx = 0) {
-      const subj = SUBJECTS_DATA[subjectIdx];
+      const curData = getCurrentData();
+      const subj = curData.subjects[subjectIdx];
       if (!subj) return;
       const topTitle = document.getElementById('topNewsTitle');
       const topDesc = document.getElementById('topNewsDesc');
       const topThumb = document.getElementById('topNewsThumb');
       const topTime = document.getElementById('topNewsTime');
       const topSource = document.getElementById('topNewsSource');
+      const topTag = document.querySelector('.top-news-tag');
 
+      if (topTag && curData.badgeText) {
+        topTag.textContent = curData.badgeText;
+      }
       if (topTitle) topTitle.textContent = subj.name;
       if (topDesc) topDesc.textContent = subj.summary;
       if (topThumb && subj.cover) {
@@ -264,7 +409,8 @@
       const articlesGroup = document.getElementById('timelineArticlesSubgroup');
       if (!spineTrack || !articlesGroup) return;
 
-      const subject = SUBJECTS_DATA[subjectIdx] || SUBJECTS_DATA[0];
+      const curData = getCurrentData();
+      const subject = curData.subjects[subjectIdx] || curData.subjects[0];
       // Chronological order: earlier timestamps on top, later at the bottom
       const articles = (subject.articles || []).slice().sort((a, b) => new Date(a.timePublished) - new Date(b.timePublished));
 
@@ -982,6 +1128,12 @@
       const seq = currentSequenceId;
       const isValid = () => seq === currentSequenceId;
 
+      const curData = getCurrentData();
+      const currentQuery = curData.query;
+      const currentSubjects = curData.subjects;
+      const currentTotalSubjects = curData.stats.num1;
+      const currentTotalArticles = curData.stats.num2;
+
       activeAnimations.forEach(a => { try { a.cancel(); } catch (e) {} });
       activeAnimations = [];
       if (replayBtn) replayBtn.classList.remove('visible');
@@ -1010,8 +1162,8 @@
         await sleep(500);
         if (!isValid()) return;
 
-        for (let i = 1; i <= QUERY_TEXT.length; i++) {
-          if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT.slice(0, i);
+        for (let i = 1; i <= currentQuery.length; i++) {
+          if (queryTextSpan) queryTextSpan.textContent = currentQuery.slice(0, i);
           await sleep(32);
           if (!isValid()) return;
         }
@@ -1023,7 +1175,7 @@
       // STAGE 2: SEARCHING (Smooth Gliding Transition)
       // --------------------------------------------------
       if (startIndex <= 1) {
-        if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
+        if (queryTextSpan) queryTextSpan.textContent = currentQuery;
         if (startIndex === 1 && !cardCanvas.classList.contains('is-typing')) {
           setCanvasState('searching');
         } else {
@@ -1037,7 +1189,7 @@
       // STAGE 3: RESULTS OVERVIEW
       // --------------------------------------------------
       if (startIndex <= 2) {
-        if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
+        if (queryTextSpan) queryTextSpan.textContent = currentQuery;
 
         if (startIndex === 2 && !cardCanvas.classList.contains('is-searching')) {
           setCanvasState('overview');
@@ -1045,12 +1197,12 @@
           transitionToOverview();
         }
 
-        animateNumber(statSubjectsEl, 0, TOTAL_SUBJECTS, 1400);
-        animateNumber(statArticlesEl, 0, TOTAL_ARTICLES, 1400);
+        animateNumber(statSubjectsEl, 0, currentTotalSubjects, 1400);
+        animateNumber(statArticlesEl, 0, currentTotalArticles, 1400);
 
         if (cardListContainer && resultsViewport) {
           const tempFirstWrap = document.createElement('div');
-          tempFirstWrap.innerHTML = createSubjectCardHTML(SUBJECTS_DATA[0], 0, true);
+          tempFirstWrap.innerHTML = createSubjectCardHTML(currentSubjects[0], 0, true);
           const firstCard = tempFirstWrap.firstElementChild;
           firstCard.style.opacity = '0';
           firstCard.style.transform = 'translateY(24px) scale(0.97)';
@@ -1087,9 +1239,9 @@
           await sleep(380);
           if (!isValid()) return;
 
-          for (let i = 1; i < SUBJECTS_DATA.length; i++) {
+          for (let i = 1; i < currentSubjects.length; i++) {
             const tempWrap = document.createElement('div');
-            tempWrap.innerHTML = createSubjectCardHTML(SUBJECTS_DATA[i], i, false);
+            tempWrap.innerHTML = createSubjectCardHTML(currentSubjects[i], i, false);
             const nextCard = tempWrap.firstElementChild;
             nextCard.style.opacity = '0';
             nextCard.style.transform = 'translateY(28px) scale(0.97)';
@@ -1141,7 +1293,7 @@
             nextCard.style.opacity = '1';
             nextCard.style.transform = 'none';
 
-            if (i < SUBJECTS_DATA.length - 1) {
+            if (i < currentSubjects.length - 1) {
               await sleep(380);
               if (!isValid()) return;
             }
@@ -1156,9 +1308,9 @@
       // STAGE 4: TOP NEWS & HORIZONTAL SUBJECT TABS
       // --------------------------------------------------
       if (startIndex <= 3) {
-        if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
-        if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
-        if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
+        if (queryTextSpan) queryTextSpan.textContent = currentQuery;
+        if (statSubjectsEl) statSubjectsEl.textContent = currentTotalSubjects;
+        if (statArticlesEl) statArticlesEl.textContent = currentTotalArticles;
 
         if (startIndex === 3 && !cardCanvas.classList.contains('has-results')) {
           setCanvasState('focus');
@@ -1179,9 +1331,9 @@
       // --------------------------------------------------
       // STAGE 5: TIMELINE STREAM UNFOLD UNDER TOP NEWS
       // --------------------------------------------------
-      if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
-      if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
-      if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
+      if (queryTextSpan) queryTextSpan.textContent = currentQuery;
+      if (statSubjectsEl) statSubjectsEl.textContent = currentTotalSubjects;
+      if (statArticlesEl) statArticlesEl.textContent = currentTotalArticles;
 
       setCanvasState('timeline');
 
@@ -1199,6 +1351,80 @@
     // ==========================================
     // 6. INTERACTIVE CONTROLS & LISTENERS
     // ==========================================
+    // Dual Vertical Tabs Interactive Switching (News Search / Business Search)
+    const tabNews = document.getElementById('tabNews');
+    const tabBusiness = document.getElementById('tabBusiness');
+
+    function switchVertical(key) {
+      if (currentVerticalKey === key) return;
+      currentVerticalKey = key;
+      const curData = getCurrentData();
+
+      // 1. Update Tabs active state & aria-selected
+      if (tabNews) {
+        tabNews.classList.toggle('active', key === 'news');
+        tabNews.setAttribute('aria-selected', key === 'news' ? 'true' : 'false');
+      }
+      if (tabBusiness) {
+        tabBusiness.classList.toggle('active', key === 'business');
+        tabBusiness.setAttribute('aria-selected', key === 'business' ? 'true' : 'false');
+      }
+
+      // 2. Update Hero Section Heading & Description
+      const heroHeading = document.getElementById('verticalSearchHeading');
+      const heroDesc = document.getElementById('verticalSearchDesc');
+      if (heroHeading) heroHeading.textContent = curData.heading;
+      if (heroDesc) heroDesc.textContent = curData.desc;
+
+      // 3. Update Canvas data-theme
+      if (cardCanvas) {
+        cardCanvas.setAttribute('data-theme', curData.theme);
+      }
+
+      // 4. Update Canvas watermark
+      const canvasWatermark = document.getElementById('canvasWatermark');
+      if (canvasWatermark && curData.watermarkSvg) {
+        canvasWatermark.innerHTML = curData.watermarkSvg;
+      }
+
+      // 5. Update Canvas Left Panel Heading Title & Icon
+      const canvasHeadingTitle = document.getElementById('canvasHeadingTitle');
+      const canvasHeadingIcon = document.getElementById('canvasHeadingIcon');
+      if (canvasHeadingTitle) canvasHeadingTitle.textContent = curData.title;
+      if (canvasHeadingIcon && curData.iconSvg) {
+        canvasHeadingIcon.innerHTML = curData.iconSvg;
+      }
+
+      // 6. Update Summary Box Stats & Bullets
+      const statUnitSubjects = document.getElementById('statUnitSubjects');
+      const statUnitArticles = document.getElementById('statUnitArticles');
+      const summaryBulletsList = document.getElementById('summaryBulletsList');
+      if (statUnitSubjects) statUnitSubjects.textContent = curData.stats.label1;
+      if (statUnitArticles) statUnitArticles.textContent = curData.stats.label2;
+      if (summaryBulletsList && curData.bullets) {
+        summaryBulletsList.innerHTML = curData.bullets.map(b => `<li>${b}</li>`).join('');
+      }
+
+      // 7. Reset Horizontal Pills Active Index to 0
+      const pills = document.querySelectorAll('.subject-h-pill');
+      pills.forEach((p, idx) => p.classList.toggle('active', idx === 0));
+
+      // 8. Update Top News Card & Timeline for Subject 0
+      updateTopNewsCard(0);
+      renderTimelineStream(0, false);
+
+      // 9. Re-run animation cycle from typing
+      if (replayBtn) replayBtn.classList.remove('visible');
+      runCycle('typing');
+    }
+
+    if (tabNews) {
+      tabNews.addEventListener('click', () => switchVertical('news'));
+    }
+    if (tabBusiness) {
+      tabBusiness.addEventListener('click', () => switchVertical('business'));
+    }
+
     if (replayBtn) {
       replayBtn.addEventListener('click', () => {
         replayBtn.classList.remove('visible');

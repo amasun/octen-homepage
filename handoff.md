@@ -106,4 +106,12 @@ pnpm preview   # 本地静态托管并预览构建产物
   - 中央舞台 5 步时序动画（逐字打字 ➔ 正弦波脉冲 ➔ 卡片总览翻滚 ➔ 药丸形态形变 ➔ 时间线滚动延展）已由 `news-search-demo.html` 完整落地至 `src/sections/05-vertical-search.html` 与 `public/js/vertical-search.js`。
   - 支持进入视口自动播放、悬浮暂停、药丸 Tab 切换与 Replay 重播。
   - **参考设计稿**：👉 [Figma News 动效 5 步静态分步设计稿 (Node 13661:163623)](https://www.figma.com/design/jnIlRSuXffn5g2OxnsqYIE/Octen_%E6%B1%87%E6%80%BB?node-id=13661-163623&t=7uy39MOcdDWVIOA4-4)。
+- ✅ **News Search / Business Search 双 Tab 切换找回与多垂直支持**（已完成）：
+  - 在卡片舞台上方恢复毛玻璃质感双 Tab 栏（`[ News Search ]  [ Business Search ]`）；
+  - 点击 Tab 实现完全无缝的动态切换：
+    - 主标题与说明文案动态更新；
+    - 舞台背景辐射渐变在青绿调（`#DCEEC6 ➔ #8FBD73`）与琥珀金调（`#FEF3C7 ➔ #92400E`）之间平滑过渡（0.65s 过渡贝塞尔曲线）；
+    - 水印（报纸图标 vs 公文包图标）与面板图标即时同步；
+    - 输入 Query、数据统计（`subjects/articles` vs `filings/reports`）与摘要 Bullet 点自适应替换；
+    - 4 组完整垂直数据及多条时间线内容随之热更，自动重置并流畅启动 5 步动画 pipeline。
 

@@ -31,10 +31,13 @@
 
 ---
 
-## 4. News Search 交互与 5 步动画（已完成移植）
+## 4. News Search & Business Search 交互与 5 步动画（已完成移植与双 Tab 找回）
 1. **底部间距收敛**：区块底部内边距统一缩减为 80px，板块过渡更紧凑。
 2. **中央大卡片圆角**：交互舞台巨大卡片的圆角统一调整为 24px。
-3. ✅ **News Search 5 步时序动画全套移植**（源自 `news-search-demo.html`）：
+3. ✅ **双垂直搜索 Tab 栏（News Search / Business Search）**：
+   - 舞台上方恢复毛玻璃双 Tab 胶囊切换栏（`[ News Search ]  [ Business Search ]`）；
+   - 点击 Tab 实现主题色（青绿 vs 琥珀金）、背景水印、标题说明、Query 输入语句、统计数据及时间线内容完全动态切换。
+4. ✅ **5 步时序动画全套移植**（源自 `news-search-demo.html`）：
    - **步骤 1 (Typing)**：逐字输入查询语句（32ms/字）+ 光标呼吸停顿。
    - **步骤 2 (Searching)**：输入框通过 WAAPI FLIP 无缝平移至左上角，右侧展开 14 节点正弦波跳动动画。
    - **步骤 3 (Overview)**：左侧统计数字 odometer 翻滚（0 ➔ 4 主题 / 10 报道），右侧白卡依次滚动推入。

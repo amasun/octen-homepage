@@ -232,7 +232,75 @@
 }
 
 /* ==========================================================================
-   2.2 Canvas Section & Outer Wrapper
+   2.2 Dual Vertical Tabs Bar (News Search / Business Search)
+   ========================================================================== */
+.vertical-tabs-bar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 auto 36px;
+  padding: 5px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  z-index: 20;
+  position: relative;
+}
+
+.tab-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 20px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.tab-trigger:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.tab-trigger .tab-trigger-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.tab-trigger.active[data-vertical="news"] {
+  background: rgba(170, 239, 138, 0.16);
+  color: #c4f799;
+  border-color: rgba(170, 239, 138, 0.45);
+  box-shadow: 0 2px 12px rgba(170, 239, 138, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  font-weight: 600;
+}
+
+.tab-trigger.active[data-vertical="business"] {
+  background: rgba(251, 191, 36, 0.16);
+  color: #fde68a;
+  border-color: rgba(251, 191, 36, 0.45);
+  box-shadow: 0 2px 12px rgba(251, 191, 36, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   2.3 Canvas Section & Outer Wrapper
    ========================================================================== */
 .canvas-section {
   width: 100%;
@@ -326,6 +394,44 @@
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
   text-align: left;
+  transition: background 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-canvas[data-theme="business"],
+.hero-canvas[data-theme="business"] {
+  background: radial-gradient(60% 70% at 50% 55%, #FEF3C7 0%, #F59E0B 45%, #D97706 75%, #92400E 100%);
+}
+
+.card-canvas[data-theme="business"] .canvas-watermark {
+  color: rgba(146, 64, 14, 0.22);
+}
+
+.card-canvas[data-theme="business"] .wave-dot {
+  background-color: #B45309;
+}
+
+.card-canvas[data-theme="business"] .timeline-dot-node {
+  border-color: #D97706;
+  background-color: #F59E0B;
+}
+
+.card-canvas[data-theme="business"] .subject-h-pill {
+  background: rgba(146, 64, 14, 0.45);
+}
+
+.card-canvas[data-theme="business"] .subject-h-pill:hover {
+  background: rgba(146, 64, 14, 0.65);
+}
+
+.card-canvas[data-theme="business"] .subject-h-pill.active {
+  background: #D97706;
+  color: #FFFFFF;
+}
+
+.card-canvas[data-theme="business"] .top-news-tag,
+.card-canvas[data-theme="business"] .top-news-badge {
+  background: rgba(217, 119, 6, 0.15);
+  color: #B45309;
 }
 
 @media (min-width: 640px) {
