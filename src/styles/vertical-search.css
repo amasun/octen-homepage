@@ -399,13 +399,9 @@
 
 .card-canvas[data-theme="business"],
 .hero-canvas[data-theme="business"] {
-  background: linear-gradient(44.87deg, rgba(255, 223, 80, 0.6) 0.11%, rgba(255, 249, 230, 0.6) 101.27%), linear-gradient(90deg, rgba(255, 205, 97, 0.6) 0%, rgba(255, 230, 153, 0.6) 100%) !important;
+  background: linear-gradient(22.8deg, rgba(255, 223, 80, 0.6) 0.11%, rgba(255, 249, 230, 0.6) 101.27%), linear-gradient(90deg, rgba(255, 205, 97, 0.6) 0%, rgba(255, 230, 153, 0.6) 100%) !important;
   box-shadow: 0px 20px 48px rgba(0, 0, 0, 0.04) !important;
   border-radius: 40px !important;
-}
-
-.card-canvas[data-theme="business"] .canvas-watermark {
-  color: rgba(146, 64, 14, 0.22);
 }
 
 .card-canvas[data-theme="business"] .wave-dot {
@@ -456,34 +452,70 @@
   }
 }
 
-/* 1. Ambient Background Watermark (Lucide Newspaper) */
+/* 1.0 Background Radial Highlight / Glow (Figma Node 13795:166562) */
+.canvas-aura {
+  position: absolute;
+  left: 50%;
+  top: -34px;
+  width: 600px;
+  height: 600px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (max-width: 639px) {
+  .canvas-aura {
+    width: 360px;
+    height: 360px;
+    top: -20px;
+  }
+}
+
+/* 1.1 Ambient Background Watermark (Figma Node 13795:166563) */
 .canvas-watermark {
   position: absolute;
   top: 50%;
-  left: 6%;
-  aspect-ratio: 1 / 1;
-  height: 35%;
+  left: 32px;
+  width: 200px;
+  height: 200px;
   transform: translateY(-50%);
-  color: rgba(95, 140, 71, 0.25);
+  color: #000000;
+  opacity: 0.12 !important;
   pointer-events: none;
   z-index: 1;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+@media (min-width: 640px) {
+  .canvas-watermark {
+    left: 60px;
+    width: 240px;
+    height: 240px;
+  }
 }
 
 @media (min-width: 1024px) {
   .canvas-watermark {
-    left: 9%;
-    height: 46%;
+    left: 120px;
+    top: 126px;
+    width: 280px;
+    height: 280px;
+    transform: none;
   }
 }
 
 .canvas-watermark svg {
   width: 100%;
   height: 100%;
+  display: block;
 }
 
 .card-canvas.not-typing .canvas-watermark {
-  opacity: 0;
+  opacity: 0 !important;
+  pointer-events: none;
 }
 
 /* 2. Left / Center Dynamic Panel */

@@ -106,10 +106,14 @@ pnpm preview   # 本地静态托管并预览构建产物
   - 中央舞台 5 步时序动画（逐字打字 ➔ 正弦波脉冲 ➔ 卡片总览翻滚 ➔ 药丸形态形变 ➔ 时间线滚动延展）已由 `news-search-demo.html` 完整落地至 `src/sections/05-vertical-search.html` 与 `public/js/vertical-search.js`。
   - 支持进入视口自动播放、悬浮暂停、药丸 Tab 切换与 Replay 重播。
   - **参考设计稿**：👉 [Figma News 动效 5 步静态分步设计稿 (Node 13661:163623)](https://www.figma.com/design/jnIlRSuXffn5g2OxnsqYIE/Octen_%E6%B1%87%E6%80%BB?node-id=13661-163623&t=7uy39MOcdDWVIOA4-4)。
-- ✅ **Business Search 巨幅卡片背景 Figma 规格精准落地**（已完成）：
-  - 尺寸锁定：桌面端（`>= 1024px`）按 Figma 原型精确锁定为 `width: 1260px; max-width: 1260px; height: 532px; min-height: 532px; max-height: 532px;`，移动端自适应响应缩放；
-  - 圆角统一：巨幅舞台卡片统一升级至 `border-radius: 40px !important;`；
-  - 渐变与阴影：Business 激活态精准匹配 Figma 双重线性渐变 `linear-gradient(44.87deg, rgba(255, 223, 80, 0.6) 0.11%, rgba(255, 249, 230, 0.6) 101.27%), linear-gradient(90deg, rgba(255, 205, 97, 0.6) 0%, rgba(255, 230, 153, 0.6) 100%)` 与柔和投影 `box-shadow: 0px 20px 48px rgba(0, 0, 0, 0.04)`。
+- ✅ **Business Search 巨幅卡片背景与水印精确对齐 Figma (Node 13795:166561)**（已完成）：
+  - 渐变角度微调：调整为 Figma 导出的高精度 `linear-gradient(22.8deg, rgba(255, 223, 80, 0.6) 0.11%, rgba(255, 249, 230, 0.6) 101.27%), linear-gradient(90deg, rgba(255, 205, 97, 0.6) 0%, rgba(255, 230, 153, 0.6) 100%)`；
+  - 核心背景高光元素 (`.canvas-aura`)：引入 Figma 原型中的 600px 居中白色径向光晕球（`radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 70%)`），增强卡片纵深与光影质感；
+  - SVG 水印严格对齐：
+    - 透明度统一锁定为 Figma 规范的 `opacity: 0.12 !important`；
+    - 颜色采用纯黑 `#000000` 融入背景底色，移除原先粗糙的棕黄色着色覆盖；
+    - 尺寸精确对齐为 `280px × 280px`，桌面端定位为 `left: 120px; top: 126px;`（移动端自适应响应）；
+    - Business 水印矢量更新为 Figma 原型提取的高精度公文包矢量节点，线条粗细与原稿完美一致。
 - ✅ **Section 8 Start Building (CTA) 背景色与可见性修复**（已完成）：
   - 外层容器补充 `#080B12` 暗黑背景与底部分割线 `<div class="w-full border-b border-[#FFFFFF33]">`；
   - 彻底清除 SSR 残留的 `opacity: 0; filter: blur(6px); transform: translateY(24px)` 内联样式，解决 3 步卡片和 Skills 盒子不可见的问题。
