@@ -18,7 +18,7 @@ interface TimelineArticle {
 const themeGradients: Record<'news' | 'academic' | 'business' | 'purple', string> = {
   news: 'linear-gradient(44.87deg, #AAEF8A 3.49%, #F3FFC1 101.39%), linear-gradient(90deg, #BBEE97 0%, #BBEE97 100%)',
   academic: 'linear-gradient(44.87deg, #A4E5FF 3.49%, #EBF8FF 101.39%), linear-gradient(90deg, #B5EBFF 0%, #B5EBFF 100%)',
-  business: 'linear-gradient(44.87deg, #FFDF80 3.49%, #FFF9E6 101.39%), linear-gradient(90deg, #FFE699 0%, #FFE699 100%)',
+  business: 'linear-gradient(44.87deg, rgba(255, 223, 80, 0.6) 0.11%, rgba(255, 249, 230, 0.6) 101.27%), linear-gradient(90deg, rgba(255, 205, 97, 0.6) 0%, rgba(255, 230, 153, 0.6) 100%)',
   purple: 'linear-gradient(44.87deg, #CFACFD 3.49%, #FAF5FF 101.39%), linear-gradient(90deg, #E0C6FE 0%, #E0C6FE 100%)',
 };
 

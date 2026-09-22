@@ -388,18 +388,20 @@
   width: 100%;
   max-width: var(--max-canvas-width, 1260px);
   overflow: hidden;
-  border-radius: 24px !important;
+  border-radius: 40px !important;
   aspect-ratio: 3 / 4;
   background: radial-gradient(60% 70% at 50% 55%, #DCEEC6 0%, #A6CE86 55%, #8FBD73 100%);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
   text-align: left;
-  transition: background 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background 0.65s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.65s ease;
 }
 
 .card-canvas[data-theme="business"],
 .hero-canvas[data-theme="business"] {
-  background: radial-gradient(60% 70% at 50% 55%, #FEF3C7 0%, #F59E0B 45%, #D97706 75%, #92400E 100%);
+  background: linear-gradient(44.87deg, rgba(255, 223, 80, 0.6) 0.11%, rgba(255, 249, 230, 0.6) 101.27%), linear-gradient(90deg, rgba(255, 205, 97, 0.6) 0%, rgba(255, 230, 153, 0.6) 100%) !important;
+  box-shadow: 0px 20px 48px rgba(0, 0, 0, 0.04) !important;
+  border-radius: 40px !important;
 }
 
 .card-canvas[data-theme="business"] .canvas-watermark {
@@ -445,7 +447,12 @@
   .card-canvas,
   .hero-canvas {
     aspect-ratio: 2.4 / 1;
+    width: 1260px;
+    max-width: 1260px;
     height: 532px;
+    min-height: 532px;
+    max-height: 532px;
+    border-radius: 40px !important;
   }
 }
 
