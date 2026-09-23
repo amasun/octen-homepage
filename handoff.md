@@ -223,6 +223,14 @@ pnpm preview   # 本地静态托管并预览构建产物
 - ✅ **调整 Stage 5 时间线流卡片容器最大高度为 248px**（已完成）：
   - 将 `.card-canvas.is-stage5 .timeline-stream-block` 的 `max-height` 从原有的 `232px` 调整为 `248px`，使 Stage 5 阶段多篇新闻资讯展开时获得更适宜的纵向视口高度展示。
 
+- ✅ **调整四大核心卖点文案结构：加粗数字与特点文字前置置顶**（已完成）：
+  - **视觉锚点前置（Front-Loaded Value Propositions）**：将核心衡量指标（加粗数字）与功能关键词提至每条卖点的最开端作为加粗标题标签，后接冒号与凝练说明，大幅提升扫读效率与信息冲击力：
+    1. `• <b>3-minute wire speed</b>: indexed and searchable in real time as news&nbsp;breaks.`（3分钟内秒级/分级入库时效）；
+    2. `• <b>95% tier-1 coverage</b>: comprehensive index of authoritative global&nbsp;media.`（95% 全球头部主流媒体全收录）；
+    3. `• <b>Token-saving dedup</b>: eliminates syndicated reprints and duplicate&nbsp;stories.`（转载通稿去重与省 Token 核心痛点）；
+    4. `• <b>Event lineage tracking</b>: clusters complete backstory and developing&nbsp;angles.`（话题事件始末发展脉络追踪与聚合）；
+  - **排版防孤行与等长对齐**：每条末尾单词注入 `&nbsp;` 不换行空格，且 4 条长度高度平衡（80~84 字符），配合 `text-wrap: pretty;` 杜绝折行单字；同步规范 Business Search 卖点排版。
+
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
 
