@@ -116,7 +116,8 @@ pnpm preview   # 本地静态托管并预览构建产物
     - Business 水印矢量更新为 Figma 原型提取的高精度公文包矢量节点，线条粗细与原稿完美一致。
 - ✅ **Section 8 Start Building (CTA) 背景色与可见性修复**（已完成）：
   - 外层容器补充 `#080B12` 暗黑背景与底部分割线 `<div class="w-full border-b border-[#FFFFFF33]">`；
-- ✅ **清理残留提示**（已完成）：
-  - 彻底移除巨幅卡片外右上角的状态提示 `.hero-canvas-tip`（"Currently under optimization. Based on the front-end engineering results."）及其关联样式。
+- ✅ **Business Search 规范与结构性差异归档**（已完成）：
+  - 输出权威规范文档 [business search/BUSINESS_SEARCH_SPEC.md](file:///x:/XCoding/Octen/hompage/business%20search/BUSINESS_SEARCH_SPEC.md)；
+  - 同步更新并在 [Business Search 控制台交互.md](file:///x:/XCoding/Octen/hompage/business%20search/Business%20Search%20控制台交互/Business%20Search%20控制台交互.md) 中完整收录与 News Search 的数据模型、实体二分（Company vs Person）、双轨动态（Activities 时间线 vs News 列表）以及控制台参数结构差异。
 
 
