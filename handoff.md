@@ -103,9 +103,11 @@ pnpm preview   # 本地静态托管并预览构建产物
 
 ## 🚨 已知问题与下一步计划 (Next Steps)
 - ✅ **News Search 5 步动效全套移植**（已完成）：
-  - 中央舞台 5 步时序动画（逐字打字 ➔ 正弦波脉冲 ➔ 卡片总览翻滚 ➔ 药丸形态形变 ➔ 时间线滚动延展）已由 `news-search-demo.html` 完整落地至 `src/sections/05-vertical-search.html` 与 `public/js/vertical-search.js`。
+  - 中央舞台 5 步时序动画（逐字打字 ➔ 正弦波脉冲 ➔ 卡片总览翻滚 ➔ 药丸形态形变 ➔ 时间线滚动延展）已由 [news search/news-search-demo.html](file:///x:/XCoding/Octen/hompage/news%20search/news-search-demo.html) 完整落地至 `src/sections/05-vertical-search.html` 与 `public/js/vertical-search.js`。
   - 支持进入视口自动播放、悬浮暂停、药丸 Tab 切换与 Replay 重播。
   - **参考设计稿**：👉 [Figma News 动效 5 步静态分步设计稿 (Node 13661:163623)](https://www.figma.com/design/jnIlRSuXffn5g2OxnsqYIE/Octen_%E6%B1%87%E6%80%BB?node-id=13661-163623&t=7uy39MOcdDWVIOA4-4)。
+- ✅ **独立 Demo 文件目录归整**（已完成）：
+  - 根目录下的 News Search 相关独立文件（`news-search-demo.html` 与 `NEWS_SEARCH_ANIMATION_SPEC.md`）已清理，统一归整至 [news search/](file:///x:/XCoding/Octen/hompage/news%20search/) 子目录中，与 [business search/](file:///x:/XCoding/Octen/hompage/business%20search/) 结构保持一致对齐。
 - ✅ **Business Search 巨幅卡片背景与水印精确对齐 Figma (Node 13795:166561)**（已完成）：
   - 渐变角度微调：调整为 Figma 导出的高精度 `linear-gradient(22.8deg, rgba(255, 223, 80, 0.6) 0.11%, rgba(255, 249, 230, 0.6) 101.27%), linear-gradient(90deg, rgba(255, 205, 97, 0.6) 0%, rgba(255, 230, 153, 0.6) 100%)`；
   - 核心背景高光元素 (`.canvas-aura`)：引入 Figma 原型中的 600px 居中白色径向光晕球（`radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 70%)`），增强卡片纵深与光影质感；
@@ -119,5 +121,6 @@ pnpm preview   # 本地静态托管并预览构建产物
 - ✅ **Business Search 规范与结构性差异归档**（已完成）：
   - 输出权威规范文档 [business search/BUSINESS_SEARCH_SPEC.md](file:///x:/XCoding/Octen/hompage/business%20search/BUSINESS_SEARCH_SPEC.md)；
   - 同步更新并在 [Business Search 控制台交互.md](file:///x:/XCoding/Octen/hompage/business%20search/Business%20Search%20控制台交互/Business%20Search%20控制台交互.md) 中完整收录与 News Search 的数据模型、实体二分（Company vs Person）、双轨动态（Activities 时间线 vs News 列表）以及控制台参数结构差异。
+
 
 
