@@ -1547,10 +1547,30 @@
         align-items: center;
         width: 100%;
       }
+      .sub-article-time-group {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
       .sub-article-time {
         font-family: 'DM Sans', sans-serif;
         font-size: 12px;
         color: #868686;
+      }
+      .timeline-latest-tag {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1px 6px;
+        border-radius: 4px;
+        background: #F97316;
+        color: #FFFFFF;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: 0.02em;
+        text-transform: lowercase;
       }
       .sub-article-domain {
         font-family: 'DM Sans', sans-serif;
@@ -1939,7 +1959,7 @@
                   {
                     title: 'Saudi pipeline outage threatens loss of 4% of global oil supply',
                     timePublished: '2026-09-15T12:04:04Z',
-                    relativeTime: '3 minutes ago',
+                    relativeTime: '3m ago',
                     url: 'https://www.reuters.com/business/energy/saudi-pipeline-outage-threatens-loss-4-global-oil-supply-2026-09-15/'
                   }
                 ]
@@ -1975,7 +1995,7 @@
                   {
                     title: 'UN Security Council convenes emergency session on Persian Gulf naval standoff',
                     timePublished: '2026-09-20T18:05:42Z',
-                    relativeTime: '10 minutes ago',
+                    relativeTime: '10m ago',
                     url: 'https://apnews.com/article/un-security-council-iran-hormuz-standoff-2026'
                   }
                 ]
@@ -2011,7 +2031,7 @@
                   {
                     title: 'Insurance syndicates declare entire southern Red Sea high-risk war exclusion zone',
                     timePublished: '2026-09-15T19:18:00Z',
-                    relativeTime: '24 minutes ago',
+                    relativeTime: '24m ago',
                     url: 'https://www.lloydslist.com/insurance/red-sea-war-exclusion-zone-declaration'
                   }
                 ]
@@ -2047,7 +2067,7 @@
                   {
                     title: 'OPEC+ delegates signal no immediate quota hikes despite spiking global futures',
                     timePublished: '2026-09-15T20:15:30Z',
-                    relativeTime: '36 minutes ago',
+                    relativeTime: '36m ago',
                     url: 'https://www.cnbc.com/2026/09/15/opec-no-quota-hike-oil-crisis.html'
                   }
                 ]
@@ -2330,19 +2350,24 @@
             const domain = extractDomain(art.url);
             let timeStr = formatTimeOnly(art.timePublished);
             const isLastCard = i === articles.length - 1;
+            let badgeHTML = '';
             if (curData.id === 'news' && isLastCard) {
               const defaultNewsRelativeMap = {
-                0: '3 minutes ago',
-                1: '10 minutes ago',
-                2: '24 minutes ago',
-                3: '36 minutes ago'
+                0: '3m ago',
+                1: '10m ago',
+                2: '24m ago',
+                3: '36m ago'
               };
-              timeStr = art.relativeTime || defaultNewsRelativeMap[subjectIdx] || '3 minutes ago';
+              timeStr = art.relativeTime || defaultNewsRelativeMap[subjectIdx] || '3m ago';
+              badgeHTML = '<span class="timeline-latest-tag">latest</span>';
             }
             articlesHTML += `
               <div class="timeline-sub-article ${makeVisible ? 'visible' : ''}" data-article-idx="${i}">
                 <div class="sub-article-meta">
-                  <span class="sub-article-time">${timeStr}</span>
+                  <div class="sub-article-time-group">
+                    <span class="sub-article-time">${timeStr}</span>
+                    ${badgeHTML}
+                  </div>
                   <span class="sub-article-domain">${domain}</span>
                 </div>
                 <p class="sub-article-title" title="${art.title.replace(/"/g, '&quot;')}">${art.title}</p>

@@ -170,6 +170,10 @@ pnpm preview   # 本地静态托管并预览构建产物
     3. **更省 Token**：`• Token-efficient: deduplication of syndicated & duplicate stories.`（通稿泛滥去重、相同新闻语义归并，节省 70%~90% 上下文 Token）
     4. **话题聚合**：`• Topic clustering: track complete event lineage and development.`（追踪事件始末、原始突发与衍生子事件脉络）
   - 同步更新了 HTML 初始静态模板（`#summaryBulletsList`）以及 JavaScript 数据模型（`VERTICALS.news.bullets`），保证在 Tab 切换与动画重播时均准确呈现。
+- ✅ **News Search 时间轴末尾相对时间简写为 `xxm ago` 并增加橙色 `latest` 标签**（已完成）：
+  - 将每个事件时间轴最后一张卡片上的时间戳格式从 `xx minutes ago` 紧凑简写为 **`xxm ago`**（如 `3m ago`、`10m ago`、`24m ago`、`36m ago`）；
+  - 在时间文字后方紧邻增加专属的**橙色 `latest` 状态微标**（`.timeline-latest-tag`），采用亮橙背景（`#F97316`）与白色加粗小字，高度辨识最新突发节点；
+  - 采用 `.sub-article-time-group` flex 容器排版，保持时间与徽章紧密贴合，同时与右侧来源域名（`reuters.com` 等）保持两端舒展对齐。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
