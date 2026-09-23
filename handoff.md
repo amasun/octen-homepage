@@ -234,6 +234,14 @@ pnpm preview   # 本地静态托管并预览构建产物
 - ✅ **调整四大卖点与上方定位描述文字的间距为 24px**（已完成）：
   - 将 `.summary-box` 的 `gap` 从 `16px` 调整为 `24px`（含 `@media (min-width: 1024px)`），拉开定位描述（`.summary-desc`）与四大核心卖点列表（`.summary-bullets-list`）的纵向呼吸感，使卡片左侧的信息层次更加舒展。
 
+- ✅ **使用 @barvian/number-flow 驱动卖点中的动态数字流转动效**（已完成）：
+  - **集成原生 Web Component**：引入 Maxwell Barvian 官方 `number-flow`（`0.6.2`），通过 `<number-flow>` 原生自定义元素包裹卖点中的核心数字 `3` 与 `95%`；
+  - **双重模块解析兼容**：在 `<head>` 注入 `<script type="importmap">` 映射并在脚本头部使用 `import NumberFlow from 'number-flow'`，同时兼容 Vite 本地构建解析与无打包环境 CDN 直连；
+  - **Stage 3 丝滑滚轮弹簧动效（Odometer Spin Physics）**：
+    - 在打字与搜索阶段保持 `0`，当 Stage 3（Overview）展开时，触发 `playSellingPointsNumberFlow()`；
+    - 配置 `spinTiming = { duration: 950, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }`，使 `3` 与 `95` 如精密仪表盘数字滚轮般平滑自下而上旋转到位；
+    - 点击 Step 3 控件或在垂直选项卡（News Search）来回切换时均能丝滑重放，提供极具科技感与金融终端质感的可视化反馈。
+
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
 

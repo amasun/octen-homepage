@@ -7,6 +7,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script type="importmap">
+      {
+        "imports": {
+          "number-flow": "https://esm.sh/number-flow@0.6.2"
+        }
+      }
+    </script>
     <style>
       :root {
         color-scheme: dark;
@@ -864,6 +871,13 @@
       }
       .summary-bullets-list b,
       .summary-bullets-list strong {
+        font-weight: 700;
+        color: #000000;
+      }
+      .summary-bullets-list number-flow {
+        display: inline-block;
+        vertical-align: baseline;
+        font-family: inherit;
         font-weight: 700;
         color: #000000;
       }
@@ -1863,8 +1877,8 @@
           <div class="summary-box" id="summaryBox">
             <p class="summary-desc" id="summaryDesc">Search live news and read each story as a single grouped event.</p>
             <ul class="summary-bullets-list" id="summaryBulletsList">
-              <li>• Wire-speed freshness: searchable within <b>3&nbsp;minutes</b> of publication.</li>
-              <li>• Comprehensive coverage: indexing <b>95%</b> of global tier-1 news&nbsp;media.</li>
+              <li>• Wire-speed freshness: searchable within <b><number-flow class="bullet-number-flow" data-flow="minutes" data-value="3">3</number-flow>&nbsp;minutes</b> of publication.</li>
+              <li>• Comprehensive coverage: indexing <b><number-flow class="bullet-number-flow" data-flow="coverage" data-value="95">95</number-flow>%</b> of global tier-1 news&nbsp;media.</li>
               <li>• Token-efficient deduplication: filters syndicated reprints and duplicate&nbsp;stories.</li>
               <li>• Topic clustering: tracks complete event lineage and&nbsp;development.</li>
             </ul>
@@ -1964,7 +1978,9 @@
       </div>
     </main>
 
-    <script>
+    <script type="module">
+      import NumberFlow from 'number-flow';
+
       (function () {
         // ==========================================
         // 1. DATA CONFIGURATION (Direct from Azure dev bundle)
@@ -1981,8 +1997,8 @@
             summaryDesc: 'Search live news and read each story as a single grouped event.',
             stats: { num1: 4, label1: 'subjects', num2: 10, label2: 'articles' },
             bullets: [
-              '• Wire-speed freshness: searchable within <b>3&nbsp;minutes</b> of publication.',
-              '• Comprehensive coverage: indexing <b>95%</b> of global tier-1 news&nbsp;media.',
+              '• Wire-speed freshness: searchable within <b><number-flow class="bullet-number-flow" data-flow="minutes" data-value="3">3</number-flow>&nbsp;minutes</b> of publication.',
+              '• Comprehensive coverage: indexing <b><number-flow class="bullet-number-flow" data-flow="coverage" data-value="95">95</number-flow>%</b> of global tier-1 news&nbsp;media.',
               '• Token-efficient deduplication: filters syndicated reprints and duplicate&nbsp;stories.',
               '• Topic clustering: tracks complete event lineage and&nbsp;development.'
             ],
@@ -2521,6 +2537,13 @@
           }
 
           if (state === 'typing') {
+            const flowEls = document.querySelectorAll('.bullet-number-flow');
+            flowEls.forEach(el => {
+              if (typeof el.update === 'function') {
+                el.animated = false;
+                el.update(0);
+              }
+            });
             cardCanvas.classList.add('is-typing');
             if (searchBoxWrapper) {
               searchBoxWrapper.style.display = 'block';
@@ -3156,6 +3179,44 @@
           requestAnimationFrame(frame);
         }
 
+        // Drive selling points numbers using official number-flow (@barvian/number-flow)
+        function playSellingPointsNumberFlow() {
+          const flowEls = document.querySelectorAll('.bullet-number-flow');
+          if (!flowEls.length) return;
+
+          const isDefined = customElements.get('number-flow');
+          if (!isDefined) {
+            customElements.whenDefined('number-flow').then(() => {
+              playSellingPointsNumberFlow();
+            });
+            return;
+          }
+
+          // Reset to 0 instantly without animation
+          flowEls.forEach(el => {
+            if (typeof el.update === 'function') {
+              el.animated = false;
+              el.update(0);
+            }
+          });
+
+          // Spin up to target values with smooth decelerating odometer spring physics
+          requestAnimationFrame(() => {
+            setTimeout(() => {
+              flowEls.forEach(el => {
+                const targetVal = parseFloat(el.dataset.value) || 0;
+                if (typeof el.update === 'function') {
+                  el.animated = true;
+                  el.spinTiming = { duration: 950, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' };
+                  el.update(targetVal);
+                } else {
+                  el.textContent = targetVal;
+                }
+              });
+            }, 120);
+          });
+        }
+
         // Hover pause / play
         resultsViewport.addEventListener('mouseenter', () => {
           isUserHovered = true;
@@ -3439,6 +3500,7 @@
               // Smooth FLIP transform animation for News Search heading from searching to overview
               transitionToOverview();
             }
+            playSellingPointsNumberFlow();
 
             if (statSubjectsEl) animateNumber(statSubjectsEl, 0, TOTAL_SUBJECTS, 1400);
             if (statArticlesEl) animateNumber(statArticlesEl, 0, TOTAL_ARTICLES, 1400);
@@ -3667,6 +3729,7 @@
               } else {
                 setCanvasState('overview');
               }
+              playSellingPointsNumberFlow();
               queryTextSpan.textContent = QUERY_TEXT;
               if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
               if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
@@ -3875,6 +3938,10 @@
           }
           if (summaryBulletsList && curData.bullets) {
             summaryBulletsList.innerHTML = curData.bullets.map(b => `<li>${b}</li>`).join('');
+          }
+
+          if (key === 'news') {
+            playSellingPointsNumberFlow();
           }
 
           // 7. Reset Horizontal Pills Active Index to 0
