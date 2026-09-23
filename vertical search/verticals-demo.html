@@ -992,7 +992,7 @@
         top: -1px;
         margin: 0 4px 0 2px;
         width: 64px;
-        height: 14px;
+        height: 10px;
         vertical-align: middle;
         overflow: hidden;
         flex: none;
@@ -1014,20 +1014,20 @@
         display: flex;
         align-items: center;
         position: absolute;
-        left: -19px;
+        left: -9.92px;
         top: 50%;
-        gap: 8px;
+        gap: 8.46px;
         will-change: transform;
         animation: storyline-step-flow 2.8s cubic-bezier(0.25, 1, 0.4, 1) infinite;
       }
-      /* Node total outer size including 2px green border is strictly 14px */
+      /* Node strictly per Figma Rectangle 4620: 6x6 content, 2px border, radius 10px */
       .storyline-node {
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
+        width: 6px;
+        height: 6px;
+        border-radius: 10px;
         background-color: #8EB876;
         border: 2px solid #004F2B;
-        box-sizing: border-box;
+        box-sizing: content-box;
         flex: none;
       }
       @keyframes storyline-step-flow {
@@ -1035,7 +1035,7 @@
           transform: translateY(-50%) translate3d(0, 0, 0);
         }
         88%, 100% {
-          transform: translateY(-50%) translate3d(-22px, 0, 0);
+          transform: translateY(-50%) translate3d(-18.46px, 0, 0);
         }
       }
       @media (prefers-reduced-motion: reduce) {
