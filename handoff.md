@@ -159,11 +159,17 @@ pnpm preview   # 本地静态托管并预览构建产物
     - Subject 3 终局最新进展（19:18）：`24 minutes ago`；
     - Subject 4 终局最新进展（20:15）：`36 minutes ago`；
   - **首部卡片恢复精准时间**：事件起点的历史卡片（第 1 篇及中间篇目）恢复准确时间戳（如 `05:26:15`、`05:27:44`），完整呈现从事件爆发到最新突发的情报追踪脉络；
-  - **切换 Subject 自动定位至末尾**：在 Stage 5 中点击切换上方横向 Subject 1~4 药丸 Tab 时，通过 `requestAnimationFrame` 自动将时间流视口滚动态定位至容器底部（`scrollTop = maxScroll`），确保用户第一时间聚焦最新突发卡片。
 - ✅ **Vertical Tabs Bar 平滑滑动变色胶囊滑块（Glider）与去外发光优化**（已完成）：
   - **平滑左右滑动动效**：引入独立绝对定位的 `.tabs-indicator` 底层高亮胶囊，切换 Tab 时采用弹簧缓动曲线 `--ease-spring: cubic-bezier(0.16, 1, 0.3, 1)`（耗时 0.38s）实现横向位置（`transform: translate3d`）和宽度的双向平滑自适应过渡；
   - **动态平滑变色过渡**：胶囊背景色在 News 草绿色（`#8adb47`）与 Business 琥珀金色（`#FBBF24`）之间平滑插值过渡；按钮文字与图标在 `#000000`（激活黑字）与 `rgba(255,255,255,0.7)`（未激活白字）间柔和淡入淡出；
   - **彻底移除外发光效果**：移除所有激活态与胶囊的彩色弥散投影（`box-shadow: none !important;`），消除毛玻璃外侧发光光晕溢出，使整个导航胶囊更纯净、现代、平实。
+- ✅ **News Search 卡片左侧核心卖点文字对齐四大价值主张**（已完成）：
+  - 严格依照 [NEWS_SEARCH_VALUE_PROPOSITIONS.md](file:///x:/XCoding/Octen/hompage/vertical%20search/NEWS_SEARCH_VALUE_PROPOSITIONS.md) 中的 4 大核心卖点定义，将 [vertical search/verticals-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/verticals-demo.html) 卡片左侧面板原有的 3 条陈旧描述全面替换为专业高密度的 4 大价值主张：
+    1. **更高时效**：`• Wire-speed freshness: searchable within 3 minutes.`（3 分钟内可搜到 / Wire-speed Freshness）
+    2. **更全覆盖**：`• Comprehensive coverage: 95% tier-1 global news media.`（95% 头部新闻媒体与全球通讯社全覆盖）
+    3. **更省 Token**：`• Token-efficient: deduplication of syndicated & duplicate stories.`（通稿泛滥去重、相同新闻语义归并，节省 70%~90% 上下文 Token）
+    4. **话题聚合**：`• Topic clustering: track complete event lineage and development.`（追踪事件始末、原始突发与衍生子事件脉络）
+  - 同步更新了 HTML 初始静态模板（`#summaryBulletsList`）以及 JavaScript 数据模型（`VERTICALS.news.bullets`），保证在 Tab 切换与动画重播时均准确呈现。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
