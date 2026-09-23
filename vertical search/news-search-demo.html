@@ -430,6 +430,10 @@
         height: 100%;
         display: block;
       }
+      .canvas-watermark svg path,
+      .canvas-watermark svg rect {
+        stroke-width: 18px;
+      }
       .card-canvas.not-typing .canvas-watermark,
       .card-canvas[data-theme="business"].not-typing .canvas-watermark {
         opacity: 0 !important;
@@ -1628,18 +1632,18 @@
         <div class="canvas-watermark" id="canvasWatermark" aria-hidden="true">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
+            viewBox="0 0 280 280"
             fill="none"
             stroke="currentColor"
-            stroke-width="1.5"
+            stroke-width="18"
             stroke-linecap="round"
             stroke-linejoin="round"
             class="lucide lucide-newspaper"
           >
-            <path d="M15 18h-5"></path>
-            <path d="M18 14h-8"></path>
-            <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path>
-            <rect width="8" height="4" x="10" y="6" rx="1"></rect>
+            <path d="M175 210H116.667"></path>
+            <path d="M210 163.333H116.667"></path>
+            <path d="M46.667 256.667H233.333C246.22 256.667 256.667 246.22 256.667 233.333V46.667C256.667 33.78 246.22 23.333 233.333 23.333H93.333C80.447 23.333 70 33.78 70 46.667V233.333C70 246.22 59.553 256.667 46.667 256.667V151.667C46.667 138.78 57.113 128.333 70 128.333H93.333"></path>
+            <rect width="93.333" height="46.667" x="116.667" y="70" rx="11.667"></rect>
           </svg>
         </div>
 
@@ -1825,7 +1829,7 @@
               '• Dive deep into the story\'s development.'
             ],
             iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M15 18h-5"></path><path d="M18 14h-8"></path><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg>`,
-            watermarkSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M15 18h-5"></path><path d="M18 14h-8"></path><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg>`,
+            watermarkSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M175 210H116.667"></path><path d="M210 163.333H116.667"></path><path d="M46.667 256.667H233.333C246.22 256.667 256.667 246.22 256.667 233.333V46.667C256.667 33.78 246.22 23.333 233.333 23.333H93.333C80.447 23.333 70 33.78 70 46.667V233.333C70 246.22 59.553 256.667 46.667 256.667V151.667C46.667 138.78 57.113 128.333 70 128.333H93.333"></path><rect width="93.333" height="46.667" x="116.667" y="70" rx="11.667"></rect></svg>`,
             subjects: [
               {
                 name: 'Saudi Arabia halts East-West pipeline after drone attacks from Iraq, with repairs expected to take three to five weeks',
@@ -1984,7 +1988,7 @@
               '• Comprehensive corporate registry intelligence.'
             ],
             iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>`,
-            watermarkSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" fill="none" stroke="currentColor" stroke-width="23.3333" stroke-linecap="round" stroke-linejoin="round"><path d="M186.667 233.333V46.6667C186.667 40.4783 184.208 34.5434 179.832 30.1675C175.457 25.7917 169.522 23.3333 163.333 23.3333H116.667C110.478 23.3333 104.543 25.7917 100.168 30.1675C95.7917 34.5434 93.3333 40.4783 93.3333 46.6667V233.333"></path><path d="M233.333 70H46.6667C33.78 70 23.3333 80.4467 23.3333 93.3333V210C23.3333 222.887 33.78 233.333 46.6667 233.333H233.333C246.22 233.333 256.667 222.887 256.667 210V93.3333C256.667 80.4467 246.22 70 233.333 70Z"></path></svg>`,
+            watermarkSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M186.667 233.333V46.6667C186.667 40.4783 184.208 34.5434 179.832 30.1675C175.457 25.7917 169.522 23.3333 163.333 23.3333H116.667C110.478 23.3333 104.543 25.7917 100.168 30.1675C95.7917 34.5434 93.3333 40.4783 93.3333 46.6667V233.333"></path><path d="M233.333 70H46.6667C33.78 70 23.3333 80.4467 23.3333 93.3333V210C23.3333 222.887 33.78 233.333 46.6667 233.333H233.333C246.22 233.333 256.667 222.887 256.667 210V93.3333C256.667 80.4467 246.22 70 233.333 70Z"></path></svg>`,
             subjects: [
               {
                 name: 'TSMC & Samsung revise 2nm equipment procurement timelines ahead of schedule',
