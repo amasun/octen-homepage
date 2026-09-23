@@ -193,6 +193,10 @@ pnpm preview   # 本地静态托管并预览构建产物
   - **聚焦核心特性表达**：提炼为聚焦“垂类深度定制、即时性、高准确度、深度智能与自主推理”的高质感英文表述：
     *“Deeply customized search engineered for vertical domains. Delivering real-time, high-precision, and in-depth intelligence structured for autonomous reasoning.”*；
   - **数据层与静态模板全局对齐**：同步更新静态 HTML 占位、`VERTICALS.news.desc` 以及 `VERTICALS.business.desc`，在切换选项卡时保持整栏价值定位的一致与纯粹。
+- ✅ **修复 Tabs 区域 News Search 绿色胶囊初始定位偏差问题**（已完成）：
+  - **根本原因定位**：页面初次加载时，JS 执行 `document.querySelector('.vertical-tabs-bar .tab-trigger.active')` 时误匹配到了内嵌在 `#tabsIndicatorTrack` 内部的镜像克隆元素（`.tab-clone`），其相对父容器的 `offsetLeft/offsetTop` 为 `0, 0`（而非真实按钮在父栏 4px 内边距下的 `4, 4`），导致首屏初次渲染时胶囊偏左上 4px 错位；而在用户点击切换后，`switchVertical` 直接传入了真实的 `<button id="tabNews">`，因而立刻矫正；
+  - **类名语义隔离**：将内部遮罩克隆节点从 `.tab-trigger.tab-clone` 净化为纯净的 `.tab-clone`，CSS 采用联合选择器（`.tab-trigger, .tab-clone`）共享几何尺寸与排版，彻底避免 DOM 层面误查；
+  - **可靠同步队列**：通过 `getActiveTabButton()` 显式绑定真实的 `<button>` 实体，并结合 `requestAnimationFrame`、`document.fonts.ready` 和 `window.load` 多阶段静默重校（`animate = false`），确保任何网络和字体加载环境下初次进入页面时胶囊即精准严丝合缝对齐。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
