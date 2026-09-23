@@ -1,6 +1,6 @@
 # Verticals 动效规范 (Verticals Animation Spec)
 
-本文档梳理 Octen **Vertical Search** 原型中的全量核心动效规范，涵盖 **News Search** 与 **Business Search** 两大业务垂直领域的动效实现、四大卖点微动效、共享元素形变以及 **Vertical Tabs 交互切换动效逻辑**。
+本文档梳理 Octen **Vertical Search** 原型中的核心动效规范，涵盖 **Vertical Tabs 交互切换动效逻辑**、News Search 四大卖点微动效、核心数字流转、共享元素形变以及 Timeline 最新新闻定位机制。
 
 > 💡 步骤 1~5 基础右侧视口时序（Typing ➔ Searching ➔ Overview ➔ Top News Focus ➔ Timeline Stream）请参阅 [NEWS_SEARCH_ANIMATION_SPEC.md](./NEWS_SEARCH_ANIMATION_SPEC.md)。
 
@@ -41,29 +41,7 @@ Tabs 控制栏（`#tabNews` 与 `#tabBusiness`）承载了全站两大垂直搜�
 
 ---
 
-## 二、Business Search 专属动效与视觉系统
-
-相比 News Search 以“事件发展时间线”为核心，Business Search 专注于“企业财务、资本支出与商业情报”，在动效与色彩体系上有专属特征：
-
-### 1. 专属色彩与视觉资产
-- **主题色调**：以高辨识度金融琥珀金（Amber Gold）为主基调；
-- **核心查询语句**：`Semiconductor supply chain CAPEX forecasts 2026`；
-- **矢量资产**：采用 Lucide 商务公文包图标（`lucide-briefcase`），在背景大水印（280px）与标题图标（28px）之间同样建立平滑形变；
-- **统计数据**：`8 filings` / `12 reports`，强调商业披露与研报深度。
-
-### 2. 步骤 4 主题标签胶囊折叠色彩 (Pill Metamorphosis)
-在步骤 3（Overview）向步骤 4（Top Business Focus）折叠形变时：
-- **激活态主胶囊**：采用深琥珀金 `#D97706`（对比 News 的 `#039855`）；
-- **未激活次级胶囊**：采用半透明琥珀褐 `rgba(146, 64, 14, 0.45)`（对比 News 的 `rgba(76, 94, 86, 0.57)`）；
-- **主头条卡片标签**：文案展示为 `Top Business`。
-
-### 3. 时间轴商业财报流 (Corporate Filings Stream)
-- 结构沿用步骤 5 时间轴流速平准标准（单卡节奏统一平准在约 `800ms`，前 3 张不滚屏，第 4 张起以 `520ms` 平滑推进）；
-- 内容展示半导体 CAPEX 研报、Foundry 利用率与芯片法案审批进展，支持横向胶囊切换与自动末尾定位。
-
----
-
-## 三、News Search 四大核心卖点内嵌微动效 (Selling Points Micro-Animations)
+## 二、News Search 四大核心卖点内嵌微动效 (Selling Points Micro-Animations)
 
 四项微动效内联行内嵌入，统一位于各条核心关键词紧邻前方，形成严格对齐的视觉韵律：
 
@@ -103,7 +81,7 @@ Tabs 控制栏（`#tabNews` 与 `#tabBusiness`）承载了全站两大垂直搜�
 
 ---
 
-## 四、核心数字动态流转 (NumberFlow Odometer)
+## 三、核心数字动态流转 (NumberFlow Odometer)
 
 - **集成组件**：原生自定义元素 `<number-flow>`（驱动数字 `3` 与 `95%`）。
 - **动画逻辑**：
@@ -114,7 +92,7 @@ Tabs 控制栏（`#tabNews` 与 `#tabBusiness`）承载了全站两大垂直搜�
 
 ---
 
-## 五、背景水印 ➔ 标题 Icon 共享元素形变 (Shared-Element Morph)
+## 四、背景水印 ➔ 标题 Icon 共享元素形变 (Shared-Element Morph)
 
 ### 1. 正向穿越过渡 (Typing ➔ Searching)
 - **空间飞跃**：打字完成进入搜索瞬间，`280px` 背景半透明大水印（`opacity: 0.12`）脱离底图层，沿亚像素轨迹平滑飞向标题左侧插槽；
@@ -132,7 +110,7 @@ Tabs 控制栏（`#tabNews` 与 `#tabBusiness`）承载了全站两大垂直搜�
 
 ---
 
-## 六、Timeline 最新新闻 Latest 徽标与 Subjects 自动定位机制
+## 五、Timeline 最新新闻 Latest 徽标与 Subjects 自动定位机制
 
 ### 1. 最新新闻 Latest 标签元素规范
 - **适用目标**：时间轴（Stage 5 Timeline Stream）中按真实发布时间正序排列的**最新（末尾）一条新闻卡片**。
