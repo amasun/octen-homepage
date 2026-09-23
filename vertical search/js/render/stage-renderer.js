@@ -1,5 +1,6 @@
 import { state } from '../state.js';
 import { getCurrentData, formatDateTime, formatTimeOnly, formatDate, extractDomain, imageCache } from '../data/verticals-data.js';
+import { createBusinessDetailCardHTML } from './card-templates.js';
 
 let currentSelectedSubjectIdx = 0;
 
@@ -13,7 +14,7 @@ export function setSelectedSubjectIdx(idx) {
 
 export function updateTopNewsCard(subjectIdx = 0) {
   const curData = getCurrentData();
-  const subj = curData.subjects[subjectIdx];
+  const subj = curData.subjects ? curData.subjects[subjectIdx] : null;
   if (!subj) return;
   const topTitle = document.getElementById('topNewsTitle');
   const topDesc = document.getElementById('topNewsDesc');
@@ -30,7 +31,6 @@ export function updateTopNewsCard(subjectIdx = 0) {
     const currentSrc = topThumb.getAttribute('src');
 
     if (currentSrc !== targetSrc) {
-      // Instant synchronous swap with 140ms smooth dissolve
       topThumb.classList.add('is-fading');
       topThumb.src = targetSrc;
       topThumb.onerror = () => {
@@ -61,16 +61,15 @@ export function renderTimelineStream(subjectIdx = 0, makeVisible = false) {
 
   currentSelectedSubjectIdx = subjectIdx;
   const curData = getCurrentData();
-  const subject = curData.subjects[subjectIdx] || curData.subjects[0];
-  // Ensure chronological order: earlier timestamps on top, later timestamps at the bottom
-  const articles = (subject.articles || []).slice().sort((a, b) => new Date(a.timePublished) - new Date(b.timePublished));
+  const subject = (curData.subjects && curData.subjects[subjectIdx]) || (curData.subjects && curData.subjects[0]);
+  if (!subject) return;
 
-  // Stem height connects Dot 0 (center 30px) to Dot (N - 1) (center 30 + (N - 1) * 68px)
+  const articles = (subject.articles || []).slice().sort((a, b) => new Date(a.timePublished) - new Date(b.timePublished));
   const stemHeight = articles.length > 1 ? (articles.length - 1) * 68 : 0;
   let spineHTML = `<div class="timeline-spine-stem" id="timelineSpineStem" style="height: ${stemHeight}px; transform: scaleY(${makeVisible ? 1 : 0});"></div>`;
 
   articles.forEach((art, i) => {
-    const dotTop = i * 68 + 24; // Center at i * 68 + 30px (12px node with 2px white border)
+    const dotTop = i * 68 + 24;
     spineHTML += `<div class="timeline-dot-node ${makeVisible ? 'visible' : ''}" data-dot-idx="${i}" style="top: ${dotTop}px;"></div>`;
   });
   spineTrack.innerHTML = spineHTML;
@@ -107,8 +106,45 @@ export function renderTimelineStream(subjectIdx = 0, makeVisible = false) {
   articlesGroup.innerHTML = articlesHTML;
 }
 
+/**
+ * Render Business Search Expanded Detail Card
+ */
+export function renderBusinessDetail(entityIdx = 0) {
+  const curData = getCurrentData('business');
+  const entity = curData.entities ? curData.entities[entityIdx] : null;
+  if (!entity) return;
+
+  currentSelectedSubjectIdx = entityIdx;
+  const topNewsBlock = document.getElementById('topNewsBlock');
+  const timelineStreamBlock = document.getElementById('timelineStreamBlock');
+  const businessDetailBlock = document.getElementById('businessDetailBlock');
+
+  if (topNewsBlock) topNewsBlock.style.display = 'none';
+  if (timelineStreamBlock) timelineStreamBlock.style.display = 'none';
+
+  if (businessDetailBlock) {
+    businessDetailBlock.style.display = 'block';
+    businessDetailBlock.innerHTML = createBusinessDetailCardHTML(entity);
+  }
+}
+
 export function handlePillClick(idx) {
   const cardCanvas = document.getElementById('newsSearchCard') || document.getElementById('heroCanvas');
+  currentSelectedSubjectIdx = idx;
+
+  if (state.currentVerticalKey === 'business') {
+    renderBusinessDetail(idx);
+    return;
+  }
+
+  // News vertical handling
+  const topNewsBlock = document.getElementById('topNewsBlock');
+  const timelineStreamBlock = document.getElementById('timelineStreamBlock');
+  const businessDetailBlock = document.getElementById('businessDetailBlock');
+  if (businessDetailBlock) businessDetailBlock.style.display = 'none';
+  if (topNewsBlock) topNewsBlock.style.display = '';
+  if (timelineStreamBlock) timelineStreamBlock.style.display = '';
+
   updateTopNewsCard(idx);
   const isTimelineActive = cardCanvas && cardCanvas.classList.contains('is-stage5');
   if (isTimelineActive) {
@@ -147,7 +183,7 @@ export function initSubjectsHBar() {
     const allPills = subjectsHBar.querySelectorAll('.subject-h-pill');
     allPills.forEach(p => p.classList.remove('active'));
     pill.classList.add('active');
-    const idx = parseInt(pill.dataset.subjectIdx, 10);
+    const idx = parseInt(pill.dataset.subjectIdx ?? pill.dataset.entityIdx, 10);
     handlePillClick(idx);
   });
 }
@@ -156,20 +192,27 @@ export function syncSubjectPills(key = state.currentVerticalKey, onPillClick = n
   const subjectsHBar = document.getElementById('subjectsHBar');
   if (!subjectsHBar) return;
   initSubjectsHBar();
-  const curData = getCurrentData(key);
-  const subjects = curData.subjects || [];
 
+  if (key === 'business') {
+    subjectsHBar.style.display = 'none';
+    return;
+  }
+
+  subjectsHBar.style.display = '';
+  const curData = getCurrentData(key);
   let html = '';
+  const subjects = curData.subjects || [];
   subjects.forEach((subj, idx) => {
     html += `<div class="subject-h-pill ${idx === 0 ? 'active' : ''}" data-subject-idx="${idx}">Subject${idx + 1}</div>`;
   });
+
   subjectsHBar.innerHTML = html;
 
   if (typeof onPillClick === 'function') {
     const pills = subjectsHBar.querySelectorAll('.subject-h-pill');
     pills.forEach(pill => {
       pill.addEventListener('click', () => {
-        const idx = parseInt(pill.dataset.subjectIdx, 10);
+        const idx = parseInt(pill.dataset.subjectIdx ?? pill.dataset.entityIdx, 10);
         onPillClick(idx);
       });
     });

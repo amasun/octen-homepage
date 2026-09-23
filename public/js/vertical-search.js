@@ -1157,13 +1157,33 @@
         }
 
         setCanvasState('typing');
-        if (queryTextSpan) queryTextSpan.textContent = '';
+        if (queryTextSpan) {
+          queryTextSpan.textContent = '';
+          const queryDisplay = queryTextSpan.closest('.query-display');
+          if (queryDisplay) {
+            queryDisplay.scrollLeft = 0;
+            queryDisplay.classList.remove('is-overflowing');
+          }
+        }
         if (cardListContainer) cardListContainer.style.transform = 'none';
         await sleep(500);
         if (!isValid()) return;
 
         for (let i = 1; i <= currentQuery.length; i++) {
-          if (queryTextSpan) queryTextSpan.textContent = currentQuery.slice(0, i);
+          if (queryTextSpan) {
+            queryTextSpan.textContent = currentQuery.slice(0, i);
+            const queryDisplay = queryTextSpan.closest('.query-display');
+            if (queryDisplay) {
+              const maxScroll = queryDisplay.scrollWidth - queryDisplay.clientWidth;
+              if (maxScroll > 0) {
+                queryDisplay.scrollLeft = maxScroll;
+                queryDisplay.classList.add('is-overflowing');
+              } else {
+                queryDisplay.scrollLeft = 0;
+                queryDisplay.classList.remove('is-overflowing');
+              }
+            }
+          }
           await sleep(32);
           if (!isValid()) return;
         }

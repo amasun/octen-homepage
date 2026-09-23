@@ -187,6 +187,132 @@ const VERTICALS = {
             ],
             iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>`,
             watermarkSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase"><path d="M186.667 233.333V46.6667C186.667 40.4783 184.208 34.5434 179.832 30.1675C175.457 25.7917 169.522 23.3333 163.333 23.3333H116.667C110.478 23.3333 104.543 25.7917 100.168 30.1675C95.7917 34.5434 93.3333 40.4783 93.3333 46.6667V233.333"></path><path d="M233.333 70H46.6667C33.78 70 23.3333 80.4467 23.3333 93.3333V210C23.3333 222.887 33.78 233.333 46.6667 233.333H233.333C246.22 233.333 256.667 222.887 256.667 210V93.3333C256.667 80.4467 246.22 70 233.333 70Z"></path></svg>`,
+            entities: [
+              {
+                type: 'company',
+                id: 'coupang',
+                name: 'Coupang, Inc.',
+                aliases: ['쿠팡', 'Coupang'],
+                badge: 'Company',
+                logoText: 'CP',
+                logoBg: '#C9252D',
+                identifiers: {
+                  website: 'aboutcoupang.com',
+                  linkedin_url: 'https://www.linkedin.com/company/coupang',
+                  stock_ticker: 'NYSE: CPNG',
+                  sec_cik: '0001834584'
+                },
+                attributes: {
+                  industry: 'E-commerce',
+                  hq_country: 'United States',
+                  founded_year: 2010,
+                  employee_range: '10,001+'
+                },
+                summary: "One of South Korea’s largest e-commerce platforms, founded in 2010 and listed on the NYSE. Its core businesses span e-commerce, logistics fulfillment, and OTT streaming. Its self-built Rocket Delivery network reaches most of Korea’s population. In recent years, the company has focused its growth investments on advertising, food delivery, and international expansion—its Developing Offerings.",
+                metrics: {
+                  stock: { price: 14.29, todays_change_percent: -1.18, week_52_high: 34.08, week_52_low: 14.15, date: '2026-09-18', currency: 'USD' },
+                  financials: { revenue: 8900000000, net_income: -570000000, currency: 'USD', period: '2026Q2' },
+                  funding: { valuation: 9000000000, round: 'Series F', year: '2018', total_funding: 3400000000, currency: 'USD' },
+                  web_traffic: { visits_monthly: 288090220, rank: 5, period: '2026-07' }
+                },
+                key_people: [
+                  { name: 'Bom Kim', title: 'Founder & CEO' },
+                  { name: 'Gaurav Anand', title: 'CFO' }
+                ],
+                activities: [
+                  {
+                    title: 'Coupang names new head of Fulfillment Technology',
+                    timePublished: '2026-09-11T23:58:07Z',
+                    authority: 'high',
+                    highlight: 'Directly reporting to CEO, overseeing automated sorting and last-mile robotics dispatch lines.',
+                    url: 'https://ir.aboutcoupang.com/news/2026/fulfillment-tech-lead'
+                  },
+                  {
+                    title: 'Coupang Announces Results for Second Quarter 2026: Net revenues reach $8.9 billion',
+                    timePublished: '2026-09-10T23:58:07Z',
+                    authority: 'high',
+                    highlight: 'Total net revenues were $8.9 billion, up 4% YoY (10% on constant currency basis).',
+                    url: 'https://ir.aboutcoupang.com/news/2026/q2-results'
+                  },
+                  {
+                    title: 'Coupang expands Rocket Delivery to two more provinces',
+                    timePublished: '2026-09-04T15:58:07Z',
+                    authority: 'high',
+                    highlight: 'Next-day delivery coverage expands to 92% of South Korea population with prior capex recognized.',
+                    url: 'https://ir.aboutcoupang.com/news/2026/rocket-expansion'
+                  }
+                ],
+                news: [
+                  {
+                    title: "Analysts split on Coupang's margin trajectory after Q2",
+                    timePublished: '2026-09-11T11:58:07Z',
+                    source: "Barron's",
+                    authority: 'standard',
+                    url: 'https://www.barrons.com/articles/coupang-margin-outlook-2026'
+                  },
+                  {
+                    title: 'Coupang (CPNG) Q2 2026 Earnings Call Transcript',
+                    timePublished: '2026-09-11T03:58:07Z',
+                    source: 'Motley Fool',
+                    authority: 'standard',
+                    url: 'https://www.fool.com/earnings/coupang-cpng-q2-2026-transcript'
+                  },
+                  {
+                    title: '쿠팡플레이, 스포츠 독점 중계권 확대…OTT 경쟁 격화 (Coupang Play Sports OTT)',
+                    timePublished: '2026-08-30T15:58:07Z',
+                    source: 'Maeil Business',
+                    authority: 'standard',
+                    url: 'https://www.mk.co.kr/news/business/20260828/coupang-play-sports'
+                  }
+                ]
+              },
+              {
+                type: 'person',
+                id: 'bom-kim',
+                name: 'Bom Kim',
+                badge: 'Person',
+                avatarText: 'BK',
+                avatarBg: '#3D5A80',
+                current_position: { title: 'Founder & CEO', organization: 'Coupang, Inc.' },
+                linkedin_url: 'https://www.linkedin.com/in/bom-kim',
+                summary: 'Founder & CEO of Coupang since 2010. Harvard College graduate and Harvard Business School alumnus, led Coupang through its 2021 NYSE IPO and nationwide automated logistics rollout.',
+                career: [
+                  { organization: 'Coupang, Inc.', title: 'Founder & CEO', start: '2010', end: null },
+                  { organization: '02138 Magazine', title: 'Co-founder', start: '2006', end: '2008' },
+                  { organization: 'The Boston Consulting Group', title: 'Associate', start: '2005', end: '2006' }
+                ],
+                activities: [
+                  {
+                    title: 'Coupang (CPNG) Q2 2026 Earnings Call Transcript',
+                    timePublished: '2026-09-11T03:58:07Z',
+                    highlight: 'Bom Kim: "The vast majority of our customer spend never moved. Core cohort retention remains strong."',
+                    url: 'https://www.fool.com/earnings/coupang-cpng-q2-2026-transcript'
+                  },
+                  {
+                    title: 'Keynote at Asia E-Commerce Summit 2026',
+                    timePublished: '2026-08-20T10:00:00Z',
+                    highlight: 'Keynote address: AI-driven autonomous fulfillment, Taiwan expansion, and long-term retail flywheel.',
+                    url: 'https://ir.aboutcoupang.com/events/asia-summit-2026'
+                  }
+                ],
+                news: [
+                  {
+                    title: "How Bom Kim built South Korea's Amazon with Coupang",
+                    timePublished: '2026-09-08T12:00:00Z',
+                    source: 'Bloomberg',
+                    authority: 'standard',
+                    url: 'https://www.bloomberg.com/news/articles/2026-09-08/bom-kim-coupang-story'
+                  },
+                  {
+                    title: 'Bom Kim on expansion beyond South Korea into Taiwan',
+                    timePublished: '2026-08-15T09:30:00Z',
+                    source: 'Nikkei Asia',
+                    authority: 'standard',
+                    url: 'https://asia.nikkei.com/Business/Retail/Bom-Kim-Coupang-Taiwan-expansion'
+                  }
+                ]
+              }
+            ],
             subjects: [
               {
                 name: 'Coupang, Inc. (NYSE: CPNG) Q2 2026 Financials & Market Intelligence',

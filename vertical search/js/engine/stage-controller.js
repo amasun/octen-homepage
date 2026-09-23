@@ -3,8 +3,8 @@
  */
 import { state, clearActiveAnimations } from '../state.js';
 import { getCurrentData } from '../data/verticals-data.js';
-import { createSubjectCardHTML } from '../render/card-templates.js';
-import { updateTopNewsCard, renderTimelineStream, syncSubjectPills } from '../render/stage-renderer.js';
+import { createSubjectCardHTML, createBusinessSummaryCardHTML } from '../render/card-templates.js';
+import { updateTopNewsCard, renderTimelineStream, syncSubjectPills, renderBusinessDetail } from '../render/stage-renderer.js';
 import { sleep, animateNumber } from '../animations/motion.js';
 import { playTokenMeterAnim, clearTokenMeterTimers, playSellingPointsNumberFlow } from '../animations/widgets.js';
 import { playStage5TimelineAnimation } from '../animations/timeline.js';
@@ -15,7 +15,7 @@ export function updateQueryDisplayScroll() {
   if (!queryDisplay) return;
   const maxScroll = queryDisplay.scrollWidth - queryDisplay.clientWidth;
   if (maxScroll > 0) {
-    queryDisplay.scrollLeft = maxScroll + 8;
+    queryDisplay.scrollLeft = maxScroll;
     queryDisplay.classList.add('is-overflowing');
   } else {
     queryDisplay.scrollLeft = 0;
@@ -71,6 +71,25 @@ export function setCanvasState(targetState) {
     stageFocusContainer.style.opacity = '';
     stageFocusContainer.style.pointerEvents = '';
   }
+
+  const topNewsBlock = document.getElementById('topNewsBlock');
+  const timelineStreamBlock = document.getElementById('timelineStreamBlock');
+  const businessDetailBlock = document.getElementById('businessDetailBlock');
+
+  if (state.currentVerticalKey === 'business') {
+    if (targetState === 'focus' || targetState === 'timeline') {
+      if (topNewsBlock) topNewsBlock.style.display = 'none';
+      if (timelineStreamBlock) timelineStreamBlock.style.display = 'none';
+      if (businessDetailBlock) businessDetailBlock.style.display = 'block';
+    } else {
+      if (businessDetailBlock) businessDetailBlock.style.display = 'none';
+    }
+  } else {
+    if (businessDetailBlock) businessDetailBlock.style.display = 'none';
+    if (topNewsBlock) topNewsBlock.style.display = '';
+    if (timelineStreamBlock) timelineStreamBlock.style.display = '';
+  }
+
 
   if (cardListContainer) {
     const allCards = cardListContainer.querySelectorAll('.subject-card-box');
@@ -479,8 +498,75 @@ export async function runCycle(fromStep = 'typing') {
     if (statSubjectsEl) animateNumber(statSubjectsEl, 0, TOTAL_SUBJECTS, 1400);
     if (statArticlesEl) animateNumber(statArticlesEl, 0, TOTAL_ARTICLES, 1400);
 
-    const tempFirstWrap = document.createElement('div');
-    tempFirstWrap.innerHTML = createSubjectCardHTML(SUBJECTS_DATA[0], 0, true);
+    if (state.currentVerticalKey === 'business') {
+      const ENTITIES_DATA = curData.entities || [];
+      if (statSubjectsEl) animateNumber(statSubjectsEl, 0, ENTITIES_DATA.length, 1200);
+      if (statArticlesEl) animateNumber(statArticlesEl, 0, curData.stats?.num2 || 6, 1200);
+
+      // Render Company Summary Card
+      const compWrap = document.createElement('div');
+      compWrap.innerHTML = createBusinessSummaryCardHTML(ENTITIES_DATA[0], 0);
+      const firstCard = compWrap.firstElementChild;
+      firstCard.style.opacity = '0';
+      firstCard.style.transform = 'translateY(24px) scale(0.97)';
+      if (cardListContainer) {
+        cardListContainer.innerHTML = '';
+        cardListContainer.style.transform = 'none';
+        cardListContainer.appendChild(firstCard);
+      }
+
+      await sleep(100);
+      if (!isValid()) return;
+
+      const firstAnim = firstCard.animate([
+        { opacity: 0, transform: 'translateY(24px) scale(0.97)', filter: 'blur(4px)' },
+        { opacity: 0.65, offset: 0.45, filter: 'blur(1px)' },
+        { opacity: 1, transform: 'translateY(0) scale(1)', filter: 'blur(0px)' }
+      ], {
+        duration: 420,
+        easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+        fill: 'forwards'
+      });
+      state.activeAnimations.push(firstAnim);
+
+      await sleep(420);
+      if (!isValid()) return;
+      firstCard.style.opacity = '1';
+      firstCard.style.transform = 'none';
+
+      await sleep(350);
+      if (!isValid()) return;
+
+      // Render Person Summary Card
+      if (ENTITIES_DATA[1]) {
+        const persWrap = document.createElement('div');
+        persWrap.innerHTML = createBusinessSummaryCardHTML(ENTITIES_DATA[1], 1);
+        const secondCard = persWrap.firstElementChild;
+        secondCard.style.opacity = '0';
+        secondCard.style.transform = 'translateY(24px) scale(0.97)';
+        if (cardListContainer) cardListContainer.appendChild(secondCard);
+
+        const secAnim = secondCard.animate([
+          { opacity: 0, transform: 'translateY(24px) scale(0.97)', filter: 'blur(4px)' },
+          { opacity: 1, transform: 'translateY(0) scale(1)', filter: 'blur(0px)' }
+        ], {
+          duration: 420,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards'
+        });
+        state.activeAnimations.push(secAnim);
+
+        await sleep(420);
+        if (!isValid()) return;
+        secondCard.style.opacity = '1';
+        secondCard.style.transform = 'none';
+      }
+
+      await sleep(400);
+      if (!isValid()) return;
+    } else {
+      const tempFirstWrap = document.createElement('div');
+      tempFirstWrap.innerHTML = createSubjectCardHTML(SUBJECTS_DATA[0], 0, true);
     const firstCard = tempFirstWrap.firstElementChild;
     firstCard.style.opacity = '0';
     firstCard.style.transform = 'translateY(24px) scale(0.97)';
@@ -580,6 +666,7 @@ export async function runCycle(fromStep = 'typing') {
     await sleep(380);
     if (!isValid()) return;
   }
+    }
 
   // --------------------------------------------------
   // STAGE 4: TOP NEWS & HORIZONTAL SUBJECT TABS
@@ -591,20 +678,27 @@ export async function runCycle(fromStep = 'typing') {
 
     syncSubjectPills(state.currentVerticalKey);
 
-    if (startIndex === 3 && cardCanvas && !cardCanvas.classList.contains('has-results')) {
+    if (state.currentVerticalKey === 'business') {
       setCanvasState('focus');
+      renderBusinessDetail(0);
+      await sleep(1600);
+      if (!isValid()) return;
     } else {
-      await transitionOverviewToFocus(isValid, seq);
+      if (startIndex === 3 && cardCanvas && !cardCanvas.classList.contains('has-results')) {
+        setCanvasState('focus');
+      } else {
+        await transitionOverviewToFocus(isValid, seq);
+        if (!isValid()) return;
+      }
+
+      const activePill = document.querySelector('.subject-h-pill.active');
+      const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
+      updateTopNewsCard(activeIdx);
+      renderTimelineStream(activeIdx, false);
+
+      await sleep(750);
       if (!isValid()) return;
     }
-
-    const activePill = document.querySelector('.subject-h-pill.active');
-    const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
-    updateTopNewsCard(activeIdx);
-    renderTimelineStream(activeIdx, false);
-
-    await sleep(750);
-    if (!isValid()) return;
   }
 
   // --------------------------------------------------
@@ -616,15 +710,30 @@ export async function runCycle(fromStep = 'typing') {
 
   setCanvasState('timeline');
 
-  const activePill = document.querySelector('.subject-h-pill.active');
-  const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
-  updateTopNewsCard(activeIdx);
+  if (state.currentVerticalKey === 'business') {
+    renderBusinessDetail(1);
 
-  await playStage5TimelineAnimation(isValid);
-  if (!isValid()) return;
+    const activityNodes = document.querySelectorAll('.biz-activity-node, .biz-career-dot');
+    activityNodes.forEach((node, i) => {
+      node.style.animation = 'bizNodePulse 0.4s ease forwards ' + (i * 0.15) + 's';
+    });
 
-  if (replayBtn) replayBtn.classList.add('visible');
+    await sleep(1600);
+    if (!isValid()) return;
 
-  state.isAutoLooping = false;
-  if (togglePlayBtn) togglePlayBtn.textContent = '▶ Resume';
+    if (replayBtn) replayBtn.classList.add('visible');
+    state.isAutoLooping = false;
+    if (togglePlayBtn) togglePlayBtn.textContent = '▶ Resume';
+  } else {
+    const activePill = document.querySelector('.subject-h-pill.active');
+    const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
+    updateTopNewsCard(activeIdx);
+
+    await playStage5TimelineAnimation(isValid);
+    if (!isValid()) return;
+
+    if (replayBtn) replayBtn.classList.add('visible');
+    state.isAutoLooping = false;
+    if (togglePlayBtn) togglePlayBtn.textContent = '▶ Resume';
+  }
 }

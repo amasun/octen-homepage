@@ -72,10 +72,10 @@ import { initStepControls } from './engine/step-controls.js';
 
   // Start with News Search by default (or check ?vertical= query param)
   const urlParams = new URLSearchParams(window.location.search);
-  const initialVertical = urlParams.get('vertical') || 'news';
+  const initialVertical = urlParams.get('vertical') || 'business';
 
   if (initialVertical === 'business') {
-    switchVertical('business');
+    switchVertical('business', true);
   } else {
     runCycle();
   }

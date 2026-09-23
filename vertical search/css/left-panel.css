@@ -153,11 +153,17 @@
         flex: 1;
         overflow: hidden;
         white-space: nowrap;
-        text-overflow: ellipsis;
+        text-overflow: clip;
+        padding-right: 18px;
+        box-sizing: border-box;
         font-size: clamp(14px, 1.4vw, 18px);
         font-weight: 600;
         color: #0B1F0E;
         text-align: left;
+      }
+      .query-display.is-overflowing {
+        mask-image: linear-gradient(90deg, transparent 0px, black 24px, black 100%);
+        -webkit-mask-image: linear-gradient(90deg, transparent 0px, black 24px, black 100%);
       }
       .typing-caret {
         display: inline-block;

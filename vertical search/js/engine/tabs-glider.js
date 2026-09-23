@@ -58,8 +58,8 @@ export function updateTabsIndicator(activeTab, key, animate = true) {
   }
 }
 
-export function switchVertical(key) {
-  if (state.currentVerticalKey === key) return;
+export function switchVertical(key, force = false) {
+  if (!force && state.currentVerticalKey === key) return;
   state.currentVerticalKey = key;
   setVerticalKey(key);
   const curData = getCurrentData(key);
@@ -121,6 +121,11 @@ export function switchVertical(key) {
   } else {
     clearTokenMeterTimers();
   }
+
+  const btnStep4 = document.querySelector('.step-btn[data-step="focus"]');
+  const btnStep5 = document.querySelector('.step-btn[data-step="timeline"]');
+  if (btnStep4) btnStep4.textContent = key === 'business' ? '4. Company Detail' : '4. Top Focus';
+  if (btnStep5) btnStep5.textContent = key === 'business' ? '5. Person Detail' : '5. Timeline';
 
   syncSubjectPills(key);
 

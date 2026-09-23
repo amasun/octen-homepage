@@ -3,8 +3,8 @@
  */
 import { state, clearActiveAnimations } from '../state.js';
 import { getCurrentData } from '../data/verticals-data.js';
-import { createSubjectCardHTML } from '../render/card-templates.js';
-import { updateTopNewsCard, renderTimelineStream, syncSubjectPills, handlePillClick, initSubjectsHBar } from '../render/stage-renderer.js';
+import { createSubjectCardHTML, createBusinessSummaryCardHTML } from '../render/card-templates.js';
+import { updateTopNewsCard, renderTimelineStream, syncSubjectPills, handlePillClick, initSubjectsHBar, renderBusinessDetail } from '../render/stage-renderer.js';
 import { playSellingPointsNumberFlow } from '../animations/widgets.js';
 import { playStage5TimelineAnimation } from '../animations/timeline.js';
 import { transitionToTyping, transitionToSearching, transitionToOverview, setCanvasState, runCycle, updateQueryDisplayScroll } from './stage-controller.js';
@@ -82,43 +82,91 @@ export function initStepControls() {
         if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
         if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
         if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
-        let html = '';
-        SUBJECTS_DATA.forEach((s, i) => { html += createSubjectCardHTML(s, i, i === 0); });
-        if (cardListContainer) {
-          cardListContainer.innerHTML = html;
-          cardListContainer.style.transform = 'translateY(0px)';
+        if (state.currentVerticalKey === 'business') {
+          const entities = curData.entities || [];
+          let html = '';
+          entities.forEach((ent, i) => {
+            html += createBusinessSummaryCardHTML(ent, i);
+          });
+          if (cardListContainer) {
+            cardListContainer.innerHTML = html;
+            cardListContainer.style.transform = 'translateY(0px)';
+          }
+        } else {
+          let html = '';
+          SUBJECTS_DATA.forEach((s, i) => { html += createSubjectCardHTML(s, i, i === 0); });
+          if (cardListContainer) {
+            cardListContainer.innerHTML = html;
+            cardListContainer.style.transform = 'translateY(0px)';
+          }
         }
       } else if (targetStep === 'focus') {
-        const prevStep = state.currentActiveStep;
-        if (prevStep === 'overview' && cardListContainer && cardListContainer.querySelector('.subject-badge')) {
-          transitionOverviewToFocus(() => true, state.currentSequenceId);
-        } else {
-          setCanvasState('focus');
-        }
+        syncSubjectPills(state.currentVerticalKey);
         if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
         if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
         if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
-        const activePill = document.querySelector('.subject-h-pill.active');
-        const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
-        updateTopNewsCard(activeIdx);
-        renderTimelineStream(activeIdx, false);
+
+        if (state.currentVerticalKey === 'business') {
+          setCanvasState('focus');
+          renderBusinessDetail(0);
+        } else {
+          const prevStep = state.currentActiveStep;
+          if (prevStep === 'overview' && cardListContainer && cardListContainer.querySelector('.subject-badge')) {
+            transitionOverviewToFocus(() => true, state.currentSequenceId);
+          } else {
+            setCanvasState('focus');
+          }
+          const activePill = document.querySelector('.subject-h-pill.active');
+          const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
+          updateTopNewsCard(activeIdx);
+          renderTimelineStream(activeIdx, false);
+        }
       } else if (targetStep === 'timeline') {
+        syncSubjectPills(state.currentVerticalKey);
         setCanvasState('timeline');
         if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
         if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
         if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
-        const activePill = document.querySelector('.subject-h-pill.active');
-        const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
-        updateTopNewsCard(activeIdx);
-        const seq = state.currentSequenceId;
-        playStage5TimelineAnimation(() => seq === state.currentSequenceId).then(() => {
-          if (seq === state.currentSequenceId && replayBtn) {
-            replayBtn.classList.add('visible');
-          }
-        });
+
+        if (state.currentVerticalKey === 'business') {
+          renderBusinessDetail(1);
+          const activityNodes = document.querySelectorAll('.biz-activity-node, .biz-career-dot');
+          activityNodes.forEach((node, i) => {
+            node.style.animation = 'bizNodePulse 0.4s ease forwards ' + (i * 0.15) + 's';
+          });
+          if (replayBtn) replayBtn.classList.add('visible');
+        } else {
+          const activePill = document.querySelector('.subject-h-pill.active');
+          const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
+          updateTopNewsCard(activeIdx);
+          const seq = state.currentSequenceId;
+          playStage5TimelineAnimation(() => seq === state.currentSequenceId).then(() => {
+            if (seq === state.currentSequenceId && replayBtn) {
+              replayBtn.classList.add('visible');
+            }
+          });
+        }
       }
     });
   });
+
+  // Business Card Click Interactions (Step 3: clicking Company card expands Company, clicking Person card expands Person)
+  if (cardListContainer && cardListContainer.dataset.boundBiz !== 'true') {
+    cardListContainer.dataset.boundBiz = 'true';
+    cardListContainer.addEventListener('click', (e) => {
+      if (state.currentVerticalKey !== 'business') return;
+      const card = e.target.closest('.biz-figma-card, .business-card-wrapper');
+      if (!card) return;
+      const idx = parseInt(card.dataset.entityIdx, 10);
+      if (idx === 0) {
+        const focusBtn = document.querySelector('.step-btn[data-step="focus"]');
+        if (focusBtn) focusBtn.click();
+      } else if (idx === 1) {
+        const timelineBtn = document.querySelector('.step-btn[data-step="timeline"]');
+        if (timelineBtn) timelineBtn.click();
+      }
+    });
+  }
 
   if (replayBtn) {
     replayBtn.addEventListener('click', () => {
