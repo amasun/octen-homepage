@@ -197,6 +197,17 @@ pnpm preview   # 本地静态托管并预览构建产物
   - **根本原因定位**：页面初次加载时，JS 执行 `document.querySelector('.vertical-tabs-bar .tab-trigger.active')` 时误匹配到了内嵌在 `#tabsIndicatorTrack` 内部的镜像克隆元素（`.tab-clone`），其相对父容器的 `offsetLeft/offsetTop` 为 `0, 0`（而非真实按钮在父栏 4px 内边距下的 `4, 4`），导致首屏初次渲染时胶囊偏左上 4px 错位；而在用户点击切换后，`switchVertical` 直接传入了真实的 `<button id="tabNews">`，因而立刻矫正；
   - **类名语义隔离**：将内部遮罩克隆节点从 `.tab-trigger.tab-clone` 净化为纯净的 `.tab-clone`，CSS 采用联合选择器（`.tab-trigger, .tab-clone`）共享几何尺寸与排版，彻底避免 DOM 层面误查；
   - **可靠同步队列**：通过 `getActiveTabButton()` 显式绑定真实的 `<button>` 实体，并结合 `requestAnimationFrame`、`document.fonts.ready` 和 `window.load` 多阶段静默重校（`animate = false`），确保任何网络和字体加载环境下初次进入页面时胶囊即精准严丝合缝对齐。
+- ✅ **背景水印图标与第二步标题左侧 Icon 共享元素平滑形变动效（Shared-Element Morph）**（已完成）：
+  - **视觉连续性与隐喻统一**：将 Stage 1（Typing）的 280px 大号背景环境水印与 Stage 2+ 标题左侧的 28px 图标建立动态连接，形成“同一个图标在不同阶段的物理形变”认知；
+  - **正向过渡（Typing ➔ Searching）**：
+    - 在打字完毕进入搜索时，水印图标从底色层（`opacity: 0.12`，280px）平滑飞跃穿越画布，同步执行：
+      1. **亚像素空间位移**：以中心点为基准精准飞向标题左侧插槽；
+      2. **物理缩放**：由 280px 细腻收缩至 28px（缩小 10 倍）；
+      3. **透明度凝练**：由 0.12 的虚化背景逐渐加深凝练至 1.0 的高对比度实体；
+      4. **无缝零抖动交接**：抵达瞬间完美贴合并无缝交接给原生 flex 标题栏内的 `#canvasHeadingIcon`，随后平稳承接后续 Stage 3/4/5 的所有交互；
+  - **反向过渡（Results ➔ Typing / Replay / Tab切换）**：
+    - 当动画循环结束回滚或用户点击 Replay / 切换垂直选项卡时，触发 `transitionToTyping()`：小号标题图标沿相反轨迹向画布深处扩散膨胀回 280px 大水印，透明度从 1.0 柔化淡回 0.12，实现完全对称的电影级视觉呼吸感；
+  - **矢量资产完全对齐**：News Search 与 Business Search 的 watermarkSvg 与 iconSvg 均统一采用一致的 `viewBox="0 0 24 24"` 与 `stroke-width="2"`，消除缩放过程中的矢量变形失真。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。

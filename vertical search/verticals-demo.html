@@ -492,11 +492,11 @@
         width: 200px;
         height: 200px;
         transform: translateY(-50%);
-        color: #000000;
-        opacity: 0.12 !important;
+        color: #0B1F0E;
+        opacity: 0.12;
         pointer-events: none;
         z-index: 1;
-        transition: opacity 0.5s ease, transform 0.5s ease;
+        transition: opacity 0.5s ease;
       }
       @media (min-width: 640px) {
         .canvas-watermark {
@@ -534,14 +534,17 @@
           transform: scale(1) rotate(0deg);
         }
       }
-      .card-canvas.not-typing .canvas-watermark,
-      .card-canvas[data-theme="business"].not-typing .canvas-watermark {
-        opacity: 0 !important;
+      .card-canvas.not-typing .canvas-watermark {
+        opacity: 0;
         pointer-events: none;
       }
       .card-canvas[data-theme="business"] .canvas-watermark {
-        color: #000000;
-        opacity: 0.12 !important;
+        color: #B45309;
+        opacity: 0.12;
+      }
+      .card-canvas[data-theme="business"].not-typing .canvas-watermark {
+        opacity: 0;
+        pointer-events: none;
       }
       .card-canvas[data-theme="business"] .wave-dot {
         background-color: #B45309;
@@ -578,12 +581,12 @@
         box-shadow: 0px 20px 48px rgba(0, 0, 0, 0.04) !important;
       }
       .card-canvas[data-theme="academic"].not-typing .canvas-watermark {
-        opacity: 0 !important;
+        opacity: 0;
         pointer-events: none;
       }
       .card-canvas[data-theme="academic"] .canvas-watermark {
-        color: #000000;
-        opacity: 0.12 !important;
+        color: #0284C7;
+        opacity: 0.12;
       }
       .card-canvas[data-theme="academic"] .wave-dot {
         background-color: #0284C7;
@@ -687,7 +690,9 @@
         flex-shrink: 0;
         color: #0B1F0E;
         overflow: hidden;
-        transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.34, 1.18, 0.64, 1), opacity 0.35s ease, margin 0.45s ease;
+      }
+      .card-canvas[data-theme="business"] .heading-icon-spring {
+        color: #B45309;
       }
       .card-canvas.is-typing .heading-icon-spring {
         width: 0;
@@ -696,7 +701,12 @@
         margin-right: -8px;
         pointer-events: none;
       }
-      .card-canvas.not-typing .heading-icon-spring {
+      .card-canvas.is-searching .heading-icon-spring {
+        width: 28px;
+        opacity: 0;
+        margin-right: 0;
+      }
+      .card-canvas.has-results .heading-icon-spring {
         width: 28px;
         opacity: 1;
         transform: scale(1);
@@ -1776,7 +1786,7 @@
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="1.54"
+            stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
             class="lucide lucide-newspaper"
@@ -1972,7 +1982,7 @@
               '• Topic clustering: track complete event lineage and&nbsp;development.'
             ],
             iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M15 18h-5"></path><path d="M18 14h-8"></path><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg>`,
-            watermarkSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.54" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M15 18h-5"></path><path d="M18 14h-8"></path><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg>`,
+            watermarkSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M15 18h-5"></path><path d="M18 14h-8"></path><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg>`,
             subjects: [
               {
                 name: 'Saudi Arabia halts East-West pipeline after drone attacks from Iraq, with repairs expected to take three to five weeks',
@@ -2136,7 +2146,7 @@
               '• Comprehensive corporate registry intelligence.'
             ],
             iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>`,
-            watermarkSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M186.667 233.333V46.6667C186.667 40.4783 184.208 34.5434 179.832 30.1675C175.457 25.7917 169.522 23.3333 163.333 23.3333H116.667C110.478 23.3333 104.543 25.7917 100.168 30.1675C95.7917 34.5434 93.3333 40.4783 93.3333 46.6667V233.333"></path><path d="M233.333 70H46.6667C33.78 70 23.3333 80.4467 23.3333 93.3333V210C23.3333 222.887 33.78 233.333 46.6667 233.333H233.333C246.22 233.333 256.667 222.887 256.667 210V93.3333C256.667 80.4467 246.22 70 233.333 70Z"></path></svg>`,
+            watermarkSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg>`,
             subjects: [
               {
                 name: 'TSMC & Samsung revise 2nm equipment procurement timelines ahead of schedule',
@@ -2480,6 +2490,25 @@
 
           const searchBoxWrapper = document.getElementById('searchBoxWrapper');
           const summaryBox = document.getElementById('summaryBox');
+          const canvasWatermark = document.getElementById('canvasWatermark');
+          const canvasHeadingIcon = document.getElementById('canvasHeadingIcon');
+
+          if (canvasWatermark) {
+            canvasWatermark.style.transform = '';
+            canvasWatermark.style.zIndex = '';
+            if (state === 'typing') {
+              canvasWatermark.style.opacity = '';
+            } else {
+              canvasWatermark.style.opacity = '0';
+            }
+          }
+          if (canvasHeadingIcon) {
+            if (state === 'typing' || state === 'searching') {
+              canvasHeadingIcon.style.opacity = '';
+            } else {
+              canvasHeadingIcon.style.opacity = '1';
+            }
+          }
 
           if (state === 'typing') {
             cardCanvas.classList.add('is-typing');
@@ -2796,14 +2825,17 @@
           });
         }
 
-        // FLIP-based Butter-Smooth Layout Transition from typing to searching
+        // FLIP-based Butter-Smooth Layout Transition from typing to searching with Shared Element Watermark Morph
         function transitionToSearching() {
           const headingRow = document.querySelector('.canvas-heading-row');
           const searchBoxWrapper = document.getElementById('searchBoxWrapper');
+          const canvasWatermark = document.getElementById('canvasWatermark');
+          const canvasHeadingIcon = document.getElementById('canvasHeadingIcon');
 
-          // 1. Measure First (Current Center Positions)
-          const firstHeadingRect = headingRow.getBoundingClientRect();
-          const firstSearchRect = searchBoxWrapper.getBoundingClientRect();
+          // 1. Measure First (Current Center Positions & Watermark Position)
+          const firstHeadingRect = headingRow ? headingRow.getBoundingClientRect() : null;
+          const firstSearchRect = searchBoxWrapper ? searchBoxWrapper.getBoundingClientRect() : null;
+          const firstWatermarkRect = canvasWatermark ? canvasWatermark.getBoundingClientRect() : null;
 
           // 2. Apply target state classes
           cardCanvas.classList.remove('is-typing', 'has-results');
@@ -2815,46 +2847,189 @@
           searchBoxWrapper.style.opacity = '1';
           searchBoxWrapper.style.transform = 'none';
 
-          // 3. Measure Last (Target Left Positions)
-          const lastHeadingRect = headingRow.getBoundingClientRect();
-          const lastSearchRect = searchBoxWrapper.getBoundingClientRect();
+          // 3. Measure Last (Target Left Positions & Target Heading Icon Position)
+          const lastHeadingRect = headingRow ? headingRow.getBoundingClientRect() : null;
+          const lastSearchRect = searchBoxWrapper ? searchBoxWrapper.getBoundingClientRect() : null;
+          const lastIconRect = canvasHeadingIcon ? canvasHeadingIcon.getBoundingClientRect() : null;
 
-          // 4. Invert (Calculate spatial deltas)
-          const dxHeading = firstHeadingRect.left - lastHeadingRect.left;
-          const dyHeading = firstHeadingRect.top - lastHeadingRect.top;
+          const duration = 650;
+          const easeCurve = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
-          const dxSearch = firstSearchRect.left - lastSearchRect.left;
-          const dySearch = firstSearchRect.top - lastSearchRect.top;
+          // 4. Invert & Animate Heading Row
+          if (firstHeadingRect && lastHeadingRect) {
+            const dxHeading = firstHeadingRect.left - lastHeadingRect.left;
+            const dyHeading = firstHeadingRect.top - lastHeadingRect.top;
+            const headingAnim = headingRow.animate([
+              { transform: `translate(${dxHeading}px, ${dyHeading}px)` },
+              { transform: 'translate(0, 0)' }
+            ], {
+              duration,
+              easing: easeCurve,
+              fill: 'none'
+            });
+            activeAnimations.push(headingAnim);
+          }
 
-          // 5. Play Smooth Gliding Animation
+          // 5. Invert & Animate Search Box
+          if (firstSearchRect && lastSearchRect) {
+            const dxSearch = firstSearchRect.left - lastSearchRect.left;
+            const dySearch = firstSearchRect.top - lastSearchRect.top;
+            const searchAnim = searchBoxWrapper.animate([
+              {
+                transform: `translate(${dxSearch}px, ${dySearch}px)`,
+                width: `${firstSearchRect.width}px`
+              },
+              {
+                transform: 'translate(0, 0)',
+                width: `${lastSearchRect.width}px`
+              }
+            ], {
+              duration,
+              easing: easeCurve,
+              fill: 'none'
+            });
+            activeAnimations.push(searchAnim);
+          }
+
+          // 6. Watermark-to-Heading-Icon Shared Element Morph Animation!
+          if (canvasWatermark && canvasHeadingIcon && firstWatermarkRect && lastIconRect && firstWatermarkRect.width > 0 && lastIconRect.width > 0) {
+            canvasHeadingIcon.style.opacity = '0';
+            canvasHeadingIcon.style.transition = 'none';
+
+            const wCenterX = firstWatermarkRect.left + firstWatermarkRect.width / 2;
+            const wCenterY = firstWatermarkRect.top + firstWatermarkRect.height / 2;
+            const iCenterX = lastIconRect.left + lastIconRect.width / 2;
+            const iCenterY = lastIconRect.top + lastIconRect.height / 2;
+
+            const dxWatermark = iCenterX - wCenterX;
+            const dyWatermark = iCenterY - wCenterY;
+            const scaleWatermark = lastIconRect.width / firstWatermarkRect.width;
+
+            canvasWatermark.style.transformOrigin = 'center center';
+            canvasWatermark.style.zIndex = '12';
+            canvasWatermark.style.opacity = '0.12';
+
+            const watermarkMorphAnim = canvasWatermark.animate([
+              {
+                transform: 'translate(0px, 0px) scale(1)',
+                opacity: 0.12
+              },
+              {
+                offset: 0.35,
+                opacity: 0.65
+              },
+              {
+                transform: `translate(${dxWatermark}px, ${dyWatermark}px) scale(${scaleWatermark})`,
+                opacity: 1
+              }
+            ], {
+              duration,
+              easing: easeCurve,
+              fill: 'forwards'
+            });
+            activeAnimations.push(watermarkMorphAnim);
+
+            watermarkMorphAnim.onfinish = () => {
+              canvasHeadingIcon.style.opacity = '1';
+              canvasWatermark.style.opacity = '0';
+              canvasWatermark.style.zIndex = '';
+              canvasWatermark.style.transform = 'none';
+            };
+          }
+        }
+
+        // Reverse Layout Transition from searching/results back to typing with Watermark Expand Morph
+        function transitionToTyping() {
+          const headingRow = document.querySelector('.canvas-heading-row');
+          const searchBoxWrapper = document.getElementById('searchBoxWrapper');
+          const canvasWatermark = document.getElementById('canvasWatermark');
+          const canvasHeadingIcon = document.getElementById('canvasHeadingIcon');
+
+          // 1. Measure First (Current Left Positions & Heading Icon Position)
+          const firstHeadingRect = headingRow ? headingRow.getBoundingClientRect() : null;
+          const firstSearchRect = searchBoxWrapper ? searchBoxWrapper.getBoundingClientRect() : null;
+          const firstIconRect = canvasHeadingIcon ? canvasHeadingIcon.getBoundingClientRect() : null;
+
+          // 2. Apply target typing state classes
+          setCanvasState('typing');
+
+          // 3. Measure Last (Target Center Positions & Target Watermark Position)
+          const lastHeadingRect = headingRow ? headingRow.getBoundingClientRect() : null;
+          const lastSearchRect = searchBoxWrapper ? searchBoxWrapper.getBoundingClientRect() : null;
+          const lastWatermarkRect = canvasWatermark ? canvasWatermark.getBoundingClientRect() : null;
+
           const duration = 600;
-          const easeCurve = 'cubic-bezier(0.4, 0, 0.2, 1)';
+          const easeCurve = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
-          const headingAnim = headingRow.animate([
-            { transform: `translate(${dxHeading}px, ${dyHeading}px)` },
-            { transform: 'translate(0, 0)' }
-          ], {
-            duration,
-            easing: easeCurve,
-            fill: 'none'
-          });
-          activeAnimations.push(headingAnim);
+          // Smooth return glide for Heading & Search
+          if (firstHeadingRect && lastHeadingRect) {
+            const dxHeading = firstHeadingRect.left - lastHeadingRect.left;
+            const dyHeading = firstHeadingRect.top - lastHeadingRect.top;
+            const headingAnim = headingRow.animate([
+              { transform: `translate(${dxHeading}px, ${dyHeading}px)` },
+              { transform: 'translate(0, 0)' }
+            ], { duration, easing: easeCurve, fill: 'none' });
+            activeAnimations.push(headingAnim);
+          }
 
-          const searchAnim = searchBoxWrapper.animate([
-            {
-              transform: `translate(${dxSearch}px, ${dySearch}px)`,
-              width: `${firstSearchRect.width}px`
-            },
-            {
-              transform: 'translate(0, 0)',
-              width: `${lastSearchRect.width}px`
-            }
-          ], {
-            duration,
-            easing: easeCurve,
-            fill: 'none'
-          });
-          activeAnimations.push(searchAnim);
+          if (firstSearchRect && lastSearchRect) {
+            const dxSearch = firstSearchRect.left - lastSearchRect.left;
+            const dySearch = firstSearchRect.top - lastSearchRect.top;
+            const searchAnim = searchBoxWrapper.animate([
+              {
+                transform: `translate(${dxSearch}px, ${dySearch}px)`,
+                width: `${firstSearchRect.width}px`
+              },
+              {
+                transform: 'translate(0, 0)',
+                width: `${lastSearchRect.width}px`
+              }
+            ], { duration, easing: easeCurve, fill: 'none' });
+            activeAnimations.push(searchAnim);
+          }
+
+          // Reverse Morph from Heading Icon back to Ambient Watermark!
+          if (canvasWatermark && canvasHeadingIcon && firstIconRect && lastWatermarkRect && lastWatermarkRect.width > 0 && firstIconRect.width > 0) {
+            canvasHeadingIcon.style.opacity = '0';
+
+            const iCenterX = firstIconRect.left + firstIconRect.width / 2;
+            const iCenterY = firstIconRect.top + firstIconRect.height / 2;
+            const wCenterX = lastWatermarkRect.left + lastWatermarkRect.width / 2;
+            const wCenterY = lastWatermarkRect.top + lastWatermarkRect.height / 2;
+
+            const dx = iCenterX - wCenterX;
+            const dy = iCenterY - wCenterY;
+            const startScale = firstIconRect.width / lastWatermarkRect.width;
+
+            canvasWatermark.style.transformOrigin = 'center center';
+            canvasWatermark.style.zIndex = '12';
+
+            const reverseMorphAnim = canvasWatermark.animate([
+              {
+                transform: `translate(${dx}px, ${dy}px) scale(${startScale})`,
+                opacity: 1
+              },
+              {
+                offset: 0.65,
+                opacity: 0.35
+              },
+              {
+                transform: 'translate(0px, 0px) scale(1)',
+                opacity: 0.12
+              }
+            ], {
+              duration,
+              easing: easeCurve,
+              fill: 'forwards'
+            });
+            activeAnimations.push(reverseMorphAnim);
+
+            reverseMorphAnim.onfinish = () => {
+              canvasWatermark.style.opacity = '';
+              canvasWatermark.style.zIndex = '';
+              canvasWatermark.style.transform = '';
+            };
+          }
         }
 
         // FLIP-based Butter-Smooth Layout Transition from searching to overview (Heading transform glide)
@@ -3197,7 +3372,11 @@
             summaryBox.style.opacity = '1';
             summaryBox.style.transform = 'none';
 
-            setCanvasState('typing');
+            if (currentActiveStep !== 'typing') {
+              transitionToTyping();
+            } else {
+              setCanvasState('typing');
+            }
             queryTextSpan.textContent = '';
             cardListContainer.style.transform = 'none';
             await sleep(500);
@@ -3445,7 +3624,11 @@
             const targetStep = btn.dataset.step;
 
             if (targetStep === 'typing') {
-              setCanvasState('typing');
+              if (currentActiveStep !== 'typing') {
+                transitionToTyping();
+              } else {
+                setCanvasState('typing');
+              }
               queryTextSpan.textContent = QUERY_TEXT;
               cardListContainer.innerHTML = '';
             } else if (targetStep === 'searching') {
