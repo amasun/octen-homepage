@@ -134,6 +134,14 @@ pnpm preview   # 本地静态托管并预览构建产物
   - 彻底删除左上角两行开发信息（`Octen / Vertical Search Infrastructure` 与 `News & Business Search Interactive Prototype`），使 Demo 顶部视觉完全与正式官网产品 Hero 对齐；
   - 将开发步骤调试控件条（`⏸ Pause` 与 `1. Typing` ~ `5. Timeline` 按钮组）平移下沉至巨型卡片底部居中排列，保持完整的时序快进与交互功能；
   - 彻底清理底部冗余的 `demo-footer-info` 文本（*“Dual Vertical Search Stage...”* 与 *“Hover over results area...”*）。
+- ✅ **Vertical Search 独立 Demo 头部标题与 Tab 栏严格对齐 Figma Node 13701:168352**（已完成）：
+  - 严格根据 Figma 原型参数（Node `13701:168352`）重构 [vertical search/news-search-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/news-search-demo.html) 标题区：
+    - **垂直层次堆叠**：居中容器 `gap: 30px`，下辖文字组与居中 `Request Access` 行动按钮；
+    - **胶囊标签 `Search / PREMIER`**（Node `13720:174651`）：引入 `DM Mono` 字形，`DM Sans 14px SemiBold` ("Search") + `DM Sans 13px SemiBold` ("/") + `DM Mono 14px Medium` ("PREMIER", letter-spacing `0.936px`)；
+    - **大标题**（Node `13701:168357`）：`Fraunces 44px` 衬线体，400 字重，行高 1.2，`font-variation-settings: "SOFT" 0, "WONK" 1`，字距 `-0.015em`；
+    - **辅助说明**（Node `13701:168359`）：`DM Sans 16px`，`max-width: 682px`，居中排版，opacity 0.8；
+    - **`Request Access` 按钮**（Node `13702:169791`）：高度 40px，居中放置在副标题下方，`border: 1px solid #60ff70`，文字 `#70fe7e` 16px SemiBold，右侧搭配 15.5px 45° 倾斜外链矢量箭头；
+    - **三 Tab 导航栏**（Node `13799:166686`）：`background: rgba(82, 82, 82, 0.5)` 毛玻璃外壳（`backdrop-filter: blur(12px)`），包含 `News Search`（草绿 `#8adb47` 激活态、黑字黑标）、`Business Search` 与 `Academic`（白字白标，学术帽图标），并完整挂载 Academic 全量数据模型与交互切换逻辑。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。

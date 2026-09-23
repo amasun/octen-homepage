@@ -6,7 +6,7 @@
     <title>Octen · Vertical Search Animation Demo (News & Business)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
       :root {
         color-scheme: dark;
@@ -127,18 +127,21 @@
       /* ======================================================== */
       /* 2.1 Hero Text Block (Aligned with index main project) */
       /* ======================================================== */
+      /* ======================================================== */
+      /* 2.1 Hero Text Block (Aligned with Figma Node 13701:168352) */
+      /* ======================================================== */
       .hero-header-box {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 20px;
+        gap: 30px;
         width: 100%;
         max-width: 1260px;
         margin-left: auto;
         margin-right: auto;
-        margin-top: 10px;
-        margin-bottom: 20px;
+        margin-top: 16px;
+        margin-bottom: 0;
         padding: 0 16px;
         text-align: center;
       }
@@ -147,9 +150,17 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 16px;
+        gap: 20px;
         width: 100%;
         text-align: center;
+      }
+      .hero-title-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        width: 100%;
       }
       .tag-pill {
         display: inline-flex;
@@ -157,16 +168,13 @@
         justify-content: center;
         align-items: center;
         padding: 0 16px;
-        gap: 4px;
+        gap: 7px;
         height: 30px;
         width: auto;
         border: none;
         border-radius: 24px;
         background: rgba(255, 255, 255, 0.1);
         color: #ffffff;
-        font-size: 14px;
-        font-weight: 500;
-        line-height: 20px;
         white-space: nowrap;
         box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08), inset -0.5px -0.5px 1px rgba(255, 255, 255, 0.3), inset 0.5px 0.5px 1px rgba(255, 255, 255, 0.3);
         backdrop-filter: blur(8px);
@@ -175,40 +183,54 @@
         user-select: none;
       }
       .vertical-search-tag-prefix {
+        font-family: 'DM Sans', sans-serif;
         font-size: 14px;
-        font-weight: 500;
+        font-weight: 600;
+        line-height: 20px;
         color: #ffffff;
       }
       .vertical-search-tag-divider {
-        font-size: 14px;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.4);
-        margin: 0 2px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 20px;
+        color: #ffffff;
+        margin: 0;
       }
       .vertical-search-tag-keyword {
+        font-family: 'DM Mono', monospace;
         font-size: 14px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
+        font-weight: 500;
+        letter-spacing: 0.936px;
+        line-height: 20px;
         color: #ffffff;
         text-transform: uppercase;
       }
       .hero-heading {
         font-family: var(--font-serif);
-        font-size: clamp(32px, 4vw, 44px);
+        font-size: 44px;
         font-weight: 400;
         line-height: 1.2;
         color: #ffffff;
         margin: 0 auto;
         text-align: center;
         letter-spacing: -0.015em;
+        font-variation-settings: "SOFT" 0, "WONK" 1;
+        width: 100%;
+      }
+      @media (max-width: 640px) {
+        .hero-heading {
+          font-size: 32px;
+        }
       }
       .hero-desc {
         font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         font-size: 16px;
         font-weight: 400;
         line-height: 1.5;
-        color: rgba(255, 255, 255, 0.7);
-        max-width: 680px;
+        color: #ffffff;
+        opacity: 0.8;
+        max-width: 682px;
         margin-left: auto;
         margin-right: auto;
         text-align: center;
@@ -216,7 +238,7 @@
       .btn-request {
         height: 40px;
         min-height: 40px;
-        padding: 0 20px;
+        padding: 0 16px 0 20px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -225,6 +247,7 @@
         border-radius: 8px;
         background: rgba(8, 11, 18, 0.1);
         color: #70fe7e;
+        font-family: 'DM Sans', sans-serif;
         font-size: 16px;
         font-weight: 600;
         line-height: 24px;
@@ -238,10 +261,11 @@
         background: rgba(96, 255, 112, 0.1);
         border-color: #60ff70;
         color: #70fe7e;
+        box-shadow: 0 0 16px rgba(96, 255, 112, 0.2);
       }
       .btn-request-icon {
-        width: 11px;
-        height: 11px;
+        width: 15.5px;
+        height: 15.5px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -252,40 +276,42 @@
       }
 
       /* ======================================================== */
-      /* 2.2 Dual Vertical Tabs Bar (News Search / Business Search) */
+      /* 2.2 Vertical Tabs Bar (Figma Node 13799:166686) */
       /* ======================================================== */
       .vertical-tabs-bar {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
-        margin: 0 auto 24px;
-        padding: 5px;
-        border-radius: 9999px;
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.14);
+        gap: 4px;
+        margin: 30px auto 30px auto;
+        padding: 4px;
+        border-radius: 99px;
+        background: rgba(82, 82, 82, 0.5);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
         z-index: 20;
         position: relative;
       }
       .tab-trigger {
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 8px;
-        height: 38px;
-        padding: 0 20px;
-        border-radius: 9999px;
-        border: 1px solid transparent;
+        height: 40px;
+        padding: 0 20px 0 16px;
+        border-radius: 99px;
+        border: none;
         background: transparent;
-        color: rgba(255, 255, 255, 0.65);
-        font-family: inherit;
-        font-size: 14px;
-        font-weight: 500;
+        color: #ffffff;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 24px;
         cursor: pointer;
         transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         user-select: none;
+        white-space: nowrap;
       }
       .tab-trigger:hover {
         color: #ffffff;
@@ -299,19 +325,39 @@
         height: 18px;
         flex-shrink: 0;
       }
-      .tab-trigger.active[data-vertical="news"] {
-        background: rgba(170, 239, 138, 0.16);
-        color: #c4f799;
-        border-color: rgba(170, 239, 138, 0.45);
-        box-shadow: 0 2px 12px rgba(170, 239, 138, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-        font-weight: 600;
+      .tab-trigger .tab-trigger-icon svg {
+        stroke: #ffffff;
+        transition: stroke 0.2s ease;
       }
-      .tab-trigger.active[data-vertical="business"] {
-        background: rgba(251, 191, 36, 0.16);
-        color: #fde68a;
-        border-color: rgba(251, 191, 36, 0.45);
-        box-shadow: 0 2px 12px rgba(251, 191, 36, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-        font-weight: 600;
+      .tab-trigger.active[data-vertical="news"],
+      .demo-wrapper[data-theme="news"] .tab-trigger.active[data-vertical="news"] {
+        background: #8adb47 !important;
+        color: #000000 !important;
+        box-shadow: 0 2px 10px rgba(138, 219, 71, 0.35);
+      }
+      .tab-trigger.active[data-vertical="news"] .tab-trigger-icon svg,
+      .demo-wrapper[data-theme="news"] .tab-trigger.active[data-vertical="news"] .tab-trigger-icon svg {
+        stroke: #000000 !important;
+      }
+      .tab-trigger.active[data-vertical="business"],
+      .demo-wrapper[data-theme="business"] .tab-trigger.active[data-vertical="business"] {
+        background: #FBBF24 !important;
+        color: #000000 !important;
+        box-shadow: 0 2px 10px rgba(251, 191, 36, 0.35);
+      }
+      .tab-trigger.active[data-vertical="business"] .tab-trigger-icon svg,
+      .demo-wrapper[data-theme="business"] .tab-trigger.active[data-vertical="business"] .tab-trigger-icon svg {
+        stroke: #000000 !important;
+      }
+      .tab-trigger.active[data-vertical="academic"],
+      .demo-wrapper[data-theme="academic"] .tab-trigger.active[data-vertical="academic"] {
+        background: #38BDF8 !important;
+        color: #000000 !important;
+        box-shadow: 0 2px 10px rgba(56, 189, 248, 0.35);
+      }
+      .tab-trigger.active[data-vertical="academic"] .tab-trigger-icon svg,
+      .demo-wrapper[data-theme="academic"] .tab-trigger.active[data-vertical="academic"] .tab-trigger-icon svg {
+        stroke: #000000 !important;
       }
 
       /* ======================================================== */
@@ -461,6 +507,49 @@
       }
       .card-canvas[data-theme="business"] .sparkle-search-icon svg path:last-child {
         fill: #D97706;
+      }
+
+      /* Academic Theme Exact Figma Alignment */
+      .card-canvas[data-theme="academic"] {
+        background: linear-gradient(44.87deg, #A4E5FF 3.49%, #EBF8FF 101.39%), linear-gradient(90deg, #B5EBFF 0%, #B5EBFF 100%) !important;
+        box-shadow: 0px 20px 48px rgba(0, 0, 0, 0.04) !important;
+      }
+      .card-canvas[data-theme="academic"].not-typing .canvas-watermark {
+        opacity: 0 !important;
+        pointer-events: none;
+      }
+      .card-canvas[data-theme="academic"] .canvas-watermark {
+        color: #000000;
+        opacity: 0.12 !important;
+      }
+      .card-canvas[data-theme="academic"] .wave-dot {
+        background-color: #0284C7;
+      }
+      .card-canvas[data-theme="academic"] .timeline-dot-node {
+        border-color: #0284C7;
+        background-color: #38BDF8;
+      }
+      .card-canvas[data-theme="academic"] .timeline-spine-stem {
+        background: linear-gradient(180deg, #38BDF8 0%, #0284C7 100%);
+      }
+      .card-canvas[data-theme="academic"] .subject-h-pill {
+        background: rgba(3, 105, 161, 0.45);
+      }
+      .card-canvas[data-theme="academic"] .subject-h-pill:hover {
+        background: rgba(3, 105, 161, 0.65);
+      }
+      .card-canvas[data-theme="academic"] .subject-h-pill.active {
+        background: #0284C7;
+        color: #FFFFFF;
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+      }
+      .card-canvas[data-theme="academic"] .top-news-tag,
+      .card-canvas[data-theme="academic"] .top-news-badge {
+        background: rgba(2, 132, 199, 0.15);
+        color: #0284C7;
+      }
+      .card-canvas[data-theme="academic"] .sparkle-search-icon svg path:last-child {
+        fill: #0284C7;
       }
 
       /* 2. Left / Center Dynamic Panel */
@@ -1533,49 +1622,57 @@
   </head>
   <body>
     <main class="demo-wrapper" id="demoWrapper" data-theme="news">
-      <!-- 2.1 Hero Text Block (Aligned with index main project) -->
-      <div class="hero-header-box">
-        <div class="hero-title-group">
-          <!-- Capsule Tag -->
-          <div class="tag-pill octen-search-fast-tag octen-search-premier-tag">
-            <span class="vertical-search-tag-prefix">Search</span>
-            <span class="vertical-search-tag-divider">/</span>
-            <span class="vertical-search-tag-keyword">PREMIER</span>
+      <!-- 2.1 Hero Text Block (Aligned with Figma 13701:168352) -->
+      <div class="hero-header-box" data-node-id="13701:168352">
+        <div class="hero-title-group" data-node-id="13701:168353">
+          <div class="hero-title-inner" data-node-id="13701:168354">
+            <!-- Capsule Tag -->
+            <div class="tag-pill octen-search-fast-tag octen-search-premier-tag" data-node-id="13720:174651">
+              <span class="vertical-search-tag-prefix" data-node-id="13720:174653">Search</span>
+              <span class="vertical-search-tag-divider" data-node-id="13720:174654">/</span>
+              <span class="vertical-search-tag-keyword" data-node-id="13720:174655">PREMIER</span>
+            </div>
+
+            <!-- Headline -->
+            <h1 class="hero-heading" id="verticalSearchHeading" data-node-id="13701:168357">Search built for vertical industries</h1>
           </div>
 
-          <!-- Headline -->
-          <h1 class="hero-heading" id="verticalSearchHeading">Search built for vertical industries</h1>
-
           <!-- Supporting text -->
-          <p class="hero-desc" id="verticalSearchDesc">
+          <p class="hero-desc" id="verticalSearchDesc" data-node-id="13701:168359">
             High-precision intelligence indexed at wire speed across real-time news, corporate filings, and market disclosures. Curated, cross-verified, and structured for autonomous reasoning.
           </p>
         </div>
 
         <!-- Action Button -->
-        <a href="https://octen.ai/platform/overview" target="_blank" rel="noreferrer" class="btn-request" id="request-access">
+        <a href="https://octen.ai/platform/overview" target="_blank" rel="noreferrer" class="btn-request" id="request-access" data-node-id="13702:169791">
           <span>Request Access</span>
           <span class="btn-request-icon">
-            <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 10L10 1M10 1H3M10 1V8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.5 12.5L12.5 2.5M12.5 2.5H4.5M12.5 2.5V10.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </span>
         </a>
       </div>
 
-      <!-- 2.2 Dual Vertical Tabs (News Search / Business Search) -->
-      <div class="vertical-tabs-bar" role="tablist" aria-label="Vertical Search Selection">
-        <button type="button" class="tab-trigger active" data-vertical="news" role="tab" aria-selected="true" id="tabNews">
+      <!-- 2.2 Vertical Tabs Bar (News Search / Business Search / Academic) -->
+      <div class="vertical-tabs-bar" role="tablist" aria-label="Vertical Search Selection" data-node-id="13799:166686">
+        <button type="button" class="tab-trigger active" data-vertical="news" role="tab" aria-selected="true" id="tabNews" data-node-id="13799:166687">
           <span class="tab-trigger-icon" aria-hidden="true">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="10" y="6" rx="1"/></svg>
           </span>
           <span>News Search</span>
         </button>
-        <button type="button" class="tab-trigger" data-vertical="business" role="tab" aria-selected="false" id="tabBusiness">
+        <button type="button" class="tab-trigger" data-vertical="business" role="tab" aria-selected="false" id="tabBusiness" data-node-id="13799:166689">
           <span class="tab-trigger-icon" aria-hidden="true">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
           </span>
           <span>Business Search</span>
+        </button>
+        <button type="button" class="tab-trigger" data-vertical="academic" role="tab" aria-selected="false" id="tabAcademic" data-node-id="13799:166688">
+          <span class="tab-trigger-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+          </span>
+          <span>Academic</span>
         </button>
       </div>
 
@@ -2058,6 +2155,110 @@
                     title: 'Tech giants explore private nuclear reactor partnerships to power next-gen clusters',
                     timePublished: '2026-09-14T14:15:00Z',
                     url: 'https://www.wsj.com/articles/tech-nuclear-power-datacenters'
+                  }
+                ]
+              }
+            ]
+          },
+          academic: {
+            id: 'academic',
+            title: 'Academic Search',
+            heading: 'Search built for vertical industries',
+            desc: 'High-precision intelligence indexed at wire speed across peer-reviewed literature, preprints, and research datasets. Curated, cross-verified, and structured for autonomous reasoning.',
+            theme: 'academic',
+            query: 'Sparse mixture-of-experts routing efficiency in transformer reasoning',
+            badgeText: 'Top Paper',
+            stats: { num1: 4, label1: 'subjects', num2: 12, label2: 'papers' },
+            bullets: [
+              '• Synthesize research frontiers across 200M+ publications.',
+              '• Trace citation lineage and empirical breakthrough claims.',
+              '• Extract structured mathematical proofs and benchmark metrics.'
+            ],
+            iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>`,
+            watermarkSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M249.9 127.42a11.67 11.67 0 0 0-.22-21.44L149.68 60.43a23.33 23.33 0 0 0-19.37 0L30.33 105.93a11.67 11.67 0 0 0 0 21.37l99.98 45.6a23.33 23.33 0 0 0 19.37 0z"/><path d="M256.67 116.67v70"/><path d="M70 145.83v40.84a70 70 0 0 0 140 0v-40.84"/></svg>`,
+            subjects: [
+              {
+                name: 'Dynamic token routing convergence in multi-modal Mixture-of-Experts architectures',
+                summary: 'Comprehensive analysis of auxiliary loss functions and dynamic capacity factors that prevent expert collapse in 100B+ parameter sparse vision-language transformers.',
+                timeStart: '2026-09-08T00:00:00Z',
+                timeLatest: '2026-09-20T19:00:00Z',
+                cover: './images/vertical/subject-1.png',
+                fallbackCover: 'https://images.unsplash.com/photo-1507668077129-56e32842fceb?w=1200&q=80',
+                articles: [
+                  {
+                    title: 'Load balancing stability in sparse sub-network routing under out-of-distribution prompts',
+                    timePublished: '2026-09-20T08:12:00Z',
+                    url: 'https://arxiv.org/abs/2609.11041'
+                  },
+                  {
+                    title: 'Optimal batch scheduling for heterogeneous GPU memory clusters running MoE inference',
+                    timePublished: '2026-09-20T11:45:00Z',
+                    url: 'https://arxiv.org/abs/2609.11055'
+                  },
+                  {
+                    title: 'Empirical scaling laws of active parameter sparsity in test-time reasoning benchmarks',
+                    timePublished: '2026-09-20T14:30:00Z',
+                    url: 'https://arxiv.org/abs/2609.11089'
+                  }
+                ]
+              },
+              {
+                name: 'Formal mathematical verification of auto-formalized proofs using neural theorem provers',
+                summary: 'State-of-the-art evaluation of Lean 4 tactic prediction pipelines enhanced with reinforcement learning from proof step execution feedback.',
+                timeStart: '2026-09-10T00:00:00Z',
+                timeLatest: '2026-09-19T16:20:00Z',
+                cover: './images/vertical/subject-2.png',
+                fallbackCover: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&q=80',
+                articles: [
+                  {
+                    title: 'Tactic tree pruning heuristics for IMO-level geometry theorem generation',
+                    timePublished: '2026-09-19T09:15:00Z',
+                    url: 'https://arxiv.org/abs/2609.10882'
+                  },
+                  {
+                    title: 'Bridge theorems for auto-formalization of Olympiad mathematics in interactive checkers',
+                    timePublished: '2026-09-19T13:40:00Z',
+                    url: 'https://arxiv.org/abs/2609.10910'
+                  }
+                ]
+              },
+              {
+                name: 'Cryo-EM atomic resolution reconstruction using geometric deep learning priors',
+                summary: 'Continuous conformation manifold learning reconstructs flexible macromolecular complexes from noisy single-particle cryo-electron microscopy micrographs.',
+                timeStart: '2026-09-06T00:00:00Z',
+                timeLatest: '2026-09-18T14:10:00Z',
+                cover: './images/vertical/subject-3.png',
+                fallbackCover: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1200&q=80',
+                articles: [
+                  {
+                    title: 'Diffeomorphic field regularization for high-variance cryo-EM protein dynamics',
+                    timePublished: '2026-09-18T10:05:00Z',
+                    url: 'https://nature.com/articles/s41592-026-02480-1'
+                  },
+                  {
+                    title: 'Sub-angstrom refinement of membrane transporter states via rotational equivariance',
+                    timePublished: '2026-09-18T12:50:00Z',
+                    url: 'https://science.org/doi/10.1126/science.ade2026'
+                  }
+                ]
+              },
+              {
+                name: 'Ultra-low-latency photonic matrix multiplication for energy-constrained edge accelerators',
+                summary: 'Silicon photonics mesh architectures achieve sub-nanosecond multiply-accumulate operations with orders-of-magnitude lower thermal dissipation compared to CMOS.',
+                timeStart: '2026-09-04T00:00:00Z',
+                timeLatest: '2026-09-17T11:00:00Z',
+                cover: './images/vertical/subject-4.png',
+                fallbackCover: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1200&q=80',
+                articles: [
+                  {
+                    title: 'Mach-Zehnder interferometer drift stabilization across fluctuating thermal environments',
+                    timePublished: '2026-09-17T07:30:00Z',
+                    url: 'https://ieee.org/document/photonic-accelerators-2026'
+                  },
+                  {
+                    title: 'Co-packaged optics integration with high-bandwidth memory for multi-terabit interconnects',
+                    timePublished: '2026-09-17T09:45:00Z',
+                    url: 'https://nature.com/articles/s41566-026-01550-y'
                   }
                 ]
               }
@@ -3359,9 +3560,10 @@
           });
         });
 
-        // Dual Vertical Tabs Interactive Switching (News Search / Business Search)
+        // Vertical Tabs Interactive Switching (News Search / Business Search / Academic)
         const tabNews = document.getElementById('tabNews');
         const tabBusiness = document.getElementById('tabBusiness');
+        const tabAcademic = document.getElementById('tabAcademic');
         const demoWrapper = document.getElementById('demoWrapper') || document.querySelector('.demo-wrapper');
 
         function switchVertical(key) {
@@ -3381,6 +3583,10 @@
           if (tabBusiness) {
             tabBusiness.classList.toggle('active', key === 'business');
             tabBusiness.setAttribute('aria-selected', key === 'business' ? 'true' : 'false');
+          }
+          if (tabAcademic) {
+            tabAcademic.classList.toggle('active', key === 'academic');
+            tabAcademic.setAttribute('aria-selected', key === 'academic' ? 'true' : 'false');
           }
 
           // 2. Hero Section Heading remains permanent section title ("Search built for vertical industries")
@@ -3441,6 +3647,9 @@
         }
         if (tabBusiness) {
           tabBusiness.addEventListener('click', () => switchVertical('business'));
+        }
+        if (tabAcademic) {
+          tabAcademic.addEventListener('click', () => switchVertical('academic'));
         }
 
         // Initial setup for Top News and Timeline stream
