@@ -429,6 +429,21 @@
         width: 100%;
         height: 100%;
         display: block;
+        transform-origin: center center;
+      }
+      /* Watermark Pop / Scale Animation on Tab Switch (Aligned with Main Project) */
+      .canvas-watermark.watermark-pop svg {
+        animation: watermark-swap 0.45s var(--ease-spring) forwards;
+      }
+      @keyframes watermark-swap {
+        0% {
+          opacity: 0;
+          transform: scale(0.8) rotate(-6deg);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1) rotate(0deg);
+        }
       }
       .card-canvas.not-typing .canvas-watermark,
       .card-canvas[data-theme="business"].not-typing .canvas-watermark {
@@ -3337,6 +3352,12 @@
         if (replayBtn) {
           replayBtn.addEventListener('click', () => {
             replayBtn.classList.remove('visible');
+            const canvasWatermark = document.getElementById('canvasWatermark');
+            if (canvasWatermark) {
+              canvasWatermark.classList.remove('watermark-pop');
+              void canvasWatermark.offsetWidth;
+              canvasWatermark.classList.add('watermark-pop');
+            }
             // Reset subject pills to Subject 1
             const pills = document.querySelectorAll('.subject-h-pill');
             pills.forEach((p, idx) => p.classList.toggle('active', idx === 0));
@@ -3413,10 +3434,13 @@
             cardCanvas.setAttribute('data-theme', curData.theme);
           }
 
-          // 4. Update Canvas watermark
+          // 4. Update Canvas watermark with scale pop animation (aligned with main project)
           const canvasWatermark = document.getElementById('canvasWatermark');
           if (canvasWatermark && curData.watermarkSvg) {
             canvasWatermark.innerHTML = curData.watermarkSvg;
+            canvasWatermark.classList.remove('watermark-pop');
+            void canvasWatermark.offsetWidth; // Force CSS reflow to re-trigger animation
+            canvasWatermark.classList.add('watermark-pop');
           }
 
           // 5. Update Canvas Left Panel Heading Title & Icon
@@ -3462,6 +3486,14 @@
         // Initial setup for Top News and Timeline stream
         updateTopNewsCard(0);
         renderTimelineStream(0, false);
+
+        // Initial watermark animation pop
+        const initialWatermark = document.getElementById('canvasWatermark');
+        if (initialWatermark) {
+          initialWatermark.classList.remove('watermark-pop');
+          void initialWatermark.offsetWidth;
+          initialWatermark.classList.add('watermark-pop');
+        }
 
         // Start Initial Auto Loop
         runCycle();
