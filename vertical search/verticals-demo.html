@@ -600,11 +600,11 @@
       }
       @media (min-width: 1024px) {
         .card-canvas.not-typing .canvas-left-panel {
-          left: 4%;
+          left: 48px;
           right: auto;
           top: 50%;
-          width: 38%;
-          max-width: 440px;
+          width: calc(100% - 670px);
+          max-width: 560px;
           transform: translateY(-50%);
           gap: 20px;
         }
@@ -812,6 +812,12 @@
         display: block;
         margin: 0;
         padding: 0;
+        text-wrap: pretty;
+      }
+      .summary-bullets-list b,
+      .summary-bullets-list strong {
+        font-weight: 700;
+        color: #000000;
       }
 
       /* 3. Right Content Panel */
@@ -1803,10 +1809,10 @@
               </span>
             </div>
             <ul class="summary-bullets-list" id="summaryBulletsList">
-              <li>• Wire-speed freshness: searchable within 3 minutes.</li>
-              <li>• Comprehensive coverage: 95% tier-1 global news media.</li>
-              <li>• Token-efficient: deduplication of syndicated & duplicate stories.</li>
-              <li>• Topic clustering: track complete event lineage and development.</li>
+              <li>• Wire-speed freshness: searchable within <b>3&nbsp;minutes</b>.</li>
+              <li>• Comprehensive coverage: <b>95%</b> tier-1 global news&nbsp;media.</li>
+              <li>• Token-efficient: deduplication of syndicated & duplicate&nbsp;stories.</li>
+              <li>• Topic clustering: track complete event lineage and&nbsp;development.</li>
             </ul>
           </div>
         </div>
@@ -1920,10 +1926,10 @@
             badgeText: 'Top News',
             stats: { num1: 4, label1: 'subjects', num2: 10, label2: 'articles' },
             bullets: [
-              '• Wire-speed freshness: searchable within 3 minutes.',
-              '• Comprehensive coverage: 95% tier-1 global news media.',
-              '• Token-efficient: deduplication of syndicated & duplicate stories.',
-              '• Topic clustering: track complete event lineage and development.'
+              '• Wire-speed freshness: searchable within <b>3&nbsp;minutes</b>.',
+              '• Comprehensive coverage: <b>95%</b> tier-1 global news&nbsp;media.',
+              '• Token-efficient: deduplication of syndicated & duplicate&nbsp;stories.',
+              '• Topic clustering: track complete event lineage and&nbsp;development.'
             ],
             iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M15 18h-5"></path><path d="M18 14h-8"></path><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg>`,
             watermarkSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.54" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M15 18h-5"></path><path d="M18 14h-8"></path><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg>`,

@@ -174,6 +174,12 @@ pnpm preview   # 本地静态托管并预览构建产物
   - 将每个事件时间轴最后一张卡片上的时间戳格式从 `xx minutes ago` 紧凑简写为 **`xxm ago`**（如 `3m ago`、`10m ago`、`24m ago`、`36m ago`）；
   - 在时间文字后方紧邻增加专属的**橙色 `latest` 状态微标**（`.timeline-latest-tag`），采用亮橙背景（`#F97316`）与白色加粗小字，高度辨识最新突发节点；
   - 采用 `.sub-article-time-group` flex 容器排版，保持时间与徽章紧密贴合，同时与右侧来源域名（`reuters.com` 等）保持两端舒展对齐。
+- ✅ **News Search 核心卖点数字加粗与内容区宽度拓宽（消除单字折行）**（已完成）：
+  - **重要关键指标加粗**：将四大卖点中的核心量化数字通过 `<b>...</b>` 加粗强化（如 `<b>3&nbsp;minutes</b>`、`<b>95%</b>`），显著提升关键绩效信息抓人眼球的视觉冲击力；
+  - **内容区宽度显著拓宽**：将 `.canvas-left-panel` 桌面端 `max-width` 由 `440px` 拓宽至 **`560px`**（`width: calc(100% - 670px)`），充分利用卡片左半区域，四条卖点在桌面端均舒展呈现为纯正单行；
+  - **双重杜绝第二行单字孤行 (Orphan Words)**：
+    1. 为每条文案末尾两个单词注入不换行空格（`&nbsp;`，如 `3&nbsp;minutes.`、`news&nbsp;media.`、`duplicate&nbsp;stories.`、`and&nbsp;development.`）；
+    2. 引入现代排版属性 `text-wrap: pretty;`，确保在任何视口尺寸下折行时均携带多个词汇，彻底告别“第二行单个孤立单词”的排版瑕疵。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
