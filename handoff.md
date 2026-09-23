@@ -104,10 +104,10 @@ pnpm preview   # 本地静态托管并预览构建产物
 ## 🚨 已知问题与下一步计划 (Next Steps)
 - ✅ **News & Business 独立模块整合为 `vertical search` 统一目录**（已完成）：
   - 将原独立的 `news search` 与 `business search` 全部合并统一归纳在 [vertical search/](file:///x:/XCoding/Octen/hompage/vertical%20search/) 根目录下；
-  - 包含了 [news-search-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/news-search-demo.html)、[business-search-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/business-search-demo.html)、[NEWS_SEARCH_ANIMATION_SPEC.md](file:///x:/XCoding/Octen/hompage/vertical%20search/NEWS_SEARCH_ANIMATION_SPEC.md)、[BUSINESS_SEARCH_SPEC.md](file:///x:/XCoding/Octen/hompage/vertical%20search/BUSINESS_SEARCH_SPEC.md) 及控制台交互规范；
+  - 包含了 [verticals-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/verticals-demo.html)、[business-search-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/business-search-demo.html)、[NEWS_SEARCH_ANIMATION_SPEC.md](file:///x:/XCoding/Octen/hompage/vertical%20search/NEWS_SEARCH_ANIMATION_SPEC.md)、[BUSINESS_SEARCH_SPEC.md](file:///x:/XCoding/Octen/hompage/vertical%20search/BUSINESS_SEARCH_SPEC.md) 及控制台交互规范；
   - **后续规划**：后续将直接在 `vertical search/` 目录下用同一个 HTML 整合 News 与 Business 的动效交互。
 - ✅ **News Search 5 步动效全套移植**（已完成）：
-  - 中央舞台 5 步时序动画（逐字打字 ➔ 正弦波脉冲 ➔ 卡片总览翻滚 ➔ 药丸形态形变 ➔ 时间线滚动延展）已由 [vertical search/news-search-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/news-search-demo.html) 完整落地至 `src/sections/05-vertical-search.html` 与 `public/js/vertical-search.js`。
+  - 中央舞台 5 步时序动画（逐字打字 ➔ 正弦波脉冲 ➔ 卡片总览翻滚 ➔ 药丸形态形变 ➔ 时间线滚动延展）已由 [vertical search/verticals-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/verticals-demo.html) 完整落地至 `src/sections/05-vertical-search.html` 与 `public/js/vertical-search.js`。
   - 支持进入视口自动播放、悬浮暂停、药丸 Tab 切换与 Replay 重播。
   - **参考设计稿**：👉 [Figma News 动效 5 步静态分步设计稿 (Node 13661:163623)](https://www.figma.com/design/jnIlRSuXffn5g2OxnsqYIE/Octen_%E6%B1%87%E6%80%BB?node-id=13661-163623&t=7uy39MOcdDWVIOA4-4)。
 - ✅ **Business Search 巨幅卡片背景与水印精确对齐 Figma (Node 13795:166561)**（已完成）：
@@ -124,18 +124,18 @@ pnpm preview   # 本地静态托管并预览构建产物
   - 输出权威规范文档 [vertical search/BUSINESS_SEARCH_SPEC.md](file:///x:/XCoding/Octen/hompage/vertical%20search/BUSINESS_SEARCH_SPEC.md)；
   - 同步更新并在 [vertical search/Business Search 控制台交互/Business Search 控制台交互.md](file:///x:/XCoding/Octen/hompage/vertical%20search/Business%20Search%20控制台交互/Business%20Search%20控制台交互.md) 中完整收录与 News Search 的数据模型、实体二分（Company vs Person）、双轨动态（Activities 时间线 vs News 列表）以及控制台参数结构差异。
 - ✅ **Vertical Search 独立 Demo 双 Tab 与 Business 整合及水印透明度对齐**（已完成）：
-  - 将 Business Search 完整补充进 [vertical search/news-search-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/news-search-demo.html)；
+  - 将 Business Search 完整补充进 [vertical search/verticals-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/verticals-demo.html)；
   - 采用 index 主站的 Hero 标题排版（`Search / PREMIER` 胶囊标签、动态标题副标题、`Request Access` 按钮）与毛玻璃双 Tab 胶囊栏（`News Search` vs `Business Search`）；
   - 支持主题色、水波纹、水印 SVG、打字 Query、统计数字、卡片形变与 5 阶段动画一键无缝切换与独立运行；
 - ✅ **Vertical Search 独立 Demo 双 Tab 水印切换缩放动效（Watermark Pop）全面复原**（已完成）：
   - 严格溯源主项目版本（Commit `811ff42` / `83a7d80`）的 `@keyframes watermark-swap` 动效签名；
-  - 在 [vertical search/news-search-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/news-search-demo.html) 中添加 `.canvas-watermark.watermark-pop svg` 动画系统，从 `scale(0.8) rotate(-6deg)` 弹性放大并轻微回正至 `scale(1) rotate(0deg)`，耗时 `0.45s` 并使用标准弹簧曲线 `--ease-spring: cubic-bezier(0.16, 1, 0.3, 1)`；
+  - 在 [vertical search/verticals-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/verticals-demo.html) 中添加 `.canvas-watermark.watermark-pop svg` 动画系统，从 `scale(0.8) rotate(-6deg)` 弹性放大并轻微回正至 `scale(1) rotate(0deg)`，耗时 `0.45s` 并使用标准弹簧曲线 `--ease-spring: cubic-bezier(0.16, 1, 0.3, 1)`；
 - ✅ **Vertical Search 独立 Demo 页面结构净化与控件下沉**（已完成）：
   - 彻底删除左上角两行开发信息（`Octen / Vertical Search Infrastructure` 与 `News & Business Search Interactive Prototype`），使 Demo 顶部视觉完全与正式官网产品 Hero 对齐；
   - 将开发步骤调试控件条（`⏸ Pause` 与 `1. Typing` ~ `5. Timeline` 按钮组）平移下沉至巨型卡片底部居中排列，保持完整的时序快进与交互功能；
   - 彻底清理底部冗余的 `demo-footer-info` 文本（*“Dual Vertical Search Stage...”* 与 *“Hover over results area...”*）。
 - ✅ **Vertical Search 独立 Demo 头部标题与 Tab 栏严格对齐 Figma Node 13701:168352**（已完成）：
-  - 严格根据 Figma 原型参数（Node `13701:168352`）重构 [vertical search/news-search-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/news-search-demo.html) 标题区：
+  - 严格根据 Figma 原型参数（Node `13701:168352`）重构 [vertical search/verticals-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/verticals-demo.html) 标题区：
     - **垂直层次堆叠**：居中容器 `gap: 30px`，下辖文字组与居中 `Request Access` 行动按钮；
     - **胶囊标签 `Search / PREMIER`**（Node `13720:174651`）：引入 `DM Mono` 字形，`DM Sans 14px SemiBold` ("Search") + `DM Sans 13px SemiBold` ("/") + `DM Mono 14px Medium` ("PREMIER", letter-spacing `0.936px`)；
     - **大标题**（Node `13701:168357`）：`Fraunces 44px` 衬线体，400 字重，行高 1.2，`font-variation-settings: "SOFT" 0, "WONK" 1`，字距 `-0.015em`；
