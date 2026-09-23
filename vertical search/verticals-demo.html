@@ -1917,7 +1917,6 @@
                   {
                     title: 'Global Oil Prices Could Hit Highest Levels in Months After Saudi Pipeline Attacks',
                     timePublished: '2026-09-15T05:26:15Z',
-                    relativeTime: '3 minutes ago',
                     url: 'https://www.sbs.com.au/news/article/global-oil-prices-could-hit-highest-levels-in-months-after-saudi-pipeline-attacks/2958h2'
                   },
                   {
@@ -1938,6 +1937,7 @@
                   {
                     title: 'Saudi pipeline outage threatens loss of 4% of global oil supply',
                     timePublished: '2026-09-15T12:04:04Z',
+                    relativeTime: '3 minutes ago',
                     url: 'https://www.reuters.com/business/energy/saudi-pipeline-outage-threatens-loss-4-global-oil-supply-2026-09-15/'
                   }
                 ]
@@ -1953,7 +1953,6 @@
                   {
                     title: 'Tehran outlines seven non-negotiable conditions for Hormuz strait access',
                     timePublished: '2026-09-20T06:15:20Z',
-                    relativeTime: '10 minutes ago',
                     url: 'https://www.aljazeera.com/news/2026/9/20/tehran-outlines-seven-conditions-hormuz'
                   },
                   {
@@ -1974,6 +1973,7 @@
                   {
                     title: 'UN Security Council convenes emergency session on Persian Gulf naval standoff',
                     timePublished: '2026-09-20T18:05:42Z',
+                    relativeTime: '10 minutes ago',
                     url: 'https://apnews.com/article/un-security-council-iran-hormuz-standoff-2026'
                   }
                 ]
@@ -1989,7 +1989,6 @@
                   {
                     title: 'Houthis seize strategic Red Sea islands as analysts warn of impending oil crunch',
                     timePublished: '2026-09-15T04:22:16Z',
-                    relativeTime: '24 minutes ago',
                     url: 'https://www.theguardian.com/world/2026/sep/15/houthi-rebels-seize-red-sea-hanish-islands-saudi-oil-warning'
                   },
                   {
@@ -2010,6 +2009,7 @@
                   {
                     title: 'Insurance syndicates declare entire southern Red Sea high-risk war exclusion zone',
                     timePublished: '2026-09-15T19:18:00Z',
+                    relativeTime: '24 minutes ago',
                     url: 'https://www.lloydslist.com/insurance/red-sea-war-exclusion-zone-declaration'
                   }
                 ]
@@ -2025,7 +2025,6 @@
                   {
                     title: 'Oil Prices Rise as Traders Gauge Lost Saudi Arabian Volumes After Pipeline Attack',
                     timePublished: '2026-09-15T05:37:00Z',
-                    relativeTime: '36 minutes ago',
                     url: 'https://www.wsj.com/finance/currencies/oil-rises-as-stabilizers-in-crude-market-start-to-weaken-5dc85781'
                   },
                   {
@@ -2046,6 +2045,7 @@
                   {
                     title: 'OPEC+ delegates signal no immediate quota hikes despite spiking global futures',
                     timePublished: '2026-09-15T20:15:30Z',
+                    relativeTime: '36 minutes ago',
                     url: 'https://www.cnbc.com/2026/09/15/opec-no-quota-hike-oil-crisis.html'
                   }
                 ]
@@ -2327,7 +2327,8 @@
           articles.forEach((art, i) => {
             const domain = extractDomain(art.url);
             let timeStr = formatTimeOnly(art.timePublished);
-            if (curData.id === 'news' && i === 0) {
+            const isLastCard = i === articles.length - 1;
+            if (curData.id === 'news' && isLastCard) {
               const defaultNewsRelativeMap = {
                 0: '3 minutes ago',
                 1: '10 minutes ago',
@@ -3466,10 +3467,16 @@
                 streamBlock.classList.remove('is-animating');
                 streamBlock.style.overflowY = 'auto';
                 streamBlock.style.pointerEvents = 'auto';
-                streamBlock.scrollTop = 0;
               }
               // Directly render full timeline stream without repeating the unfold animation
               renderTimelineStream(idx, true);
+              if (streamBlock) {
+                // 每个subjects切换时，自动定位到末尾卡片位置
+                requestAnimationFrame(() => {
+                  const maxScroll = Math.max(0, streamBlock.scrollHeight - streamBlock.clientHeight);
+                  streamBlock.scrollTop = maxScroll;
+                });
+              }
             } else {
               renderTimelineStream(idx, false);
             }
