@@ -207,7 +207,11 @@ pnpm preview   # 本地静态托管并预览构建产物
       4. **无缝零抖动交接**：抵达瞬间完美贴合并无缝交接给原生 flex 标题栏内的 `#canvasHeadingIcon`，随后平稳承接后续 Stage 3/4/5 的所有交互；
   - **反向过渡（Results ➔ Typing / Replay / Tab切换）**：
     - 当动画循环结束回滚或用户点击 Replay / 切换垂直选项卡时，触发 `transitionToTyping()`：小号标题图标沿相反轨迹向画布深处扩散膨胀回 280px 大水印，透明度从 1.0 柔化淡回 0.12，实现完全对称的电影级视觉呼吸感；
-  - **矢量资产完全对齐**：News Search 与 Business Search 的 watermarkSvg 与 iconSvg 均统一采用一致的 `viewBox="0 0 24 24"` 与 `stroke-width="2"`，消除缩放过程中的矢量变形失真。
+  - **矢量资产完全对齐**：News Search 与 Business Search 的 watermarkSvg 与 iconSvg 均统一采用一致的 `viewBox="0 0 24 24"` 与 `stroke-width="2"`，消除缩放过程中的矢量变形失真；
+  - **水印图标与标题严格同色（仅透明度变化）**：
+    - 将 `.canvas-watermark` 的文字颜色统一为与标题完全一致的纯黑 `#000000`（移除各主题下设置的绿色、褐色或天蓝强调色覆盖）；
+    - 将 `.heading-icon-spring` 设置为 `color: inherit;`，严格继承父级 `.canvas-heading-row` 的 `#000000` 标题字色；
+    - **视觉纯粹性**：标题（100% 不透明纯黑）与背景大水印（12% 半透明纯黑）在色相和明度上达成 100% 绝对一致，飞行过渡时没有任何色彩色调跳变，仅有**尺寸缩放**、**空间位移**与**透明度从 0.12 到 1.0 的平滑加深**。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
