@@ -156,7 +156,7 @@ pnpm preview   # 本地静态托管并预览构建产物
     - 胶囊标签内距：`height: 30px; padding: 0 16px; gap: 7px;`；
     - 标签与大标题：`gap: 16px`；大标题与说明文字：`gap: 20px`；
     - 按钮内部微距：`padding: 0 16px 0 20px; gap: 4px;`；
-    - Tabs 栏微距：外壳 `padding: 4px; gap: 4px;`，单 Tab `padding: 0 20px 0 16px; gap: 8px;`。
+    - Tabs 栏微距：外壳 `padding: 4px; gap: 4px;`，单 Tab `padding: 0 20px 0 16px; gap: 8px;`，仅保留 Figma 原稿可见的双 Tab（`News Search` 与 `Business Search`，移除隐藏的 Academic 项）。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
