@@ -185,6 +185,9 @@ pnpm preview   # 本地静态托管并预览构建产物
   - **标题下增设定位说明**：在 `News Search` 标题与四大卖点之间新增清晰的产品副标题：
     *“Search live news and read each story as a single grouped event.”*（`.summary-desc`，16px 优雅深绿质感字色）；
   - **双垂直主题数据无缝切换**：同步为 Business Search 配置对应定位说明，在切换 Tab 时平滑动态切换。
+- ✅ **Vertical Tabs Bar 文字与 Icon 变色运动扫光与微弹簧动效**（已完成）：
+  - **双层物理蒙版变色扫光 (Physical Mask Wipe)**：在滑块胶囊内部植入等距反向联动的 `.tabs-indicator-track`，使黑色文字/图标层随胶囊位移以亚像素级精度反向平移，在视觉上形成“绿色/琥珀金胶囊滑过之处瞬间被擦亮为黑色，离开之处还原为半透明白字”的纯物理扫光效果，彻底消除了黑色文字提前在暗色底上变色的突兀感；
+  - **图标与文字微弹簧动态 (Micro-Spring Dynamics)**：激活态 Tab 的图标加入 `transform: scale(1.12) rotate(-3deg)` 弹性跳脱，文字带有 `scale(1.02)` 呼吸感，切换时使用 `--ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1)` 弹性阻尼，带来极具质感的原生交互体验。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
