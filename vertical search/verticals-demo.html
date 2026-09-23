@@ -917,7 +917,7 @@
         border-radius: 1px;
         background-color: #004F2B;
         pointer-events: none;
-        transition: height 0.48s cubic-bezier(0.2, 0.8, 0.25, 1);
+        transition: height 0.65s cubic-bezier(0.2, 0.8, 0.25, 1);
         will-change: height;
       }
       /* When dimmed: solid bar height shrinks down to 0, disappearing and leaving base empty slot */
@@ -3119,6 +3119,7 @@
               canvasWatermark.style.zIndex = '';
               canvasWatermark.style.transform = '';
               canvasWatermark.style.display = 'block';
+              clearTokenMeterTimers();
               const tokenBars = document.querySelectorAll('.token-meter-bar');
               tokenBars.forEach(b => b.classList.remove('is-dimmed'));
             };
@@ -3227,39 +3228,60 @@
           requestAnimationFrame(frame);
         }
 
-        // Drive Token Meter cascade dimming animation (10 bars -> right-to-left cascade dimming to 3 bars)
+        let tokenMeterTimers = [];
+        function clearTokenMeterTimers() {
+          tokenMeterTimers.forEach(t => clearTimeout(t));
+          tokenMeterTimers = [];
+        }
+
+        // Drive Token Meter cascade height drain animation with 3s dwell and continuous looping
         function playTokenMeterAnim() {
+          clearTokenMeterTimers();
           const meters = document.querySelectorAll('.token-meter');
           if (!meters.length) return;
           const seq = currentSequenceId;
 
-          meters.forEach(meter => {
-            const bars = meter.querySelectorAll('.token-meter-bar');
-            if (bars.length !== 10) return;
+          function runMeterCycle(isFirstRun = false) {
+            if (currentSequenceId !== seq) return;
+            if (currentVerticalKey !== 'news') return;
 
-            // 1. Instantly reset all 10 bars to full solid height (10/10 tokens active)
-            meter.classList.add('no-anim');
-            bars.forEach(bar => {
-              bar.classList.remove('is-dimmed');
+            // 1. Refill all 10 bars to full height
+            meters.forEach(meter => {
+              const bars = meter.querySelectorAll('.token-meter-bar');
+              bars.forEach(bar => bar.classList.remove('is-dimmed'));
             });
-            void meter.offsetWidth; // Force reflow to immediately apply full height without transition
-            meter.classList.remove('no-anim');
 
-            // 2. Cascade height reduction from right to left (indices 9 down to 3: 7 bars extinguished)
-            // Slower, deliberate pacing: pause 420ms after overview starts, then 95ms per bar cascade
-            const startDelay = 420;
-            const stepInterval = 95;
+            // 2. Pause at full 10 bars so user clearly perceives 10 full bars
+            const fullDwell = isFirstRun ? 500 : 750;
+            const stepInterval = 140; // Slower, deliberate pacing (140ms per bar)
             const extinguishIndices = [9, 8, 7, 6, 5, 4, 3];
 
             extinguishIndices.forEach((idx, step) => {
-              setTimeout(() => {
+              const t = setTimeout(() => {
                 if (currentSequenceId !== seq) return;
-                if (bars[idx]) {
-                  bars[idx].classList.add('is-dimmed');
-                }
-              }, startDelay + step * stepInterval);
+                if (currentVerticalKey !== 'news') return;
+                meters.forEach(meter => {
+                  const bars = meter.querySelectorAll('.token-meter-bar');
+                  if (bars[idx]) bars[idx].classList.add('is-dimmed');
+                });
+              }, fullDwell + step * stepInterval);
+              tokenMeterTimers.push(t);
             });
-          });
+
+            // 3. Dwell for 3s after all bars finish draining, then loop again
+            // Total drain time = fullDwell + 6 steps * 140ms (840ms) + transition duration (650ms)
+            const totalDrainTime = fullDwell + (extinguishIndices.length - 1) * stepInterval + 650;
+            const dwellAfterDrain = 3000; // 停留3s后，再次循环
+
+            const loopTimer = setTimeout(() => {
+              if (currentSequenceId !== seq) return;
+              if (currentVerticalKey !== 'news') return;
+              runMeterCycle(false);
+            }, totalDrainTime + dwellAfterDrain);
+            tokenMeterTimers.push(loopTimer);
+          }
+
+          runMeterCycle(true);
         }
 
         // Drive selling points numbers using official number-flow (@barvian/number-flow)
@@ -4026,6 +4048,8 @@
 
           if (key === 'news') {
             playSellingPointsNumberFlow();
+          } else {
+            clearTokenMeterTimers();
           }
 
           // 7. Reset Horizontal Pills Active Index to 0
