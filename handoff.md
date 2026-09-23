@@ -127,7 +127,10 @@ pnpm preview   # 本地静态托管并预览构建产物
   - 将 Business Search 完整补充进 [vertical search/news-search-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/news-search-demo.html)；
   - 采用 index 主站的 Hero 标题排版（`Search / PREMIER` 胶囊标签、动态标题副标题、`Request Access` 按钮）与毛玻璃双 Tab 胶囊栏（`News Search` vs `Business Search`）；
   - 支持主题色、水波纹、水印 SVG、打字 Query、统计数字、卡片形变与 5 阶段动画一键无缝切换与独立运行；
-  - **水印透明度机制对齐 Figma Node 13795:166563**：彻底废弃带偏色倾向的色值 Alpha 覆盖（`rgba(180, 83, 9, 0.16)`），改为纯黑 `#000000` 配合图层透明度 `opacity: 0.12 !important`，并应用 280×280 真实矢量公文包与精确绝对定位。
+- ✅ **Vertical Search 独立 Demo 双 Tab 水印切换缩放动效（Watermark Pop）全面复原**（已完成）：
+  - 严格溯源主项目版本（Commit `811ff42` / `83a7d80`）的 `@keyframes watermark-swap` 动效签名；
+  - 在 [vertical search/news-search-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/news-search-demo.html) 中添加 `.canvas-watermark.watermark-pop svg` 动画系统，从 `scale(0.8) rotate(-6deg)` 弹性放大并轻微回正至 `scale(1) rotate(0deg)`，耗时 `0.45s` 并使用标准弹簧曲线 `--ease-spring: cubic-bezier(0.16, 1, 0.3, 1)`；
+  - 在 `switchVertical`（Tab 切换）、`replayBtn`（重播重置）及页面初始加载时强制触发 CSS reflow 并挂载 `.watermark-pop`，带来原汁原味的轻弹切换动效。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
