@@ -742,11 +742,11 @@
         color: #0B1F0E;
       }
 
-      /* Summary Box (Stage 3, 4, 5) - Proportional spacing matching design screenshot */
+      /* Summary Box (Stage 3, 4, 5) - Proportional spacing */
       .summary-box {
         display: none;
         flex-direction: column;
-        gap: 20px;
+        gap: 16px;
         animation: summary-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
       }
       .card-canvas.has-results .summary-box {
@@ -754,43 +754,25 @@
       }
       @media (min-width: 1024px) {
         .summary-box {
-          gap: 24px;
+          gap: 16px;
         }
       }
       @keyframes summary-enter {
         from { opacity: 0; transform: translateY(14px); }
         to { opacity: 1; transform: translateY(0); }
       }
-      .summary-stats-row {
-        display: flex;
-        align-items: baseline;
-        gap: 24px;
-        color: #0B1F0E;
-      }
-      @media (min-width: 1024px) {
-        .summary-stats-row {
-          gap: 28px;
-        }
-      }
-      .stat-counter-unit {
-        display: flex;
-        align-items: baseline;
-        gap: 8px;
-      }
-      .stat-number-val {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: clamp(26px, 2.5vw, 32px);
-        font-variant-numeric: tabular-nums;
+      .summary-desc {
+        margin: 0;
+        padding: 0;
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: clamp(15px, 1.25vw, 16px);
+        line-height: 1.45;
+        color: #2D4032;
         font-weight: 400;
-        line-height: 1;
-        color: #0B1F0E;
+        text-wrap: pretty;
       }
-      .stat-unit-label {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: clamp(16px, 1.4vw, 20px);
-        font-weight: 400;
-        color: #3B4D3F;
-        line-height: 1;
+      .card-canvas[data-theme="business"] .summary-desc {
+        color: #4A3E26;
       }
       .summary-bullets-list {
         display: none;
@@ -1798,16 +1780,7 @@
 
           <!-- Summary Box (Stages 3, 4, 5) -->
           <div class="summary-box" id="summaryBox">
-            <div class="summary-stats-row">
-              <span class="stat-counter-unit">
-                <span class="stat-number-val" id="statSubjects">4</span>
-                <span class="stat-unit-label" id="statUnitSubjects">subjects</span>
-              </span>
-              <span class="stat-counter-unit">
-                <span class="stat-number-val" id="statArticles">10</span>
-                <span class="stat-unit-label" id="statUnitArticles">articles</span>
-              </span>
-            </div>
+            <p class="summary-desc" id="summaryDesc">Search live news and read each story as a single grouped event.</p>
             <ul class="summary-bullets-list" id="summaryBulletsList">
               <li>• Wire-speed freshness: searchable within <b>3&nbsp;minutes</b>.</li>
               <li>• Comprehensive coverage: <b>95%</b> tier-1 global news&nbsp;media.</li>
@@ -1924,6 +1897,7 @@
             theme: 'news',
             query: 'Strait of Hormuz shipping disruptions',
             badgeText: 'Top News',
+            summaryDesc: 'Search live news and read each story as a single grouped event.',
             stats: { num1: 4, label1: 'subjects', num2: 10, label2: 'articles' },
             bullets: [
               '• Wire-speed freshness: searchable within <b>3&nbsp;minutes</b>.',
@@ -2088,6 +2062,7 @@
             theme: 'business',
             query: 'Semiconductor supply chain CAPEX forecasts 2026',
             badgeText: 'Top Business',
+            summaryDesc: 'Analyze corporate disclosures, SEC filings, and capital expenditure shifts in real time.',
             stats: { num1: 8, label1: 'filings', num2: 12, label2: 'reports' },
             bullets: [
               '• Real-time SEC filings & earnings disclosures.',
@@ -2906,6 +2881,7 @@
         }
 
         function animateNumber(element, start, end, duration = 1800) {
+          if (!element) return;
           const startTime = performance.now();
           function frame(now) {
             const progress = Math.min(1, (now - startTime) / duration);
@@ -3197,8 +3173,8 @@
               transitionToOverview();
             }
 
-            animateNumber(statSubjectsEl, 0, TOTAL_SUBJECTS, 1400);
-            animateNumber(statArticlesEl, 0, TOTAL_ARTICLES, 1400);
+            if (statSubjectsEl) animateNumber(statSubjectsEl, 0, TOTAL_SUBJECTS, 1400);
+            if (statArticlesEl) animateNumber(statArticlesEl, 0, TOTAL_ARTICLES, 1400);
 
             // 1. Initial State: Only Subject 1 is present, vertically centered in resultsViewport
             const tempFirstWrap = document.createElement('div');
@@ -3321,8 +3297,8 @@
           // --------------------------------------------------
           if (startIndex <= 3) {
             queryTextSpan.textContent = QUERY_TEXT;
-            statSubjectsEl.textContent = TOTAL_SUBJECTS;
-            statArticlesEl.textContent = TOTAL_ARTICLES;
+            if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
+            if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
 
             if (startIndex === 3 && !cardCanvas.classList.contains('has-results')) {
               // Direct jump or resumed at stage 4 without overview cards
@@ -3349,8 +3325,8 @@
           // (Figma Nodes: 13784:7317, 13784:6893)
           // --------------------------------------------------
           queryTextSpan.textContent = QUERY_TEXT;
-          statSubjectsEl.textContent = TOTAL_SUBJECTS;
-          statArticlesEl.textContent = TOTAL_ARTICLES;
+          if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
+          if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
 
           setCanvasState('timeline');
 
@@ -3421,8 +3397,8 @@
                 setCanvasState('overview');
               }
               queryTextSpan.textContent = QUERY_TEXT;
-              statSubjectsEl.textContent = TOTAL_SUBJECTS;
-              statArticlesEl.textContent = TOTAL_ARTICLES;
+              if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
+              if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
               let html = '';
               SUBJECTS_DATA.forEach((s, i) => { html += createSubjectCardHTML(s, i, i === 0); });
               cardListContainer.innerHTML = html;
@@ -3435,8 +3411,8 @@
                 setCanvasState('focus');
               }
               queryTextSpan.textContent = QUERY_TEXT;
-              statSubjectsEl.textContent = TOTAL_SUBJECTS;
-              statArticlesEl.textContent = TOTAL_ARTICLES;
+              if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
+              if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
               const activePill = document.querySelector('.subject-h-pill.active');
               const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
               updateTopNewsCard(activeIdx);
@@ -3444,8 +3420,8 @@
             } else if (targetStep === 'timeline') {
               setCanvasState('timeline');
               queryTextSpan.textContent = QUERY_TEXT;
-              statSubjectsEl.textContent = TOTAL_SUBJECTS;
-              statArticlesEl.textContent = TOTAL_ARTICLES;
+              if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
+              if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
               const activePill = document.querySelector('.subject-h-pill.active');
               const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
               updateTopNewsCard(activeIdx);
@@ -3608,12 +3584,12 @@
             canvasHeadingIcon.innerHTML = curData.iconSvg;
           }
 
-          // 6. Update Summary Box Stats & Bullets
-          const statUnitSubjects = document.getElementById('statUnitSubjects');
-          const statUnitArticles = document.getElementById('statUnitArticles');
+          // 6. Update Summary Box Description & Bullets
+          const summaryDesc = document.getElementById('summaryDesc');
           const summaryBulletsList = document.getElementById('summaryBulletsList');
-          if (statUnitSubjects) statUnitSubjects.textContent = curData.stats.label1;
-          if (statUnitArticles) statUnitArticles.textContent = curData.stats.label2;
+          if (summaryDesc && curData.summaryDesc) {
+            summaryDesc.textContent = curData.summaryDesc;
+          }
           if (summaryBulletsList && curData.bullets) {
             summaryBulletsList.innerHTML = curData.bullets.map(b => `<li>${b}</li>`).join('');
           }

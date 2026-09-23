@@ -180,6 +180,11 @@ pnpm preview   # 本地静态托管并预览构建产物
   - **双重杜绝第二行单字孤行 (Orphan Words)**：
     1. 为每条文案末尾两个单词注入不换行空格（`&nbsp;`，如 `3&nbsp;minutes.`、`news&nbsp;media.`、`duplicate&nbsp;stories.`、`and&nbsp;development.`）；
     2. 引入现代排版属性 `text-wrap: pretty;`，确保在任何视口尺寸下折行时均携带多个词汇，彻底告别“第二行单个孤立单词”的排版瑕疵。
+- ✅ **News Search 移除低价值局部统计行并增设核心定位说明（方案 A）**（已完成）：
+  - **彻底移除统计行**：删除了原有的 `4 subjects · 10 articles` 大字号局部统计（避免抢走核心卖点风头，且消除“10篇收录少”的负向误解）；
+  - **标题下增设定位说明**：在 `News Search` 标题与四大卖点之间新增清晰的产品副标题：
+    *“Search live news and read each story as a single grouped event.”*（`.summary-desc`，16px 优雅深绿质感字色）；
+  - **双垂直主题数据无缝切换**：同步为 Business Search 配置对应定位说明，在切换 Tab 时平滑动态切换。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
