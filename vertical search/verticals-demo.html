@@ -881,6 +881,33 @@
         font-weight: 700;
         color: #000000;
       }
+      /* Mini Token Compression Meter in 3rd selling point */
+      .token-meter {
+        display: inline-flex;
+        align-items: center;
+        gap: 2.2px;
+        vertical-align: middle;
+        position: relative;
+        top: -1px;
+        margin: 0 4px 0 2px;
+        height: 14px;
+        padding: 0 1px;
+      }
+      .token-meter-bar {
+        display: inline-block;
+        width: 2.6px;
+        height: 11.5px;
+        border-radius: 1px;
+        background-color: #000000;
+        transform-origin: center bottom;
+        transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity, transform;
+      }
+      .token-meter-bar.is-dimmed {
+        opacity: 0.16 !important;
+        transform: scaleY(0.85);
+      }
 
       /* 3. Right Content Panel */
       .canvas-right-panel {
@@ -1879,7 +1906,7 @@
             <ul class="summary-bullets-list" id="summaryBulletsList">
               <li>• Search breaking news at wire speed within <b><number-flow class="bullet-number-flow" data-flow="minutes" data-value="3">3</number-flow>&nbsp;minutes</b> of publication.</li>
               <li>• Cover <b><number-flow class="bullet-number-flow" data-flow="coverage" data-value="95">95</number-flow>%</b> of global tier-1 news media and wire&nbsp;services.</li>
-              <li>• Deduplicate syndicated stories to save prompt&nbsp;tokens.</li>
+              <li>• Deduplicate syndicated stories to save prompt <span class="token-meter" id="tokenMeter" title="70% prompt token reduction" aria-label="70% prompt token reduction"><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span></span>&nbsp;<b>tokens</b>.</li>
               <li>• Track full event lineage as unified&nbsp;storylines.</li>
             </ul>
           </div>
@@ -1999,7 +2026,7 @@
             bullets: [
               '• Search breaking news at wire speed within <b><number-flow class="bullet-number-flow" data-flow="minutes" data-value="3">3</number-flow>&nbsp;minutes</b> of publication.',
               '• Cover <b><number-flow class="bullet-number-flow" data-flow="coverage" data-value="95">95</number-flow>%</b> of global tier-1 news media and wire&nbsp;services.',
-              '• Deduplicate syndicated stories to save prompt&nbsp;tokens.',
+              '• Deduplicate syndicated stories to save prompt <span class="token-meter" title="70% prompt token reduction" aria-label="70% prompt token reduction"><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span></span>&nbsp;<b>tokens</b>.',
               '• Track full event lineage as unified&nbsp;storylines.'
             ],
             iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M15 18h-5"></path><path d="M18 14h-8"></path><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg>`,
@@ -3073,6 +3100,8 @@
               canvasWatermark.style.zIndex = '';
               canvasWatermark.style.transform = '';
               canvasWatermark.style.display = 'block';
+              const tokenBars = document.querySelectorAll('.token-meter-bar');
+              tokenBars.forEach(b => b.classList.remove('is-dimmed'));
             };
           }
         }
@@ -3179,8 +3208,41 @@
           requestAnimationFrame(frame);
         }
 
+        // Drive Token Meter cascade dimming animation (10 bars -> right-to-left cascade dimming to 3 bars)
+        function playTokenMeterAnim() {
+          const meters = document.querySelectorAll('.token-meter');
+          if (!meters.length) return;
+          const seq = currentSequenceId;
+
+          meters.forEach(meter => {
+            const bars = meter.querySelectorAll('.token-meter-bar');
+            if (bars.length !== 10) return;
+
+            // 1. Instantly reset all 10 bars to full black (10/10 tokens active)
+            bars.forEach(bar => {
+              bar.classList.remove('is-dimmed');
+            });
+
+            // 2. Cascade dimming from right to left (indices 9 down to 3: 7 bars extinguished)
+            // Stagger start: wait 240ms after overview starts, then extinguish with 42ms interval
+            const startDelay = 240;
+            const stepInterval = 42;
+            const extinguishIndices = [9, 8, 7, 6, 5, 4, 3];
+
+            extinguishIndices.forEach((idx, step) => {
+              setTimeout(() => {
+                if (currentSequenceId !== seq) return;
+                if (bars[idx]) {
+                  bars[idx].classList.add('is-dimmed');
+                }
+              }, startDelay + step * stepInterval);
+            });
+          });
+        }
+
         // Drive selling points numbers using official number-flow (@barvian/number-flow)
         function playSellingPointsNumberFlow() {
+          playTokenMeterAnim();
           const flowEls = document.querySelectorAll('.bullet-number-flow');
           if (!flowEls.length) return;
 

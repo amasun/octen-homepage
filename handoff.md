@@ -246,9 +246,17 @@ pnpm preview   # 本地静态托管并预览构建产物
   - **消除冒号与片段化结构**：彻底去除原先“标题：正文说明”的冒号切割写法（如 `Wire-speed freshness: ...`），改为以强动词（Search / Cover / Deduplicate / Track）引导的 4 句完整流利、自洽的英文陈述句：
     1. `• Search breaking news at wire speed within <b><number-flow ...>3</number-flow>&nbsp;minutes</b> of publication.`（突发新闻发布后 3 分钟内以电传级时效全网检索）；
     2. `• Cover <b><number-flow ...>95</number-flow>%</b> of global tier-1 news media and wire&nbsp;services.`（全面收录 95% 全球头部主流新闻媒体与通讯社源）；
-    3. `• Deduplicate syndicated stories to save prompt&nbsp;tokens.`（自动去重通稿，大幅节省 Prompt Token）；
+    3. `• Deduplicate syndicated stories to save prompt <span class="token-meter">...</span>&nbsp;<b>tokens</b>.`（自动去重通稿，搭配 10 柱级联消减计量条动态体现 Token 大幅压缩）；
     4. `• Track full event lineage as unified&nbsp;storylines.`（完整追踪事件脉络，聚合成统一故事线）；
   - **无缝衔接动画与排版防护**：保留 `<number-flow>` 动态数字滚轮绑定的无感内嵌，并在末尾配置 `&nbsp;` 不换行空格与 `text-wrap: pretty;`，彻底杜绝单字孤行（Orphan Words）。
+
+- ✅ **第三条卖点实现纯 CSS 矢量 Mini Token Meter 与自右向左级联熄灭动效**（已完成）：
+  - **规避 Unicode 跨端形变**：采用 10 个独立 CSS 矢量胶囊微柱（宽 2.6px、高 11.5px、微倒角 1px、间距 2.2px），光学基准居中（`vertical-align: middle; top: -1px;`），在 Windows/Mac/Retina 屏均呈现如物理仪表盘般的极致锐利度；
+  - **自右向左级联消减动效（Cascade Dimming）**：
+    - Stage 3 进入时，10 根柱体全部为纯黑亮起（隐喻初始未清洗的 10 份重复通稿的庞大 Token 占用）；
+    - 延迟 240ms 后触发去重消减，自右向左（第 10 根至第 4 根，共 7 根）以 42ms 极速阶梯多米诺熄灭至 `opacity: 0.16`（伴随微高度收缩）；
+    - 最终坚挺锁定前 3 根纯黑亮柱，右侧保留淡雅虚化轮廓，直观秒懂“Token 消耗被瞬间压缩 70%”；
+    - 点击 Step 3 控件、Tab 切换或 Replay 时均支持完整自适应重放。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
