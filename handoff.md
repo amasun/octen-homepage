@@ -287,7 +287,7 @@ pnpm preview   # 本地静态托管并预览构建产物
     - 橙色微圆注入 `@keyframes live-dot-pulse 1.4s ease-in-out infinite` 呼吸动效（透明度与尺度在 1.0 与 0.35/0.75 间平滑摆动），生动呈现“电传级突发时效”与“直播级实时推流”的视觉感知；
     - 同步更新 HTML 初始模板与 JS 垂直切换数据字典，支持无感重播与 Tab 切换。
 
-- ✅ **第二条卖点引入 Avatar Cycles 主流媒体向右平滑滚动动效（双侧渐变蒙版、严格对齐 Figma Node 13801:167186 / Frame 427319329）**（已完成）：
+- ✅ **第二条卖点引入 Avatar Cycles 主流媒体向右平滑滚动动效（双侧渐变蒙版、位置置于 news media 前面、严格对齐 Figma Node 13801:167186 / Frame 427319329）**（已完成）：
   - **Figma 原型几何规格与重叠遮罩还原**：
     - 外层视口（`.avatar-cycles`）：`width: 48px; height: 20px; overflow: hidden;`，刚好容纳 3 个叠叠乐头像；
     - **双侧羽化渐变蒙版（Dual-side Gradient Mask）**：配置 `mask-image: linear-gradient(90deg, transparent 0%, black 14%, black 86%, transparent 100%)`，使头像在进入与离开 48px 视口两侧边缘时呈自然柔和的半透明羽化消隐，消除硬切边缘；
@@ -296,7 +296,15 @@ pnpm preview   # 本地静态托管并预览构建产物
   - **向右持续平滑流转动效（Seamless Flow to the Right）**：
     - 内置 6 大头部媒体微标：**Reuters**（电传橙点 R 徽标）、**Bloomberg**（B 矢量标志）、**WSJ**（华尔街日报衬线字标）、**BBC**（英国广播公司方块标）、**FT**（金融时报鲑肉粉字标）、**AP**（美联社字标），尾部衔接首部形成 12 节点无限闭环；
     - 执行 `@keyframes avatar-cycles-scroll-right`（`translate3d(-81.42px, 0, 0) ➔ translate3d(0, 0, 0)`，耗时 `8.5s`，`linear infinite`）；
-    - 持续平稳向右匀速滑移，首尾帧完全亚像素闭环，直观视觉化呈现“全球 95% 头部主流媒体信源全收录”的核心价值。
+    - 持续平稳向右匀速滑移，首尾帧完全亚像素闭环；
+  - **精准语序定位与四点呼应（Placement before "news media"）**：
+    - 将 `.avatar-cycles` 动画由原先的 `95%` 前面调整至 `news media` 前面：`• Cover <b><number-flow ...>95</number-flow>%</b> of global tier-1 <span class="avatar-cycles">...</span>&nbsp;news media and wire&nbsp;services.`；
+    - 达成 4 条核心卖点统一的视觉韵律：
+      1. 第一条：`live` 徽标位于 `3 minutes` 前；
+      2. 第二条：`avatar-cycles` 媒体滚动位于 `news media` 前；
+      3. 第三条：`token-meter` 柱状消减位于 `tokens` 前；
+      4. 第四条：`storyline-timeline` 节点时间线位于 `storylines` 前；
+    - 同步更新静态 HTML 模板与 JavaScript 动态数据字典（`VERTICALS.news.bullets[1]`）。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
