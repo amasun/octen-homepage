@@ -252,20 +252,20 @@ pnpm preview   # 本地静态托管并预览构建产物
 
 - ✅ **第三条卖点实现纯 CSS 矢量 Mini Token Meter 与实心柱高度消减持续循环动效（严格对齐 Figma Frame 427319327）**（已完成）：
   - **双层物理槽位架构**：
-    - 底层空槽（`.token-meter-bar`）：`background-color: rgba(0, 79, 43, 0.3);`（严格还原 Figma 后 7 根柱体的 `opacity: 0.3` 墨绿底槽）；
-    - 实心充填（`::after`）：`background-color: #004F2B;`（纯正品牌实心墨绿，绝对定位贴底 `bottom: 0`）；
+    - 底层空槽（`.token-meter-bar`）：`background-color: rgba(36, 45, 41, 0.3);`（对应 `#242D29` 在 0.3 透明度下的深林墨灰底槽）；
+    - 实心充填（`::after`）：`background-color: #242D29;`（统一深林墨黑底色，与卖点 1 的 Live 徽标保持全局同色族，绝对定位贴底 `bottom: 0`）；
   - **放缓消减速度并支持停留 3s 再次循环（Slowed Drain & 3s Loop）**：
     - 满格状态充分展现（500ms~750ms），随后自右向左（第 10 根至第 3 根，共 8 根柱体）以 **140ms 适度放缓步频依次沉降缩减**；
-    - 单柱实心墨绿高度消减过渡调整为 **0.65s 柔和缓动（`cubic-bezier(0.2, 0.8, 0.25, 1)`）**，展现液体/量表般的细腻沉降感；
+    - 单柱实心高度消减过渡调整为 **0.65s 柔和缓动（`cubic-bezier(0.2, 0.8, 0.25, 1)`）**，展现液体/量表般的细腻沉降感；
     - **第 3 根柱体沉降至 50% 半高度（`.is-half`，即 6px）**，后 7 根柱体沉降至 0%（仅留空槽），前 2 根保持 100% 满高（即最终呈现 2.5/10 剩余占比，精准隐喻 75% Token 压缩节省）；
     - 最终定格态**静态停留充足的 3.0 秒（3000ms）** 供用户清晰阅读与理解；
     - 3 秒停留结束后，自动平滑注满并再次触发消减循环；切换 Tab 或重播时安全清理定时器队列并重置。
 
-- ✅ **第四条卖点引入时间轴动画符号并升级为 steps 步进式运动（严格对齐 Figma Rectangle 4620 最新规范）**（已完成）：
+- ✅ **第四条卖点引入时间轴动画符号并升级为 steps 步进式运动（严格对齐 Figma Rectangle 4620 最新规范、深色统一为 #242D29）**（已完成）：
   - **Figma Rectangle 4620 原型参数 1:1 纯 CSS 还原**：
-    - 节点规格（`.storyline-node`）：`width: 6px; height: 6px; border: 2px solid #004F2B; border-radius: 10px; background-color: #8EB876; box-sizing: content-box;`（外径总宽/高严格为 $6 + 2 \times 2 = 10px$，内芯直径 $6px$）；
+    - 节点规格（`.storyline-node`）：`width: 6px; height: 6px; border: 2px solid #242D29; border-radius: 10px; background-color: #8EB876; box-sizing: content-box;`（外径总宽/高严格为 $6 + 2 \times 2 = 10px$，内芯直径 $6px$）；
     - 外层容器同步平准为 `height: 10px; width: 64px;`，1:1 绝对严丝合缝契合 Figma 原型 `h-[10px]`；
-    - 导轨底线（`.storyline-rail`）：`height: 2px; background-color: #004F2B; opacity: 0.2;`，精准穿过节点赤道正中心；
+    - 导轨底线（`.storyline-rail`）：`height: 2px; background-color: #242D29; opacity: 0.2;`，精准穿过节点赤道正中心；
     - **中心绝对锁定与严格双向镜像对称**：
       - 容器总宽 `64px`，中心位于 `32.00px`；节点外径 `10px`，居中时左边缘精确位于 `27.00px`（$32 - 5 = 27$）；
       - 节点间距设为 `gap: 8.46px`，节距严格标定为 Figma 标准的 **`P = 18.46px`**（$10 + 8.46 = 18.46$）；
