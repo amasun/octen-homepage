@@ -301,7 +301,25 @@
         z-index: 20;
         position: relative;
       }
+      /* Sliding Glider Capsule Indicator (No outer glow, smooth morph & translation) */
+      .tabs-indicator {
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 99px;
+        background-color: #8adb47;
+        box-shadow: none !important; /* 彻底去除胶囊外发光效果 */
+        pointer-events: none;
+        z-index: 1;
+        transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                    width 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                    height 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                    background-color 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform, width, background-color;
+      }
       .tab-trigger {
+        position: relative;
+        z-index: 2;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -310,20 +328,30 @@
         padding: 0 20px 0 16px;
         border-radius: 99px;
         border: none;
-        background: transparent;
-        color: #ffffff;
+        background: transparent !important;
+        box-shadow: none !important; /* 彻底去除胶囊外发光效果 */
+        color: rgba(255, 255, 255, 0.7);
         font-family: 'DM Sans', sans-serif;
         font-size: 16px;
         font-weight: 600;
         line-height: 24px;
         cursor: pointer;
-        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         user-select: none;
         white-space: nowrap;
       }
-      .tab-trigger:hover {
+      .tab-trigger:not(.active):hover {
         color: #ffffff;
-        background: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.08) !important;
+      }
+      .tab-trigger.active {
+        color: #000000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+      }
+      .tab-trigger.active:hover {
+        background: transparent !important;
+        color: #000000 !important;
       }
       .tab-trigger .tab-trigger-icon {
         display: flex;
@@ -334,37 +362,13 @@
         flex-shrink: 0;
       }
       .tab-trigger .tab-trigger-icon svg {
+        stroke: rgba(255, 255, 255, 0.7);
+        transition: stroke 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .tab-trigger:not(.active):hover .tab-trigger-icon svg {
         stroke: #ffffff;
-        transition: stroke 0.2s ease;
       }
-      .tab-trigger.active[data-vertical="news"],
-      .demo-wrapper[data-theme="news"] .tab-trigger.active[data-vertical="news"] {
-        background: #8adb47 !important;
-        color: #000000 !important;
-        box-shadow: 0 2px 10px rgba(138, 219, 71, 0.35);
-      }
-      .tab-trigger.active[data-vertical="news"] .tab-trigger-icon svg,
-      .demo-wrapper[data-theme="news"] .tab-trigger.active[data-vertical="news"] .tab-trigger-icon svg {
-        stroke: #000000 !important;
-      }
-      .tab-trigger.active[data-vertical="business"],
-      .demo-wrapper[data-theme="business"] .tab-trigger.active[data-vertical="business"] {
-        background: #FBBF24 !important;
-        color: #000000 !important;
-        box-shadow: 0 2px 10px rgba(251, 191, 36, 0.35);
-      }
-      .tab-trigger.active[data-vertical="business"] .tab-trigger-icon svg,
-      .demo-wrapper[data-theme="business"] .tab-trigger.active[data-vertical="business"] .tab-trigger-icon svg {
-        stroke: #000000 !important;
-      }
-      .tab-trigger.active[data-vertical="academic"],
-      .demo-wrapper[data-theme="academic"] .tab-trigger.active[data-vertical="academic"] {
-        background: #38BDF8 !important;
-        color: #000000 !important;
-        box-shadow: 0 2px 10px rgba(56, 189, 248, 0.35);
-      }
-      .tab-trigger.active[data-vertical="academic"] .tab-trigger-icon svg,
-      .demo-wrapper[data-theme="academic"] .tab-trigger.active[data-vertical="academic"] .tab-trigger-icon svg {
+      .tab-trigger.active .tab-trigger-icon svg {
         stroke: #000000 !important;
       }
 
@@ -1663,6 +1667,7 @@
 
         <!-- 2.2 Dual Vertical Tabs Bar (News Search / Business Search, Node 13799:166686) -->
         <div class="vertical-tabs-bar" role="tablist" aria-label="Vertical Search Selection" data-node-id="13799:166686">
+          <div class="tabs-indicator" id="tabsIndicator" aria-hidden="true"></div>
           <button type="button" class="tab-trigger active" data-vertical="news" role="tab" aria-selected="true" id="tabNews" data-node-id="13799:166687">
             <span class="tab-trigger-icon" aria-hidden="true">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="10" y="6" rx="1"/></svg>
@@ -3471,10 +3476,48 @@
           });
         });
 
-        // Dual Vertical Tabs Interactive Switching (News Search / Business Search)
+        // Dual Vertical Tabs Interactive Switching with Sliding Glider Indicator
         const tabNews = document.getElementById('tabNews');
         const tabBusiness = document.getElementById('tabBusiness');
         const demoWrapper = document.getElementById('demoWrapper') || document.querySelector('.demo-wrapper');
+
+        function updateTabsIndicator(activeTab, key, animate = true) {
+          const indicator = document.getElementById('tabsIndicator');
+          const tabsBar = document.querySelector('.vertical-tabs-bar');
+          if (!indicator || !tabsBar || !activeTab) return;
+
+          let left = activeTab.offsetLeft;
+          let top = activeTab.offsetTop;
+          let width = activeTab.offsetWidth;
+          let height = activeTab.offsetHeight;
+
+          if (!width || !height) {
+            const barRect = tabsBar.getBoundingClientRect();
+            const tabRect = activeTab.getBoundingClientRect();
+            left = tabRect.left - barRect.left;
+            top = tabRect.top - barRect.top;
+            width = tabRect.width;
+            height = tabRect.height;
+          }
+
+          if (!animate) {
+            indicator.style.transition = 'none';
+          } else {
+            indicator.style.transition = 'transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), width 0.38s cubic-bezier(0.16, 1, 0.3, 1), height 0.38s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.38s cubic-bezier(0.16, 1, 0.3, 1)';
+          }
+
+          indicator.style.transform = `translate3d(${left}px, ${top}px, 0)`;
+          indicator.style.width = `${width}px`;
+          indicator.style.height = `${height}px`;
+
+          if (key === 'news') {
+            indicator.style.backgroundColor = '#8adb47';
+          } else if (key === 'business') {
+            indicator.style.backgroundColor = '#FBBF24';
+          } else if (key === 'academic') {
+            indicator.style.backgroundColor = '#38BDF8';
+          }
+        }
 
         function switchVertical(key) {
           if (currentVerticalKey === key) return;
@@ -3494,6 +3537,8 @@
             tabBusiness.classList.toggle('active', key === 'business');
             tabBusiness.setAttribute('aria-selected', key === 'business' ? 'true' : 'false');
           }
+          const activeTab = key === 'news' ? tabNews : tabBusiness;
+          updateTabsIndicator(activeTab, key, true);
 
           // 2. Hero Section Heading remains permanent section title ("Search built for vertical industries")
           const heroHeading = document.getElementById('verticalSearchHeading');
@@ -3558,6 +3603,22 @@
         // Initial setup for Top News and Timeline stream
         updateTopNewsCard(0);
         renderTimelineStream(0, false);
+
+        // Initialize tabs sliding glider indicator
+        const initialActiveTab = document.querySelector('.vertical-tabs-bar .tab-trigger.active') || tabNews;
+        if (initialActiveTab) {
+          updateTabsIndicator(initialActiveTab, currentVerticalKey, false);
+        }
+        window.addEventListener('resize', () => {
+          const curActive = document.querySelector('.vertical-tabs-bar .tab-trigger.active') || tabNews;
+          if (curActive) updateTabsIndicator(curActive, currentVerticalKey, false);
+        });
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(() => {
+            const curActive = document.querySelector('.vertical-tabs-bar .tab-trigger.active') || tabNews;
+            if (curActive) updateTabsIndicator(curActive, currentVerticalKey, false);
+          });
+        }
 
         // Initial watermark animation pop
         const initialWatermark = document.getElementById('canvasWatermark');
