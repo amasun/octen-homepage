@@ -35,7 +35,7 @@
             summary: 'Saudi Arabia suspended operations on its East-West oil pipeline following drone attacks launched from Iraq that damaged pumping stations in the Riyadh and Medina regions. Satellite imagery confirmed major damage to a key facility, and officials told AP that repairs will take three to five weeks, potentially depleting export stocks at Yanbu.',
             timeStart: '2026-09-11T00:00:00Z',
             timeLatest: '2026-09-15T21:40:00Z',
-            cover: '/images/vertical/subject-1.png',
+            cover: '/images/vertical/subject-1.webp',
             fallbackCover: 'https://www.reuters.com/resizer/v2/NBVC6SDELNITTNCA4X55OSSPKM.jpg?auth=45ddc3632d960da3fa4dc5652e455479277bdb7240c23991d56f1ff7164c973d&height=1005&width=1920&quality=80&smart=true',
             articles: [
               {
@@ -70,7 +70,7 @@
             summary: "Iranian Parliament Speaker Mohammad Bagher Ghalibaf stated on September 20 that the Strait of Hormuz will not be reopened until the United States meets Iran's seven specific conditions. He announced that Tehran has conveyed these conditions to Washington through mediators and emphasized that Iran will pursue a strategy combining military action with diplomacy.",
             timeStart: '2026-09-19T00:00:00Z',
             timeLatest: '2026-09-20T21:40:00Z',
-            cover: '/images/vertical/subject-2.png',
+            cover: '/images/vertical/subject-2.webp',
             fallbackCover: 'https://th-i.thgim.com/public/incoming/hc96xo/article71487642.ece/alternates/LANDSCAPE_1200/2026-08-21T070048Z_1945003085_RC2V2NAMLYIS_RTRMADP_3_IRAN-CRISIS-IRAQ-QALIBAF-NAJAF.JPG',
             articles: [
               {
@@ -105,7 +105,7 @@
             summary: "Yemen's Houthi rebels have captured the strategic islands of Greater and Lesser Hanish in the southern Red Sea, displacing more than 80,000 people in recent fighting. The seizure strengthens the Iran-backed group's grip on the Bab el-Mandeb shipping route and has intensified concerns over global oil supply disruptions.",
             timeStart: '2026-09-14T00:00:00Z',
             timeLatest: '2026-09-15T21:40:00Z',
-            cover: '/images/vertical/subject-3.png',
+            cover: '/images/vertical/subject-3.webp',
             fallbackCover: 'https://i.guim.co.uk/img/media/0d73d909d1a2538485c626492748c53674c1966e/0_0_3840_3072/master/3840.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=75486fa313ea5ee36d3db5532d4f7a78',
             articles: [
               {
@@ -140,7 +140,7 @@
             summary: "Brent crude futures rose 1.75% to $107.50 per barrel and WTI rose 1.8% to $103.17 per barrel on Tuesday, September 15, 2026, as traders assessed the impact of the shutdown of Saudi Arabia's East-West pipeline. The closure, caused by recent strikes, threatens up to 4% of global oil supply, with the true extent of the damage to the pipeline not yet confirmed.",
             timeStart: '2026-09-13T00:00:00Z',
             timeLatest: '2026-09-15T21:40:00Z',
-            cover: '/images/vertical/subject-4.png',
+            cover: '/images/vertical/subject-4.webp',
             fallbackCover: 'https://images.wsj.net/im-48341995/social',
             articles: [
               {
@@ -194,7 +194,7 @@
             summary: 'Leading foundry operators have accelerated 2nm fab equipment installations in response to unprecedented hyperscaler AI accelerator allocations, committing over $62B in combined near-term capex.',
             timeStart: '2026-09-11T00:00:00Z',
             timeLatest: '2026-09-20T21:40:00Z',
-            cover: '/images/vertical/subject-1.png',
+            cover: '/images/vertical/subject-1.webp',
             fallbackCover: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80',
             articles: [
               {
@@ -229,7 +229,7 @@
             summary: 'Multi-year capacity reservations for advanced silicon interposers and high-bandwidth memory (HBM4) integration have reached historic contract values across Asian manufacturing hubs.',
             timeStart: '2026-09-12T00:00:00Z',
             timeLatest: '2026-09-18T18:30:00Z',
-            cover: '/images/vertical/subject-2.png',
+            cover: '/images/vertical/subject-2.webp',
             fallbackCover: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80',
             articles: [
               {
@@ -254,7 +254,7 @@
             summary: 'European authorities finalize state aid authorizations under the Chips Act framework, unlocking €38B in co-investment for leading-edge automotive and industrial semiconductor fabrication.',
             timeStart: '2026-09-08T00:00:00Z',
             timeLatest: '2026-09-16T15:20:00Z',
-            cover: '/images/vertical/subject-3.png',
+            cover: '/images/vertical/subject-3.webp',
             fallbackCover: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200&q=80',
             articles: [
               {
@@ -274,7 +274,7 @@
             summary: 'Regional transmission operators warn of multi-year interconnection queues for multi-hundred megawatt campus facilities, driving demand for co-located nuclear and renewable microgrids.',
             timeStart: '2026-09-05T00:00:00Z',
             timeLatest: '2026-09-14T20:10:00Z',
-            cover: '/images/vertical/subject-4.png',
+            cover: '/images/vertical/subject-4.webp',
             fallbackCover: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1200&q=80',
             articles: [
               {

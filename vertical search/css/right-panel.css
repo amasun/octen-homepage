@@ -1,0 +1,308 @@
+.canvas-right-panel {
+        position: absolute;
+        inset-inline: 6%;
+        top: 26%;
+        bottom: 0;
+        overflow: hidden;
+        z-index: 5;
+      }
+      @media (min-width: 1024px) {
+        .canvas-right-panel {
+          inset-inline: auto;
+          right: 28px;
+          top: 0;
+          bottom: 0;
+          width: 590px;
+          max-width: 55%;
+        }
+      }
+
+      /* Stage 2 Searching Overlay */
+      .searching-center-box {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+      }
+      .card-canvas.is-searching .searching-center-box {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .searching-text {
+        margin: 0;
+        font-size: 20px;
+        color: #4A5A4E;
+        font-weight: 500;
+      }
+      .wave-dots-track {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 24px;
+      }
+      .wave-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: #0B1F0E;
+        animation: sine-wave 1.4s linear infinite;
+      }
+      @keyframes sine-wave {
+        0% { transform: translateY(0); }
+        25% { transform: translateY(-7px); }
+        50% { transform: translateY(0); }
+        75% { transform: translateY(7px); }
+        100% { transform: translateY(0); }
+      }
+
+      /* Stage 3-5 Results Viewport (Extends to card edges with symmetrical top & bottom fade mask) */
+      .results-scroller-viewport {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+        /* Symmetrical Top & Bottom Soft Fade Masks - Cards dissolve at outermost boundary */
+        mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          rgba(0, 0, 0, 0.25) 12px,
+          rgba(0, 0, 0, 0.8) 32px,
+          black 52px,
+          black calc(100% - 64px),
+          rgba(0, 0, 0, 0.8) calc(100% - 36px),
+          rgba(0, 0, 0, 0.25) calc(100% - 14px),
+          transparent 100%
+        );
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          rgba(0, 0, 0, 0.25) 12px,
+          rgba(0, 0, 0, 0.8) 32px,
+          black 52px,
+          black calc(100% - 64px),
+          rgba(0, 0, 0, 0.8) calc(100% - 36px),
+          rgba(0, 0, 0, 0.25) calc(100% - 14px),
+          transparent 100%
+        );
+      }
+      .card-canvas.has-results:not(.is-stage4):not(.is-stage5) .results-scroller-viewport {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .card-canvas.is-stage4 .results-scroller-viewport,
+      .card-canvas.is-stage5 .results-scroller-viewport {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .results-card-list {
+        position: relative;
+        padding-left: 56px;
+        padding-top: 16px;
+        padding-bottom: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        will-change: transform;
+        transition: transform 0.1s linear;
+      }
+      @media (min-width: 1024px) {
+        .results-card-list {
+          padding-top: 20px;
+          padding-bottom: 28px;
+          gap: 4px;
+        }
+      }
+
+
+
+      /* Cards Styling (Subject Card & Article Card) */
+      .subject-card-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 520px;
+      }
+      .subject-card-box,
+      .article-card-box {
+        position: relative;
+        width: 100%;
+        max-width: 520px;
+        border-radius: 24px;
+        border: 8px solid rgba(255, 255, 255, 0.35);
+        background-color: #ffffff;
+        background-clip: padding-box;
+        box-sizing: border-box;
+        box-shadow: 0 8px 24px rgba(31, 72, 28, 0.08);
+        transition: border-color 0.2s ease;
+      }
+      .subject-card-box:hover,
+      .article-card-box:hover {
+        border-color: rgba(255, 255, 255, 0.6);
+      }
+      @media (min-width: 1024px) {
+        .subject-card-wrapper {
+          width: 520px;
+        }
+        .subject-card-box,
+        .article-card-box {
+          width: 520px;
+        }
+      }
+
+      /* Subject Card */
+      .subject-card-box {
+        padding: 14px 20px;
+      }
+      .subject-card-top {
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .subject-date-range {
+        font-size: clamp(11px, 1vw, 14px);
+        color: #5A6B5E;
+      }
+      .subject-badge {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 4px 8px;
+        gap: 10px;
+        width: 66px;
+        height: 20px;
+        background: #6EAE92;
+        border-radius: 4px;
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 100%;
+        color: #FFFFFF;
+        flex: none;
+        order: 1;
+        flex-grow: 0;
+      }
+      .subject-card-body {
+        display: flex;
+        gap: 12px;
+      }
+      @media (min-width: 1024px) {
+        .subject-card-body {
+          gap: 16px;
+        }
+      }
+      .subject-cover-box {
+        position: relative;
+        height: 88px;
+        width: 120px;
+        flex-shrink: 0;
+        overflow: hidden;
+        border-radius: 12px;
+        background-size: cover;
+        background-position: center;
+      }
+      .subject-cover-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .subject-text-content {
+        min-width: 0;
+        flex: 1;
+        width: 100%;
+      }
+      .subject-name {
+        margin: 0;
+        font-size: clamp(13px, 1.1vw, 16px);
+        line-height: 1.25;
+        font-weight: 700;
+        color: #0B1F0E;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      @media (min-width: 1024px) {
+        .subject-name {
+          -webkit-line-clamp: 2;
+        }
+      }
+      .subject-summary {
+        margin: 4px 0 0;
+        font-size: 13px;
+        line-height: 1.4;
+        color: #4A5A4E;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      @media (min-width: 768px) {
+        .subject-summary {
+          -webkit-line-clamp: 3;
+        }
+      }
+
+      /* Article Card */
+      .article-card-box {
+        padding: 16px 20px;
+      }
+      .article-card-top {
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      @media (min-width: 1024px) {
+        .article-card-top {
+          margin-bottom: 8px;
+          gap: 12px;
+        }
+      }
+      .article-timestamp {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: clamp(11px, 1vw, 13px);
+        color: #0B1F0E;
+      }
+      .article-timestamp svg {
+        width: 15px;
+        height: 15px;
+        color: #5A6B5E;
+      }
+      .article-source-domain {
+        flex-shrink: 0;
+        font-size: clamp(11px, 1vw, 13px);
+        color: #5A6B5E;
+      }
+      .article-title {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.35;
+        font-weight: 500;
+        color: #0B1F0E;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      /* Gradient presets for subject cover fallbacks */
+      .grad-0 { background: linear-gradient(135deg, #8FA5B8, #5F7488); }
+      .grad-1 { background: linear-gradient(135deg, #A8B49A, #6E7F63); }
+      .grad-2 { background: linear-gradient(135deg, #BCAE93, #867A62); }
+      .grad-3 { background: linear-gradient(135deg, #9B9FB5, #6B6F85); }

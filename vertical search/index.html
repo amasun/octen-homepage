@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Octen · Verticals Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script type="importmap">
+      {
+        "imports": {
+          "number-flow": "https://esm.sh/number-flow@0.6.2"
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="./css/index.css" />
+  </head>
+  <body>
+    <main class="demo-wrapper" id="demoWrapper" data-theme="news">
+      <!-- 2.1 Hero Header & Tabs (Figma Node 13701:168352: unified flex column, gap 30px) -->
+      <div class="hero-header-box" data-node-id="13701:168352">
+        <div class="hero-title-group" data-node-id="13701:168353">
+          <div class="hero-title-inner" data-node-id="13701:168354">
+            <!-- Capsule Tag -->
+            <div class="tag-pill octen-search-fast-tag octen-search-premier-tag" data-node-id="13720:174651">
+              <span class="vertical-search-tag-prefix" data-node-id="13720:174653">Search</span>
+              <span class="vertical-search-tag-divider" data-node-id="13720:174654">/</span>
+              <span class="vertical-search-tag-keyword" data-node-id="13720:174655">PREMIER</span>
+            </div>
+
+            <!-- Headline -->
+            <h1 class="hero-heading" id="verticalSearchHeading" data-node-id="13701:168357">Search built for vertical industries</h1>
+          </div>
+
+          <!-- Supporting text -->
+          <p class="hero-desc" id="verticalSearchDesc" data-node-id="13701:168359">
+            Deeply customized search engineered for vertical domains. Delivering real-time, high-precision, and in-depth intelligence structured for autonomous reasoning.
+          </p>
+        </div>
+
+        <!-- Action Button -->
+        <a href="https://octen.ai/platform/overview" target="_blank" rel="noreferrer" class="btn-request" id="request-access" data-node-id="13702:169791">
+          <span>Request Access</span>
+          <span class="btn-request-icon">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.5 12.5L12.5 2.5M12.5 2.5H4.5M12.5 2.5V10.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+
+        <!-- 2.2 Dual Vertical Tabs Bar (News Search / Business Search, Node 13799:166686) -->
+        <div class="vertical-tabs-bar" role="tablist" aria-label="Vertical Search Selection" data-node-id="13799:166686">
+          <div class="tabs-indicator" id="tabsIndicator" aria-hidden="true">
+            <div class="tabs-indicator-track" id="tabsIndicatorTrack">
+              <div class="tab-clone active" data-vertical="news">
+                <span class="tab-trigger-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg>
+                </span>
+                <span>News Search</span>
+              </div>
+              <div class="tab-clone" data-vertical="business">
+                <span class="tab-trigger-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+                </span>
+                <span>Business Search</span>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="tab-trigger active" data-vertical="news" role="tab" aria-selected="true" id="tabNews" data-node-id="13799:166687">
+            <span class="tab-trigger-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="10" y="6" rx="1"/></svg>
+            </span>
+            <span>News Search</span>
+          </button>
+          <button type="button" class="tab-trigger" data-vertical="business" role="tab" aria-selected="false" id="tabBusiness" data-node-id="13799:166689">
+            <span class="tab-trigger-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+            </span>
+            <span>Business Search</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- 2.3 Interactive Gradient Canvas (1260x532, 5-Step Animation Pipeline) -->
+      <!-- ======================================================== -->
+      <section
+        class="card-canvas hero-canvas is-typing"
+        id="newsSearchCard"
+        aria-label="Vertical Search Interactive Stage"
+        data-theme="news"
+      >
+        <!-- Background Radial Highlight / Glow (Figma Node 13795:166562) -->
+        <div class="canvas-aura" aria-hidden="true"></div>
+
+        <!-- 1. Ambient Background Watermark -->
+        <div class="canvas-watermark" id="canvasWatermark" aria-hidden="true">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 280 280"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="18"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-newspaper"
+          >
+            <g transform="translate(14.333, 14.333)">
+              <path
+                d="M160.667 195.667H102.333M195.667 149H102.333M32.3333 242.333H219C225.188 242.333 231.123 239.875 235.499 235.499C239.875 231.123 242.333 225.188 242.333 219V32.3333C242.333 26.1449 239.875 20.21 235.499 15.8342C231.123 11.4583 225.188 9 219 9H79C72.8116 9 66.8767 11.4583 62.5008 15.8342C58.125 20.21 55.6667 26.1449 55.6667 32.3333V219C55.6667 225.188 53.2083 231.123 48.8325 235.499C44.4566 239.875 38.5217 242.333 32.3333 242.333ZM32.3333 242.333C26.1449 242.333 20.21 239.875 15.8342 235.499C11.4583 231.123 9 225.188 9 219V114C9 107.812 11.4583 101.877 15.8342 97.5008C20.21 93.125 26.1449 90.6667 32.3333 90.6667H55.6667"
+              ></path>
+              <path
+                d="M184 55.6667H114C107.557 55.6667 102.333 60.89 102.333 67.3333V90.6667C102.333 97.11 107.557 102.333 114 102.333H184C190.443 102.333 195.667 97.11 195.667 90.6667V67.3333C195.667 60.89 190.443 55.6667 184 55.6667Z"
+              ></path>
+            </g>
+          </svg>
+        </div>
+
+        <!-- 2. Left / Center Dynamic Panel -->
+        <div class="canvas-left-panel" id="canvasLeftPanel">
+          <h2 class="canvas-heading-row">
+            <span class="heading-icon-spring" id="canvasHeadingIcon" aria-hidden="true">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-newspaper"
+              >
+                <path d="M15 18h-5"></path>
+                <path d="M18 14h-8"></path>
+                <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path>
+                <rect width="8" height="4" x="10" y="6" rx="1"></rect>
+              </svg>
+            </span>
+            <span id="canvasHeadingTitle">News Search</span>
+          </h2>
+
+          <!-- Search Pill (Stages 1 & 2) -->
+          <div class="search-box-wrapper" id="searchBoxWrapper">
+            <div class="search-pill">
+              <!-- Octen Black Mark Icon -->
+              <span class="octen-logo-mark" aria-hidden="true">
+                <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16.9822 12.0394V4.95035C16.9822 4.55302 16.6588 4.23057 16.2603 4.23057H15.3782C15.16 4.23057 14.9497 4.14371 14.7955 3.98997L14.6864 3.88115C14.5322 3.72741 14.4451 3.51777 14.4451 3.29913V2.39166C14.4451 1.99433 14.1217 1.67188 13.7232 1.67188H3.39872C3.00023 1.67188 2.67684 1.99433 2.67684 2.39166V9.52465C2.67684 9.92198 3.00023 10.2444 3.39872 10.2444H4.27178C4.5401 10.2444 4.79842 10.3513 4.98865 10.5409L4.99165 10.5439C5.12681 10.6787 5.20291 10.8614 5.20291 11.0531V12.0414C5.20291 12.4387 5.5263 12.7612 5.92478 12.7612H16.2623C16.6608 12.7612 16.9842 12.4387 16.9842 12.0414L16.9822 12.0394ZM14.1968 4.4502C14.351 4.60394 14.4381 4.81358 14.4381 5.03222V9.50269C14.4381 9.90002 14.1147 10.2225 13.7162 10.2225H6.02891C5.83767 10.2225 5.65445 10.1466 5.51829 10.0118C5.32806 9.82215 5.22193 9.56558 5.22193 9.29703V4.92939C5.22193 4.53206 5.54532 4.2096 5.9438 4.2096H13.6141C13.8324 4.2096 14.0426 4.29646 14.1978 4.4502H14.1968Z" fill="black"/>
+                  <path d="M8.35803 6.10437H7.34681C6.94813 6.10437 6.62493 6.42663 6.62493 6.82416V7.83246C6.62493 8.22999 6.94813 8.55225 7.34681 8.55225H8.35803C8.75672 8.55225 9.07991 8.22999 9.07991 7.83246V6.82416C9.07991 6.42663 8.75672 6.10437 8.35803 6.10437Z" fill="black"/>
+                  <path d="M12.2678 6.10437H11.2566C10.8579 6.10437 10.5347 6.42663 10.5347 6.82416V7.83246C10.5347 8.22999 10.8579 8.55225 11.2566 8.55225H12.2678C12.6665 8.55225 12.9897 8.22999 12.9897 7.83246V6.82416C12.9897 6.42663 12.6665 6.10437 12.2678 6.10437Z" fill="black"/>
+                  <path d="M8.70555 15.0773H7.54915C7.15047 15.0773 6.82727 15.3995 6.82727 15.7971V16.9501C6.82727 17.3476 7.15047 17.6699 7.54915 17.6699H8.70555C9.10423 17.6699 9.42743 17.3476 9.42743 16.9501V15.7971C9.42743 15.3995 9.10423 15.0773 8.70555 15.0773Z" fill="black"/>
+                  <path d="M12.9858 15.0773H11.8294C11.4307 15.0773 11.1075 15.3995 11.1075 15.7971V16.9501C11.1075 17.3476 11.4307 17.6699 11.8294 17.6699H12.9858C13.3845 17.6699 13.7076 17.3476 13.7076 16.9501V15.7971C13.7076 15.3995 13.3845 15.0773 12.9858 15.0773Z" fill="black"/>
+                  <path d="M20.589 14.3583V13.2043C20.589 12.807 20.2656 12.4845 19.8671 12.4845H18.7097C18.3112 12.4845 17.9878 12.807 17.9878 13.2043V14.3583C17.9878 14.549 17.9117 14.7317 17.7766 14.8675C17.6414 15.0023 17.4582 15.0781 17.2659 15.0781H16.1085C15.71 15.0781 15.3867 15.4006 15.3867 15.7979V16.952C15.3867 17.3493 15.71 17.6718 16.1085 17.6718H17.2659C17.6644 17.6718 17.9878 17.3493 17.9878 16.952V16.0126C17.9878 15.8219 18.0639 15.6392 18.1991 15.5034L18.4143 15.2888C18.5495 15.154 18.7327 15.0781 18.9249 15.0781H19.8671C20.2656 15.0781 20.589 14.7557 20.589 14.3583Z" fill="black"/>
+                  <path d="M2.60015 14.3035V13.2033C2.60015 12.806 2.27676 12.4835 1.87828 12.4835H0.721875C0.323392 12.4845 0 12.806 0 13.2033V14.3574C0 14.7547 0.323392 15.0772 0.721875 15.0772H1.64299C1.88328 15.0772 2.11356 15.172 2.28277 15.3417C2.45297 15.5114 2.54809 15.7401 2.54809 15.9797V16.951C2.54809 17.3483 2.87148 17.6708 3.26996 17.6708H4.42737C4.82585 17.6708 5.14924 17.3483 5.14924 16.951V15.797C5.14924 15.3996 4.82585 15.0772 4.42737 15.0772H3.45319C3.2129 15.0772 2.98262 14.9823 2.81341 14.8126C2.67825 14.6768 2.60215 14.4942 2.60215 14.3035H2.60015Z" fill="black"/>
+                </svg>
+              </span>
+
+              <!-- Query text display -->
+              <span class="query-display">
+                <span id="queryTextSpan"></span><span class="typing-caret" id="queryCaret"></span>
+              </span>
+
+              <!-- Sparkle Search Icon -->
+              <span class="sparkle-search-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.3335 1.54785C7.5518 1.54785 7.76747 1.55915 7.97998 1.58105L7.25732 3.34961C4.84427 3.39043 2.90105 5.35849 2.90088 7.78125C2.90088 10.2296 4.88518 12.2147 7.3335 12.2148C9.7109 12.2148 11.6506 10.3432 11.7612 7.99316L13.564 7.88867C13.541 9.24379 13.0873 10.4934 12.3315 11.5059L14.6362 13.8115C14.9877 14.163 14.9877 14.7325 14.6362 15.084C14.2848 15.4355 13.7152 15.4355 13.3638 15.084L11.0581 12.7793C10.0189 13.555 8.72998 14.0146 7.3335 14.0146C3.89107 14.0145 1.1001 11.2237 1.1001 7.78125C1.10027 4.33893 3.89118 1.54803 7.3335 1.54785Z" fill="#0B1F0E"/>
+                  <path d="M11.9032 0.220321C11.8333 0.267491 11.779 0.334482 11.7473 0.412706L11.5351 0.923219C11.1801 1.7879 10.5069 2.48348 9.65432 2.86668L9.0544 3.13405C8.97747 3.16944 8.91229 3.22615 8.8666 3.29745C8.82091 3.36876 8.79663 3.45167 8.79663 3.53636C8.79663 3.62104 8.82091 3.70395 8.8666 3.77526C8.91229 3.84657 8.97747 3.90328 9.0544 3.93867L9.68941 4.22108C10.5212 4.59386 11.1831 5.26495 11.5443 6.10187L11.7498 6.57395C11.782 6.65096 11.8362 6.71674 11.9056 6.76301C11.975 6.80928 12.0566 6.83397 12.14 6.83397C12.2235 6.83397 12.305 6.80928 12.3745 6.76301C12.4439 6.71674 12.4981 6.65096 12.5302 6.57395L12.7366 6.10103C13.0976 5.26473 13.7588 4.594 14.5898 4.22108L15.2248 3.93867C15.3018 3.90328 15.3669 3.84657 15.4126 3.77526C15.4583 3.70395 15.4826 3.62104 15.4826 3.53636C15.4826 3.45167 15.4583 3.36876 15.4126 3.29745C15.3669 3.22615 15.3018 3.16944 15.2248 3.13405L14.6249 2.86668C13.7727 2.48331 13.0998 1.78775 12.745 0.923219L12.5327 0.412706C12.5011 0.334482 12.4468 0.267491 12.3768 0.220321C12.3069 0.17315 12.2244 0.147949 12.14 0.147949C12.0557 0.147949 11.9732 0.17315 11.9032 0.220321Z" fill="#039855"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Summary Box (Stages 3, 4, 5) -->
+          <div class="summary-box" id="summaryBox">
+            <p class="summary-desc" id="summaryDesc">Search live news and read each story as a single grouped event.</p>
+            <ul class="summary-bullets-list" id="summaryBulletsList">
+              <li>• Search breaking news at wire speed within <span class="live-badge" title="Live wire speed" aria-label="Live breaking news"><span class="live-badge-dot"></span><span class="live-badge-text">live</span></span>&nbsp;<b><number-flow class="bullet-number-flow" data-flow="minutes" data-value="3">3</number-flow>&nbsp;minutes</b> of publication.</li>
+              <li>• Cover <b><number-flow class="bullet-number-flow" data-flow="coverage" data-value="95">95</number-flow>%</b> of global tier-1 <span class="avatar-cycles" title="Global tier-1 news media sources" aria-label="Global tier-1 news media sources"><span class="avatar-cycles-track"><span class="avatar-cycle-item" title="Reuters"><svg viewBox="0 0 16 16" width="10" height="10" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#FF8000" stroke-width="1.8"/><path d="M6 5h2.5a1.8 1.8 0 0 1 0 3.6H6V5zm0 3.6h2.2l2.3 3.4" stroke="#FFF" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="avatar-cycle-item" title="Bloomberg"><svg viewBox="0 0 16 16" width="10" height="10" fill="none"><path d="M4.5 3.5h4a2.5 2.5 0 0 1 2 4 2.5 2.5 0 0 1-2 4.5h-4V3.5z" stroke="#FFF" stroke-width="1.6" stroke-linejoin="round"/><line x1="4.5" y1="7.8" x2="8.8" y2="7.8" stroke="#FFF" stroke-width="1.5"/></svg></span><span class="avatar-cycle-item" title="Wall Street Journal"><span class="avatar-logo-wsj">WSJ</span></span><span class="avatar-cycle-item" title="BBC"><span class="avatar-logo-bbc">BBC</span></span><span class="avatar-cycle-item" title="Financial Times"><span class="avatar-logo-ft">FT</span></span><span class="avatar-cycle-item" title="Associated Press"><span class="avatar-logo-ap">AP</span></span><span class="avatar-cycle-item" title="Reuters" aria-hidden="true"><svg viewBox="0 0 16 16" width="10" height="10" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#FF8000" stroke-width="1.8"/><path d="M6 5h2.5a1.8 1.8 0 0 1 0 3.6H6V5zm0 3.6h2.2l2.3 3.4" stroke="#FFF" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="avatar-cycle-item" title="Bloomberg" aria-hidden="true"><svg viewBox="0 0 16 16" width="10" height="10" fill="none"><path d="M4.5 3.5h4a2.5 2.5 0 0 1 2 4 2.5 2.5 0 0 1-2 4.5h-4V3.5z" stroke="#FFF" stroke-width="1.6" stroke-linejoin="round"/><line x1="4.5" y1="7.8" x2="8.8" y2="7.8" stroke="#FFF" stroke-width="1.5"/></svg></span><span class="avatar-cycle-item" title="Wall Street Journal" aria-hidden="true"><span class="avatar-logo-wsj">WSJ</span></span><span class="avatar-cycle-item" title="BBC" aria-hidden="true"><span class="avatar-logo-bbc">BBC</span></span><span class="avatar-cycle-item" title="Financial Times" aria-hidden="true"><span class="avatar-logo-ft">FT</span></span><span class="avatar-cycle-item" title="Associated Press" aria-hidden="true"><span class="avatar-logo-ap">AP</span></span></span></span>&nbsp;news media and wire&nbsp;services.</li>
+              <li>• Deduplicate syndicated stories to save prompt <span class="token-meter" id="tokenMeter" title="70% prompt token reduction" aria-label="70% prompt token reduction"><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span></span>&nbsp;<b>tokens</b>.</li>
+              <li>• Track full event lineage as unified <span class="storyline-timeline" title="Continuous event lineage tracking" aria-label="Continuous event storyline timeline"><span class="storyline-rail"></span><span class="storyline-stream"><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span></span></span>&nbsp;<b>storylines</b>.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 3. Right Content Panel -->
+        <div class="canvas-right-panel" id="canvasRightPanel">
+          <!-- Morph Cards FLIP Overlay -->
+          <div class="morph-cards-overlay" id="morphCardsOverlay"></div>
+
+          <!-- Stage 2: Searching Indicator -->
+          <div class="searching-center-box" id="searchingBox">
+            <p class="searching-text">Searching...</p>
+            <div class="wave-dots-track" id="waveDotsTrack">
+              <!-- 14 Sine Wave Jumping Dots -->
+            </div>
+          </div>
+
+          <!-- Stage 3 Results Viewport (Subject Cards Stream) -->
+          <div class="results-scroller-viewport" id="resultsViewport">
+            <div class="results-card-list" id="cardListContainer">
+              <!-- Cards rendered dynamically via JS -->
+            </div>
+          </div>
+
+          <!-- Stages 4 & 5: Horizontal Subject Tabs + Top News & Timeline Stream (Figma exact: 13784:7160, 13784:7317, 13784:6893) -->
+          <div class="stage-focus-container" id="stageFocusContainer">
+            <!-- Horizontal Subject Tabs Bar -->
+            <div class="subjects-horizontal-bar" id="subjectsHBar">
+              <div class="subject-h-pill active" data-subject-idx="0">Subject1</div>
+              <div class="subject-h-pill" data-subject-idx="1">Subject2</div>
+              <div class="subject-h-pill" data-subject-idx="2">Subject3</div>
+              <div class="subject-h-pill" data-subject-idx="3">Subject4</div>
+            </div>
+
+            <!-- White Events Card -->
+            <div class="events-white-card" id="eventsWhiteCard">
+              <!-- Top News / Business Block (Stage 4) -->
+              <div class="top-news-block" id="topNewsBlock">
+                <div class="top-news-header">
+                  <span class="top-news-tag" id="topNewsTag">Top News</span>
+                  <span class="top-news-time">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span id="topNewsTime">2026/09/15 21:40:00</span>
+                  </span>
+                </div>
+                <div class="top-news-content">
+                  <div class="top-news-cover-box">
+                    <img class="top-news-cover-img" id="topNewsThumb" src="./images/vertical/subject-1.webp" alt="Top News Cover" onerror="this.src='https://www.reuters.com/resizer/v2/NBVC6SDELNITTNCA4X55OSSPKM.jpg?auth=45ddc3632d960da3fa4dc5652e455479277bdb7240c23991d56f1ff7164c973d&height=1005&width=1920&quality=80&smart=true'" />
+                  </div>
+                  <div class="top-news-text-box">
+                    <h4 class="top-news-title" id="topNewsTitle">US military says over 1B barrels of oil shipped through Strait of Hormuz under US blockade</h4>
+                    <p class="top-news-source" id="topNewsSource">Aaa.com.tr</p>
+                    <p class="top-news-summary" id="topNewsDesc">A clandestine hard-line faction in Iran, led by former IRGC intelligence director Hossein Taeb, attacked three commercial ships in the Strait of Hormuz, including a Qatari LNG tanker, to derail a recently signed peace agreement with the United States. Regime insiders say the attack was not authorized by President Masoud Pezeshkian or the IRGC commander, triggering a collapse in diplomatic negotiations and renewed US military strikes.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Stage 5: Timeline Stream Details (Unfolds below Top News) -->
+              <div class="timeline-stream-block" id="timelineStreamBlock">
+                <div class="timeline-spine-track" id="timelineSpineTrack">
+                  <div class="timeline-spine-stem" id="timelineSpineStem"></div>
+                </div>
+                <div class="timeline-articles-subgroup" id="timelineArticlesSubgroup"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Replay Button (Figma Node: 13784:144363) -->
+        <button class="replay-btn" id="replayBtn" type="button" aria-label="Replay animation" title="Replay animation">
+          <svg class="replay-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g id="Group">
+              <path d="M1 10C1 11.78 1.52784 13.5201 2.51677 15.0001C3.50571 16.4802 4.91131 17.6337 6.55585 18.3149C8.20038 18.9961 10.01 19.1743 11.7558 18.8271C13.5016 18.4798 15.1053 17.6226 16.364 16.364C17.6226 15.1053 18.4798 13.5016 18.8271 11.7558C19.1743 10.01 18.9961 8.20039 18.3149 6.55586C17.6337 4.91132 16.4802 3.50571 15.0001 2.51678C13.5201 1.52785 11.78 1.00001 10 1.00001C7.48395 1.00947 5.06897 1.99123 3.26 3.74001" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2.6543 1.00001V4.98926H6.64355" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M7.97614 10.3527V7.70493C7.97614 7.31628 8.40012 7.07622 8.73339 7.27618L10.9185 8.58726L13.1463 9.92395C13.47 10.1181 13.47 10.5872 13.1463 10.7814L10.9185 12.1181L8.73339 13.4292C8.40012 13.6292 7.97614 13.3891 7.97614 13.0005V10.3527Z" fill="white"/>
+            </g>
+          </svg>
+        </button>
+      </section>
+
+      <!-- Bottom Step Controls (Moved below giant card) -->
+      <div class="demo-controls-wrapper">
+        <div class="demo-controls-hint">开发步骤拆解用控件</div>
+        <div class="demo-controls">
+          <button type="button" class="pause-btn" id="togglePlayBtn" title="Toggle Auto-loop">⏸ Pause</button>
+          <button type="button" class="step-btn" data-step="typing">1. Typing</button>
+          <button type="button" class="step-btn" data-step="searching">2. Searching</button>
+          <button type="button" class="step-btn" data-step="overview">3. Overview</button>
+          <button type="button" class="step-btn" data-step="focus">4. Top Focus</button>
+          <button type="button" class="step-btn" data-step="timeline">5. Timeline</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modular ES Module Entry -->
+    <script type="module" src="./js/index.js"></script>
+  </body>
+</html>

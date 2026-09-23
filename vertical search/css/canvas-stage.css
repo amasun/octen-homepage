@@ -1,0 +1,204 @@
+/* 2.3 EXACT OCTEN CARD SECTION (1260x532 on desktop) */
+      /* ======================================================== */
+      .card-canvas {
+        position: relative;
+        width: 100%;
+        max-width: 1260px;
+        overflow: hidden;
+        border-radius: 24px !important;
+        aspect-ratio: 3 / 4;
+        background: radial-gradient(60% 70% at 50% 55%, #DCEEC6 0%, #A6CE86 55%, #8FBD73 100%);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+        box-sizing: border-box;
+        text-align: left;
+        transition: background 0.65s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.65s ease;
+      }
+      @media (min-width: 640px) {
+        .card-canvas {
+          aspect-ratio: 2 / 1;
+        }
+      }
+      @media (min-width: 1024px) {
+        .card-canvas {
+          aspect-ratio: 2.4 / 1;
+          width: 1260px;
+          max-width: 1260px;
+          height: 532px;
+          min-height: 532px;
+          max-height: 532px;
+          border-radius: 24px !important;
+        }
+      }
+
+      /* Business Theme Exact Figma 13795:166561 */
+      .card-canvas[data-theme="business"] {
+        background: linear-gradient(44.87deg, rgba(255, 232, 129, 0.6) 0.11%, rgba(255, 249, 230, 0.6) 101.27%), linear-gradient(90deg, rgba(255, 239, 97, 0.6) 0%, rgba(255, 241, 153, 0.6) 100%) !important;
+        box-shadow: 0px 20px 48px rgba(0, 0, 0, 0.04) !important;
+        border-radius: 24px !important;
+      }
+
+      /* Background Radial Highlight / Glow (Figma Node 13795:166562) */
+      .canvas-aura {
+        position: absolute;
+        left: 50%;
+        top: -34px;
+        width: 600px;
+        height: 600px;
+        transform: translateX(-50%);
+        border-radius: 50%;
+        background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 70%);
+        pointer-events: none;
+        z-index: 0;
+      }
+      @media (max-width: 639px) {
+        .canvas-aura {
+          width: 360px;
+          height: 360px;
+          top: -20px;
+        }
+      }
+
+      /* 1.1 Ambient Background Watermark (Figma Node 13795:166563) */
+      .canvas-watermark {
+        position: absolute;
+        top: 50%;
+        left: 32px;
+        width: 200px;
+        height: 200px;
+        transform: translateY(-50%);
+        color: #000000;
+        opacity: 0.12;
+        pointer-events: none;
+        z-index: 1;
+        transition: opacity 0.5s ease;
+      }
+      @media (min-width: 640px) {
+        .canvas-watermark {
+          left: 60px;
+          width: 240px;
+          height: 240px;
+        }
+      }
+      @media (min-width: 1024px) {
+        .canvas-watermark {
+          left: 120px;
+          top: 126px;
+          width: 280px;
+          height: 280px;
+          transform: none;
+        }
+      }
+      .canvas-watermark svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+        transform-origin: center center;
+      }
+      .canvas-watermark svg path,
+      .canvas-watermark svg rect {
+        stroke-width: 18px;
+      }
+      /* Watermark Pop / Scale Animation on Tab Switch (Aligned with Main Project) */
+      .canvas-watermark.watermark-pop svg {
+        animation: watermark-swap 0.45s var(--ease-spring) forwards;
+      }
+      @keyframes watermark-swap {
+        0% {
+          opacity: 0;
+          transform: scale(0.8) rotate(-6deg);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1) rotate(0deg);
+        }
+      }
+      .card-canvas.not-typing .canvas-watermark {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .card-canvas[data-theme="business"] .canvas-watermark {
+        color: #000000;
+        opacity: 0.12;
+      }
+      .card-canvas[data-theme="business"].not-typing .canvas-watermark {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .card-canvas.has-results .canvas-watermark {
+        display: none !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+      .card-canvas[data-theme="business"] .wave-dot {
+        background-color: #B45309;
+      }
+      .card-canvas[data-theme="business"] .timeline-dot-node {
+        border-color: #D97706;
+        background-color: #F59E0B;
+      }
+      .card-canvas[data-theme="business"] .timeline-spine-stem {
+        background: linear-gradient(180deg, #F59E0B 0%, #D97706 100%);
+      }
+      .card-canvas[data-theme="business"] .subject-h-pill {
+        background: rgba(146, 64, 14, 0.45);
+      }
+      .card-canvas[data-theme="business"] .subject-h-pill:hover {
+        background: rgba(146, 64, 14, 0.65);
+      }
+      .card-canvas[data-theme="business"] .subject-h-pill.active {
+        background: #D97706;
+        color: #FFFFFF;
+      }
+      .card-canvas[data-theme="business"] .top-news-tag,
+      .card-canvas[data-theme="business"] .top-news-badge {
+        background: rgba(217, 119, 6, 0.15);
+        color: #B45309;
+      }
+      .card-canvas[data-theme="business"] .sparkle-search-icon svg path:last-child {
+        fill: #D97706;
+      }
+
+      /* Academic Theme Exact Figma Alignment */
+      .card-canvas[data-theme="academic"] {
+        background: linear-gradient(44.87deg, #A4E5FF 3.49%, #EBF8FF 101.39%), linear-gradient(90deg, #B5EBFF 0%, #B5EBFF 100%) !important;
+        box-shadow: 0px 20px 48px rgba(0, 0, 0, 0.04) !important;
+      }
+      .card-canvas[data-theme="academic"].not-typing .canvas-watermark {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .card-canvas[data-theme="academic"] .canvas-watermark {
+        color: #000000;
+        opacity: 0.12;
+      }
+      .card-canvas[data-theme="academic"] .wave-dot {
+        background-color: #0284C7;
+      }
+      .card-canvas[data-theme="academic"] .timeline-dot-node {
+        border-color: #0284C7;
+        background-color: #38BDF8;
+      }
+      .card-canvas[data-theme="academic"] .timeline-spine-stem {
+        background: linear-gradient(180deg, #38BDF8 0%, #0284C7 100%);
+      }
+      .card-canvas[data-theme="academic"] .subject-h-pill {
+        background: rgba(3, 105, 161, 0.45);
+      }
+      .card-canvas[data-theme="academic"] .subject-h-pill:hover {
+        background: rgba(3, 105, 161, 0.65);
+      }
+      .card-canvas[data-theme="academic"] .subject-h-pill.active {
+        background: #0284C7;
+        color: #FFFFFF;
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+      }
+      .card-canvas[data-theme="academic"] .top-news-tag,
+      .card-canvas[data-theme="academic"] .top-news-badge {
+        background: rgba(2, 132, 199, 0.15);
+        color: #0284C7;
+      }
+      .card-canvas[data-theme="academic"] .sparkle-search-icon svg path:last-child {
+        fill: #0284C7;
+      }
+
+      /* 2. Left / Center Dynamic Panel */

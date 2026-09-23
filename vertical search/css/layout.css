@@ -1,0 +1,59 @@
+.replay-btn {
+        position: absolute;
+        left: 20px;
+        bottom: 20px;
+        width: 40px;
+        height: 40px;
+        border-radius: 99px;
+        background: rgba(0, 0, 0, 0.2);
+        border: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 30;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        opacity: 0;
+        transform: scale(0.7);
+        pointer-events: none;
+        transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.34, 1.18, 0.64, 1), background-color 0.2s ease;
+        box-shadow: none;
+      }
+      .replay-btn.visible {
+        opacity: 1;
+        transform: scale(1);
+        pointer-events: auto;
+      }
+      .replay-btn:hover {
+        background: rgba(0, 0, 0, 0.35);
+        transform: scale(1.08);
+        box-shadow: none;
+      }
+      .replay-btn:active {
+        transform: scale(0.94);
+      }
+      .replay-btn .replay-icon {
+        width: 20px;
+        height: 20px;
+        opacity: 0.6;
+        transition: opacity 0.2s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .replay-btn:hover .replay-icon {
+        opacity: 1;
+        transform: rotate(-35deg);
+      }
+      @media (max-width: 640px) {
+        .replay-btn {
+          left: 14px;
+          bottom: 14px;
+          width: 36px;
+          height: 36px;
+        }
+        .replay-btn .replay-icon {
+          width: 18px;
+          height: 18px;
+        }
+      }

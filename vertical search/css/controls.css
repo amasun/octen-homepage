@@ -1,0 +1,81 @@
+/* Bottom Developer Step Controls */
+      .demo-controls-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 0;
+        padding-bottom: 24px;
+        width: 100%;
+      }
+      .demo-controls-hint {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.45);
+        letter-spacing: 0.02em;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .demo-controls-hint::before {
+        content: "";
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-color: #8be49a;
+        opacity: 0.8;
+      }
+      .demo-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .step-btn {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 9999px;
+        padding: 6px 14px;
+        font-size: 12px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .step-btn:hover {
+        background: rgba(255, 255, 255, 0.16);
+        color: #fff;
+      }
+      .step-btn.active {
+        background: #039855;
+        border-color: #039855;
+        color: #fff;
+        box-shadow: 0 0 12px rgba(3, 152, 85, 0.4);
+      }
+      .demo-wrapper[data-theme="business"] .step-btn.active,
+      .step-btn.active.business-active {
+        background: #D97706;
+        border-color: #D97706;
+        box-shadow: 0 0 12px rgba(217, 119, 6, 0.4);
+      }
+      .demo-wrapper[data-theme="business"] .demo-controls-hint::before {
+        background-color: #FBBF24;
+      }
+      .pause-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 9999px;
+        padding: 6px 14px;
+        font-size: 12px;
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .pause-btn:hover {
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      /* ======================================================== */

@@ -1,0 +1,532 @@
+.canvas-left-panel {
+        position: absolute;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+      }
+      /* Centered state (typing) - Figma exact node: top 171.62px on 532px canvas */
+      .card-canvas.is-typing .canvas-left-panel {
+        left: 0;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        align-items: center;
+        gap: 24px;
+      }
+      @media (min-width: 1024px) {
+        .card-canvas.is-typing .canvas-left-panel {
+          top: calc(171.62 / 532 * 100%);
+          transform: none;
+          gap: 36px;
+        }
+      }
+
+      /* Shifted state (searching & results) */
+      .card-canvas.not-typing .canvas-left-panel {
+        left: 6%;
+        right: 6%;
+        top: 5%;
+        transform: none;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      @media (min-width: 1024px) {
+        .card-canvas.not-typing .canvas-left-panel {
+          left: 48px;
+          right: auto;
+          top: 50%;
+          width: calc(100% - 670px);
+          max-width: 560px;
+          transform: translateY(-50%);
+          gap: 20px;
+        }
+      }
+
+      /* Title & Spring Heading Icon (Figma exact node) */
+      .canvas-heading-row {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'Fraunces', Georgia, serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 30px;
+        line-height: 24px;
+        color: #000000;
+        letter-spacing: -0.01em;
+        font-variation-settings: "SOFT" 0, "WONK" 1;
+        white-space: nowrap;
+        will-change: transform;
+      }
+      .heading-icon-spring {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        flex-shrink: 0;
+        color: inherit;
+        overflow: hidden;
+      }
+      .card-canvas[data-theme="business"] .heading-icon-spring {
+        color: inherit;
+      }
+      .card-canvas.is-typing .heading-icon-spring {
+        width: 0;
+        opacity: 0;
+        transform: scale(0.4);
+        margin-right: -8px;
+        pointer-events: none;
+      }
+      .card-canvas.is-searching .heading-icon-spring {
+        width: 28px;
+        opacity: 0;
+        margin-right: 0;
+      }
+      .card-canvas.has-results .heading-icon-spring {
+        width: 28px;
+        opacity: 1;
+        transform: scale(1);
+        margin-right: 0;
+      }
+
+      /* Search Box */
+      .search-box-wrapper {
+        box-sizing: border-box;
+        will-change: transform, width;
+      }
+      .card-canvas.is-typing .search-box-wrapper {
+        width: 78%;
+        max-width: 520px;
+      }
+      @media (min-width: 1024px) {
+        .card-canvas.is-typing .search-box-wrapper {
+          width: 40%;
+        }
+      }
+      .card-canvas.not-typing .search-box-wrapper {
+        width: 100%;
+        max-width: 100%;
+      }
+      .card-canvas.has-results .search-box-wrapper {
+        opacity: 0;
+        transform: translateY(-8px);
+        pointer-events: none;
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .search-pill {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        gap: 12px;
+        border-radius: 24px;
+        border: 8px solid rgba(255, 255, 255, 0.4);
+        background-color: #ffffff;
+        background-clip: padding-box;
+        padding: 10px 20px;
+        box-sizing: border-box;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        text-align: left;
+      }
+      .octen-logo-mark {
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: octen-pop 0.6s cubic-bezier(0.34, 1.18, 0.64, 1) both;
+      }
+      @keyframes octen-pop {
+        0% { transform: scale(0) rotate(-25deg); }
+        100% { transform: scale(1) rotate(0); }
+      }
+      .query-display {
+        min-width: 0;
+        flex: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: clamp(14px, 1.4vw, 18px);
+        font-weight: 600;
+        color: #0B1F0E;
+        text-align: left;
+      }
+      .typing-caret {
+        display: inline-block;
+        width: 2px;
+        height: 1.1em;
+        margin-left: 2px;
+        background-color: #0B1F0E;
+        vertical-align: middle;
+        animation: caret-blink 1.1s ease-in-out infinite;
+      }
+      .card-canvas.not-typing .typing-caret {
+        display: none;
+      }
+      @keyframes caret-blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+      .sparkle-search-icon {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        color: #0B1F0E;
+      }
+
+      /* Summary Box (Stage 3, 4, 5) - Proportional spacing */
+      .summary-box {
+        display: none;
+        flex-direction: column;
+        gap: 24px;
+        animation: summary-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      .card-canvas.has-results .summary-box {
+        display: flex;
+      }
+      @media (min-width: 1024px) {
+        .summary-box {
+          gap: 24px;
+        }
+      }
+      @keyframes summary-enter {
+        from { opacity: 0; transform: translateY(14px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .summary-desc {
+        margin: 0;
+        padding: 0;
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: clamp(15px, 1.25vw, 16px);
+        line-height: 1.45;
+        color: #2D4032;
+        font-weight: 400;
+        text-wrap: pretty;
+      }
+      .card-canvas[data-theme="business"] .summary-desc {
+        color: #4A3E26;
+      }
+      .summary-bullets-list {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        color: #0B1F0E;
+        font-size: 15px;
+        line-height: 1.45;
+      }
+      @media (min-width: 1024px) {
+        .summary-bullets-list {
+          display: flex;
+        }
+      }
+      .summary-bullets-list li {
+        display: block;
+        margin: 0;
+        padding: 0;
+        text-wrap: pretty;
+      }
+      .summary-bullets-list b,
+      .summary-bullets-list strong {
+        font-weight: 700;
+        color: #000000;
+      }
+      .summary-bullets-list number-flow {
+        display: inline-block;
+        vertical-align: baseline;
+        font-family: inherit;
+        font-weight: 700;
+        color: #000000;
+      }
+
+      /* Mini Live Badge in 1st selling point (Figma Frame 427319328) */
+      .live-badge {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 4px;
+        gap: 2px;
+        height: 18px;
+        background-color: #242D29;
+        border-radius: 4px;
+        vertical-align: middle;
+        position: relative;
+        top: -1px;
+        margin: 0 4px 0 2px;
+        flex: none;
+        box-sizing: border-box;
+      }
+      .live-badge-dot {
+        width: 5.91px;
+        height: 5.91px;
+        border-radius: 50%;
+        background-color: #FF622D;
+        flex: none;
+        animation: live-dot-pulse 1.4s ease-in-out infinite;
+      }
+      .live-badge-text {
+        font-family: 'DM Sans', sans-serif;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 1;
+        color: #FFFFFF;
+        flex: none;
+        user-select: none;
+      }
+      @keyframes live-dot-pulse {
+        0%, 100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.35;
+          transform: scale(0.75);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .live-badge-dot {
+          animation: none;
+        }
+      }
+
+      /* Mini Avatar Cycles in 2nd selling point (Figma Frame 427319329) */
+      .avatar-cycles {
+        display: inline-flex;
+        align-items: center;
+        position: relative;
+        top: -1px;
+        margin: 0 4px 0 2px;
+        width: 48px;
+        height: 20px;
+        vertical-align: middle;
+        overflow: hidden;
+        flex: none;
+        box-sizing: border-box;
+        mask-image: linear-gradient(90deg, transparent 0%, black 14%, black 86%, transparent 100%);
+        -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 14%, black 86%, transparent 100%);
+      }
+      .avatar-cycles:hover .avatar-cycles-track {
+        animation-play-state: paused;
+      }
+      .avatar-cycles-track {
+        display: flex;
+        align-items: center;
+        will-change: transform;
+        animation: avatar-cycles-step-scroll-right 9.6s cubic-bezier(0.25, 1, 0.4, 1) infinite;
+      }
+      .avatar-cycle-item {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background-color: #000000;
+        border: 2px solid #8EB876;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+        margin-right: -4.43px;
+        user-select: none;
+        overflow: hidden;
+      }
+      .avatar-logo-wsj {
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: 6.5px;
+        font-weight: 700;
+        color: #FFFFFF;
+        letter-spacing: -0.4px;
+        line-height: 1;
+      }
+      .avatar-logo-bbc {
+        font-family: 'DM Sans', -apple-system, sans-serif;
+        font-size: 6px;
+        font-weight: 900;
+        color: #FFFFFF;
+        letter-spacing: 0.2px;
+        line-height: 1;
+      }
+      .avatar-logo-ft {
+        font-family: 'DM Sans', -apple-system, sans-serif;
+        font-size: 7px;
+        font-weight: 800;
+        color: #FCD0C7;
+        letter-spacing: -0.3px;
+        line-height: 1;
+      }
+      .avatar-logo-ap {
+        font-family: 'DM Sans', -apple-system, sans-serif;
+        font-size: 7px;
+        font-weight: 900;
+        color: #FFFFFF;
+        letter-spacing: -0.3px;
+        line-height: 1;
+      }
+      /* Stepped motion mode: 6 discrete brand logo steps with stationary dwell pause (~1.25s) and snappy glide (~0.35s) */
+      @keyframes avatar-cycles-step-scroll-right {
+        /* Step 0: Reuters */
+        0%, 13% {
+          transform: translate3d(-81.42px, 0, 0);
+        }
+        /* Step 1: Bloomberg */
+        16.67%, 29.67% {
+          transform: translate3d(-67.85px, 0, 0);
+        }
+        /* Step 2: WSJ */
+        33.33%, 46.33% {
+          transform: translate3d(-54.28px, 0, 0);
+        }
+        /* Step 3: BBC */
+        50%, 63% {
+          transform: translate3d(-40.71px, 0, 0);
+        }
+        /* Step 4: FT */
+        66.67%, 79.67% {
+          transform: translate3d(-27.14px, 0, 0);
+        }
+        /* Step 5: AP */
+        83.33%, 96.33% {
+          transform: translate3d(-13.57px, 0, 0);
+        }
+        /* Step 6: Seamless wrap back to Reuters */
+        100% {
+          transform: translate3d(0, 0, 0);
+        }
+      }
+      @keyframes avatar-cycles-scroll-right {
+        0%, 13% { transform: translate3d(-81.42px, 0, 0); }
+        16.67%, 29.67% { transform: translate3d(-67.85px, 0, 0); }
+        33.33%, 46.33% { transform: translate3d(-54.28px, 0, 0); }
+        50%, 63% { transform: translate3d(-40.71px, 0, 0); }
+        66.67%, 79.67% { transform: translate3d(-27.14px, 0, 0); }
+        83.33%, 96.33% { transform: translate3d(-13.57px, 0, 0); }
+        100% { transform: translate3d(0, 0, 0); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .avatar-cycles-track {
+          animation: none;
+        }
+      }
+
+      /* Mini Token Compression Meter in 3rd selling point (Figma Frame 427319327) */
+      .token-meter {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        vertical-align: middle;
+        position: relative;
+        top: -1px;
+        margin: 0 4px 0 2px;
+        width: 58px;
+        height: 12px;
+        padding: 0px;
+        flex: none;
+      }
+      /* Base empty slot (Figma #242D29 at 0.3 opacity) */
+      .token-meter-bar {
+        position: relative;
+        display: inline-block;
+        width: 4px;
+        height: 12px;
+        border-radius: 1px;
+        background-color: rgba(36, 45, 41, 0.3);
+        flex: none;
+        overflow: hidden;
+      }
+      /* Solid filled bar that shrinks down in height from top to bottom */
+      .token-meter-bar::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 1px;
+        background-color: #242D29;
+        pointer-events: none;
+        transition: height 0.65s cubic-bezier(0.2, 0.8, 0.25, 1);
+        will-change: height;
+      }
+      /* When dimmed: solid bar height shrinks down to 0, disappearing and leaving base empty slot */
+      .token-meter-bar.is-dimmed::after {
+        height: 0%;
+      }
+      /* Half-height state for the 3rd bar (index 2: 50% height in final state) */
+      .token-meter-bar.is-half::after {
+        height: 50%;
+      }
+      .token-meter.no-anim .token-meter-bar::after {
+        transition: none !important;
+      }
+
+      /* Mini Storyline Timeline in 4th selling point (Figma Node 13801:167079) */
+      .storyline-timeline {
+        display: inline-flex;
+        align-items: center;
+        position: relative;
+        top: -1px;
+        margin: 0 4px 0 2px;
+        width: 64px;
+        height: 10px;
+        vertical-align: middle;
+        overflow: hidden;
+        flex: none;
+        mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
+        -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
+      }
+      .storyline-rail {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 2px;
+        background-color: #242D29;
+        opacity: 0.2;
+        border-radius: 1px;
+      }
+      .storyline-stream {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        left: -9.92px;
+        top: 50%;
+        gap: 8.46px;
+        will-change: transform;
+        animation: storyline-step-flow 2.8s cubic-bezier(0.25, 1, 0.4, 1) infinite;
+      }
+      /* Node strictly per Figma Rectangle 4620: 6x6 content, 2px border, radius 10px */
+      .storyline-node {
+        width: 6px;
+        height: 6px;
+        border-radius: 10px;
+        background-color: #b4d095;
+        border: 2px solid #242D29;
+        box-sizing: content-box;
+        flex: none;
+      }
+      @keyframes storyline-step-flow {
+        0%, 72% {
+          transform: translateY(-50%) translate3d(0, 0, 0);
+        }
+        88%, 100% {
+          transform: translateY(-50%) translate3d(-18.46px, 0, 0);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .storyline-stream {
+          animation: none;
+        }
+      }
+
+      /* 3. Right Content Panel */

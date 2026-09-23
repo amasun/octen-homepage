@@ -29,9 +29,9 @@
 - **动效逻辑**：橙点执行 `@keyframes live-dot-pulse 1.4s ease-in-out infinite`（透明度 `1.0 ⇄ 0.35`，伴随 `scale(1) ⇄ scale(0.75)` 呼吸）。
 - **参数规格**：外壳 `36.91 × 18px`，背景 `#242D29`，圆角 `4px`，内边距 `4px`；圆点 `5.91px`（`#FF622D`）；文字 `12px DM Sans 700 #FFFFFF`。
 
-### 2. 主流媒体向右平滑滚动 (Avatar Cycles)
+### 2. 主流媒体向右步进流转 (Avatar Cycles)
 - **位置**：`news media` 前。
-- **动效逻辑**：向右匀速平移 `@keyframes avatar-cycles-scroll-right`（`translate3d(-81.42px, 0, 0) ➔ 0`，**`8.5s linear infinite`**）；双侧配置羽化渐变遮罩。
+- **动效逻辑**：采用 **steps 步进稳态模式**（单周期 **9.6s**，6 大媒体独立步进，每步包含 **~1.25s 静止稳态驻留** 以便清晰辨识各媒体 Logo，以及 **~0.35s 平滑滑移** `cubic-bezier(0.25, 1, 0.4, 1)` 步进节距 `13.57px`）；鼠标悬浮 `:hover` 触发 `animation-play-state: paused`；双侧配置羽化渐变遮罩。
 - **参数规格**：视口 `48 × 20px`；6 大媒体 + 6 闭环节点（共 12 节点）；单标外径 `18px`，边框 `2px #8EB876`，重叠负间距 `-4.43px`（圆心节距 `13.57px` 月牙咬合）。
 
 ### 3. Token 级联高度消减计量条 (Mini Token Meter)
