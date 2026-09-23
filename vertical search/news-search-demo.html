@@ -228,7 +228,7 @@
         font-weight: 400;
         line-height: 1.5;
         color: rgba(255, 255, 255, 0.7);
-        max-width: 600px;
+        max-width: 680px;
         margin-left: auto;
         margin-right: auto;
         text-align: center;
@@ -1577,11 +1577,11 @@
           </div>
 
           <!-- Headline -->
-          <h1 class="hero-heading" id="verticalSearchHeading">News Search</h1>
+          <h1 class="hero-heading" id="verticalSearchHeading">Search built for vertical industries</h1>
 
           <!-- Supporting text -->
           <p class="hero-desc" id="verticalSearchDesc">
-            Real-time global reporting indexed at wire speed. Curated across trusted publications, cross-verified, and structured for autonomous reasoning.
+            High-precision intelligence indexed at wire speed across real-time news, corporate filings, and market disclosures. Curated, cross-verified, and structured for autonomous reasoning.
           </p>
         </div>
 
@@ -1813,8 +1813,8 @@
           news: {
             id: 'news',
             title: 'News Search',
-            heading: 'News Search',
-            desc: 'Real-time global reporting indexed at wire speed. Curated across trusted publications, cross-verified, and structured for autonomous reasoning.',
+            heading: 'Search built for vertical industries',
+            desc: 'High-precision intelligence indexed at wire speed across real-time news, corporate filings, and market disclosures. Curated, cross-verified, and structured for autonomous reasoning.',
             theme: 'news',
             query: 'Strait of Hormuz shipping disruptions',
             badgeText: 'Top News',
@@ -1972,8 +1972,8 @@
           business: {
             id: 'business',
             title: 'Business Search',
-            heading: 'Business Search',
-            desc: 'Enterprise registries, SEC filings, and capital expenditure forecasts indexed at wire speed. Structured for financial models and market intelligence.',
+            heading: 'Search built for vertical industries',
+            desc: 'High-precision intelligence indexed at wire speed across real-time news, corporate filings, and market disclosures. Curated, cross-verified, and structured for autonomous reasoning.',
             theme: 'business',
             query: 'Semiconductor supply chain CAPEX forecasts 2026',
             badgeText: 'Top Business',
@@ -3402,11 +3402,11 @@
             tabBusiness.setAttribute('aria-selected', key === 'business' ? 'true' : 'false');
           }
 
-          // 2. Update Hero Section Heading & Description
+          // 2. Hero Section Heading remains permanent section title ("Search built for vertical industries")
           const heroHeading = document.getElementById('verticalSearchHeading');
           const heroDesc = document.getElementById('verticalSearchDesc');
-          if (heroHeading) heroHeading.textContent = curData.heading;
-          if (heroDesc) heroDesc.textContent = curData.desc;
+          if (heroHeading && curData.heading) heroHeading.textContent = curData.heading;
+          if (heroDesc && curData.desc) heroDesc.textContent = curData.desc;
 
           // 3. Update Canvas data-theme
           if (cardCanvas) {
