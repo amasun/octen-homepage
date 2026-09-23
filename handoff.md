@@ -231,6 +231,9 @@ pnpm preview   # 本地静态托管并预览构建产物
     4. `• <b>Event lineage tracking</b>: clusters complete backstory and developing&nbsp;angles.`（话题事件始末发展脉络追踪与聚合）；
   - **排版防孤行与等长对齐**：每条末尾单词注入 `&nbsp;` 不换行空格，且 4 条长度高度平衡（80~84 字符），配合 `text-wrap: pretty;` 杜绝折行单字；同步规范 Business Search 卖点排版。
 
+- ✅ **调整四大卖点与上方定位描述文字的间距为 24px**（已完成）：
+  - 将 `.summary-box` 的 `gap` 从 `16px` 调整为 `24px`（含 `@media (min-width: 1024px)`），拉开定位描述（`.summary-desc`）与四大核心卖点列表（`.summary-bullets-list`）的纵向呼吸感，使卡片左侧的信息层次更加舒展。
+
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
 
