@@ -152,6 +152,14 @@ pnpm preview   # 本地静态托管并预览构建产物
   - **辅助文字与下方行动按钮间距**：同步平准为 **`20px`**（`.hero-header-box gap: 20px`），使辅助文字的**上方间距（距大标题）与下方间距（距按钮）达到完美的 20px 双向对称**；
   - **清除 `<p>` 默认上下 margin 渗透**：彻底清除浏览器原生的 16px block margin 累加，确保呈现纯正的 20px 几何空隙；
   - **Tabs 导航栏与行动按钮间距**：平准标定为严格的 **`30px`**（`.vertical-tabs-bar margin-top: 10px` 叠加容器 `gap: 20px`），还原 Figma 宽适舒展的导航段落间隔。
+- ✅ **News Search Timeline 时间轴首张卡片相对时间动态呈现**（已完成）：
+  - **高时效卖点视觉化**：针对 News Search 垂直赛道“3分钟内可搜到”的核心卖点，在 Stage 5 时间线流（Timeline Stream）中，对每个事件轴（Subject 1~4）的**第一张新闻卡片统一改用相对时间**；
+  - **动态映射与数据适配**：
+    - Subject 1 头部事件首卡：`3 minutes ago`；
+    - Subject 2 头部事件首卡：`10 minutes ago`；
+    - Subject 3 头部事件首卡：`24 minutes ago`；
+    - Subject 4 头部事件首卡：`36 minutes ago`；
+  - **历史回溯保持精准**：第一张卡片体现最新突发时效性，后续卡片（第 2~5 篇）保持精确时间戳（如 `05:27:44`），完整呈现从最新突破到历史脉络的层级递进。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。

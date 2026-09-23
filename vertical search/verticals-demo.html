@@ -1912,6 +1912,7 @@
                   {
                     title: 'Global Oil Prices Could Hit Highest Levels in Months After Saudi Pipeline Attacks',
                     timePublished: '2026-09-15T05:26:15Z',
+                    relativeTime: '3 minutes ago',
                     url: 'https://www.sbs.com.au/news/article/global-oil-prices-could-hit-highest-levels-in-months-after-saudi-pipeline-attacks/2958h2'
                   },
                   {
@@ -1947,6 +1948,7 @@
                   {
                     title: 'Tehran outlines seven non-negotiable conditions for Hormuz strait access',
                     timePublished: '2026-09-20T06:15:20Z',
+                    relativeTime: '10 minutes ago',
                     url: 'https://www.aljazeera.com/news/2026/9/20/tehran-outlines-seven-conditions-hormuz'
                   },
                   {
@@ -1982,6 +1984,7 @@
                   {
                     title: 'Houthis seize strategic Red Sea islands as analysts warn of impending oil crunch',
                     timePublished: '2026-09-15T04:22:16Z',
+                    relativeTime: '24 minutes ago',
                     url: 'https://www.theguardian.com/world/2026/sep/15/houthi-rebels-seize-red-sea-hanish-islands-saudi-oil-warning'
                   },
                   {
@@ -2017,6 +2020,7 @@
                   {
                     title: 'Oil Prices Rise as Traders Gauge Lost Saudi Arabian Volumes After Pipeline Attack',
                     timePublished: '2026-09-15T05:37:00Z',
+                    relativeTime: '36 minutes ago',
                     url: 'https://www.wsj.com/finance/currencies/oil-rises-as-stabilizers-in-crude-market-start-to-weaken-5dc85781'
                   },
                   {
@@ -2317,7 +2321,16 @@
           let articlesHTML = '';
           articles.forEach((art, i) => {
             const domain = extractDomain(art.url);
-            const timeStr = formatTimeOnly(art.timePublished);
+            let timeStr = formatTimeOnly(art.timePublished);
+            if (curData.id === 'news' && i === 0) {
+              const defaultNewsRelativeMap = {
+                0: '3 minutes ago',
+                1: '10 minutes ago',
+                2: '24 minutes ago',
+                3: '36 minutes ago'
+              };
+              timeStr = art.relativeTime || defaultNewsRelativeMap[subjectIdx] || '3 minutes ago';
+            }
             articlesHTML += `
               <div class="timeline-sub-article ${makeVisible ? 'visible' : ''}" data-article-idx="${i}">
                 <div class="sub-article-meta">
