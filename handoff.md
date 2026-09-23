@@ -246,8 +246,8 @@ pnpm preview   # 本地静态托管并预览构建产物
   - **消除冒号与片段化结构**：彻底去除原先“标题：正文说明”的冒号切割写法（如 `Wire-speed freshness: ...`），改为以强动词（Search / Cover / Deduplicate / Track）引导的 4 句完整流利、自洽的英文陈述句：
     1. `• Search breaking news at wire speed within <b><number-flow ...>3</number-flow>&nbsp;minutes</b> of publication.`（突发新闻发布后 3 分钟内以电传级时效全网检索）；
     2. `• Cover <b><number-flow ...>95</number-flow>%</b> of global tier-1 news media and wire&nbsp;services.`（全面收录 95% 全球头部主流新闻媒体与通讯社源）；
-    3. `• Deduplicate syndicated reprints and duplicate stories to save prompt&nbsp;tokens.`（自动去重通稿转载与重复故事，大幅节省 Prompt Token）；
-    4. `• Track complete event lineage and developing angles as unified&nbsp;storylines.`（完整追踪事件始末脉络与衍生角度，聚合成统一故事线）；
+    3. `• Deduplicate syndicated stories to save prompt&nbsp;tokens.`（自动去重通稿，大幅节省 Prompt Token）；
+    4. `• Track full event lineage as unified&nbsp;storylines.`（完整追踪事件脉络，聚合成统一故事线）；
   - **无缝衔接动画与排版防护**：保留 `<number-flow>` 动态数字滚轮绑定的无感内嵌，并在末尾配置 `&nbsp;` 不换行空格与 `text-wrap: pretty;`，彻底杜绝单字孤行（Orphan Words）。
 
 > [!IMPORTANT]
