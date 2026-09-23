@@ -902,7 +902,7 @@
         border-radius: 1px;
         background-color: #004F2B;
         flex: none;
-        transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: opacity 0.5s cubic-bezier(0.2, 0.8, 0.25, 1);
         will-change: opacity;
       }
       .token-meter-bar.is-dimmed {
@@ -3224,9 +3224,9 @@
             });
 
             // 2. Cascade dimming from right to left (indices 9 down to 3: 7 bars extinguished)
-            // Stagger start: wait 240ms after overview starts, then extinguish with 42ms interval
-            const startDelay = 240;
-            const stepInterval = 42;
+            // Slower, deliberate pacing: pause 420ms after overview starts, then 95ms per bar cascade
+            const startDelay = 420;
+            const stepInterval = 95;
             const extinguishIndices = [9, 8, 7, 6, 5, 4, 3];
 
             extinguishIndices.forEach((idx, step) => {
