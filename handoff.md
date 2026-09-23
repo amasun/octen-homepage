@@ -223,13 +223,13 @@ pnpm preview   # 本地静态托管并预览构建产物
 - ✅ **调整 Stage 5 时间线流卡片容器最大高度为 248px**（已完成）：
   - 将 `.card-canvas.is-stage5 .timeline-stream-block` 的 `max-height` 从原有的 `232px` 调整为 `248px`，使 Stage 5 阶段多篇新闻资讯展开时获得更适宜的纵向视口高度展示。
 
-- ✅ **调整四大核心卖点文案结构：加粗数字与特点文字前置置顶**（已完成）：
-  - **视觉锚点前置（Front-Loaded Value Propositions）**：将核心衡量指标（加粗数字）与功能关键词提至每条卖点的最开端作为加粗标题标签，后接冒号与凝练说明，大幅提升扫读效率与信息冲击力：
-    1. `• <b>3-minute wire speed</b>: indexed and searchable in real time as news&nbsp;breaks.`（3分钟内秒级/分级入库时效）；
-    2. `• <b>95% tier-1 coverage</b>: comprehensive index of authoritative global&nbsp;media.`（95% 全球头部主流媒体全收录）；
-    3. `• <b>Token-saving dedup</b>: eliminates syndicated reprints and duplicate&nbsp;stories.`（转载通稿去重与省 Token 核心痛点）；
-    4. `• <b>Event lineage tracking</b>: clusters complete backstory and developing&nbsp;angles.`（话题事件始末发展脉络追踪与聚合）；
-  - **排版防孤行与等长对齐**：每条末尾单词注入 `&nbsp;` 不换行空格，且 4 条长度高度平衡（80~84 字符），配合 `text-wrap: pretty;` 杜绝折行单字；同步规范 Business Search 卖点排版。
+- ✅ **调整四大核心卖点为自然流畅表述（不刻意前置加重文字）**（已完成）：
+  - **自然语法与专业表达（Natural Enterprise Phrasing）**：去除生硬的倒装与刻意前置加粗，还原为清晰自然的名词特性标签 + 完整陈述句，核心指标数字自然融入句中加粗强调：
+    1. `• Wire-speed freshness: searchable within <b>3&nbsp;minutes</b> of publication.`（更高时效：发稿3分钟内全网可搜）；
+    2. `• Comprehensive coverage: indexing <b>95%</b> of global tier-1 news&nbsp;media.`（更全覆盖：收录95%全球头部主流通讯社与媒体）；
+    3. `• Token-efficient deduplication: filters syndicated reprints and duplicate&nbsp;stories.`（更省 Token：智能过滤通稿转载与重复故事）；
+    4. `• Topic clustering: tracks complete event lineage and&nbsp;development.`（话题聚合：完整追踪事件始末起因与后续发展脉络）；
+  - **排版防孤行与平衡对齐**：每条末尾单词保留 `&nbsp;` 不换行空格与 `text-wrap: pretty;`，保持优雅阅读体验；Business Search 同步恢复纯粹自然表述。
 
 - ✅ **调整四大卖点与上方定位描述文字的间距为 24px**（已完成）：
   - 将 `.summary-box` 的 `gap` 从 `16px` 调整为 `24px`（含 `@media (min-width: 1024px)`），拉开定位描述（`.summary-desc`）与四大核心卖点列表（`.summary-bullets-list`）的纵向呼吸感，使卡片左侧的信息层次更加舒展。
