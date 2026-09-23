@@ -117,7 +117,7 @@ pnpm preview   # 本地静态托管并预览构建产物
     - 透明度统一锁定为 Figma 规范的 `opacity: 0.12 !important`；
     - 颜色采用纯黑 `#000000` 融入背景底色，移除原先粗糙的棕黄色着色覆盖；
     - 尺寸精确对齐为 `280px × 280px`，桌面端定位为 `left: 120px; top: 126px;`（移动端自适应响应）；
-    - Business 水印矢量更新为 Figma 原型提取的高精度公文包矢量节点，线条粗细与原稿完美一致。
+    - 水印矢量线宽严格标定为 `18px`（`stroke-width="18"` 与 CSS `stroke-width: 18px` 协同保障），消除大尺寸下的过于粗重感。
 - ✅ **Section 8 Start Building (CTA) 背景色与可见性修复**（已完成）：
   - 外层容器补充 `#080B12` 暗黑背景与底部分割线 `<div class="w-full border-b border-[#FFFFFF33]">`；
 - ✅ **Business Search 规范与结构性差异归档**（已完成）：
