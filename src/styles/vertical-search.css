@@ -319,64 +319,6 @@
   flex-direction: column;
 }
 
-/* Subtle Status Tip Outside Card */
-.hero-canvas-tip {
-  position: absolute;
-  top: -54px;
-  right: 0;
-  z-index: 45;
-  display: inline-flex;
-  align-items: flex-start;
-  gap: 7px;
-  padding: 6px 12px;
-  font-family: inherit;
-  font-size: 11px;
-  line-height: 1.4;
-  letter-spacing: -0.01em;
-  color: rgba(226, 232, 240, 0.75);
-  background: rgba(13, 17, 23, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
-  pointer-events: none;
-  user-select: none;
-  width: max-content;
-  max-width: 290px;
-}
-
-.hero-canvas-tip-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background-color: rgba(148, 163, 184, 0.85);
-  flex-shrink: 0;
-  margin-top: 4px;
-}
-
-.hero-canvas-tip-text {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.hero-canvas-tip-line {
-  white-space: nowrap;
-}
-
-@media (max-width: 768px) {
-  .hero-canvas-tip {
-    top: -46px;
-    right: 0;
-    padding: 5px 10px;
-    font-size: 10px;
-    max-width: calc(100% - 16px);
-  }
-  .hero-canvas-tip-line {
-    white-space: normal;
-  }
-}
 
 /* ==========================================================================
    2.3 EXACT OCTEN CARD CANVAS

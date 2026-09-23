@@ -116,6 +116,7 @@ pnpm preview   # 本地静态托管并预览构建产物
     - Business 水印矢量更新为 Figma 原型提取的高精度公文包矢量节点，线条粗细与原稿完美一致。
 - ✅ **Section 8 Start Building (CTA) 背景色与可见性修复**（已完成）：
   - 外层容器补充 `#080B12` 暗黑背景与底部分割线 `<div class="w-full border-b border-[#FFFFFF33]">`；
-  - 彻底清除 SSR 残留的 `opacity: 0; filter: blur(6px); transform: translateY(24px)` 内联样式，解决 3 步卡片和 Skills 盒子不可见的问题。
+- ✅ **清理残留提示**（已完成）：
+  - 彻底移除巨幅卡片外右上角的状态提示 `.hero-canvas-tip`（"Currently under optimization. Based on the front-end engineering results."）及其关联样式。
 
 
