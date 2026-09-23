@@ -147,8 +147,16 @@ pnpm preview   # 本地静态托管并预览构建产物
   - 针对 4 大核心卖点进行深度分析：
     1. **更高时效（3分钟内可搜到）**：当前仅体现静态日期，建议在卡片顶部引入 `● Ingested 2m ago` / `● Wire Speed (<3m)` 实时呼吸绿点徽章，并在 Stage 2 检索中增加秒级快报扫描感知；
     2. **更全覆盖（95% 头部媒体覆盖）**：当前仅显示文本域名，建议引入头部媒体矩阵 Favicon/Logo 与左侧面板 `8 tier-1 sources` 维度；
-    3. **更省 Token（转载去重、相同新闻去重）**：当前仅呈现清洗后的 10 篇文章，缺乏去重与 Token 节省直观感知，建议引入 `⚡ Saved ~18k Tokens` / `86 raw wires consolidated into 10` 压缩比徽章与转载渠道折叠交互；
-    4. **话题聚合（追踪事件始末，包含原始事件+子事件）**：当前已由 Stage 3~5 完整体现，建议后续补充 `Origin` ➔ `Escalation` 拓扑阶段标签。
+- ✅ **Vertical Search 独立 Demo 全局间距体系严格对齐 Figma Node 13701:168352**（已完成）：
+  - **消除双重叠加间距**：将 `.vertical-tabs-bar` 作为第 3 子元素真正嵌套回 `.hero-header-box`（严格匹配 Figma 原型层级），彻底清除原外层 `.demo-wrapper` 的 20px gap 与 Tab 栏 30px margin 相互叠加造成的 50px 间距膨胀；
+  - **30px 统一垂直韵律**：
+    - 文本组 ➔ (`gap: 30px`) ➔ `Request Access` 按钮 ➔ (`gap: 30px`) ➔ 毛玻璃 Tabs 栏 ➔ (`gap: 30px`) ➔ 巨幅卡片 (1260×532) ➔ (`gap: 30px`) ➔ 底部开发调试控件；
+  - **Figma 精确微观间距**：
+    - 视口顶部留白：桌面端 `padding-top: 80px`（严格契合 Figma 原型 `y=80` 起始坐标）；
+    - 胶囊标签内距：`height: 30px; padding: 0 16px; gap: 7px;`；
+    - 标签与大标题：`gap: 16px`；大标题与说明文字：`gap: 20px`；
+    - 按钮内部微距：`padding: 0 16px 0 20px; gap: 4px;`；
+    - Tabs 栏微距：外壳 `padding: 4px; gap: 4px;`，单 Tab `padding: 0 20px 0 16px; gap: 8px;`。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
