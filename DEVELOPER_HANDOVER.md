@@ -37,7 +37,7 @@
 3. ✅ **双垂直搜索 Tab 栏（News Search / Business Search）**：
    - 舞台上方恢复毛玻璃双 Tab 胶囊切换栏（`[ News Search ]  [ Business Search ]`）；
    - 点击 Tab 实现主题色（青绿 vs 琥珀金）、背景水印、标题说明、Query 输入语句、统计数据及时间线内容完全动态切换。
-4. ✅ **5 步时序动画全套移植**（源自 `news search/news-search-demo.html`）：
+4. ✅ **5 步时序动画全套移植**（源自 `vertical search/news-search-demo.html`）：
    - **步骤 1 (Typing)**：逐字输入查询语句（32ms/字）+ 光标呼吸停顿。
    - **步骤 2 (Searching)**：输入框通过 WAAPI FLIP 无缝平移至左上角，右侧展开 14 节点正弦波跳动动画。
    - **步骤 3 (Overview)**：左侧统计数字 odometer 翻滚（0 ➔ 4 主题 / 10 报道），右侧白卡依次滚动推入。
