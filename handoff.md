@@ -147,10 +147,11 @@ pnpm preview   # 本地静态托管并预览构建产物
   - 针对 4 大核心卖点进行深度分析：
     1. **更高时效（3分钟内可搜到）**：当前仅体现静态日期，建议在卡片顶部引入 `● Ingested 2m ago` / `● Wire Speed (<3m)` 实时呼吸绿点徽章，并在 Stage 2 检索中增加秒级快报扫描感知；
     2. **更全覆盖（95% 头部媒体覆盖）**：当前仅显示文本域名，建议引入头部媒体矩阵 Favicon/Logo 与左侧面板 `8 tier-1 sources` 维度；
-- ✅ **Vertical Search 独立 Demo 标题与辅助文字上下间距优化为 20px**（已完成）：
+- ✅ **Vertical Search 独立 Demo 标题、辅助文字与 Tabs 间距层级标定**（已完成）：
   - **标题与辅助文字间距**：严格锁定为 **`20px`**（`.hero-title-group gap: 20px`，完全契合 Figma 原型参数）；
   - **辅助文字与下方行动按钮间距**：同步平准为 **`20px`**（`.hero-header-box gap: 20px`），使辅助文字的**上方间距（距大标题）与下方间距（距按钮）达到完美的 20px 双向对称**；
-  - **清除 `<p>` 默认上下 margin 渗透**：彻底清除浏览器原生的 16px block margin 累加，确保呈现纯正的 20px 几何空隙。
+  - **清除 `<p>` 默认上下 margin 渗透**：彻底清除浏览器原生的 16px block margin 累加，确保呈现纯正的 20px 几何空隙；
+  - **Tabs 导航栏与行动按钮间距**：平准标定为严格的 **`30px`**（`.vertical-tabs-bar margin-top: 10px` 叠加容器 `gap: 20px`），还原 Figma 宽适舒展的导航段落间隔。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
