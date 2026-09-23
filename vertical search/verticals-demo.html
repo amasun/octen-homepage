@@ -881,32 +881,32 @@
         font-weight: 700;
         color: #000000;
       }
-      /* Mini Token Compression Meter in 3rd selling point */
+      /* Mini Token Compression Meter in 3rd selling point (Figma Frame 427319327) */
       .token-meter {
         display: inline-flex;
         align-items: center;
-        gap: 2.2px;
+        gap: 2px;
         vertical-align: middle;
         position: relative;
         top: -1px;
         margin: 0 4px 0 2px;
-        height: 14px;
-        padding: 0 1px;
+        width: 58px;
+        height: 12px;
+        padding: 0px;
+        flex: none;
       }
       .token-meter-bar {
         display: inline-block;
-        width: 2.6px;
-        height: 11.5px;
+        width: 4px;
+        height: 12px;
         border-radius: 1px;
-        background-color: #000000;
-        transform-origin: center bottom;
-        transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
-        will-change: opacity, transform;
+        background-color: #004F2B;
+        flex: none;
+        transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity;
       }
       .token-meter-bar.is-dimmed {
-        opacity: 0.16 !important;
-        transform: scaleY(0.85);
+        opacity: 0.3 !important;
       }
 
       /* 3. Right Content Panel */
