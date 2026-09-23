@@ -213,8 +213,16 @@ pnpm preview   # 本地静态托管并预览构建产物
     - 将 `.heading-icon-spring` 设置为 `color: inherit;`，严格继承父级 `.canvas-heading-row` 的 `#000000` 标题字色；
     - **视觉纯粹性**：标题（100% 不透明纯黑）与背景大水印（12% 半透明纯黑）在色相和明度上达成 100% 绝对一致，飞行过渡时没有任何色彩色调跳变，仅有**尺寸缩放**、**空间位移**与**透明度从 0.12 到 1.0 的平滑加深**。
 
+- ✅ **修复第三步 Overview 开始卡片左侧多出一个水印图标的问题**（已完成）：
+  - **根本原因排查**：在 Stage 1 到 Stage 2 的共享元素变形（`watermarkMorphAnim`）中使用了 Web Animations API 的 `fill: 'forwards'` 配置。在浏览器标准规范中，带有 `fill: 'forwards'` 的动画即使在 `onfinish` 执行后，其最终关键帧（`opacity: 1`、`transform: translate(...) scale(0.1)`）仍被长期固化在 CSS 动画层级，其优先级高于内联样式（`style.opacity = '0'`）和普通 CSS 类名规则。当流程推进到 Stage 3（Overview）时，标题栏 `.canvas-heading-row` 以及内嵌的真实 `#canvasHeadingIcon` 整体向上滑移，而未被显式取消的水印图标仍被动画层强行锁定在 Stage 2 的几何坐标上，导致视觉上在卡片左侧多停留了一个半透明的水印重影；
+  - **三重安全防护（Triple-Lock Shield）**：
+    1. **显式取消 WAAPI 动画层**：在 `watermarkMorphAnim.onfinish` 以及 `reverseMorphAnim.onfinish` 回调中，显式调用 `anim.cancel()`，彻底释放 WAAPI 对元素样式的图层锁定；
+    2. **画布状态机强校验**：在 `setCanvasState(state)` 中，一旦进入非 `typing` 状态（即 `searching`、`overview`、`focus`、`timeline`），立即主动扫描并清理 `canvasWatermark.getAnimations()`，并将 `canvasWatermark.style.display` 严格置为 `'none'`；
+    3. **CSS 物理隐藏强制锁**：在全局样式表中追加规则 `.card-canvas.has-results .canvas-watermark { display: none !important; opacity: 0 !important; pointer-events: none !important; }`，由于 `.has-results` 仅在 Stage 3（Overview）、Stage 4（Focus）、Stage 5（Timeline）生效，从渲染树物理层面彻底杜绝了水印图标在结果展示阶段出现的可能，同时完好保留了 Stage 1 到 Stage 2 的丝滑穿越形变。
+
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
+
 
 
 

@@ -546,6 +546,11 @@
         opacity: 0;
         pointer-events: none;
       }
+      .card-canvas.has-results .canvas-watermark {
+        display: none !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
       .card-canvas[data-theme="business"] .wave-dot {
         background-color: #B45309;
       }
@@ -2494,11 +2499,16 @@
           const canvasHeadingIcon = document.getElementById('canvasHeadingIcon');
 
           if (canvasWatermark) {
+            try {
+              canvasWatermark.getAnimations().forEach(anim => anim.cancel());
+            } catch (e) {}
             canvasWatermark.style.transform = '';
             canvasWatermark.style.zIndex = '';
             if (state === 'typing') {
+              canvasWatermark.style.display = 'block';
               canvasWatermark.style.opacity = '';
             } else {
+              canvasWatermark.style.display = 'none';
               canvasWatermark.style.opacity = '0';
             }
           }
@@ -2893,6 +2903,10 @@
 
           // 6. Watermark-to-Heading-Icon Shared Element Morph Animation!
           if (canvasWatermark && canvasHeadingIcon && firstWatermarkRect && lastIconRect && firstWatermarkRect.width > 0 && lastIconRect.width > 0) {
+            try {
+              canvasWatermark.getAnimations().forEach(anim => anim.cancel());
+            } catch (e) {}
+            canvasWatermark.style.display = 'block';
             canvasHeadingIcon.style.opacity = '0';
             canvasHeadingIcon.style.transition = 'none';
 
@@ -2930,10 +2944,12 @@
             activeAnimations.push(watermarkMorphAnim);
 
             watermarkMorphAnim.onfinish = () => {
+              try { watermarkMorphAnim.cancel(); } catch (e) {}
               canvasHeadingIcon.style.opacity = '1';
               canvasWatermark.style.opacity = '0';
               canvasWatermark.style.zIndex = '';
               canvasWatermark.style.transform = 'none';
+              canvasWatermark.style.display = 'none';
             };
           }
         }
@@ -2990,7 +3006,11 @@
 
           // Reverse Morph from Heading Icon back to Ambient Watermark!
           if (canvasWatermark && canvasHeadingIcon && firstIconRect && lastWatermarkRect && lastWatermarkRect.width > 0 && firstIconRect.width > 0) {
+            try {
+              canvasWatermark.getAnimations().forEach(anim => anim.cancel());
+            } catch (e) {}
             canvasHeadingIcon.style.opacity = '0';
+            canvasWatermark.style.display = 'block';
 
             const iCenterX = firstIconRect.left + firstIconRect.width / 2;
             const iCenterY = firstIconRect.top + firstIconRect.height / 2;
@@ -3025,9 +3045,11 @@
             activeAnimations.push(reverseMorphAnim);
 
             reverseMorphAnim.onfinish = () => {
+              try { reverseMorphAnim.cancel(); } catch (e) {}
               canvasWatermark.style.opacity = '';
               canvasWatermark.style.zIndex = '';
               canvasWatermark.style.transform = '';
+              canvasWatermark.style.display = 'block';
             };
           }
         }
