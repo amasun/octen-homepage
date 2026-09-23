@@ -142,9 +142,17 @@ pnpm preview   # 本地静态托管并预览构建产物
     - **辅助说明**（Node `13701:168359`）：`DM Sans 16px`，`max-width: 682px`，居中排版，opacity 0.8；
     - **`Request Access` 按钮**（Node `13702:169791`）：高度 40px，居中放置在副标题下方，`border: 1px solid #60ff70`，文字 `#70fe7e` 16px SemiBold，右侧搭配 15.5px 45° 倾斜外链矢量箭头；
     - **三 Tab 导航栏**（Node `13799:166686`）：`background: rgba(82, 82, 82, 0.5)` 毛玻璃外壳（`backdrop-filter: blur(12px)`），包含 `News Search`（草绿 `#8adb47` 激活态、黑字黑标）、`Business Search` 与 `Academic`（白字白标，学术帽图标），并完整挂载 Academic 全量数据模型与交互切换逻辑。
+- ✅ **News Search 4 大核心卖点呈现现状评估与落地方案归档**（已完成）：
+  - 产出专用方案文档 [NEWS_SEARCH_VALUE_PROPOSITIONS.md](file:///x:/XCoding/Octen/hompage/vertical%20search/NEWS_SEARCH_VALUE_PROPOSITIONS.md)；
+  - 针对 4 大核心卖点进行深度分析：
+    1. **更高时效（3分钟内可搜到）**：当前仅体现静态日期，建议在卡片顶部引入 `● Ingested 2m ago` / `● Wire Speed (<3m)` 实时呼吸绿点徽章，并在 Stage 2 检索中增加秒级快报扫描感知；
+    2. **更全覆盖（95% 头部媒体覆盖）**：当前仅显示文本域名，建议引入头部媒体矩阵 Favicon/Logo 与左侧面板 `8 tier-1 sources` 维度；
+    3. **更省 Token（转载去重、相同新闻去重）**：当前仅呈现清洗后的 10 篇文章，缺乏去重与 Token 节省直观感知，建议引入 `⚡ Saved ~18k Tokens` / `86 raw wires consolidated into 10` 压缩比徽章与转载渠道折叠交互；
+    4. **话题聚合（追踪事件始末，包含原始事件+子事件）**：当前已由 Stage 3~5 完整体现，建议后续补充 `Origin` ➔ `Escalation` 拓扑阶段标签。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
+
 
 
 
