@@ -306,6 +306,11 @@ pnpm preview   # 本地静态托管并预览构建产物
       4. 第四条：`storyline-timeline` 节点时间线位于 `storylines` 前；
     - 同步更新静态 HTML 模板与 JavaScript 动态数据字典（`VERTICALS.news.bullets[1]`）。
 
+- ✅ **建立统一规范文档 [VERTICALS_ANIMATION_SPEC.md](./vertical%20search/VERTICALS_ANIMATION_SPEC.md)（Verticals 动效规范）**（已完成）：
+  - 汇总 News Search（四大卖点微动效、NumberFlow 滚轮、共享元素形变、Timeline Latest 标签与自动定位）；
+  - 增补 Business Search 专属视觉与动效（琥珀金色彩体系、公文包矢量资产、财报流时间轴、步骤 4 标签折叠高亮色 `#D97706`）；
+  - 梳理双垂直领域 Tabs 交互切换全量动效（`0.38s` 平滑滑动 Glider 指示条、反色文字遮罩视差、主题色平滑渐变、画布全局状态机重置与重燃流转）。
+
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
 
