@@ -123,6 +123,10 @@ pnpm preview   # 本地静态托管并预览构建产物
 - ✅ **Business Search 规范与结构性差异归档**（已完成）：
   - 输出权威规范文档 [vertical search/BUSINESS_SEARCH_SPEC.md](file:///x:/XCoding/Octen/hompage/vertical%20search/BUSINESS_SEARCH_SPEC.md)；
   - 同步更新并在 [vertical search/Business Search 控制台交互/Business Search 控制台交互.md](file:///x:/XCoding/Octen/hompage/vertical%20search/Business%20Search%20控制台交互/Business%20Search%20控制台交互.md) 中完整收录与 News Search 的数据模型、实体二分（Company vs Person）、双轨动态（Activities 时间线 vs News 列表）以及控制台参数结构差异。
+- ✅ **Vertical Search 独立 Demo 双 Tab 与 Business 整合**（已完成）：
+  - 将 Business Search 完整补充进 [vertical search/news-search-demo.html](file:///x:/XCoding/Octen/hompage/vertical%20search/news-search-demo.html)；
+  - 采用 index 主站的 Hero 标题排版（`Search / PREMIER` 胶囊标签、动态标题副标题、`Request Access` 按钮）与毛玻璃双 Tab 胶囊栏（`News Search` vs `Business Search`）；
+  - 支持主题色、水波纹、水印 SVG、打字 Query、统计数字、卡片形变与 5 阶段动画一键无缝切换与独立运行。
 
 
 
