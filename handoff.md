@@ -280,8 +280,8 @@ pnpm preview   # 本地静态托管并预览构建产物
 
 - ✅ **第一条卖点引入动态 LIVE 徽标（严格对齐 Figma Frame 427319328 最新规范）**（已完成）：
   - **Figma 原型参数 1:1 纯 CSS 还原**：
-    - 胶囊微壳（`.live-badge`）：`background: #242D29; border-radius: 4px; height: 18px; padding: 4px 6px; gap: 2px;`，墨黑偏深林墨绿色低调质感底色；
-    - 橙色呼吸圆点（`.live-badge-dot`）：`width: 4px; height: 4px; background: #FF622D; border-radius: 50%;`（Ellipse 3732，亮橙鲜活识别色）；
+    - 胶囊微壳（`.live-badge`）：`background: #242D29; border-radius: 4px; height: 18px; padding: 4px; gap: 2px; width: 36.91px;`，墨黑偏深林墨绿质感底色；
+    - 橙色呼吸圆点（`.live-badge-dot`）：`width: 5.91px; height: 5.91px; background: #FF622D; border-radius: 50%;`（Ellipse 3732，亮橙饱满呼吸微标）；
     - 粗体白色文字（`.live-badge-text`）：`font-family: 'DM Sans'; font-size: 12px; font-weight: 700; color: #FFFFFF; line-height: 1;`；
   - **动态呼吸光效（Dynamic Pulse）**：
     - 橙色微圆注入 `@keyframes live-dot-pulse 1.4s ease-in-out infinite` 呼吸动效（透明度与尺度在 1.0 与 0.35/0.75 间平滑摆动），生动呈现“电传级突发时效”与“直播级实时推流”的视觉感知；
