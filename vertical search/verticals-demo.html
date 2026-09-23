@@ -895,18 +895,37 @@
         padding: 0px;
         flex: none;
       }
+      /* Base empty slot (Figma #004F2B at 0.3 opacity) */
       .token-meter-bar {
+        position: relative;
         display: inline-block;
         width: 4px;
         height: 12px;
         border-radius: 1px;
-        background-color: #004F2B;
+        background-color: rgba(0, 79, 43, 0.3);
         flex: none;
-        transition: opacity 0.5s cubic-bezier(0.2, 0.8, 0.25, 1);
-        will-change: opacity;
+        overflow: hidden;
       }
-      .token-meter-bar.is-dimmed {
-        opacity: 0.3 !important;
+      /* Solid filled bar that shrinks down in height from top to bottom */
+      .token-meter-bar::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 1px;
+        background-color: #004F2B;
+        pointer-events: none;
+        transition: height 0.48s cubic-bezier(0.2, 0.8, 0.25, 1);
+        will-change: height;
+      }
+      /* When dimmed: solid bar height shrinks down to 0, disappearing and leaving base empty slot */
+      .token-meter-bar.is-dimmed::after {
+        height: 0%;
+      }
+      .token-meter.no-anim .token-meter-bar::after {
+        transition: none !important;
       }
 
       /* 3. Right Content Panel */
@@ -3218,12 +3237,15 @@
             const bars = meter.querySelectorAll('.token-meter-bar');
             if (bars.length !== 10) return;
 
-            // 1. Instantly reset all 10 bars to full black (10/10 tokens active)
+            // 1. Instantly reset all 10 bars to full solid height (10/10 tokens active)
+            meter.classList.add('no-anim');
             bars.forEach(bar => {
               bar.classList.remove('is-dimmed');
             });
+            void meter.offsetWidth; // Force reflow to immediately apply full height without transition
+            meter.classList.remove('no-anim');
 
-            // 2. Cascade dimming from right to left (indices 9 down to 3: 7 bars extinguished)
+            // 2. Cascade height reduction from right to left (indices 9 down to 3: 7 bars extinguished)
             // Slower, deliberate pacing: pause 420ms after overview starts, then 95ms per bar cascade
             const startDelay = 420;
             const stepInterval = 95;

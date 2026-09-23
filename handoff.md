@@ -250,16 +250,14 @@ pnpm preview   # 本地静态托管并预览构建产物
     4. `• Track full event lineage as unified&nbsp;storylines.`（完整追踪事件脉络，聚合成统一故事线）；
   - **无缝衔接动画与排版防护**：保留 `<number-flow>` 动态数字滚轮绑定的无感内嵌，并在末尾配置 `&nbsp;` 不换行空格与 `text-wrap: pretty;`，彻底杜绝单字孤行（Orphan Words）。
 
-- ✅ **第三条卖点实现纯 CSS 矢量 Mini Token Meter 与自右向左级联熄灭动效（严格对齐 Figma Frame 427319327）**（已完成）：
-  - **完全还原 Figma 原型参数**：
-    - 外层容器：`width: 58px; height: 12px; gap: 2px; padding: 0px;`（10 柱 × 4px + 9 间距 × 2px = 58px 严丝合缝）；
-    - 矩形微柱：`width: 4px; height: 12px; border-radius: 1px; background: #004F2B;`（纯正品牌墨绿）；
-    - 熄灭虚化态：`opacity: 0.3 !important;`（严格对齐 Figma 后 7 根柱体的 `opacity: 0.3` 规范）；
-  - **自右向左级联消减动效（Cascade Dimming）**：
-    - Stage 3 进入时，10 根墨绿柱体全部为满格高亮亮起（`opacity: 1`，隐喻初始未清洗的 10 份重复通稿的庞大 Token 占用）；
-    - 舒展前置停留 420ms 让肉眼充分捕捉到满格 10 柱形态，随后自右向左（第 10 根至第 4 根，共 7 根）以 **95ms 适中步频阶梯多米诺逐格淡出**；
-    - CSS 过渡时间调整为 **0.5s 平滑缓动（`cubic-bezier(0.2, 0.8, 0.25, 1)`）**，消减过程优雅柔和、清晰可辨；
-    - 最终坚挺锁定前 3 根 `#004F2B` 纯正亮柱，直观秒懂“Token 消耗被瞬间压缩 70%”；
+- ✅ **第三条卖点实现纯 CSS 矢量 Mini Token Meter 与实心柱高度消减动效（严格对齐 Figma Frame 427319327）**（已完成）：
+  - **双层物理槽位架构**：
+    - 底层空槽（`.token-meter-bar`）：`background-color: rgba(0, 79, 43, 0.3);`（严格还原 Figma 后 7 根柱体的 `opacity: 0.3` 墨绿底槽）；
+    - 实心充填（`::after`）：`background-color: #004F2B;`（纯正品牌实心墨绿，绝对定位贴底 `bottom: 0`）；
+  - **实心柱自右向左高度依次减少消失动效（Height Drain Cascade）**：
+    - Stage 3 进入时，10 根实心墨绿柱体全部处于 100% 满格高度（隐喻未去重的 10 份重复通稿的庞大 Token 占用）；
+    - 舒展前置停留 420ms 让肉眼充分捕捉满格状态，随后自右向左（第 10 根至第 4 根，共 7 根）以 **95ms 步频阶梯依次缩减高度（`height: 100% ➔ 0%`，耗时 0.48s）**；
+    - 实心柱自上而下缓缓沉降并彻底消失，露出底部的半透明空槽，前 3 根柱体稳稳保持 100% 满高实心；
     - 点击 Step 3 控件、Tab 切换或 Replay 时均支持完整自适应重放。
 
 > [!IMPORTANT]
