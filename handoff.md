@@ -306,12 +306,23 @@ pnpm preview   # 本地静态托管并预览构建产物
       4. 第四条：`storyline-timeline` 节点时间线位于 `storylines` 前；
     - 同步更新静态 HTML 模板与 JavaScript 动态数据字典（`VERTICALS.news.bullets[1]`）。
 
-- ✅ **建立统一规范文档 [VERTICALS_ANIMATION_SPEC.md](./vertical%20search/VERTICALS_ANIMATION_SPEC.md)（Verticals 动效规范）**（已完成）：
-  - 核心包含双垂直领域 Tabs 交互切换动效（`0.38s` 平滑滑动 Glider 指示条、反色文字遮罩视差、主题色平滑渐变、画布全局状态机重置与重燃流转）；
-  - 汇总 News Search 核心动效（四大卖点微动效、NumberFlow 滚轮、共享元素形变、Timeline Latest 标签与自动定位）。
+- ✅ **对齐 Business Search 实体画像场景（Coupang 近况与经营指标 / Bom Kim）与动效展现**（已完成）：
+  - **Query 规范对齐**：切换至 Business Search 时，打字与检索 Query 更新为 `Coupang 近况与经营指标`，与 [BUSINESS_SEARCH_SPEC.md](./vertical%20search/BUSINESS_SEARCH_SPEC.md) 及 [business-search-demo.html](./vertical%20search/Business%20Search%20控制台交互/business-search-demo.html) 保持 100% 一致；
+  - **标签与实体统计**：Top 卡片标签更新为 `Top Entity`；统计数字更新为 `2 entities`（公司 Coupang, Inc. 与人物 Bom Kim）和 `6 results`（权威研报与信息检索）；
+  - **三项商业核心价值卖点**：
+    - `• Corporate entity profiling: verified SEC registries, C-suite leadership, and market metrics.`
+    - `• Real-time financial metrics: tracking <b>$8.9B</b> revenue (+10% FX neutral) and 52-week trading range.`
+    - `• Dual-track intelligence: separates official corporate activities from independent media news.`
+  - **4 组深度商业实体专题与时间线**：
+    1. **Subject 0 (Top Focus)**：`Coupang, Inc. (NYSE: CPNG) Q2 2026 Financials & Market Intelligence`，时间线内置 Q2 财报披露、电话会议记录、Margin 走势分析、履约技术高管任命与 52 周估值等 5 篇权威事件；
+    2. **Subject 1**：`Bom Kim (Founder & CEO) Executive Profile & Strategic Vision`，展示创始人履历背景、组织架构重组等动态；
+    3. **Subject 2**：`Rocket Delivery Infrastructure: Nationwide Automated Hubs & Cold Chain Expansion`，聚焦全国次日达自动化履约网络与最后一公里配送机器人；
+    4. **Subject 3**：`Developing Offerings: Coupang Play Sports OTT, Coupang Eats & Taiwan Expansion`，涵盖高增速业务板块、体育独家转播权与台湾市场出海；
+  - **全垂直领域 Latest 标签通用化**：正序末尾动态统一渲染 `<span class="timeline-latest-tag">latest</span>` 徽标，并在胶囊切换时通过 `requestAnimationFrame` 瞬间定位到底部最新动态。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
+
 
 
 
