@@ -147,16 +147,14 @@ pnpm preview   # 本地静态托管并预览构建产物
   - 针对 4 大核心卖点进行深度分析：
     1. **更高时效（3分钟内可搜到）**：当前仅体现静态日期，建议在卡片顶部引入 `● Ingested 2m ago` / `● Wire Speed (<3m)` 实时呼吸绿点徽章，并在 Stage 2 检索中增加秒级快报扫描感知；
     2. **更全覆盖（95% 头部媒体覆盖）**：当前仅显示文本域名，建议引入头部媒体矩阵 Favicon/Logo 与左侧面板 `8 tier-1 sources` 维度；
-- ✅ **Vertical Search 独立 Demo 全局间距体系严格对齐 Figma Node 13701:168352**（已完成）：
-  - **消除双重叠加间距**：将 `.vertical-tabs-bar` 作为第 3 子元素真正嵌套回 `.hero-header-box`（严格匹配 Figma 原型层级），彻底清除原外层 `.demo-wrapper` 的 20px gap 与 Tab 栏 30px margin 相互叠加造成的 50px 间距膨胀；
-  - **30px 统一垂直韵律**：
-    - 文本组 ➔ (`gap: 30px`) ➔ `Request Access` 按钮 ➔ (`gap: 30px`) ➔ 毛玻璃 Tabs 栏 ➔ (`gap: 30px`) ➔ 巨幅卡片 (1260×532) ➔ (`gap: 30px`) ➔ 底部开发调试控件；
-  - **Figma 精确微观间距**：
-    - 视口顶部留白：桌面端 `padding-top: 80px`（严格契合 Figma 原型 `y=80` 起始坐标）；
-    - 胶囊标签内距：`height: 30px; padding: 0 16px; gap: 7px;`；
-    - 标签与大标题：`gap: 16px`；大标题与说明文字：`gap: 20px`；
-    - 按钮内部微距：`padding: 0 16px 0 20px; gap: 4px;`；
-    - Tabs 栏微距：外壳 `padding: 4px; gap: 4px;`，单 Tab `padding: 0 20px 0 16px; gap: 8px;`，仅保留 Figma 原稿可见的双 Tab（`News Search` 与 `Business Search`，移除隐藏的 Academic 项）。
+- ✅ **Vertical Search 独立 Demo 标题部分上下间距与呼吸感优化**（已完成）：
+  - **清除 `<p>` 默认上下 margin 渗透**：原 `.hero-desc` 未设置 `margin: 0 auto`，导致浏览器默认的 `1em` (16px) margin-block 额外渗透进 flex gap，致使标题与描述、描述与按钮之间虚增 16px 巨大空隙，现已全面重置为 `margin: 0 auto; padding: 0;`；
+  - **标题区内部微观间距收拢**：
+    - 胶囊标签与大标题：收紧至 `gap: 12px;`（微调呼应感）；
+    - 大标题与辅助说明文案：锁定为 `gap: 16px;`（阅读层次更加凝聚）；
+  - **宏观垂直韵律优化（24px 黄金节奏）**：
+    - 顶部外留白：桌面端从偏下坠的 `80px` 优化为 `48px`（移动端 `36px`），显著提升首屏利用率，使用户能立即看到完整的 1260×532 巨型卡片；
+    - 文本组 ➔ 按钮 ➔ Tabs 栏 ➔ 巨幅卡片：统一采用平准的 **`24px`** 间距梯队（`.hero-header-box gap: 24px`，`.demo-wrapper gap: 24px`），使整个头部板块比例舒展、紧致自然。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
