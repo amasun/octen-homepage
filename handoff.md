@@ -263,7 +263,7 @@ pnpm preview   # 本地静态托管并预览构建产物
 
 - ✅ **第四条卖点引入时间轴动画符号并升级为 steps 步进式运动（严格对齐 Figma Rectangle 4620 最新规范、深色统一为 #242D29）**（已完成）：
   - **Figma Rectangle 4620 原型参数 1:1 纯 CSS 还原**：
-    - 节点规格（`.storyline-node`）：`width: 6px; height: 6px; border: 2px solid #242D29; border-radius: 10px; background-color: #8EB876; box-sizing: content-box;`（外径总宽/高严格为 $6 + 2 \times 2 = 10px$，内芯直径 $6px$）；
+    - 节点规格（`.storyline-node`）：`width: 6px; height: 6px; border: 2px solid #242D29; border-radius: 10px; background-color: #b4d095; box-sizing: content-box;`（外径总宽/高严格为 $6 + 2 \times 2 = 10px$，内芯直径 $6px$）；
     - 外层容器同步平准为 `height: 10px; width: 64px;`，1:1 绝对严丝合缝契合 Figma 原型 `h-[10px]`；
     - 导轨底线（`.storyline-rail`）：`height: 2px; background-color: #242D29; opacity: 0.2;`，精准穿过节点赤道正中心；
     - **中心绝对锁定与严格双向镜像对称**：
