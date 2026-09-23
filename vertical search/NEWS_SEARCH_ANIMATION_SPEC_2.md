@@ -70,3 +70,33 @@
   1. **WAAPI 显式 cancel**：动画完成回调中调用 `anim.cancel()` 释放样式图层锁定；
   2. **状态机强校验**：进入 `overview/focus/timeline` 状态时强制清理并设置 `display: 'none'`；
   3. **CSS 物理隔离**：规则 `.card-canvas.has-results .canvas-watermark { display: none !important; opacity: 0 !important; }` 从渲染树物理层面杜绝重影。
+
+---
+
+## 四、Timeline 最新新闻 Latest 徽标与 Subjects 自动定位机制
+
+### 1. 最新新闻 Latest 标签元素规范
+- **适用目标**：时间轴（Stage 5 Timeline Stream）中按真实发布时间正序排列的**最新（末尾）一条新闻卡片**。
+- **元素结构**：
+  - 在卡片元信息栏 `.sub-article-time-group` 中，紧随相对时间戳（如 `3m ago`、`10m ago` 等）展示 `<span class="timeline-latest-tag">latest</span>`。
+- **视觉规格**：
+  - 背景色：鲜亮突发橙 `#F97316`，文字纯白 `#FFFFFF`；
+  - 尺寸与排版：`padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.02em;`；
+  - 认知隐喻：直观凸显该时间流中“刚刚突发”的最前沿动态，与卖点 1 的 `live` 徽标形成强烈的时效认知呼应。
+
+### 2. Subjects 切换时自动定位到最新新闻交互机制
+- **设计背景与用户预期**：
+  - 时间轴采用严格的正序展开（早发生的在上，晚发生的在下），最新发生的新闻往往位于列表最底部；
+  - 当卡片数量超出容器可视高度（$N \ge 4$）时，用户切换不同的主题横向胶囊（`Subject1` ~ `Subject4`）时，核心诉求是**第一时间看到该事件最新演进结果**，而非退回最初始的历史起点。
+- **自动定位时序与控制逻辑**：
+  1. **免重复展开打扰**：在 Stage 5 激活态下点击切换 `subject-h-pill` 时，不再重复播放脊柱导线生长与逐卡弹出的入场动效，直接全量渲染目标 Subject 的完整时间轴卡片；
+  2. **瞬时贴底定位**：
+     - 在卡片 DOM 挂载后通过 `requestAnimationFrame` 执行视口重定位：
+       ```javascript
+       const maxScroll = Math.max(0, streamBlock.scrollHeight - streamBlock.clientHeight);
+       streamBlock.scrollTop = maxScroll;
+       ```
+     - 确保视口瞬间精准锚定在包含 `latest` 标签的最底部最新新闻卡片上，并保留底部安全间距；
+  3. **交互自由度释放**：
+     - 取消当前任何进行中的动画锁和滚动限制，立即开放自由滚轮与触控滑动，方便用户由最新向早期事件反向追溯历史脉络。
+
