@@ -1,18 +1,77 @@
-# News Search 动效改动与新增规范 (Spec 2)
+# Verticals 动效规范 (Verticals Animation Spec)
 
-本文档专注于今日 News Search 的新增与调整动效逻辑（四大卖点微动效、数字流转、共享元素形变），只记录改动部分，原有步骤 1~5 基础时序见 [NEWS_SEARCH_ANIMATION_SPEC.md](./NEWS_SEARCH_ANIMATION_SPEC.md)。
+本文档梳理 Octen **Vertical Search** 原型中的全量核心动效规范，涵盖 **News Search** 与 **Business Search** 两大业务垂直领域的动效实现、四大卖点微动效、共享元素形变以及 **Vertical Tabs 交互切换动效逻辑**。
+
+> 💡 步骤 1~5 基础右侧视口时序（Typing ➔ Searching ➔ Overview ➔ Top News Focus ➔ Timeline Stream）请参阅 [NEWS_SEARCH_ANIMATION_SPEC.md](./NEWS_SEARCH_ANIMATION_SPEC.md)。
 
 ---
 
-## 一、四大核心卖点内嵌微动效 (Selling Points Micro-Animations)
+## 一、垂直类别 Tabs 切换交互动效 (Vertical Tabs Interactive Switching)
 
-四项动效均采用内联行内嵌入，统一位于各条核心关键词紧邻前方，形成严格对齐的视觉韵律。
+Tabs 控制栏（`#tabNews` 与 `#tabBusiness`）承载了全站两大垂直搜索能力的实时切换，采用双轨平滑滑块（Sliding Glider）与全局状态机重燃机制。
+
+### 1. 双轨滑动滑块指示器 (Sliding Glider Indicator)
+- **底层架构**：
+  - 外部滑块底板（`#tabsIndicator`）：自适应贴合当前激活 Tab 物理边界；
+  - 内部克隆文字轨道（`#tabsIndicatorTrack`）：反向位移实现反色文字精准遮罩。
+- **物理运动与曲线**：
+  - **位移与缩放**：根据目标 Tab 按钮动态计算 `offsetLeft/offsetTop` 及 `offsetWidth/offsetHeight`，执行 `translate3d(${left}px, ${top}px, 0)`；
+  - **时长与曲线**：时长严格设为 **`0.38s`**，采用精密缓动 **`cubic-bezier(0.16, 1, 0.3, 1)`**；
+  - **色彩过渡**：随同位移同步执行 `background-color 0.38s` 平滑过渡：
+    - **News Tab**：经典草绿色 `#8ADB47`；
+    - **Business Tab**：金融琥珀金 `#FBBF24`；
+    - *(扩展预留：Academic Tab 为天蓝色 `#38BDF8`)*；
+  - **反向视差克隆轨道**：轨道执行 `translate3d(${4 - left}px, ${4 - top}px, 0)`，使克隆白色文字在滑动过程中与原按钮文字 100% 绝对重合，呈现高精度光学遮罩质感。
+
+### 2. Tab 切换时画布全局重燃逻辑 (Canvas Global Re-ignition)
+点击切换 Tab 时，触发 `switchVertical(key)` 执行完整的时序重置与视觉重组：
+1. **主题环境注入**：根容器更新 `data-theme="news|business"`，全站 CSS 变量与色板即时绑定；
+2. **背景大水印弹性弹出（Watermark Pop）**：
+   - 切换 SVG 矢量资产（新闻报纸 ➔ 商务公文包）；
+   - 强制重绘并触发 `.watermark-pop` 弹性微缩放动效（`cubic-bezier(0.34, 1.18, 0.64, 1)`）；
+3. **左侧信息区自适应更新**：
+   - 更新左侧大标题（`News Search` ➔ `Business Search`）与 28px 标题图标；
+   - 替换下方描述与四大/三大卖点文案；
+   - **定时器队列安全分流**：若切至 News，启动数字滚轮与 Token 计量条循环；若切至 Business，彻底清理 `clearTokenMeterTimers()` 消除后台冗余；
+4. **胶囊标签与右侧内容重置**：
+   - 重置横向胶囊活跃索引为 `0`；
+   - 动态更新 Top Focus 主卡片及时间轴数据源；
+5. **完整时序重新流转**：
+   - 自动开启自动循环（`isAutoLooping = true`），隐藏 Replay 按钮，从步骤 1 打字（`typing`）重新完整推演 1~5 步动效。
+
+---
+
+## 二、Business Search 专属动效与视觉系统
+
+相比 News Search 以“事件发展时间线”为核心，Business Search 专注于“企业财务、资本支出与商业情报”，在动效与色彩体系上有专属特征：
+
+### 1. 专属色彩与视觉资产
+- **主题色调**：以高辨识度金融琥珀金（Amber Gold）为主基调；
+- **核心查询语句**：`Semiconductor supply chain CAPEX forecasts 2026`；
+- **矢量资产**：采用 Lucide 商务公文包图标（`lucide-briefcase`），在背景大水印（280px）与标题图标（28px）之间同样建立平滑形变；
+- **统计数据**：`8 filings` / `12 reports`，强调商业披露与研报深度。
+
+### 2. 步骤 4 主题标签胶囊折叠色彩 (Pill Metamorphosis)
+在步骤 3（Overview）向步骤 4（Top Business Focus）折叠形变时：
+- **激活态主胶囊**：采用深琥珀金 `#D97706`（对比 News 的 `#039855`）；
+- **未激活次级胶囊**：采用半透明琥珀褐 `rgba(146, 64, 14, 0.45)`（对比 News 的 `rgba(76, 94, 86, 0.57)`）；
+- **主头条卡片标签**：文案展示为 `Top Business`。
+
+### 3. 时间轴商业财报流 (Corporate Filings Stream)
+- 结构沿用步骤 5 时间轴流速平准标准（单卡节奏统一平准在约 `800ms`，前 3 张不滚屏，第 4 张起以 `520ms` 平滑推进）；
+- 内容展示半导体 CAPEX 研报、Foundry 利用率与芯片法案审批进展，支持横向胶囊切换与自动末尾定位。
+
+---
+
+## 三、News Search 四大核心卖点内嵌微动效 (Selling Points Micro-Animations)
+
+四项微动效内联行内嵌入，统一位于各条核心关键词紧邻前方，形成严格对齐的视觉韵律：
 
 ### 1. 实时电传 LIVE 徽标 (Live Badge)
 - **位置**：位于第 1 条卖点 `3 minutes` 前方（`... within <live-badge> 3 minutes ...`）。
 - **动画逻辑**：
   - **呼吸脉冲**：橙色圆点执行 `@keyframes live-dot-pulse 1.4s ease-in-out infinite`；
-  - **振幅规律**：透明度在 `1.0` 与 `0.35` 间往复，同时伴随 `scale(1)` 到 `scale(0.75)` 的微缩放，传递“电传级发稿即收录”的动态心跳感；
+  - **振幅规律**：透明度在 `1.0` 与 `0.35` 间往复，同时伴随 `scale(1)` 到 `scale(0.75)` 的微缩放，传递“电传级发稿即收录”的心跳感；
   - **静态规格**：外壳 `36.91px × 18px`，背景 `#242D29`，圆角 `4px`，内边距 `4px`；圆点 `5.91px`（`#FF622D`）；文字 `12px DM Sans 700 #FFFFFF`。
 
 ### 2. 主流媒体向右平滑滚动 (Avatar Cycles)
@@ -40,11 +99,11 @@
   - **舒缓停顿节奏（单周期 2.8s）**：
     - **~2.34s（84% 时间）稳稳静止在中央**：在 `0% ~ 72%` 与 `88% ~ 100%` 处于完全静止稳态；
     - **0.45s 舒缓滑移交替**：在 `72% ~ 88%` 区间通过 `cubic-bezier(0.25, 1, 0.4, 1)` 平滑向左移动 `-18.46px`，右侧新节点顺畅滑入正中并平稳接替；
-  - **静态规格与绝对对称**：容器 `64px × 10px`，导轨高 `2px`（深色 `#242D29`，`opacity: 0.2`）；节点外径 `10px`（内芯 `6px`，外描边 `2px #242D29`，底色 `#b4d095`）；流容器起点 `left: -9.92px`，静止时第 3 节点圆心精确锁定在容器 `32px` 正中心，左右可视节点亚像素级对称。
+  - **静态规格与绝对对称**：容器 `64px × 10px`，导轨高 `2px`（深色 `#242D29`，`opacity: 0.2`）；节点外径 `10px`（内芯 `6px`，外描边 `2px #242D29`，内芯填充色为柔和嫩草绿 **`#b4d095`**）；流容器起点 `left: -9.92px`，静止时第 3 节点圆心精确锁定在容器 `32px` 正中心，左右可视节点亚像素级对称。
 
 ---
 
-## 二、核心数字动态流转 (NumberFlow Odometer)
+## 四、核心数字动态流转 (NumberFlow Odometer)
 
 - **集成组件**：原生自定义元素 `<number-flow>`（驱动数字 `3` 与 `95%`）。
 - **动画逻辑**：
@@ -55,7 +114,7 @@
 
 ---
 
-## 三、背景水印 ➔ 标题 Icon 共享元素形变 (Shared-Element Morph)
+## 五、背景水印 ➔ 标题 Icon 共享元素形变 (Shared-Element Morph)
 
 ### 1. 正向穿越过渡 (Typing ➔ Searching)
 - **空间飞跃**：打字完成进入搜索瞬间，`280px` 背景半透明大水印（`opacity: 0.12`）脱离底图层，沿亚像素轨迹平滑飞向标题左侧插槽；
@@ -73,7 +132,7 @@
 
 ---
 
-## 四、Timeline 最新新闻 Latest 徽标与 Subjects 自动定位机制
+## 六、Timeline 最新新闻 Latest 徽标与 Subjects 自动定位机制
 
 ### 1. 最新新闻 Latest 标签元素规范
 - **适用目标**：时间轴（Stage 5 Timeline Stream）中按真实发布时间正序排列的**最新（末尾）一条新闻卡片**。
@@ -99,4 +158,3 @@
      - 确保视口瞬间精准锚定在包含 `latest` 标签的最底部最新新闻卡片上，并保留底部安全间距；
   3. **交互自由度释放**：
      - 取消当前任何进行中的动画锁和滚动限制，立即开放自由滚轮与触控滑动，方便用户由最新向早期事件反向追溯历史脉络。
-
