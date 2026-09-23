@@ -188,6 +188,11 @@ pnpm preview   # 本地静态托管并预览构建产物
 - ✅ **Vertical Tabs Bar 文字与 Icon 变色运动扫光与微弹簧动效**（已完成）：
   - **双层物理蒙版变色扫光 (Physical Mask Wipe)**：在滑块胶囊内部植入等距反向联动的 `.tabs-indicator-track`，使黑色文字/图标层随胶囊位移以亚像素级精度反向平移，在视觉上形成“绿色/琥珀金胶囊滑过之处瞬间被擦亮为黑色，离开之处还原为半透明白字”的纯物理扫光效果，彻底消除了黑色文字提前在暗色底上变色的突兀感；
   - **图标与文字微弹簧动态 (Micro-Spring Dynamics)**：激活态 Tab 的图标加入 `transform: scale(1.12) rotate(-3deg)` 弹性跳脱，文字带有 `scale(1.02)` 呼吸感，切换时使用 `--ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1)` 弹性阻尼，带来极具质感的原生交互体验。
+- ✅ **Hero 顶部总览说明文字文案优化（去具体垂类枚举，聚焦“深度定制、即时、准确、深度”）**（已完成）：
+  - **去除特定业务方向枚举**：原先的文案枚举了 `real-time news, corporate filings, and market disclosures`，现彻底移除具体业务方向，使其成为垂类搜索模块通用的价值定位；
+  - **聚焦核心特性表达**：提炼为聚焦“垂类深度定制、即时性、高准确度、深度智能与自主推理”的高质感英文表述：
+    *“Deeply customized search engineered for vertical domains. Delivering real-time, high-precision, and in-depth intelligence structured for autonomous reasoning.”*；
+  - **数据层与静态模板全局对齐**：同步更新静态 HTML 占位、`VERTICALS.news.desc` 以及 `VERTICALS.business.desc`，在切换选项卡时保持整栏价值定位的一致与纯粹。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
