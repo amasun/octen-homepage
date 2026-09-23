@@ -220,6 +220,9 @@ pnpm preview   # 本地静态托管并预览构建产物
     2. **画布状态机强校验**：在 `setCanvasState(state)` 中，一旦进入非 `typing` 状态（即 `searching`、`overview`、`focus`、`timeline`），立即主动扫描并清理 `canvasWatermark.getAnimations()`，并将 `canvasWatermark.style.display` 严格置为 `'none'`；
     3. **CSS 物理隐藏强制锁**：在全局样式表中追加规则 `.card-canvas.has-results .canvas-watermark { display: none !important; opacity: 0 !important; pointer-events: none !important; }`，由于 `.has-results` 仅在 Stage 3（Overview）、Stage 4（Focus）、Stage 5（Timeline）生效，从渲染树物理层面彻底杜绝了水印图标在结果展示阶段出现的可能，同时完好保留了 Stage 1 到 Stage 2 的丝滑穿越形变。
 
+- ✅ **调整 Stage 5 时间线流卡片容器最大高度为 248px**（已完成）：
+  - 将 `.card-canvas.is-stage5 .timeline-stream-block` 的 `max-height` 从原有的 `232px` 调整为 `248px`，使 Stage 5 阶段多篇新闻资讯展开时获得更适宜的纵向视口高度展示。
+
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
 
