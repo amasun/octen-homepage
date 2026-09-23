@@ -278,13 +278,13 @@ pnpm preview   # 本地静态托管并预览构建产物
       - **0.45s 舒缓利落步进交替**：在 `72% ~ 88%` 区间，以细腻的 `cubic-bezier(0.25, 1, 0.4, 1)` 曲线平滑向左滑移一个节点节距（`-22px`），右侧节点顺畅滑入正中并平稳接替；
     - 循环衔接首尾帧物理像素位置 100% 恒等，无任何断层与突兀感。
 
-- ✅ **第一条卖点引入动态 LIVE 徽标（严格对齐 Figma Frame 427319328）**（已完成）：
+- ✅ **第一条卖点引入动态 LIVE 徽标（严格对齐 Figma Frame 427319328 最新规范）**（已完成）：
   - **Figma 原型参数 1:1 纯 CSS 还原**：
-    - 胶囊微壳（`.live-badge`）：`background: #BD3D31; border-radius: 6px; height: 18px; padding: 2px 4px; gap: 2px;`，采用 `inline-flex` 垂直居中内联排版于 `within` 与 `3 minutes` 之间；
-    - 白色微圆（`.live-badge-dot`）：`width: 4px; height: 4px; background: #FFFFFF; border-radius: 50%;`（Ellipse 3732）；
-    - 粗体文字（`.live-badge-text`）：`font-family: 'DM Sans'; font-size: 12px; font-weight: 700; color: #FFFFFF; line-height: 1;`；
+    - 胶囊微壳（`.live-badge`）：`background: #242D29; border-radius: 4px; height: 18px; padding: 4px 6px; gap: 2px;`，墨黑偏深林墨绿色低调质感底色；
+    - 橙色呼吸圆点（`.live-badge-dot`）：`width: 4px; height: 4px; background: #FF622D; border-radius: 50%;`（Ellipse 3732，亮橙鲜活识别色）；
+    - 粗体白色文字（`.live-badge-text`）：`font-family: 'DM Sans'; font-size: 12px; font-weight: 700; color: #FFFFFF; line-height: 1;`；
   - **动态呼吸光效（Dynamic Pulse）**：
-    - 白色圆点注入 `@keyframes live-dot-pulse 1.4s ease-in-out infinite` 柔和微呼吸光效（透明度与尺度在 1.0 与 0.35/0.75 间平滑摆动），生动呈现“电传级突发时效”与“直播级实时推流”的视觉感知；
+    - 橙色微圆注入 `@keyframes live-dot-pulse 1.4s ease-in-out infinite` 呼吸动效（透明度与尺度在 1.0 与 0.35/0.75 间平滑摆动），生动呈现“电传级突发时效”与“直播级实时推流”的视觉感知；
     - 同步更新 HTML 初始模板与 JS 垂直切换数据字典，支持无感重播与 Tab 切换。
 
 > [!IMPORTANT]
