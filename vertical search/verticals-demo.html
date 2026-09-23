@@ -928,6 +928,65 @@
         transition: none !important;
       }
 
+      /* Mini Storyline Timeline in 4th selling point (Figma Node 13801:167079) */
+      .storyline-timeline {
+        display: inline-flex;
+        align-items: center;
+        position: relative;
+        top: -1px;
+        margin: 0 4px 0 2px;
+        width: 64px;
+        height: 12px;
+        vertical-align: middle;
+        overflow: hidden;
+        flex: none;
+        mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
+        -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
+      }
+      .storyline-rail {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 2px;
+        background-color: #004F2B;
+        opacity: 0.2;
+        border-radius: 1px;
+      }
+      .storyline-stream {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        left: -18.46px;
+        top: 50%;
+        gap: 10.46px;
+        will-change: transform;
+        animation: storyline-infinite-flow 2.2s linear infinite;
+      }
+      .storyline-node {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #8EB876;
+        border: 2px solid #004F2B;
+        box-sizing: border-box;
+        flex: none;
+      }
+      @keyframes storyline-infinite-flow {
+        0% {
+          transform: translateY(-50%) translate3d(0, 0, 0);
+        }
+        100% {
+          transform: translateY(-50%) translate3d(18.46px, 0, 0);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .storyline-stream {
+          animation: none;
+        }
+      }
+
       /* 3. Right Content Panel */
       .canvas-right-panel {
         position: absolute;
@@ -1926,7 +1985,7 @@
               <li>• Search breaking news at wire speed within <b><number-flow class="bullet-number-flow" data-flow="minutes" data-value="3">3</number-flow>&nbsp;minutes</b> of publication.</li>
               <li>• Cover <b><number-flow class="bullet-number-flow" data-flow="coverage" data-value="95">95</number-flow>%</b> of global tier-1 news media and wire&nbsp;services.</li>
               <li>• Deduplicate syndicated stories to save prompt <span class="token-meter" id="tokenMeter" title="70% prompt token reduction" aria-label="70% prompt token reduction"><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span></span>&nbsp;<b>tokens</b>.</li>
-              <li>• Track full event lineage as unified&nbsp;storylines.</li>
+              <li>• Track full event lineage as unified <span class="storyline-timeline" title="Continuous event lineage tracking" aria-label="Continuous event storyline timeline"><span class="storyline-rail"></span><span class="storyline-stream"><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span></span></span>&nbsp;<b>storylines</b>.</li>
             </ul>
           </div>
         </div>
@@ -2046,7 +2105,7 @@
               '• Search breaking news at wire speed within <b><number-flow class="bullet-number-flow" data-flow="minutes" data-value="3">3</number-flow>&nbsp;minutes</b> of publication.',
               '• Cover <b><number-flow class="bullet-number-flow" data-flow="coverage" data-value="95">95</number-flow>%</b> of global tier-1 news media and wire&nbsp;services.',
               '• Deduplicate syndicated stories to save prompt <span class="token-meter" title="70% prompt token reduction" aria-label="70% prompt token reduction"><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span></span>&nbsp;<b>tokens</b>.',
-              '• Track full event lineage as unified&nbsp;storylines.'
+              '• Track full event lineage as unified <span class="storyline-timeline" title="Continuous event lineage tracking" aria-label="Continuous event storyline timeline"><span class="storyline-rail"></span><span class="storyline-stream"><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span></span></span>&nbsp;<b>storylines</b>.'
             ],
             iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M15 18h-5"></path><path d="M18 14h-8"></path><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg>`,
             watermarkSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M15 18h-5"></path><path d="M18 14h-8"></path><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><rect width="8" height="4" x="10" y="6" rx="1"></rect></svg>`,

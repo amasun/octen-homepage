@@ -247,7 +247,7 @@ pnpm preview   # 本地静态托管并预览构建产物
     1. `• Search breaking news at wire speed within <b><number-flow ...>3</number-flow>&nbsp;minutes</b> of publication.`（突发新闻发布后 3 分钟内以电传级时效全网检索）；
     2. `• Cover <b><number-flow ...>95</number-flow>%</b> of global tier-1 news media and wire&nbsp;services.`（全面收录 95% 全球头部主流新闻媒体与通讯社源）；
     3. `• Deduplicate syndicated stories to save prompt <span class="token-meter">...</span>&nbsp;<b>tokens</b>.`（自动去重通稿，搭配 10 柱级联消减计量条动态体现 Token 大幅压缩）；
-    4. `• Track full event lineage as unified&nbsp;storylines.`（完整追踪事件脉络，聚合成统一故事线）；
+    4. `• Track full event lineage as unified <span class="storyline-timeline">...</span>&nbsp;<b>storylines</b>.`（完整追踪事件脉络，搭配持续流转的时间轴事件节点动画）；
   - **无缝衔接动画与排版防护**：保留 `<number-flow>` 动态数字滚轮绑定的无感内嵌，并在末尾配置 `&nbsp;` 不换行空格与 `text-wrap: pretty;`，彻底杜绝单字孤行（Orphan Words）。
 
 - ✅ **第三条卖点实现纯 CSS 矢量 Mini Token Meter 与实心柱高度消减持续循环动效（严格对齐 Figma Frame 427319327）**（已完成）：
@@ -259,6 +259,16 @@ pnpm preview   # 本地静态托管并预览构建产物
     - 单柱实心墨绿高度消减过渡调整为 **0.65s 柔和缓动（`cubic-bezier(0.2, 0.8, 0.25, 1)`）**，展现液体/量表般的细腻沉降感；
     - 7 根柱体全部降至 0%（仅留 3 根实心柱与 7 个半透明空槽）后，**静态停留充足的 3.0 秒（3000ms）** 供用户清晰阅读与理解；
     - 3 秒停留结束后，自动平滑注满并再次触发消减循环；切换 Tab 或重播时安全清理定时器队列并重置。
+
+- ✅ **第四条卖点引入时间轴动画符号与无限流转动效（严格对齐 Figma Node 13801:167079）**（已完成）：
+  - **精准还原 Figma 时间轴矢量规格**：
+    - 外层容器（`.storyline-timeline`）：`width: 64px; height: 12px;`，双侧配置 `15%` 渐变柔和遮罩（`mask-image`），确保边缘自然虚化出入；
+    - 导轨底线（`.storyline-rail`）：`height: 2px; background-color: #004F2B; opacity: 0.2;`，严格还原 Figma 原型 `Vector 566` 线条与透明度；
+    - 事件节点微圈（`.storyline-node`）：`width: 8px; height: 8px; border-radius: 50%; border: 2px solid #004F2B; background: #8EB876;`，还原 Rectangle 4619/4620/4622 几何形态；
+  - **数学级无缝无限运动动效（Seamless Conveyor Flow）**：
+    - 节点间距严格标定为 Figma 的 `18.46px` 节距；
+    - 沿时间轴导轨向右执行 `transform: translateX(0px) ➔ translateX(18.46px)`（耗时 2.2s，`linear infinite`）；
+    - 移动距离与节点节距 `18.46px` 绝对恒等，首尾两帧在亚像素级完全重合，实现 **0 顿挫、0 跳变、永不间断的无限故事线事件前行动效**。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
