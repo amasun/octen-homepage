@@ -306,8 +306,8 @@ pnpm preview   # 本地静态托管并预览构建产物
       4. 第四条：`storyline-timeline` 节点时间线位于 `storylines` 前；
     - 同步更新静态 HTML 模板与 JavaScript 动态数据字典（`VERTICALS.news.bullets[1]`）。
 
-- ✅ **对齐 Business Search 实体画像场景（Coupang 近况与经营指标 / Bom Kim）与动效展现**（已完成）：
-  - **Query 规范对齐**：切换至 Business Search 时，打字与检索 Query 更新为 `Coupang 近况与经营指标`，与 [BUSINESS_SEARCH_SPEC.md](./vertical%20search/BUSINESS_SEARCH_SPEC.md) 及 [business-search-demo.html](./vertical%20search/Business%20Search%20控制台交互/business-search-demo.html) 保持 100% 一致；
+- ✅ **对齐 Business Search 实体画像场景（Coupang 英文画像 / Bom Kim）与动效展现**（已完成）：
+  - **Query 规范对齐**：切换至 Business Search 时，打字与检索 Query 统一采用纯英文检索词 `Coupang company overview and financial metrics`（对齐国际化垂直搜索与商业研报规范）；
   - **标签与实体统计**：Top 卡片标签更新为 `Top Entity`；统计数字更新为 `2 entities`（公司 Coupang, Inc. 与人物 Bom Kim）和 `6 results`（权威研报与信息检索）；
   - **三项商业核心价值卖点**：
     - `• Corporate entity profiling: verified SEC registries, C-suite leadership, and market metrics.`
