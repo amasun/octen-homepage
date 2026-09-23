@@ -933,6 +933,87 @@
         }
       }
 
+      /* Mini Avatar Cycles in 2nd selling point (Figma Frame 427319329) */
+      .avatar-cycles {
+        display: inline-flex;
+        align-items: center;
+        position: relative;
+        top: -1px;
+        margin: 0 4px 0 2px;
+        width: 48px;
+        height: 20px;
+        vertical-align: middle;
+        overflow: hidden;
+        flex: none;
+        box-sizing: border-box;
+      }
+      .avatar-cycles-track {
+        display: flex;
+        align-items: center;
+        will-change: transform;
+        animation: avatar-cycles-scroll-right 8.5s linear infinite;
+      }
+      .avatar-cycle-item {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background-color: #000000;
+        border: 2px solid #8EB876;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+        margin-right: -4.43px;
+        user-select: none;
+        overflow: hidden;
+      }
+      .avatar-logo-wsj {
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: 6.5px;
+        font-weight: 700;
+        color: #FFFFFF;
+        letter-spacing: -0.4px;
+        line-height: 1;
+      }
+      .avatar-logo-bbc {
+        font-family: 'DM Sans', -apple-system, sans-serif;
+        font-size: 6px;
+        font-weight: 900;
+        color: #FFFFFF;
+        letter-spacing: 0.2px;
+        line-height: 1;
+      }
+      .avatar-logo-ft {
+        font-family: 'DM Sans', -apple-system, sans-serif;
+        font-size: 7px;
+        font-weight: 800;
+        color: #FCD0C7;
+        letter-spacing: -0.3px;
+        line-height: 1;
+      }
+      .avatar-logo-ap {
+        font-family: 'DM Sans', -apple-system, sans-serif;
+        font-size: 7px;
+        font-weight: 900;
+        color: #FFFFFF;
+        letter-spacing: -0.3px;
+        line-height: 1;
+      }
+      @keyframes avatar-cycles-scroll-right {
+        0% {
+          transform: translate3d(-81.42px, 0, 0);
+        }
+        100% {
+          transform: translate3d(0, 0, 0);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .avatar-cycles-track {
+          animation: none;
+        }
+      }
+
       /* Mini Token Compression Meter in 3rd selling point (Figma Frame 427319327) */
       .token-meter {
         display: inline-flex;
@@ -2040,7 +2121,7 @@
             <p class="summary-desc" id="summaryDesc">Search live news and read each story as a single grouped event.</p>
             <ul class="summary-bullets-list" id="summaryBulletsList">
               <li>• Search breaking news at wire speed within <span class="live-badge" title="Live wire speed" aria-label="Live breaking news"><span class="live-badge-dot"></span><span class="live-badge-text">live</span></span>&nbsp;<b><number-flow class="bullet-number-flow" data-flow="minutes" data-value="3">3</number-flow>&nbsp;minutes</b> of publication.</li>
-              <li>• Cover <b><number-flow class="bullet-number-flow" data-flow="coverage" data-value="95">95</number-flow>%</b> of global tier-1 news media and wire&nbsp;services.</li>
+              <li>• Cover <span class="avatar-cycles" title="Global tier-1 news media sources" aria-label="Global tier-1 news media sources"><span class="avatar-cycles-track"><span class="avatar-cycle-item" title="Reuters"><svg viewBox="0 0 16 16" width="10" height="10" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#FF8000" stroke-width="1.8"/><path d="M6 5h2.5a1.8 1.8 0 0 1 0 3.6H6V5zm0 3.6h2.2l2.3 3.4" stroke="#FFF" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="avatar-cycle-item" title="Bloomberg"><svg viewBox="0 0 16 16" width="10" height="10" fill="none"><path d="M4.5 3.5h4a2.5 2.5 0 0 1 2 4 2.5 2.5 0 0 1-2 4.5h-4V3.5z" stroke="#FFF" stroke-width="1.6" stroke-linejoin="round"/><line x1="4.5" y1="7.8" x2="8.8" y2="7.8" stroke="#FFF" stroke-width="1.5"/></svg></span><span class="avatar-cycle-item" title="Wall Street Journal"><span class="avatar-logo-wsj">WSJ</span></span><span class="avatar-cycle-item" title="BBC"><span class="avatar-logo-bbc">BBC</span></span><span class="avatar-cycle-item" title="Financial Times"><span class="avatar-logo-ft">FT</span></span><span class="avatar-cycle-item" title="Associated Press"><span class="avatar-logo-ap">AP</span></span><span class="avatar-cycle-item" title="Reuters" aria-hidden="true"><svg viewBox="0 0 16 16" width="10" height="10" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#FF8000" stroke-width="1.8"/><path d="M6 5h2.5a1.8 1.8 0 0 1 0 3.6H6V5zm0 3.6h2.2l2.3 3.4" stroke="#FFF" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="avatar-cycle-item" title="Bloomberg" aria-hidden="true"><svg viewBox="0 0 16 16" width="10" height="10" fill="none"><path d="M4.5 3.5h4a2.5 2.5 0 0 1 2 4 2.5 2.5 0 0 1-2 4.5h-4V3.5z" stroke="#FFF" stroke-width="1.6" stroke-linejoin="round"/><line x1="4.5" y1="7.8" x2="8.8" y2="7.8" stroke="#FFF" stroke-width="1.5"/></svg></span><span class="avatar-cycle-item" title="Wall Street Journal" aria-hidden="true"><span class="avatar-logo-wsj">WSJ</span></span><span class="avatar-cycle-item" title="BBC" aria-hidden="true"><span class="avatar-logo-bbc">BBC</span></span><span class="avatar-cycle-item" title="Financial Times" aria-hidden="true"><span class="avatar-logo-ft">FT</span></span><span class="avatar-cycle-item" title="Associated Press" aria-hidden="true"><span class="avatar-logo-ap">AP</span></span></span></span>&nbsp;<b><number-flow class="bullet-number-flow" data-flow="coverage" data-value="95">95</number-flow>%</b> of global tier-1 news media and wire&nbsp;services.</li>
               <li>• Deduplicate syndicated stories to save prompt <span class="token-meter" id="tokenMeter" title="70% prompt token reduction" aria-label="70% prompt token reduction"><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span></span>&nbsp;<b>tokens</b>.</li>
               <li>• Track full event lineage as unified <span class="storyline-timeline" title="Continuous event lineage tracking" aria-label="Continuous event storyline timeline"><span class="storyline-rail"></span><span class="storyline-stream"><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span></span></span>&nbsp;<b>storylines</b>.</li>
             </ul>
@@ -2160,7 +2241,7 @@
             stats: { num1: 4, label1: 'subjects', num2: 10, label2: 'articles' },
             bullets: [
               '• Search breaking news at wire speed within <span class="live-badge" title="Live wire speed" aria-label="Live breaking news"><span class="live-badge-dot"></span><span class="live-badge-text">live</span></span>&nbsp;<b><number-flow class="bullet-number-flow" data-flow="minutes" data-value="3">3</number-flow>&nbsp;minutes</b> of publication.',
-              '• Cover <b><number-flow class="bullet-number-flow" data-flow="coverage" data-value="95">95</number-flow>%</b> of global tier-1 news media and wire&nbsp;services.',
+              '• Cover <span class="avatar-cycles" title="Global tier-1 news media sources" aria-label="Global tier-1 news media sources"><span class="avatar-cycles-track"><span class="avatar-cycle-item" title="Reuters"><svg viewBox="0 0 16 16" width="10" height="10" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#FF8000" stroke-width="1.8"/><path d="M6 5h2.5a1.8 1.8 0 0 1 0 3.6H6V5zm0 3.6h2.2l2.3 3.4" stroke="#FFF" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="avatar-cycle-item" title="Bloomberg"><svg viewBox="0 0 16 16" width="10" height="10" fill="none"><path d="M4.5 3.5h4a2.5 2.5 0 0 1 2 4 2.5 2.5 0 0 1-2 4.5h-4V3.5z" stroke="#FFF" stroke-width="1.6" stroke-linejoin="round"/><line x1="4.5" y1="7.8" x2="8.8" y2="7.8" stroke="#FFF" stroke-width="1.5"/></svg></span><span class="avatar-cycle-item" title="Wall Street Journal"><span class="avatar-logo-wsj">WSJ</span></span><span class="avatar-cycle-item" title="BBC"><span class="avatar-logo-bbc">BBC</span></span><span class="avatar-cycle-item" title="Financial Times"><span class="avatar-logo-ft">FT</span></span><span class="avatar-cycle-item" title="Associated Press"><span class="avatar-logo-ap">AP</span></span><span class="avatar-cycle-item" title="Reuters" aria-hidden="true"><svg viewBox="0 0 16 16" width="10" height="10" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#FF8000" stroke-width="1.8"/><path d="M6 5h2.5a1.8 1.8 0 0 1 0 3.6H6V5zm0 3.6h2.2l2.3 3.4" stroke="#FFF" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="avatar-cycle-item" title="Bloomberg" aria-hidden="true"><svg viewBox="0 0 16 16" width="10" height="10" fill="none"><path d="M4.5 3.5h4a2.5 2.5 0 0 1 2 4 2.5 2.5 0 0 1-2 4.5h-4V3.5z" stroke="#FFF" stroke-width="1.6" stroke-linejoin="round"/><line x1="4.5" y1="7.8" x2="8.8" y2="7.8" stroke="#FFF" stroke-width="1.5"/></svg></span><span class="avatar-cycle-item" title="Wall Street Journal" aria-hidden="true"><span class="avatar-logo-wsj">WSJ</span></span><span class="avatar-cycle-item" title="BBC" aria-hidden="true"><span class="avatar-logo-bbc">BBC</span></span><span class="avatar-cycle-item" title="Financial Times" aria-hidden="true"><span class="avatar-logo-ft">FT</span></span><span class="avatar-cycle-item" title="Associated Press" aria-hidden="true"><span class="avatar-logo-ap">AP</span></span></span></span>&nbsp;<b><number-flow class="bullet-number-flow" data-flow="coverage" data-value="95">95</number-flow>%</b> of global tier-1 news media and wire&nbsp;services.',
               '• Deduplicate syndicated stories to save prompt <span class="token-meter" title="70% prompt token reduction" aria-label="70% prompt token reduction"><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span></span>&nbsp;<b>tokens</b>.',
               '• Track full event lineage as unified <span class="storyline-timeline" title="Continuous event lineage tracking" aria-label="Continuous event storyline timeline"><span class="storyline-rail"></span><span class="storyline-stream"><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span></span></span>&nbsp;<b>storylines</b>.'
             ],
