@@ -318,7 +318,8 @@ pnpm preview   # 本地静态托管并预览构建产物
     2. **Subject 1**：`Bom Kim (Founder & CEO) Executive Profile & Strategic Vision`，展示创始人履历背景、组织架构重组等动态；
     3. **Subject 2**：`Rocket Delivery Infrastructure: Nationwide Automated Hubs & Cold Chain Expansion`，聚焦全国次日达自动化履约网络与最后一公里配送机器人；
     4. **Subject 3**：`Developing Offerings: Coupang Play Sports OTT, Coupang Eats & Taiwan Expansion`，涵盖高增速业务板块、体育独家转播权与台湾市场出海；
-  - **全垂直领域 Latest 标签通用化**：正序末尾动态统一渲染 `<span class="timeline-latest-tag">latest</span>` 徽标，并在胶囊切换时通过 `requestAnimationFrame` 瞬间定位到底部最新动态。
+  - **全垂直领域 Latest 标签通用化**：正序末尾动态统一渲染 `<span class="timeline-latest-tag">latest</span>` 徽标，并在胶囊切换时通过 `requestAnimationFrame` 瞬间定位到底部最新动态；
+  - **Sliding Glider 动效规范补全**：明确了 Tab 切换时 Icon 与文字标签的弹性形变动效参数（`0.38s`、`cubic-bezier(0.34, 1.56, 0.64, 1)` 回弹曲线、激活态 `scale(1.12) rotate(-3deg)`、非激活态 `scale(0.96) rotate(0deg)`、文字 `scale(1.02)`）。
 
 > [!IMPORTANT]
 > **开发边界规范**：后续需求与修改**仅针对独立 Demo（`vertical search/` 目录下文件）** 进行，**暂不修改 index 主项目（`src/`、`index.html` 等）**。
