@@ -881,6 +881,58 @@
         font-weight: 700;
         color: #000000;
       }
+
+      /* Mini Live Badge in 1st selling point (Figma Frame 427319328) */
+      .live-badge {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 2px 4px;
+        gap: 2px;
+        height: 18px;
+        background-color: #BD3D31;
+        border-radius: 6px;
+        vertical-align: middle;
+        position: relative;
+        top: -1px;
+        margin: 0 4px 0 2px;
+        flex: none;
+        box-sizing: border-box;
+      }
+      .live-badge-dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: #FFFFFF;
+        flex: none;
+        animation: live-dot-pulse 1.4s ease-in-out infinite;
+      }
+      .live-badge-text {
+        font-family: 'DM Sans', sans-serif;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 1;
+        color: #FFFFFF;
+        flex: none;
+        user-select: none;
+      }
+      @keyframes live-dot-pulse {
+        0%, 100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.35;
+          transform: scale(0.75);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .live-badge-dot {
+          animation: none;
+        }
+      }
+
       /* Mini Token Compression Meter in 3rd selling point (Figma Frame 427319327) */
       .token-meter {
         display: inline-flex;
@@ -1986,7 +2038,7 @@
           <div class="summary-box" id="summaryBox">
             <p class="summary-desc" id="summaryDesc">Search live news and read each story as a single grouped event.</p>
             <ul class="summary-bullets-list" id="summaryBulletsList">
-              <li>• Search breaking news at wire speed within <b><number-flow class="bullet-number-flow" data-flow="minutes" data-value="3">3</number-flow>&nbsp;minutes</b> of publication.</li>
+              <li>• Search breaking news at wire speed within <span class="live-badge" title="Live wire speed" aria-label="Live breaking news"><span class="live-badge-dot"></span><span class="live-badge-text">live</span></span>&nbsp;<b><number-flow class="bullet-number-flow" data-flow="minutes" data-value="3">3</number-flow>&nbsp;minutes</b> of publication.</li>
               <li>• Cover <b><number-flow class="bullet-number-flow" data-flow="coverage" data-value="95">95</number-flow>%</b> of global tier-1 news media and wire&nbsp;services.</li>
               <li>• Deduplicate syndicated stories to save prompt <span class="token-meter" id="tokenMeter" title="70% prompt token reduction" aria-label="70% prompt token reduction"><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span></span>&nbsp;<b>tokens</b>.</li>
               <li>• Track full event lineage as unified <span class="storyline-timeline" title="Continuous event lineage tracking" aria-label="Continuous event storyline timeline"><span class="storyline-rail"></span><span class="storyline-stream"><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span></span></span>&nbsp;<b>storylines</b>.</li>
@@ -2106,7 +2158,7 @@
             summaryDesc: 'Search live news and read each story as a single grouped event.',
             stats: { num1: 4, label1: 'subjects', num2: 10, label2: 'articles' },
             bullets: [
-              '• Search breaking news at wire speed within <b><number-flow class="bullet-number-flow" data-flow="minutes" data-value="3">3</number-flow>&nbsp;minutes</b> of publication.',
+              '• Search breaking news at wire speed within <span class="live-badge" title="Live wire speed" aria-label="Live breaking news"><span class="live-badge-dot"></span><span class="live-badge-text">live</span></span>&nbsp;<b><number-flow class="bullet-number-flow" data-flow="minutes" data-value="3">3</number-flow>&nbsp;minutes</b> of publication.',
               '• Cover <b><number-flow class="bullet-number-flow" data-flow="coverage" data-value="95">95</number-flow>%</b> of global tier-1 news media and wire&nbsp;services.',
               '• Deduplicate syndicated stories to save prompt <span class="token-meter" title="70% prompt token reduction" aria-label="70% prompt token reduction"><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span><span class="token-meter-bar"></span></span>&nbsp;<b>tokens</b>.',
               '• Track full event lineage as unified <span class="storyline-timeline" title="Continuous event lineage tracking" aria-label="Continuous event storyline timeline"><span class="storyline-rail"></span><span class="storyline-stream"><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span><span class="storyline-node"></span></span></span>&nbsp;<b>storylines</b>.'
