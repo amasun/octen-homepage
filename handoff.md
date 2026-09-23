@@ -111,7 +111,7 @@ pnpm preview   # 本地静态托管并预览构建产物
   - 支持进入视口自动播放、悬浮暂停、药丸 Tab 切换与 Replay 重播。
   - **参考设计稿**：👉 [Figma News 动效 5 步静态分步设计稿 (Node 13661:163623)](https://www.figma.com/design/jnIlRSuXffn5g2OxnsqYIE/Octen_%E6%B1%87%E6%80%BB?node-id=13661-163623&t=7uy39MOcdDWVIOA4-4)。
 - ✅ **Business Search 巨幅卡片背景与水印精确对齐 Figma (Node 13795:166561)**（已完成）：
-  - 渐变角度微调：调整为 Figma 导出的高精度 `linear-gradient(22.8deg, rgba(255, 223, 80, 0.6) 0.11%, rgba(255, 249, 230, 0.6) 101.27%), linear-gradient(90deg, rgba(255, 205, 97, 0.6) 0%, rgba(255, 230, 153, 0.6) 100%)`；
+  - 渐变参数全面对齐 Figma 最新原稿：`linear-gradient(44.87deg, rgba(255, 232, 129, 0.6) 0.11%, rgba(255, 249, 230, 0.6) 101.27%), linear-gradient(90deg, rgba(255, 239, 97, 0.6) 0%, rgba(255, 241, 153, 0.6) 100%)`；
   - 核心背景高光元素 (`.canvas-aura`)：引入 Figma 原型中的 600px 居中白色径向光晕球（`radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 70%)`），增强卡片纵深与光影质感；
   - SVG 水印严格对齐：
     - 透明度统一锁定为 Figma 规范的 `opacity: 0.12 !important`；
