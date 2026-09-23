@@ -287,9 +287,10 @@ pnpm preview   # 本地静态托管并预览构建产物
     - 橙色微圆注入 `@keyframes live-dot-pulse 1.4s ease-in-out infinite` 呼吸动效（透明度与尺度在 1.0 与 0.35/0.75 间平滑摆动），生动呈现“电传级突发时效”与“直播级实时推流”的视觉感知；
     - 同步更新 HTML 初始模板与 JS 垂直切换数据字典，支持无感重播与 Tab 切换。
 
-- ✅ **第二条卖点引入 Avatar Cycles 主流媒体向右平滑滚动动效（严格对齐 Figma Node 13801:167186 / Frame 427319329）**（已完成）：
+- ✅ **第二条卖点引入 Avatar Cycles 主流媒体向右平滑滚动动效（双侧渐变蒙版、严格对齐 Figma Node 13801:167186 / Frame 427319329）**（已完成）：
   - **Figma 原型几何规格与重叠遮罩还原**：
     - 外层视口（`.avatar-cycles`）：`width: 48px; height: 20px; overflow: hidden;`，刚好容纳 3 个叠叠乐头像；
+    - **双侧羽化渐变蒙版（Dual-side Gradient Mask）**：配置 `mask-image: linear-gradient(90deg, transparent 0%, black 14%, black 86%, transparent 100%)`，使头像在进入与离开 48px 视口两侧边缘时呈自然柔和的半透明羽化消隐，消除硬切边缘；
     - 头像圆圈（`.avatar-cycle-item`）：直径 `18px × 18px`，背景 `#000000`，外描边 `border: 2px solid #8EB876;`（形成 Figma 原型的月牙形镂空咬合感）；
     - 重叠步进间距：`margin-right: -4.43px`，两两圆心节距为严谨的 **`13.57px`**（$18 - 4.43 = 13.57$），3 个头像总宽 $13.57 \times 2 + 18 = 45.14px$（加边框恰好贴合 `48px` 视口）；
   - **向右持续平滑流转动效（Seamless Flow to the Right）**：
