@@ -155,6 +155,16 @@
 
 ## 6. 对官网主页巨幅卡片 (Section 05) 的移植指导
 
-主页 `05-vertical-search.html` 包含 `News Search` 与 `Business Search` 两个 Tab：
-- **News 态**：体现“事件追踪”，核心动效为：打字 ➔ 正弦波脉冲 ➔ 4 张 Subject 卡片流式堆叠 ➔ 聚焦 Top News ➔ 展开时间线；
-- **Business 态**：体现“实体商业图谱”，核心应体现：打字 ➔ 识别公司实体标牌 ➔ 展开核心财务指标（股价/52周轨/营收）与官方动态看板。
+主页 `vertical search` 包含 `News Search` 与 `Business Search` 两个 Tab：
+- **News 态**：体现“事件追踪”，核心动效为：`1. Typing` ➔ `2. Searching` ➔ `3. Overview (4张Subject卡片流式堆叠)` ➔ `4. Top Focus` ➔ `5. Timeline`；
+- **Business 态**：体现“商业实体深度画像与手风琴折叠展开”：
+  - **1. Typing**：输入 `Coupang company overview and financial metrics`；
+  - **2. Searching**：输入框收缩为左上胶囊，右侧呈现正弦波搜索状态；
+  - **3. Company Detail**：
+    - 上方 Company 卡片展开（`max-height: 414px`），展示 Coupang 核心财务指标（股价/52周轨/营收）与一手动态看板；
+    - 下方 Person 卡片折叠收起（高度 ~52px，展示 Bom Kim 头像与标牌），支持点击快速展开；
+  - **4. Person Detail**：
+    - 上方 Company 卡片平滑收起至折叠态（高度 ~58px，露出最新动态与把手 `—`）；
+    - 下方 Person 卡片完全展开（`max-height: 414px`），展示 Bom Kim 生平、Career 职业发展轨与 Activities 官方动态；
+  - **5. Overview (概览收缩态)**：
+    - 两张详情卡片完成流式呈现后，整体平滑收缩归宿为两张紧凑 Overview 概览卡片（4px 垂直间距，两行文本截断，无滚动条）。
