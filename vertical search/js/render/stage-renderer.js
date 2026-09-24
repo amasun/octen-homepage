@@ -267,3 +267,82 @@ export function syncSubjectPills(key = state.currentVerticalKey, onPillClick = n
     });
   }
 }
+
+/**
+ * Stage 5 Overview: Hover-to-Expand & Push-to-Dismiss Interactive Behavior
+ * When hovering Company (Card 0): expands full details, pushes Person (Card 1) down out of viewport.
+ * When hovering Person (Card 1): expands full details, shifts up into viewport, pushes Company (Card 0) up out of viewport.
+ * When unhovered: smoothly restores both cards to compact overview stacked state.
+ */
+export function initBusinessOverviewHover(container) {
+  if (!container) return;
+
+  // Clean up any stale state classes
+  container.classList.remove('hover-company-active', 'hover-person-active');
+
+  let currentActive = null; // 'company' | 'person' | null
+  let leaveTimer = null;
+
+  const setHoverState = (nextState) => {
+    if (leaveTimer) {
+      clearTimeout(leaveTimer);
+      leaveTimer = null;
+    }
+    if (currentActive === nextState) return;
+    currentActive = nextState;
+
+    container.classList.remove('hover-company-active', 'hover-person-active');
+    if (nextState === 'company') {
+      container.classList.add('hover-company-active');
+    } else if (nextState === 'person') {
+      container.classList.add('hover-person-active');
+    } else {
+      // Returning to default overview: reset scroll position
+      const scrollAreas = container.querySelectorAll('.biz-overview-scroll-area');
+      scrollAreas.forEach(sa => { sa.scrollTop = 0; });
+    }
+  };
+
+  const handlePointerOver = (e) => {
+    const cardWrapper = e.target.closest('.business-card-wrapper');
+    if (cardWrapper) {
+      if (leaveTimer) {
+        clearTimeout(leaveTimer);
+        leaveTimer = null;
+      }
+      const idx = cardWrapper.dataset.entityIdx;
+      if (idx === '0') {
+        setHoverState('company');
+      } else if (idx === '1') {
+        setHoverState('person');
+      }
+    } else {
+      // Pointer is over container padding/empty space
+      if (currentActive && !leaveTimer) {
+        leaveTimer = setTimeout(() => {
+          setHoverState(null);
+        }, 160);
+      }
+    }
+  };
+
+  const handlePointerLeave = () => {
+    if (leaveTimer) clearTimeout(leaveTimer);
+    leaveTimer = setTimeout(() => {
+      setHoverState(null);
+    }, 100);
+  };
+
+  if (container._bizOverviewOverHandler) {
+    container.removeEventListener('pointerover', container._bizOverviewOverHandler);
+  }
+  if (container._bizOverviewLeaveHandler) {
+    container.removeEventListener('pointerleave', container._bizOverviewLeaveHandler);
+  }
+
+  container._bizOverviewOverHandler = handlePointerOver;
+  container._bizOverviewLeaveHandler = handlePointerLeave;
+
+  container.addEventListener('pointerover', handlePointerOver);
+  container.addEventListener('pointerleave', handlePointerLeave);
+}

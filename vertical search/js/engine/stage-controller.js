@@ -4,7 +4,7 @@
 import { state, clearActiveAnimations } from '../state.js';
 import { getCurrentData } from '../data/verticals-data.js';
 import { createSubjectCardHTML, createBusinessSummaryCardHTML } from '../render/card-templates.js';
-import { updateTopNewsCard, renderTimelineStream, syncSubjectPills, renderBusinessDetail, renderBusinessDualDetail } from '../render/stage-renderer.js';
+import { updateTopNewsCard, renderTimelineStream, syncSubjectPills, renderBusinessDetail, renderBusinessDualDetail, initBusinessOverviewHover } from '../render/stage-renderer.js';
 import { sleep, animateNumber } from '../animations/motion.js';
 import { playTokenMeterAnim, clearTokenMeterTimers, playSellingPointsNumberFlow } from '../animations/widgets.js';
 import { playStage5TimelineAnimation } from '../animations/timeline.js';
@@ -44,6 +44,9 @@ export function setCanvasState(targetState) {
   if (!cardCanvas) return;
 
   cardCanvas.classList.remove('is-typing', 'is-searching', 'has-results', 'not-typing', 'is-stage4', 'is-stage5');
+  if (cardListContainer) {
+    cardListContainer.classList.remove('hover-company-active', 'hover-person-active');
+  }
   stepBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.step === targetState));
 
   if (replayBtn) {
@@ -179,6 +182,9 @@ export function setCanvasState(targetState) {
         });
         cardListContainer.innerHTML = html;
         cardListContainer.style.transform = 'translateY(0px)';
+        initBusinessOverviewHover(cardListContainer);
+      } else if (cardListContainer && cardListContainer.querySelector('.biz-figma-card')) {
+        initBusinessOverviewHover(cardListContainer);
       }
     }
   } else if (targetState === 'company-detail') {
@@ -766,6 +772,7 @@ export async function runCycle(fromStep = 'typing') {
     if (cardListContainer) {
       cardListContainer.innerHTML = html;
       cardListContainer.style.transform = 'translateY(0px)';
+      initBusinessOverviewHover(cardListContainer);
     }
 
     const cards = cardListContainer ? cardListContainer.querySelectorAll('.biz-figma-card') : [];

@@ -3,11 +3,16 @@
    Aligned with BUSINESS_SEARCH_SPEC.md & Business Search 控制台交互.md
    ======================================================== */
 
-/* Stage 3: Summary Cards */
+/* Stage 3 & 5: Summary Cards */
 .business-card-wrapper {
   position: relative;
   width: 100%;
-  max-width: 520px;
+  max-width: 518px;
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+  will-change: transform, opacity;
 }
 .business-summary-card-box {
   position: relative;
@@ -43,12 +48,19 @@
   box-sizing: border-box;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   cursor: pointer;
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, height 0.42s cubic-bezier(0.16, 1, 0.3, 1), max-height 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
 }
 .biz-figma-card:hover {
   border-color: rgba(255, 255, 255, 0.7);
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
   transform: translateY(-2px);
+}
+.biz-figma-card .biz-figma-handle-wrap {
+  flex-shrink: 0;
+  margin-top: auto;
+  padding: 4px 0 2px 0;
 }
 .biz-figma-header {
   display: flex;
@@ -342,6 +354,124 @@
 }
 .demo-wrapper[data-theme="business"] .results-card-list {
   gap: 4px;
+}
+
+/* ========================================================
+   Step 5 Overview Hover-to-Expand & Push-to-Dismiss Styling
+   ======================================================== */
+.biz-overview-scroll-area {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.biz-overview-scroll-area::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+.biz-overview-scroll-area > * {
+  flex-shrink: 0;
+}
+
+.biz-overview-compact-only {
+  display: flex;
+}
+
+.biz-overview-full-sections {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+/* 1. When Hovering Company (Card 0) */
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] {
+  transform: translateY(0);
+  opacity: 1;
+  z-index: 10;
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-figma-card {
+  height: 414px;
+  max-height: 414px;
+  min-height: 414px;
+  padding: 16px 16px 8px 16px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+  border-color: rgba(255, 255, 255, 0.7);
+  transform: none !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-overview-compact-only {
+  display: none !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-overview-full-sections {
+  display: flex !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-figma-desc {
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
+  max-height: none !important;
+  height: auto !important;
+  white-space: normal;
+  overflow: visible;
+  line-height: 1.4;
+  opacity: 0.6;
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-overview-scroll-area {
+  overflow-y: auto !important;
+}
+/* Person Card (Card 1) pushed downward out of viewport */
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="1"] {
+  transform: translateY(220px) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 2. When Hovering Person (Card 1) */
+/* Company Card (Card 0) pushed upward out of viewport */
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="0"] {
+  transform: translateY(-380px) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+/* Person Card (Card 1) shifted upward into view & expanded */
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] {
+  transform: translateY(-326px) !important;
+  opacity: 1 !important;
+  z-index: 10;
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-card {
+  height: 414px;
+  max-height: 414px;
+  min-height: 414px;
+  padding: 16px 16px 8px 16px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+  border-color: rgba(255, 255, 255, 0.7);
+  transform: none !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-overview-full-sections {
+  display: flex !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-desc {
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
+  max-height: none !important;
+  height: auto !important;
+  white-space: normal;
+  overflow: visible;
+  line-height: 1.4;
+  opacity: 0.6;
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-overview-scroll-area {
+  overflow-y: auto !important;
 }
 .demo-wrapper[data-theme="business"] .business-detail-block {
   display: flex !important;

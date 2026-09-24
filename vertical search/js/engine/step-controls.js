@@ -4,7 +4,7 @@
 import { state, clearActiveAnimations } from '../state.js';
 import { getCurrentData } from '../data/verticals-data.js';
 import { createSubjectCardHTML, createBusinessSummaryCardHTML } from '../render/card-templates.js';
-import { updateTopNewsCard, renderTimelineStream, syncSubjectPills, handlePillClick, initSubjectsHBar, renderBusinessDetail } from '../render/stage-renderer.js';
+import { updateTopNewsCard, renderTimelineStream, syncSubjectPills, handlePillClick, initSubjectsHBar, renderBusinessDetail, initBusinessOverviewHover } from '../render/stage-renderer.js';
 import { playSellingPointsNumberFlow } from '../animations/widgets.js';
 import { playStage5TimelineAnimation } from '../animations/timeline.js';
 import { transitionToTyping, transitionToSearching, transitionToOverview, setCanvasState, runCycle, updateQueryDisplayScroll } from './stage-controller.js';
@@ -102,6 +102,7 @@ export function initStepControls() {
           if (cardListContainer) {
             cardListContainer.innerHTML = html;
             cardListContainer.style.transform = 'translateY(0px)';
+            initBusinessOverviewHover(cardListContainer);
           }
           if (replayBtn) replayBtn.classList.add('visible');
         } else {
