@@ -1,6 +1,6 @@
 import { state } from '../state.js';
 import { getCurrentData, formatDateTime, formatTimeOnly, formatDate, extractDomain, imageCache } from '../data/verticals-data.js';
-import { createBusinessDetailCardHTML } from './card-templates.js';
+import { createBusinessDualDetailHTML } from './card-templates.js';
 
 let currentSelectedSubjectIdx = 0;
 
@@ -107,14 +107,14 @@ export function renderTimelineStream(subjectIdx = 0, makeVisible = false) {
 }
 
 /**
- * Render Business Search Expanded Detail Card
+ * Render Business Search Dual Accordion Detail Cards (Company on Top, Person on Bottom)
  */
-export function renderBusinessDetail(entityIdx = 0) {
+export function renderBusinessDualDetail(mode = 'company') {
   const curData = getCurrentData('business');
-  const entity = curData.entities ? curData.entities[entityIdx] : null;
-  if (!entity) return;
+  const compEntity = curData.entities ? curData.entities[0] : null;
+  const persEntity = curData.entities ? curData.entities[1] : null;
 
-  currentSelectedSubjectIdx = entityIdx;
+  currentSelectedSubjectIdx = mode === 'person' ? 1 : 0;
   const topNewsBlock = document.getElementById('topNewsBlock');
   const timelineStreamBlock = document.getElementById('timelineStreamBlock');
   const businessDetailBlock = document.getElementById('businessDetailBlock');
@@ -122,10 +122,55 @@ export function renderBusinessDetail(entityIdx = 0) {
   if (topNewsBlock) topNewsBlock.style.display = 'none';
   if (timelineStreamBlock) timelineStreamBlock.style.display = 'none';
 
-  if (businessDetailBlock) {
-    businessDetailBlock.style.display = 'block';
-    businessDetailBlock.innerHTML = createBusinessDetailCardHTML(entity);
+  if (!businessDetailBlock) return;
+  businessDetailBlock.style.display = 'flex';
+
+  const compCard = document.getElementById('bizCompanyAccordionCard');
+  const persCard = document.getElementById('bizPersonAccordionCard');
+
+  if (compCard && persCard) {
+    if (mode === 'company') {
+      compCard.classList.remove('is-collapsed');
+      compCard.classList.add('is-expanded');
+      compCard.title = '';
+      persCard.classList.remove('is-expanded');
+      persCard.classList.add('is-collapsed');
+      persCard.title = 'Click to expand Bom Kim';
+    } else {
+      compCard.classList.remove('is-expanded');
+      compCard.classList.add('is-collapsed');
+      compCard.title = 'Click to expand Coupang';
+      persCard.classList.remove('is-collapsed');
+      persCard.classList.add('is-expanded');
+      persCard.title = '';
+    }
+  } else {
+    businessDetailBlock.innerHTML = createBusinessDualDetailHTML(compEntity, persEntity, mode);
   }
+
+  // Bind click toggle on accordion cards
+  if (businessDetailBlock.dataset.boundAccordion !== 'true') {
+    businessDetailBlock.dataset.boundAccordion = 'true';
+    businessDetailBlock.addEventListener('click', (e) => {
+      const card = e.target.closest('.biz-accordion-card');
+      if (!card) return;
+      if (card.classList.contains('is-collapsed')) {
+        const type = card.dataset.entityType;
+        if (type === 'company') {
+          const compBtn = document.querySelector('.step-btn[data-step="company-detail"]') || document.querySelectorAll('.step-btn')[2];
+          if (compBtn) compBtn.click();
+        } else if (type === 'person') {
+          const persBtn = document.querySelector('.step-btn[data-step="person-detail"]') || document.querySelectorAll('.step-btn')[3];
+          if (persBtn) persBtn.click();
+        }
+      }
+    });
+  }
+}
+
+export function renderBusinessDetail(idxOrMode = 0) {
+  const mode = (idxOrMode === 1 || idxOrMode === 'person') ? 'person' : 'company';
+  renderBusinessDualDetail(mode);
 }
 
 export function handlePillClick(idx) {

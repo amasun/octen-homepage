@@ -221,265 +221,248 @@ export function createBusinessSummaryCardHTML(entity, index) {
 }
 
 /**
- * Stage 4/5: Business Expanded Detail Card (Coupang or Bom Kim)
+ * Stage 3 & 4: Dual Accordion Cards (Company on Top, Person on Bottom)
+ * Strictly max-height: 414px;
+ * Perfectly aligned with user uploaded screenshot
  */
-export function createBusinessDetailCardHTML(entity) {
-  const isCompany = entity.type === 'company';
+export function createBusinessDualDetailHTML(companyEntity, personEntity, activeMode = 'company') {
+  const isCompActive = activeMode === 'company';
+  
+  // --- Company Data ---
+  const comp = companyEntity || {};
+  const compIds = comp.identifiers || {};
+  const compStock = comp.metrics?.stock || {};
+  const compFin = comp.metrics?.financials || {};
+  const compFund = comp.metrics?.funding || {};
+  const compActivities = comp.activities || [];
+  const compFirstAct = compActivities[0] || null;
+  const compActTitle = compFirstAct?.title || 'Coupang names new head of Fulfillment Technology';
+  const compTickerStr = compIds.stock_ticker ? compIds.stock_ticker.replace(/^NYSE:\s*/i, '') + ' · NYSE' : 'CPENG · NYSE';
 
-  if (isCompany) {
-    const ids = entity.identifiers || {};
-    const attrs = entity.attributes || {};
-    const stock = entity.metrics?.stock || {};
-    const fin = entity.metrics?.financials || {};
-    const fund = entity.metrics?.funding || {};
-    const traffic = entity.metrics?.web_traffic || {};
-    const activities = entity.activities || [];
-    const news = entity.news || [];
+  // --- Person Data ---
+  const pers = personEntity || {};
+  const persPos = pers.current_position || {};
+  const persCareer = pers.career || [
+    { organization: 'Coupang, Inc.', title: 'Founder & CEO', start: '2010', end: null },
+    { organization: '02138 Magazine', title: 'Co-founder', start: '2006', end: '2008' },
+    { organization: 'The Boston Consulting Group', title: 'Associate', start: '2005', end: '2006' }
+  ];
+  const persActivities = pers.activities || [
+    {
+      title: 'Coupang names new head of Fulfillment Technology',
+      timeDisplay: '2026/09/12 07:58:07',
+      isLatest: true,
+      source: 'biz.com'
+    },
+    {
+      title: 'Coupang Announces Results for Second Quarter 2026: Net revenues reach...',
+      timeDisplay: '2026/09/11 07:58:07',
+      source: 'ir.aboutcoupang.com'
+    }
+  ];
 
-    // 52-week slider rail position
-    const low = stock.week_52_low || 14.15;
-    const high = stock.week_52_high || 34.08;
-    const cur = stock.price || 14.29;
-    const posPct = Math.min(Math.max(((cur - low) / (high - low)) * 100, 3), 97);
-    const tickerStr = ids.stock_ticker ? ids.stock_ticker.replace(/^NYSE:\s*/i, '') + ' · NYSE' : 'CPENG · NYSE';
-
-    return `
-      <div class="biz-detail-content" data-detail-type="company">
-        <!-- 1. Header & Meta Row -->
-        <div class="biz-detail-header-block">
-          <div class="biz-figma-logo-wrap" style="width: 48px; height: 48px; border-radius: 12px;">
-            <img src="./images/vertical/coupang-logo.png" alt="Coupang" class="biz-detail-logo-img" style="width: 100%; height: 100%; object-fit: cover;" />
+  return `
+    <div class="biz-dual-cards-stack" id="bizDualCardsStack">
+      <!-- 1. Top Card: Company Detail -->
+      <article class="biz-accordion-card biz-company-card ${isCompActive ? 'is-expanded' : 'is-collapsed'}" id="bizCompanyAccordionCard" data-entity-type="company" title="${isCompActive ? '' : 'Click to expand Coupang'}">
+        <!-- Collapsed Bar (Top Card, height ~58px, exactly as in user screenshot) -->
+        <div class="biz-card-collapsed-bar biz-company-collapsed-bar">
+          <div class="biz-figma-activity-bar" style="background: transparent; height: 24px; padding: 0 4px; margin: 0;">
+            <img src="./images/vertical/activity-dot.svg" alt="" class="biz-figma-act-dot" />
+            <span class="biz-figma-act-date">2026/09/12 07:58:07</span>
+            <span class="biz-figma-act-title" title="${compActTitle}">${compActTitle}</span>
           </div>
-          <div class="biz-detail-header-main">
-            <div class="biz-name-row">
-              <h3 class="biz-detail-title">${entity.name}</h3>
-              <span class="biz-figma-tag biz-tag-company">Company</span>
-            </div>
-            <div class="biz-identity-badges">
-              <span class="biz-id-item"><img src="./images/vertical/stock-icon.svg" class="biz-id-icon" alt="" />${tickerStr}</span>
-              <span class="biz-id-item">CIK ${ids.sec_cik}</span>
-              <a href="https://${ids.website}" target="_blank" class="biz-id-link"><img src="./images/vertical/city-icon.svg" class="biz-id-icon" alt="" />${ids.website}</a>
-              <a href="${ids.linkedin_url || '#'}" target="_blank" class="biz-id-link"><img src="./images/vertical/linkedin-icon.svg" class="biz-id-icon" alt="" />LinkedIn</a>
-            </div>
+          <div class="biz-figma-handle-wrap" style="padding: 2px 0 0;">
+            <div class="biz-figma-handle-bar"></div>
           </div>
         </div>
 
-        <!-- 2. Attributes Row -->
-        <div class="biz-attributes-strip">
-          <span class="biz-attr-item"><span class="biz-attr-k">Industry</span><span class="biz-attr-v">${attrs.industry}</span></span>
-          <span class="biz-attr-item"><span class="biz-attr-k">HQ</span><span class="biz-attr-v">${attrs.hq_country}</span></span>
-          <span class="biz-attr-item"><span class="biz-attr-k">Founded</span><span class="biz-attr-v">${attrs.founded_year}</span></span>
-          <span class="biz-attr-item"><span class="biz-attr-k">Employees</span><span class="biz-attr-v">${attrs.employee_range}</span></span>
-        </div>
-
-        <!-- 3. Financial Metrics Board with 52-Week Slider Rail -->
-        <div class="biz-metrics-board">
-          <!-- Price and 52-week slider rail -->
-          <div class="biz-price-rail-block">
-            <div class="biz-price-live-col">
-              <span class="biz-price-label">Stock Price</span>
-              <div class="biz-price-number-row">
-                <span class="biz-live-price">$${stock.price?.toFixed(2)}</span>
-                <span class="biz-live-change ${stock.todays_change_percent < 0 ? 'neg' : 'pos'}">${stock.todays_change_percent}%</span>
+        <!-- Expanded Content (Scrollable, max-height 382px, hidden scrollbar) -->
+        <div class="biz-accordion-scroll-area biz-company-expanded-body">
+          <!-- Header -->
+          <div class="biz-figma-header">
+            <div class="biz-figma-logo-wrap">
+              <img src="./images/vertical/coupang-logo.png" alt="Coupang Logo" class="biz-figma-logo-img" />
+            </div>
+            <div class="biz-figma-header-info">
+              <div class="biz-figma-title-row">
+                <h3 class="biz-figma-title">${comp.name || 'Coupang, Inc.'}</h3>
+                <span class="biz-figma-tag biz-tag-company">Company</span>
+              </div>
+              <div class="biz-figma-links-row">
+                <div class="biz-figma-link-item">
+                  <img src="./images/vertical/stock-icon.svg" alt="" class="biz-figma-link-icon" />
+                  <span class="biz-figma-link-text">${compTickerStr}</span>
+                </div>
+                <div class="biz-figma-link-item">
+                  <img src="./images/vertical/city-icon.svg" alt="" class="biz-figma-link-icon" />
+                  <span class="biz-figma-link-text">${compIds.website || 'aboutcoupang.com'}</span>
+                </div>
+                <div class="biz-figma-link-item">
+                  <img src="./images/vertical/linkedin-icon.svg" alt="" class="biz-figma-link-icon" />
+                  <span class="biz-figma-link-text">Linkedin</span>
+                </div>
               </div>
             </div>
-            <div class="biz-52w-rail-col">
-              <div class="biz-52w-labels">
-                <span>52W Low: $${low.toFixed(2)}</span>
-                <span class="biz-52w-center-tag">52-Week Range</span>
-                <span>52W High: $${high.toFixed(2)}</span>
+          </div>
+
+          <!-- Description -->
+          <p class="biz-figma-desc">
+            ${comp.summary || 'One of South Korea’s largest e-commerce platforms, founded in 2010 and listed on the NYSE. Its core businesses span e-commerce, logistics fulfillment, and OTT streaming. Its self-built Rocket Delivery network reaches most of Korea’s population. In recent years, the company has focused its growth investments on advertising, food delivery, and international expansion—its Developing Offerings.'}
+          </p>
+
+          <!-- Metrics Grid -->
+          <div class="biz-figma-stats-grid">
+            <div class="biz-figma-stat-cell">
+              <span class="biz-figma-stat-label">STOCK PRICE</span>
+              <div class="biz-figma-stat-val-row">
+                <span class="biz-figma-stat-val">$${compStock.price?.toFixed(2) || '14.29'}</span>
+                <span class="biz-figma-stat-sub ${compStock.todays_change_percent < 0 ? 'biz-color-neg' : ''}">${compStock.todays_change_percent || -1.18}%</span>
               </div>
-              <div class="biz-52w-track">
-                <div class="biz-52w-bar" style="width: 100%;"></div>
-                <div class="biz-52w-thumb" style="left: ${posPct}%;" title="Current: $${cur.toFixed(2)}">
-                  <span class="biz-52w-thumb-pin"></span>
+            </div>
+            <div class="biz-figma-stat-cell">
+              <span class="biz-figma-stat-label">52-WEEK HIGH</span>
+              <div class="biz-figma-stat-val-row">
+                <span class="biz-figma-stat-val">$${compStock.week_52_high?.toFixed(2) || '34.08'}</span>
+              </div>
+            </div>
+            <div class="biz-figma-stat-cell">
+              <span class="biz-figma-stat-label">52-WEEK LOW</span>
+              <div class="biz-figma-stat-val-row">
+                <span class="biz-figma-stat-val">$${compStock.week_52_low?.toFixed(2) || '14.15'}</span>
+              </div>
+            </div>
+            <div class="biz-figma-stat-cell">
+              <span class="biz-figma-stat-label">REVENUE</span>
+              <div class="biz-figma-stat-val-row">
+                <span class="biz-figma-stat-val">${formatMoneyCompact(compFin.revenue) || '$8.9B'}</span>
+              </div>
+            </div>
+            <div class="biz-figma-stat-cell">
+              <span class="biz-figma-stat-label">NET INCOME</span>
+              <div class="biz-figma-stat-val-row">
+                <span class="biz-figma-stat-val biz-color-neg">${formatMoneyCompact(compFin.net_income) || '-$570M'}</span>
+              </div>
+            </div>
+            <div class="biz-figma-stat-cell">
+              <span class="biz-figma-stat-label">VALUATION</span>
+              <div class="biz-figma-stat-val-row">
+                <span class="biz-figma-stat-val">${formatMoneyCompact(compFund.valuation) || '$9B'}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity Bar -->
+          <div class="biz-figma-activity-bar">
+            <img src="./images/vertical/activity-dot.svg" alt="" class="biz-figma-act-dot" />
+            <span class="biz-figma-act-date">2026/09/12 07:58:07</span>
+            <span class="biz-figma-act-title" title="${compActTitle}">${compActTitle}</span>
+          </div>
+
+          <!-- Bottom Handle -->
+          <div class="biz-figma-handle-wrap" style="padding-top: 4px;">
+            <div class="biz-figma-handle-bar"></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2. Bottom Card: Person Detail (Bom Kim, 1:1 Pixel-Perfect to Screenshot) -->
+      <article class="biz-accordion-card biz-person-card ${!isCompActive ? 'is-expanded' : 'is-collapsed'}" id="bizPersonAccordionCard" data-entity-type="person" title="${!isCompActive ? '' : 'Click to expand Bom Kim'}">
+        <!-- Collapsed Bar (Bottom Card, height ~52px) -->
+        <div class="biz-card-collapsed-bar biz-person-collapsed-bar">
+          <div class="biz-figma-avatar-wrap" style="width: 28px; height: 28px; flex-shrink: 0;">
+            <img src="./images/vertical/bom-kim-avatar.svg" alt="Bom Kim" class="biz-figma-avatar-img" />
+          </div>
+          <span class="biz-person-collapsed-name">Bom Kim</span>
+          <span class="biz-figma-tag biz-tag-person">Person</span>
+          <span class="biz-person-collapsed-role">${persPos.title || 'Founder & CEO'}</span>
+          <div class="biz-figma-handle-wrap" style="margin-left: auto; width: auto; padding: 0;">
+            <div class="biz-figma-handle-bar"></div>
+          </div>
+        </div>
+
+        <!-- Expanded Content (Scrollable, max-height 382px, hidden scrollbar) -->
+        <div class="biz-accordion-scroll-area biz-person-expanded-body">
+          <!-- Header -->
+          <div class="biz-figma-header">
+            <div class="biz-figma-avatar-wrap" style="width: 44px; height: 44px; flex-shrink: 0;">
+              <img src="./images/vertical/bom-kim-avatar.svg" alt="Bom Kim Avatar" class="biz-figma-avatar-img" />
+            </div>
+            <div class="biz-figma-header-info">
+              <div class="biz-figma-title-row">
+                <h3 class="biz-figma-title">${pers.name || 'Bom Kim'}</h3>
+                <span class="biz-figma-tag biz-tag-person">Person</span>
+              </div>
+              <div class="biz-figma-links-row">
+                <div class="biz-figma-link-item">
+                  <img src="./images/vertical/id-card-icon.svg" alt="" class="biz-figma-link-icon" />
+                  <span class="biz-figma-link-text">${persPos.title || 'Founder & CEO'}</span>
+                </div>
+                <div class="biz-figma-link-item">
+                  <img src="./images/vertical/linkedin-icon.svg" alt="" class="biz-figma-link-icon" />
+                  <span class="biz-figma-link-text">Linkedin</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Secondary Grid -->
-          <div class="biz-secondary-metrics-grid">
-            <div class="biz-sec-metric-cell">
-              <span class="biz-sec-label">Revenue</span>
-              <span class="biz-sec-val">${formatMoneyCompact(fin.revenue)}</span>
-              <span class="biz-sec-caption">${fin.period} · +10% YoY</span>
-            </div>
-            <div class="biz-sec-metric-cell">
-              <span class="biz-sec-label">Net Income</span>
-              <span class="biz-sec-val neg">${formatMoneyCompact(fin.net_income)}</span>
-              <span class="biz-sec-caption">${fin.period}</span>
-            </div>
-            <div class="biz-sec-metric-cell">
-              <span class="biz-sec-label">Valuation</span>
-              <span class="biz-sec-val">${formatMoneyCompact(fund.valuation)}</span>
-              <span class="biz-sec-caption">${fund.round}</span>
-            </div>
-            <div class="biz-sec-metric-cell">
-              <span class="biz-sec-label">Total Funding</span>
-              <span class="biz-sec-val">${formatMoneyCompact(fund.total_funding)}</span>
-              <span class="biz-sec-caption">All rounds</span>
-            </div>
-            <div class="biz-sec-metric-cell">
-              <span class="biz-sec-label">Monthly Visits</span>
-              <span class="biz-sec-val">${(traffic.visits_monthly / 1e6).toFixed(1)}M</span>
-              <span class="biz-sec-caption">Global Rank #${traffic.rank}</span>
-            </div>
-          </div>
-        </div>
+          <!-- Description -->
+          <p class="biz-figma-desc">
+            ${pers.summary || 'Founder & CEO of Coupang since 2010. Harvard College graduate and Harvard Business School alumnus, led Coupang through its 2021 NYSE IPO and nationwide automated lo...'}
+          </p>
 
-        <!-- 4. Key People -->
-        <div class="biz-section-group">
-          <h4 class="biz-sec-heading">Key People</h4>
-          <div class="biz-people-pills">
-            ${(entity.key_people || []).map(p => `
-              <div class="biz-person-pill">
-                <span class="biz-person-name">${p.name}</span>
-                <span class="biz-person-role">${p.title}</span>
+          <!-- Career Section -->
+          <div class="biz-person-section-wrap">
+            <h4 class="biz-person-sec-header">Career</h4>
+            <div class="biz-person-subcard">
+              <div class="biz-career-timeline-wrap">
+                ${persCareer.map(c => {
+                  const period = c.end === null ? `${c.start} – PRESENT` : `${c.start} – ${c.end}`;
+                  return `
+                    <div class="biz-career-timeline-row">
+                      <div class="biz-career-dot-circle"></div>
+                      <span class="biz-career-col-period">${period}</span>
+                      <span class="biz-career-col-role">${c.title}</span>
+                      <span class="biz-career-col-org">${c.organization}</span>
+                    </div>
+                  `;
+                }).join('')}
               </div>
-            `).join('')}
+            </div>
           </div>
-        </div>
 
-        <!-- 5. Dual-Track: Activities (Timeline) vs News (List) -->
-        <div class="biz-dual-track-container">
-          <div class="biz-track-col">
-            <div class="biz-track-title-row">
-              <span class="biz-track-badge official">Official Activities</span>
-              <span class="biz-track-desc">Timeline of corporate filings & milestones</span>
-            </div>
-            <div class="biz-activities-rail">
-              ${activities.map((act, i) => `
-                <div class="biz-activity-item">
-                  <div class="biz-activity-node"></div>
-                  <div class="biz-activity-body">
-                    <span class="biz-activity-date">${act.timePublished?.slice(0, 10).replace(/-/g, '/')}</span>
-                    <a href="${act.url}" target="_blank" class="biz-activity-title">${act.title}</a>
-                    <p class="biz-activity-highlight">${act.highlight}</p>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-          <div class="biz-track-col">
-            <div class="biz-track-title-row">
-              <span class="biz-track-badge media">Media News</span>
-              <span class="biz-track-desc">Independent publications & coverage</span>
-            </div>
-            <div class="biz-news-list">
-              ${news.map(nw => `
-                <div class="biz-news-item">
-                  <div class="biz-news-top">
-                    <span class="biz-news-source">${nw.source}</span>
-                    <span class="biz-news-date">${nw.timePublished?.slice(0, 10).replace(/-/g, '/')}</span>
-                  </div>
-                  <a href="${nw.url}" target="_blank" class="biz-news-title">${nw.title}</a>
-                </div>
-              `).join('')}
+          <!-- Activities Section -->
+          <div class="biz-person-section-wrap">
+            <h4 class="biz-person-sec-header">Activities</h4>
+            <div class="biz-person-subcard">
+              <div class="biz-act-timeline-wrap">
+                ${persActivities.map(a => {
+                  const time = a.timeDisplay || '2026/09/12 07:58:07';
+                  const domain = a.source || 'biz.com';
+                  return `
+                    <div class="biz-act-timeline-item">
+                      <div class="biz-act-dot-circle"></div>
+                      <div class="biz-act-meta-line">
+                        <span class="biz-act-meta-time">${time}</span>
+                        ${a.isLatest ? '<span class="biz-act-tag-latest">latest</span>' : ''}
+                        <span class="biz-act-meta-domain">${domain}</span>
+                      </div>
+                      <p class="biz-act-headline-text" title="${a.title}">${a.title}</p>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Handle bar -->
-        <div class="biz-figma-handle-wrap" style="padding-top: 10px;">
-          <div class="biz-figma-handle-bar"></div>
-        </div>
-      </div>
-    `;
-  } else {
-    // Person Detail (Bom Kim)
-    const pos = entity.current_position || {};
-    const career = entity.career || [];
-    const activities = entity.activities || [];
-    const news = entity.news || [];
-
-    return `
-      <div class="biz-detail-content" data-detail-type="person">
-        <!-- 1. Header & Identity -->
-        <div class="biz-detail-header-block">
-          <div class="biz-figma-avatar-wrap" style="width: 48px; height: 48px;">
-            <img src="./images/vertical/bom-kim-avatar.svg" alt="Bom Kim" class="biz-detail-avatar-img" style="width: 100%; height: 100%; object-fit: cover;" />
-          </div>
-          <div class="biz-detail-header-main">
-            <div class="biz-name-row">
-              <h3 class="biz-detail-title">${entity.name}</h3>
-              <span class="biz-figma-tag biz-tag-person">Person</span>
-            </div>
-            <div class="biz-identity-badges">
-              <span class="biz-id-item"><img src="./images/vertical/id-card-icon.svg" class="biz-id-icon" alt="" />${pos.title} · ${pos.organization}</span>
-              <a href="${entity.linkedin_url}" target="_blank" class="biz-id-link"><img src="./images/vertical/linkedin-icon.svg" class="biz-id-icon" alt="" />LinkedIn Profile</a>
-            </div>
+          <!-- Bottom Handle -->
+          <div class="biz-figma-handle-wrap" style="padding-top: 4px;">
+            <div class="biz-figma-handle-bar"></div>
           </div>
         </div>
-
-        <!-- 2. Bio Summary -->
-        <div class="biz-bio-box">
-          <p class="biz-bio-text">${entity.summary}</p>
-        </div>
-
-        <!-- 3. Career Rail (Vertical Career Line) -->
-        <div class="biz-section-group">
-          <h4 class="biz-sec-heading">Career Experience</h4>
-          <div class="biz-career-timeline">
-            ${career.map((c, i) => {
-              const isCurrent = c.end === null;
-              const periodStr = isCurrent ? `${c.start} – Present` : `${c.start} – ${c.end}`;
-              return `
-                <div class="biz-career-item ${isCurrent ? 'is-active' : ''}">
-                  <div class="biz-career-dot ${isCurrent ? 'active' : ''}"></div>
-                  <div class="biz-career-info">
-                    <span class="biz-career-period">${periodStr}</span>
-                    <span class="biz-career-role">${c.title} <span class="biz-career-org">· ${c.organization}</span></span>
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </div>
-
-        <!-- 4. Key Activities & Remarks -->
-        <div class="biz-dual-track-container">
-          <div class="biz-track-col">
-            <div class="biz-track-title-row">
-              <span class="biz-track-badge official">Public Filings & Statements</span>
-            </div>
-            <div class="biz-activities-rail">
-              ${activities.map(act => `
-                <div class="biz-activity-item">
-                  <div class="biz-activity-node"></div>
-                  <div class="biz-activity-body">
-                    <span class="biz-activity-date">${act.timePublished?.slice(0, 10).replace(/-/g, '/')}</span>
-                    <a href="${act.url}" target="_blank" class="biz-activity-title">${act.title}</a>
-                    <p class="biz-activity-highlight">${act.highlight}</p>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-          <div class="biz-track-col">
-            <div class="biz-track-title-row">
-              <span class="biz-track-badge media">In-Depth Profiles</span>
-            </div>
-            <div class="biz-news-list">
-              ${news.map(nw => `
-                <div class="biz-news-item">
-                  <div class="biz-news-top">
-                    <span class="biz-news-source">${nw.source}</span>
-                    <span class="biz-news-date">${nw.timePublished?.slice(0, 10).replace(/-/g, '/')}</span>
-                  </div>
-                  <a href="${nw.url}" target="_blank" class="biz-news-title">${nw.title}</a>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        </div>
-
-        <!-- Handle bar -->
-        <div class="biz-figma-handle-wrap" style="padding-top: 10px;">
-          <div class="biz-figma-handle-bar"></div>
-        </div>
-      </div>
-    `;
-  }
+      </article>
+    </div>
+  `;
 }
+
 

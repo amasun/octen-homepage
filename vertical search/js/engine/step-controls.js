@@ -84,7 +84,7 @@ export function initStepControls() {
         if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
         if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
         renderBusinessDetail(1);
-        const activityNodes = document.querySelectorAll('.biz-activity-node, .biz-career-dot');
+        const activityNodes = document.querySelectorAll('.biz-career-dot-circle, .biz-act-dot-circle');
         activityNodes.forEach((node, i) => {
           node.style.animation = 'bizNodePulse 0.4s ease forwards ' + (i * 0.15) + 's';
         });

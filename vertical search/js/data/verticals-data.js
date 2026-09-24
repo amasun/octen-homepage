@@ -283,16 +283,21 @@ const VERTICALS = {
                 ],
                 activities: [
                   {
-                    title: 'Coupang (CPNG) Q2 2026 Earnings Call Transcript',
-                    timePublished: '2026-09-11T03:58:07Z',
-                    highlight: 'Bom Kim: "The vast majority of our customer spend never moved. Core cohort retention remains strong."',
-                    url: 'https://www.fool.com/earnings/coupang-cpng-q2-2026-transcript'
+                    title: 'Coupang names new head of Fulfillment Technology',
+                    timePublished: '2026-09-12T07:58:07Z',
+                    timeDisplay: '2026/09/12 07:58:07',
+                    isLatest: true,
+                    source: 'biz.com',
+                    highlight: 'Overseeing automated sorting and last-mile robotics dispatch lines.',
+                    url: 'https://biz.com/news/coupang-fulfillment-tech'
                   },
                   {
-                    title: 'Keynote at Asia E-Commerce Summit 2026',
-                    timePublished: '2026-08-20T10:00:00Z',
-                    highlight: 'Keynote address: AI-driven autonomous fulfillment, Taiwan expansion, and long-term retail flywheel.',
-                    url: 'https://ir.aboutcoupang.com/events/asia-summit-2026'
+                    title: 'Coupang Announces Results for Second Quarter 2026: Net revenues reach $8.9 billion',
+                    timePublished: '2026-09-11T07:58:07Z',
+                    timeDisplay: '2026/09/11 07:58:07',
+                    source: 'ir.aboutcoupang.com',
+                    highlight: 'Total net revenues were $8.9 billion, up 4% YoY (10% on constant currency basis).',
+                    url: 'https://ir.aboutcoupang.com/news/2026/q2-results'
                   }
                 ],
                 news: [

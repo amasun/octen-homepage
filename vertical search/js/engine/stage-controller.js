@@ -4,7 +4,7 @@
 import { state, clearActiveAnimations } from '../state.js';
 import { getCurrentData } from '../data/verticals-data.js';
 import { createSubjectCardHTML, createBusinessSummaryCardHTML } from '../render/card-templates.js';
-import { updateTopNewsCard, renderTimelineStream, syncSubjectPills, renderBusinessDetail } from '../render/stage-renderer.js';
+import { updateTopNewsCard, renderTimelineStream, syncSubjectPills, renderBusinessDetail, renderBusinessDualDetail } from '../render/stage-renderer.js';
 import { sleep, animateNumber } from '../animations/motion.js';
 import { playTokenMeterAnim, clearTokenMeterTimers, playSellingPointsNumberFlow } from '../animations/widgets.js';
 import { playStage5TimelineAnimation } from '../animations/timeline.js';
@@ -540,35 +540,29 @@ export async function runCycle(fromStep = 'typing') {
       if (statSubjectsEl) animateNumber(statSubjectsEl, 0, ENTITIES_DATA.length, 1200);
       if (statArticlesEl) animateNumber(statArticlesEl, 0, curData.stats?.num2 || 6, 1200);
 
-      renderBusinessDetail(0);
+      renderBusinessDualDetail('company');
 
-      const eventsWhiteCard = document.getElementById('eventsWhiteCard');
-      if (eventsWhiteCard) {
-        const cardInAnim = eventsWhiteCard.animate([
-          { opacity: 0, transform: 'translateY(20px) scale(0.98)', filter: 'blur(3px)' },
-          { opacity: 1, transform: 'translateY(0) scale(1)', filter: 'blur(0px)' }
-        ], { duration: 420, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' });
-        state.activeAnimations.push(cardInAnim);
+      // Stream in company detail internal items
+      const compScrollArea = document.querySelector('#bizCompanyAccordionCard .biz-accordion-scroll-area');
+      if (compScrollArea) {
+        const detailBlocks = compScrollArea.children;
+        Array.from(detailBlocks).forEach((block, i) => {
+          block.style.opacity = '0';
+          block.style.transform = 'translateY(10px)';
+          setTimeout(() => {
+            if (!isValid()) return;
+            const bAnim = block.animate([
+              { opacity: 0, transform: 'translateY(10px)' },
+              { opacity: 1, transform: 'translateY(0)' }
+            ], { duration: 280, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' });
+            state.activeAnimations.push(bAnim);
+            block.style.opacity = '1';
+            block.style.transform = 'none';
+          }, i * 80);
+        });
       }
 
-      // Stream in internal detail blocks
-      const detailBlocks = document.querySelectorAll('.biz-detail-content > *');
-      detailBlocks.forEach((block, i) => {
-        block.style.opacity = '0';
-        block.style.transform = 'translateY(12px)';
-        setTimeout(() => {
-          if (!isValid()) return;
-          const bAnim = block.animate([
-            { opacity: 0, transform: 'translateY(12px)' },
-            { opacity: 1, transform: 'translateY(0)' }
-          ], { duration: 300, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' });
-          state.activeAnimations.push(bAnim);
-          block.style.opacity = '1';
-          block.style.transform = 'none';
-        }, i * 90);
-      });
-
-      await sleep(1800);
+      await sleep(2000);
       if (!isValid()) return;
     } else {
       if (startIndex === 2 && cardCanvas && !cardCanvas.classList.contains('is-searching')) {
@@ -694,40 +688,34 @@ export async function runCycle(fromStep = 'typing') {
 
     if (state.currentVerticalKey === 'business') {
       setCanvasState('person-detail');
-      renderBusinessDetail(1);
+      renderBusinessDualDetail('person');
 
-      const eventsWhiteCard = document.getElementById('eventsWhiteCard');
-      if (eventsWhiteCard) {
-        const switchAnim = eventsWhiteCard.animate([
-          { opacity: 0.65, transform: 'translateY(8px)' },
-          { opacity: 1, transform: 'translateY(0)' }
-        ], { duration: 320, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' });
-        state.activeAnimations.push(switchAnim);
+      // Stream in person detail internal items
+      const persScrollArea = document.querySelector('#bizPersonAccordionCard .biz-accordion-scroll-area');
+      if (persScrollArea) {
+        const personBlocks = persScrollArea.children;
+        Array.from(personBlocks).forEach((block, i) => {
+          block.style.opacity = '0';
+          block.style.transform = 'translateY(10px)';
+          setTimeout(() => {
+            if (!isValid()) return;
+            const bAnim = block.animate([
+              { opacity: 0, transform: 'translateY(10px)' },
+              { opacity: 1, transform: 'translateY(0)' }
+            ], { duration: 280, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' });
+            state.activeAnimations.push(bAnim);
+            block.style.opacity = '1';
+            block.style.transform = 'none';
+          }, i * 80);
+        });
       }
 
-      // Stream in person detail blocks
-      const personBlocks = document.querySelectorAll('.biz-detail-content > *');
-      personBlocks.forEach((block, i) => {
-        block.style.opacity = '0';
-        block.style.transform = 'translateY(12px)';
-        setTimeout(() => {
-          if (!isValid()) return;
-          const bAnim = block.animate([
-            { opacity: 0, transform: 'translateY(12px)' },
-            { opacity: 1, transform: 'translateY(0)' }
-          ], { duration: 300, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' });
-          state.activeAnimations.push(bAnim);
-          block.style.opacity = '1';
-          block.style.transform = 'none';
-        }, i * 90);
-      });
-
-      const activityNodes = document.querySelectorAll('.biz-activity-node, .biz-career-dot');
+      const activityNodes = document.querySelectorAll('.biz-career-dot-circle, .biz-act-dot-circle');
       activityNodes.forEach((node, i) => {
         node.style.animation = 'bizNodePulse 0.4s ease forwards ' + (i * 0.15) + 's';
       });
 
-      await sleep(1800);
+      await sleep(2200);
       if (!isValid()) return;
     } else {
       syncSubjectPills(state.currentVerticalKey);

@@ -310,24 +310,38 @@
   display: none !important;
 }
 
-/* Expand events-white-card full height for business vertical */
-.card-canvas[data-theme="business"].is-stage4 .events-white-card,
-.card-canvas[data-theme="business"].is-stage5 .events-white-card,
+/* Business Vertical Stage 3 & 4: Dual Accordion Cards Container */
+.card-canvas[data-theme="business"] .events-white-card,
 .demo-wrapper[data-theme="business"] .events-white-card {
-  height: 100% !important;
-  max-height: 100% !important;
-  flex: 1 1 auto;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  display: block !important;
+  width: 518px !important;
+  max-width: 518px !important;
+  height: auto !important;
+  max-height: none !important;
 }
 .demo-wrapper[data-theme="business"] .stage-focus-container {
   gap: 0;
+  padding-top: 8px;
 }
 .demo-wrapper[data-theme="business"] .results-card-list {
   gap: 4px;
 }
 .demo-wrapper[data-theme="business"] .business-detail-block {
-  max-height: 100%;
-  padding: 4px 6px 12px;
-  overflow-x: hidden;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  width: 518px !important;
+  max-width: 518px !important;
+  max-height: none !important;
+  height: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -615,23 +629,274 @@
   border-radius: 3px;
 }
 
-/* ----------------------------------------------------
-   Stage 4 & 5: Business Expanded Detail Container
-   ---------------------------------------------------- */
-.business-detail-block {
+/* ========================================================
+   Dual-Card Accordion System (Stage 3 & 4)
+   Company on Top, Person on Bottom
+   Strictly max-height: 414px;
+   ======================================================== */
+.biz-dual-cards-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 518px;
+  max-width: 518px;
+  box-sizing: border-box;
+}
+
+.biz-accordion-card {
   width: 100%;
-  max-height: 420px;
+  max-width: 518px;
+  background-color: #FFFFFF;
+  background-clip: padding-box;
+  border: 8px solid rgba(255, 255, 255, 0.4);
+  border-radius: 24px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  transition: max-height 0.46s cubic-bezier(0.16, 1, 0.3, 1), padding 0.32s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Expanded Card (max-height: 414px) */
+.biz-accordion-card.is-expanded {
+  max-height: 414px;
+  padding: 16px 16px 12px 16px;
+  gap: 10px;
+}
+.biz-accordion-card.is-expanded .biz-accordion-scroll-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-height: 382px;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
-  box-sizing: border-box;
-  padding: 18px 20px;
 }
-.business-detail-block::-webkit-scrollbar {
-  display: none !important; /* Chrome, Safari, Edge */
+.biz-accordion-card.is-expanded .biz-accordion-scroll-area > * {
+  flex-shrink: 0;
+}
+.biz-accordion-card.is-expanded .biz-accordion-scroll-area::-webkit-scrollbar {
+  display: none !important;
   width: 0 !important;
   height: 0 !important;
+}
+.biz-accordion-card.is-expanded .biz-card-collapsed-bar {
+  display: none !important;
+}
+
+/* Collapsed Card */
+.biz-accordion-card.is-collapsed {
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+.biz-accordion-card.is-collapsed:hover {
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+.biz-accordion-card.is-collapsed .biz-accordion-scroll-area {
+  display: none !important;
+}
+
+/* Collapsed Company Card (Top Card, height ~58px, exactly as in user screenshot) */
+.biz-company-card.is-collapsed {
+  max-height: 58px;
+  padding: 6px 16px 8px 16px;
+  justify-content: center;
+}
+.biz-company-collapsed-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+.biz-company-collapsed-bar .biz-figma-activity-bar {
+  background: transparent;
+  height: 24px;
+  padding: 0 2px;
+  margin: 0;
+}
+
+/* Collapsed Person Card (Bottom Card, height ~52px) */
+.biz-person-card.is-collapsed {
+  max-height: 52px;
+  padding: 8px 16px 8px 16px;
+  justify-content: center;
+}
+.biz-person-collapsed-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+.biz-person-collapsed-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0F172A;
+}
+.biz-person-collapsed-role {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: #64748B;
+}
+
+/* Person Detail Sub-Sections (Figma & Screenshot 1:1 Pixel-Perfect) */
+.biz-person-subcard {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-sizing: border-box;
+}
+.biz-person-sec-header {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 8px 0;
+}
+
+/* Career Timeline */
+.biz-career-timeline-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-left: 18px;
+}
+.biz-career-timeline-wrap::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: #CBD5E1;
+}
+.biz-career-timeline-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+  gap: 8px;
+  width: 100%;
+}
+.biz-career-dot-circle {
+  position: absolute;
+  left: -18px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10B981;
+  border: 1.5px solid #FFFFFF;
+  box-shadow: 0 0 0 1px #CBD5E1;
+  flex-shrink: 0;
+}
+.biz-career-col-period {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #64748B;
+  min-width: 105px;
+  flex-shrink: 0;
+}
+.biz-career-col-role {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #0F172A;
+  flex: 1;
+}
+.biz-career-col-org {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #64748B;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Activities Timeline in Person Card */
+.biz-act-timeline-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 18px;
+}
+.biz-act-timeline-wrap::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: #CBD5E1;
+}
+.biz-act-timeline-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+}
+.biz-act-dot-circle {
+  position: absolute;
+  left: -18px;
+  top: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10B981;
+  border: 1.5px solid #FFFFFF;
+  box-shadow: 0 0 0 1px #CBD5E1;
+  flex-shrink: 0;
+}
+.biz-act-meta-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+.biz-act-meta-time {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #8E8E8E;
+  letter-spacing: 0.2px;
+}
+.biz-act-tag-latest {
+  background: #EA580C;
+  color: #FFFFFF;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 4px;
+  line-height: 1.2;
+}
+.biz-act-meta-domain {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px;
+  color: #64748B;
+  margin-left: auto;
+  text-align: right;
+}
+.biz-act-headline-text {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #0F172A;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .biz-detail-content {
