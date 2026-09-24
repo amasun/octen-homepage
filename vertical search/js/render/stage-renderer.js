@@ -128,7 +128,7 @@ export function renderBusinessDualDetail(mode = 'company') {
   const compCard = document.getElementById('bizCompanyAccordionCard');
   const persCard = document.getElementById('bizPersonAccordionCard');
 
-  if (compCard && persCard) {
+  if (compCard && persCard && compCard.querySelector('.biz-figma-sec-group')) {
     if (mode === 'company') {
       compCard.classList.remove('is-collapsed');
       compCard.classList.add('is-expanded');
@@ -136,6 +136,8 @@ export function renderBusinessDualDetail(mode = 'company') {
       persCard.classList.remove('is-expanded');
       persCard.classList.add('is-collapsed');
       persCard.title = 'Click to expand Bom Kim';
+      const scrollArea = compCard.querySelector('.biz-accordion-scroll-area');
+      if (scrollArea) scrollArea.scrollTop = 0;
     } else {
       compCard.classList.remove('is-expanded');
       compCard.classList.add('is-collapsed');
@@ -143,6 +145,8 @@ export function renderBusinessDualDetail(mode = 'company') {
       persCard.classList.remove('is-collapsed');
       persCard.classList.add('is-expanded');
       persCard.title = '';
+      const scrollArea = persCard.querySelector('.biz-accordion-scroll-area');
+      if (scrollArea) scrollArea.scrollTop = 0;
     }
   } else {
     businessDetailBlock.innerHTML = createBusinessDualDetailHTML(compEntity, persEntity, mode);

@@ -160,11 +160,26 @@
 - **Business 态**：体现“商业实体深度画像与手风琴折叠展开”：
   - **1. Typing**：输入 `Coupang company overview and financial metrics`；
   - **2. Searching**：输入框收缩为左上胶囊，右侧呈现正弦波搜索状态；
-  - **3. Company Detail**：
-    - 上方 Company 卡片展开（`max-height: 414px`），展示 Coupang 核心财务指标（股价/52周轨/营收）与一手动态看板；
-    - 下方 Person 卡片折叠收起（高度 ~52px，展示 Bom Kim 头像与标牌），支持点击快速展开；
-  - **4. Person Detail**：
-    - 上方 Company 卡片平滑收起至折叠态（高度 ~58px，露出最新动态与把手 `—`）；
-    - 下方 Person 卡片完全展开（`max-height: 414px`），展示 Bom Kim 生平、Career 职业发展轨与 Activities 官方动态；
+  - **3. Company Detail (Figma Node 13810:169821)**：
+    - 上方 Company 卡片展开（严格锁定 `height: 414px`，无外部滚动条，内部自适应平滑滚动），像素级对齐 Figma `13810:169821`：
+      - 头部标牌（Logo + 标题 + Company 蓝标 + 股票/官网/LinkedIn 三联图标）；
+      - 完整简介 Bio；
+      - 3x2 财务核心指标网格（Stock Price $14.29 -1.18%, 52W High $34.08, 52W Low $14.15, Revenue $8.9B, Net Income -$570M, Valuation $9B）；
+      - **Key People**：两枚胶囊（Bom Kim · Founder & CEO、Gaurav Anand · CFO）；
+      - **Official Activities**：3 条一手动态垂直时间线（绿色圆点 + 连线 + 时间戳 + `latest` 橙标 + 来源域名）；
+      - **Media News**：3 条权威媒体报道垂直时间线（Barrons.com、Fool.com、MaeilBusiness.com）；
+      - 底部居中圆角操作把手（Handle Bar）；
+    - 下方 Person 卡片折叠收起（高度严格 52px，展示 Bom Kim 头像、标牌与把手），支持点击快速无缝展开；
+    - **单页显示硬约束**：展开卡片 (414px) + 间距 (8px) + 折叠卡片 (52px) = 474px，严格容纳于 532px Canvas（留 20px 上下安全边距），彻底杜绝画布溢出与双滚动条；
+  - **4. Person Detail (Figma Node 13810:169958)**：
+    - 上方 Company 卡片平滑收起至折叠态（高度 52px，露出最新动态条与把手）；
+    - 下方 Person 卡片完全展开（严格锁定 `height: 414px`），像素级对齐 Figma `13810:169958`：
+      - 头部标牌（圆头像 + 标题 + Person 橙标 + 职位/LinkedIn 链接）；
+      - 完整生平 Bio；
+      - **Career**：3 条职业履历时间线（2010–Present Coupang、2006–2008 02138 Magazine、2005–2006 BCG）；
+      - **Activities**：2 条官方一手动态时间线；
+      - **News**：2 条媒体报道时间线；
+      - 底部居中圆角操作把手（Handle Bar）；
+    - **单页显示硬约束**：同样严格保持 474px 堆叠高度，始终锚定在单页显示范围内；
   - **5. Overview (概览收缩态)**：
     - 两张详情卡片完成流式呈现后，整体平滑收缩归宿为两张紧凑 Overview 概览卡片（4px 垂直间距，两行文本截断，无滚动条）。

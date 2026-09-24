@@ -234,7 +234,46 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
   const compStock = comp.metrics?.stock || {};
   const compFin = comp.metrics?.financials || {};
   const compFund = comp.metrics?.funding || {};
-  const compActivities = comp.activities || [];
+  const compPeople = comp.key_people || [
+    { name: 'Bom Kim', title: 'Founder & CEO' },
+    { name: 'Gaurav Anand', title: 'CFO' }
+  ];
+  const compActivities = comp.activities || [
+    {
+      title: 'Coupang names new head of Fulfillment Technology',
+      timeDisplay: '2026/09/12 07:58:07',
+      isLatest: true,
+      source: 'biz.com'
+    },
+    {
+      title: 'Coupang Announces Results for Second Quarter 2026: Net revenues reach $8.9 billion',
+      timeDisplay: '2026/09/11 07:58:07',
+      source: 'ir.aboutcoupang.com'
+    },
+    {
+      title: 'Coupang expands Rocket Delivery to two more provinces',
+      timeDisplay: '2026/09/04 23:58:07',
+      source: 'koreaherald.com'
+    }
+  ];
+  const compNews = comp.news || [
+    {
+      title: "Analysts split on Coupang's margin trajectory after Q2",
+      timeDisplay: '2026/09/12 07:58:07',
+      isLatest: true,
+      source: 'Barrons.com'
+    },
+    {
+      title: 'Coupang (CPNG) Q2 2026 Earnings Call Transcript',
+      timeDisplay: '2026/09/11 07:58:07',
+      source: 'Fool.com'
+    },
+    {
+      title: '쿠팡플레이, 스포츠 독점 중계권 확대…OTT 경쟁 격화 (Coupang Play Sports OTT)',
+      timeDisplay: '2026/09/04 23:58:07',
+      source: 'MaeilBusiness.com'
+    }
+  ];
   const compFirstAct = compActivities[0] || null;
   const compActTitle = compFirstAct?.title || 'Coupang names new head of Fulfillment Technology';
   const compTickerStr = compIds.stock_ticker ? compIds.stock_ticker.replace(/^NYSE:\s*/i, '') + ' · NYSE' : 'CPENG · NYSE';
@@ -243,7 +282,7 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
   const pers = personEntity || {};
   const persPos = pers.current_position || {};
   const persCareer = pers.career || [
-    { organization: 'Coupang, Inc.', title: 'Founder & CEO', start: '2010', end: null },
+    { organization: 'Coupang, Inc.', title: 'Founder & CEO', start: '2010', end: 'Present' },
     { organization: '02138 Magazine', title: 'Co-founder', start: '2006', end: '2008' },
     { organization: 'The Boston Consulting Group', title: 'Associate', start: '2005', end: '2006' }
   ];
@@ -255,7 +294,20 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
       source: 'biz.com'
     },
     {
-      title: 'Coupang Announces Results for Second Quarter 2026: Net revenues reach...',
+      title: 'Coupang Announces Results for Second Quarter 2026: Net revenues reach $8.9 billion',
+      timeDisplay: '2026/09/11 07:58:07',
+      source: 'ir.aboutcoupang.com'
+    }
+  ];
+  const persNews = pers.news || [
+    {
+      title: 'Coupang names new head of Fulfillment Technology',
+      timeDisplay: '2026/09/12 07:58:07',
+      isLatest: true,
+      source: 'biz.com'
+    },
+    {
+      title: 'Coupang Announces Results for Second Quarter 2026: Net revenues reach $8.9 billion',
       timeDisplay: '2026/09/11 07:58:07',
       source: 'ir.aboutcoupang.com'
     }
@@ -263,21 +315,21 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
 
   return `
     <div class="biz-dual-cards-stack" id="bizDualCardsStack">
-      <!-- 1. Top Card: Company Detail -->
+      <!-- 1. Top Card: Company Detail (Figma 13810:169821) -->
       <article class="biz-accordion-card biz-company-card ${isCompActive ? 'is-expanded' : 'is-collapsed'}" id="bizCompanyAccordionCard" data-entity-type="company" title="${isCompActive ? '' : 'Click to expand Coupang'}">
-        <!-- Collapsed Bar (Top Card, height ~58px, exactly as in user screenshot) -->
+        <!-- Collapsed Bar (Top Card, height 52px) -->
         <div class="biz-card-collapsed-bar biz-company-collapsed-bar">
-          <div class="biz-figma-activity-bar" style="background: transparent; height: 24px; padding: 0 4px; margin: 0;">
+          <div class="biz-figma-activity-bar" style="background: transparent; height: 24px; padding: 0 2px; margin: 0;">
             <img src="./images/vertical/activity-dot.svg" alt="" class="biz-figma-act-dot" />
             <span class="biz-figma-act-date">2026/09/12 07:58:07</span>
             <span class="biz-figma-act-title" title="${compActTitle}">${compActTitle}</span>
           </div>
-          <div class="biz-figma-handle-wrap" style="padding: 2px 0 0;">
+          <div class="biz-figma-handle-wrap biz-collapsed-handle" style="margin-left: auto; width: auto; padding: 0;">
             <div class="biz-figma-handle-bar"></div>
           </div>
         </div>
 
-        <!-- Expanded Content (Scrollable, max-height 382px, hidden scrollbar) -->
+        <!-- Expanded Content (Scrollable, strictly contained within 414px card) -->
         <div class="biz-accordion-scroll-area biz-company-expanded-body">
           <!-- Header -->
           <div class="biz-figma-header">
@@ -352,23 +404,77 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
             </div>
           </div>
 
-          <!-- Activity Bar -->
-          <div class="biz-figma-activity-bar">
-            <img src="./images/vertical/activity-dot.svg" alt="" class="biz-figma-act-dot" />
-            <span class="biz-figma-act-date">2026/09/12 07:58:07</span>
-            <span class="biz-figma-act-title" title="${compActTitle}">${compActTitle}</span>
+          <!-- Key People Section (Figma 13810:169880) -->
+          <div class="biz-figma-sec-group">
+            <h4 class="biz-figma-sec-title">Key People</h4>
+            <div class="biz-figma-people-row">
+              ${compPeople.map(p => `
+                <div class="biz-figma-person-pill">
+                  <span class="biz-figma-person-name">${p.name}</span>
+                  <span class="biz-figma-person-role">${p.title}</span>
+                </div>
+              `).join('')}
+            </div>
           </div>
 
-          <!-- Bottom Handle -->
-          <div class="biz-figma-handle-wrap" style="padding-top: 4px;">
-            <div class="biz-figma-handle-bar"></div>
+          <!-- Official Activities Section (Figma 13810:169891) -->
+          <div class="biz-figma-sec-group">
+            <h4 class="biz-figma-sec-title">Official Activities</h4>
+            <div class="biz-figma-subcard">
+              <div class="biz-figma-timeline-list">
+                ${compActivities.map(act => {
+                  const time = act.timeDisplay || (act.timePublished ? formatDateTime(act.timePublished) : '2026/09/12 07:58:07');
+                  const domain = act.source || (act.url ? extractDomain(act.url) : 'biz.com');
+                  return `
+                    <div class="biz-figma-timeline-row">
+                      <span class="biz-figma-timeline-dot"></span>
+                      <div class="biz-figma-timeline-meta">
+                        <span class="biz-figma-timeline-time">${time}</span>
+                        ${act.isLatest ? '<span class="biz-figma-tag-latest">latest</span>' : ''}
+                        <span class="biz-figma-timeline-domain">${domain}</span>
+                      </div>
+                      <p class="biz-figma-timeline-title" title="${act.title}">${act.title}</p>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
           </div>
+
+          <!-- Media News Section (Figma 13810:169915) -->
+          <div class="biz-figma-sec-group">
+            <h4 class="biz-figma-sec-title">Media News</h4>
+            <div class="biz-figma-subcard">
+              <div class="biz-figma-timeline-list">
+                ${compNews.map(item => {
+                  const time = item.timeDisplay || (item.timePublished ? formatDateTime(item.timePublished) : '2026/09/12 07:58:07');
+                  const domain = item.source || (item.url ? extractDomain(item.url) : 'Barrons.com');
+                  return `
+                    <div class="biz-figma-timeline-row">
+                      <span class="biz-figma-timeline-dot"></span>
+                      <div class="biz-figma-timeline-meta">
+                        <span class="biz-figma-timeline-time">${time}</span>
+                        ${item.isLatest ? '<span class="biz-figma-tag-latest">latest</span>' : ''}
+                        <span class="biz-figma-timeline-domain">${domain}</span>
+                      </div>
+                      <p class="biz-figma-timeline-title" title="${item.title}">${item.title}</p>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Handle -->
+        <div class="biz-figma-handle-wrap" style="padding-top: 4px;">
+          <div class="biz-figma-handle-bar"></div>
         </div>
       </article>
 
-      <!-- 2. Bottom Card: Person Detail (Bom Kim, 1:1 Pixel-Perfect to Screenshot) -->
+      <!-- 2. Bottom Card: Person Detail (Figma 13810:169958) -->
       <article class="biz-accordion-card biz-person-card ${!isCompActive ? 'is-expanded' : 'is-collapsed'}" id="bizPersonAccordionCard" data-entity-type="person" title="${!isCompActive ? '' : 'Click to expand Bom Kim'}">
-        <!-- Collapsed Bar (Bottom Card, height ~52px) -->
+        <!-- Collapsed Bar (Bottom Card, height 52px) -->
         <div class="biz-card-collapsed-bar biz-person-collapsed-bar">
           <div class="biz-figma-avatar-wrap" style="width: 28px; height: 28px; flex-shrink: 0;">
             <img src="./images/vertical/bom-kim-avatar.svg" alt="Bom Kim" class="biz-figma-avatar-img" />
@@ -376,12 +482,12 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
           <span class="biz-person-collapsed-name">Bom Kim</span>
           <span class="biz-figma-tag biz-tag-person">Person</span>
           <span class="biz-person-collapsed-role">${persPos.title || 'Founder & CEO'}</span>
-          <div class="biz-figma-handle-wrap" style="margin-left: auto; width: auto; padding: 0;">
+          <div class="biz-figma-handle-wrap biz-collapsed-handle" style="margin-left: auto; width: auto; padding: 0;">
             <div class="biz-figma-handle-bar"></div>
           </div>
         </div>
 
-        <!-- Expanded Content (Scrollable, max-height 382px, hidden scrollbar) -->
+        <!-- Expanded Content (Scrollable, strictly contained within 414px card) -->
         <div class="biz-accordion-scroll-area biz-person-expanded-body">
           <!-- Header -->
           <div class="biz-figma-header">
@@ -408,22 +514,22 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
 
           <!-- Description -->
           <p class="biz-figma-desc">
-            ${pers.summary || 'Founder & CEO of Coupang since 2010. Harvard College graduate and Harvard Business School alumnus, led Coupang through its 2021 NYSE IPO and nationwide automated lo...'}
+            ${pers.summary || 'Founder & CEO of Coupang since 2010. Harvard College graduate and Harvard Business School alumnus, led Coupang through its 2021 NYSE IPO and nationwide automated logistics rollout.'}
           </p>
 
-          <!-- Career Section -->
-          <div class="biz-person-section-wrap">
-            <h4 class="biz-person-sec-header">Career</h4>
-            <div class="biz-person-subcard">
-              <div class="biz-career-timeline-wrap">
+          <!-- Career Section (Figma 13810:170022) -->
+          <div class="biz-figma-sec-group">
+            <h4 class="biz-figma-sec-title">Career</h4>
+            <div class="biz-figma-subcard">
+              <div class="biz-figma-timeline-list">
                 ${persCareer.map(c => {
-                  const period = c.end === null ? `${c.start} – PRESENT` : `${c.start} – ${c.end}`;
+                  const period = c.end ? `${c.start} – ${c.end}` : `${c.start} – Present`;
                   return `
-                    <div class="biz-career-timeline-row">
-                      <div class="biz-career-dot-circle"></div>
-                      <span class="biz-career-col-period">${period}</span>
-                      <span class="biz-career-col-role">${c.title}</span>
-                      <span class="biz-career-col-org">${c.organization}</span>
+                    <div class="biz-figma-career-row">
+                      <span class="biz-figma-timeline-dot"></span>
+                      <span class="biz-figma-career-period">${period}</span>
+                      <span class="biz-figma-career-role">${c.title}</span>
+                      <span class="biz-figma-career-org">${c.organization}</span>
                     </div>
                   `;
                 }).join('')}
@@ -431,23 +537,23 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
             </div>
           </div>
 
-          <!-- Activities Section -->
-          <div class="biz-person-section-wrap">
-            <h4 class="biz-person-sec-header">Activities</h4>
-            <div class="biz-person-subcard">
-              <div class="biz-act-timeline-wrap">
+          <!-- Activities Section (Figma 13810:169986) -->
+          <div class="biz-figma-sec-group">
+            <h4 class="biz-figma-sec-title">Activities</h4>
+            <div class="biz-figma-subcard">
+              <div class="biz-figma-timeline-list">
                 ${persActivities.map(a => {
-                  const time = a.timeDisplay || '2026/09/12 07:58:07';
-                  const domain = a.source || 'biz.com';
+                  const time = a.timeDisplay || (a.timePublished ? formatDateTime(a.timePublished) : '2026/09/12 07:58:07');
+                  const domain = a.source || (a.url ? extractDomain(a.url) : 'biz.com');
                   return `
-                    <div class="biz-act-timeline-item">
-                      <div class="biz-act-dot-circle"></div>
-                      <div class="biz-act-meta-line">
-                        <span class="biz-act-meta-time">${time}</span>
-                        ${a.isLatest ? '<span class="biz-act-tag-latest">latest</span>' : ''}
-                        <span class="biz-act-meta-domain">${domain}</span>
+                    <div class="biz-figma-timeline-row">
+                      <span class="biz-figma-timeline-dot"></span>
+                      <div class="biz-figma-timeline-meta">
+                        <span class="biz-figma-timeline-time">${time}</span>
+                        ${a.isLatest ? '<span class="biz-figma-tag-latest">latest</span>' : ''}
+                        <span class="biz-figma-timeline-domain">${domain}</span>
                       </div>
-                      <p class="biz-act-headline-text" title="${a.title}">${a.title}</p>
+                      <p class="biz-figma-timeline-title" title="${a.title}">${a.title}</p>
                     </div>
                   `;
                 }).join('')}
@@ -455,10 +561,34 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
             </div>
           </div>
 
-          <!-- Bottom Handle -->
-          <div class="biz-figma-handle-wrap" style="padding-top: 4px;">
-            <div class="biz-figma-handle-bar"></div>
+          <!-- News Section (Figma 13810:170004) -->
+          <div class="biz-figma-sec-group">
+            <h4 class="biz-figma-sec-title">News</h4>
+            <div class="biz-figma-subcard">
+              <div class="biz-figma-timeline-list">
+                ${persNews.map(n => {
+                  const time = n.timeDisplay || (n.timePublished ? formatDateTime(n.timePublished) : '2026/09/12 07:58:07');
+                  const domain = n.source || (n.url ? extractDomain(n.url) : 'biz.com');
+                  return `
+                    <div class="biz-figma-timeline-row">
+                      <span class="biz-figma-timeline-dot"></span>
+                      <div class="biz-figma-timeline-meta">
+                        <span class="biz-figma-timeline-time">${time}</span>
+                        ${n.isLatest ? '<span class="biz-figma-tag-latest">latest</span>' : ''}
+                        <span class="biz-figma-timeline-domain">${domain}</span>
+                      </div>
+                      <p class="biz-figma-timeline-title" title="${n.title}">${n.title}</p>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
           </div>
+        </div>
+
+        <!-- Bottom Handle -->
+        <div class="biz-figma-handle-wrap" style="padding-top: 4px;">
+          <div class="biz-figma-handle-bar"></div>
         </div>
       </article>
     </div>
