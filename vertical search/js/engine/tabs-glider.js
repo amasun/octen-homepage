@@ -122,10 +122,24 @@ export function switchVertical(key, force = false) {
     clearTokenMeterTimers();
   }
 
-  const btnStep4 = document.querySelector('.step-btn[data-step="focus"]');
-  const btnStep5 = document.querySelector('.step-btn[data-step="timeline"]');
-  if (btnStep4) btnStep4.textContent = key === 'business' ? '4. Company Detail' : '4. Top Focus';
-  if (btnStep5) btnStep5.textContent = key === 'business' ? '5. Person Detail' : '5. Timeline';
+  const stepBtns = document.querySelectorAll('.step-btn');
+  if (stepBtns.length >= 5) {
+    if (key === 'business') {
+      stepBtns[2].textContent = '3. Company Detail';
+      stepBtns[2].dataset.step = 'company-detail';
+      stepBtns[3].textContent = '4. Person Detail';
+      stepBtns[3].dataset.step = 'person-detail';
+      stepBtns[4].textContent = '5. Overview';
+      stepBtns[4].dataset.step = 'overview';
+    } else {
+      stepBtns[2].textContent = '3. Overview';
+      stepBtns[2].dataset.step = 'overview';
+      stepBtns[3].textContent = '4. Top Focus';
+      stepBtns[3].dataset.step = 'focus';
+      stepBtns[4].textContent = '5. Timeline';
+      stepBtns[4].dataset.step = 'timeline';
+    }
+  }
 
   syncSubjectPills(key);
 
