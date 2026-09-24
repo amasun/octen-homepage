@@ -8,11 +8,12 @@
   position: relative;
   width: 100%;
   max-width: 518px;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   opacity: 1;
+  filter: blur(0px);
   pointer-events: auto;
-  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
-  will-change: transform, opacity;
+  transition: transform 0.46s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, filter 0.35s ease;
+  will-change: transform, opacity, filter;
 }
 .business-summary-card-box {
   position: relative;
@@ -48,19 +49,22 @@
   box-sizing: border-box;
   box-shadow: none;
   cursor: pointer;
-  transition: transform 0.22s ease, border-color 0.22s ease, height 0.42s cubic-bezier(0.16, 1, 0.3, 1), max-height 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.46s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease, height 0.46s cubic-bezier(0.16, 1, 0.3, 1), max-height 0.46s cubic-bezier(0.16, 1, 0.3, 1), min-height 0.46s cubic-bezier(0.16, 1, 0.3, 1), padding 0.35s ease;
   position: relative;
   overflow: hidden;
 }
 .biz-figma-card:hover {
   border-color: rgba(255, 255, 255, 0.7);
   box-shadow: none;
-  transform: translateY(-2px);
 }
 .biz-figma-card .biz-figma-handle-wrap {
   flex-shrink: 0;
   margin-top: auto;
-  padding: 4px 0 2px 0;
+  padding: 0;
+  height: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .biz-figma-header {
   display: flex;
@@ -180,8 +184,10 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
+  max-height: 34px;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: max-height 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
 }
 .biz-figma-body-group {
   display: flex;
@@ -249,6 +255,9 @@
   width: 100%;
   box-sizing: border-box;
 }
+.biz-figma-stats-grid + .biz-figma-activity-bar {
+  margin-top: -6px;
+}
 .biz-figma-act-dot {
   width: 8px;
   height: 8px;
@@ -279,7 +288,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2px 22px 0;
+  padding: 0;
+  height: 5px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -316,26 +326,41 @@
   margin-right: 4px;
 }
 
-/* Business Vertical: No subject tabs in stage 4 & 5 */
+/* Business Vertical: No subject tabs in any stage */
 .demo-wrapper[data-theme="business"] .subjects-horizontal-bar,
 .card-canvas[data-theme="business"] .subjects-horizontal-bar {
   display: none !important;
 }
 
-/* Business Vertical Stage 3 & 4: Dual Accordion Cards Container */
+/* Business Vertical: Stages 3, 4, 5 are unified in results-scroller-viewport.
+   Hide legacy accordion stage-focus-container and business-detail-block completely */
 .card-canvas[data-theme="business"] .stage-focus-container,
-.demo-wrapper[data-theme="business"] .stage-focus-container {
-  top: 18px !important;
-  bottom: 18px !important;
-  height: 496px !important;
-  max-height: 496px !important;
-  padding: 0 14px 0 56px !important;
-  gap: 0 !important;
-  justify-content: flex-start !important;
-  align-items: flex-start !important;
-  box-sizing: border-box !important;
-  overflow: hidden !important;
+.demo-wrapper[data-theme="business"] .stage-focus-container,
+.card-canvas[data-theme="business"] .business-detail-block,
+.demo-wrapper[data-theme="business"] .business-detail-block,
+.card-canvas[data-theme="business"] .biz-dual-cards-stack,
+.demo-wrapper[data-theme="business"] .biz-dual-cards-stack {
+  display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
 }
+
+/* Business Vertical: Always display results-scroller-viewport in Stages 3, 4, 5 */
+.demo-wrapper[data-theme="business"] .card-canvas.has-results .results-scroller-viewport,
+.card-canvas[data-theme="business"].has-results .results-scroller-viewport {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}
+
+/* Hide Overview summary-box during Typing & Searching only */
+.card-canvas[data-theme="business"].is-typing .summary-box,
+.card-canvas[data-theme="business"].is-searching .summary-box {
+  display: none !important;
+  pointer-events: none !important;
+}
+
 .card-canvas[data-theme="business"] .events-white-card,
 .demo-wrapper[data-theme="business"] .events-white-card {
   background: transparent !important;
@@ -344,25 +369,29 @@
   padding: 0 !important;
   margin: 0 !important;
   overflow: hidden !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   width: 518px !important;
   max-width: 518px !important;
-  height: 496px !important;
-  max-height: 496px !important;
+  height: 530px !important;
+  max-height: 530px !important;
 }
 .demo-wrapper[data-theme="business"] .results-card-list {
-  gap: 4px;
+  padding-top: 28.5px !important;
+  padding-bottom: 28.5px !important;
+  gap: 4px !important;
 }
 
 /* ========================================================
    Step 5 Overview Hover-to-Expand & Push-to-Dismiss Styling
+   Max-Height: 472px (symmetric 30px top/bottom margin against 532px canvas)
+   Smooth transform interpolation & Bottom Handle Bar hidden on expansion
    ======================================================== */
 .biz-overview-scroll-area {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
   flex: 1 1 auto;
   min-height: 0;
@@ -383,6 +412,11 @@
 
 .biz-overview-compact-only {
   display: flex;
+  max-height: 48px;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.22s ease, max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.32s ease, margin 0.32s ease, padding 0.32s ease;
+  overflow: hidden;
 }
 
 .biz-overview-full-sections {
@@ -390,97 +424,300 @@
   flex-direction: column;
   gap: 10px;
   width: 100%;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(16px);
+  overflow: hidden;
+  pointer-events: none;
+  transition: max-height 0.46s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.26s ease, transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* 1. When Hovering Company (Card 0) */
-.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] {
-  transform: translateY(0);
-  opacity: 1;
+/* Base Heights Aligned with Figma 13802:167547 (+16px each per user request):
+   Top 28.5px + Card0 320px + Gap 4px + Card1 151px + Bottom 28.5px = 532px
+   guaranteeing 100% single-screen view without scrolling */
+.demo-wrapper[data-theme="business"] .results-card-list .business-card-wrapper[data-entity-idx="0"] .biz-figma-card {
+  height: 320px;
+  max-height: 320px;
+  min-height: 320px;
+}
+.demo-wrapper[data-theme="business"] .results-card-list .business-card-wrapper[data-entity-idx="1"] .biz-figma-card {
+  height: 151px;
+  max-height: 151px;
+  min-height: 151px;
+}
+
+/* 1. When Active Company (Stage 3 Company Detail OR Hover Company in Overview) */
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"],
+.demo-wrapper[data-theme="business"] .results-card-list.stage-company-active .business-card-wrapper[data-entity-idx="0"] {
+  transform: translateY(1.5px) scale(1) !important;
+  opacity: 1 !important;
+  filter: blur(0px) !important;
   z-index: 10;
 }
-.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-figma-card {
-  height: 414px;
-  max-height: 414px;
-  min-height: 414px;
-  padding: 16px 16px 8px 16px;
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-figma-card,
+.demo-wrapper[data-theme="business"] .results-card-list.stage-company-active .business-card-wrapper[data-entity-idx="0"] .biz-figma-card {
+  height: 472px !important;
+  max-height: 472px !important;
+  min-height: 472px !important;
+  padding: 16px 16px 16px 16px;
   box-shadow: none !important;
   border-color: rgba(255, 255, 255, 0.7);
   transform: none !important;
 }
-.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-overview-compact-only {
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-overview-compact-only,
+.demo-wrapper[data-theme="business"] .results-card-list.stage-company-active .business-card-wrapper[data-entity-idx="0"] .biz-overview-compact-only {
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-overview-full-sections,
+.demo-wrapper[data-theme="business"] .results-card-list.stage-company-active .business-card-wrapper[data-entity-idx="0"] .biz-overview-full-sections {
+  display: flex !important;
+  max-height: 1200px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: max-height 0.46s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.08s, transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-figma-desc,
+.demo-wrapper[data-theme="business"] .results-card-list.stage-company-active .business-card-wrapper[data-entity-idx="0"] .biz-figma-desc {
+  max-height: 160px;
+  opacity: 0.8;
+  -webkit-line-clamp: 10 !important;
+  line-clamp: 10 !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-overview-scroll-area,
+.demo-wrapper[data-theme="business"] .results-card-list.stage-company-active .business-card-wrapper[data-entity-idx="0"] .biz-overview-scroll-area {
+  overflow-y: auto !important;
+}
+/* Person Card (Card 1) in Overview form pushed downward out of viewport with smooth depth fade */
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="1"],
+.demo-wrapper[data-theme="business"] .results-card-list.stage-company-active .business-card-wrapper[data-entity-idx="1"] {
+  transform: translateY(220px) scale(0.96) !important;
+  opacity: 0 !important;
+  filter: blur(3px) !important;
+  pointer-events: none !important;
+}
+
+/* 2. When Active Person (Stage 4 Person Detail OR Hover Person in Overview) */
+/* Company Card (Card 0) in Overview form pushed upward out of viewport with smooth depth fade */
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="0"],
+.demo-wrapper[data-theme="business"] .results-card-list.stage-person-active .business-card-wrapper[data-entity-idx="0"] {
+  transform: translateY(-380px) scale(0.96) !important;
+  opacity: 0 !important;
+  filter: blur(3px) !important;
+  pointer-events: none !important;
+}
+/* Person Card (Card 1) shifted upward into view & expanded to 472px (top 30px, bottom 30px) */
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"],
+.demo-wrapper[data-theme="business"] .results-card-list.stage-person-active .business-card-wrapper[data-entity-idx="1"] {
+  transform: translateY(-322.5px) scale(1) !important;
+  opacity: 1 !important;
+  filter: blur(0px) !important;
+  z-index: 10;
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-card,
+.demo-wrapper[data-theme="business"] .results-card-list.stage-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-card {
+  height: 472px !important;
+  max-height: 472px !important;
+  min-height: 472px !important;
+  padding: 16px 16px 16px 16px;
+  box-shadow: none !important;
+  border-color: rgba(255, 255, 255, 0.7);
+  transform: none !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-overview-full-sections,
+.demo-wrapper[data-theme="business"] .results-card-list.stage-person-active .business-card-wrapper[data-entity-idx="1"] .biz-overview-full-sections {
+  display: flex !important;
+  max-height: 1200px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: max-height 0.46s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.08s, transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-desc,
+.demo-wrapper[data-theme="business"] .results-card-list.stage-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-desc {
+  max-height: 160px;
+  opacity: 0.8;
+  -webkit-line-clamp: 10 !important;
+  line-clamp: 10 !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-overview-scroll-area,
+.demo-wrapper[data-theme="business"] .results-card-list.stage-person-active .business-card-wrapper[data-entity-idx="1"] .biz-overview-scroll-area {
+  overflow-y: auto !important;
+}
+
+/* Dual CSS :has() Support for Zero-Latency Card Hover Activation */
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="0"]:hover) .business-card-wrapper[data-entity-idx="0"] {
+  transform: translateY(1.5px) scale(1) !important;
+  opacity: 1 !important;
+  filter: blur(0px) !important;
+  z-index: 10;
+}
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="0"]:hover) .business-card-wrapper[data-entity-idx="0"] .biz-figma-card {
+  height: 472px !important;
+  max-height: 472px !important;
+  min-height: 472px !important;
+  padding: 16px 16px 16px 16px;
+  box-shadow: none !important;
+  border-color: rgba(255, 255, 255, 0.7);
+  transform: none !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="0"]:hover) .business-card-wrapper[data-entity-idx="0"] .biz-overview-compact-only {
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="0"]:hover) .business-card-wrapper[data-entity-idx="0"] .biz-overview-full-sections {
+  display: flex !important;
+  max-height: 1200px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: max-height 0.46s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.08s, transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="0"]:hover) .business-card-wrapper[data-entity-idx="0"] .biz-figma-desc {
+  max-height: 160px;
+  opacity: 0.8;
+  -webkit-line-clamp: 10 !important;
+  line-clamp: 10 !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="0"]:hover) .business-card-wrapper[data-entity-idx="0"] .biz-overview-scroll-area {
+  overflow-y: auto !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="0"]:hover) .business-card-wrapper[data-entity-idx="1"] {
+  transform: translateY(220px) scale(0.96) !important;
+  opacity: 0 !important;
+  filter: blur(3px) !important;
+  pointer-events: none !important;
+}
+
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="1"]:hover) .business-card-wrapper[data-entity-idx="0"] {
+  transform: translateY(-380px) scale(0.96) !important;
+  opacity: 0 !important;
+  filter: blur(3px) !important;
+  pointer-events: none !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="1"]:hover) .business-card-wrapper[data-entity-idx="1"] {
+  transform: translateY(-322.5px) scale(1) !important;
+  opacity: 1 !important;
+  filter: blur(0px) !important;
+  z-index: 10;
+}
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="1"]:hover) .business-card-wrapper[data-entity-idx="1"] .biz-figma-card {
+  height: 472px !important;
+  max-height: 472px !important;
+  min-height: 472px !important;
+  padding: 16px 16px 16px 16px;
+  box-shadow: none !important;
+  border-color: rgba(255, 255, 255, 0.7);
+  transform: none !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="1"]:hover) .business-card-wrapper[data-entity-idx="1"] .biz-overview-full-sections {
+  display: flex !important;
+  max-height: 1200px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: max-height 0.46s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.08s, transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="1"]:hover) .business-card-wrapper[data-entity-idx="1"] .biz-figma-desc {
+  max-height: 160px;
+  opacity: 0.8;
+  -webkit-line-clamp: 10 !important;
+  line-clamp: 10 !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="1"]:hover) .business-card-wrapper[data-entity-idx="1"] .biz-overview-scroll-area {
+  overflow-y: auto !important;
+}
+
+/* Remove bottom horizontal handle bar when card is expanded */
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-figma-handle-wrap,
+.demo-wrapper[data-theme="business"] .results-card-list.stage-company-active .business-card-wrapper[data-entity-idx="0"] .biz-figma-handle-wrap,
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="0"]:hover) .business-card-wrapper[data-entity-idx="0"] .biz-figma-handle-wrap,
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-handle-wrap,
+.demo-wrapper[data-theme="business"] .results-card-list.stage-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-handle-wrap,
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="1"]:hover) .business-card-wrapper[data-entity-idx="1"] .biz-figma-handle-wrap,
+.biz-accordion-card.is-expanded .biz-figma-handle-wrap:not(.biz-collapsed-handle) {
   display: none !important;
 }
-.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-overview-full-sections {
-  display: flex !important;
+
+/* ========================================================
+   Step 5 Overview Timeline Nodes Staggered Ripple Pulse (依次跳动)
+   When Company (Card 0) or Person (Card 1) is hovered/expanded,
+   timeline nodes pulse sequentially from top to bottom
+   ======================================================== */
+
+/* Company Card (Card 0) Timeline Dots: Official Activities (Group 2) & Media News (Group 3) */
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-figma-sec-group:nth-child(2) .biz-figma-timeline-row:nth-child(1) .biz-figma-timeline-dot,
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="0"]:hover) .business-card-wrapper[data-entity-idx="0"] .biz-figma-sec-group:nth-child(2) .biz-figma-timeline-row:nth-child(1) .biz-figma-timeline-dot {
+  animation: bizNodePulse 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) 0.08s both;
 }
-.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-figma-desc {
-  display: block !important;
-  -webkit-line-clamp: unset !important;
-  line-clamp: unset !important;
-  max-height: none !important;
-  height: auto !important;
-  white-space: normal;
-  overflow: visible;
-  line-height: 1.4;
-  opacity: 0.6;
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-figma-sec-group:nth-child(2) .biz-figma-timeline-row:nth-child(2) .biz-figma-timeline-dot,
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="0"]:hover) .business-card-wrapper[data-entity-idx="0"] .biz-figma-sec-group:nth-child(2) .biz-figma-timeline-row:nth-child(2) .biz-figma-timeline-dot {
+  animation: bizNodePulse 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) 0.16s both;
 }
-.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-overview-scroll-area {
-  overflow-y: auto !important;
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-figma-sec-group:nth-child(2) .biz-figma-timeline-row:nth-child(3) .biz-figma-timeline-dot,
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="0"]:hover) .business-card-wrapper[data-entity-idx="0"] .biz-figma-sec-group:nth-child(2) .biz-figma-timeline-row:nth-child(3) .biz-figma-timeline-dot {
+  animation: bizNodePulse 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) 0.24s both;
 }
-/* Person Card (Card 1) pushed downward out of viewport */
-.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="1"] {
-  transform: translateY(220px) !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-figma-sec-group:nth-child(3) .biz-figma-timeline-row:nth-child(1) .biz-figma-timeline-dot,
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="0"]:hover) .business-card-wrapper[data-entity-idx="0"] .biz-figma-sec-group:nth-child(3) .biz-figma-timeline-row:nth-child(1) .biz-figma-timeline-dot {
+  animation: bizNodePulse 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) 0.32s both;
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-figma-sec-group:nth-child(3) .biz-figma-timeline-row:nth-child(2) .biz-figma-timeline-dot,
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="0"]:hover) .business-card-wrapper[data-entity-idx="0"] .biz-figma-sec-group:nth-child(3) .biz-figma-timeline-row:nth-child(2) .biz-figma-timeline-dot {
+  animation: bizNodePulse 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) 0.40s both;
+}
+.demo-wrapper[data-theme="business"] .results-card-list.hover-company-active .business-card-wrapper[data-entity-idx="0"] .biz-figma-sec-group:nth-child(3) .biz-figma-timeline-row:nth-child(3) .biz-figma-timeline-dot,
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="0"]:hover) .business-card-wrapper[data-entity-idx="0"] .biz-figma-sec-group:nth-child(3) .biz-figma-timeline-row:nth-child(3) .biz-figma-timeline-dot {
+  animation: bizNodePulse 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) 0.48s both;
 }
 
-/* 2. When Hovering Person (Card 1) */
-/* Company Card (Card 0) pushed upward out of viewport */
-.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="0"] {
-  transform: translateY(-380px) !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
+/* Person Card (Card 1) Timeline Dots: Career (Group 1), Activities (Group 2), News (Group 3) */
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-sec-group:nth-child(1) .biz-figma-career-row:nth-child(1) .biz-figma-timeline-dot,
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="1"]:hover) .business-card-wrapper[data-entity-idx="1"] .biz-figma-sec-group:nth-child(1) .biz-figma-career-row:nth-child(1) .biz-figma-timeline-dot {
+  animation: bizNodePulse 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) 0.08s both;
 }
-/* Person Card (Card 1) shifted upward into view & expanded */
-.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] {
-  transform: translateY(-326px) !important;
-  opacity: 1 !important;
-  z-index: 10;
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-sec-group:nth-child(1) .biz-figma-career-row:nth-child(2) .biz-figma-timeline-dot,
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="1"]:hover) .business-card-wrapper[data-entity-idx="1"] .biz-figma-sec-group:nth-child(1) .biz-figma-career-row:nth-child(2) .biz-figma-timeline-dot {
+  animation: bizNodePulse 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) 0.16s both;
 }
-.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-card {
-  height: 414px;
-  max-height: 414px;
-  min-height: 414px;
-  padding: 16px 16px 8px 16px;
-  box-shadow: none !important;
-  border-color: rgba(255, 255, 255, 0.7);
-  transform: none !important;
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-sec-group:nth-child(1) .biz-figma-career-row:nth-child(3) .biz-figma-timeline-dot,
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="1"]:hover) .business-card-wrapper[data-entity-idx="1"] .biz-figma-sec-group:nth-child(1) .biz-figma-career-row:nth-child(3) .biz-figma-timeline-dot {
+  animation: bizNodePulse 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) 0.24s both;
 }
-.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-overview-full-sections {
-  display: flex !important;
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-sec-group:nth-child(2) .biz-figma-timeline-row:nth-child(1) .biz-figma-timeline-dot,
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="1"]:hover) .business-card-wrapper[data-entity-idx="1"] .biz-figma-sec-group:nth-child(2) .biz-figma-timeline-row:nth-child(1) .biz-figma-timeline-dot {
+  animation: bizNodePulse 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) 0.32s both;
 }
-.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-desc {
-  display: block !important;
-  -webkit-line-clamp: unset !important;
-  line-clamp: unset !important;
-  max-height: none !important;
-  height: auto !important;
-  white-space: normal;
-  overflow: visible;
-  line-height: 1.4;
-  opacity: 0.6;
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-sec-group:nth-child(2) .biz-figma-timeline-row:nth-child(2) .biz-figma-timeline-dot,
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="1"]:hover) .business-card-wrapper[data-entity-idx="1"] .biz-figma-sec-group:nth-child(2) .biz-figma-timeline-row:nth-child(2) .biz-figma-timeline-dot {
+  animation: bizNodePulse 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) 0.40s both;
 }
-.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-overview-scroll-area {
-  overflow-y: auto !important;
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-sec-group:nth-child(3) .biz-figma-timeline-row:nth-child(1) .biz-figma-timeline-dot,
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="1"]:hover) .business-card-wrapper[data-entity-idx="1"] .biz-figma-sec-group:nth-child(3) .biz-figma-timeline-row:nth-child(1) .biz-figma-timeline-dot {
+  animation: bizNodePulse 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) 0.48s both;
 }
+.demo-wrapper[data-theme="business"] .results-card-list.hover-person-active .business-card-wrapper[data-entity-idx="1"] .biz-figma-sec-group:nth-child(3) .biz-figma-timeline-row:nth-child(2) .biz-figma-timeline-dot,
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="1"]:hover) .business-card-wrapper[data-entity-idx="1"] .biz-figma-sec-group:nth-child(3) .biz-figma-timeline-row:nth-child(2) .biz-figma-timeline-dot {
+  animation: bizNodePulse 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) 0.56s both;
+}
+
 .demo-wrapper[data-theme="business"] .business-detail-block {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
   width: 518px !important;
   max-width: 518px !important;
-  max-height: 496px !important;
-  height: 496px !important;
+  max-height: 530px !important;
+  height: 530px !important;
   padding: 0 !important;
   margin: 0 !important;
   overflow: hidden !important;
@@ -782,8 +1019,8 @@
   gap: 8px;
   width: 518px;
   max-width: 518px;
-  height: 474px;
-  max-height: 474px;
+  height: 530px;
+  max-height: 530px;
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
@@ -799,47 +1036,92 @@
   box-sizing: border-box;
   box-shadow: none;
   overflow: hidden;
-  transition: height 0.42s cubic-bezier(0.16, 1, 0.3, 1), max-height 0.42s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease, border-color 0.22s ease;
+  transition: height 0.46s cubic-bezier(0.16, 1, 0.3, 1), max-height 0.46s cubic-bezier(0.16, 1, 0.3, 1), min-height 0.46s cubic-bezier(0.16, 1, 0.3, 1), padding 0.35s ease, border-color 0.22s ease;
   position: relative;
   display: flex;
   flex-direction: column;
 }
 
-/* Expanded Card (Strictly height 414px, zero canvas overflow) */
+/* Expanded Card (Strictly height 470px, zero canvas overflow) */
 .biz-accordion-card.is-expanded {
-  height: 414px;
-  max-height: 414px;
-  min-height: 414px;
-  padding: 16px 16px 8px 16px;
+  height: 470px;
+  max-height: 470px;
+  min-height: 470px;
+  padding: 16px 16px 16px 16px;
   gap: 6px;
   justify-content: flex-start;
   box-sizing: border-box;
 }
-.biz-accordion-card.is-expanded .biz-accordion-scroll-area {
+/* Scroll Area: smooth transform and opacity, no display:none flicker */
+.biz-accordion-card .biz-accordion-scroll-area {
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 100%;
   flex: 1 1 auto;
   min-height: 0;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
   padding-right: 2px;
   box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.44s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.biz-accordion-card.is-expanded .biz-accordion-scroll-area > * {
+.biz-accordion-card.is-expanded .biz-accordion-scroll-area {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  overflow-y: auto;
+  transition: opacity 0.36s cubic-bezier(0.16, 1, 0.3, 1) 0.08s, transform 0.44s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.biz-accordion-card.is-collapsed .biz-accordion-scroll-area {
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  overflow-y: hidden;
+}
+.biz-accordion-card .biz-accordion-scroll-area > * {
   flex-shrink: 0;
 }
-.biz-accordion-card.is-expanded .biz-accordion-scroll-area::-webkit-scrollbar {
+.biz-accordion-card .biz-accordion-scroll-area::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
   height: 0 !important;
 }
-.biz-accordion-card.is-expanded .biz-card-collapsed-bar {
-  display: none !important;
+
+/* Collapsed Bar: Smooth cross-fade & transform slide */
+.biz-accordion-card .biz-card-collapsed-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  z-index: 5;
+  transition: opacity 0.25s ease, transform 0.36s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.biz-accordion-card.is-collapsed .biz-card-collapsed-bar {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1) 0.06s, transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.biz-accordion-card.is-expanded .biz-card-collapsed-bar {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+
 .biz-accordion-card.is-expanded .biz-figma-desc {
   display: block;
   -webkit-line-clamp: unset !important;
@@ -851,13 +1133,27 @@
   line-height: 1.4;
   opacity: 0.6;
 }
-.biz-accordion-card.is-expanded .biz-figma-handle-wrap {
+.biz-accordion-card .biz-figma-handle-wrap:not(.biz-collapsed-handle) {
   flex-shrink: 0;
   padding: 4px 0 2px 0;
   margin-top: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.biz-accordion-card.is-expanded .biz-figma-handle-wrap:not(.biz-collapsed-handle) {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.biz-accordion-card.is-collapsed .biz-figma-handle-wrap:not(.biz-collapsed-handle) {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
 }
 
 /* Collapsed Card (Strictly height 52px) */
@@ -876,12 +1172,6 @@
 .biz-accordion-card.is-collapsed:hover {
   border-color: rgba(255, 255, 255, 0.7);
   box-shadow: none;
-}
-.biz-accordion-card.is-collapsed .biz-accordion-scroll-area {
-  display: none !important;
-}
-.biz-accordion-card.is-collapsed .biz-figma-handle-wrap:not(.biz-collapsed-handle) {
-  display: none !important;
 }
 
 /* Collapsed Company Bar (Top Card) */
@@ -967,130 +1257,212 @@
   color: #64748B;
 }
 
-/* Figma Subcard Container (#F2F2F2 rounded 8px) */
+/* Figma Subcard Container (#F2F2F2 rounded 8px, Figma 13810:169898) */
 .biz-figma-subcard {
   background: #F2F2F2;
   border-radius: 8px;
-  padding: 10px 14px;
+  padding: 6px 12px 6px 0;
   position: relative;
   width: 100%;
   box-sizing: border-box;
 }
 
-/* Figma Vertical Timeline */
+/* Figma Vertical Timeline (Figma 13810:169898 / 13810:170025) */
 .biz-figma-timeline-list {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding-left: 20px;
+  gap: 4px;
+  padding-left: 42px;
   width: 100%;
   box-sizing: border-box;
 }
-.biz-figma-timeline-list::before {
+
+.biz-figma-timeline-row,
+.biz-figma-career-row {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Event hover background subtle tint (Figma Node 13810:169898 interactive state) */
+.biz-figma-timeline-row::after,
+.biz-figma-career-row::after {
   content: '';
   position: absolute;
-  left: 3.5px;
-  top: 7px;
-  bottom: 7px;
-  width: 1.5px;
-  background: #CBD5E1;
+  top: 1px;
+  bottom: 1px;
+  left: -8px;
+  right: -4px;
+  border-radius: 6px;
+  background: transparent;
+  transition: background-color 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 0;
 }
-.biz-figma-timeline-row {
+
+.biz-figma-timeline-row:hover::after,
+.biz-figma-career-row:hover::after {
+  background: rgba(0, 0, 0, 0.045);
+}
+
+.biz-figma-timeline-meta,
+.biz-figma-timeline-title,
+.biz-figma-career-period,
+.biz-figma-career-role,
+.biz-figma-career-org {
   position: relative;
+  z-index: 1;
+}
+
+.biz-figma-timeline-row {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  width: 100%;
+  gap: 4px;
 }
-.biz-figma-timeline-dot {
-  position: absolute;
-  left: -20px;
-  top: 3.5px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #10B981;
-  border: 1.5px solid #FFFFFF;
-  box-shadow: 0 0 0 1px #CBD5E1;
-  flex-shrink: 0;
-}
-.biz-figma-timeline-meta {
+
+.biz-figma-career-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  width: 100%;
-  line-height: 1.2;
+  height: 32px;
 }
+
+/* Timeline Vertical Spine Connecting Line (Figma 13810:169900: stroke=#929292, opacity=0.5, width=4px) */
+/* Connects seamlessly from current dot center to next dot center; never overshoots beyond last dot */
+.biz-figma-timeline-row:not(:last-child)::before,
+.biz-figma-career-row:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: -23px;
+  top: 16px;
+  height: calc(100% + 4px);
+  width: 4px;
+  background: rgba(146, 146, 146, 0.5);
+  border-radius: 2px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Timeline Dot Node (Figma 13810:169901 / Ellipse 3718: fill=#4AAC80, stroke=white 2px, size=8px inner, 12px outer) */
+.biz-figma-timeline-dot {
+  position: absolute;
+  left: -27px;
+  top: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4AAC80;
+  border: 2px solid #FFFFFF;
+  box-sizing: content-box;
+  box-shadow: none;
+  z-index: 1;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.biz-figma-timeline-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  height: 20px;
+  box-sizing: border-box;
+}
+
 .biz-figma-timeline-time {
   font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   color: #8E8E8E;
   letter-spacing: 0.2px;
+  text-transform: none;
+  line-height: 1.4;
+  white-space: nowrap;
 }
-.biz-figma-tag-latest {
-  background: #FF860C;
+
+.biz-figma-tag-latest,
+.timeline-latest-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: #F97316;
   color: #FFFFFF;
   font-family: 'DM Sans', sans-serif;
   font-size: 10px;
-  font-weight: 500;
-  padding: 1px 5px;
-  border-radius: 4px;
+  font-weight: 600;
   line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
+
 .biz-figma-timeline-domain {
   margin-left: auto;
   font-family: 'DM Sans', sans-serif;
-  font-size: 11.5px;
+  font-size: 12px;
+  font-weight: 400;
   color: #868686;
   text-align: right;
   white-space: nowrap;
+  line-height: 1;
 }
+
 .biz-figma-timeline-title {
   margin: 0;
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 400;
   color: #000000;
-  line-height: 1.35;
+  line-height: 1.4;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 /* Career Row in Person Card (Figma 13810:170025) */
-.biz-figma-career-row {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  min-height: 22px;
-}
 .biz-figma-career-period {
   font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   color: #8E8E8E;
   letter-spacing: 0.2px;
+  text-transform: uppercase;
   width: 108px;
   flex-shrink: 0;
+  line-height: 1.4;
+  white-space: nowrap;
 }
+
 .biz-figma-career-role {
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 400;
   color: #000000;
-  flex-shrink: 0;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
 }
+
 .biz-figma-career-org {
   margin-left: auto;
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
+  font-weight: 400;
   color: #868686;
   text-align: right;
   white-space: nowrap;
+  line-height: 1.4;
+  flex-shrink: 0;
 }
 
 .biz-detail-content {
@@ -1373,6 +1745,14 @@
 }
 .biz-activity-item {
   position: relative;
+  padding: 4px 6px;
+  margin-left: -6px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.biz-activity-item:hover {
+  background: rgba(0, 0, 0, 0.045);
 }
 .biz-activity-node {
   position: absolute;

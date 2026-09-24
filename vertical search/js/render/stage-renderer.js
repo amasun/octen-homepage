@@ -1,6 +1,6 @@
 import { state } from '../state.js';
 import { getCurrentData, formatDateTime, formatTimeOnly, formatDate, extractDomain, imageCache } from '../data/verticals-data.js';
-import { createBusinessDualDetailHTML } from './card-templates.js';
+import { createBusinessDualDetailHTML, createBusinessSummaryCardHTML } from './card-templates.js';
 
 let currentSelectedSubjectIdx = 0;
 
@@ -107,74 +107,64 @@ export function renderTimelineStream(subjectIdx = 0, makeVisible = false) {
 }
 
 /**
- * Render Business Search Dual Accordion Detail Cards (Company on Top, Person on Bottom)
+/**
+ * Render Business Search Dual Cards with Spatial Push-out
+ * (Active card expands to 472px detail, non-active card in overview form pushed out of viewport)
  */
 export function renderBusinessDualDetail(mode = 'company') {
   const curData = getCurrentData('business');
-  const compEntity = curData.entities ? curData.entities[0] : null;
-  const persEntity = curData.entities ? curData.entities[1] : null;
+  const entities = curData.entities || [];
 
-  currentSelectedSubjectIdx = mode === 'person' ? 1 : 0;
+  currentSelectedSubjectIdx = (mode === 'person' || mode === 1) ? 1 : 0;
   const topNewsBlock = document.getElementById('topNewsBlock');
   const timelineStreamBlock = document.getElementById('timelineStreamBlock');
   const businessDetailBlock = document.getElementById('businessDetailBlock');
+  const cardListContainer = document.getElementById('cardListContainer');
 
   if (topNewsBlock) topNewsBlock.style.display = 'none';
   if (timelineStreamBlock) timelineStreamBlock.style.display = 'none';
+  if (businessDetailBlock) businessDetailBlock.style.display = 'none';
 
-  if (!businessDetailBlock) return;
-  businessDetailBlock.style.display = 'flex';
+  if (!cardListContainer) return;
 
-  const compCard = document.getElementById('bizCompanyAccordionCard');
-  const persCard = document.getElementById('bizPersonAccordionCard');
-
-  if (compCard && persCard && compCard.querySelector('.biz-figma-sec-group')) {
-    if (mode === 'company') {
-      compCard.classList.remove('is-collapsed');
-      compCard.classList.add('is-expanded');
-      compCard.title = '';
-      persCard.classList.remove('is-expanded');
-      persCard.classList.add('is-collapsed');
-      persCard.title = 'Click to expand Bom Kim';
-      const scrollArea = compCard.querySelector('.biz-accordion-scroll-area');
-      if (scrollArea) scrollArea.scrollTop = 0;
-    } else {
-      compCard.classList.remove('is-expanded');
-      compCard.classList.add('is-collapsed');
-      compCard.title = 'Click to expand Coupang';
-      persCard.classList.remove('is-collapsed');
-      persCard.classList.add('is-expanded');
-      persCard.title = '';
-      const scrollArea = persCard.querySelector('.biz-accordion-scroll-area');
-      if (scrollArea) scrollArea.scrollTop = 0;
-    }
-  } else {
-    businessDetailBlock.innerHTML = createBusinessDualDetailHTML(compEntity, persEntity, mode);
-  }
-
-  // Bind click toggle on accordion cards
-  if (businessDetailBlock.dataset.boundAccordion !== 'true') {
-    businessDetailBlock.dataset.boundAccordion = 'true';
-    businessDetailBlock.addEventListener('click', (e) => {
-      const card = e.target.closest('.biz-accordion-card');
-      if (!card) return;
-      if (card.classList.contains('is-collapsed')) {
-        const type = card.dataset.entityType;
-        if (type === 'company') {
-          const compBtn = document.querySelector('.step-btn[data-step="company-detail"]') || document.querySelectorAll('.step-btn')[2];
-          if (compBtn) compBtn.click();
-        } else if (type === 'person') {
-          const persBtn = document.querySelector('.step-btn[data-step="person-detail"]') || document.querySelectorAll('.step-btn')[3];
-          if (persBtn) persBtn.click();
-        }
-      }
+  // Ensure cardListContainer has the two business cards in overview format
+  if (!cardListContainer.querySelector('.biz-figma-card')) {
+    let html = '';
+    entities.forEach((ent, i) => {
+      html += createBusinessSummaryCardHTML(ent, i);
     });
+    cardListContainer.innerHTML = html;
+  }
+  cardListContainer.style.transform = 'translateY(0px)';
+
+  // Reset all state classes
+  cardListContainer.classList.remove('stage-company-active', 'stage-person-active', 'hover-company-active', 'hover-person-active');
+
+  if (mode === 'company' || mode === 0) {
+    cardListContainer.classList.add('stage-company-active');
+    const scrollAreas = cardListContainer.querySelectorAll('.biz-overview-scroll-area');
+    scrollAreas.forEach(sa => { sa.scrollTop = 0; });
+  } else if (mode === 'person' || mode === 1) {
+    cardListContainer.classList.add('stage-person-active');
+    const scrollAreas = cardListContainer.querySelectorAll('.biz-overview-scroll-area');
+    scrollAreas.forEach(sa => { sa.scrollTop = 0; });
+  } else {
+    // Mode is 'overview': neutral stacked state with interactive hover
+    const scrollAreas = cardListContainer.querySelectorAll('.biz-overview-scroll-area');
+    scrollAreas.forEach(sa => { sa.scrollTop = 0; });
+    const allDots = cardListContainer.querySelectorAll('.biz-overview-full-sections .biz-figma-timeline-dot');
+    allDots.forEach(dot => { dot.style.animation = ''; });
+    initBusinessOverviewHover(cardListContainer);
   }
 }
 
 export function renderBusinessDetail(idxOrMode = 0) {
-  const mode = (idxOrMode === 1 || idxOrMode === 'person') ? 'person' : 'company';
-  renderBusinessDualDetail(mode);
+  if (idxOrMode === 'overview') {
+    renderBusinessDualDetail('overview');
+  } else {
+    const mode = (idxOrMode === 1 || idxOrMode === 'person') ? 'person' : 'company';
+    renderBusinessDualDetail(mode);
+  }
 }
 
 export function handlePillClick(idx) {
@@ -283,6 +273,25 @@ export function initBusinessOverviewHover(container) {
   let currentActive = null; // 'company' | 'person' | null
   let leaveTimer = null;
 
+  const triggerStaggeredDotPulse = (entityIdx) => {
+    const cardWrapper = container.querySelector(`.business-card-wrapper[data-entity-idx="${entityIdx}"]`);
+    if (!cardWrapper) return;
+    const dots = cardWrapper.querySelectorAll('.biz-overview-full-sections .biz-figma-timeline-dot');
+    dots.forEach((dot, i) => {
+      dot.style.animation = 'none';
+      void dot.offsetWidth; // Force reflow
+      const delay = (0.08 + i * 0.08).toFixed(2);
+      dot.style.animation = `bizNodePulse 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) ${delay}s both`;
+    });
+  };
+
+  const resetDotsAnimation = () => {
+    const allDots = container.querySelectorAll('.biz-overview-full-sections .biz-figma-timeline-dot');
+    allDots.forEach(dot => {
+      dot.style.animation = '';
+    });
+  };
+
   const setHoverState = (nextState) => {
     if (leaveTimer) {
       clearTimeout(leaveTimer);
@@ -294,16 +303,22 @@ export function initBusinessOverviewHover(container) {
     container.classList.remove('hover-company-active', 'hover-person-active');
     if (nextState === 'company') {
       container.classList.add('hover-company-active');
+      triggerStaggeredDotPulse(0);
     } else if (nextState === 'person') {
       container.classList.add('hover-person-active');
+      triggerStaggeredDotPulse(1);
     } else {
-      // Returning to default overview: reset scroll position
+      // Returning to default overview: reset scroll position & dots animation
       const scrollAreas = container.querySelectorAll('.biz-overview-scroll-area');
       scrollAreas.forEach(sa => { sa.scrollTop = 0; });
+      resetDotsAnimation();
     }
   };
 
-  const handlePointerOver = (e) => {
+  const handlePointerEvent = (e) => {
+    if (container.classList.contains('stage-company-active') || container.classList.contains('stage-person-active')) {
+      return;
+    }
     const cardWrapper = e.target.closest('.business-card-wrapper');
     if (cardWrapper) {
       if (leaveTimer) {
@@ -327,22 +342,56 @@ export function initBusinessOverviewHover(container) {
   };
 
   const handlePointerLeave = () => {
+    if (container.classList.contains('stage-company-active') || container.classList.contains('stage-person-active')) {
+      return;
+    }
     if (leaveTimer) clearTimeout(leaveTimer);
     leaveTimer = setTimeout(() => {
       setHoverState(null);
-    }, 100);
+    }, 120);
   };
 
   if (container._bizOverviewOverHandler) {
     container.removeEventListener('pointerover', container._bizOverviewOverHandler);
+    container.removeEventListener('pointermove', container._bizOverviewOverHandler);
   }
   if (container._bizOverviewLeaveHandler) {
     container.removeEventListener('pointerleave', container._bizOverviewLeaveHandler);
   }
 
-  container._bizOverviewOverHandler = handlePointerOver;
+  container._bizOverviewOverHandler = handlePointerEvent;
   container._bizOverviewLeaveHandler = handlePointerLeave;
 
-  container.addEventListener('pointerover', handlePointerOver);
+  container.addEventListener('pointerover', handlePointerEvent);
+  container.addEventListener('pointermove', handlePointerEvent);
   container.addEventListener('pointerleave', handlePointerLeave);
+
+  // Directly bind pointerenter/mouseenter/pointerover on each card wrapper and all its child blocks
+  const cardWrappers = container.querySelectorAll('.business-card-wrapper');
+  cardWrappers.forEach(cw => {
+    const idx = cw.dataset.entityIdx;
+    const targetState = idx === '0' ? 'company' : 'person';
+    const onEnter = () => {
+      if (container.classList.contains('stage-company-active') || container.classList.contains('stage-person-active')) {
+        return;
+      }
+      if (leaveTimer) {
+        clearTimeout(leaveTimer);
+        leaveTimer = null;
+      }
+      setHoverState(targetState);
+    };
+
+    cw.addEventListener('pointerenter', onEnter);
+    cw.addEventListener('mouseenter', onEnter);
+    cw.addEventListener('pointerover', onEnter);
+
+    // Deep-bind on all sub-cards and sensitive interactive regions (stats-grid, stat-cell, activity-bar, etc.)
+    const subRegions = cw.querySelectorAll('.biz-figma-card, .biz-figma-stats-grid, .biz-figma-stat-cell, .biz-figma-header, .biz-figma-desc, .biz-figma-activity-bar, .biz-figma-links-row, .biz-figma-link-item, .biz-overview-scroll-area');
+    subRegions.forEach(el => {
+      el.addEventListener('pointerenter', onEnter);
+      el.addEventListener('mouseenter', onEnter);
+      el.addEventListener('pointerover', onEnter);
+    });
+  });
 }

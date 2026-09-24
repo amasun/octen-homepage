@@ -222,21 +222,26 @@ const VERTICALS = {
                 activities: [
                   {
                     title: 'Coupang names new head of Fulfillment Technology',
-                    timePublished: '2026-09-11T23:58:07Z',
+                    timePublished: '2026-09-15T21:40:00Z',
+                    timeDisplay: '12m ago',
+                    relativeTime: '12m ago',
+                    isLatest: true,
                     authority: 'high',
                     highlight: 'Directly reporting to CEO, overseeing automated sorting and last-mile robotics dispatch lines.',
                     url: 'https://ir.aboutcoupang.com/news/2026/fulfillment-tech-lead'
                   },
                   {
                     title: 'Coupang Announces Results for Second Quarter 2026: Net revenues reach $8.9 billion',
-                    timePublished: '2026-09-10T23:58:07Z',
+                    timePublished: '2026-09-11T07:58:07Z',
+                    timeDisplay: '2026/09/11 07:58:07',
                     authority: 'high',
                     highlight: 'Total net revenues were $8.9 billion, up 4% YoY (10% on constant currency basis).',
                     url: 'https://ir.aboutcoupang.com/news/2026/q2-results'
                   },
                   {
                     title: 'Coupang expands Rocket Delivery to two more provinces',
-                    timePublished: '2026-09-04T15:58:07Z',
+                    timePublished: '2026-09-04T23:58:07Z',
+                    timeDisplay: '2026/09/04 23:58:07',
                     authority: 'high',
                     highlight: 'Next-day delivery coverage expands to 92% of South Korea population with prior capex recognized.',
                     url: 'https://ir.aboutcoupang.com/news/2026/rocket-expansion'
@@ -245,21 +250,26 @@ const VERTICALS = {
                 news: [
                   {
                     title: "Analysts split on Coupang's margin trajectory after Q2",
-                    timePublished: '2026-09-11T11:58:07Z',
+                    timePublished: '2026-09-15T21:27:00Z',
+                    timeDisplay: '25m ago',
+                    relativeTime: '25m ago',
+                    isLatest: true,
                     source: "Barron's",
                     authority: 'standard',
                     url: 'https://www.barrons.com/articles/coupang-margin-outlook-2026'
                   },
                   {
                     title: 'Coupang (CPNG) Q2 2026 Earnings Call Transcript',
-                    timePublished: '2026-09-11T03:58:07Z',
+                    timePublished: '2026-09-11T07:58:07Z',
+                    timeDisplay: '2026/09/11 07:58:07',
                     source: 'Motley Fool',
                     authority: 'standard',
                     url: 'https://www.fool.com/earnings/coupang-cpng-q2-2026-transcript'
                   },
                   {
                     title: '쿠팡플레이, 스포츠 독점 중계권 확대…OTT 경쟁 격화 (Coupang Play Sports OTT)',
-                    timePublished: '2026-08-30T15:58:07Z',
+                    timePublished: '2026-09-04T23:58:07Z',
+                    timeDisplay: '2026/09/04 23:58:07',
                     source: 'Maeil Business',
                     authority: 'standard',
                     url: 'https://www.mk.co.kr/news/business/20260828/coupang-play-sports'
@@ -284,8 +294,9 @@ const VERTICALS = {
                 activities: [
                   {
                     title: 'Coupang names new head of Fulfillment Technology',
-                    timePublished: '2026-09-12T07:58:07Z',
-                    timeDisplay: '2026/09/12 07:58:07',
+                    timePublished: '2026-09-15T21:37:00Z',
+                    timeDisplay: '15m ago',
+                    relativeTime: '15m ago',
                     isLatest: true,
                     source: 'biz.com',
                     highlight: 'Overseeing automated sorting and last-mile robotics dispatch lines.',
@@ -303,14 +314,18 @@ const VERTICALS = {
                 news: [
                   {
                     title: "How Bom Kim built South Korea's Amazon with Coupang",
-                    timePublished: '2026-09-08T12:00:00Z',
+                    timePublished: '2026-09-15T21:20:00Z',
+                    timeDisplay: '32m ago',
+                    relativeTime: '32m ago',
+                    isLatest: true,
                     source: 'Bloomberg',
                     authority: 'standard',
                     url: 'https://www.bloomberg.com/news/articles/2026-09-08/bom-kim-coupang-story'
                   },
                   {
                     title: 'Bom Kim on expansion beyond South Korea into Taiwan',
-                    timePublished: '2026-08-15T09:30:00Z',
+                    timePublished: '2026-09-08T12:00:00Z',
+                    timeDisplay: '2026/09/08 12:00:00',
                     source: 'Nikkei Asia',
                     authority: 'standard',
                     url: 'https://asia.nikkei.com/Business/Retail/Bom-Kim-Coupang-Taiwan-expansion'
@@ -459,7 +474,7 @@ export function setVerticalKey(key) {
 
 // Helpers
 export const formatDate = d => (d ? d.slice(0, 10).replace(/-/g, '/') : '');
-export const formatDateTime = d => (d ? `${d.slice(0, 10)} ${d.slice(11, 19)}` : '');
+export const formatDateTime = d => (d ? `${d.slice(0, 10).replace(/-/g, '/')} ${d.slice(11, 19)}` : '');
 export const formatTimeOnly = d => {
   if (!d) return '';
   if (d.includes('T')) {

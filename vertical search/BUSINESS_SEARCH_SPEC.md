@@ -160,26 +160,76 @@
 - **Business 态**：体现“商业实体深度画像与手风琴折叠展开”：
   - **1. Typing**：输入 `Coupang company overview and financial metrics`；
   - **2. Searching**：输入框收缩为左上胶囊，右侧呈现正弦波搜索状态；
-  - **3. Company Detail (Figma Node 13810:169821)**：
-    - 上方 Company 卡片展开（严格锁定 `height: 414px`，无外部滚动条，内部自适应平滑滚动），像素级对齐 Figma `13810:169821`：
+  - **3. Company Detail (公司卡片详细态展开、从上到下流式显现与超屏自动滚动)**：
+    - 上方 Company 卡片完全展开（锁定 `height: 472px`，平移 `translateY(-14.5px)`，上下对称各留白 30px），内容采用 **从上到下逐级流式展开（Progressive Flow）**：
       - 头部标牌（Logo + 标题 + Company 蓝标 + 股票/官网/LinkedIn 三联图标）；
-      - 完整简介 Bio；
+      - 完整简介 Bio 展开呈现；
       - 3x2 财务核心指标网格（Stock Price $14.29 -1.18%, 52W High $34.08, 52W Low $14.15, Revenue $8.9B, Net Income -$570M, Valuation $9B）；
-      - **Key People**：两枚胶囊（Bom Kim · Founder & CEO、Gaurav Anand · CFO）；
-      - **Official Activities**：3 条一手动态垂直时间线（绿色圆点 + 连线 + 时间戳 + `latest` 橙标 + 来源域名）；
-      - **Media News**：3 条权威媒体报道垂直时间线（Barrons.com、Fool.com、MaeilBusiness.com）；
-      - 底部居中圆角操作把手（Handle Bar）；
-    - 下方 Person 卡片折叠收起（高度严格 52px，展示 Bom Kim 头像、标牌与把手），支持点击快速无缝展开；
-    - **单页显示硬约束**：展开卡片 (414px) + 间距 (8px) + 折叠卡片 (52px) = 474px，严格容纳于 532px Canvas（留 20px 上下安全边距），彻底杜绝画布溢出与双滚动条；
-  - **4. Person Detail (Figma Node 13810:169958)**：
-    - 上方 Company 卡片平滑收起至折叠态（高度 52px，露出最新动态条与把手）；
-    - 下方 Person 卡片完全展开（严格锁定 `height: 414px`），像素级对齐 Figma `13810:169958`：
+      - **Key People**：两枚人员胶囊（Bom Kim · Founder & CEO、Gaurav Anand · CFO）滑入；
+      - **Official Activities**：3 条一手动态垂直时间线（圆点脉冲发光 + 连线顺流延展 + 时间戳 + `latest` 橙标 + 来源域名），逐条流式显现；
+      - **Media News**：3 条权威媒体报道垂直时间线（Barrons.com、Fool.com、MaeilBusiness.com），逐条流式显现；
+      - **超屏自动跟随滚动 (Auto-Scroll)**：当后续流入的内容超出 472px 卡片可视视口时，滚动容器以 `0.34s` 曲线平滑向下自动滚动至新生成条目，让用户实时追踪最新生成的动态内容；
+      - 展开态下彻底隐藏底部横条把手；
+    - **非激活 Person 卡片保留 Overview 概览形态被挤出屏幕**：
+      - 保持其完整的 Overview 概览卡片形态（高 135px）；
+      - 伴随 Company 卡片的展开，以 `transform: translateY(220px) scale(0.96)` 顺滑向下被推挤出画布视口边界，同时伴随景深虚化与渐隐（`opacity: 0`, `filter: blur(3px)`），完全移出屏幕视野；
+    - **自动衔接流转**：当 Company 卡片全部信息流式呈现完毕后，自动无缝触发步骤 4（Person Detail）的人物卡片生成流。
+  - **4. Person Detail (人物卡片详细态升起、流式生成与超屏自动滚动)**：
+    - 下方 Person 卡片完全展开（严格锁定 `height: 472px`，以 `translateY(-322.5px)` 顺滑移至画布视口顶端，保持上下对称各 30px 留白，无阴影），采用与步骤 3 相同的 **从上到下流式生成与超屏自动滚动逻辑**，像素级对齐 Figma `13810:169958`：
       - 头部标牌（圆头像 + 标题 + Person 橙标 + 职位/LinkedIn 链接）；
-      - 完整生平 Bio；
-      - **Career**：3 条职业履历时间线（2010–Present Coupang、2006–2008 02138 Magazine、2005–2006 BCG）；
-      - **Activities**：2 条官方一手动态时间线；
-      - **News**：2 条媒体报道时间线；
-      - 底部居中圆角操作把手（Handle Bar）；
-    - **单页显示硬约束**：同样严格保持 474px 堆叠高度，始终锚定在单页显示范围内；
-  - **5. Overview (概览收缩态)**：
-    - 两张详情卡片完成流式呈现后，整体平滑收缩归宿为两张紧凑 Overview 概览卡片（4px 垂直间距，两行文本截断，无滚动条）。
+      - 完整生平 Bio 展开呈现；
+      - **Career**：3 条职业履历时间线（2010–Present Coupang、2006–2008 02138 Magazine、2005–2006 BCG）逐条流式生成，翡翠绿圆点伴随脉冲激活；
+      - **Activities**：2 条官方一手动态时间线逐条流式流入；
+      - **News**：2 条媒体报道时间线逐条流式流入；
+      - **超屏自动跟随滚动 (Auto-Scroll)**：内容溢出卡片下边缘时，容器平滑向下自动滚动，将视口锁定在当前生成的新行；
+      - 展开态下彻底隐藏底部横条把手；
+    - **非激活 Company 卡片保留 Overview 概览形态被挤出屏幕**：
+      - 保持其完整的 Overview 概览卡片形态（高 304px，精确对齐 Figma `13802:167548`）；
+      - 伴随 Person 卡片的升起展开，以 `transform: translateY(-380px) scale(0.96)` 顺滑向上被推挤出画布视口上边界，伴随景深虚化渐隐（`opacity: 0`, `filter: blur(3px)`），完全移出屏幕视野；
+    - **自动转入 Overview**：当 Person 卡片信息流式呈现完后，自动平滑转入步骤 5（Overview）。
+  - **5. Overview (概览收缩归宿与全域交互态 - Figma 13802:167547 像素级规范)**：
+    - 两张卡片以 `0.46s cubic-bezier(0.16, 1, 0.3, 1)` 曲线平滑归位至紧凑 Overview 双卡堆叠态（Company 304px + Person 135px，间距 4px，上下留白严格对称各 44.5px，总高 `44.5 + 304 + 4 + 135 + 44.5 = 532px` 完美贴合画布，单屏完整显示无任何滚动条）：
+      - **Company 卡片内部高度与内边距配比** (总高 304px / 303.77px)：
+        - 内边距严格遵循 `padding: 16px 16px 12px 16px;`（上 16px、右 16px、下 12px、左 16px，外加 8px 半透明描边）；
+        - Header 44px + 间距 12px + 2行 Bio 34px + 间距 12px + Stats Grid 108px + 间距 6px + Activity Bar 43px = 内容区 259px；
+        - 底部把手 4.77px + 下边距留白 12px；
+        - 内部概览内容区高度精确等于可视区高度，0 溢出无内部纵向滚动。
+      - **Person 卡片内部高度与内边距配比** (总高 135px / 134.77px)：
+        - 内边距严格遵循 `padding: 16px 16px 12px 16px;`（上 16px、右 16px、下 12px、左 16px，外加 8px 半透明描边）；
+        - Header 44px + 间距 12px + 2行 Bio 34px = 内容区 90px；
+        - 底部把手 4.77px + 下边距留白 12px；
+        - 内部概览内容区高度精确等于可视区高度，0 溢出无内部纵向滚动。
+    - 底部操作把手重新显示，引导用户交互；
+    - **Hover 互斥推挤动效 (Hover-to-Expand & Push-to-Dismiss)**：
+      - 鼠标悬浮 Company 卡片时，激活完全相同的推挤动效：Company 伸展至 472px（`translateY(-14.5px)`，上下留白各为 30px），Person 保持 Overview 形态被向下推挤出屏幕（`translateY(220px) scale(0.96)`）；
+      - 鼠标悬浮 Person 卡片时：Person 升起并伸展至 472px（`translateY(-322.5px)`，上下留白各为 30px），Company 保持 Overview 形态被向上推挤出屏幕（`translateY(-380px) scale(0.96)`）；
+      - 鼠标移开后：平滑恢复为双 Overview 卡片；
+      - 统一卡片渲染与空间变换架构，Stage 3、4、5 使用同一套 DOM 与连续动画机制，消灭跳变。
+      - **尺寸与间距硬约束**：展开后的卡片锁定高度为 **472px**，最外层容器（Canvas，高度 532px）上下留白各严格为 **30px**（`532 - 472 = 60px`，上下间距严格对称各 30px）；
+      - **底部横条智能隐藏**：当卡片处于展开态时，自动彻底隐藏底部的横条（操作把手 `.biz-figma-handle-wrap`），消除多余视觉干扰；仅在紧凑态下展示横条作为 Hover/展开的视觉引导；
+      - 移开鼠标后：两张卡片以 `0.46s cubic-bezier(0.16, 1, 0.3, 1)` 曲线无缝恢复为双紧凑概览卡片（304px 与 135px，加 4px 间距，完美单屏容纳于 532px 高度内）；
+      - 全过程使用 GPU 硬件加速的 `transform` + `opacity` 动画，彻底消除布局生硬跳变感；
+      - **全域无死角触发展开 (Zero-Deadzone Hover)**：在 Overview 阶段，Company 与 Person 卡片内部所有子卡片/子区域（股价核心指标区 `.biz-figma-stats-grid`、单项指标 `.biz-figma-stat-cell`、最新动态条 `.biz-figma-activity-bar`、标牌及链接群）均具备直接事件感知与 CSS `:has()` 双重保障，且严格隔绝了 Stage 3/4 历史手风琴层（`display: none !important; pointer-events: none !important`），确保鼠标无论滑入卡片主体还是子卡片/指标区任意像素，均能瞬时顺滑引起卡片展开与互斥推挤。
+
+### 7. 全局时间轴节点与间距规范 (Figma 13810:169898 标准)
+- **应用范围**：Business Search 所有时间轴组件（Company 详情及 Overview 展开态的 Official Activities / Media News、Person 详情及 Overview 展开态的 Career / Activities / News）：
+  1. **节点样式 (Timeline Dot Node)**：
+     - 内径：`8px`，背景色：`#4AAC80`（翡翠绿，对齐 Figma 设计稿 SVG `Ellipse 3718` 原型）；
+     - 外圈：`2px solid #FFFFFF`（白色描边），外径为 `12px`；
+     - 投影：去掉生硬的外阴影圈，保持干净利落的视觉呈现；
+     - 垂直对齐：与时间/日期标题行（20px 高度）保持严格的亚像素级垂直居中（`deltaY === 0`）。
+  2. **连线样式 (Connecting Spine Line)**：
+     - 宽度：`4px`，背景色：`rgba(146, 146, 146, 0.5)`（对齐 Figma `timeline-pre` SVG 原型）；
+     - 起止控制：精准从首个圆点中心起始，止于末个圆点中心，末个节点下方绝不产生多余外露延伸线。
+  3. **间距与版心布局 (Spacing & Gutters)**：
+     - 左侧轴心区域宽度固定为 `42px`，竖线与圆点水平绝对居中于 `21px` 处；
+     - 事件内容起始对齐线距左侧 `42px`，事件行垂直间距收紧为标准的 `4px`；
+     - 内部日期与 `latest` 标签间距为 `10px`，来源域名向右端对齐；
+     - Career 履历行锁定 `32px` 标准行高，实现日期、职位、机构与左侧时间节点的水平零偏差对齐。
+  4. **事件悬浮交互 (Event Row Hover Background)**：
+     - 鼠标悬浮在时间轴上的单条事件（Official Activities、Media News、Career、Activities、News）时，事件区域呈现优雅细腻的背景色微变化；
+     - 采用非侵入式 `::after` 伪元素定位（`top: 1px; bottom: 1px; left: -8px; right: -4px; border-radius: 6px;`），与左侧绿圆点保持严格 7px 安全净距，绝不触碰或挤压连线与圆点，零布局抖动（0 CLS）；
+     - 悬浮背景色：`rgba(0, 0, 0, 0.045)`（自然融合于 `#F2F2F2` 底卡上的轻柔微灰）；
+     - 过渡曲线：`0.18s cubic-bezier(0.16, 1, 0.3, 1)`，鼠标指针呈 `cursor: pointer`，提供清脆舒适的交互反馈。
+
+

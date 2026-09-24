@@ -69,6 +69,39 @@ export function createArticleCardHTML(article, index) {
 // ----------------------------------------------------
 
 /**
+ * Helper to prepare, sort (newest on top), and format timeline items
+ * Ensures the newest item is at index 0, formatted with 'xxm ago', and marked as latest
+ */
+export function prepareTimelineItems(items, defaultRelative = '12m ago') {
+  if (!items || !items.length) return [];
+  // Sort descending: newest timestamp first
+  const sorted = [...items].sort((a, b) => {
+    if (a.isLatest && !b.isLatest) return -1;
+    if (!a.isLatest && b.isLatest) return 1;
+    const timeA = new Date(a.timePublished || 0).getTime();
+    const timeB = new Date(b.timePublished || 0).getTime();
+    return timeB - timeA;
+  });
+
+  return sorted.map((item, idx) => {
+    const isTop = idx === 0;
+    let time = item.timeDisplay;
+    if (isTop) {
+      time = item.relativeTime || (item.timeDisplay && item.timeDisplay.includes('ago') ? item.timeDisplay : defaultRelative);
+    } else if (!time || time.includes('ago')) {
+      time = item.timePublished ? formatDateTime(item.timePublished) : '2026/09/11 07:58:07';
+    }
+    const domain = item.source || (item.url ? extractDomain(item.url) : 'biz.com');
+    return {
+      ...item,
+      time,
+      domain,
+      isLatest: isTop
+    };
+  });
+}
+
+/**
  * Stage 3: Business Summary Card (Two cards: Company & Person)
  */
 export function createBusinessSummaryCardHTML(entity, index) {
@@ -82,49 +115,58 @@ export function createBusinessSummaryCardHTML(entity, index) {
   const firstAct = activities[0] || null;
 
   if (isCompany) {
-    const actDateStr = '2026/09/12 07:58:07';
-    const actTitle = firstAct?.title || 'Coupang names new head of Fulfillment Technology';
-    const tickerStr = ids.stock_ticker ? ids.stock_ticker.replace(/^NYSE:\s*/i, '') + ' · NYSE' : 'CPENG · NYSE';
     const compPeople = entity.key_people || [
       { name: 'Bom Kim', title: 'Founder & CEO' },
       { name: 'Gaurav Anand', title: 'CFO' }
     ];
-    const compActivities = entity.activities || [
+    const compActivities = prepareTimelineItems(entity.activities || [
       {
         title: 'Coupang names new head of Fulfillment Technology',
-        timeDisplay: '2026/09/12 07:58:07',
+        timePublished: '2026-09-15T21:40:00Z',
+        relativeTime: '12m ago',
+        timeDisplay: '12m ago',
         isLatest: true,
         source: 'biz.com'
       },
       {
         title: 'Coupang Announces Results for Second Quarter 2026: Net revenues reach $8.9 billion',
+        timePublished: '2026-09-11T07:58:07Z',
         timeDisplay: '2026/09/11 07:58:07',
         source: 'ir.aboutcoupang.com'
       },
       {
         title: 'Coupang expands Rocket Delivery to two more provinces',
+        timePublished: '2026-09-04T23:58:07Z',
         timeDisplay: '2026/09/04 23:58:07',
         source: 'koreaherald.com'
       }
-    ];
-    const compNews = entity.news || [
+    ], '12m ago');
+    const compNews = prepareTimelineItems(entity.news || [
       {
         title: "Analysts split on Coupang's margin trajectory after Q2",
-        timeDisplay: '2026/09/12 07:58:07',
+        timePublished: '2026-09-15T21:27:00Z',
+        relativeTime: '25m ago',
+        timeDisplay: '25m ago',
         isLatest: true,
         source: 'Barrons.com'
       },
       {
         title: 'Coupang (CPNG) Q2 2026 Earnings Call Transcript',
+        timePublished: '2026-09-11T07:58:07Z',
         timeDisplay: '2026/09/11 07:58:07',
         source: 'Fool.com'
       },
       {
         title: '쿠팡플레이, 스포츠 독점 중계권 확대…OTT 경쟁 격화 (Coupang Play Sports OTT)',
+        timePublished: '2026-09-04T23:58:07Z',
         timeDisplay: '2026/09/04 23:58:07',
         source: 'MaeilBusiness.com'
       }
-    ];
+    ], '25m ago');
+
+    const actDateStr = compActivities[0]?.time || '12m ago';
+    const actTitle = compActivities[0]?.title || firstAct?.title || 'Coupang names new head of Fulfillment Technology';
+    const tickerStr = ids.stock_ticker ? ids.stock_ticker.replace(/^NYSE:\s*/i, '') + ' · NYSE' : 'CPENG · NYSE';
 
     return `
       <div class="business-card-wrapper" data-business-card="true" data-entity-idx="${index}">
@@ -230,21 +272,17 @@ export function createBusinessSummaryCardHTML(entity, index) {
                 <h4 class="biz-figma-sec-title">Official Activities</h4>
                 <div class="biz-figma-subcard">
                   <div class="biz-figma-timeline-list">
-                    ${compActivities.map(act => {
-                      const time = act.timeDisplay || (act.timePublished ? formatDateTime(act.timePublished) : '2026/09/12 07:58:07');
-                      const domain = act.source || (act.url ? extractDomain(act.url) : 'biz.com');
-                      return `
-                        <div class="biz-figma-timeline-row">
-                          <span class="biz-figma-timeline-dot"></span>
-                          <div class="biz-figma-timeline-meta">
-                            <span class="biz-figma-timeline-time">${time}</span>
-                            ${act.isLatest ? '<span class="biz-figma-tag-latest">latest</span>' : ''}
-                            <span class="biz-figma-timeline-domain">${domain}</span>
-                          </div>
-                          <p class="biz-figma-timeline-title" title="${act.title}">${act.title}</p>
+                    ${compActivities.map(act => `
+                      <div class="biz-figma-timeline-row">
+                        <span class="biz-figma-timeline-dot"></span>
+                        <div class="biz-figma-timeline-meta">
+                          <span class="biz-figma-timeline-time">${act.time}</span>
+                          ${act.isLatest ? '<span class="timeline-latest-tag biz-figma-tag-latest">latest</span>' : ''}
+                          <span class="biz-figma-timeline-domain">${act.domain}</span>
                         </div>
-                      `;
-                    }).join('')}
+                        <p class="biz-figma-timeline-title" title="${act.title}">${act.title}</p>
+                      </div>
+                    `).join('')}
                   </div>
                 </div>
               </div>
@@ -254,21 +292,17 @@ export function createBusinessSummaryCardHTML(entity, index) {
                 <h4 class="biz-figma-sec-title">Media News</h4>
                 <div class="biz-figma-subcard">
                   <div class="biz-figma-timeline-list">
-                    ${compNews.map(item => {
-                      const time = item.timeDisplay || (item.timePublished ? formatDateTime(item.timePublished) : '2026/09/12 07:58:07');
-                      const domain = item.source || (item.url ? extractDomain(item.url) : 'Barrons.com');
-                      return `
-                        <div class="biz-figma-timeline-row">
-                          <span class="biz-figma-timeline-dot"></span>
-                          <div class="biz-figma-timeline-meta">
-                            <span class="biz-figma-timeline-time">${time}</span>
-                            ${item.isLatest ? '<span class="biz-figma-tag-latest">latest</span>' : ''}
-                            <span class="biz-figma-timeline-domain">${domain}</span>
-                          </div>
-                          <p class="biz-figma-timeline-title" title="${item.title}">${item.title}</p>
+                    ${compNews.map(item => `
+                      <div class="biz-figma-timeline-row">
+                        <span class="biz-figma-timeline-dot"></span>
+                        <div class="biz-figma-timeline-meta">
+                          <span class="biz-figma-timeline-time">${item.time}</span>
+                          ${item.isLatest ? '<span class="timeline-latest-tag biz-figma-tag-latest">latest</span>' : ''}
+                          <span class="biz-figma-timeline-domain">${item.domain}</span>
                         </div>
-                      `;
-                    }).join('')}
+                        <p class="biz-figma-timeline-title" title="${item.title}">${item.title}</p>
+                      </div>
+                    `).join('')}
                   </div>
                 </div>
               </div>
@@ -289,32 +323,38 @@ export function createBusinessSummaryCardHTML(entity, index) {
       { organization: '02138 Magazine', title: 'Co-founder', start: '2006', end: '2008' },
       { organization: 'The Boston Consulting Group', title: 'Associate', start: '2005', end: '2006' }
     ];
-    const persActivities = entity.activities || [
+    const persActivities = prepareTimelineItems(entity.activities || [
       {
         title: 'Coupang names new head of Fulfillment Technology',
-        timeDisplay: '2026/09/12 07:58:07',
+        timePublished: '2026-09-15T21:37:00Z',
+        relativeTime: '15m ago',
+        timeDisplay: '15m ago',
         isLatest: true,
         source: 'biz.com'
       },
       {
         title: 'Coupang Announces Results for Second Quarter 2026: Net revenues reach $8.9 billion',
+        timePublished: '2026-09-11T07:58:07Z',
         timeDisplay: '2026/09/11 07:58:07',
         source: 'ir.aboutcoupang.com'
       }
-    ];
-    const persNews = entity.news || [
+    ], '15m ago');
+    const persNews = prepareTimelineItems(entity.news || [
       {
-        title: 'Coupang names new head of Fulfillment Technology',
-        timeDisplay: '2026/09/12 07:58:07',
+        title: "How Bom Kim built South Korea's Amazon with Coupang",
+        timePublished: '2026-09-15T21:20:00Z',
+        relativeTime: '32m ago',
+        timeDisplay: '32m ago',
         isLatest: true,
-        source: 'biz.com'
+        source: 'Bloomberg'
       },
       {
-        title: 'Coupang Announces Results for Second Quarter 2026: Net revenues reach $8.9 billion',
-        timeDisplay: '2026/09/11 07:58:07',
-        source: 'ir.aboutcoupang.com'
+        title: 'Bom Kim on expansion beyond South Korea into Taiwan',
+        timePublished: '2026-09-08T12:00:00Z',
+        timeDisplay: '2026/09/08 12:00:00',
+        source: 'Nikkei Asia'
       }
-    ];
+    ], '32m ago');
 
     return `
       <div class="business-card-wrapper" data-business-card="true" data-entity-idx="${index}">
@@ -375,21 +415,17 @@ export function createBusinessSummaryCardHTML(entity, index) {
                 <h4 class="biz-figma-sec-title">Activities</h4>
                 <div class="biz-figma-subcard">
                   <div class="biz-figma-timeline-list">
-                    ${persActivities.map(a => {
-                      const time = a.timeDisplay || (a.timePublished ? formatDateTime(a.timePublished) : '2026/09/12 07:58:07');
-                      const domain = a.source || (a.url ? extractDomain(a.url) : 'biz.com');
-                      return `
-                        <div class="biz-figma-timeline-row">
-                          <span class="biz-figma-timeline-dot"></span>
-                          <div class="biz-figma-timeline-meta">
-                            <span class="biz-figma-timeline-time">${time}</span>
-                            ${a.isLatest ? '<span class="biz-figma-tag-latest">latest</span>' : ''}
-                            <span class="biz-figma-timeline-domain">${domain}</span>
-                          </div>
-                          <p class="biz-figma-timeline-title" title="${a.title}">${a.title}</p>
+                    ${persActivities.map(a => `
+                      <div class="biz-figma-timeline-row">
+                        <span class="biz-figma-timeline-dot"></span>
+                        <div class="biz-figma-timeline-meta">
+                          <span class="biz-figma-timeline-time">${a.time}</span>
+                          ${a.isLatest ? '<span class="timeline-latest-tag biz-figma-tag-latest">latest</span>' : ''}
+                          <span class="biz-figma-timeline-domain">${a.domain}</span>
                         </div>
-                      `;
-                    }).join('')}
+                        <p class="biz-figma-timeline-title" title="${a.title}">${a.title}</p>
+                      </div>
+                    `).join('')}
                   </div>
                 </div>
               </div>
@@ -399,23 +435,20 @@ export function createBusinessSummaryCardHTML(entity, index) {
                 <h4 class="biz-figma-sec-title">News</h4>
                 <div class="biz-figma-subcard">
                   <div class="biz-figma-timeline-list">
-                    ${persNews.map(n => {
-                      const time = n.timeDisplay || (n.timePublished ? formatDateTime(n.timePublished) : '2026/09/12 07:58:07');
-                      const domain = n.source || (n.url ? extractDomain(n.url) : 'biz.com');
-                      return `
-                        <div class="biz-figma-timeline-row">
-                          <span class="biz-figma-timeline-dot"></span>
-                          <div class="biz-figma-timeline-meta">
-                            <span class="biz-figma-timeline-time">${time}</span>
-                            ${n.isLatest ? '<span class="biz-figma-tag-latest">latest</span>' : ''}
-                            <span class="biz-figma-timeline-domain">${domain}</span>
-                          </div>
-                          <p class="biz-figma-timeline-title" title="${n.title}">${n.title}</p>
+                    ${persNews.map(n => `
+                      <div class="biz-figma-timeline-row">
+                        <span class="biz-figma-timeline-dot"></span>
+                        <div class="biz-figma-timeline-meta">
+                          <span class="biz-figma-timeline-time">${n.time}</span>
+                          ${n.isLatest ? '<span class="timeline-latest-tag biz-figma-tag-latest">latest</span>' : ''}
+                          <span class="biz-figma-timeline-domain">${n.domain}</span>
                         </div>
-                      `;
-                    }).join('')}
+                        <p class="biz-figma-timeline-title" title="${n.title}">${n.title}</p>
+                      </div>
+                    `).join('')}
                   </div>
                 </div>
+              </div>
               </div>
             </div>
           </div>
@@ -448,44 +481,53 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
     { name: 'Bom Kim', title: 'Founder & CEO' },
     { name: 'Gaurav Anand', title: 'CFO' }
   ];
-  const compActivities = comp.activities || [
+  const compActivities = prepareTimelineItems(comp.activities || [
     {
       title: 'Coupang names new head of Fulfillment Technology',
-      timeDisplay: '2026/09/12 07:58:07',
+      timePublished: '2026-09-15T21:40:00Z',
+      relativeTime: '12m ago',
+      timeDisplay: '12m ago',
       isLatest: true,
       source: 'biz.com'
     },
     {
       title: 'Coupang Announces Results for Second Quarter 2026: Net revenues reach $8.9 billion',
+      timePublished: '2026-09-11T07:58:07Z',
       timeDisplay: '2026/09/11 07:58:07',
       source: 'ir.aboutcoupang.com'
     },
     {
       title: 'Coupang expands Rocket Delivery to two more provinces',
+      timePublished: '2026-09-04T23:58:07Z',
       timeDisplay: '2026/09/04 23:58:07',
       source: 'koreaherald.com'
     }
-  ];
-  const compNews = comp.news || [
+  ], '12m ago');
+  const compNews = prepareTimelineItems(comp.news || [
     {
       title: "Analysts split on Coupang's margin trajectory after Q2",
-      timeDisplay: '2026/09/12 07:58:07',
+      timePublished: '2026-09-15T21:27:00Z',
+      relativeTime: '25m ago',
+      timeDisplay: '25m ago',
       isLatest: true,
       source: 'Barrons.com'
     },
     {
       title: 'Coupang (CPNG) Q2 2026 Earnings Call Transcript',
+      timePublished: '2026-09-11T07:58:07Z',
       timeDisplay: '2026/09/11 07:58:07',
       source: 'Fool.com'
     },
     {
       title: '쿠팡플레이, 스포츠 독점 중계권 확대…OTT 경쟁 격화 (Coupang Play Sports OTT)',
+      timePublished: '2026-09-04T23:58:07Z',
       timeDisplay: '2026/09/04 23:58:07',
       source: 'MaeilBusiness.com'
     }
-  ];
+  ], '25m ago');
   const compFirstAct = compActivities[0] || null;
   const compActTitle = compFirstAct?.title || 'Coupang names new head of Fulfillment Technology';
+  const compActDateStr = compFirstAct?.time || '12m ago';
   const compTickerStr = compIds.stock_ticker ? compIds.stock_ticker.replace(/^NYSE:\s*/i, '') + ' · NYSE' : 'CPENG · NYSE';
 
   // --- Person Data ---
@@ -496,32 +538,38 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
     { organization: '02138 Magazine', title: 'Co-founder', start: '2006', end: '2008' },
     { organization: 'The Boston Consulting Group', title: 'Associate', start: '2005', end: '2006' }
   ];
-  const persActivities = pers.activities || [
+  const persActivities = prepareTimelineItems(pers.activities || [
     {
       title: 'Coupang names new head of Fulfillment Technology',
-      timeDisplay: '2026/09/12 07:58:07',
+      timePublished: '2026-09-15T21:37:00Z',
+      relativeTime: '15m ago',
+      timeDisplay: '15m ago',
       isLatest: true,
       source: 'biz.com'
     },
     {
       title: 'Coupang Announces Results for Second Quarter 2026: Net revenues reach $8.9 billion',
+      timePublished: '2026-09-11T07:58:07Z',
       timeDisplay: '2026/09/11 07:58:07',
       source: 'ir.aboutcoupang.com'
     }
-  ];
-  const persNews = pers.news || [
+  ], '15m ago');
+  const persNews = prepareTimelineItems(pers.news || [
     {
-      title: 'Coupang names new head of Fulfillment Technology',
-      timeDisplay: '2026/09/12 07:58:07',
+      title: "How Bom Kim built South Korea's Amazon with Coupang",
+      timePublished: '2026-09-15T21:20:00Z',
+      relativeTime: '32m ago',
+      timeDisplay: '32m ago',
       isLatest: true,
-      source: 'biz.com'
+      source: 'Bloomberg'
     },
     {
-      title: 'Coupang Announces Results for Second Quarter 2026: Net revenues reach $8.9 billion',
-      timeDisplay: '2026/09/11 07:58:07',
-      source: 'ir.aboutcoupang.com'
+      title: 'Bom Kim on expansion beyond South Korea into Taiwan',
+      timePublished: '2026-09-08T12:00:00Z',
+      timeDisplay: '2026/09/08 12:00:00',
+      source: 'Nikkei Asia'
     }
-  ];
+  ], '32m ago');
 
   return `
     <div class="biz-dual-cards-stack" id="bizDualCardsStack">
@@ -531,7 +579,7 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
         <div class="biz-card-collapsed-bar biz-company-collapsed-bar">
           <div class="biz-figma-activity-bar" style="background: transparent; height: 24px; padding: 0 2px; margin: 0;">
             <img src="./images/vertical/activity-dot.svg" alt="" class="biz-figma-act-dot" />
-            <span class="biz-figma-act-date">2026/09/12 07:58:07</span>
+            <span class="biz-figma-act-date">${compActDateStr}</span>
             <span class="biz-figma-act-title" title="${compActTitle}">${compActTitle}</span>
           </div>
           <div class="biz-figma-handle-wrap biz-collapsed-handle" style="margin-left: auto; width: auto; padding: 0;">
@@ -632,21 +680,17 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
             <h4 class="biz-figma-sec-title">Official Activities</h4>
             <div class="biz-figma-subcard">
               <div class="biz-figma-timeline-list">
-                ${compActivities.map(act => {
-                  const time = act.timeDisplay || (act.timePublished ? formatDateTime(act.timePublished) : '2026/09/12 07:58:07');
-                  const domain = act.source || (act.url ? extractDomain(act.url) : 'biz.com');
-                  return `
-                    <div class="biz-figma-timeline-row">
-                      <span class="biz-figma-timeline-dot"></span>
-                      <div class="biz-figma-timeline-meta">
-                        <span class="biz-figma-timeline-time">${time}</span>
-                        ${act.isLatest ? '<span class="biz-figma-tag-latest">latest</span>' : ''}
-                        <span class="biz-figma-timeline-domain">${domain}</span>
-                      </div>
-                      <p class="biz-figma-timeline-title" title="${act.title}">${act.title}</p>
+                ${compActivities.map(act => `
+                  <div class="biz-figma-timeline-row">
+                    <span class="biz-figma-timeline-dot"></span>
+                    <div class="biz-figma-timeline-meta">
+                      <span class="biz-figma-timeline-time">${act.time}</span>
+                      ${act.isLatest ? '<span class="timeline-latest-tag biz-figma-tag-latest">latest</span>' : ''}
+                      <span class="biz-figma-timeline-domain">${act.domain}</span>
                     </div>
-                  `;
-                }).join('')}
+                    <p class="biz-figma-timeline-title" title="${act.title}">${act.title}</p>
+                  </div>
+                `).join('')}
               </div>
             </div>
           </div>
@@ -656,21 +700,17 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
             <h4 class="biz-figma-sec-title">Media News</h4>
             <div class="biz-figma-subcard">
               <div class="biz-figma-timeline-list">
-                ${compNews.map(item => {
-                  const time = item.timeDisplay || (item.timePublished ? formatDateTime(item.timePublished) : '2026/09/12 07:58:07');
-                  const domain = item.source || (item.url ? extractDomain(item.url) : 'Barrons.com');
-                  return `
-                    <div class="biz-figma-timeline-row">
-                      <span class="biz-figma-timeline-dot"></span>
-                      <div class="biz-figma-timeline-meta">
-                        <span class="biz-figma-timeline-time">${time}</span>
-                        ${item.isLatest ? '<span class="biz-figma-tag-latest">latest</span>' : ''}
-                        <span class="biz-figma-timeline-domain">${domain}</span>
-                      </div>
-                      <p class="biz-figma-timeline-title" title="${item.title}">${item.title}</p>
+                ${compNews.map(item => `
+                  <div class="biz-figma-timeline-row">
+                    <span class="biz-figma-timeline-dot"></span>
+                    <div class="biz-figma-timeline-meta">
+                      <span class="biz-figma-timeline-time">${item.time}</span>
+                      ${item.isLatest ? '<span class="timeline-latest-tag biz-figma-tag-latest">latest</span>' : ''}
+                      <span class="biz-figma-timeline-domain">${item.domain}</span>
                     </div>
-                  `;
-                }).join('')}
+                    <p class="biz-figma-timeline-title" title="${item.title}">${item.title}</p>
+                  </div>
+                `).join('')}
               </div>
             </div>
           </div>
@@ -752,21 +792,17 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
             <h4 class="biz-figma-sec-title">Activities</h4>
             <div class="biz-figma-subcard">
               <div class="biz-figma-timeline-list">
-                ${persActivities.map(a => {
-                  const time = a.timeDisplay || (a.timePublished ? formatDateTime(a.timePublished) : '2026/09/12 07:58:07');
-                  const domain = a.source || (a.url ? extractDomain(a.url) : 'biz.com');
-                  return `
-                    <div class="biz-figma-timeline-row">
-                      <span class="biz-figma-timeline-dot"></span>
-                      <div class="biz-figma-timeline-meta">
-                        <span class="biz-figma-timeline-time">${time}</span>
-                        ${a.isLatest ? '<span class="biz-figma-tag-latest">latest</span>' : ''}
-                        <span class="biz-figma-timeline-domain">${domain}</span>
-                      </div>
-                      <p class="biz-figma-timeline-title" title="${a.title}">${a.title}</p>
+                ${persActivities.map(a => `
+                  <div class="biz-figma-timeline-row">
+                    <span class="biz-figma-timeline-dot"></span>
+                    <div class="biz-figma-timeline-meta">
+                      <span class="biz-figma-timeline-time">${a.time}</span>
+                      ${a.isLatest ? '<span class="timeline-latest-tag biz-figma-tag-latest">latest</span>' : ''}
+                      <span class="biz-figma-timeline-domain">${a.domain}</span>
                     </div>
-                  `;
-                }).join('')}
+                    <p class="biz-figma-timeline-title" title="${a.title}">${a.title}</p>
+                  </div>
+                `).join('')}
               </div>
             </div>
           </div>
@@ -776,21 +812,17 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
             <h4 class="biz-figma-sec-title">News</h4>
             <div class="biz-figma-subcard">
               <div class="biz-figma-timeline-list">
-                ${persNews.map(n => {
-                  const time = n.timeDisplay || (n.timePublished ? formatDateTime(n.timePublished) : '2026/09/12 07:58:07');
-                  const domain = n.source || (n.url ? extractDomain(n.url) : 'biz.com');
-                  return `
-                    <div class="biz-figma-timeline-row">
-                      <span class="biz-figma-timeline-dot"></span>
-                      <div class="biz-figma-timeline-meta">
-                        <span class="biz-figma-timeline-time">${time}</span>
-                        ${n.isLatest ? '<span class="biz-figma-tag-latest">latest</span>' : ''}
-                        <span class="biz-figma-timeline-domain">${domain}</span>
-                      </div>
-                      <p class="biz-figma-timeline-title" title="${n.title}">${n.title}</p>
+                ${persNews.map(n => `
+                  <div class="biz-figma-timeline-row">
+                    <span class="biz-figma-timeline-dot"></span>
+                    <div class="biz-figma-timeline-meta">
+                      <span class="biz-figma-timeline-time">${n.time}</span>
+                      ${n.isLatest ? '<span class="timeline-latest-tag biz-figma-tag-latest">latest</span>' : ''}
+                      <span class="biz-figma-timeline-domain">${n.domain}</span>
                     </div>
-                  `;
-                }).join('')}
+                    <p class="biz-figma-timeline-title" title="${n.title}">${n.title}</p>
+                  </div>
+                `).join('')}
               </div>
             </div>
           </div>

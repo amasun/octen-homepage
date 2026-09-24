@@ -28,6 +28,12 @@ export function updateTabsIndicator(activeTab, key, animate = true) {
     height = tabRect.height;
   }
 
+  // Safety fallback so indicator capsule never collapses to 0
+  if (!width || width <= 0) width = activeTab.offsetWidth || 154;
+  if (!height || height <= 0) height = activeTab.offsetHeight || 40;
+  if (isNaN(left) || left === undefined) left = activeTab.offsetLeft || 4;
+  if (isNaN(top) || top === undefined) top = activeTab.offsetTop || 4;
+
   const easeCurve = 'cubic-bezier(0.16, 1, 0.3, 1)';
   if (!animate) {
     indicator.style.transition = 'none';
@@ -58,7 +64,7 @@ export function updateTabsIndicator(activeTab, key, animate = true) {
   }
 }
 
-export function switchVertical(key, force = false) {
+export function switchVertical(key, force = false, animate = true) {
   if (!force && state.currentVerticalKey === key) return;
   state.currentVerticalKey = key;
   setVerticalKey(key);
@@ -80,7 +86,7 @@ export function switchVertical(key, force = false) {
     tabBusiness.setAttribute('aria-selected', key === 'business' ? 'true' : 'false');
   }
   const activeTab = key === 'news' ? tabNews : tabBusiness;
-  updateTabsIndicator(activeTab, key, true);
+  updateTabsIndicator(activeTab, key, animate);
 
   const heroHeading = document.getElementById('verticalSearchHeading');
   const heroDesc = document.getElementById('verticalSearchDesc');

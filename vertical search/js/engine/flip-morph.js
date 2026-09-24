@@ -46,10 +46,16 @@ export async function transitionOverviewToFocus(isValid, currentSeq) {
 
   // 2. Prepare Last state
   if (stageFocusContainer) {
+    stageFocusContainer.style.removeProperty('display');
+    stageFocusContainer.style.display = '';
     stageFocusContainer.style.opacity = '1';
     stageFocusContainer.style.pointerEvents = 'auto';
   }
-  if (subjectsHBar) subjectsHBar.style.opacity = '0';
+  if (subjectsHBar) {
+    subjectsHBar.style.removeProperty('display');
+    subjectsHBar.style.display = '';
+    subjectsHBar.style.opacity = '0';
+  }
   if (eventsWhiteCard) {
     eventsWhiteCard.style.opacity = '0';
     eventsWhiteCard.style.transform = 'translateY(16px)';

@@ -8,6 +8,8 @@ import { updateTopNewsCard, renderTimelineStream, syncSubjectPills, renderBusine
 import { sleep, animateNumber } from '../animations/motion.js';
 import { playTokenMeterAnim, clearTokenMeterTimers, playSellingPointsNumberFlow } from '../animations/widgets.js';
 import { playStage5TimelineAnimation } from '../animations/timeline.js';
+import { playCompanyFlowAnimation, playPersonFlowAnimation } from '../animations/business-flow.js';
+import { playNewsOverviewAnimation, playNewsFocusAnimation, playNewsTimelineAnimation } from '../animations/news-flow.js';
 import { transitionOverviewToFocus } from './flip-morph.js';
 
 export function updateQueryDisplayScroll() {
@@ -76,6 +78,8 @@ export function setCanvasState(targetState) {
     eventsWhiteCard.style.transform = '';
   }
   if (stageFocusContainer) {
+    stageFocusContainer.style.removeProperty('display');
+    stageFocusContainer.style.display = '';
     stageFocusContainer.style.opacity = '';
     stageFocusContainer.style.pointerEvents = '';
   }
@@ -83,21 +87,35 @@ export function setCanvasState(targetState) {
   const topNewsBlock = document.getElementById('topNewsBlock');
   const timelineStreamBlock = document.getElementById('timelineStreamBlock');
   const businessDetailBlock = document.getElementById('businessDetailBlock');
+  const searchBoxWrapper = document.getElementById('searchBoxWrapper');
+  const summaryBox = document.getElementById('summaryBox');
+  const canvasWatermark = document.getElementById('canvasWatermark');
+  const canvasHeadingIcon = document.getElementById('canvasHeadingIcon');
 
   if (state.currentVerticalKey === 'business') {
-    if (targetState === 'company-detail' || targetState === 'person-detail') {
-      if (topNewsBlock) topNewsBlock.style.display = 'none';
-      if (timelineStreamBlock) timelineStreamBlock.style.display = 'none';
-      if (businessDetailBlock) businessDetailBlock.style.display = 'block';
-    } else {
-      if (businessDetailBlock) businessDetailBlock.style.display = 'none';
+    if (businessDetailBlock) {
+      businessDetailBlock.style.display = 'none';
+      businessDetailBlock.style.pointerEvents = 'none';
+    }
+    if (topNewsBlock) topNewsBlock.style.display = 'none';
+    if (timelineStreamBlock) timelineStreamBlock.style.display = 'none';
+    if (summaryBox) {
+      summaryBox.style.setProperty('display', 'flex', 'important');
+      summaryBox.style.pointerEvents = 'auto';
     }
   } else {
-    if (businessDetailBlock) businessDetailBlock.style.display = 'none';
+    if (businessDetailBlock) {
+      businessDetailBlock.style.display = 'none';
+      businessDetailBlock.style.pointerEvents = 'none';
+    }
+    if (stageFocusContainer) {
+      stageFocusContainer.style.removeProperty('display');
+      stageFocusContainer.style.display = '';
+      stageFocusContainer.style.pointerEvents = '';
+    }
     if (topNewsBlock) topNewsBlock.style.display = '';
     if (timelineStreamBlock) timelineStreamBlock.style.display = '';
   }
-
 
   if (cardListContainer) {
     const allCards = cardListContainer.querySelectorAll('.subject-card-box');
@@ -105,11 +123,6 @@ export function setCanvasState(targetState) {
     const allBadges = cardListContainer.querySelectorAll('.subject-badge');
     allBadges.forEach(b => { b.style.visibility = ''; });
   }
-
-  const searchBoxWrapper = document.getElementById('searchBoxWrapper');
-  const summaryBox = document.getElementById('summaryBox');
-  const canvasWatermark = document.getElementById('canvasWatermark');
-  const canvasHeadingIcon = document.getElementById('canvasHeadingIcon');
 
   if (canvasWatermark) {
     try {
@@ -173,35 +186,31 @@ export function setCanvasState(targetState) {
       summaryBox.style.transform = 'none';
     }
     if (state.currentVerticalKey === 'business') {
-      const curData = getCurrentData('business');
-      const entities = curData.entities || [];
-      if (cardListContainer && !cardListContainer.querySelector('.biz-figma-card')) {
-        let html = '';
-        entities.forEach((ent, i) => {
-          html += createBusinessSummaryCardHTML(ent, i);
-        });
-        cardListContainer.innerHTML = html;
-        cardListContainer.style.transform = 'translateY(0px)';
-        initBusinessOverviewHover(cardListContainer);
-      } else if (cardListContainer && cardListContainer.querySelector('.biz-figma-card')) {
-        initBusinessOverviewHover(cardListContainer);
-      }
+      renderBusinessDualDetail('overview');
     }
   } else if (targetState === 'company-detail') {
-    cardCanvas.classList.add('not-typing', 'has-results', 'is-stage4');
+    cardCanvas.classList.add('not-typing', 'has-results');
+    cardCanvas.classList.remove('is-typing', 'is-searching', 'is-stage4', 'is-stage5');
     if (searchBoxWrapper) searchBoxWrapper.style.display = 'none';
     if (summaryBox) {
       summaryBox.style.display = 'flex';
       summaryBox.style.opacity = '1';
       summaryBox.style.transform = 'none';
     }
+    if (state.currentVerticalKey === 'business') {
+      renderBusinessDualDetail('company');
+    }
   } else if (targetState === 'person-detail') {
-    cardCanvas.classList.add('not-typing', 'has-results', 'is-stage4', 'is-stage5');
+    cardCanvas.classList.add('not-typing', 'has-results');
+    cardCanvas.classList.remove('is-typing', 'is-searching', 'is-stage4', 'is-stage5');
     if (searchBoxWrapper) searchBoxWrapper.style.display = 'none';
     if (summaryBox) {
       summaryBox.style.display = 'flex';
       summaryBox.style.opacity = '1';
       summaryBox.style.transform = 'none';
+    }
+    if (state.currentVerticalKey === 'business') {
+      renderBusinessDualDetail('person');
     }
   } else if (targetState === 'focus') {
     cardCanvas.classList.add('not-typing', 'has-results', 'is-stage4');
@@ -442,16 +451,14 @@ export function transitionToOverview() {
   }
 }
 
-export async function runCycle(fromStep = 'typing') {
+async function runBusinessCycle(fromStep = 'typing') {
   state.currentSequenceId++;
   const seq = state.currentSequenceId;
   const isValid = () => seq === state.currentSequenceId;
 
-  const curData = getCurrentData(state.currentVerticalKey);
+  const curData = getCurrentData('business');
   const QUERY_TEXT = curData.query;
-  const SUBJECTS_DATA = curData.subjects;
-  const TOTAL_SUBJECTS = curData.stats.num1;
-  const TOTAL_ARTICLES = curData.stats.num2;
+  const ENTITIES_DATA = curData.entities || [];
 
   clearActiveAnimations();
 
@@ -460,21 +467,16 @@ export async function runCycle(fromStep = 'typing') {
   const cardCanvas = document.getElementById('newsSearchCard') || document.getElementById('heroCanvas');
   const queryTextSpan = document.getElementById('queryTextSpan');
   const cardListContainer = document.getElementById('cardListContainer');
-  const resultsViewport = document.getElementById('resultsViewport');
   const statSubjectsEl = document.getElementById('statSubjects');
   const statArticlesEl = document.getElementById('statArticles');
 
   if (replayBtn) replayBtn.classList.remove('visible');
 
-  const stepOrder = state.currentVerticalKey === 'business'
-    ? ['typing', 'searching', 'company-detail', 'person-detail', 'overview']
-    : ['typing', 'searching', 'overview', 'focus', 'timeline'];
+  const stepOrder = ['typing', 'searching', 'company-detail', 'person-detail', 'overview'];
   let startIndex = stepOrder.indexOf(fromStep);
   if (startIndex < 0) startIndex = 0;
 
-  // --------------------------------------------------
   // STAGE 1: TYPING
-  // --------------------------------------------------
   if (startIndex <= 0) {
     const searchBoxWrapper = document.getElementById('searchBoxWrapper');
     const summaryBox = document.getElementById('summaryBox');
@@ -509,9 +511,7 @@ export async function runCycle(fromStep = 'typing') {
     if (!isValid()) return;
   }
 
-  // --------------------------------------------------
   // STAGE 2: SEARCHING
-  // --------------------------------------------------
   if (startIndex <= 1) {
     if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
     if (startIndex === 1 && cardCanvas && !cardCanvas.classList.contains('is-typing')) {
@@ -523,289 +523,181 @@ export async function runCycle(fromStep = 'typing') {
     if (!isValid()) return;
   }
 
-  // --------------------------------------------------
-  // STAGE 3: COMPANY DETAIL (Business) / RESULTS OVERVIEW (News)
-  // --------------------------------------------------
+  // STAGE 3: COMPANY DETAIL
   if (startIndex <= 2) {
     if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
 
-    if (state.currentVerticalKey === 'business') {
-      const ENTITIES_DATA = curData.entities || [];
-      const searchBoxWrapper = document.getElementById('searchBoxWrapper');
-      if (searchBoxWrapper && searchBoxWrapper.style.display !== 'none') {
-        const searchExitAnim = searchBoxWrapper.animate([
-          { opacity: 1, transform: 'translateY(0)' },
-          { opacity: 0, transform: 'translateY(-10px)' }
-        ], { duration: 280, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' });
-        state.activeAnimations.push(searchExitAnim);
-      }
-
-      setCanvasState('company-detail');
-      playSellingPointsNumberFlow();
-
-      if (statSubjectsEl) animateNumber(statSubjectsEl, 0, ENTITIES_DATA.length, 1200);
-      if (statArticlesEl) animateNumber(statArticlesEl, 0, curData.stats?.num2 || 6, 1200);
-
-      renderBusinessDualDetail('company');
-
-      // Stream in company detail internal items
-      const compScrollArea = document.querySelector('#bizCompanyAccordionCard .biz-accordion-scroll-area');
-      if (compScrollArea) {
-        const detailBlocks = compScrollArea.children;
-        Array.from(detailBlocks).forEach((block, i) => {
-          block.style.opacity = '0';
-          block.style.transform = 'translateY(10px)';
-          setTimeout(() => {
-            if (!isValid()) return;
-            const bAnim = block.animate([
-              { opacity: 0, transform: 'translateY(10px)' },
-              { opacity: 1, transform: 'translateY(0)' }
-            ], { duration: 280, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' });
-            state.activeAnimations.push(bAnim);
-            block.style.opacity = '1';
-            block.style.transform = 'none';
-          }, i * 80);
-        });
-      }
-
-      await sleep(2000);
-      if (!isValid()) return;
-    } else {
-      if (startIndex === 2 && cardCanvas && !cardCanvas.classList.contains('is-searching')) {
-        setCanvasState('overview');
-      } else {
-        transitionToOverview();
-      }
-      playSellingPointsNumberFlow();
-
-      if (statSubjectsEl) animateNumber(statSubjectsEl, 0, TOTAL_SUBJECTS, 1400);
-      if (statArticlesEl) animateNumber(statArticlesEl, 0, TOTAL_ARTICLES, 1400);
-
-      const tempFirstWrap = document.createElement('div');
-      tempFirstWrap.innerHTML = createSubjectCardHTML(SUBJECTS_DATA[0], 0, true);
-      const firstCard = tempFirstWrap.firstElementChild;
-      firstCard.style.opacity = '0';
-      firstCard.style.transform = 'translateY(24px) scale(0.97)';
-      if (cardListContainer) {
-        cardListContainer.innerHTML = '';
-        cardListContainer.appendChild(firstCard);
-      }
-
-      const viewportH = resultsViewport ? resultsViewport.clientHeight : 360;
-      const firstCardH = firstCard.offsetHeight || 96;
-      const firstCardTop = firstCard.offsetTop;
-
-      let currentTranslateY = Math.round((viewportH - firstCardH) / 2 - firstCardTop);
-      if (cardListContainer) {
-        cardListContainer.style.transform = `translateY(${currentTranslateY}px)`;
-      }
-
-      await sleep(100);
-      if (!isValid()) return;
-
-      const firstAnim = firstCard.animate([
-        { opacity: 0, transform: 'translateY(24px) scale(0.97)', filter: 'blur(4px)' },
-        { opacity: 0.65, offset: 0.45, filter: 'blur(1px)' },
-        { opacity: 1, transform: 'translateY(0) scale(1)', filter: 'blur(0px)' }
-      ], {
-        duration: 420,
-        easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-        fill: 'forwards'
-      });
-      state.activeAnimations.push(firstAnim);
-
-      await sleep(420);
-      if (!isValid()) return;
-
-      firstCard.style.opacity = '1';
-      firstCard.style.transform = 'none';
-
-      await sleep(380);
-      if (!isValid()) return;
-
-      for (let i = 1; i < SUBJECTS_DATA.length; i++) {
-        const tempWrap = document.createElement('div');
-        tempWrap.innerHTML = createSubjectCardHTML(SUBJECTS_DATA[i], i, false);
-        const nextCard = tempWrap.firstElementChild;
-        nextCard.style.opacity = '0';
-        nextCard.style.transform = 'translateY(28px) scale(0.97)';
-        if (cardListContainer) cardListContainer.appendChild(nextCard);
-
-        const vH = resultsViewport ? resultsViewport.clientHeight : 360;
-        const cardTopBase = firstCard.offsetTop;
-        const nextCardBottom = nextCard.offsetTop + nextCard.offsetHeight;
-        const clusterH = nextCardBottom - cardTopBase;
-        const bottomSafetyMargin = 20;
-
-        let targetTranslateY;
-        if (clusterH + bottomSafetyMargin <= vH) {
-          targetTranslateY = Math.round((vH - clusterH) / 2 - cardTopBase);
-        } else {
-          targetTranslateY = Math.round(vH - nextCardBottom - bottomSafetyMargin);
-        }
-
-        const stepDuration = 420;
-        const carouselPushEase = 'cubic-bezier(0.25, 1, 0.5, 1)';
-        const cardEntranceEase = 'cubic-bezier(0.16, 1, 0.3, 1)';
-
-        if (cardListContainer) {
-          const shiftAnim = cardListContainer.animate([
-            { transform: `translateY(${currentTranslateY}px)` },
-            { transform: `translateY(${targetTranslateY}px)` }
-          ], { duration: stepDuration, easing: carouselPushEase, fill: 'forwards' });
-          state.activeAnimations.push(shiftAnim);
-        }
-
-        const cardEnterAnim = nextCard.animate([
-          { opacity: 0, transform: 'translateY(28px) scale(0.97)', filter: 'blur(4px)' },
-          { opacity: 1, transform: 'translateY(0) scale(1)', filter: 'blur(0px)' }
-        ], { duration: stepDuration, easing: cardEntranceEase, fill: 'forwards' });
-        state.activeAnimations.push(cardEnterAnim);
-
-        currentTranslateY = targetTranslateY;
-        if (cardListContainer) {
-          cardListContainer.style.transform = `translateY(${currentTranslateY}px)`;
-        }
-
-        await sleep(stepDuration);
-        if (!isValid()) return;
-
-        nextCard.style.opacity = '1';
-        nextCard.style.transform = 'none';
-
-        if (i < SUBJECTS_DATA.length - 1) {
-          await sleep(380);
-          if (!isValid()) return;
-        }
-      }
-
-      await sleep(380);
-      if (!isValid()) return;
+    const searchBoxWrapper = document.getElementById('searchBoxWrapper');
+    if (searchBoxWrapper && searchBoxWrapper.style.display !== 'none') {
+      const searchExitAnim = searchBoxWrapper.animate([
+        { opacity: 1, transform: 'translateY(0)' },
+        { opacity: 0, transform: 'translateY(-10px)' }
+      ], { duration: 280, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' });
+      state.activeAnimations.push(searchExitAnim);
     }
+
+    setCanvasState('company-detail');
+    playSellingPointsNumberFlow();
+
+    if (statSubjectsEl) animateNumber(statSubjectsEl, 0, ENTITIES_DATA.length, 1200);
+    if (statArticlesEl) animateNumber(statArticlesEl, 0, curData.stats?.num2 || 6, 1200);
+
+    renderBusinessDualDetail('company');
+
+    // Play progressive flow and auto-scroll on Company Card
+    await playCompanyFlowAnimation(isValid);
+    if (!isValid()) return;
+
+    await sleep(750);
+    if (!isValid()) return;
   }
 
-  // --------------------------------------------------
-  // STAGE 4: PERSON DETAIL (Business) / TOP NEWS (News)
-  // --------------------------------------------------
+  // STAGE 4: PERSON DETAIL
+  if (startIndex <= 3) {
+    if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
+    if (statSubjectsEl) statSubjectsEl.textContent = ENTITIES_DATA.length;
+    if (statArticlesEl) statArticlesEl.textContent = curData.stats?.num2 || 6;
+
+    setCanvasState('person-detail');
+    renderBusinessDualDetail('person');
+
+    // Play progressive flow and auto-scroll on Person Card
+    await playPersonFlowAnimation(isValid);
+    if (!isValid()) return;
+
+    await sleep(750);
+    if (!isValid()) return;
+  }
+
+  // STAGE 5: COLLAPSE TO 2 OVERVIEW CARDS
+  if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
+  if (statSubjectsEl) statSubjectsEl.textContent = ENTITIES_DATA.length;
+  if (statArticlesEl) statArticlesEl.textContent = curData.stats?.num2 || 6;
+
+  setCanvasState('overview');
+  renderBusinessDualDetail('overview');
+
+  await sleep(600);
+  if (!isValid()) return;
+
+  if (replayBtn) replayBtn.classList.add('visible');
+  state.isAutoLooping = false;
+  if (togglePlayBtn) togglePlayBtn.textContent = '▶ Resume';
+}
+
+async function runNewsCycle(fromStep = 'typing') {
+  state.currentSequenceId++;
+  const seq = state.currentSequenceId;
+  const isValid = () => seq === state.currentSequenceId;
+
+  const curData = getCurrentData('news');
+  const QUERY_TEXT = curData.query;
+  const TOTAL_SUBJECTS = curData.stats.num1;
+  const TOTAL_ARTICLES = curData.stats.num2;
+
+  clearActiveAnimations();
+
+  const replayBtn = document.getElementById('replayBtn');
+  const togglePlayBtn = document.getElementById('togglePlayBtn');
+  const cardCanvas = document.getElementById('newsSearchCard') || document.getElementById('heroCanvas');
+  const queryTextSpan = document.getElementById('queryTextSpan');
+  const cardListContainer = document.getElementById('cardListContainer');
+  const statSubjectsEl = document.getElementById('statSubjects');
+  const statArticlesEl = document.getElementById('statArticles');
+
+  if (replayBtn) replayBtn.classList.remove('visible');
+
+  const stepOrder = ['typing', 'searching', 'overview', 'focus', 'timeline'];
+  let startIndex = stepOrder.indexOf(fromStep);
+  if (startIndex < 0) startIndex = 0;
+
+  // STAGE 1: TYPING
+  if (startIndex <= 0) {
+    const searchBoxWrapper = document.getElementById('searchBoxWrapper');
+    const summaryBox = document.getElementById('summaryBox');
+    if (searchBoxWrapper) {
+      searchBoxWrapper.style.display = 'block';
+      searchBoxWrapper.style.opacity = '1';
+      searchBoxWrapper.style.transform = 'none';
+    }
+    if (summaryBox) {
+      summaryBox.style.opacity = '1';
+      summaryBox.style.transform = 'none';
+    }
+
+    if (state.currentActiveStep !== 'typing') {
+      transitionToTyping();
+    } else {
+      setCanvasState('typing');
+    }
+    if (queryTextSpan) queryTextSpan.textContent = '';
+    if (cardListContainer) cardListContainer.style.transform = 'none';
+    resetQueryDisplayScroll();
+    await sleep(500);
+    if (!isValid()) return;
+
+    for (let i = 1; i <= QUERY_TEXT.length; i++) {
+      if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT.slice(0, i);
+      updateQueryDisplayScroll();
+      await sleep(32);
+      if (!isValid()) return;
+    }
+    await sleep(700);
+    if (!isValid()) return;
+  }
+
+  // STAGE 2: SEARCHING
+  if (startIndex <= 1) {
+    if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
+    if (startIndex === 1 && cardCanvas && !cardCanvas.classList.contains('is-typing')) {
+      setCanvasState('searching');
+    } else {
+      transitionToSearching();
+    }
+    await sleep(1100);
+    if (!isValid()) return;
+  }
+
+  // STAGE 3: RESULTS OVERVIEW (4-Card Carousel)
+  if (startIndex <= 2) {
+    if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
+
+    if (startIndex === 2 && cardCanvas && !cardCanvas.classList.contains('is-searching')) {
+      setCanvasState('overview');
+    } else {
+      transitionToOverview();
+    }
+    playSellingPointsNumberFlow();
+
+    if (statSubjectsEl) animateNumber(statSubjectsEl, 0, TOTAL_SUBJECTS, 1400);
+    if (statArticlesEl) animateNumber(statArticlesEl, 0, TOTAL_ARTICLES, 1400);
+
+    await playNewsOverviewAnimation(isValid);
+    if (!isValid()) return;
+  }
+
+  // STAGE 4: TOP FOCUS (Morphing to 4 Subject Tabs + Top News)
   if (startIndex <= 3) {
     if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
     if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
     if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
 
-    if (state.currentVerticalKey === 'business') {
-      setCanvasState('person-detail');
-      renderBusinessDualDetail('person');
-
-      // Stream in person detail internal items
-      const persScrollArea = document.querySelector('#bizPersonAccordionCard .biz-accordion-scroll-area');
-      if (persScrollArea) {
-        const personBlocks = persScrollArea.children;
-        Array.from(personBlocks).forEach((block, i) => {
-          block.style.opacity = '0';
-          block.style.transform = 'translateY(10px)';
-          setTimeout(() => {
-            if (!isValid()) return;
-            const bAnim = block.animate([
-              { opacity: 0, transform: 'translateY(10px)' },
-              { opacity: 1, transform: 'translateY(0)' }
-            ], { duration: 280, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' });
-            state.activeAnimations.push(bAnim);
-            block.style.opacity = '1';
-            block.style.transform = 'none';
-          }, i * 80);
-        });
-      }
-
-      const activityNodes = document.querySelectorAll('.biz-career-dot-circle, .biz-act-dot-circle');
-      activityNodes.forEach((node, i) => {
-        node.style.animation = 'bizNodePulse 0.4s ease forwards ' + (i * 0.15) + 's';
-      });
-
-      await sleep(2200);
-      if (!isValid()) return;
-    } else {
-      syncSubjectPills(state.currentVerticalKey);
-      if (startIndex === 3 && cardCanvas && !cardCanvas.classList.contains('has-results')) {
-        setCanvasState('focus');
-      } else {
-        await transitionOverviewToFocus(isValid, seq);
-        if (!isValid()) return;
-      }
-
-      const activePill = document.querySelector('.subject-h-pill.active');
-      const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
-      updateTopNewsCard(activeIdx);
-      renderTimelineStream(activeIdx, false);
-
-      await sleep(750);
-      if (!isValid()) return;
-    }
+    await playNewsFocusAnimation(isValid, seq, setCanvasState);
+    if (!isValid()) return;
   }
 
-  // --------------------------------------------------
-  // STAGE 5: COLLAPSE TO 2 OVERVIEW CARDS (Business) / TIMELINE (News)
-  // --------------------------------------------------
+  // STAGE 5: TIMELINE STREAM
   if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
   if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
   if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
 
+  await playNewsTimelineAnimation(isValid, setCanvasState);
+}
+
+export async function runCycle(fromStep = 'typing') {
   if (state.currentVerticalKey === 'business') {
-    // Collapse detail card into two overview cards
-    const eventsWhiteCard = document.getElementById('eventsWhiteCard');
-    if (eventsWhiteCard) {
-      const collapseAnim = eventsWhiteCard.animate([
-        { opacity: 1, transform: 'scale(1)', filter: 'blur(0px)' },
-        { opacity: 0, transform: 'scale(0.94) translateY(12px)', filter: 'blur(4px)' }
-      ], { duration: 320, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' });
-      state.activeAnimations.push(collapseAnim);
-      await sleep(280);
-      if (!isValid()) return;
-    }
-
-    setCanvasState('overview');
-
-    const ENTITIES_DATA = curData.entities || [];
-    let html = '';
-    ENTITIES_DATA.forEach((ent, i) => {
-      html += createBusinessSummaryCardHTML(ent, i);
-    });
-    if (cardListContainer) {
-      cardListContainer.innerHTML = html;
-      cardListContainer.style.transform = 'translateY(0px)';
-      initBusinessOverviewHover(cardListContainer);
-    }
-
-    const cards = cardListContainer ? cardListContainer.querySelectorAll('.biz-figma-card') : [];
-    cards.forEach((card, idx) => {
-      const enterAnim = card.animate([
-        { opacity: 0, transform: 'translateY(-12px) scale(0.96)', filter: 'blur(2px)' },
-        { opacity: 1, transform: 'translateY(0) scale(1)', filter: 'blur(0px)' }
-      ], {
-        duration: 420,
-        delay: idx * 100,
-        easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-        fill: 'forwards'
-      });
-      state.activeAnimations.push(enterAnim);
-    });
-
-    await sleep(600);
-    if (!isValid()) return;
-
-    if (replayBtn) replayBtn.classList.add('visible');
-    state.isAutoLooping = false;
-    if (togglePlayBtn) togglePlayBtn.textContent = '▶ Resume';
+    return runBusinessCycle(fromStep);
   } else {
-    setCanvasState('timeline');
-    const activePill = document.querySelector('.subject-h-pill.active');
-    const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
-    updateTopNewsCard(activeIdx);
-
-    await playStage5TimelineAnimation(isValid);
-    if (!isValid()) return;
-
-    if (replayBtn) replayBtn.classList.add('visible');
-    state.isAutoLooping = false;
-    if (togglePlayBtn) togglePlayBtn.textContent = '▶ Resume';
+    return runNewsCycle(fromStep);
   }
 }

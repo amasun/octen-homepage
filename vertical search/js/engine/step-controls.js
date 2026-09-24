@@ -4,7 +4,7 @@
 import { state, clearActiveAnimations } from '../state.js';
 import { getCurrentData } from '../data/verticals-data.js';
 import { createSubjectCardHTML, createBusinessSummaryCardHTML } from '../render/card-templates.js';
-import { updateTopNewsCard, renderTimelineStream, syncSubjectPills, handlePillClick, initSubjectsHBar, renderBusinessDetail, initBusinessOverviewHover } from '../render/stage-renderer.js';
+import { updateTopNewsCard, renderTimelineStream, syncSubjectPills, handlePillClick, initSubjectsHBar, renderBusinessDetail, renderBusinessDualDetail, initBusinessOverviewHover } from '../render/stage-renderer.js';
 import { playSellingPointsNumberFlow } from '../animations/widgets.js';
 import { playStage5TimelineAnimation } from '../animations/timeline.js';
 import { transitionToTyping, transitionToSearching, transitionToOverview, setCanvasState, runCycle, updateQueryDisplayScroll } from './stage-controller.js';
@@ -73,37 +73,32 @@ export function initStepControls() {
           setCanvasState('searching');
         }
       } else if (targetStep === 'company-detail') {
-        setCanvasState('company-detail');
-        if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
-        if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
-        if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
-        renderBusinessDetail(0);
+        if (state.currentVerticalKey === 'business') {
+          runCycle('company-detail');
+        } else {
+          setCanvasState('company-detail');
+          if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
+          if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
+          if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
+          renderBusinessDualDetail('company');
+        }
       } else if (targetStep === 'person-detail') {
-        setCanvasState('person-detail');
-        if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
-        if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
-        if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
-        renderBusinessDetail(1);
-        const activityNodes = document.querySelectorAll('.biz-career-dot-circle, .biz-act-dot-circle');
-        activityNodes.forEach((node, i) => {
-          node.style.animation = 'bizNodePulse 0.4s ease forwards ' + (i * 0.15) + 's';
-        });
+        if (state.currentVerticalKey === 'business') {
+          runCycle('person-detail');
+        } else {
+          setCanvasState('person-detail');
+          if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
+          if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
+          if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
+          renderBusinessDualDetail('person');
+        }
       } else if (targetStep === 'overview') {
         if (state.currentVerticalKey === 'business') {
           setCanvasState('overview');
           if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
           if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
           if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
-          const entities = curData.entities || [];
-          let html = '';
-          entities.forEach((ent, i) => {
-            html += createBusinessSummaryCardHTML(ent, i);
-          });
-          if (cardListContainer) {
-            cardListContainer.innerHTML = html;
-            cardListContainer.style.transform = 'translateY(0px)';
-            initBusinessOverviewHover(cardListContainer);
-          }
+          renderBusinessDualDetail('overview');
           if (replayBtn) replayBtn.classList.add('visible');
         } else {
           if (state.currentActiveStep === 'searching') {
@@ -129,15 +124,21 @@ export function initStepControls() {
         if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
 
         const prevStep = state.currentActiveStep;
-        if (prevStep === 'overview' && cardListContainer && cardListContainer.querySelector('.subject-badge')) {
-          transitionOverviewToFocus(() => true, state.currentSequenceId);
+        if (prevStep === 'overview' && cardListContainer && cardListContainer.querySelector('.subject-card-wrapper')) {
+          transitionOverviewToFocus(() => true, state.currentSequenceId).then(() => {
+            setCanvasState('focus');
+            const activePill = document.querySelector('.subject-h-pill.active');
+            const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
+            updateTopNewsCard(activeIdx);
+            renderTimelineStream(activeIdx, false);
+          });
         } else {
           setCanvasState('focus');
+          const activePill = document.querySelector('.subject-h-pill.active');
+          const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
+          updateTopNewsCard(activeIdx);
+          renderTimelineStream(activeIdx, false);
         }
-        const activePill = document.querySelector('.subject-h-pill.active');
-        const activeIdx = activePill ? parseInt(activePill.dataset.subjectIdx, 10) : 0;
-        updateTopNewsCard(activeIdx);
-        renderTimelineStream(activeIdx, false);
       } else if (targetStep === 'timeline') {
         syncSubjectPills(state.currentVerticalKey);
         setCanvasState('timeline');

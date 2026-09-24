@@ -68,3 +68,14 @@
   1. 点击横向胶囊切换 Subject 时，直接渲染全量卡片（免重复入场）；
   2. `requestAnimationFrame` 自动将容器 `scrollTop` 设为 `maxScroll`，瞬时精准锚定在底部带有 `latest` 标签的最新新闻；
   3. 立即解除滚动锁，允许用户向早前事件自由回溯。
+
+---
+
+## 六、Business Search Overview 悬停展开与时间轴节点依次跳动 (Timeline Nodes Ripple Pulse)
+
+- **触发时机**：步骤 5（Overview）双卡片紧凑态下，鼠标 Hover 任意卡片触发详情展开。
+- **空间互斥**：激活卡片以 `0.46s cubic-bezier(0.16, 1, 0.3, 1)` 展开至 `472px`（上下保留 `30px` 呼吸留白）；未激活卡片平滑褪色并被推移出视口。
+- **节点依次跳动动效 (Staggered Ripple Pulse)**：
+  - 展开卡片内部的所有时间轴节点（`.biz-figma-timeline-dot`）执行 `@keyframes bizNodePulse 0.42s cubic-bezier(0.34, 1.56, 0.64, 1)`（`scale: 1 ➔ 1.6 ➔ 1` 弹性微震）。
+  - 各节点按 `0.08s * index`（步长 **`80ms`**）自上而下依次波浪式延迟跳动。
+  - 鼠标离开恢复 Overview 紧凑态时自动重置状态，再次 Hover 时无缝重新激活动效。
