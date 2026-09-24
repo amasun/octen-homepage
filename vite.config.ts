@@ -91,8 +91,33 @@ function liveReloadPlugin() {
   };
 }
 
+function verticalSearchPlugin() {
+  return {
+    name: 'vertical-search-support',
+    configureServer(server: any) {
+      server.middlewares.use((req: any, _res: any, next: any) => {
+        const url = req.url || '';
+        if (url === '/vertical-search' || url === '/vertical-search/' || url.startsWith('/vertical-search?')) {
+          req.url = '/vertical search/index.html' + (url.includes('?') ? url.slice(url.indexOf('?')) : '');
+        } else if (url.startsWith('/vertical-search/')) {
+          req.url = '/vertical search/' + url.slice('/vertical-search/'.length);
+        }
+        next();
+      });
+    },
+    closeBundle() {
+      const srcDir = path.resolve(process.cwd(), 'vertical search', 'images');
+      const destDir = path.resolve(process.cwd(), 'dist', 'vertical search', 'images');
+      if (fs.existsSync(srcDir)) {
+        fs.mkdirSync(destDir, { recursive: true });
+        fs.cpSync(srcDir, destDir, { recursive: true });
+      }
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [htmlPartialsPlugin(), react(), localNextImageProxy(), liveReloadPlugin()],
+  plugins: [htmlPartialsPlugin(), react(), localNextImageProxy(), liveReloadPlugin(), verticalSearchPlugin()],
   server: {
     port: 3001,
     strictPort: true,
@@ -104,6 +129,7 @@ export default defineConfig({
       input: {
         main: path.resolve(process.cwd(), 'index.html'),
         backup: path.resolve(process.cwd(), 'backup-modules.html'),
+        verticalSearch: path.resolve(process.cwd(), 'vertical search', 'index.html'),
       },
     },
   },
