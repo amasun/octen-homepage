@@ -12,7 +12,7 @@
 .business-summary-card-box {
   position: relative;
   width: 100%;
-  max-width: 520px;
+  max-width: 518px;
   border-radius: 24px;
   border: 8px solid rgba(255, 255, 255, 0.4);
   background-color: #FFFFFF;
@@ -32,8 +32,9 @@
 .biz-figma-card {
   width: 100%;
   max-width: 518px;
-  background: #FFFFFF;
-  border: 8px solid rgba(255, 255, 255, 0.40);
+  background-color: #FFFFFF;
+  background-clip: padding-box;
+  border: 8px solid rgba(255, 255, 255, 0.4);
   border-radius: 24px;
   padding: 16px 16px 12px 16px;
   display: flex;
