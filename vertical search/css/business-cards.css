@@ -325,7 +325,7 @@
   gap: 0;
 }
 .demo-wrapper[data-theme="business"] .results-card-list {
-  gap: 16px;
+  gap: 4px;
 }
 .demo-wrapper[data-theme="business"] .business-detail-block {
   max-height: 100%;
