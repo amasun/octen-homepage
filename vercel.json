@@ -3,15 +3,15 @@
   "rewrites": [
     {
       "source": "/vertical-search",
-      "destination": "/vertical search/index.html"
+      "destination": "/vertical-search/index.html"
     },
     {
       "source": "/vertical-search/",
-      "destination": "/vertical search/index.html"
+      "destination": "/vertical-search/index.html"
     },
     {
       "source": "/vertical-search/images/:path*",
-      "destination": "/vertical search/images/:path*"
+      "destination": "/vertical-search/images/:path*"
     },
     {
       "source": "/_next/image",

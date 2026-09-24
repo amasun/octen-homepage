@@ -112,6 +112,14 @@ function verticalSearchPlugin() {
         fs.mkdirSync(destDir, { recursive: true });
         fs.cpSync(srcDir, destDir, { recursive: true });
       }
+
+      // Mirror to dist/vertical-search to allow clean, space-free URL routing on Vercel
+      const vsSrc = path.resolve(process.cwd(), 'dist', 'vertical search');
+      const vsDest = path.resolve(process.cwd(), 'dist', 'vertical-search');
+      if (fs.existsSync(vsSrc)) {
+        fs.mkdirSync(vsDest, { recursive: true });
+        fs.cpSync(vsSrc, vsDest, { recursive: true });
+      }
     },
   };
 }
