@@ -1691,13 +1691,13 @@
   flex-direction: column;
   gap: 12px;
   box-sizing: border-box;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  box-shadow: none;
   cursor: pointer;
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  transition: transform 0.22s ease, border-color 0.22s ease;
 }
 .biz-figma-card:hover {
   border-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+  box-shadow: none;
   transform: translateY(-2px);
 }
 .biz-figma-header {
