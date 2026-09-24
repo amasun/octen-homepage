@@ -13,38 +13,17 @@ export async function transitionOverviewToFocus(isValid, currentSeq) {
   const eventsWhiteCard = document.getElementById('eventsWhiteCard');
   const stageFocusContainer = document.getElementById('stageFocusContainer');
 
+  if (!canvasRightPanel || !cardListContainer || !morphCardsOverlay) return;
+
   const panelRect = canvasRightPanel.getBoundingClientRect();
   const subjectWrappers = cardListContainer.querySelectorAll('.subject-card-wrapper');
   const targetPills = subjectsHBar ? subjectsHBar.querySelectorAll('.subject-h-pill') : [];
 
-  if (!subjectWrappers.length || !targetPills.length || !morphCardsOverlay) {
+  if (!subjectWrappers.length || !targetPills.length) {
     return;
   }
 
-  // Clear any existing clones
-  morphCardsOverlay.innerHTML = '';
-
-  // 1. Measure First Positions
-  const firsts = [];
-  subjectWrappers.forEach((wrap, i) => {
-    const box = wrap.querySelector('.subject-card-box') || wrap;
-    const r = box.getBoundingClientRect();
-    const badge = wrap.querySelector('.subject-badge');
-    const badgeR = badge ? badge.getBoundingClientRect() : null;
-
-    firsts.push({
-      left: r.left - panelRect.left,
-      top: r.top - panelRect.top,
-      width: r.width,
-      height: r.height,
-      badgeLeft: badgeR ? badgeR.left - panelRect.left : 0,
-      badgeTop: badgeR ? badgeR.top - panelRect.top : 0,
-      badgeWidth: badgeR ? badgeR.width : 70,
-      badgeHeight: badgeR ? badgeR.height : 26,
-    });
-  });
-
-  // 2. Prepare Last state
+  // 1. Position target tabs to get destination bounds
   if (stageFocusContainer) {
     stageFocusContainer.style.removeProperty('display');
     stageFocusContainer.style.display = '';
@@ -58,146 +37,234 @@ export async function transitionOverviewToFocus(isValid, currentSeq) {
   }
   if (eventsWhiteCard) {
     eventsWhiteCard.style.opacity = '0';
-    eventsWhiteCard.style.transform = 'translateY(16px)';
+    eventsWhiteCard.style.transform = 'translateY(36px) scale(0.97)';
   }
 
-  // Measure target pill positions
-  const lasts = [];
-  targetPills.forEach((pill) => {
+  // Measure target tab pill positions
+  const targetRects = Array.from(targetPills).map(pill => {
     const r = pill.getBoundingClientRect();
-    lasts.push({
-      left: r.left - panelRect.left,
-      top: r.top - panelRect.top,
-      width: r.width,
-      height: r.height,
-    });
+    return {
+      left: Math.round(r.left - panelRect.left),
+      top: Math.round(r.top - panelRect.top),
+      width: Math.round(r.width),
+      height: Math.round(r.height),
+      text: pill.textContent.trim()
+    };
   });
 
-  // Hide original cards in list container
-  subjectWrappers.forEach((wrap) => {
+  // 2. Measure starting positions of the 4 big subject card boxes
+  const sourceCards = Array.from(subjectWrappers).slice(0, 4);
+  const startData = sourceCards.map((wrapper, idx) => {
+    const cardBox = wrapper.querySelector('.subject-card-box') || wrapper;
+    const r = cardBox.getBoundingClientRect();
+    const dateEl = wrapper.querySelector('.subject-date-range');
+    const titleEl = wrapper.querySelector('.subject-name');
+    const summaryEl = wrapper.querySelector('.subject-summary');
+    return {
+      left: Math.round(r.left - panelRect.left),
+      top: Math.round(r.top - panelRect.top),
+      width: Math.round(r.width) || 520,
+      height: Math.round(r.height) || 96,
+      date: dateEl ? dateEl.textContent : '2026/09/12 – 2026/09/15',
+      title: titleEl ? titleEl.textContent : `Subject ${idx + 1}`,
+      summary: summaryEl ? summaryEl.textContent : '',
+      cardEl: cardBox
+    };
+  });
+
+  while (startData.length < 4) {
+    const idx = startData.length;
+    startData.push({
+      left: targetRects[idx] ? targetRects[idx].left : 56,
+      top: targetRects[idx] ? targetRects[idx].top + 80 : 120,
+      width: 520,
+      height: 96,
+      date: '2026/09/12 – 2026/09/15',
+      title: `Subject ${idx + 1}`,
+      summary: '',
+      cardEl: null
+    });
+  }
+
+  // 3. Construct 4 Morphing Proxy Cards inside overlay
+  morphCardsOverlay.innerHTML = '';
+  const morphEntities = [];
+
+  for (let i = 0; i < 4; i++) {
+    const s = startData[i];
+    const t = targetRects[i] || targetRects[targetRects.length - 1];
+    const pillText = t.text || `Subject${i + 1}`;
+
+    const card = document.createElement('div');
+    card.className = 'morph-proxy-card';
+    card.style.cssText = `
+      position: absolute;
+      left: ${s.left}px;
+      top: ${s.top}px;
+      width: ${s.width}px;
+      height: ${s.height}px;
+      background-color: #FFFFFF;
+      border: 8px solid rgba(255, 255, 255, 0.35);
+      border-radius: 24px;
+      box-shadow: 0 8px 24px rgba(31, 72, 28, 0.08);
+      box-sizing: border-box;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `;
+
+    card.innerHTML = `
+      <div class="morph-proxy-inner">
+        <div class="morph-proxy-card-view">
+          <div class="morph-proxy-top-row">
+            <span class="morph-proxy-date">${s.date}</span>
+            <span class="morph-proxy-badge">Subject${i + 1}</span>
+          </div>
+          <div class="morph-proxy-title">${s.title}</div>
+          <div class="morph-proxy-summary">${s.summary}</div>
+        </div>
+        <div class="morph-proxy-pill-tag">${pillText}</div>
+      </div>
+    `;
+    morphCardsOverlay.appendChild(card);
+
+    morphEntities.push({
+      card,
+      cardView: card.querySelector('.morph-proxy-card-view'),
+      pillTag: card.querySelector('.morph-proxy-pill-tag'),
+      s,
+      t,
+      index: i
+    });
+  }
+
+  // 4. Hide original cards in Stage 3 scroller
+  sourceCards.forEach(wrap => {
     const box = wrap.querySelector('.subject-card-box') || wrap;
     box.style.visibility = 'hidden';
   });
 
-  // 3. Create Morphing Clones
-  const clones = [];
-  firsts.forEach((f, i) => {
-    const l = lasts[i] || lasts[lasts.length - 1];
-    const clone = document.createElement('div');
-    clone.className = 'morph-card-clone' + (i === 0 ? ' is-active-pill' : '');
-    clone.style.left = `${f.left}px`;
-    clone.style.top = `${f.top}px`;
-    clone.style.width = `${f.width}px`;
-    clone.style.height = `${f.height}px`;
-
-    const targetPillText = targetPills[i] ? targetPills[i].textContent.trim() : `Subject${i + 1}`;
-    clone.innerHTML = `
-      <div class="morph-clone-badge" style="
-        position: absolute;
-        left: ${f.badgeLeft - f.left}px;
-        top: ${f.badgeTop - f.top}px;
-        width: ${f.badgeWidth}px;
-        height: ${f.badgeHeight}px;
-      ">${targetPillText}</div>
-    `;
-
-    morphCardsOverlay.appendChild(clone);
-    clones.push({ el: clone, first: f, last: l });
-  });
-
-  // 4. Animate Clones Flying & Morphing into Pills
-  const duration = 650;
+  // 5. Metamorphic Animation Execution
+  const morphDuration = 600;
   const morphEase = 'cubic-bezier(0.2, 0.9, 0.28, 1)';
 
-  clones.forEach((item, i) => {
-    const { el, first, last } = item;
-    const badge = el.querySelector('.morph-clone-badge');
+  morphEntities.forEach(({ card, cardView, pillTag, s, t, index }) => {
+    // Content collapse
+    if (cardView) {
+      const viewAnim = cardView.animate([
+        { offset: 0, opacity: 1, transform: 'scale(1)' },
+        { offset: 0.28, opacity: 1, transform: 'scale(0.98)' },
+        { offset: 0.48, opacity: 0, transform: 'scale(0.90) translateY(-4px)' },
+        { offset: 1, opacity: 0, transform: 'scale(0.90) translateY(-4px)' }
+      ], {
+        duration: morphDuration,
+        delay: index * 20,
+        easing: 'ease-out',
+        fill: 'forwards'
+      });
+      state.activeAnimations.push(viewAnim);
+    }
 
-    const cardAnim = el.animate([
+    // Pill label tag
+    if (pillTag) {
+      const tagAnim = pillTag.animate([
+        { offset: 0, opacity: 0, transform: 'scale(0.85)' },
+        { offset: 0.35, opacity: 0, transform: 'scale(0.85)' },
+        { offset: 0.70, opacity: 1, transform: 'scale(1)' },
+        { offset: 1, opacity: 1, transform: 'scale(1)' }
+      ], {
+        duration: morphDuration,
+        delay: index * 20,
+        easing: 'cubic-bezier(0.2, 0.9, 0.28, 1)',
+        fill: 'forwards'
+      });
+      state.activeAnimations.push(tagAnim);
+    }
+
+    // Card Frame Metamorphosis from Big White Card to Pill
+    const dx = t.left - s.left;
+    const dy = t.top - s.top;
+    const targetBg = index === 0 ? '#039855' : 'rgba(76, 94, 86, 0.57)';
+
+    const cardAnim = card.animate([
       {
+        offset: 0,
         transform: 'translate(0, 0)',
-        width: `${first.width}px`,
-        height: `${first.height}px`,
+        width: `${s.width}px`,
+        height: `${s.height}px`,
+        backgroundColor: '#FFFFFF',
+        borderColor: 'rgba(255, 255, 255, 0.35)',
+        borderWidth: '8px',
+        borderRadius: '24px',
+        boxShadow: '0 8px 24px rgba(31, 72, 28, 0.08)'
+      },
+      {
+        offset: 0.32,
+        backgroundColor: '#FFFFFF',
+        borderColor: 'rgba(255, 255, 255, 0.35)',
+        borderWidth: '6px',
+        borderRadius: '20px',
+        boxShadow: '0 6px 18px rgba(31, 72, 28, 0.06)'
+      },
+      {
+        offset: 0.72,
+        backgroundColor: targetBg,
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        borderWidth: '1px',
         borderRadius: '16px',
-        backgroundColor: 'rgba(255, 255, 255, 0.08)',
-        borderColor: 'rgba(255, 255, 255, 0.12)',
-        padding: '16px'
+        boxShadow: 'none'
       },
       {
-        offset: 0.25,
-        borderRadius: '20px',
-        padding: '6px'
-      },
-      {
-        transform: `translate(${last.left - first.left}px, ${last.top - first.top}px)`,
-        width: `${last.width}px`,
-        height: `${last.height}px`,
-        borderRadius: '20px',
-        backgroundColor: i === 0 ? '#ffffff' : 'rgba(255, 255, 255, 0.08)',
-        borderColor: i === 0 ? '#ffffff' : 'rgba(255, 255, 255, 0.12)',
-        padding: '0px'
+        offset: 1,
+        transform: `translate(${dx}px, ${dy}px)`,
+        width: `${t.width}px`,
+        height: `${t.height}px`,
+        backgroundColor: targetBg,
+        borderColor: 'transparent',
+        borderWidth: '0px',
+        borderRadius: '16px',
+        boxShadow: 'none'
       }
     ], {
-      duration,
-      delay: i * 28,
+      duration: morphDuration,
+      delay: index * 20,
       easing: morphEase,
       fill: 'forwards'
     });
     state.activeAnimations.push(cardAnim);
-
-    if (badge) {
-      const badgeAnim = badge.animate([
-        {
-          transform: 'translate(0, 0)',
-          color: 'rgba(255, 255, 255, 0.8)',
-          fontWeight: '500',
-          fontSize: '13px'
-        },
-        {
-          transform: `translate(${(last.width - first.badgeWidth) / 2 - (first.badgeLeft - first.left)}px, ${(last.height - first.badgeHeight) / 2 - (first.badgeTop - first.top)}px)`,
-          color: i === 0 ? '#0B1F0E' : 'rgba(255, 255, 255, 0.7)',
-          fontWeight: i === 0 ? '600' : '500',
-          fontSize: '13px'
-        }
-      ], {
-        duration,
-        delay: i * 28,
-        easing: morphEase,
-        fill: 'forwards'
-      });
-      state.activeAnimations.push(badgeAnim);
-    }
   });
 
-  // Fade and rise in White Events Card underneath
+  // 6. Top News white card slides up
   if (eventsWhiteCard) {
     const cardAppearAnim = eventsWhiteCard.animate([
-      { opacity: 0, transform: 'translateY(24px)' },
-      { opacity: 1, transform: 'translateY(0px)' }
+      { opacity: 0, transform: 'translateY(36px) scale(0.97)' },
+      { opacity: 1, transform: 'translateY(0) scale(1)' }
     ], {
-      duration: 520,
-      delay: 240,
+      duration: 480,
+      delay: 190,
       easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
       fill: 'forwards'
     });
     state.activeAnimations.push(cardAppearAnim);
   }
 
-  await sleep(duration + 140);
-  if (!isValid()) {
+  await sleep(morphDuration + 4 * 20 + 20);
+  if (isValid && !isValid()) {
     morphCardsOverlay.innerHTML = '';
     return;
   }
 
-  // 5. Metamorphosis Complete: Hand off back to real DOM
+  // 7. Flawless zero-flicker handover to native Stage 4 layout
   if (subjectsHBar) subjectsHBar.style.opacity = '1';
   if (eventsWhiteCard) {
     eventsWhiteCard.style.opacity = '1';
     eventsWhiteCard.style.transform = 'none';
   }
+  void (subjectsHBar ? subjectsHBar.offsetWidth : 0);
   morphCardsOverlay.innerHTML = '';
 
-  subjectWrappers.forEach((wrap) => {
+  sourceCards.forEach(wrap => {
     const box = wrap.querySelector('.subject-card-box') || wrap;
     box.style.visibility = '';
   });

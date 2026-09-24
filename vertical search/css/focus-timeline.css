@@ -65,7 +65,7 @@
       }
       .morph-proxy-card-view {
         position: absolute;
-        inset: 10px 16px;
+        inset: 14px 20px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -85,16 +85,20 @@
       }
       .morph-proxy-badge {
         box-sizing: border-box;
-        display: inline-flex;
-        align-items: center;
+        display: flex;
+        flex-direction: column;
         justify-content: center;
-        padding: 2px 8px;
-        height: 18px;
+        align-items: center;
+        padding: 4px 8px;
+        width: 66px;
+        height: 20px;
         background: #6EAE92;
         border-radius: 4px;
-        font-family: 'DM Sans', sans-serif;
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-style: normal;
         font-weight: 700;
-        font-size: 11px;
+        font-size: 12px;
+        line-height: 100%;
         color: #FFFFFF;
       }
       .morph-proxy-title {
