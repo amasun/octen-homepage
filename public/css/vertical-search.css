@@ -1814,9 +1814,6 @@
   color: #000000;
   opacity: 0.6;
   width: 100%;
-}
-.biz-figma-card[data-biz-type="company"] .biz-figma-desc,
-.business-summary-card-box[data-biz-type="company"] .biz-figma-desc {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
