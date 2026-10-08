@@ -95,12 +95,38 @@ function verticalSearchPlugin() {
   return {
     name: 'vertical-search-support',
     configureServer(server: any) {
-      server.middlewares.use((req: any, _res: any, next: any) => {
-        const url = req.url || '';
-        if (url === '/vertical-search' || url === '/vertical-search/' || url.startsWith('/vertical-search?')) {
-          req.url = '/vertical search/index.html' + (url.includes('?') ? url.slice(url.indexOf('?')) : '');
-        } else if (url.startsWith('/vertical-search/')) {
-          req.url = '/vertical search/' + url.slice('/vertical-search/'.length);
+      server.middlewares.use((req: any, res: any, next: any) => {
+        const rawUrl = req.url || '';
+        const [pathname, search] = rawUrl.split('?');
+        const query = search ? `?${search}` : '';
+
+        // 规范化：无尾部斜杠时 301 重定向，保证浏览器解析 ./css/... 与 ./js/... 的 Base URL 正确
+        if (pathname === '/vertical-search') {
+          res.statusCode = 301;
+          res.setHeader('Location', `/vertical-search/${query}`);
+          res.end();
+          return;
+        }
+
+        if (pathname === '/vertical-search/' || pathname === '/vertical-search/index.html') {
+          req.url = `/vertical search/index.html${query}`;
+        } else if (rawUrl.startsWith('/vertical-search/')) {
+          req.url = '/vertical search/' + rawUrl.slice('/vertical-search/'.length);
+        }
+        next();
+      });
+    },
+    configurePreviewServer(server: any) {
+      server.middlewares.use((req: any, res: any, next: any) => {
+        const rawUrl = req.url || '';
+        const [pathname, search] = rawUrl.split('?');
+        const query = search ? `?${search}` : '';
+
+        if (pathname === '/vertical-search') {
+          res.statusCode = 301;
+          res.setHeader('Location', `/vertical-search/${query}`);
+          res.end();
+          return;
         }
         next();
       });

@@ -1,5 +1,7 @@
 <!-- ================= SECTION 7: SHOWCASE (BUILT ON OCTEN SEARCH) ================= -->
-<div class="relative border-b border-[#CCCCCC80] py-30 overflow-hidden bg-[#F9F9F9]">
+<div class="relative w-full border-b border-[#CCCCCC80] py-30 overflow-hidden bg-[#F9F9F9]" id="showcase">
+  <span id="built-on-octen" class="scroll-anchor" style="position: absolute; top: 0; left: 0;" aria-hidden="true"></span>
+  <span id="applications" class="scroll-anchor" style="position: absolute; top: 0; left: 0;" aria-hidden="true"></span>
   <div class="w-full h-auto absolute top-0 left-0 right-0 mx-auto">
     <img
       alt="showcase entry bg"
@@ -947,263 +949,608 @@
     ></div>
   </div>
 </div>
-<div class="relative py-30 px-8 bg-[#F9F9F9] overflow-hidden">
-  <div class="max-w-7xl mx-auto grid grid-cols-1 gap-4 items-center lg:grid-cols-[1fr_1.6fr] lg:gap-16">
-    <div class="relative z-1 flex flex-col items-start h-120">
-      <div
-        class="w-fit flex-center shrink-0 h-7.5 px-4 mb-3 text-sm bg-[#FFFFFF40] backdrop-blur-md border border-[#BCBCBC] rounded-full"
-        style="opacity: 0; transform: translateY(16px)"
-      >
-        Performance
-      </div>
-      <div class="mb-10 text-6xl md:text-[60px] font-serif" style="opacity: 0; transform: translateY(20px)">
-        Built to Perform
-      </div>
-      <div class="w-full" style="opacity: 0; transform: translateY(20px)">
-        <div class="flex flex-col space-y-6">
-          <div class="flex gap-4 cursor-pointer">
-            <div class="flex flex-col items-center w-5 shrink-0 pt-2.5">
-              <div class="size-2.5 rounded-full transition-colors duration-300 bg-[#0A0A0A]"></div>
-              <div class="relative w-0.5 flex-1 mt-2 bg-[#CCCCCC]">
-                <div class="absolute inset-x-0 top-0 h-full bg-[#0A0A0A] origin-top" style="transform: scaleY(0)"></div>
-              </div>
-            </div>
-            <div class="flex-1">
-              <span class="block font-serif font-bold transition-all duration-300 text-primary text-2xl mb-2.5"
-                >Accuracy</span
-              >
-              <div class="overflow-hidden" style="opacity: 1; height: auto">
-                <p class="font-sans font-semibold text-lg mb-1">
-                  <span>Top</span>
-                  <!-- -->on benchmarks
-                </p>
-                <p class="text-[#07070780] text-base leading-relaxed max-w-sm">
-                  Cleaner inputs for your LLM. Fewer hallucinations downstream. Top results on SimpleQA and FreshQA
-                  Strict.
-                </p>
-              </div>
-            </div>
+<!-- ================= BUILT TO PERFORM (BENCHMARKS) ================= -->
+<div class="built-perf-section" id="built-to-perform">
+  <span id="performance" class="scroll-anchor" style="position: absolute; top: 0; left: 0;" aria-hidden="true"></span>
+  <span id="benchmarks" class="scroll-anchor" style="position: absolute; top: 0; left: 0;" aria-hidden="true"></span>
+  <span id="builtToPerformSection" class="scroll-anchor" style="position: absolute; top: 0; left: 0;" aria-hidden="true"></span>
+  <div class="built-perf-container">
+    <!-- Left Column: Tag, Title, and Indicator-tracked List (Figma Node 13625:173755) -->
+    <div class="built-perf-left">
+      <div class="built-perf-tag">Performance</div>
+      <h2 class="built-perf-heading">Built to Perform</h2>
+
+      <div class="built-perf-list" id="perfTabsList">
+        <!-- Absolute Left Indicator Track (Figma Node 13625:173776) -->
+        <div class="built-perf-rail" aria-hidden="true">
+          <img alt="Indicator Rail" class="built-perf-rail-img" src="/images/benchmarks/perf-bar.svg" />
+        </div>
+
+        <!-- 1. Cost Efficiency (Default Active & Expanded) -->
+        <div class="built-perf-item active" data-perf-tab="cost">
+          <p class="built-perf-label">Cost Efficiency</p>
+          <div class="built-perf-body">
+            <p class="built-perf-subtitle">Strong results. Lower cost.</p>
+            <p class="built-perf-desc">
+              Competitive search quality at a lower cost per task. On the Pareto frontier of the Artificial Analysis Search Index.
+            </p>
           </div>
-          <div class="flex gap-4 cursor-pointer">
-            <div class="flex flex-col items-center w-5 shrink-0 pt-2.5">
-              <div class="size-2.5 rounded-full transition-colors duration-300 bg-[#999999]"></div>
-            </div>
-            <div class="flex-1">
-              <span class="block font-serif font-bold transition-all duration-300 text-black/60 text-xl">Speed</span>
-            </div>
+        </div>
+
+        <!-- 2. Accuracy -->
+        <div class="built-perf-item" data-perf-tab="accuracy">
+          <p class="built-perf-label">Accuracy</p>
+          <div class="built-perf-body">
+            <p class="built-perf-subtitle">Top on benchmarks</p>
+            <p class="built-perf-desc">
+              Cleaner inputs for your LLM. Fewer hallucinations downstream. Top results on SimpleQA and FreshQA Strict.
+            </p>
           </div>
-          <div class="flex gap-4 cursor-pointer">
-            <div class="flex flex-col items-center w-5 shrink-0 pt-2.5">
-              <div class="size-2.5 rounded-full transition-colors duration-300 bg-[#999999]"></div>
-            </div>
-            <div class="flex-1">
-              <span class="block font-serif font-bold transition-all duration-300 text-black/60 text-xl">Scale</span>
-            </div>
+        </div>
+
+        <!-- 3. Speed -->
+        <div class="built-perf-item" data-perf-tab="speed">
+          <p class="built-perf-label">Speed</p>
+          <div class="built-perf-body">
+            <p class="built-perf-subtitle">Sub-100ms Latency</p>
+            <p class="built-perf-desc">
+              Engineered for lightning-fast retrieval pipelines, ensuring real-time response times for agentic workflows.
+            </p>
           </div>
-          <div class="flex gap-4 cursor-pointer">
-            <div class="flex flex-col items-center w-5 shrink-0 pt-2.5">
-              <div class="size-2.5 rounded-full transition-colors duration-300 bg-[#999999]"></div>
-            </div>
-            <div class="flex-1">
-              <span class="block font-serif font-bold transition-all duration-300 text-black/60 text-xl"
-                >Freshness</span
-              >
-            </div>
+        </div>
+
+        <!-- 4. Scale -->
+        <div class="built-perf-item" data-perf-tab="scale">
+          <p class="built-perf-label">Scale</p>
+          <div class="built-perf-body">
+            <p class="built-perf-subtitle">Enterprise-Grade Concurrency</p>
+            <p class="built-perf-desc">
+              Capable of processing billions of indexed documents and supporting thousands of simultaneous AI queries.
+            </p>
+          </div>
+        </div>
+
+        <!-- 5. Freshness -->
+        <div class="built-perf-item" data-perf-tab="freshness">
+          <p class="built-perf-label">Freshness</p>
+          <div class="built-perf-body">
+            <p class="built-perf-subtitle">Live Wire-Speed Indexing</p>
+            <p class="built-perf-desc">
+              Index breaking events within 3 minutes of publication across 95% of top global sources and news agencies.
+            </p>
           </div>
         </div>
       </div>
     </div>
-    <div class="relative z-1 bg-[#EFEFEF] p-2.5 rounded-md" style="opacity: 0; transform: translateX(16px)">
-      <div class="h-115 bg-white rounded-md p-8 md:py-8 pb-8 flex flex-col justify-center">
-        <h2 class="text-2xl font-serif font-bold text-slate-900 mb-2">Accuracy Performance</h2>
-        <div
-          class="flex items-center py-1.5 gap-2 sm:gap-4 mb-1 border-b border-[#4B4B4B33] text-2xs sm:text-sm font-sans font-semibold text-slate-600"
-        >
-          <div class="w-28 leading-0">Provider</div>
-          <div class="w-[20%]">SimpleQA</div>
-          <div class="w-17 text-right mr-5">Accuracy</div>
-          <div class="w-[20%]">FreshQA Strict</div>
-          <div class="w-17 text-right">Accuracy</div>
+
+    <!-- Right Column: Card with Vector Pareto Frontier Benchmark (Figma Node 13865:11275) -->
+    <div class="built-perf-right">
+      <!-- Panel 1: Cost Efficiency Pareto Chart (Code Generated - Figma Node 13865:11275) -->
+      <div id="chartCostEfficiency" class="perf-chart-panel active">
+        <div class="built-perf-card-outer">
+          <div class="built-perf-card-inner">
+            <!-- Card Header: Title & Legend -->
+            <div class="built-perf-card-header">
+              <h3 class="built-perf-card-title">Search Index vs. Cost per Task</h3>
+              <div class="built-perf-card-legends">
+                <div class="built-perf-legend-item">
+                  <span class="built-perf-legend-box" aria-hidden="true"></span>
+                  <span class="built-perf-legend-text">Most attractive quadrant</span>
+                </div>
+                <div class="built-perf-legend-item">
+                  <svg width="17" height="2" viewBox="0 0 17 2" fill="none" class="built-perf-legend-line" aria-hidden="true">
+                    <line x1="0" y1="1" x2="17" y2="1" stroke="#555555" stroke-width="1.5" stroke-dasharray="3 3"/>
+                  </svg>
+                  <span class="built-perf-legend-text">Pareto line</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chart Canvas (Pure Code Vector Implementation) -->
+            <div class="built-perf-chart-wrapper">
+              <!-- Interactive Hover Tooltip (Styled matching Artificial Analysis) -->
+              <div id="paretoChartTooltip" class="pareto-tooltip" aria-hidden="true">
+                <div class="pareto-tooltip-header">
+                  <span class="pareto-tooltip-title" id="paretoTooltipTitle">Octen (highlights)</span>
+                </div>
+                <div class="pareto-tooltip-row">
+                  <span class="pareto-tooltip-label">Cost per Task</span>
+                  <span class="pareto-tooltip-val" id="paretoTooltipCost">$0.024</span>
+                </div>
+                <div class="pareto-tooltip-row">
+                  <span class="pareto-tooltip-label">Artificial Analysis Search Index</span>
+                  <span class="pareto-tooltip-val" id="paretoTooltipScore">77</span>
+                </div>
+              </div>
+
+              <svg viewBox="-32 -4 708 316" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" class="built-perf-pareto-svg">
+                <!-- 1. Most Attractive Quadrant Background -->
+                <rect x="21.56" y="6.34" width="317.75" height="129.58" fill="#CAEBC5" fill-opacity="0.4" rx="2" />
+
+                <!-- 1.1 Bottom-Right Quadrant Background (Figma Node 13865:11294) -->
+                <rect x="339.31" y="135.92" width="317.69" height="129.58" fill="#F9F9F9" rx="2" />
+
+                <!-- 2. Horizontal Grid Lines -->
+                <g stroke="#EEEEEE" stroke-width="0.7">
+                  <line x1="21.56" y1="6.6" x2="657.06" y2="6.6" />
+                  <line x1="21.56" y1="49.9" x2="657.06" y2="49.9" />
+                  <line x1="21.56" y1="93.2" x2="657.06" y2="93.2" />
+                  <line x1="21.56" y1="135.9" x2="657.06" y2="135.9" />
+                  <line x1="21.56" y1="179.2" x2="657.06" y2="179.2" />
+                  <line x1="21.56" y1="222.5" x2="657.06" y2="222.5" />
+                  <line x1="21.56" y1="265.8" x2="657.06" y2="265.8" />
+                </g>
+
+                <!-- 3. Y-Axis Ticks & Labels -->
+                <g stroke="#999999" stroke-width="0.7">
+                  <line x1="18.9" y1="6.6" x2="21.56" y2="6.6" />
+                  <line x1="18.9" y1="49.9" x2="21.56" y2="49.9" />
+                  <line x1="18.9" y1="93.2" x2="21.56" y2="93.2" />
+                  <line x1="18.9" y1="135.9" x2="21.56" y2="135.9" />
+                  <line x1="18.9" y1="179.2" x2="21.56" y2="179.2" />
+                  <line x1="18.9" y1="222.5" x2="21.56" y2="222.5" />
+                  <line x1="18.9" y1="265.8" x2="21.56" y2="265.8" />
+                </g>
+
+                <g font-family="'DM Mono', monospace" font-size="10" fill="#666666" text-anchor="end">
+                  <text x="15" y="10">82</text>
+                  <text x="15" y="53.5">80</text>
+                  <text x="15" y="96.5">78</text>
+                  <text x="15" y="139.5">76</text>
+                  <text x="15" y="182.5">74</text>
+                  <text x="15" y="226">72</text>
+                  <text x="15" y="269">70</text>
+                </g>
+
+                <!-- 4. X-Axis Ticks & Labels -->
+                <g stroke="#999999" stroke-width="0.7">
+                  <line x1="21.56" y1="265.8" x2="21.56" y2="269.4" />
+                  <line x1="85.11" y1="265.8" x2="85.11" y2="269.4" />
+                  <line x1="148.66" y1="265.8" x2="148.66" y2="269.4" />
+                  <line x1="212.21" y1="265.8" x2="212.21" y2="269.4" />
+                  <line x1="275.76" y1="265.8" x2="275.76" y2="269.4" />
+                  <line x1="339.31" y1="265.8" x2="339.31" y2="269.4" />
+                  <line x1="402.86" y1="265.8" x2="402.86" y2="269.4" />
+                  <line x1="466.41" y1="265.8" x2="466.41" y2="269.4" />
+                  <line x1="529.96" y1="265.8" x2="529.96" y2="269.4" />
+                  <line x1="593.51" y1="265.8" x2="593.51" y2="269.4" />
+                  <line x1="657.06" y1="265.8" x2="657.06" y2="269.4" />
+                </g>
+
+                <g font-family="'DM Mono', monospace" font-size="10" fill="#666666" text-anchor="middle">
+                  <text x="21.56" y="282">$0</text>
+                  <text x="85.11" y="282">$0.01</text>
+                  <text x="148.66" y="282">$0.02</text>
+                  <text x="212.21" y="282">$0.03</text>
+                  <text x="275.76" y="282">$0.04</text>
+                  <text x="339.31" y="282">$0.05</text>
+                  <text x="402.86" y="282">$0.06</text>
+                  <text x="466.41" y="282">$0.07</text>
+                  <text x="529.96" y="282">$0.08</text>
+                  <text x="593.51" y="282">$0.09</text>
+                  <text x="657.06" y="282">$0.10</text>
+                </g>
+
+                <!-- 5. Axis Titles -->
+                <text transform="rotate(-90)" x="-136" y="-14" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="12" fill="#222222">Artificial Analysis Search Index</text>
+                <text x="339" y="306" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="12" fill="#222222">Cost per Task</text>
+
+                <!-- 6. Pareto Frontier Line (Dashed) -->
+                <path d="M 80.7 240.5 L 174.1 113.3 L 444.8 72.5 L 468.3 50.2" stroke="#555555" stroke-width="1.2" stroke-dasharray="4 4" fill="none" />
+
+                <!-- 7. Competitor Points & Labels -->
+                <!-- TinyFish (web) -->
+                <g class="pareto-point" data-name="TinyFish (web)" data-cost="$0.009" data-score="71" data-color="#F79A3C">
+                  <circle cx="80.7" cy="240.5" r="14" fill="transparent" class="pareto-hit-area" />
+                  <circle cx="80.7" cy="240.5" r="3.5" fill="#797979" stroke="#FFFFFF" stroke-width="1.5" />
+                  <text x="73" y="244" text-anchor="end" font-family="'DM Sans', sans-serif" font-size="12" fill="#6F6F6F">TinyFish (web)</text>
+                </g>
+
+                <!-- Parallel (fast) -->
+                <g class="pareto-point" data-name="Parallel (fast)" data-cost="$0.027" data-score="73" data-color="#BBAE90">
+                  <circle cx="195.7" cy="199.3" r="14" fill="transparent" class="pareto-hit-area" />
+                  <circle cx="195.7" cy="199.3" r="3.5" fill="#797979" stroke="#FFFFFF" stroke-width="1.5" />
+                  <text x="188" y="203" text-anchor="end" font-family="'DM Sans', sans-serif" font-size="12" fill="#6F6F6F">Parallel (fast)</text>
+                </g>
+
+                <!-- Firecrawl -->
+                <g class="pareto-point" data-name="Firecrawl" data-cost="$0.043" data-score="73" data-color="#FA5D19">
+                  <circle cx="292.3" cy="190.4" r="14" fill="transparent" class="pareto-hit-area" />
+                  <circle cx="292.3" cy="190.4" r="3.5" fill="#797979" stroke="#FFFFFF" stroke-width="1.5" />
+                  <text x="300" y="194" text-anchor="start" font-family="'DM Sans', sans-serif" font-size="12" fill="#6F6F6F">Firecrawl</text>
+                </g>
+
+                <!-- Parallel (advanced) -->
+                <g class="pareto-point" data-name="Parallel (advanced)" data-cost="$0.059" data-score="75" data-color="#BBAE90">
+                  <circle cx="397.8" cy="163.2" r="14" fill="transparent" class="pareto-hit-area" />
+                  <circle cx="397.8" cy="163.2" r="3.5" fill="#797979" stroke="#FFFFFF" stroke-width="1.5" />
+                  <text x="410" y="150" text-anchor="end" font-family="'DM Sans', sans-serif" font-size="12" fill="#6F6F6F">Parallel (advanced)</text>
+                </g>
+
+                <!-- Perplexity (high) -->
+                <g class="pareto-point" data-name="Perplexity (high)" data-cost="$0.067" data-score="79" data-color="#20808D">
+                  <circle cx="444.8" cy="72.5" r="14" fill="transparent" class="pareto-hit-area" />
+                  <circle cx="444.8" cy="72.5" r="3.5" fill="#797979" stroke="#FFFFFF" stroke-width="1.5" />
+                  <text x="453" y="76" text-anchor="start" font-family="'DM Sans', sans-serif" font-size="12" fill="#6F6F6F">Perplexity (high)</text>
+                </g>
+
+                <!-- Perplexity (medium) -->
+                <g class="pareto-point" data-name="Perplexity (medium)" data-cost="$0.070" data-score="80" data-color="#20808D">
+                  <circle cx="468.3" cy="50.2" r="14" fill="transparent" class="pareto-hit-area" />
+                  <circle cx="468.3" cy="50.2" r="3.5" fill="#797979" stroke="#FFFFFF" stroke-width="1.5" />
+                  <text x="476" y="54" text-anchor="start" font-family="'DM Sans', sans-serif" font-size="12" fill="#6F6F6F">Perplexity (medium)</text>
+                </g>
+
+                <!-- Perplexity (low) -->
+                <g class="pareto-point" data-name="Perplexity (low)" data-cost="$0.085" data-score="77" data-color="#20808D">
+                  <circle cx="562.4" cy="116.5" r="14" fill="transparent" class="pareto-hit-area" />
+                  <circle cx="562.4" cy="116.5" r="3.5" fill="#797979" stroke="#FFFFFF" stroke-width="1.5" />
+                  <text x="570" y="120" text-anchor="start" font-family="'DM Sans', sans-serif" font-size="12" fill="#6F6F6F">Perplexity (low)</text>
+                </g>
+
+                <!-- Parallel (basic) -->
+                <g class="pareto-point" data-name="Parallel (basic)" data-cost="$0.067" data-score="73" data-color="#BBAE90">
+                  <circle cx="446.1" cy="197.8" r="14" fill="transparent" class="pareto-hit-area" />
+                  <circle cx="446.1" cy="197.8" r="3.5" fill="#797979" stroke="#FFFFFF" stroke-width="1.5" />
+                  <text x="438" y="204" text-anchor="end" font-family="'DM Sans', sans-serif" font-size="12" fill="#6F6F6F">Parallel (basic)</text>
+                </g>
+
+                <!-- You.com (highlights) -->
+                <g class="pareto-point" data-name="You.com (highlights)" data-cost="$0.067" data-score="74" data-color="#5768E6">
+                  <circle cx="448.0" cy="177.9" r="14" fill="transparent" class="pareto-hit-area" />
+                  <circle cx="448.0" cy="177.9" r="3.5" fill="#797979" stroke="#FFFFFF" stroke-width="1.5" />
+                  <text x="440" y="176" text-anchor="end" font-family="'DM Sans', sans-serif" font-size="12" fill="#6F6F6F">You.com (highlights)</text>
+                </g>
+
+                <!-- Exa (auto) -->
+                <g class="pareto-point" data-name="Exa (auto)" data-cost="$0.083" data-score="74" data-color="#1F40ED">
+                  <circle cx="550.9" cy="186.7" r="14" fill="transparent" class="pareto-hit-area" />
+                  <circle cx="550.9" cy="186.7" r="3.5" fill="#797979" stroke="#FFFFFF" stroke-width="1.5" />
+                  <text x="559" y="191" text-anchor="start" font-family="'DM Sans', sans-serif" font-size="12" fill="#6F6F6F">Exa (auto)</text>
+                </g>
+
+                <!-- Brave (LLM context) -->
+                <g class="pareto-point" data-name="Brave (LLM context)" data-cost="$0.079" data-score="75" data-color="#FF452A">
+                  <circle cx="526.1" cy="166.4" r="14" fill="transparent" class="pareto-hit-area" />
+                  <circle cx="526.1" cy="166.4" r="3.5" fill="#797979" stroke="#FFFFFF" stroke-width="1.5" />
+                  <text x="526" y="153" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="12" fill="#6F6F6F">Brave (LLM context)</text>
+                </g>
+
+                <!-- 8. Octen Highlight (Hero on Pareto Frontier) -->
+                <g class="pareto-octen-group" data-name="Octen (highlights)" data-cost="$0.024" data-score="77" data-color="#039855">
+                  <circle cx="174.1" cy="113.3" r="22" fill="transparent" class="pareto-hit-area" />
+                  <!-- Octen Brand Label Badge (Positioned directly above the point) -->
+                  <g transform="translate(103, 84)">
+                    <rect x="-4" y="-4" width="148" height="22" fill="transparent" class="pareto-hit-area" />
+                    <image href="/images/benchmarks/octen-mark.svg" x="0" y="-1" width="18" height="15" />
+                    <text x="22" y="11" font-family="'DM Sans', sans-serif" font-weight="bold" font-size="13" fill="#039855" stroke="#FFFFFF" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" paint-order="stroke fill" letter-spacing="-0.2px" class="pareto-octen-text">Octen (highlights)</text>
+                  </g>
+                  <!-- Glowing Outer Halo -->
+                  <circle cx="174.1" cy="113.3" r="7" fill="#039855" fill-opacity="0.25" />
+                  <!-- Solid Center Dot with White Ring -->
+                  <circle cx="174.1" cy="113.3" r="4" fill="#039855" stroke="#FFFFFF" stroke-width="1.5" />
+                </g>
+              </svg>
+            </div>
+
+            <!-- Card Footnote -->
+            <div class="built-perf-card-footer">
+              <p class="built-perf-footnote">Artificial Analysis Search Index vs. total model and search cost per benchmark | Sep 21, 2026</p>
+            </div>
+          </div>
         </div>
-        <div class="flex flex-col justify-center gap-2.5">
-          <div class="h-11 flex items-center gap-2 sm:gap-4 py-3">
-            <div class="flex items-center w-22 sm:w-28 shrink-0 gap-1.5">
-              <img
-                alt=""
-                loading="lazy"
-                width="41"
-                height="36"
-                decoding="async"
-                data-nimg="1"
-                class="size-4.5 shrink-0"
-                style="color: #039855"
-                src="/_next/static/media/icon-octen-light.a040396e.svg"
-              /><span class="text-2xs sm:text-sm tracking-tight font-semibold whitespace-nowrap" style="color: #039855"
-                >Octen</span
-              >
-            </div>
-            <div class="relative h-4 rounded-[2px] bg-[#F3F4F6] overflow-hidden w-[22%] min-w-0">
-              <div class="absolute inset-y-0 left-0" style="width: 95.2%; background: #039855"></div>
-            </div>
-            <div class="w-14 mr-5">
-              <div class="font-mono text-xs sm:text-sm font-medium tabular-nums text-right" style="color: #039855">
-                95.2<!-- -->%
+      </div>
+
+      <!-- Panel 2: Accuracy Benchmark Panel (Preserved for dynamic switching structure) -->
+      <div id="chartAccuracy" class="perf-chart-panel" style="display: none;">
+        <div class="built-perf-card-outer">
+          <div class="built-perf-card-inner built-perf-accuracy-inner">
+            <h3 class="built-perf-acc-title">Accuracy Performance</h3>
+            <div class="built-perf-acc-table">
+              <div class="built-perf-acc-header">
+                <div class="built-perf-col-prov">Provider</div>
+                <div class="built-perf-col-bar">SimpleQA</div>
+                <div class="built-perf-col-val mr-5">Accuracy</div>
+                <div class="built-perf-col-bar">FreshQA Strict</div>
+                <div class="built-perf-col-val">Accuracy</div>
+              </div>
+
+              <!-- Octen -->
+              <div class="built-perf-acc-row">
+                <div class="built-perf-col-prov">
+                  <img src="/_next/static/media/icon-octen-light.a040396e.svg" alt="Octen" style="width: 18px; height: 18px; flex-shrink: 0;" />
+                  <span style="font-weight: 600; color: #039855;">Octen</span>
+                </div>
+                <div class="built-perf-col-bar">
+                  <div class="built-perf-bar-fill" style="width: 95.2%; background: #039855;"></div>
+                </div>
+                <div class="built-perf-col-val mr-5" style="color: #039855;">95.2%</div>
+                <div class="built-perf-col-bar">
+                  <div class="built-perf-bar-fill" style="width: 61.4%; background: #039855;"></div>
+                </div>
+                <div class="built-perf-col-val" style="color: #039855;">61.4%</div>
+              </div>
+
+              <!-- Perplexity sonar-pro -->
+              <div class="built-perf-acc-row">
+                <div class="built-perf-col-prov">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink: 0;">
+                    <path d="M12.0879 1.22729C13.674 1.22729 14.4672 1.2273 15.073 1.53905C15.6059 1.81327 16.0392 2.25088 16.3107 2.78905C16.6193 3.40087 16.6193 4.20183 16.6193 5.8036V12.1964C16.6193 13.7982 16.6193 14.5992 16.3107 15.211C16.0391 15.7492 15.6059 16.1868 15.073 16.461C14.4672 16.7727 13.674 16.7727 12.0879 16.7727H5.75844C4.17234 16.7727 3.37917 16.7727 2.77337 16.461C2.24055 16.1868 1.80747 15.7491 1.53597 15.211C1.22731 14.5992 1.22729 13.7983 1.22729 12.1964V5.8036C1.22729 4.20178 1.22731 3.40088 1.53597 2.78905C1.80747 2.2509 2.24055 1.81327 2.77337 1.53905C3.37917 1.2273 4.17234 1.22729 5.75844 1.22729H12.0879ZM7.7718 9.82115C7.68857 9.82118 7.60609 9.83767 7.52916 9.86996C7.45222 9.90227 7.38219 9.94985 7.32329 10.0096L6.11166 11.2381L5.78955 10.9118C5.55293 10.6719 5.14812 10.7905 5.07451 11.1216L4.6155 13.1838C4.59942 13.2547 4.60123 13.3286 4.62116 13.3985C4.641 13.4681 4.67814 13.5317 4.72879 13.5828L4.72852 13.5833C4.77901 13.635 4.84162 13.6727 4.9105 13.6929C4.97946 13.7131 5.05258 13.7152 5.12255 13.6989L7.15634 13.2334C7.48273 13.1588 7.5999 12.7481 7.36328 12.5082L7.04117 12.1818L8.25308 10.9535C8.37203 10.8329 8.43883 10.6689 8.43883 10.4984C8.4388 10.3278 8.37201 10.1641 8.25308 10.0435L8.23697 10.0269L8.23752 10.0266L8.22062 10.0096C8.16169 9.94982 8.09171 9.9023 8.01472 9.86996C7.93779 9.83764 7.85511 9.82115 7.7718 9.82115ZM12.143 9.04691C11.86 8.86561 11.4913 9.07211 11.4913 9.41153V9.87293H8.89459C8.98134 10.0411 9.03095 10.2323 9.03095 10.4352C9.03092 10.7285 8.92818 10.9976 8.75744 11.2075H11.491V11.6689C11.491 12.0083 11.86 12.2146 12.143 12.0333L13.9059 10.9047C14.0378 10.8198 14.1037 10.6797 14.1038 10.5398C14.1036 10.4001 14.0375 10.2603 13.9054 10.1758L12.143 9.04691ZM7.83463 4.11603C7.76287 4.11572 7.69215 4.13407 7.62929 4.16919C7.56634 4.20433 7.51302 4.25541 7.47495 4.3172L6.36183 6.10424H6.36128C6.18243 6.39116 6.38621 6.76533 6.72096 6.76542H7.17621V9.42022C7.36507 9.29405 7.59127 9.22043 7.83436 9.22041C8.07752 9.22043 8.30359 9.29425 8.4925 9.42047V6.76542H8.948C9.28275 6.76539 9.48595 6.39138 9.30743 6.10424L8.19376 4.3172C8.11015 4.1834 7.97247 4.1162 7.83463 4.11603Z" fill="#1E293B" opacity="0.8"/>
+                  </svg>
+                  <span style="font-weight: 600; color: #1e293b;">Perplexity sonar-pro</span>
+                </div>
+                <div class="built-perf-col-bar">
+                  <div class="built-perf-bar-fill" style="width: 89.2%; background: #d9d9d9;"></div>
+                </div>
+                <div class="built-perf-col-val mr-5" style="color: #414651;">89.2%</div>
+                <div class="built-perf-col-bar">
+                  <div class="built-perf-bar-fill" style="width: 52.8%; background: #d9d9d9;"></div>
+                </div>
+                <div class="built-perf-col-val" style="color: #414651;">52.8%</div>
+              </div>
+
+              <!-- Parallel turbo -->
+              <div class="built-perf-acc-row">
+                <div class="built-perf-col-prov">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink: 0;">
+                    <path d="M5.8509 6.54231H12.0377C12.0538 6.60786 12.07 6.67441 12.0851 6.74096H16.1891C16.0418 6.27912 15.8523 5.83644 15.6233 5.41797H11.6827C11.7079 5.48351 11.7321 5.55007 11.7563 5.61662H6.13231C6.10104 5.70435 6.07079 5.79208 6.04254 5.88081H2.03434C1.97483 6.01089 1.91835 6.14299 1.86591 6.27811H5.92252C5.89831 6.36584 5.8741 6.45357 5.85192 6.54231H5.8509Z" fill="#1D1C1A"/>
+                  </svg>
+                  <span style="font-weight: 600; color: #1e293b;">Parallel turbo</span>
+                </div>
+                <div class="built-perf-col-bar">
+                  <div class="built-perf-bar-fill" style="width: 88.6%; background: #d9d9d9;"></div>
+                </div>
+                <div class="built-perf-col-val mr-5" style="color: #414651;">88.6%</div>
+                <div class="built-perf-col-bar">
+                  <div class="built-perf-bar-fill" style="width: 52.8%; background: #d9d9d9;"></div>
+                </div>
+                <div class="built-perf-col-val" style="color: #414651;">52.8%</div>
+              </div>
+
+              <!-- Tavily ultra-fast -->
+              <div class="built-perf-acc-row">
+                <div class="built-perf-col-prov">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink: 0;">
+                    <path d="M12.0879 1.22729C13.674 1.22729 14.4672 1.2273 15.073 1.53905C15.6059 1.81327 16.0392 2.25088 16.3107 2.78905C16.6193 3.40087 16.6193 4.20183 16.6193 5.8036V12.1964C16.6193 13.7982 16.6193 14.5992 16.3107 15.211C16.0391 15.7492 15.6059 16.1868 15.073 16.461C14.4672 16.7727 13.674 16.7727 12.0879 16.7727H5.75844C4.17234 16.7727 3.37917 16.7727 2.77337 16.461C2.24055 16.1868 1.80747 15.7491 1.53597 15.211C1.22731 14.5992 1.22729 13.7983 1.22729 12.1964V5.8036C1.22729 4.20178 1.22731 3.40088 1.53597 2.78905C1.80747 2.2509 2.24055 1.81327 2.77337 1.53905C3.37917 1.2273 4.17234 1.22729 5.75844 1.22729H12.0879ZM7.7718 9.82115C7.68857 9.82118 7.60609 9.83767 7.52916 9.86996C7.45222 9.90227 7.38219 9.94985 7.32329 10.0096L6.11166 11.2381L5.78955 10.9118C5.55293 10.6719 5.14812 10.7905 5.07451 11.1216L4.6155 13.1838C4.59942 13.2547 4.60123 13.3286 4.62116 13.3985C4.641 13.4681 4.67814 13.5317 4.72879 13.5828L4.72852 13.5833C4.77901 13.635 4.84162 13.6727 4.9105 13.6929C4.97946 13.7131 5.05258 13.7152 5.12255 13.6989L7.15634 13.2334C7.48273 13.1588 7.5999 12.7481 7.36328 12.5082L7.04117 12.1818L8.25308 10.9535C8.37203 10.8329 8.43883 10.6689 8.43883 10.4984C8.4388 10.3278 8.37201 10.1641 8.25308 10.0435L8.23697 10.0269L8.23752 10.0266L8.22062 10.0096C8.16169 9.94982 8.09171 9.9023 8.01472 9.86996C7.93779 9.83764 7.85511 9.82115 7.7718 9.82115ZM12.143 9.04691C11.86 8.86561 11.4913 9.07211 11.4913 9.41153V9.87293H8.89459C8.98134 10.0411 9.03095 10.2323 9.03095 10.4352C9.03092 10.7285 8.92818 10.9976 8.75744 11.2075H11.491V11.6689C11.491 12.0083 11.86 12.2146 12.143 12.0333L13.9059 10.9047C14.0378 10.8198 14.1037 10.6797 14.1038 10.5398C14.1036 10.4001 14.0375 10.2603 13.9054 10.1758L12.143 9.04691ZM7.83463 4.11603C7.76287 4.11572 7.69215 4.13407 7.62929 4.16919C7.56634 4.20433 7.51302 4.25541 7.47495 4.3172L6.36183 6.10424H6.36128C6.18243 6.39116 6.38621 6.76533 6.72096 6.76542H7.17621V9.42022C7.36507 9.29405 7.59127 9.22043 7.83436 9.22041C8.07752 9.22043 8.30359 9.29425 8.4925 9.42047V6.76542H8.948C9.28275 6.76539 9.48595 6.39138 9.30743 6.10424L8.19376 4.3172C8.11015 4.1834 7.97247 4.1162 7.83463 4.11603Z" fill="#1E293B" opacity="0.8"/>
+                  </svg>
+                  <span style="font-weight: 600; color: #1e293b;">Perplexity sonar-pro</span>
+                </div>
+                <div class="built-perf-col-bar">
+                  <div class="built-perf-bar-fill" style="width: 89.2%; background: #d9d9d9;"></div>
+                </div>
+                <div class="built-perf-col-val mr-5" style="color: #414651;">89.2%</div>
+                <div class="built-perf-col-bar">
+                  <div class="built-perf-bar-fill" style="width: 52.8%; background: #d9d9d9;"></div>
+                </div>
+                <div class="built-perf-col-val" style="color: #414651;">52.8%</div>
+              </div>
+
+              <!-- Parallel turbo -->
+              <div class="built-perf-acc-row">
+                <div class="built-perf-col-prov">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink: 0;">
+                    <path d="M5.8509 6.54231H12.0377C12.0538 6.60786 12.07 6.67441 12.0851 6.74096H16.1891C16.0418 6.27912 15.8523 5.83644 15.6233 5.41797H11.6827C11.7079 5.48351 11.7321 5.55007 11.7563 5.61662H6.13231C6.10104 5.70435 6.07079 5.79208 6.04254 5.88081H2.03434C1.97483 6.01089 1.91835 6.14299 1.86591 6.27811H5.92252C5.89831 6.36584 5.8741 6.45357 5.85192 6.54231H5.8509Z" fill="#1D1C1A"/>
+                  </svg>
+                  <span style="font-weight: 600; color: #1e293b;">Parallel turbo</span>
+                </div>
+                <div class="built-perf-col-bar">
+                  <div class="built-perf-bar-fill" style="width: 88.6%; background: #d9d9d9;"></div>
+                </div>
+                <div class="built-perf-col-val mr-5" style="color: #414651;">88.6%</div>
+                <div class="built-perf-col-bar">
+                  <div class="built-perf-bar-fill" style="width: 52.8%; background: #d9d9d9;"></div>
+                </div>
+                <div class="built-perf-col-val" style="color: #414651;">52.8%</div>
+              </div>
+
+              <!-- Tavily ultra-fast -->
+              <div class="built-perf-acc-row">
+                <div class="built-perf-col-prov">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink: 0;">
+                    <path d="M12.0879 1.22729C13.674 1.22729 14.4672 1.2273 15.073 1.53905C15.6059 1.81327 16.0392 2.25088 16.3107 2.78905C16.6193 3.40087 16.6193 4.20183 16.6193 5.8036V12.1964C16.6193 13.7982 16.6193 14.5992 16.3107 15.211C16.0391 15.7492 15.6059 16.1868 15.073 16.461C14.4672 16.7727 13.674 16.7727 12.0879 16.7727H5.75844C4.17234 16.7727 3.37917 16.7727 2.77337 16.461C2.24055 16.1868 1.80747 15.7491 1.53597 15.211C1.22731 14.5992 1.22729 13.7983 1.22729 12.1964V5.8036C1.22729 4.20178 1.22731 3.40088 1.53597 2.78905C1.80747 2.2509 2.24055 1.81327 2.77337 1.53905C3.37917 1.2273 4.17234 1.22729 5.75844 1.22729H12.0879ZM7.7718 9.82115C7.68857 9.82118 7.60609 9.83767 7.52916 9.86996C7.45222 9.90227 7.38219 9.94985 7.32329 10.0096L6.11166 11.2381L5.78955 10.9118C5.55293 10.6719 5.14812 10.7905 5.07451 11.1216L4.6155 13.1838C4.59942 13.2547 4.60123 13.3286 4.62116 13.3985C4.641 13.4681 4.67814 13.5317 4.72879 13.5828L4.72852 13.5833C4.77901 13.635 4.84162 13.6727 4.9105 13.6929C4.97946 13.7131 5.05258 13.7152 5.12255 13.6989L7.15634 13.2334C7.48273 13.1588 7.5999 12.7481 7.36328 12.5082L7.04117 12.1818L8.25308 10.9535C8.37203 10.8329 8.43883 10.6689 8.43883 10.4984C8.4388 10.3278 8.37201 10.1641 8.25308 10.0435L8.23697 10.0269L8.23752 10.0266L8.22062 10.0096C8.16169 9.94982 8.09171 9.9023 8.01472 9.86996C7.93779 9.83764 7.85511 9.82115 7.7718 9.82115ZM12.143 9.04691C11.86 8.86561 11.4913 9.07211 11.4913 9.41153V9.87293H8.89459C8.98134 10.0411 9.03095 10.2323 9.03095 10.4352C9.03092 10.7285 8.92818 10.9976 8.75744 11.2075H11.491V11.6689C11.491 12.0083 11.86 12.2146 12.143 12.0333L13.9059 10.9047C14.0378 10.8198 14.1037 10.6797 14.1038 10.5398C14.1036 10.4001 14.0375 10.2603 13.9054 10.1758L12.143 9.04691ZM7.83463 4.11603C7.76287 4.11572 7.69215 4.13407 7.62929 4.16919C7.56634 4.20433 7.51302 4.25541 7.47495 4.3172L6.36183 6.10424H6.36128C6.18243 6.39116 6.38621 6.76533 6.72096 6.76542H7.17621V9.42022C7.36507 9.29405 7.59127 9.22043 7.83436 9.22041C8.07752 9.22043 8.30359 9.29425 8.4925 9.42047V6.76542H8.948C9.28275 6.76539 9.48595 6.39138 9.30743 6.10424L8.19376 4.3172C8.11015 4.1834 7.97247 4.1162 7.83463 4.11603Z" fill="#1E293B" opacity="0.8"/>
+                  </svg>
+                  <span style="font-weight: 600; color: #1e293b;">Tavily ultra-fast</span>
+                </div>
+                <div class="built-perf-col-bar">
+                  <div class="built-perf-bar-fill" style="width: 69.9%; background: #d9d9d9;"></div>
+                </div>
+                <div class="built-perf-col-val mr-5" style="color: #414651;">69.9%</div>
+                <div class="built-perf-col-bar">
+                  <div class="built-perf-bar-fill" style="width: 43.2%; background: #d9d9d9;"></div>
+                </div>
+                <div class="built-perf-col-val" style="color: #414651;">43.2%</div>
               </div>
             </div>
-            <div class="relative h-4 rounded-[2px] bg-[#F3F4F6] overflow-hidden w-[22%] min-w-0">
-              <div class="absolute inset-y-0 left-0" style="width: 55.8%; background: #039855"></div>
-            </div>
-            <div class="w-14">
-              <div class="font-mono text-xs sm:text-sm font-medium tabular-nums text-right" style="color: #039855">
-                55.8<!-- -->%
-              </div>
+
+            <div class="built-perf-acc-footnote">
+              FreshQA Strict benchmark &amp; SimpleQA benchmark
             </div>
           </div>
-          <div class="h-11 flex items-center gap-2 sm:gap-4 py-3">
-            <div class="flex items-center w-22 sm:w-28 shrink-0 gap-1.5">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 18 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                class="size-4.5 shrink-0"
-                style="color: #1e293b"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M3.09418 1.50049H14.9058V2.61982L9.86502 9.00003L14.9058 15.3802V16.4996H3.09418V1.50049ZM9.07427 7.96767L13.1705 2.61982H4.97806L9.07427 7.96767ZM4.42309 3.95999V8.44037H7.85485L4.42309 3.95999ZM7.85485 9.55969H4.42309V14.0401L7.85485 9.55969ZM4.97806 15.3802L9.07427 10.0324L13.1705 15.3802H4.97806Z"
-                  fill="#1F40ED"
-                ></path></svg
-              ><span class="text-2xs sm:text-sm tracking-tight font-semibold whitespace-nowrap" style="color: #1e293b"
-                >Exa instant</span
-              >
-            </div>
-            <div class="relative h-4 rounded-[2px] bg-[#F3F4F6] overflow-hidden w-[22%] min-w-0">
-              <div class="absolute inset-y-0 left-0" style="width: 89.2%; background: #d9d9d9"></div>
-            </div>
-            <div class="w-14 mr-5">
-              <div class="font-mono text-xs sm:text-sm font-medium tabular-nums text-right" style="color: #414651">
-                89.2<!-- -->%
-              </div>
-            </div>
-            <div class="relative h-4 rounded-[2px] bg-[#F3F4F6] overflow-hidden w-[22%] min-w-0">
-              <div class="absolute inset-y-0 left-0" style="width: 52.8%; background: #d9d9d9"></div>
-            </div>
-            <div class="w-14">
-              <div class="font-mono text-xs sm:text-sm font-medium tabular-nums text-right" style="color: #414651">
-                52.8<!-- -->%
-              </div>
-            </div>
-          </div>
-          <div class="h-11 flex items-center gap-2 sm:gap-4 py-3">
-            <div class="flex items-center w-22 sm:w-28 shrink-0 gap-1.5">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 18 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                class="size-4.5 shrink-0"
-                style="color: #1e293b"
-              >
-                <path
-                  d="M16.3666 7.40234H12.2162C12.2273 7.46789 12.2363 7.53445 12.2454 7.60101H5.64311C5.63101 7.68875 5.6189 7.7775 5.60882 7.86523H1.43318C1.41301 7.99633 1.39486 8.12838 1.38074 8.26252H5.57048C5.56343 8.35025 5.55838 8.439 5.55334 8.52674H12.3352C12.3382 8.59228 12.3413 8.65879 12.3433 8.72535H16.528V8.51361C16.5008 8.13446 16.4473 7.76336 16.3666 7.40234Z"
-                  fill="#1D1C1A"
-                ></path>
-                <path
-                  d="M12.3352 9.5846H5.55334C5.55737 9.67335 5.56343 9.76108 5.57048 9.84882H1.38074C1.39486 9.98194 1.412 10.114 1.43318 10.2461H5.60882C5.6189 10.3349 5.63 10.4226 5.64311 10.5103H12.2454C12.2363 10.5769 12.2263 10.6424 12.2162 10.7089H16.3666C16.4473 10.348 16.5008 9.97687 16.528 9.59772V9.38599H12.3433C12.3413 9.45249 12.3382 9.51804 12.3352 9.5846Z"
-                  fill="#1D1C1A"
-                ></path>
-                <path
-                  d="M12.0367 11.569H5.8499C5.87209 11.6578 5.8963 11.7455 5.92051 11.8333H1.86389C1.91634 11.9673 1.97282 12.0994 2.03233 12.2305H6.04053C6.06978 12.3193 6.09903 12.407 6.13029 12.4947H11.7543C11.7301 12.5613 11.7059 12.6268 11.6806 12.6934H15.6213C15.8502 12.2749 16.0399 11.8322 16.1871 11.3704H12.0831C12.0679 11.4369 12.0518 11.5025 12.0357 11.569H12.0367Z"
-                  fill="#1D1C1A"
-                ></path>
-                <path
-                  d="M11.3094 13.5537H6.57808C6.62145 13.6423 6.66684 13.7311 6.71323 13.8178H3.0177C3.12764 13.954 3.24161 14.086 3.35962 14.2152H6.93311C6.98556 14.3038 7.03903 14.3926 7.09351 14.4793H10.7951C10.7537 14.5459 10.7114 14.6124 10.668 14.678H14.064C14.4966 14.2837 14.883 13.839 15.2158 13.355H11.4043C11.373 13.4215 11.3428 13.4881 11.3104 13.5537H11.3094Z"
-                  fill="#1D1C1A"
-                ></path>
-                <path
-                  d="M10.0346 15.5371H7.85293C7.9266 15.6268 8.00122 15.7145 8.07786 15.8012H5.43835C6.48125 16.3438 7.66537 16.6543 8.92105 16.6574C8.92913 16.6574 8.9362 16.6574 8.94327 16.6574C8.95034 16.6574 8.95836 16.6574 8.96543 16.6574C10.5449 16.6524 12.0114 16.1663 13.2248 15.3374H10.1919C10.1395 15.404 10.087 15.4705 10.0336 15.5361L10.0346 15.5371Z"
-                  fill="#1D1C1A"
-                ></path>
-                <path
-                  d="M7.853 2.57444H10.0346C10.088 2.63999 10.1405 2.70654 10.193 2.7731H13.2258C12.0115 1.94421 10.546 1.45817 8.96651 1.45312C8.95843 1.45312 8.95136 1.45312 8.94429 1.45312C8.93722 1.45312 8.92914 1.45312 8.92213 1.45312C7.66539 1.45716 6.48229 1.76673 5.43939 2.30924H8.07893C8.00224 2.39596 7.92762 2.4847 7.85401 2.57343L7.853 2.57444Z"
-                  fill="#1D1C1A"
-                ></path>
-                <path
-                  d="M6.57812 4.55892H11.3095C11.3418 4.62446 11.373 4.69101 11.4033 4.75757H15.2148C14.882 4.27354 14.4957 3.82885 14.063 3.43457H10.667C10.7104 3.50012 10.7527 3.56667 10.7941 3.63322H7.09251C7.03803 3.72095 6.98456 3.80868 6.93214 3.89742H3.35864C3.23963 4.02548 3.12566 4.15758 3.01672 4.29472H6.71226C6.66586 4.38245 6.62148 4.47018 6.57711 4.55892H6.57812Z"
-                  fill="#1D1C1A"
-                ></path>
-                <path
-                  d="M5.8509 6.54231H12.0377C12.0538 6.60786 12.07 6.67441 12.0851 6.74096H16.1891C16.0418 6.27912 15.8523 5.83644 15.6233 5.41797H11.6827C11.7079 5.48351 11.7321 5.55007 11.7563 5.61662H6.13231C6.10104 5.70435 6.07079 5.79208 6.04254 5.88081H2.03434C1.97483 6.01089 1.91835 6.14299 1.86591 6.27811H5.92252C5.89831 6.36584 5.8741 6.45357 5.85192 6.54231H5.8509Z"
-                  fill="#1D1C1A"
-                ></path></svg
-              ><span class="text-2xs sm:text-sm tracking-tight font-semibold whitespace-nowrap" style="color: #1e293b"
-                >Parallel turbo</span
-              >
-            </div>
-            <div class="relative h-4 rounded-[2px] bg-[#F3F4F6] overflow-hidden w-[22%] min-w-0">
-              <div class="absolute inset-y-0 left-0" style="width: 88.6%; background: #d9d9d9"></div>
-            </div>
-            <div class="w-14 mr-5">
-              <div class="font-mono text-xs sm:text-sm font-medium tabular-nums text-right" style="color: #414651">
-                88.6<!-- -->%
-              </div>
-            </div>
-            <div class="relative h-4 rounded-[2px] bg-[#F3F4F6] overflow-hidden w-[22%] min-w-0">
-              <div class="absolute inset-y-0 left-0" style="width: 52.8%; background: #d9d9d9"></div>
-            </div>
-            <div class="w-14">
-              <div class="font-mono text-xs sm:text-sm font-medium tabular-nums text-right" style="color: #414651">
-                52.8<!-- -->%
-              </div>
-            </div>
-          </div>
-          <div class="h-11 flex items-center gap-2 sm:gap-4 py-3">
-            <div class="flex items-center w-22 sm:w-28 shrink-0 gap-1.5">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 18 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                class="size-4.5 shrink-0"
-                style="color: #1e293b"
-              >
-                <path
-                  d="M12.0879 1.22729C13.674 1.22729 14.4672 1.2273 15.073 1.53905C15.6059 1.81327 16.0392 2.25088 16.3107 2.78905C16.6193 3.40087 16.6193 4.20183 16.6193 5.8036V12.1964C16.6193 13.7982 16.6193 14.5992 16.3107 15.211C16.0391 15.7492 15.6059 16.1868 15.073 16.461C14.4672 16.7727 13.674 16.7727 12.0879 16.7727H5.75844C4.17234 16.7727 3.37917 16.7727 2.77337 16.461C2.24055 16.1868 1.80747 15.7491 1.53597 15.211C1.22731 14.5992 1.22729 13.7983 1.22729 12.1964V5.8036C1.22729 4.20178 1.22731 3.40088 1.53597 2.78905C1.80747 2.2509 2.24055 1.81327 2.77337 1.53905C3.37917 1.2273 4.17234 1.22729 5.75844 1.22729H12.0879ZM7.7718 9.82115C7.68857 9.82118 7.60609 9.83767 7.52916 9.86996C7.45222 9.90227 7.38219 9.94985 7.32329 10.0096L6.11166 11.2381L5.78955 10.9118C5.55293 10.6719 5.14812 10.7905 5.07451 11.1216L4.6155 13.1838C4.59942 13.2547 4.60123 13.3286 4.62116 13.3985C4.641 13.4681 4.67814 13.5317 4.72879 13.5828L4.72852 13.5833C4.77901 13.635 4.84162 13.6727 4.9105 13.6929C4.97946 13.7131 5.05258 13.7152 5.12255 13.6989L7.15634 13.2334C7.48273 13.1588 7.5999 12.7481 7.36328 12.5082L7.04117 12.1818L8.25308 10.9535C8.37203 10.8329 8.43883 10.6689 8.43883 10.4984C8.4388 10.3278 8.37201 10.1641 8.25308 10.0435L8.23697 10.0269L8.23752 10.0266L8.22062 10.0096C8.16169 9.94982 8.09171 9.9023 8.01472 9.86996C7.93779 9.83764 7.85511 9.82115 7.7718 9.82115ZM12.143 9.04691C11.86 8.86561 11.4913 9.07211 11.4913 9.41153V9.87293H8.89459C8.98134 10.0411 9.03095 10.2323 9.03095 10.4352C9.03092 10.7285 8.92818 10.9976 8.75744 11.2075H11.491V11.6689C11.491 12.0083 11.86 12.2146 12.143 12.0333L13.9059 10.9047C14.0378 10.8198 14.1037 10.6797 14.1038 10.5398C14.1036 10.4001 14.0375 10.2603 13.9054 10.1758L12.143 9.04691ZM7.83463 4.11603C7.76287 4.11572 7.69215 4.13407 7.62929 4.16919C7.56634 4.20433 7.51302 4.25541 7.47495 4.3172L6.36183 6.10424H6.36128C6.18243 6.39116 6.38621 6.76533 6.72096 6.76542H7.17621V9.42022C7.36507 9.29405 7.59127 9.22043 7.83436 9.22041C8.07752 9.22043 8.30359 9.29425 8.4925 9.42047V6.76542H8.948C9.28275 6.76539 9.48595 6.39138 9.30743 6.10424L8.19376 4.3172C8.11015 4.1834 7.97247 4.1162 7.83463 4.11603Z"
-                  fill="#3C3A39"
-                ></path></svg
-              ><span class="text-2xs sm:text-sm tracking-tight font-semibold whitespace-nowrap" style="color: #1e293b"
-                >Tavily ultra-fast</span
-              >
-            </div>
-            <div class="relative h-4 rounded-[2px] bg-[#F3F4F6] overflow-hidden w-[22%] min-w-0">
-              <div class="absolute inset-y-0 left-0" style="width: 69.9%; background: #d9d9d9"></div>
-            </div>
-            <div class="w-14 mr-5">
-              <div class="font-mono text-xs sm:text-sm font-medium tabular-nums text-right" style="color: #414651">
-                69.9<!-- -->%
-              </div>
-            </div>
-            <div class="relative h-4 rounded-[2px] bg-[#F3F4F6] overflow-hidden w-[22%] min-w-0">
-              <div class="absolute inset-y-0 left-0" style="width: 43.2%; background: #d9d9d9"></div>
-            </div>
-            <div class="w-14">
-              <div class="font-mono text-xs sm:text-sm font-medium tabular-nums text-right" style="color: #414651">
-                43.2<!-- -->%
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="text-sm font-medium text-[#A3A9B3] pt-3 mt-1 border-t border-[#4B4B4B33]">
-          FreshQA Strict benchmark &amp; SimpleQA benchmark
         </div>
       </div>
     </div>
   </div>
+
+  <script>
+    (function initBuiltToPerformTabs() {
+      // NOTE: Dynamic tab switching effect is intentionally paused per user requirements
+      // to demonstrate the primary Cost Efficiency Pareto benchmark presentation.
+      // The complete dynamic switching code, classes, and styles are preserved below.
+      const ENABLE_TAB_SWITCHING = false;
+
+      function initParetoTooltip() {
+        const wrapper = document.querySelector('.built-perf-chart-wrapper');
+        const tooltip = document.getElementById('paretoChartTooltip');
+        if (!wrapper || !tooltip || wrapper.dataset.tooltipBound === 'true') return;
+        wrapper.dataset.tooltipBound = 'true';
+
+        const title = document.getElementById('paretoTooltipTitle');
+        const cost = document.getElementById('paretoTooltipCost');
+        const score = document.getElementById('paretoTooltipScore');
+
+        const targets = Array.from(wrapper.querySelectorAll('.pareto-point, .pareto-octen-group'));
+        const ACTIVATION_RADIUS = 36; // px radius around dot to trigger tooltip
+
+        let currentActiveTarget = null;
+
+        function updateTooltipContent(el) {
+          const rawName = el.dataset.name || '';
+          // Strip out "Search" / "search" words cleanly
+          const cleanName = rawName.replace(/\b[Ss]earch\b/gi, '').replace(/\s{2,}/g, ' ').trim();
+          if (title) title.textContent = cleanName;
+          if (cost) cost.textContent = el.dataset.cost || '';
+          if (score) score.textContent = el.dataset.score || '';
+        }
+
+        function positionTooltip(mouseX, mouseY, wrapperRect) {
+          const tooltipWidth = tooltip.offsetWidth || 236;
+          const tooltipHalfWidth = tooltipWidth / 2;
+          const clampedX = Math.max(tooltipHalfWidth + 10, Math.min(wrapperRect.width - tooltipHalfWidth - 10, mouseX));
+
+          tooltip.style.left = clampedX + 'px';
+          tooltip.style.top = mouseY + 'px';
+        }
+
+        function setActiveTarget(el, mouseX, mouseY, wrapperRect) {
+          if (currentActiveTarget !== el) {
+            if (currentActiveTarget) currentActiveTarget.classList.remove('active-hover');
+            currentActiveTarget = el;
+            if (el) el.classList.add('active-hover');
+            if (el) updateTooltipContent(el);
+          }
+          if (el) {
+            positionTooltip(mouseX, mouseY, wrapperRect);
+            tooltip.classList.add('active');
+          }
+        }
+
+        function clearActiveTarget() {
+          if (currentActiveTarget) {
+            currentActiveTarget.classList.remove('active-hover');
+            currentActiveTarget = null;
+          }
+          targets.forEach(t => t.classList.remove('active-hover'));
+          tooltip.classList.remove('active');
+        }
+
+        function handlePointerMove(e) {
+          const wrapperRect = wrapper.getBoundingClientRect();
+          const mouseX = e.clientX - wrapperRect.left;
+          const mouseY = e.clientY - wrapperRect.top;
+
+          // If completely outside wrapper boundaries
+          if (mouseX < 0 || mouseX > wrapperRect.width || mouseY < 0 || mouseY > wrapperRect.height) {
+            clearActiveTarget();
+            return;
+          }
+
+          let closestTarget = null;
+          let minDistance = Infinity;
+
+          targets.forEach(target => {
+            const circle = target.classList.contains('pareto-octen-group')
+              ? target.querySelector('circle:last-child')
+              : (target.querySelectorAll('circle')[1] || target.querySelector('circle'));
+
+            if (!circle) return;
+            const cRect = circle.getBoundingClientRect();
+            const dotX = cRect.left - wrapperRect.left + cRect.width / 2;
+            const dotY = cRect.top - wrapperRect.top + cRect.height / 2;
+
+            let dist = Math.hypot(mouseX - dotX, mouseY - dotY);
+
+            // If pointer is directly touching the SVG element (badge or hit area)
+            if (target.contains(e.target)) {
+              dist = Math.min(dist, 10);
+            }
+
+            if (dist < minDistance) {
+              minDistance = dist;
+              closestTarget = target;
+            }
+          });
+
+          // Proximity trigger: activate and track within ACTIVATION_RADIUS
+          if (closestTarget && minDistance <= ACTIVATION_RADIUS) {
+            setActiveTarget(closestTarget, mouseX, mouseY, wrapperRect);
+          } else {
+            clearActiveTarget();
+          }
+        }
+
+        wrapper.addEventListener('pointermove', handlePointerMove);
+        wrapper.addEventListener('pointerdown', handlePointerMove);
+        wrapper.addEventListener('pointerleave', clearActiveTarget);
+        window.addEventListener('scroll', clearActiveTarget, { passive: true });
+        document.addEventListener('touchstart', (e) => {
+          if (!wrapper.contains(e.target)) {
+            clearActiveTarget();
+          }
+        }, { passive: true });
+      }
+
+      function setup() {
+        initParetoTooltip();
+
+        const container = document.getElementById('perfTabsList');
+        if (!container || container.dataset.bound === 'true') return;
+        container.dataset.bound = 'true';
+
+        const tabs = container.querySelectorAll('.built-perf-item');
+        const chartCost = document.getElementById('chartCostEfficiency');
+        const chartAcc = document.getElementById('chartAccuracy');
+
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            if (!ENABLE_TAB_SWITCHING) {
+              // Maintained in default showcase state: Cost Efficiency expanded
+              return;
+            }
+
+            const key = tab.dataset.perfTab;
+            tabs.forEach(t => {
+              const isTarget = t === tab;
+              const body = t.querySelector('.built-perf-body');
+
+              if (isTarget) {
+                t.classList.add('active');
+                if (body) {
+                  body.style.display = 'block';
+                  body.style.opacity = '1';
+                  body.style.height = 'auto';
+                }
+              } else {
+                t.classList.remove('active');
+                if (body) {
+                  body.style.display = 'none';
+                  body.style.opacity = '0';
+                  body.style.height = '0';
+                }
+              }
+            });
+
+            // Toggle right-hand benchmark panels
+            if (chartCost && chartAcc) {
+              if (key === 'accuracy') {
+                chartCost.style.display = 'none';
+                chartAcc.style.display = 'block';
+              } else {
+                chartAcc.style.display = 'none';
+                chartCost.style.display = 'block';
+              }
+            }
+          });
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setup);
+      } else {
+        setup();
+      }
+    })();
+  </script>
+</div>
   <div class="absolute-center size-full z-0 opacity-25">
     <div class="dot-field-container">
       <canvas style="position: absolute; inset: 0; width: 100%; height: 100%"></canvas

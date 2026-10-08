@@ -150,13 +150,12 @@ export async function transitionOverviewToFocus(isValid, currentSeq) {
   const morphEase = 'cubic-bezier(0.2, 0.9, 0.28, 1)';
 
   morphEntities.forEach(({ card, cardView, pillTag, s, t, index }) => {
-    // Content collapse
+    // Content collapse - fast clean fade out to avoid badge duplication
     if (cardView) {
       const viewAnim = cardView.animate([
         { offset: 0, opacity: 1, transform: 'scale(1)' },
-        { offset: 0.28, opacity: 1, transform: 'scale(0.98)' },
-        { offset: 0.48, opacity: 0, transform: 'scale(0.90) translateY(-4px)' },
-        { offset: 1, opacity: 0, transform: 'scale(0.90) translateY(-4px)' }
+        { offset: 0.18, opacity: 0, transform: 'scale(0.96) translateY(-4px)' },
+        { offset: 1, opacity: 0, transform: 'scale(0.96) translateY(-4px)' }
       ], {
         duration: morphDuration,
         delay: index * 20,
@@ -166,12 +165,12 @@ export async function transitionOverviewToFocus(isValid, currentSeq) {
       state.activeAnimations.push(viewAnim);
     }
 
-    // Pill label tag
+    // Pill label tag - emerges cleanly only after card has contracted into pill form
     if (pillTag) {
       const tagAnim = pillTag.animate([
         { offset: 0, opacity: 0, transform: 'scale(0.85)' },
-        { offset: 0.35, opacity: 0, transform: 'scale(0.85)' },
-        { offset: 0.70, opacity: 1, transform: 'scale(1)' },
+        { offset: 0.45, opacity: 0, transform: 'scale(0.85)' },
+        { offset: 0.75, opacity: 1, transform: 'scale(1)' },
         { offset: 1, opacity: 1, transform: 'scale(1)' }
       ], {
         duration: morphDuration,
@@ -256,6 +255,11 @@ export async function transitionOverviewToFocus(isValid, currentSeq) {
   }
 
   // 7. Flawless zero-flicker handover to native Stage 4 layout
+  const cardCanvas = document.getElementById('newsSearchCard') || document.getElementById('heroCanvas');
+  if (cardCanvas) {
+    cardCanvas.classList.remove('is-typing', 'is-searching', 'is-stage5');
+    cardCanvas.classList.add('not-typing', 'has-results', 'is-stage4');
+  }
   if (subjectsHBar) subjectsHBar.style.opacity = '1';
   if (eventsWhiteCard) {
     eventsWhiteCard.style.opacity = '1';
@@ -263,9 +267,4 @@ export async function transitionOverviewToFocus(isValid, currentSeq) {
   }
   void (subjectsHBar ? subjectsHBar.offsetWidth : 0);
   morphCardsOverlay.innerHTML = '';
-
-  sourceCards.forEach(wrap => {
-    const box = wrap.querySelector('.subject-card-box') || wrap;
-    box.style.visibility = '';
-  });
 }

@@ -49,8 +49,8 @@ export function updateTopNewsCard(subjectIdx = 0) {
   if (topTime && subj.timeLatest) {
     topTime.textContent = formatDateTime(subj.timeLatest).replace(/-/g, '/');
   }
-  if (topSource && subj.articles && subj.articles[0]) {
-    topSource.textContent = extractDomain(subj.articles[0].url) || (curData.id === 'business' ? 'wsj.com' : 'reuters.com');
+  if (topSource) {
+    topSource.textContent = subj.topSource || (subj.articles && subj.articles[0] ? extractDomain(subj.articles[0].url) : (curData.id === 'business' ? 'wsj.com' : 'bloomberg.com'));
   }
 }
 

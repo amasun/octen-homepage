@@ -23,11 +23,15 @@ export function formatMoneyCompact(val, currency = 'USD') {
 // ----------------------------------------------------
 
 export function createSubjectCardHTML(subject, index, isFirst = false) {
+  const dStart = formatDate(subject.timeStart);
+  const dLatest = formatDate(subject.timeLatest);
+  const dateRangeStr = (dStart && dLatest && dStart !== dLatest) ? `${dStart} – ${dLatest}` : (dLatest || dStart);
+
   return `
     <div class="subject-card-wrapper" data-subject-card="true" ${isFirst ? 'data-first-subject="true"' : 'data-other-subject="true"'} style="position: relative;">
       <article class="subject-card-box">
         <div class="subject-card-top">
-          <span class="subject-date-range">${formatDate(subject.timeStart)} – ${formatDate(subject.timeLatest)}</span>
+          <span class="subject-date-range">${dateRangeStr}</span>
           <span class="subject-badge">Subject${index + 1}</span>
         </div>
         <div class="subject-card-body">
@@ -448,7 +452,6 @@ export function createBusinessSummaryCardHTML(entity, index) {
                     `).join('')}
                   </div>
                 </div>
-              </div>
               </div>
             </div>
           </div>

@@ -9,6 +9,30 @@ html {
   color-scheme: dark;
 }
 
+/* Anchor scroll clearance for fixed navbar */
+#hero,
+#web-search,
+#vertical-search,
+#image-search,
+#video-search,
+#modalities,
+#multimodal,
+#retrieval-stack,
+#api-introduce,
+#api,
+#showcase,
+#built-on-octen,
+#applications,
+#built-to-perform,
+#performance,
+#benchmarks,
+#builtToPerformSection,
+#get-started,
+#start-building,
+#footer {
+  scroll-margin-top: 80px;
+}
+
 body {
   background-color: var(--bg-dark);
   color: var(--text-main);

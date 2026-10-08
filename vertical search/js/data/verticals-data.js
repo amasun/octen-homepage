@@ -11,10 +11,10 @@ const VERTICALS = {
             heading: 'Search built for vertical industries',
             desc: 'Deeply customized search engineered for vertical domains. Delivering real-time, high-precision, and in-depth intelligence structured for autonomous reasoning.',
             theme: 'news',
-            query: 'Strait of Hormuz shipping disruptions',
+            query: 'Fed rate decision market reaction',
             badgeText: 'Top News',
             summaryDesc: 'Search live news and read each story as a single grouped event.',
-            stats: { num1: 4, label1: 'subjects', num2: 10, label2: 'articles' },
+            stats: { num1: 4, label1: 'subjects', num2: 14, label2: 'articles' },
             bullets: [
               '• Search breaking news at wire speed within <span class="live-badge" title="Live wire speed" aria-label="Live breaking news"><span class="live-badge-dot"></span><span class="live-badge-text">live</span></span>&nbsp;<b><number-flow class="bullet-number-flow" data-flow="minutes" data-value="3">3</number-flow>&nbsp;minutes</b> of publication.',
               '• Cover <b><number-flow class="bullet-number-flow" data-flow="coverage" data-value="95">95</number-flow>%</b> of global tier-1 <span class="avatar-cycles" title="Global tier-1 news media sources" aria-label="Global tier-1 news media sources"><span class="avatar-cycles-track"><span class="avatar-cycle-item" title="Reuters"><svg viewBox="0 0 16 16" width="10" height="10" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#FF8000" stroke-width="1.8"/><path d="M6 5h2.5a1.8 1.8 0 0 1 0 3.6H6V5zm0 3.6h2.2l2.3 3.4" stroke="#FFF" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="avatar-cycle-item" title="Bloomberg"><svg viewBox="0 0 16 16" width="10" height="10" fill="none"><path d="M4.5 3.5h4a2.5 2.5 0 0 1 2 4 2.5 2.5 0 0 1-2 4.5h-4V3.5z" stroke="#FFF" stroke-width="1.6" stroke-linejoin="round"/><line x1="4.5" y1="7.8" x2="8.8" y2="7.8" stroke="#FFF" stroke-width="1.5"/></svg></span><span class="avatar-cycle-item" title="Wall Street Journal"><span class="avatar-logo-wsj">WSJ</span></span><span class="avatar-cycle-item" title="BBC"><span class="avatar-logo-bbc">BBC</span></span><span class="avatar-cycle-item" title="Financial Times"><span class="avatar-logo-ft">FT</span></span><span class="avatar-cycle-item" title="Associated Press"><span class="avatar-logo-ap">AP</span></span><span class="avatar-cycle-item" title="Reuters" aria-hidden="true"><svg viewBox="0 0 16 16" width="10" height="10" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#FF8000" stroke-width="1.8"/><path d="M6 5h2.5a1.8 1.8 0 0 1 0 3.6H6V5zm0 3.6h2.2l2.3 3.4" stroke="#FFF" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="avatar-cycle-item" title="Bloomberg" aria-hidden="true"><svg viewBox="0 0 16 16" width="10" height="10" fill="none"><path d="M4.5 3.5h4a2.5 2.5 0 0 1 2 4 2.5 2.5 0 0 1-2 4.5h-4V3.5z" stroke="#FFF" stroke-width="1.6" stroke-linejoin="round"/><line x1="4.5" y1="7.8" x2="8.8" y2="7.8" stroke="#FFF" stroke-width="1.5"/></svg></span><span class="avatar-cycle-item" title="Wall Street Journal" aria-hidden="true"><span class="avatar-logo-wsj">WSJ</span></span><span class="avatar-cycle-item" title="BBC" aria-hidden="true"><span class="avatar-logo-bbc">BBC</span></span><span class="avatar-cycle-item" title="Financial Times" aria-hidden="true"><span class="avatar-logo-ft">FT</span></span><span class="avatar-cycle-item" title="Associated Press" aria-hidden="true"><span class="avatar-logo-ap">AP</span></span></span></span>&nbsp;news media and wire&nbsp;services.',
@@ -25,146 +25,120 @@ const VERTICALS = {
             watermarkSvg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><g transform="translate(14.333, 14.333)"><path d="M160.667 195.667H102.333M195.667 149H102.333M32.3333 242.333H219C225.188 242.333 231.123 239.875 235.499 235.499C239.875 231.123 242.333 225.188 242.333 219V32.3333C242.333 26.1449 239.875 20.21 235.499 15.8342C231.123 11.4583 225.188 9 219 9H79C72.8116 9 66.8767 11.4583 62.5008 15.8342C58.125 20.21 55.6667 26.1449 55.6667 32.3333V219C55.6667 225.188 53.2083 231.123 48.8325 235.499C44.4566 239.875 38.5217 242.333 32.3333 242.333ZM32.3333 242.333C26.1449 242.333 20.21 239.875 15.8342 235.499C11.4583 231.123 9 225.188 9 219V114C9 107.812 11.4583 101.877 15.8342 97.5008C20.21 93.125 26.1449 90.6667 32.3333 90.6667H55.6667"></path><path d="M184 55.6667H114C107.557 55.6667 102.333 60.89 102.333 67.3333V90.6667C102.333 97.11 107.557 102.333 114 102.333H184C190.443 102.333 195.667 97.11 195.667 90.6667V67.3333C195.667 60.89 190.443 55.6667 184 55.6667Z"></path></g></svg>`,
             subjects: [
               {
-                name: 'Saudi Arabia halts East-West pipeline after drone attacks from Iraq, with repairs expected to take three to five weeks',
-                summary: 'Saudi Arabia suspended operations on its East-West oil pipeline following drone attacks launched from Iraq that damaged pumping stations in the Riyadh and Medina regions. Satellite imagery confirmed major damage to a key facility, and officials told AP that repairs will take three to five weeks, potentially depleting export stocks at Yanbu.',
-                timeStart: '2026-09-11T00:00:00Z',
-                timeLatest: '2026-09-15T21:40:00Z',
+                name: 'US stocks retreat from record highs on oil-driven inflation fears and Fed rate hike bets',
+                summary: 'A record-breaking US stock rally stalled as elevated oil prices fueled inflation concerns and bets on further Federal Reserve rate hikes, pulling the S&P 500 down from its peak. In the Treasury market, 10-year yields remained near their highest levels since 2002 following a solid $39 billion bond sale.',
+                timeStart: '2026-10-08T01:20:45Z',
+                timeLatest: '2026-10-08T05:38:34Z',
+                topSource: 'bloomberg.com',
                 cover: './images/vertical/subject-1.webp',
-                fallbackCover: 'https://www.reuters.com/resizer/v2/NBVC6SDELNITTNCA4X55OSSPKM.jpg?auth=45ddc3632d960da3fa4dc5652e455479277bdb7240c23991d56f1ff7164c973d&height=1005&width=1920&quality=80&smart=true',
+                fallbackCover: '/images/vertical/subject-1.webp',
                 articles: [
                   {
-                    title: 'Global Oil Prices Could Hit Highest Levels in Months After Saudi Pipeline Attacks',
-                    timePublished: '2026-09-15T05:26:15Z',
-                    url: 'https://www.sbs.com.au/news/article/global-oil-prices-could-hit-highest-levels-in-months-after-saudi-pipeline-attacks/2958h2'
+                    title: 'Fed Swaps Price in Higher Peak Rate as Brent Crude Crosses $90',
+                    timePublished: '2026-10-08T01:20:45Z',
+                    url: 'https://www.reuters.com/markets/us/fed-swaps-higher-peak-rate-oil-2026-10-08/'
                   },
                   {
-                    title: 'Saudi Arabia: Satellite image reveals major damage that shut crucial oil pipeline',
-                    timePublished: '2026-09-15T05:27:44Z',
-                    url: 'https://www.sbs.com.au/news/article/saudi-arabia-satellite-image-reveals-major-damage/c65yw2gq2nrno'
+                    title: 'S&P 500 Snaps Winning Streak as Crude Jumps Past Key Resistance',
+                    timePublished: '2026-10-08T02:45:12Z',
+                    url: 'https://www.wsj.com/finance/stocks/sp-500-snaps-winning-streak-crude-jump'
                   },
                   {
-                    title: 'Oil squeeze tightens as Iran-backed attacks cripple Hormuz escape routes',
-                    timePublished: '2026-09-15T06:45:31Z',
-                    url: 'https://www.cnbc.com/politics/oil-squeeze-tightens-iran-backed-attacks-cripple-hormuz-escape-routes.print'
+                    title: 'Treasury 10-Year Yields Hold Near Two-Decade Highs After $39B Auction',
+                    timePublished: '2026-10-08T03:50:20Z',
+                    url: 'https://www.bloomberg.com/news/articles/2026-10-08/treasury-10-year-yields-near-highs'
                   },
                   {
-                    title: 'Aramco activates emergency storage tankers at Yanbu port amid transit deadlock',
-                    timePublished: '2026-09-15T09:04:31Z',
-                    url: 'https://www.bloomberg.com/news/articles/2026-09-15/aramco-activates-emergency-yanbu-storage-tankers'
-                  },
-                  {
-                    title: 'Saudi pipeline outage threatens loss of 4% of global oil supply',
-                    timePublished: '2026-09-15T12:04:04Z',
+                    title: 'Oil, Inflation Fears Derail Record US Stock Rally',
+                    timePublished: '2026-10-08T05:38:34Z',
                     relativeTime: '3m ago',
-                    url: 'https://www.reuters.com/business/energy/saudi-pipeline-outage-threatens-loss-4-global-oil-supply-2026-09-15/'
+                    url: 'https://www.bloomberg.com/news/articles/2026-10-08/oil-inflation-fears-derail-record-us-stock-rally'
                   }
                 ]
               },
               {
-                name: "Ghalibaf says Strait of Hormuz will remain closed until Iran's seven conditions are met",
-                summary: "Iranian Parliament Speaker Mohammad Bagher Ghalibaf stated on September 20 that the Strait of Hormuz will not be reopened until the United States meets Iran's seven specific conditions. He announced that Tehran has conveyed these conditions to Washington through mediators and emphasized that Iran will pursue a strategy combining military action with diplomacy.",
-                timeStart: '2026-09-19T00:00:00Z',
-                timeLatest: '2026-09-20T21:40:00Z',
+                name: 'Emerging-market stocks and currencies advance on softer US jobs data and lower oil prices',
+                summary: "Emerging-market stocks and currencies advanced on Monday after softer-than-expected US jobs data and a further decline in oil prices helped ease concern over aggressive interest-rate hikes by the Federal Reserve. MSCI Inc.'s gauge for developing-market equities climbed as much as 1.1%, while an index for EM currencies rose 0.3%.",
+                timeStart: '2026-10-05T00:00:00Z',
+                timeLatest: '2026-10-05T10:23:26Z',
+                topSource: 'bloomberg.com',
                 cover: './images/vertical/subject-2.webp',
-                fallbackCover: 'https://th-i.thgim.com/public/incoming/hc96xo/article71487642.ece/alternates/LANDSCAPE_1200/2026-08-21T070048Z_1945003085_RC2V2NAMLYIS_RTRMADP_3_IRAN-CRISIS-IRAQ-QALIBAF-NAJAF.JPG',
+                fallbackCover: '/images/vertical/subject-2.webp',
                 articles: [
                   {
-                    title: 'Tehran outlines seven non-negotiable conditions for Hormuz strait access',
-                    timePublished: '2026-09-20T06:15:20Z',
-                    url: 'https://www.aljazeera.com/news/2026/9/20/tehran-outlines-seven-conditions-hormuz'
+                    title: 'Asian Currencies Strengthen Following Softer US Employment Data',
+                    timePublished: '2026-10-05T04:12:00Z',
+                    url: 'https://www.reuters.com/markets/currencies/asian-currencies-strengthen-us-data-2026-10-05/'
                   },
                   {
-                    title: "Swiss diplomatic backchannel receives Iran's formal demands on sanctions relief",
-                    timePublished: '2026-09-20T08:38:54Z',
-                    url: 'https://www.reuters.com/world/middle-east/swiss-backchannel-receives-iran-demands-2026-09-20/'
+                    title: 'MSCI Developing Equities Gauge Rallies as US Dollar Pulls Back',
+                    timePublished: '2026-10-05T08:45:10Z',
+                    url: 'https://www.bloomberg.com/news/articles/2026-10-05/msci-developing-equities-gauge-rallies'
                   },
                   {
-                    title: "No reopening of Strait of Hormuz until Iran's conditions are met, says Ghalibaf",
-                    timePublished: '2026-09-20T10:44:29Z',
-                    url: 'https://www.thehindu.com/news/international/no-reopening-of-strait-of-hormuz-until-irans-conditions-are-met-says-ghalibaf/article71487500.ece'
-                  },
-                  {
-                    title: 'US State Department rejects Tehran ultimatum, calls maritime blockade unacceptable',
-                    timePublished: '2026-09-20T13:20:10Z',
-                    url: 'https://www.cnn.com/2026/09/20/politics/state-department-rejects-iran-hormuz-ultimatum/index.html'
-                  },
-                  {
-                    title: 'UN Security Council convenes emergency session on Persian Gulf naval standoff',
-                    timePublished: '2026-09-20T18:05:42Z',
-                    relativeTime: '10m ago',
-                    url: 'https://apnews.com/article/un-security-council-iran-hormuz-standoff-2026'
+                    title: 'Emerging-Market Assets Climb as Fed Hike Bets Cool, Oil Drops',
+                    timePublished: '2026-10-05T10:23:26Z',
+                    relativeTime: '12m ago',
+                    url: 'https://www.bloomberg.com/news/articles/2026-10-05/emerging-market-assets-climb-fed-hike-bets-cool'
                   }
                 ]
               },
               {
-                name: 'Houthi rebels seize Greater and Lesser Hanish islands, tightening control of Bab el-Mandeb Strait',
-                summary: "Yemen's Houthi rebels have captured the strategic islands of Greater and Lesser Hanish in the southern Red Sea, displacing more than 80,000 people in recent fighting. The seizure strengthens the Iran-backed group's grip on the Bab el-Mandeb shipping route and has intensified concerns over global oil supply disruptions.",
-                timeStart: '2026-09-14T00:00:00Z',
-                timeLatest: '2026-09-15T21:40:00Z',
+                name: 'US PCE Inflation Rises 0.3% in August, Lowering Odds of October Fed Rate Hike',
+                summary: 'The US Commerce Department reported that the Personal Consumption Expenditures (PCE) price index rose 0.3% in August, while core PCE inflation increased 0.2% month-over-year. Following the release, traders reduced the market-implied probability of a Federal Reserve rate hike in October to about 36%.',
+                timeStart: '2026-09-30T00:00:00Z',
+                timeLatest: '2026-10-01T01:22:36Z',
+                topSource: 'bloomberg.com',
                 cover: './images/vertical/subject-3.webp',
-                fallbackCover: 'https://i.guim.co.uk/img/media/0d73d909d1a2538485c626492748c53674c1966e/0_0_3840_3072/master/3840.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=75486fa313ea5ee36d3db5532d4f7a78',
+                fallbackCover: '/images/vertical/subject-3.webp',
                 articles: [
                   {
-                    title: 'Houthis seize strategic Red Sea islands as analysts warn of impending oil crunch',
-                    timePublished: '2026-09-15T04:22:16Z',
-                    url: 'https://www.theguardian.com/world/2026/sep/15/houthi-rebels-seize-red-sea-hanish-islands-saudi-oil-warning'
+                    title: "Why Distortions in August's PCE Report May Complicate the Fed's Next Move",
+                    timePublished: '2026-09-30T14:38:46Z',
+                    url: 'https://www.barrons.com/articles/why-distortions-august-pce-report-complicate-fed-next-move'
                   },
                   {
-                    title: 'Houthi naval units launch amphibious assault on Red Sea navigation hubs',
-                    timePublished: '2026-09-15T07:47:23Z',
-                    url: 'https://apnews.com/article/yemen-houthi-red-sea-amphibious-assault-2026'
+                    title: 'US Consumer Spending Rises Most in a Year, Core PCE Up 0.2%',
+                    timePublished: '2026-09-30T20:33:32Z',
+                    url: 'https://www.bloomberg.com/news/articles/2026-09-30/us-consumer-spending-rises-core-pce-up'
                   },
                   {
-                    title: 'Commercial vessels reroute around Cape of Good Hope, adding two weeks to transit',
-                    timePublished: '2026-09-15T11:30:45Z',
-                    url: 'https://www.ft.com/content/red-sea-rerouting-cape-good-hope-delays'
+                    title: 'Traders Cut Odds of October Fed Rate Hike After PCE Inflation Data Misses',
+                    timePublished: '2026-09-30T20:48:02Z',
+                    url: 'https://www.bloomberg.com/news/articles/2026-09-30/traders-cut-odds-october-fed-rate-hike-pce-miss'
                   },
                   {
-                    title: 'Coalition warships reposition toward southern Bab el-Mandeb following island capture',
-                    timePublished: '2026-09-15T14:28:31Z',
-                    url: 'https://news.usni.org/2026/09/15/coalition-warships-reposition-bab-el-mandeb'
-                  },
-                  {
-                    title: 'Insurance syndicates declare entire southern Red Sea high-risk war exclusion zone',
-                    timePublished: '2026-09-15T19:18:00Z',
-                    relativeTime: '24m ago',
-                    url: 'https://www.lloydslist.com/insurance/red-sea-war-exclusion-zone-declaration'
+                    title: 'Gold price today: Why is gold rising after cooler US inflation data?',
+                    timePublished: '2026-10-01T01:22:36Z',
+                    relativeTime: '1h ago',
+                    url: 'https://www.hindustantimes.com/business/gold-price-today-rising-after-cooler-us-inflation-data'
                   }
                 ]
               },
               {
-                name: 'Oil prices rise 1.75% to $107.50 as traders assess impact of Saudi pipeline shutdown',
-                summary: "Brent crude futures rose 1.75% to $107.50 per barrel and WTI rose 1.8% to $103.17 per barrel on Tuesday, September 15, 2026, as traders assessed the impact of the shutdown of Saudi Arabia's East-West pipeline. The closure, caused by recent strikes, threatens up to 4% of global oil supply, with the true extent of the damage to the pipeline not yet confirmed.",
-                timeStart: '2026-09-13T00:00:00Z',
-                timeLatest: '2026-09-15T21:40:00Z',
+                name: 'Global markets open mixed as Brent crude tops $100 on Houthi claim of attacks on Saudi Aramco',
+                summary: 'Global markets opened mixed on Monday, October 5, as the probability of the Federal Reserve keeping its policy rate unchanged this month exceeded 80%. Brent crude oil climbed back above $100 per barrel after the Iranian-backed Yemeni Houthi group said it attacked Saudi Aramco facilities in Riyadh and Khurais with ballistic missiles and drones. The US Dollar Index rose 0.5% to 102.5, its highest level since April 2025, amid heightened geopolitical tensions.',
+                timeStart: '2026-10-05T00:00:00Z',
+                timeLatest: '2026-10-05T16:35:22Z',
+                topSource: 'aa.com.tr',
                 cover: './images/vertical/subject-4.webp',
-                fallbackCover: 'https://images.wsj.net/im-48341995/social',
+                fallbackCover: '/images/vertical/subject-4.webp',
                 articles: [
                   {
-                    title: 'Oil Prices Rise as Traders Gauge Lost Saudi Arabian Volumes After Pipeline Attack',
-                    timePublished: '2026-09-15T05:37:00Z',
-                    url: 'https://www.wsj.com/finance/currencies/oil-rises-as-stabilizers-in-crude-market-start-to-weaken-5dc85781'
+                    title: 'Dollar Index Touches 102.5 on Safe-Haven Inflows and Geopolitical Tensions',
+                    timePublished: '2026-10-05T09:05:14Z',
+                    url: 'https://www.bloomberg.com/news/articles/2026-10-05/dollar-index-touches-102-5-geopolitical-tensions'
                   },
                   {
-                    title: 'Iran dismisses US talks as Strait of Hormuz crisis deepens across commodities',
-                    timePublished: '2026-09-15T08:31:14Z',
-                    url: 'https://www.thenationalnews.com/news/gulf/2026/09/15/iran-dismisses-us-talks-as-hormuz-crisis-deepens/'
+                    title: 'Brent Crude Tops $100 as Middle East Supply Disruption Threat Intensifies',
+                    timePublished: '2026-10-05T12:18:40Z',
+                    url: 'https://www.reuters.com/business/energy/brent-crude-tops-100-middle-east-supply-disruptions'
                   },
                   {
-                    title: 'Brent crude surges past $105 as Asian markets open to Middle East supply shock',
-                    timePublished: '2026-09-15T11:23:00Z',
-                    url: 'https://www.bloomberg.com/news/articles/2026-09-15/brent-crude-surges-past-105-middle-east-shock'
-                  },
-                  {
-                    title: 'IEA considers coordinated strategic petroleum reserve release to calm markets',
-                    timePublished: '2026-09-15T16:40:22Z',
-                    url: 'https://www.reuters.com/business/energy/iea-emergency-reserve-release-deliberations-2026-09-15/'
-                  },
-                  {
-                    title: 'OPEC+ delegates signal no immediate quota hikes despite spiking global futures',
-                    timePublished: '2026-09-15T20:15:30Z',
-                    relativeTime: '36m ago',
-                    url: 'https://www.cnbc.com/2026/09/15/opec-no-quota-hike-oil-crisis.html'
+                    title: 'Global markets open mixed despite easing expectations for Fed rate hike',
+                    timePublished: '2026-10-05T16:35:22Z',
+                    relativeTime: '2h ago',
+                    url: 'https://www.aa.com.tr/en/economy/global-markets-open-mixed-despite-easing-fed-expectations'
                   }
                 ]
               }

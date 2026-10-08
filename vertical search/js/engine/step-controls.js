@@ -170,9 +170,11 @@ export function initStepControls() {
       if (idx === 0) {
         const compBtn = document.querySelector('.step-btn[data-step="company-detail"]') || document.querySelectorAll('.step-btn')[2];
         if (compBtn) compBtn.click();
+        else runCycle('company-detail');
       } else if (idx === 1) {
         const persBtn = document.querySelector('.step-btn[data-step="person-detail"]') || document.querySelectorAll('.step-btn')[3];
         if (persBtn) persBtn.click();
+        else runCycle('person-detail');
       }
     });
   }
