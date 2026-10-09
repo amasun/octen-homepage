@@ -3345,6 +3345,161 @@
   line-height: 1;
 }
 
+/* ========================================================
+   Financials Section & SVG Curve Chart
+   ======================================================== */
+.biz-financials-sec-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+.biz-financials-sec-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 1px;
+}
+.biz-financials-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.biz-fin-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #64748B;
+}
+.biz-fin-legend-line {
+  display: inline-block;
+  width: 12px;
+  height: 2.5px;
+  border-radius: 2px;
+  background: #10B981;
+}
+.biz-fin-legend-line.dashed {
+  background: transparent;
+  border-top: 2px dashed #0284C7;
+  height: 0;
+  width: 12px;
+}
+
+.biz-financials-subcard {
+  background: #F5F5F5;
+  border-radius: 8px;
+  padding: 10px 14px 8px 14px;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Financials Metrics Top Row */
+.biz-financials-top-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 2px;
+}
+.biz-fin-primary-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.biz-fin-stat-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.biz-fin-stat-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.biz-fin-growth-badge {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #059669;
+  background: rgba(16, 185, 129, 0.12);
+  padding: 1px 5px;
+  border-radius: 4px;
+  line-height: 1.3;
+}
+.biz-fin-stat-number-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.biz-fin-hero-num {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0F172A;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.biz-fin-period-tag {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #94A3B8;
+}
+
+.biz-fin-secondary-stat {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.biz-fin-substat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+.biz-fin-substat-lbl {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  color: #94A3B8;
+  letter-spacing: 0.3px;
+}
+.biz-fin-substat-val {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1E293B;
+  line-height: 1.2;
+}
+
+/* SVG Chart */
+.biz-financials-chart-wrapper {
+  width: 100%;
+  position: relative;
+  overflow: visible;
+}
+.biz-financials-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+.biz-fin-pulse-ring {
+  animation: bizNodePulse 1.8s ease-in-out infinite;
+  transform-origin: center;
+}
+
 /* Figma Subcard Container (#F2F2F2 rounded 8px, Figma 13810:169898) */
 .biz-figma-subcard {
   background: #F2F2F2;

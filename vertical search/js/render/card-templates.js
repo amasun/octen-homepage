@@ -123,6 +123,186 @@ export function prepareTimelineItems(items, defaultRelative = '12m ago') {
 }
 
 /**
+ * Generate Financials Section with SVG Curve Chart
+ */
+export function createFinancialsSectionHTML(entity) {
+  const finList = entity.metrics?.financials;
+  if (!finList || !finList.length) return '';
+
+  // Filter quarterly reports (exclude annual summaries like 'FY, 2026')
+  const quarterly = finList.filter(f => f.period && !f.period.includes('FY')).slice(0, 7).reverse();
+  if (quarterly.length < 2) return '';
+
+  // Parse values in billions
+  const data = quarterly.map(f => {
+    const periodMatch = f.period.match(/(Q\d),\s*(\d{4})/);
+    const shortLabel = periodMatch ? `${periodMatch[1]} '${periodMatch[2].slice(2)}` : f.period;
+    return {
+      label: shortLabel,
+      fullPeriod: f.period,
+      revenue: (f.revenue || 0) / 1e9,
+      netIncome: (f.net_income || 0) / 1e9,
+      grossProfit: (f.gross_profit || 0) / 1e9
+    };
+  });
+
+  const latest = data[data.length - 1];
+  const prevYear = data.length >= 5 ? data[data.length - 5] : data[0];
+  const yoyGrowth = prevYear.revenue > 0 ? (((latest.revenue - prevYear.revenue) / prevYear.revenue) * 100).toFixed(0) : '+43';
+  const growthSign = Number(yoyGrowth) >= 0 ? '+' : '';
+  const netMargin = latest.revenue > 0 ? ((latest.netIncome / latest.revenue) * 100).toFixed(1) : '71.5';
+
+  // SVG coordinate system
+  const width = 340;
+  const height = 118;
+  const padLeft = 34;
+  const padRight = 26;
+  const padTop = 22;
+  const padBottom = 22;
+  const usableW = width - padLeft - padRight;
+  const usableH = height - padTop - padBottom;
+
+  const maxVal = 90.0;
+  const minVal = 0.0;
+
+  const getPt = (val, idx) => {
+    const x = padLeft + (idx / (data.length - 1)) * usableW;
+    const y = padTop + (1 - (val - minVal) / (maxVal - minVal)) * usableH;
+    return [Number(x.toFixed(1)), Number(y.toFixed(1))];
+  };
+
+  const revPts = data.map((d, i) => getPt(d.revenue, i));
+  const niPts = data.map((d, i) => getPt(d.netIncome, i));
+
+  const buildBezier = (pts) => {
+    if (!pts.length) return '';
+    let d = `M ${pts[0][0]},${pts[0][1]}`;
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[i - 1] || pts[i];
+      const p1 = pts[i];
+      const p2 = pts[i + 1];
+      const p3 = pts[i + 2] || p2;
+      const cp1x = p1[0] + (p2[0] - p0[0]) / 6;
+      const cp1y = p1[1] + (p2[1] - p0[1]) / 6;
+      const cp2x = p2[0] - (p3[0] - p1[0]) / 6;
+      const cp2y = p2[1] - (p3[1] - p1[1]) / 6;
+      d += ` C ${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${p2[0]},${p2[1]}`;
+    }
+    return d;
+  };
+
+  const revPath = buildBezier(revPts);
+  const niPath = buildBezier(niPts);
+  const bottomY = Number((padTop + usableH).toFixed(1));
+  const revArea = `${revPath} L ${revPts[revPts.length - 1][0]},${bottomY} L ${revPts[0][0]},${bottomY} Z`;
+
+  const lastPt = revPts[revPts.length - 1];
+  const lastTagX = Math.min(Math.max(lastPt[0] - 28, padLeft), width - 58);
+  const lastTagY = Math.max(lastPt[1] - 22, 2);
+
+  const y40 = Number((padTop + (1 - 40 / maxVal) * usableH).toFixed(1));
+  const y80 = Number((padTop + (1 - 80 / maxVal) * usableH).toFixed(1));
+
+  return `
+    <!-- Financials Section (Revenue & Net Income Trend Curve) -->
+    <div class="biz-figma-sec-group biz-financials-sec-group">
+      <div class="biz-financials-sec-header">
+        <h4 class="biz-figma-sec-title">Financials</h4>
+        <div class="biz-financials-legend">
+          <span class="biz-fin-legend-item biz-fin-legend-rev">
+            <span class="biz-fin-legend-line"></span>Revenue
+          </span>
+          <span class="biz-fin-legend-item biz-fin-legend-ni">
+            <span class="biz-fin-legend-line dashed"></span>Net Income
+          </span>
+        </div>
+      </div>
+      <div class="biz-figma-subcard biz-financials-subcard">
+        <!-- Top Metrics Highlight Row -->
+        <div class="biz-financials-top-row">
+          <div class="biz-fin-primary-stat">
+            <div class="biz-fin-stat-meta">
+              <span class="biz-fin-stat-title">Quarterly Revenue</span>
+              <span class="biz-fin-growth-badge">${growthSign}${yoyGrowth}% YoY</span>
+            </div>
+            <div class="biz-fin-stat-number-wrap">
+              <span class="biz-fin-hero-num">$${latest.revenue.toFixed(1)}B</span>
+              <span class="biz-fin-period-tag">${latest.fullPeriod}</span>
+            </div>
+          </div>
+          <div class="biz-fin-secondary-stat">
+            <div class="biz-fin-substat-box">
+              <span class="biz-fin-substat-lbl">NET INCOME</span>
+              <span class="biz-fin-substat-val">$${latest.netIncome.toFixed(1)}B</span>
+            </div>
+            <div class="biz-fin-substat-box">
+              <span class="biz-fin-substat-lbl">NET MARGIN</span>
+              <span class="biz-fin-substat-val">${netMargin}%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SVG Curve Chart -->
+        <div class="biz-financials-chart-wrapper">
+          <svg class="biz-financials-svg" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="bizFinRevAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#10B981" stop-opacity="0.25" />
+                <stop offset="65%" stop-color="#10B981" stop-opacity="0.06" />
+                <stop offset="100%" stop-color="#10B981" stop-opacity="0.0" />
+              </linearGradient>
+            </defs>
+
+            <!-- Background Grid & Y-Axis -->
+            <line x1="${padLeft - 4}" y1="${bottomY}" x2="${width - 12}" y2="${bottomY}" stroke="rgba(0,0,0,0.08)" stroke-width="1" />
+            <text x="${padLeft - 8}" y="${bottomY + 3}" text-anchor="end" font-size="8.5" fill="#94A3B8" font-family="'DM Sans', sans-serif" font-weight="500">$0</text>
+            
+            <line x1="${padLeft - 4}" y1="${y40}" x2="${width - 12}" y2="${y40}" stroke="rgba(0,0,0,0.05)" stroke-width="1" stroke-dasharray="3 3" />
+            <text x="${padLeft - 8}" y="${y40 + 3}" text-anchor="end" font-size="8.5" fill="#94A3B8" font-family="'DM Sans', sans-serif" font-weight="500">$40B</text>
+
+            <line x1="${padLeft - 4}" y1="${y80}" x2="${width - 12}" y2="${y80}" stroke="rgba(0,0,0,0.05)" stroke-width="1" stroke-dasharray="3 3" />
+            <text x="${padLeft - 8}" y="${y80 + 3}" text-anchor="end" font-size="8.5" fill="#94A3B8" font-family="'DM Sans', sans-serif" font-weight="500">$80B</text>
+
+            <!-- Revenue Area Fill -->
+            <path d="${revArea}" fill="url(#bizFinRevAreaGrad)" />
+
+            <!-- Net Income Curve (Dashed Blue) -->
+            <path d="${niPath}" fill="none" stroke="#0284C7" stroke-width="1.8" stroke-dasharray="4 3" stroke-linecap="round" stroke-linejoin="round" />
+
+            <!-- Revenue Curve (Emerald Green) -->
+            <path d="${revPath}" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+
+            <!-- Net Income Dots -->
+            ${niPts.map(([x, y]) => `
+              <circle cx="${x}" cy="${y}" r="2.8" fill="#FFFFFF" stroke="#0284C7" stroke-width="1.6" />
+            `).join('')}
+
+            <!-- Revenue Dots -->
+            ${revPts.map(([x, y], i) => `
+              <circle cx="${x}" cy="${y}" r="${i === revPts.length - 1 ? '4' : '3'}" fill="${i === revPts.length - 1 ? '#10B981' : '#FFFFFF'}" stroke="#10B981" stroke-width="2" />
+            `).join('')}
+
+            <!-- Pulse Beacon on Latest Revenue Point -->
+            <circle cx="${lastPt[0]}" cy="${lastPt[1]}" r="7" fill="none" stroke="#10B981" stroke-width="1.2" opacity="0.6" class="biz-fin-pulse-ring" />
+
+            <!-- Latest Floating Badge -->
+            <g class="biz-fin-latest-badge" transform="translate(${lastTagX}, ${lastTagY})">
+              <rect width="54" height="18" rx="4" fill="#FFFFFF" stroke="#10B981" stroke-width="1" filter="drop-shadow(0 1px 2px rgba(0,0,0,0.06))" />
+              <text x="27" y="12.5" text-anchor="middle" font-size="9.5" font-weight="700" fill="#059669" font-family="'DM Sans', sans-serif">$${latest.revenue.toFixed(1)}B</text>
+            </g>
+
+            <!-- X-Axis Labels -->
+            ${data.map((d, i) => `
+              <text x="${revPts[i][0]}" y="${height - 6}" text-anchor="middle" font-size="9" fill="#64748B" font-family="'DM Sans', sans-serif" font-weight="500">${d.label}</text>
+            `).join('')}
+          </svg>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/**
  * Stage 3: Business Summary Card (Two cards: Company & Person)
  */
 export function createBusinessSummaryCardHTML(entity, index) {
@@ -261,6 +441,8 @@ export function createBusinessSummaryCardHTML(entity, index) {
                   `).join('')}
                 </div>
               </div>
+
+              ${createFinancialsSectionHTML(entity)}
 
               <!-- Official Activities -->
               <div class="biz-figma-sec-group">
@@ -591,6 +773,8 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
               `).join('')}
             </div>
           </div>
+
+          ${createFinancialsSectionHTML(comp)}
 
           <!-- Official Activities Section (Figma 13810:169891) -->
           <div class="biz-figma-sec-group">

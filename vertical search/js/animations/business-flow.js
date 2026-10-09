@@ -27,27 +27,20 @@ export async function playCompanyFlowAnimation(isValid = () => true) {
   const groups = Array.from(fullSec.querySelectorAll('.biz-figma-sec-group'));
   if (groups.length === 0) return;
 
-  // Build flow units list
+  // Build flow units list dynamically
   const flowUnits = [];
 
-  // Unit 0: Key People group (title + pills)
-  if (groups[0]) flowUnits.push({ element: groups[0], hasDot: false });
-
-  // Units for Official Activities (group 1)
-  if (groups[1]) {
-    const title = groups[1].querySelector('.biz-figma-sec-title');
-    if (title) title.style.opacity = '1';
-    const rows = Array.from(groups[1].querySelectorAll('.biz-figma-timeline-row'));
-    rows.forEach(r => flowUnits.push({ element: r, hasDot: true }));
-  }
-
-  // Units for Media News (group 2)
-  if (groups[2]) {
-    const title = groups[2].querySelector('.biz-figma-sec-title');
-    if (title) title.style.opacity = '1';
-    const rows = Array.from(groups[2].querySelectorAll('.biz-figma-timeline-row'));
-    rows.forEach(r => flowUnits.push({ element: r, hasDot: true }));
-  }
+  groups.forEach(group => {
+    const isTimeline = group.querySelector('.biz-figma-timeline-list');
+    if (isTimeline) {
+      const title = group.querySelector('.biz-figma-sec-title');
+      if (title) title.style.opacity = '1';
+      const rows = Array.from(group.querySelectorAll('.biz-figma-timeline-row'));
+      rows.forEach(r => flowUnits.push({ element: r, hasDot: true }));
+    } else {
+      flowUnits.push({ element: group, hasDot: false });
+    }
+  });
 
   // Initially hide all units with subtle downward translation
   flowUnits.forEach(u => {
