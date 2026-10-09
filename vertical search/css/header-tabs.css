@@ -168,47 +168,11 @@
         z-index: 20;
         position: relative;
       }
-      /* Sliding Glider Capsule Indicator with Smooth Motion Mask */
-      .tabs-indicator {
-        position: absolute;
-        top: 0;
-        left: 0;
-        border-radius: 99px;
-        background-color: #8adb47;
-        box-shadow: none !important; /* 彻底去除胶囊外发光效果 */
-        pointer-events: none;
-        z-index: 3;
-        overflow: hidden;
-        transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
-                    width 0.38s cubic-bezier(0.16, 1, 0.3, 1),
-                    height 0.38s cubic-bezier(0.16, 1, 0.3, 1),
-                    background-color 0.38s cubic-bezier(0.16, 1, 0.3, 1);
-        will-change: transform, width, background-color;
-      }
+      .tabs-indicator,
       .tabs-indicator-track {
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        height: 100%;
-        pointer-events: none;
-        will-change: transform;
+        display: none !important;
       }
-      .tabs-indicator-track .tab-clone {
-        color: #000000 !important;
-        pointer-events: none;
-        user-select: none;
-        cursor: default;
-        background: transparent !important;
-        box-shadow: none !important;
-      }
-      .tabs-indicator-track .tab-clone .tab-trigger-icon svg {
-        stroke: #000000 !important;
-      }
-      .tab-trigger,
-      .tab-clone {
+      .tab-trigger {
         position: relative;
         z-index: 2;
         display: inline-flex;
@@ -219,75 +183,68 @@
         padding: 0 20px 0 16px;
         border-radius: 99px;
         border: none;
-        background: transparent !important;
-        box-shadow: none !important; /* 彻底去除胶囊外发光效果 */
+        background: transparent;
+        box-shadow: none !important;
         color: rgba(255, 255, 255, 0.7);
         font-family: 'DM Sans', sans-serif;
         font-size: 16px;
         font-weight: 600;
         line-height: 24px;
         cursor: pointer;
-        transition: color 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: background-color 0.22s ease, color 0.22s ease;
         user-select: none;
         white-space: nowrap;
-      }
-      .tab-clone {
-        color: #000000 !important;
-        pointer-events: none;
-        user-select: none;
-        cursor: default;
       }
       .tab-trigger:not(.active):hover {
         color: #ffffff;
         background: rgba(255, 255, 255, 0.08) !important;
       }
       .tab-trigger.active {
-        color: rgba(255, 255, 255, 0.7);
-        background: transparent !important;
+        color: #000000 !important;
         box-shadow: none !important;
       }
-      .tab-trigger.active:hover {
-        background: transparent !important;
-        color: #ffffff !important;
+      .tab-trigger.active[data-vertical="news"],
+      .demo-wrapper[data-theme="news"] .tab-trigger.active[data-vertical="news"] {
+        background: #8adb47 !important;
+        color: #000000 !important;
       }
-      .tab-trigger .tab-trigger-icon,
-      .tab-clone .tab-trigger-icon {
+      .tab-trigger.active[data-vertical="business"],
+      .demo-wrapper[data-theme="business"] .tab-trigger.active[data-vertical="business"] {
+        background: #FBBF24 !important;
+        color: #000000 !important;
+      }
+      .tab-trigger.active:hover {
+        color: #000000 !important;
+        opacity: 0.95;
+      }
+      .tab-trigger .tab-trigger-icon {
         display: flex;
         align-items: center;
         justify-content: center;
         width: 18px;
         height: 18px;
         flex-shrink: 0;
-        transition: transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         will-change: transform;
       }
-      .tab-trigger.active .tab-trigger-icon,
-      .tab-clone.active .tab-trigger-icon {
-        transform: scale(1.12) rotate(-3deg);
+      .tab-trigger.active .tab-trigger-icon {
+        transform: scale(1.08) rotate(-3deg);
       }
-      .tab-trigger:not(.active) .tab-trigger-icon,
-      .tab-clone:not(.active) .tab-trigger-icon {
-        transform: scale(0.96) rotate(0deg);
+      .tab-trigger:not(.active) .tab-trigger-icon {
+        transform: scale(1) rotate(0deg);
       }
       .tab-trigger .tab-trigger-icon svg {
         stroke: rgba(255, 255, 255, 0.7);
-        transition: stroke 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: stroke 0.22s ease;
       }
       .tab-trigger:not(.active):hover .tab-trigger-icon svg {
         stroke: #ffffff;
       }
-      .tab-trigger span:last-child,
-      .tab-clone span:last-child {
+      .tab-trigger.active .tab-trigger-icon svg {
+        stroke: #000000 !important;
+      }
+      .tab-trigger span:last-child {
         display: inline-block;
-        transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .tab-trigger.active span:last-child,
-      .tab-clone.active span:last-child {
-        transform: scale(1.02);
-      }
-      .tab-trigger:not(.active) span:last-child,
-      .tab-clone:not(.active) span:last-child {
-        transform: scale(1);
       }
 
       /* ======================================================== */
