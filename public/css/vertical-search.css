@@ -3264,28 +3264,45 @@
   align-items: center;
   gap: 8px;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 .biz-figma-person-pill {
   background: #F5F5F5;
   border-radius: 6px;
-  padding: 4px 10px;
+  padding: 4px 8px;
   display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
+  align-items: center;
+  gap: 5px;
   height: 24px;
   box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  flex: 0 1 auto;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .biz-figma-person-name {
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 600;
   color: #0F172A;
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1;
 }
 .biz-figma-person-role {
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
   font-weight: 400;
   color: #64748B;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1 1 auto;
+  line-height: 1;
 }
 
 /* Figma Subcard Container (#F2F2F2 rounded 8px, Figma 13810:169898) */
@@ -3695,25 +3712,44 @@
 }
 .biz-people-pills {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 .biz-person-pill {
   display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
-  padding: 4px 10px;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
   background: #F1F5F9;
   border-radius: 6px;
   font-size: 12px;
+  height: 24px;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  flex: 0 1 auto;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .biz-person-name {
   font-weight: 600;
   color: #0F172A;
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1;
 }
 .biz-person-role {
   font-size: 11px;
   color: #64748B;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1 1 auto;
+  line-height: 1;
 }
 
 /* Dual-Track (Activities vs News) */

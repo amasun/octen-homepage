@@ -147,11 +147,10 @@ export function createBusinessSummaryCardHTML(entity, index) {
 
   if (isCompany) {
     const compPeople = (entity.key_people && entity.key_people.length) 
-      ? entity.key_people.slice(0, 3) 
+      ? entity.key_people.slice(0, 2) 
       : [
           { name: 'Jensen Huang', title: 'Founder, President & CEO' },
-          { name: 'Colette Kress', title: 'EVP & CFO' },
-          { name: 'Michael Kagan', title: 'CTO' }
+          { name: 'Colette Kress', title: 'EVP & CFO' }
         ];
 
     const compActivities = prepareTimelineItems(entity.activities || [], '15m ago');
@@ -255,9 +254,9 @@ export function createBusinessSummaryCardHTML(entity, index) {
                 <h4 class="biz-figma-sec-title">Key People</h4>
                 <div class="biz-figma-people-row">
                   ${compPeople.map(p => `
-                    <div class="biz-figma-person-pill">
-                      <span class="biz-figma-person-name">${p.name}</span>
-                      <span class="biz-figma-person-role">${p.title}</span>
+                    <div class="biz-figma-person-pill" title="${p.name} · ${p.title}">
+                      <span class="biz-figma-person-name" title="${p.name}">${p.name}</span>
+                      <span class="biz-figma-person-role" title="${p.title}">${p.title}</span>
                     </div>
                   `).join('')}
                 </div>
@@ -457,11 +456,10 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
   }
 
   const compPeople = (comp.key_people && comp.key_people.length) 
-    ? comp.key_people.slice(0, 3) 
+    ? comp.key_people.slice(0, 2) 
     : [
         { name: 'Jensen Huang', title: 'Founder, President & CEO' },
-        { name: 'Colette Kress', title: 'EVP & CFO' },
-        { name: 'Michael Kagan', title: 'CTO' }
+        { name: 'Colette Kress', title: 'EVP & CFO' }
       ];
 
   const compActivities = prepareTimelineItems(comp.activities || [], '15m ago');
@@ -586,9 +584,9 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
             <h4 class="biz-figma-sec-title">Key People</h4>
             <div class="biz-figma-people-row">
               ${compPeople.map(p => `
-                <div class="biz-figma-person-pill">
-                  <span class="biz-figma-person-name">${p.name}</span>
-                  <span class="biz-figma-person-role">${p.title}</span>
+                <div class="biz-figma-person-pill" title="${p.name} · ${p.title}">
+                  <span class="biz-figma-person-name" title="${p.name}">${p.name}</span>
+                  <span class="biz-figma-person-role" title="${p.title}">${p.title}</span>
                 </div>
               `).join('')}
             </div>
