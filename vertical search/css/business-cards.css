@@ -1363,7 +1363,7 @@
 .biz-financials-sec-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   width: 100%;
 }
 .biz-financials-sec-header {
@@ -1371,12 +1371,12 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0 1px;
+  padding: 0 4px;
 }
 .biz-financials-legend {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 .biz-fin-legend-item {
   display: inline-flex;
@@ -1403,14 +1403,15 @@
 
 .biz-financials-subcard {
   background: #F5F5F5;
-  border-radius: 8px;
-  padding: 10px 14px 8px 14px;
+  border-radius: 10px;
+  padding: 16px;
   position: relative;
   width: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
+  overflow: visible;
 }
 
 /* Financials Metrics Top Row */
@@ -1419,12 +1420,13 @@
   align-items: flex-end;
   justify-content: space-between;
   width: 100%;
-  padding-bottom: 2px;
+  padding: 0;
+  box-sizing: border-box;
 }
 .biz-fin-primary-stat {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 .biz-fin-stat-meta {
   display: flex;
@@ -1452,7 +1454,7 @@
 .biz-fin-stat-number-wrap {
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  gap: 8px;
 }
 .biz-fin-hero-num {
   font-family: 'DM Sans', sans-serif;
@@ -1472,13 +1474,13 @@
 .biz-fin-secondary-stat {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
 .biz-fin-substat-box {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 1px;
+  gap: 2px;
 }
 .biz-fin-substat-lbl {
   font-family: 'DM Sans', sans-serif;
@@ -1500,6 +1502,8 @@
   width: 100%;
   position: relative;
   overflow: visible;
+  padding: 0;
+  box-sizing: border-box;
 }
 .biz-financials-svg {
   width: 100%;
@@ -1507,9 +1511,153 @@
   display: block;
   overflow: visible;
 }
-.biz-fin-pulse-ring {
-  animation: bizNodePulse 1.8s ease-in-out infinite;
+
+/* Financials Chart Interactive Hover & Column Crosshairs */
+.biz-fin-col {
+  cursor: pointer;
+}
+.biz-fin-guide {
+  stroke: rgba(100, 116, 139, 0.35);
+  stroke-width: 1.2px;
+  stroke-dasharray: 3 2;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+.biz-fin-halo-rev {
+  fill: #10B981;
+  opacity: 0;
   transform-origin: center;
+  transition: opacity 0.15s ease, r 0.15s ease;
+  pointer-events: none;
+}
+.biz-fin-dot-hover-rev {
+  fill: #10B981;
+  stroke: #FFFFFF;
+  stroke-width: 2px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+.biz-fin-dot-hover-ni {
+  fill: #0284C7;
+  stroke: #FFFFFF;
+  stroke-width: 1.8px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+.biz-fin-axis-quarter {
+  fill: #64748B;
+  font-weight: 500;
+  transition: fill 0.15s ease, font-weight 0.15s ease;
+  pointer-events: none;
+}
+
+/* Hover & Active State */
+.biz-fin-col:hover .biz-fin-guide,
+.biz-fin-col.is-active .biz-fin-guide {
+  opacity: 1;
+}
+.biz-fin-col:hover .biz-fin-halo-rev,
+.biz-fin-col.is-active .biz-fin-halo-rev {
+  opacity: 0.25;
+  r: 9px;
+}
+.biz-fin-col:hover .biz-fin-dot-hover-rev,
+.biz-fin-col.is-active .biz-fin-dot-hover-rev,
+.biz-fin-col:hover .biz-fin-dot-hover-ni,
+.biz-fin-col.is-active .biz-fin-dot-hover-ni {
+  opacity: 1;
+}
+.biz-fin-col:hover .biz-fin-axis-quarter,
+.biz-fin-col.is-active .biz-fin-axis-quarter {
+  fill: #0F172A;
+  font-weight: 700;
+}
+
+/* Floating Cursor-Following Tooltip */
+.biz-fin-hover-tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -100%);
+  background: #FFFFFF;
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  border-radius: 8px;
+  padding: 6px 10px;
+  box-shadow: 0 4px 14px -2px rgba(15, 23, 42, 0.12), 0 2px 6px -1px rgba(15, 23, 42, 0.08);
+  font-family: 'DM Sans', sans-serif;
+  white-space: nowrap;
+  transition: opacity 0.15s ease, visibility 0.15s ease;
+  min-width: 104px;
+  box-sizing: border-box;
+}
+
+.biz-fin-hover-tooltip.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.biz-fin-ht-quarter {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #0F172A;
+  line-height: 1.2;
+  margin-bottom: 4px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.biz-fin-ht-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.35;
+}
+
+.biz-fin-ht-row + .biz-fin-ht-row {
+  margin-top: 2px;
+}
+
+.biz-fin-ht-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.biz-fin-ht-row.rev .biz-fin-ht-dot {
+  background: #10B981;
+}
+
+.biz-fin-ht-row.ni .biz-fin-ht-dot {
+  background: #0284C7;
+}
+
+.biz-fin-ht-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: #64748B;
+}
+
+.biz-fin-ht-val {
+  font-size: 10px;
+  font-weight: 700;
+  margin-left: auto;
+  padding-left: 8px;
+}
+
+.biz-fin-ht-row.rev .biz-fin-ht-val {
+  color: #059669;
+}
+
+.biz-fin-ht-row.ni .biz-fin-ht-val {
+  color: #0284C7;
 }
 
 /* Figma Subcard Container (#F2F2F2 rounded 8px, Figma 13810:169898) */

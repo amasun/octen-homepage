@@ -154,10 +154,10 @@ export function createFinancialsSectionHTML(entity) {
 
   // SVG coordinate system
   const width = 340;
-  const height = 118;
-  const padLeft = 34;
-  const padRight = 26;
-  const padTop = 22;
+  const height = 116;
+  const padLeft = 30;
+  const padRight = 3.5;
+  const padTop = 16;
   const padBottom = 22;
   const usableW = width - padLeft - padRight;
   const usableH = height - padTop - padBottom;
@@ -194,14 +194,37 @@ export function createFinancialsSectionHTML(entity) {
   const revPath = buildBezier(revPts);
   const niPath = buildBezier(niPts);
   const bottomY = Number((padTop + usableH).toFixed(1));
-  const revArea = `${revPath} L ${revPts[revPts.length - 1][0]},${bottomY} L ${revPts[0][0]},${bottomY} Z`;
-
-  const lastPt = revPts[revPts.length - 1];
-  const lastTagX = Math.min(Math.max(lastPt[0] - 28, padLeft), width - 58);
-  const lastTagY = Math.max(lastPt[1] - 22, 2);
+  const revArea = `${revPath} L ${width},${bottomY} L ${revPts[0][0]},${bottomY} Z`;
 
   const y40 = Number((padTop + (1 - 40 / maxVal) * usableH).toFixed(1));
   const y80 = Number((padTop + (1 - 80 / maxVal) * usableH).toFixed(1));
+  const colW = usableW / (data.length - 1);
+
+  // Generate interactive column elements for guide lines and node halos
+  const colElements = data.map((d, i) => {
+    const [x, yRev] = revPts[i];
+    const [, yNi] = niPts[i];
+    return `
+      <g class="biz-fin-col" 
+         data-idx="${i}" 
+         data-quarter="${d.label}" 
+         data-period="${d.fullPeriod}" 
+         data-rev="${d.revenue.toFixed(1)}" 
+         data-ni="${d.netIncome.toFixed(1)}" 
+         data-x="${x}">
+        <!-- Invisible Hit Area -->
+        <rect class="biz-fin-hitbox" x="${(x - colW / 2).toFixed(1)}" y="0" width="${colW.toFixed(1)}" height="${height}" fill="transparent" />
+        
+        <!-- Vertical Guide Line -->
+        <line class="biz-fin-guide" x1="${x}" y1="${padTop - 2}" x2="${x}" y2="${bottomY}" />
+        
+        <!-- Glowing Halos & Hover Highlights -->
+        <circle class="biz-fin-halo-rev" cx="${x}" cy="${yRev}" r="7" />
+        <circle class="biz-fin-dot-hover-rev" cx="${x}" cy="${yRev}" r="4.2" />
+        <circle class="biz-fin-dot-hover-ni" cx="${x}" cy="${yNi}" r="3.6" />
+      </g>
+    `;
+  }).join('');
 
   return `
     <!-- Financials Section (Revenue & Net Income Trend Curve) -->
@@ -217,7 +240,7 @@ export function createFinancialsSectionHTML(entity) {
           </span>
         </div>
       </div>
-      <div class="biz-figma-subcard biz-financials-subcard">
+      <div class="biz-financials-subcard biz-financials-subcard">
         <!-- Top Metrics Highlight Row -->
         <div class="biz-financials-top-row">
           <div class="biz-fin-primary-stat">
@@ -242,9 +265,9 @@ export function createFinancialsSectionHTML(entity) {
           </div>
         </div>
 
-        <!-- SVG Curve Chart -->
-        <div class="biz-financials-chart-wrapper">
-          <svg class="biz-financials-svg" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet">
+        <!-- SVG Curve Chart & Mouse-Following Tooltip -->
+        <div class="biz-financials-chart-wrapper" data-financials-chart="true">
+          <svg class="biz-financials-svg" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none">
             <defs>
               <linearGradient id="bizFinRevAreaGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stop-color="#10B981" stop-opacity="0.25" />
@@ -254,14 +277,14 @@ export function createFinancialsSectionHTML(entity) {
             </defs>
 
             <!-- Background Grid & Y-Axis -->
-            <line x1="${padLeft - 4}" y1="${bottomY}" x2="${width - 12}" y2="${bottomY}" stroke="rgba(0,0,0,0.08)" stroke-width="1" />
-            <text x="${padLeft - 8}" y="${bottomY + 3}" text-anchor="end" font-size="8.5" fill="#94A3B8" font-family="'DM Sans', sans-serif" font-weight="500">$0</text>
+            <line x1="${padLeft - 6}" y1="${bottomY}" x2="${width}" y2="${bottomY}" stroke="rgba(0,0,0,0.08)" stroke-width="1" />
+            <text x="${padLeft - 10}" y="${bottomY + 3}" text-anchor="end" font-size="8.5" fill="#94A3B8" font-family="'DM Sans', sans-serif" font-weight="500">$0</text>
             
-            <line x1="${padLeft - 4}" y1="${y40}" x2="${width - 12}" y2="${y40}" stroke="rgba(0,0,0,0.05)" stroke-width="1" stroke-dasharray="3 3" />
-            <text x="${padLeft - 8}" y="${y40 + 3}" text-anchor="end" font-size="8.5" fill="#94A3B8" font-family="'DM Sans', sans-serif" font-weight="500">$40B</text>
+            <line x1="${padLeft - 6}" y1="${y40}" x2="${width}" y2="${y40}" stroke="rgba(0,0,0,0.05)" stroke-width="1" stroke-dasharray="3 3" />
+            <text x="${padLeft - 10}" y="${y40 + 3}" text-anchor="end" font-size="8.5" fill="#94A3B8" font-family="'DM Sans', sans-serif" font-weight="500">$40B</text>
 
-            <line x1="${padLeft - 4}" y1="${y80}" x2="${width - 12}" y2="${y80}" stroke="rgba(0,0,0,0.05)" stroke-width="1" stroke-dasharray="3 3" />
-            <text x="${padLeft - 8}" y="${y80 + 3}" text-anchor="end" font-size="8.5" fill="#94A3B8" font-family="'DM Sans', sans-serif" font-weight="500">$80B</text>
+            <line x1="${padLeft - 6}" y1="${y80}" x2="${width}" y2="${y80}" stroke="rgba(0,0,0,0.05)" stroke-width="1" stroke-dasharray="3 3" />
+            <text x="${padLeft - 10}" y="${y80 + 3}" text-anchor="end" font-size="8.5" fill="#94A3B8" font-family="'DM Sans', sans-serif" font-weight="500">$80B</text>
 
             <!-- Revenue Area Fill -->
             <path d="${revArea}" fill="url(#bizFinRevAreaGrad)" />
@@ -279,23 +302,37 @@ export function createFinancialsSectionHTML(entity) {
 
             <!-- Revenue Dots -->
             ${revPts.map(([x, y], i) => `
-              <circle cx="${x}" cy="${y}" r="${i === revPts.length - 1 ? '4' : '3'}" fill="${i === revPts.length - 1 ? '#10B981' : '#FFFFFF'}" stroke="#10B981" stroke-width="2" />
+              <circle cx="${x}" cy="${y}" r="${i === revPts.length - 1 ? '3.8' : '3'}" fill="${i === revPts.length - 1 ? '#10B981' : '#FFFFFF'}" stroke="#10B981" stroke-width="2" />
             `).join('')}
 
-            <!-- Pulse Beacon on Latest Revenue Point -->
-            <circle cx="${lastPt[0]}" cy="${lastPt[1]}" r="7" fill="none" stroke="#10B981" stroke-width="1.2" opacity="0.6" class="biz-fin-pulse-ring" />
-
-            <!-- Latest Floating Badge -->
-            <g class="biz-fin-latest-badge" transform="translate(${lastTagX}, ${lastTagY})">
-              <rect width="54" height="18" rx="4" fill="#FFFFFF" stroke="#10B981" stroke-width="1" filter="drop-shadow(0 1px 2px rgba(0,0,0,0.06))" />
-              <text x="27" y="12.5" text-anchor="middle" font-size="9.5" font-weight="700" fill="#059669" font-family="'DM Sans', sans-serif">$${latest.revenue.toFixed(1)}B</text>
-            </g>
+            <!-- Interactive Columns (Hover Guide, Glowing Nodes) -->
+            ${colElements}
 
             <!-- X-Axis Labels -->
-            ${data.map((d, i) => `
-              <text x="${revPts[i][0]}" y="${height - 6}" text-anchor="middle" font-size="9" fill="#64748B" font-family="'DM Sans', sans-serif" font-weight="500">${d.label}</text>
-            `).join('')}
+            ${data.map((d, i) => {
+              const x = revPts[i][0];
+              const isFirst = i === 0;
+              const isLast = i === data.length - 1;
+              const anchor = isLast ? 'end' : (isFirst ? 'start' : 'middle');
+              const labelX = isLast ? width : (isFirst ? padLeft - 6 : x);
+              return `<text class="biz-fin-axis-quarter" x="${labelX}" y="${bottomY + 14}" text-anchor="${anchor}" font-size="8.5" font-family="'DM Sans', sans-serif">${d.label}</text>`;
+            }).join('')}
           </svg>
+
+          <!-- Floating Cursor-Following Tooltip -->
+          <div class="biz-fin-hover-tooltip">
+            <div class="biz-fin-ht-quarter"></div>
+            <div class="biz-fin-ht-row rev">
+              <span class="biz-fin-ht-dot"></span>
+              <span class="biz-fin-ht-label">Revenue</span>
+              <span class="biz-fin-ht-val biz-fin-ht-val-rev"></span>
+            </div>
+            <div class="biz-fin-ht-row ni">
+              <span class="biz-fin-ht-dot"></span>
+              <span class="biz-fin-ht-label">Net Income</span>
+              <span class="biz-fin-ht-val biz-fin-ht-val-ni"></span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -458,26 +495,6 @@ export function createBusinessSummaryCardHTML(entity, index) {
                           <span class="biz-figma-timeline-domain">${act.domain}</span>
                         </div>
                         <p class="biz-figma-timeline-title" title="${act.title}">${act.title}</p>
-                      </div>
-                    `).join('')}
-                  </div>
-                </div>
-              </div>
-
-              <!-- Media News -->
-              <div class="biz-figma-sec-group">
-                <h4 class="biz-figma-sec-title">Media News</h4>
-                <div class="biz-figma-subcard">
-                  <div class="biz-figma-timeline-list">
-                    ${compNews.map(item => `
-                      <div class="biz-figma-timeline-row">
-                        <span class="biz-figma-timeline-dot"></span>
-                        <div class="biz-figma-timeline-meta">
-                          <span class="biz-figma-timeline-time">${item.time}</span>
-                          ${item.isLatest ? '<span class="timeline-latest-tag biz-figma-tag-latest">latest</span>' : ''}
-                          <span class="biz-figma-timeline-domain">${item.domain}</span>
-                        </div>
-                        <p class="biz-figma-timeline-title" title="${item.title}">${item.title}</p>
                       </div>
                     `).join('')}
                   </div>
@@ -795,26 +812,6 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
               </div>
             </div>
           </div>
-
-          <!-- Media News Section (Figma 13810:169915) -->
-          <div class="biz-figma-sec-group">
-            <h4 class="biz-figma-sec-title">Media News</h4>
-            <div class="biz-figma-subcard">
-              <div class="biz-figma-timeline-list">
-                ${compNews.map(item => `
-                  <div class="biz-figma-timeline-row">
-                    <span class="biz-figma-timeline-dot"></span>
-                    <div class="biz-figma-timeline-meta">
-                      <span class="biz-figma-timeline-time">${item.time}</span>
-                      ${item.isLatest ? '<span class="timeline-latest-tag biz-figma-tag-latest">latest</span>' : ''}
-                      <span class="biz-figma-timeline-domain">${item.domain}</span>
-                    </div>
-                    <p class="biz-figma-timeline-title" title="${item.title}">${item.title}</p>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- Bottom Handle -->
@@ -937,5 +934,113 @@ export function createBusinessDualDetailHTML(companyEntity, personEntity, active
     </div>
   `;
 }
+
+/**
+ * Initialize Financials Chart Hover Interaction:
+ * Cursor-following floating card and active crosshair highlight
+ */
+export function initFinancialsChartHover() {
+  if (typeof document === 'undefined') return;
+  if (document._bizFinHoverInitialized) return;
+  document._bizFinHoverInitialized = true;
+
+  const onPointerMove = (e) => {
+    const targetEl = e.target && e.target.nodeType === 3 ? e.target.parentElement : e.target;
+    const chartWrap = targetEl && typeof targetEl.closest === 'function'
+      ? targetEl.closest('[data-financials-chart="true"]')
+      : null;
+
+    if (!chartWrap) {
+      const activeTooltips = document.querySelectorAll('.biz-fin-hover-tooltip.is-active');
+      activeTooltips.forEach(t => t.classList.remove('is-active'));
+      const activeCols = document.querySelectorAll('.biz-fin-col.is-active');
+      activeCols.forEach(c => c.classList.remove('is-active'));
+      return;
+    }
+
+    const tooltip = chartWrap.querySelector('.biz-fin-hover-tooltip');
+    const cols = chartWrap.querySelectorAll('.biz-fin-col');
+    if (!tooltip || !cols.length) return;
+
+    const rect = chartWrap.getBoundingClientRect();
+    if (!rect.width) return;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    // Scale mouse position to SVG coordinates (width: 340)
+    const svgX = (mouseX / rect.width) * 340;
+
+    // Find the closest quarter column along the X-axis
+    let closestCol = cols[0];
+    let minDiff = Infinity;
+    for (let i = 0; i < cols.length; i++) {
+      const colX = parseFloat(cols[i].dataset?.x || cols[i].getAttribute('data-x') || '0');
+      const diff = Math.abs(colX - svgX);
+      if (diff < minDiff) {
+        minDiff = diff;
+        closestCol = cols[i];
+      }
+    }
+
+    // Highlight active column on the SVG
+    cols.forEach(col => {
+      col.classList.toggle('is-active', col === closestCol);
+    });
+
+    // Update tooltip content
+    const qEl = tooltip.querySelector('.biz-fin-ht-quarter');
+    const revEl = tooltip.querySelector('.biz-fin-ht-val-rev');
+    const niEl = tooltip.querySelector('.biz-fin-ht-val-ni');
+    const periodVal = closestCol.dataset?.period || closestCol.getAttribute('data-period') || closestCol.dataset?.quarter || '';
+    const revVal = closestCol.dataset?.rev || closestCol.getAttribute('data-rev') || '0';
+    const niVal = closestCol.dataset?.ni || closestCol.getAttribute('data-ni') || '0';
+
+    if (qEl) qEl.textContent = periodVal;
+    if (revEl) revEl.textContent = `$${revVal}B`;
+    if (niEl) niEl.textContent = `$${niVal}B`;
+
+    // Calculate clamped position to follow mouse cursor within container boundaries
+    const tipW = tooltip.offsetWidth || 104;
+    const halfW = tipW / 2;
+
+    const clampedX = Math.max(halfW, Math.min(rect.width - halfW, mouseX));
+
+    if (mouseY < 55) {
+      tooltip.style.left = `${clampedX}px`;
+      tooltip.style.top = `${mouseY + 14}px`;
+      tooltip.style.transform = 'translate(-50%, 0)';
+    } else {
+      tooltip.style.left = `${clampedX}px`;
+      tooltip.style.top = `${mouseY - 10}px`;
+      tooltip.style.transform = 'translate(-50%, -100%)';
+    }
+
+    tooltip.classList.add('is-active');
+  };
+
+  const onPointerLeave = (e) => {
+    const targetEl = e.target && e.target.nodeType === 3 ? e.target.parentElement : e.target;
+    const chartWrap = targetEl && typeof targetEl.closest === 'function'
+      ? targetEl.closest('[data-financials-chart="true"]')
+      : null;
+    if (chartWrap) {
+      const tooltip = chartWrap.querySelector('.biz-fin-hover-tooltip');
+      if (tooltip) tooltip.classList.remove('is-active');
+      const cols = chartWrap.querySelectorAll('.biz-fin-col');
+      cols.forEach(c => c.classList.remove('is-active'));
+    }
+  };
+
+  document.addEventListener('pointermove', onPointerMove, { passive: true });
+  document.addEventListener('mousemove', onPointerMove, { passive: true });
+  document.addEventListener('pointerleave', onPointerLeave, { passive: true });
+  document.addEventListener('mouseleave', onPointerLeave, { passive: true });
+}
+
+// Auto-initialize on module load
+if (typeof document !== 'undefined') {
+  initFinancialsChartHover();
+}
+
 
 

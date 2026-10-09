@@ -9,10 +9,14 @@ import { state } from './state.js';
 import { runCycle, updateQueryDisplayScroll } from './engine/stage-controller.js';
 import { switchVertical, syncTabsIndicator } from './engine/tabs-glider.js';
 import { initStepControls } from './engine/step-controls.js';
+import { initFinancialsChartHover } from './render/card-templates.js';
 
 (function init() {
   // Preload subject covers in background
   preloadCovers();
+
+  // Initialize interactive Financials chart hover
+  initFinancialsChartHover();
 
   // Setup 14 Wave Dots with sine delays in Stage 2 Searching overlay
   const waveDotsTrack = document.getElementById('waveDotsTrack');
