@@ -1,6 +1,6 @@
 /**
  * Octen Homepage - Anchor Copy Controller
- * 点击胶囊标签，自动复制指定锚点完整网址到剪贴板
+ * 点击胶囊标签，静默复制指定锚点完整网址到剪贴板（不触发任何视觉变化）
  * 前缀: https://octen-homepage.vercel.app/
  */
 (function () {
@@ -39,59 +39,6 @@
       console.warn('[AnchorCopy] 复制失败:', err);
       return false;
     }
-  }
-
-  // Toast 提示单例
-  let toastEl = null;
-  let toastTimer = null;
-
-  function showCopyToast(url) {
-    if (!toastEl) {
-      toastEl = document.createElement('div');
-      toastEl.id = 'octen-anchor-toast';
-      toastEl.className = 'octen-anchor-toast';
-      toastEl.setAttribute('role', 'status');
-      toastEl.setAttribute('aria-live', 'polite');
-      document.body.appendChild(toastEl);
-    }
-
-    if (toastTimer) {
-      clearTimeout(toastTimer);
-    }
-
-    // 转义 HTML 保证安全
-    const safeUrl = url.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-
-    toastEl.innerHTML = `
-      <div class="octen-toast-content">
-        <div class="octen-toast-icon" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00E575" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-        </div>
-        <div class="octen-toast-text">
-          <div class="octen-toast-title">已复制锚点网址到剪贴板</div>
-          <div class="octen-toast-url">${safeUrl}</div>
-        </div>
-      </div>
-    `;
-
-    toastEl.classList.remove('octen-toast-hide');
-    toastEl.classList.remove('octen-toast-show');
-    // 强制回流以重置过渡动画
-    void toastEl.offsetWidth;
-    toastEl.classList.add('octen-toast-show');
-
-    // 点击提示框可立即隐藏
-    toastEl.onclick = () => {
-      toastEl.classList.remove('octen-toast-show');
-      toastEl.classList.add('octen-toast-hide');
-    };
-
-    toastTimer = setTimeout(() => {
-      toastEl.classList.remove('octen-toast-show');
-      toastEl.classList.add('octen-toast-hide');
-    }, 2800);
   }
 
   /**
@@ -134,7 +81,7 @@
   }
 
   /**
-   * 点击事件处理
+   * 点击事件处理（纯静默复制，不改变任何 DOM 样式或提示）
    */
   function handleTagClick(e) {
     const tag = e.target.closest(
@@ -156,21 +103,13 @@
     const normalizedAnchor = anchor.startsWith('#') ? anchor : '#' + anchor;
     const fullUrl = BASE_URL + normalizedAnchor;
 
-    copyTextToClipboard(fullUrl).then(() => {
-      // 胶囊自身微动效反馈
-      tag.classList.add('tag-copied-success');
-      setTimeout(() => {
-        tag.classList.remove('tag-copied-success');
-      }, 1500);
+    // 静默写入剪贴板
+    copyTextToClipboard(fullUrl);
 
-      // 无感同步更新浏览器地址栏 Hash
-      if (window.history && window.history.replaceState) {
-        window.history.replaceState(null, '', normalizedAnchor);
-      }
-
-      // 弹出轻量 Toast 提示
-      showCopyToast(fullUrl);
-    });
+    // 静默同步更新浏览器地址栏 Hash
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, '', normalizedAnchor);
+    }
   }
 
   // 事件委托监听（捕获阶段以防止某些子容器阻止冒泡）
