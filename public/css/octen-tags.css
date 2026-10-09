@@ -37,7 +37,8 @@
               inset 0.5px 0.5px 1px rgba(255, 255, 255, 0.3) !important;
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
-  cursor: default !important;
+  cursor: pointer !important;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
   user-select: none !important;
   box-sizing: border-box !important;
   white-space: nowrap !important;
@@ -153,4 +154,121 @@
   user-select: none !important;
   white-space: nowrap !important;
 }
+
+/* ==========================================================================
+   6. Interactive Capsule Tag Hover, Active & Copied Feedback
+   ========================================================================== */
+.octen-search-tag:hover,
+.octen-search-fast-tag:hover,
+.octen-search-premier-tag:hover,
+.search-fast-pill:hover,
+.octen-modality-tag:hover,
+.tag-pill:hover,
+.octen-glass-tag:hover,
+.start-building-tag:hover,
+.built-perf-tag:hover {
+  filter: brightness(1.18);
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.16),
+              0px 0px 14px rgba(0, 229, 117, 0.25),
+              inset -0.5px -0.5px 1px rgba(255, 255, 255, 0.4),
+              inset 0.5px 0.5px 1px rgba(255, 255, 255, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+.octen-search-tag:active,
+.octen-search-fast-tag:active,
+.octen-search-premier-tag:active,
+.search-fast-pill:active,
+.octen-modality-tag:active,
+.tag-pill:active,
+.octen-glass-tag:active,
+.start-building-tag:active,
+.built-perf-tag:active {
+  transform: scale(0.96) !important;
+}
+
+/* Copied feedback animation on tag */
+.tag-copied-success {
+  border-color: #00E575 !important;
+  box-shadow: 0 0 18px rgba(0, 229, 117, 0.5),
+              inset 0 0 8px rgba(0, 229, 117, 0.2) !important;
+  transform: scale(1.03) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* ==========================================================================
+   7. Anchor Copy Toast Notification
+   ========================================================================== */
+.octen-anchor-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translate(-50%, 30px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.octen-anchor-toast.octen-toast-show {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.octen-anchor-toast.octen-toast-hide {
+  transform: translate(-50%, 20px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.octen-toast-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(13, 17, 23, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5),
+              0 0 0 1px rgba(0, 229, 117, 0.25);
+  border-radius: 9999px;
+  padding: 10px 22px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #ffffff;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.octen-toast-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(0, 229, 117, 0.15);
+  border: 1px solid rgba(0, 229, 117, 0.4);
+  flex-shrink: 0;
+}
+
+.octen-toast-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.octen-toast-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 1.2;
+}
+
+.octen-toast-url {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: #00E575;
+  letter-spacing: -0.2px;
+  line-height: 1.2;
+}
+
 
