@@ -127,8 +127,10 @@ export function renderBusinessDualDetail(mode = 'company') {
 
   if (!cardListContainer) return;
 
-  // Ensure cardListContainer has the two business cards in overview format
-  if (!cardListContainer.querySelector('.biz-figma-card')) {
+  // Ensure cardListContainer has the two business cards in overview format matching current entities
+  const existingCardTitle = cardListContainer.querySelector('.biz-figma-card .biz-figma-title');
+  const targetFirstName = entities[0]?.name;
+  if (!existingCardTitle || (targetFirstName && existingCardTitle.textContent.trim() !== targetFirstName.trim())) {
     let html = '';
     entities.forEach((ent, i) => {
       html += createBusinessSummaryCardHTML(ent, i);
