@@ -1212,7 +1212,7 @@ const VERTICALS = {
                 name: 'Jensen Huang',
                 badge: 'Person',
                 avatarText: 'JH',
-                avatarBg: '#1A2E1C',
+                avatarBg: '#E3E4E8',
                 avatar: {
                   url: './images/vertical/jensen-huang-avatar.svg'
                 },

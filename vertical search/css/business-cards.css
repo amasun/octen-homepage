@@ -92,6 +92,7 @@
   flex-shrink: 0;
   border-radius: 50%;
   overflow: hidden;
+  background-color: #E3E4E8;
 }
 .biz-figma-avatar-img {
   width: 100%;
@@ -110,7 +111,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  height: 24px;
+  min-height: 24px;
+  height: auto;
 }
 .biz-figma-title {
   margin: 0;
@@ -118,10 +120,12 @@
   font-size: 16px;
   font-weight: 700;
   color: #0F172A;
-  line-height: 1;
+  line-height: 1.35;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding: 1px 2px 2px 0;
+  flex-shrink: 0;
 }
 .biz-figma-tag {
   display: inline-flex;
@@ -134,6 +138,7 @@
   font-weight: 600;
   line-height: 14.3px;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 .biz-tag-company {
   background: #E0F2FE;
@@ -1198,17 +1203,28 @@
   gap: 8px;
   width: 100%;
   height: 100%;
+  min-width: 0;
 }
 .biz-person-collapsed-name {
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 700;
+  line-height: 1.35;
   color: #0F172A;
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding: 1px 2px 2px 0;
 }
 .biz-person-collapsed-role {
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
+  line-height: 1.35;
   color: #64748B;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1 1 auto;
 }
 
 /* Figma 13810 Sections (Key People, Career, Official Activities, Media News) */
@@ -1259,7 +1275,8 @@
   color: #0F172A;
   white-space: nowrap;
   flex-shrink: 0;
-  line-height: 1;
+  line-height: 1.35;
+  padding: 1px 2px 2px 0;
 }
 .biz-figma-person-role {
   font-family: 'DM Sans', sans-serif;
@@ -1715,7 +1732,8 @@
   color: #0F172A;
   white-space: nowrap;
   flex-shrink: 0;
-  line-height: 1;
+  line-height: 1.35;
+  padding: 1px 2px 2px 0;
 }
 .biz-person-role {
   font-size: 11px;
