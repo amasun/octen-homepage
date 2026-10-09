@@ -127,10 +127,11 @@ export function renderBusinessDualDetail(mode = 'company') {
 
   if (!cardListContainer) return;
 
-  // Ensure cardListContainer has the two business cards in overview format matching current entities
+  // Ensure cardListContainer has business cards in overview format matching current entities
   const existingCardTitle = cardListContainer.querySelector('.biz-figma-card .biz-figma-title');
   const targetFirstName = entities[0]?.name;
-  if (!existingCardTitle || (targetFirstName && existingCardTitle.textContent.trim() !== targetFirstName.trim())) {
+  const existingCardCount = cardListContainer.querySelectorAll('.business-card-wrapper').length;
+  if (!existingCardTitle || (targetFirstName && existingCardTitle.textContent.trim() !== targetFirstName.trim()) || existingCardCount !== entities.length) {
     let html = '';
     entities.forEach((ent, i) => {
       html += createBusinessSummaryCardHTML(ent, i);
@@ -142,6 +143,11 @@ export function renderBusinessDualDetail(mode = 'company') {
   // Reset all state classes
   cardListContainer.classList.remove('stage-company-active', 'stage-person-active', 'hover-company-active', 'hover-person-active');
 
+  const hasPerson = entities.some(e => e.type === 'person');
+  if (mode === 'person' && !hasPerson) {
+    mode = 'company';
+  }
+
   if (mode === 'company' || mode === 0) {
     cardListContainer.classList.add('stage-company-active');
     const scrollAreas = cardListContainer.querySelectorAll('.biz-overview-scroll-area');
@@ -151,12 +157,17 @@ export function renderBusinessDualDetail(mode = 'company') {
     const scrollAreas = cardListContainer.querySelectorAll('.biz-overview-scroll-area');
     scrollAreas.forEach(sa => { sa.scrollTop = 0; });
   } else {
-    // Mode is 'overview': neutral stacked state with interactive hover
+    // Mode is 'overview': neutral state
     const scrollAreas = cardListContainer.querySelectorAll('.biz-overview-scroll-area');
-    scrollAreas.forEach(sa => { sa.scrollTop = 0; });
+    scrollAreas.forEach(sa => {
+      sa.scrollTop = 0;
+      if (!hasPerson) sa.style.overflowY = 'auto';
+    });
     const allDots = cardListContainer.querySelectorAll('.biz-overview-full-sections .biz-figma-timeline-dot');
     allDots.forEach(dot => { dot.style.animation = ''; });
-    initBusinessOverviewHover(cardListContainer);
+    if (hasPerson) {
+      initBusinessOverviewHover(cardListContainer);
+    }
   }
 }
 

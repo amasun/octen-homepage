@@ -854,7 +854,7 @@ const VERTICALS = {
             query: 'NVIDIA data center revenue',
             badgeText: 'Top Entity',
             summaryDesc: 'Analyze corporate filings, 52-week market metrics, and executive leadership profiles.',
-            stats: { num1: 2, label1: 'entities', num2: 5, label2: 'results' },
+            stats: { num1: 1, label1: 'entity', num2: 5, label2: 'results' },
             bullets: [
               '• Corporate entity profiling: verified SEC registries, C-suite leadership, and market metrics.',
               '• Real-time financial metrics: tracking <b>$89.0B</b> data center revenue (+117% YoY) and 52-week trading range.',
@@ -1205,7 +1205,8 @@ const VERTICALS = {
                     url: 'https://barrons.com/livecoverage/nvidia-earnings-stock-price-ai-chips-jensen-huang/card/nvidia-s-data-center-revenue-soars-it-s-not-just-from-the-hyperscalers--zmb2eRJUZAPxchkniyXm'
                   }
                 ]
-              },
+              }
+              /*
               {
                 type: 'person',
                 id: 'jensen-huang',
@@ -1268,6 +1269,7 @@ const VERTICALS = {
                   }
                 ]
               }
+              */
             ],
             results: NVIDIA_DATA_CENTER_REVENUE_API_RESPONSE.data.results,
             subjects: [

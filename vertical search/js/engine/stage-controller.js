@@ -210,7 +210,13 @@ export function setCanvasState(targetState) {
       summaryBox.style.transform = 'none';
     }
     if (state.currentVerticalKey === 'business') {
-      renderBusinessDualDetail('person');
+      const curData = getCurrentData('business');
+      const hasPerson = (curData.entities || []).some(e => e.type === 'person');
+      if (hasPerson) {
+        renderBusinessDualDetail('person');
+      } else {
+        renderBusinessDualDetail('overview');
+      }
     }
   } else if (targetState === 'focus') {
     cardCanvas.classList.add('not-typing', 'has-results', 'is-stage4');
@@ -552,8 +558,9 @@ async function runBusinessCycle(fromStep = 'typing') {
     if (!isValid()) return;
   }
 
-  // STAGE 4: PERSON DETAIL
-  if (startIndex <= 3) {
+  // STAGE 4: PERSON DETAIL (Only executed if person entity exists)
+  const hasPersonEntity = ENTITIES_DATA.some(e => e.type === 'person');
+  if (hasPersonEntity && startIndex <= 3) {
     if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
     if (statSubjectsEl) statSubjectsEl.textContent = ENTITIES_DATA.length;
     if (statArticlesEl) statArticlesEl.textContent = curData.stats?.num2 || 6;

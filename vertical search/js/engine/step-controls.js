@@ -83,14 +83,18 @@ export function initStepControls() {
           renderBusinessDualDetail('company');
         }
       } else if (targetStep === 'person-detail') {
+        const curData = getCurrentData('business');
+        const hasPerson = (curData.entities || []).some(e => e.type === 'person');
         if (state.currentVerticalKey === 'business') {
-          runCycle('person-detail');
+          if (hasPerson) runCycle('person-detail');
+          else runCycle('overview');
         } else {
           setCanvasState('person-detail');
           if (queryTextSpan) queryTextSpan.textContent = QUERY_TEXT;
           if (statSubjectsEl) statSubjectsEl.textContent = TOTAL_SUBJECTS;
           if (statArticlesEl) statArticlesEl.textContent = TOTAL_ARTICLES;
-          renderBusinessDualDetail('person');
+          if (hasPerson) renderBusinessDualDetail('person');
+          else renderBusinessDualDetail('overview');
         }
       } else if (targetStep === 'overview') {
         if (state.currentVerticalKey === 'business') {
@@ -168,6 +172,10 @@ export function initStepControls() {
       if (!card) return;
       const idx = parseInt(card.dataset.entityIdx, 10);
       if (idx === 0) {
+        const curData = getCurrentData('business');
+        if ((curData.entities || []).length <= 1) {
+          return;
+        }
         const compBtn = document.querySelector('.step-btn[data-step="company-detail"]') || document.querySelectorAll('.step-btn')[2];
         if (compBtn) compBtn.click();
         else runCycle('company-detail');

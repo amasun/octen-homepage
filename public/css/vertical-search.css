@@ -2468,10 +2468,8 @@
   transition: max-height 0.46s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.26s ease, transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Base Heights Aligned with Figma 13802:167547 (+16px each per user request):
-   Top 28.5px + Card0 320px + Gap 4px + Card1 151px + Bottom 28.5px = 532px
-   guaranteeing 100% single-screen view without scrolling */
-.demo-wrapper[data-theme="business"] .results-card-list .business-card-wrapper[data-entity-idx="0"] .biz-figma-card {
+/* Dual Card mode: Card0 320px + Card1 151px */
+.demo-wrapper[data-theme="business"] .results-card-list:has(.business-card-wrapper[data-entity-idx="1"]) .business-card-wrapper[data-entity-idx="0"] .biz-figma-card {
   height: 320px;
   max-height: 320px;
   min-height: 320px;
@@ -2480,6 +2478,74 @@
   height: 151px;
   max-height: 151px;
   min-height: 151px;
+}
+
+/* Single Entity Mode (Company Card adapts to parent container height in overview):
+   Height 472px with symmetric 30px padding inside 532px canvas */
+.demo-wrapper[data-theme="business"] .results-card-list:not(:has(.business-card-wrapper[data-entity-idx="1"])) {
+  padding-top: 30px !important;
+  padding-bottom: 30px !important;
+  height: 100% !important;
+  box-sizing: border-box !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list:not(:has(.business-card-wrapper[data-entity-idx="1"])) .business-card-wrapper,
+.demo-wrapper[data-theme="business"] .results-card-list .business-card-wrapper:only-child {
+  height: 100%;
+  max-height: 472px;
+  transform: none !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list:not(:has(.business-card-wrapper[data-entity-idx="1"])) .business-card-wrapper[data-entity-idx="0"] .biz-figma-card,
+.demo-wrapper[data-theme="business"] .results-card-list .business-card-wrapper:only-child .biz-figma-card {
+  height: 472px !important;
+  max-height: 472px !important;
+  min-height: 472px !important;
+  padding: 16px 16px 16px 16px !important;
+  box-shadow: none !important;
+  border-color: rgba(255, 255, 255, 0.7) !important;
+  transform: none !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list:not(:has(.business-card-wrapper[data-entity-idx="1"])) .business-card-wrapper[data-entity-idx="0"] .biz-overview-compact-only,
+.demo-wrapper[data-theme="business"] .results-card-list .business-card-wrapper:only-child .biz-overview-compact-only {
+  display: none !important;
+  max-height: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list:not(:has(.business-card-wrapper[data-entity-idx="1"])) .business-card-wrapper[data-entity-idx="0"] .biz-overview-full-sections,
+.demo-wrapper[data-theme="business"] .results-card-list .business-card-wrapper:only-child .biz-overview-full-sections {
+  display: flex !important;
+  max-height: 1200px !important;
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list:not(:has(.business-card-wrapper[data-entity-idx="1"])) .business-card-wrapper[data-entity-idx="0"] .biz-figma-desc,
+.demo-wrapper[data-theme="business"] .results-card-list .business-card-wrapper:only-child .biz-figma-desc {
+  max-height: 160px !important;
+  opacity: 0.8 !important;
+  -webkit-line-clamp: 10 !important;
+  line-clamp: 10 !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list:not(:has(.business-card-wrapper[data-entity-idx="1"])) .business-card-wrapper[data-entity-idx="0"] .biz-overview-scroll-area,
+.demo-wrapper[data-theme="business"] .results-card-list .business-card-wrapper:only-child .biz-overview-scroll-area {
+  overflow-y: auto !important;
+}
+.demo-wrapper[data-theme="business"] .results-card-list:not(:has(.business-card-wrapper[data-entity-idx="1"])) .business-card-wrapper[data-entity-idx="0"] .biz-figma-handle-wrap,
+.demo-wrapper[data-theme="business"] .results-card-list .business-card-wrapper:only-child .biz-figma-handle-wrap {
+  display: none !important;
+}
+
+@media (max-width: 1023px) {
+  .demo-wrapper[data-theme="business"] .results-card-list:not(:has(.business-card-wrapper[data-entity-idx="1"])) {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+  .demo-wrapper[data-theme="business"] .results-card-list:not(:has(.business-card-wrapper[data-entity-idx="1"])) .business-card-wrapper[data-entity-idx="0"] .biz-figma-card,
+  .demo-wrapper[data-theme="business"] .results-card-list .business-card-wrapper:only-child .biz-figma-card {
+    height: calc(100% - 24px) !important;
+    max-height: calc(100% - 24px) !important;
+    min-height: 280px !important;
+  }
 }
 
 /* 1. When Active Company (Stage 3 Company Detail OR Hover Company in Overview) */
