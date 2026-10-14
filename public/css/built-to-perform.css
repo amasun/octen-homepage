@@ -741,6 +741,13 @@
   filter: none !important;
 }
 
+.built-perf-time-lbl {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 6.8px;
+  user-select: none;
+  pointer-events: none;
+}
+
 .time-chart-tooltip {
   min-width: 236px;
   pointer-events: none !important;
