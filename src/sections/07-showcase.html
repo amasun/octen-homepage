@@ -1257,7 +1257,7 @@
               </div>
 
               <!-- 12-Provider Stacked Bar Chart SVG matching Artificial Analysis Benchmark -->
-              <svg class="built-perf-time-svg" viewBox="0 0 708 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg class="built-perf-time-svg" viewBox="0 0 708 60" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
 
                 <!-- 1. Octen (Fastest - 15.3s) -->
                 <g class="built-perf-time-bar-group" data-name="Octen (highlights)" data-total="15.3s" data-search="1.90s" data-model="13.4s" data-color="#039855" data-fastest="true">
@@ -1692,7 +1692,7 @@
         const model = document.getElementById('timeTooltipModel');
 
         const barGroups = Array.from(timeSvg.querySelectorAll('.built-perf-time-bar-group'));
-        const BAR_CENTERS = [35, 93, 151, 209, 267, 325, 383, 441, 499, 557, 615, 673];
+        let activeIndex = -1;
 
         function updateTooltip(el) {
           if (!el) return;
@@ -1710,15 +1710,17 @@
         }
 
         function positionTooltip(index) {
+          const targetGroup = barGroups[index];
+          if (!targetGroup) return;
+
           const sectionRect = timeSection.getBoundingClientRect();
-          const svgRect = timeSvg.getBoundingClientRect();
+          const groupRect = targetGroup.getBoundingClientRect();
           const tooltipWidth = tooltip.offsetWidth || 236;
           const tooltipHalfWidth = tooltipWidth / 2;
 
-          const barCenterSvgX = BAR_CENTERS[index];
-          const barCenterX = (svgRect.left - sectionRect.left) + (barCenterSvgX / 708) * svgRect.width;
+          const barCenterX = (groupRect.left - sectionRect.left) + (groupRect.width / 2);
           const clampedX = Math.max(tooltipHalfWidth + 10, Math.min(sectionRect.width - tooltipHalfWidth - 10, barCenterX));
-          const targetY = (svgRect.top - sectionRect.top);
+          const targetY = (groupRect.top - sectionRect.top);
 
           tooltip.style.left = clampedX + 'px';
           tooltip.style.top = targetY + 'px';
@@ -1729,6 +1731,9 @@
             clearActive();
             return;
           }
+          if (index === activeIndex) return;
+          activeIndex = index;
+
           if (paretoTooltip) paretoTooltip.classList.remove('active');
           barGroups.forEach((g, i) => {
             if (i === index) g.classList.add('active-hover');
@@ -1740,26 +1745,17 @@
         }
 
         function clearActive() {
+          if (activeIndex === -1) return;
+          activeIndex = -1;
           barGroups.forEach(g => g.classList.remove('active-hover'));
           tooltip.classList.remove('active');
         }
 
-        function handlePointerMove(e) {
-          const svgRect = timeSvg.getBoundingClientRect();
-          const mouseX = e.clientX;
-          const mouseY = e.clientY;
-
-          if (mouseY < svgRect.top - 14 || mouseY > svgRect.bottom + 14 || mouseX < svgRect.left - 10 || mouseX > svgRect.right + 10) {
-            clearActive();
-            return;
-          }
-
-          const svgX = ((mouseX - svgRect.left) / svgRect.width) * 708;
-          const index = Math.round((svgX - 35) / 58);
-
-          if (index >= 0 && index <= 11) {
-            const center = BAR_CENTERS[index];
-            if (Math.abs(svgX - center) <= 28) {
+        function handlePointer(e) {
+          const group = e.target.closest('.built-perf-time-bar-group');
+          if (group) {
+            const index = barGroups.indexOf(group);
+            if (index !== -1) {
               setActiveIndex(index);
               return;
             }
@@ -1767,16 +1763,8 @@
           clearActive();
         }
 
-        barGroups.forEach((group, i) => {
-          group.addEventListener('pointerenter', () => setActiveIndex(i));
-          group.addEventListener('pointermove', () => {
-            positionTooltip(i);
-            tooltip.classList.add('active');
-          });
-        });
-
-        timeSection.addEventListener('pointermove', handlePointerMove);
-        timeSection.addEventListener('pointerdown', handlePointerMove);
+        timeSection.addEventListener('pointermove', handlePointer);
+        timeSection.addEventListener('pointerdown', handlePointer);
         timeSection.addEventListener('pointerleave', clearActive);
         window.addEventListener('scroll', clearActive, { passive: true });
       }
