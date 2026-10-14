@@ -818,5 +818,270 @@
   vertical-align: middle;
 }
 
+/* ==========================================================================
+   OPTION B: Bubble Chart (Artificial Analysis Search Index vs. Cost & Latency)
+   Data & content from search-api-bubble-chart.html, styling aligned with Option A
+   ========================================================================== */
 
+#chartCostEfficiency-b .built-perf-card-inner {
+  padding: 22px 26px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#chartCostEfficiency-b .built-perf-card-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 2px;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+#chartCostEfficiency-b .built-perf-card-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #08120A;
+  line-height: 1.25;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  #chartCostEfficiency-b .built-perf-card-title {
+    font-size: 17px;
+  }
+}
+
+#chartCostEfficiency-b .built-perf-card-legends {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  font-size: 11.5px;
+  color: #525866;
+}
+
+#chartCostEfficiency-b .built-perf-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 11px;
+  color: #525866;
+  white-space: nowrap;
+}
+
+#chartCostEfficiency-b .built-perf-legend-box {
+  width: 14px;
+  height: 10px;
+  background: #CAEBC5;
+  border: 1px solid rgba(120, 210, 110, 0.5);
+  border-radius: 2px;
+}
+
+#chartCostEfficiency-b .built-perf-bubble-wrapper {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-height: 340px;
+  margin: 4px 0 2px;
+  overflow: visible;
+}
+
+#chartCostEfficiency-b svg.bubble-plot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* SVG Chart Typography and Elements */
+#chartCostEfficiency-b .lbl {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 11px;
+  fill: #475569;
+  transform-box: fill-box;
+  transition: transform .15s ease;
+  user-select: none;
+}
+
+#chartCostEfficiency-b .lbl.hero {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  fill: #039855;
+  stroke: #FFFFFF;
+  stroke-width: 2.5px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  paint-order: stroke fill;
+}
+
+#chartCostEfficiency-b .lbl-hero {
+  transform-box: fill-box;
+  transform-origin: right center;
+  transition: transform .15s ease;
+}
+
+#chartCostEfficiency-b .lbl-hero.hot {
+  transform: scale(1.08);
+}
+
+#chartCostEfficiency-b .lbl-hero .lbl.hero {
+  transform: none;
+}
+
+#chartCostEfficiency-b .tick {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 10px;
+  fill: #64748B;
+  user-select: none;
+}
+
+#chartCostEfficiency-b .axis-title {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  fill: #475569;
+  user-select: none;
+}
+
+#chartCostEfficiency-b .bubble {
+  stroke: #FFFFFF;
+  stroke-width: 2;
+  cursor: pointer;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform .15s ease;
+}
+
+#chartCostEfficiency-b .lbl[text-anchor="start"] { transform-origin: left center; }
+#chartCostEfficiency-b .lbl[text-anchor="end"] { transform-origin: right center; }
+#chartCostEfficiency-b .lbl[text-anchor="middle"] { transform-origin: center; }
+
+#chartCostEfficiency-b .bubble.hot { transform: scale(1.18); }
+#chartCostEfficiency-b .lbl.hot { transform: scale(1.08); font-weight: 600; fill: #0F172A; }
+
+/* Interactive Hover Tooltip (Option A Colors & Typography) */
+#chartCostEfficiency-b .bubble-tip {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .12s ease;
+  z-index: 60;
+  width: 236px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #111827;
+  box-sizing: border-box;
+}
+
+#chartCostEfficiency-b .tip-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #111827;
+  letter-spacing: -0.1px;
+}
+
+#chartCostEfficiency-b .tip-logo {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  border-radius: 3px;
+  object-fit: contain;
+}
+
+#chartCostEfficiency-b .bubble-tip hr {
+  border: 0;
+  border-top: 1px solid #F1F5F9;
+  margin: 7px 0;
+}
+
+#chartCostEfficiency-b .tip-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #4B5563;
+  font-size: 12px;
+}
+
+#chartCostEfficiency-b .tip-row + .tip-row {
+  margin-top: 3px;
+}
+
+#chartCostEfficiency-b .tip-row b {
+  color: #111827;
+  font-weight: 600;
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+#chartCostEfficiency-b .tip-bar {
+  display: flex;
+  gap: 2px;
+  height: 8px;
+  margin: 8px 0 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #F1F5F9;
+}
+
+#chartCostEfficiency-b .tip-bar i {
+  display: block;
+  height: 100%;
+}
+
+#chartCostEfficiency-b .tip-keys {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #64748B;
+  font-variant-numeric: tabular-nums;
+}
+
+#chartCostEfficiency-b .tip-keys span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#chartCostEfficiency-b .tip-keys span::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 1px;
+  background: var(--c);
+}
+
+/* Source citation */
+#chartCostEfficiency-b .bubble-source {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 10.5px;
+  color: #94A3B8;
+  margin: 6px 0 0;
+  padding-top: 6px;
+  border-top: 1px solid #F1F5F9;
+}
+
+#chartCostEfficiency-b .bubble-source a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#chartCostEfficiency-b .bubble-source a:hover {
+  text-decoration: underline;
+}
 
