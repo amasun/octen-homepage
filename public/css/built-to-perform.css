@@ -272,11 +272,13 @@
 }
 
 /* Specific expanded height and 40px top/bottom padding for Cost Efficiency chart */
-#chartCostEfficiency .built-perf-card-outer {
+#chartCostEfficiency .built-perf-card-outer,
+#chartCostEfficiency-b .built-perf-card-outer {
   height: 520px;
 }
 
-#chartCostEfficiency .built-perf-card-inner {
+#chartCostEfficiency .built-perf-card-inner,
+#chartCostEfficiency-b .built-perf-card-inner {
   padding-top: 40px;
   padding-bottom: 40px;
 }
@@ -293,12 +295,14 @@
     height: auto;
   }
 
-  #chartCostEfficiency .built-perf-card-outer {
+  #chartCostEfficiency .built-perf-card-outer,
+  #chartCostEfficiency-b .built-perf-card-outer {
     height: auto;
     min-height: 520px;
   }
 
-  #chartCostEfficiency .built-perf-card-inner {
+  #chartCostEfficiency .built-perf-card-inner,
+  #chartCostEfficiency-b .built-perf-card-inner {
     padding-top: 40px;
     padding-bottom: 40px;
   }
