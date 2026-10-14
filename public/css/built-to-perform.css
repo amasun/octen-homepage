@@ -601,177 +601,100 @@
 
 /* ==========================================================================
    TIME PER TASK BENCHMARK CHART (LATENCY)
+   Compact Vector Stacked Bar Chart (Height strictly <= 60px)
    Data based on Artificial Analysis Search API Benchmark
    ========================================================================== */
 .built-perf-time-section {
-  margin-top: 14px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  margin-top: 4px;
+  padding-top: 3px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  height: 56px;
+  max-height: 60px;
+  box-sizing: border-box;
+  overflow: hidden;
   width: 100%;
 }
 
 .built-perf-time-header {
+  height: 12px;
   margin-bottom: 2px !important;
   padding-bottom: 0 !important;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
+  flex-wrap: nowrap;
 }
 
 .built-perf-header-left {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .built-perf-subchart-title {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 18px;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 11px;
   font-weight: 700;
-  color: #08120A;
+  color: #0F172A;
   margin: 0;
-  line-height: 1.2;
+  line-height: 1;
 }
 
 .built-perf-subchart-badge {
   font-family: 'DM Sans', -apple-system, sans-serif;
-  font-size: 11px;
+  font-size: 8.5px;
   font-weight: 600;
   color: #039855;
   background: #E8F7EE;
-  padding: 2px 7px;
-  border-radius: 10px;
+  padding: 0px 5px;
+  border-radius: 6px;
   letter-spacing: -0.1px;
+  line-height: 1.3;
 }
 
-.built-perf-time-legend-search {
-  width: 12px;
-  height: 8px;
-  background: #039855;
-  border-radius: 2px;
-  flex-shrink: 0;
-}
-
-.built-perf-time-legend-model {
-  width: 12px;
-  height: 8px;
-  background: #CBD5E1;
-  border-radius: 2px;
-  flex-shrink: 0;
-}
-
-.built-perf-time-chart {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: 100%;
-}
-
-.built-perf-time-row {
+.built-perf-time-legends {
   display: flex;
   align-items: center;
-  gap: 10px;
-  height: 24px;
-  padding: 1px 6px;
-  border-radius: 5px;
-  transition: background-color 0.2s ease;
+  gap: 8px;
 }
 
-.built-perf-time-row:hover {
-  background-color: rgba(0, 0, 0, 0.03);
-}
-
-.built-perf-time-row.active-row {
-  background-color: rgba(3, 152, 85, 0.06);
-}
-
-.built-perf-time-prov {
+.built-perf-time-legend-item {
   display: flex;
   align-items: center;
-  gap: 6px;
-  width: 152px;
-  min-width: 152px;
-  flex-shrink: 0;
+  gap: 3px;
 }
 
-.built-perf-prov-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  flex-shrink: 0;
+.built-perf-time-legend-box {
+  width: 7px;
+  height: 5px;
+  border-radius: 1px;
 }
 
-.built-perf-time-name {
-  font-family: 'DM Sans', -apple-system, sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  color: #334155;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.built-perf-fastest-pill {
+.built-perf-time-legend-lbl {
   font-family: 'DM Sans', -apple-system, sans-serif;
   font-size: 9.5px;
-  font-weight: 700;
-  color: #FFFFFF;
-  background: #039855;
-  padding: 1px 5px;
-  border-radius: 8px;
-  letter-spacing: -0.2px;
-  line-height: normal;
-  display: inline-flex;
-  align-items: center;
+  color: #64748B;
+  line-height: 1;
 }
 
-.built-perf-time-bar-track {
+.built-perf-time-svg {
+  display: block;
+  width: 100%;
+  height: 38px;
+  max-height: 40px;
   flex: 1;
-  height: 8px;
-  background: #F1F5F9;
-  border-radius: 4px;
-  display: flex;
-  overflow: hidden;
-  position: relative;
 }
 
-.built-perf-time-bar-search {
-  height: 100%;
-  border-radius: 4px 0 0 4px;
+.built-perf-time-bar-group {
+  cursor: pointer;
+  transition: opacity 0.15s ease;
 }
 
-.built-perf-time-bar-model {
-  height: 100%;
-  border-radius: 0 4px 4px 0;
+.built-perf-time-bar-group:hover {
+  opacity: 0.85;
 }
 
-.built-perf-time-val {
-  font-family: 'DM Mono', monospace;
-  font-size: 11.5px;
-  font-weight: 600;
-  color: #475569;
-  width: 40px;
-  min-width: 40px;
-  text-align: right;
-  flex-shrink: 0;
-}
 
-@media (max-width: 640px) {
-  .built-perf-time-prov {
-    width: 120px;
-    min-width: 120px;
-  }
-  .built-perf-time-name {
-    font-size: 11px;
-  }
-  .built-perf-subchart-title {
-    font-size: 16px;
-  }
-}
 

@@ -1238,132 +1238,185 @@
               </svg>
             </div>
 
-            <!-- Chart 2: Time per Task (Latency Benchmark) -->
+            <!-- Chart 2: Time per Task (Latency Benchmark <= 60px) -->
             <div class="built-perf-time-section">
               <div class="built-perf-time-header">
                 <div class="built-perf-header-left">
-                  <h4 class="built-perf-subchart-title">Time per Task</h4>
+                  <span class="built-perf-subchart-title">Time per Task</span>
                   <span class="built-perf-subchart-badge">Lower is faster</span>
                 </div>
-                <div class="built-perf-card-legends">
-                  <div class="built-perf-legend-item">
-                    <span class="built-perf-time-legend-search" aria-hidden="true"></span>
-                    <span class="built-perf-legend-text">Search latency</span>
+                <div class="built-perf-time-legends">
+                  <div class="built-perf-time-legend-item">
+                    <span class="built-perf-time-legend-box" style="background: #039855;"></span>
+                    <span class="built-perf-time-legend-lbl">Search latency</span>
                   </div>
-                  <div class="built-perf-legend-item">
-                    <span class="built-perf-time-legend-model" aria-hidden="true"></span>
-                    <span class="built-perf-legend-text">Model time</span>
+                  <div class="built-perf-time-legend-item">
+                    <span class="built-perf-time-legend-box" style="background: #64748B;"></span>
+                    <span class="built-perf-time-legend-lbl">Model time</span>
                   </div>
                 </div>
               </div>
 
-              <!-- Time per Task Comparison Rows -->
-              <div class="built-perf-time-chart">
-                <!-- Octen -->
-                <div class="built-perf-time-row active-row" title="Octen (highlights): 15.0s (Search 0.8s, Model 14.2s)">
-                  <div class="built-perf-time-prov">
-                    <img src="/images/benchmarks/octen-mark.svg" alt="Octen" width="14" height="12" />
-                    <span class="built-perf-time-name font-bold text-[#039855]">Octen (highlights)</span>
-                    <span class="built-perf-fastest-pill">Fastest</span>
-                  </div>
-                  <div class="built-perf-time-bar-track">
-                    <div class="built-perf-time-bar-search" style="width: 2.7%; background: #039855;"></div>
-                    <div class="built-perf-time-bar-model" style="width: 47.3%; background: #A6F4C5;"></div>
-                  </div>
-                  <div class="built-perf-time-val font-bold text-[#039855]">15.0s</div>
-                </div>
+              <!-- 12-Provider Stacked Bar Chart SVG matching Artificial Analysis Benchmark -->
+              <svg class="built-perf-time-svg" viewBox="0 0 708 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background Grid Lines -->
+                <line x1="24" y1="8" x2="684" y2="8" stroke="#E2E8F0" stroke-width="0.8" stroke-dasharray="2 3" />
+                <line x1="24" y1="17" x2="684" y2="17" stroke="#E2E8F0" stroke-width="0.8" stroke-dasharray="2 3" />
+                <!-- Dashed Reference Line across chart at Octen baseline (15.3s) -->
+                <line x1="24" y1="26" x2="684" y2="26" stroke="#94A3B8" stroke-width="0.9" stroke-dasharray="3 3" />
+                <!-- Baseline Axis -->
+                <line x1="24" y1="32" x2="684" y2="32" stroke="#CBD5E1" stroke-width="0.8" stroke-dasharray="2 3" />
 
-                <!-- Parallel (fast) -->
-                <div class="built-perf-time-row" title="Parallel (fast): 18.2s (Search 2.1s, Model 16.1s)">
-                  <div class="built-perf-time-prov">
-                    <span class="built-perf-prov-dot" style="background: #BBAE90;"></span>
-                    <span class="built-perf-time-name">Parallel (fast)</span>
-                  </div>
-                  <div class="built-perf-time-bar-track">
-                    <div class="built-perf-time-bar-search" style="width: 7.0%; background: #64748B;"></div>
-                    <div class="built-perf-time-bar-model" style="width: 53.7%; background: #CBD5E1;"></div>
-                  </div>
-                  <div class="built-perf-time-val">18.2s</div>
-                </div>
+                <!-- 1. Octen (Fastest - 15.3s) -->
+                <g class="built-perf-time-bar-group">
+                  <title>Octen (highlights): 15.3s (Search: 1.9s, Model: 13.4s) - Benchmark Leader</title>
+                  <text x="51.5" y="23.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="700" font-size="7" fill="#039855">15.3s</text>
+                  <!-- Search Latency (Green) -->
+                  <rect x="34.5" y="26" width="34" height="1.2" fill="#039855" rx="0.5" />
+                  <!-- Model Time (Grey) -->
+                  <rect x="34.5" y="27.2" width="34" height="4.8" fill="#64748B" rx="0.5" />
+                  <text x="51.5" y="31" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">13.4s</text>
+                  <!-- Provider Icon -->
+                  <image href="/images/benchmarks/octen-mark.svg" x="46.5" y="34" width="10" height="9" />
+                </g>
 
-                <!-- TinyFish (web) -->
-                <div class="built-perf-time-row" title="TinyFish (web): 18.8s (Search 1.9s, Model 16.9s)">
-                  <div class="built-perf-time-prov">
-                    <span class="built-perf-prov-dot" style="background: #F79A3C;"></span>
-                    <span class="built-perf-time-name">TinyFish (web)</span>
-                  </div>
-                  <div class="built-perf-time-bar-track">
-                    <div class="built-perf-time-bar-search" style="width: 6.3%; background: #64748B;"></div>
-                    <div class="built-perf-time-bar-model" style="width: 56.4%; background: #CBD5E1;"></div>
-                  </div>
-                  <div class="built-perf-time-val">18.8s</div>
-                </div>
+                <!-- 2. Provider 2 (19.0s) -->
+                <g class="built-perf-time-bar-group">
+                  <title>Provider 2: 19.0s (Search: 6.67s, Model: 12.3s)</title>
+                  <text x="106.5" y="22.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">19.0s</text>
+                  <rect x="89.5" y="24.8" width="34" height="2.54" fill="#4361EE" rx="0.5" />
+                  <rect x="89.5" y="27.34" width="34" height="4.66" fill="#64748B" rx="0.5" />
+                  <text x="106.5" y="31" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">12.3s</text>
+                  <!-- 4-point star icon -->
+                  <path d="M106.5 34 L107.8 37.5 L110.5 38.5 L107.8 39.5 L106.5 43 L105.2 39.5 L102.5 38.5 L105.2 37.5 Z" fill="#4361EE" />
+                </g>
 
-                <!-- You.com (highlights) -->
-                <div class="built-perf-time-row" title="You.com (highlights): 22.4s (Search 4.2s, Model 18.2s)">
-                  <div class="built-perf-time-prov">
-                    <span class="built-perf-prov-dot" style="background: #5768E6;"></span>
-                    <span class="built-perf-time-name">You.com (highlights)</span>
-                  </div>
-                  <div class="built-perf-time-bar-track">
-                    <div class="built-perf-time-bar-search" style="width: 14.0%; background: #64748B;"></div>
-                    <div class="built-perf-time-bar-model" style="width: 60.7%; background: #CBD5E1;"></div>
-                  </div>
-                  <div class="built-perf-time-val">22.4s</div>
-                </div>
+                <!-- 3. Brave (22.0s) -->
+                <g class="built-perf-time-bar-group">
+                  <title>Brave: 22.0s (Search: 5.29s, Model: 16.7s)</title>
+                  <text x="161.5" y="21.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">22.0s</text>
+                  <rect x="144.5" y="23.66" width="34" height="2.01" fill="#EF4444" rx="0.5" />
+                  <rect x="144.5" y="25.67" width="34" height="6.33" fill="#64748B" rx="0.5" />
+                  <text x="161.5" y="30.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">16.7s</text>
+                  <!-- Shield icon -->
+                  <path d="M157.5 34.5 H165.5 L164.5 38.5 C164.5 41.2 161.5 42.5 161.5 42.5 C161.5 42.5 158.5 41.2 158.5 38.5 Z" fill="#EF4444" />
+                </g>
 
-                <!-- Firecrawl -->
-                <div class="built-perf-time-row" title="Firecrawl: 23.1s (Search 5.6s, Model 17.5s)">
-                  <div class="built-perf-time-prov">
-                    <span class="built-perf-prov-dot" style="background: #FA5D19;"></span>
-                    <span class="built-perf-time-name">Firecrawl</span>
-                  </div>
-                  <div class="built-perf-time-bar-track">
-                    <div class="built-perf-time-bar-search" style="width: 18.7%; background: #64748B;"></div>
-                    <div class="built-perf-time-bar-model" style="width: 58.3%; background: #CBD5E1;"></div>
-                  </div>
-                  <div class="built-perf-time-val">23.1s</div>
-                </div>
+                <!-- 4. Parallel (25.6s) -->
+                <g class="built-perf-time-bar-group">
+                  <title>Parallel (fast): 25.6s (Search: 9.23s, Model: 16.4s)</title>
+                  <text x="216.5" y="20.3" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">25.6s</text>
+                  <rect x="199.5" y="22.3" width="34" height="3.49" fill="#BBAE90" rx="0.5" />
+                  <text x="216.5" y="25" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.5" fill="#FFFFFF">9.23s</text>
+                  <rect x="199.5" y="25.79" width="34" height="6.21" fill="#64748B" rx="0.5" />
+                  <text x="216.5" y="30.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">16.4s</text>
+                  <!-- Globe icon -->
+                  <circle cx="216.5" cy="38.5" r="4.2" fill="#BBAE90" />
+                  <line x1="213" y1="37" x2="220" y2="37" stroke="#FFF" stroke-width="0.8" />
+                  <line x1="213" y1="40" x2="220" y2="40" stroke="#FFF" stroke-width="0.8" />
+                </g>
 
-                <!-- Brave (LLM context) -->
-                <div class="built-perf-time-row" title="Brave (LLM context): 25.0s (Search 6.8s, Model 18.2s)">
-                  <div class="built-perf-time-prov">
-                    <span class="built-perf-prov-dot" style="background: #FF452A;"></span>
-                    <span class="built-perf-time-name">Brave (LLM context)</span>
-                  </div>
-                  <div class="built-perf-time-bar-track">
-                    <div class="built-perf-time-bar-search" style="width: 22.7%; background: #64748B;"></div>
-                    <div class="built-perf-time-bar-model" style="width: 60.6%; background: #CBD5E1;"></div>
-                  </div>
-                  <div class="built-perf-time-val">25.0s</div>
-                </div>
+                <!-- 5. Perplexity (26.9s) -->
+                <g class="built-perf-time-bar-group">
+                  <title>Perplexity: 26.9s (Search: 13.5s, Model: 13.4s)</title>
+                  <text x="271.5" y="19.8" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">26.9s</text>
+                  <rect x="254.5" y="21.8" width="34" height="5.12" fill="#20808D" rx="0.5" />
+                  <text x="271.5" y="25.8" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">13.5s</text>
+                  <rect x="254.5" y="26.92" width="34" height="5.08" fill="#64748B" rx="0.5" />
+                  <text x="271.5" y="30.8" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">13.4s</text>
+                  <!-- Asterism icon -->
+                  <path d="M271.5 34.5 V42.5 M267.5 38.5 H275.5 M268.5 35.5 L274.5 41.5 M268.5 41.5 L274.5 35.5" stroke="#20808D" stroke-width="1.2" stroke-linecap="round" />
+                </g>
 
-                <!-- Perplexity (medium) -->
-                <div class="built-perf-time-row" title="Perplexity (medium): 26.5s (Search 7.2s, Model 19.3s)">
-                  <div class="built-perf-time-prov">
-                    <span class="built-perf-prov-dot" style="background: #20808D;"></span>
-                    <span class="built-perf-time-name">Perplexity (medium)</span>
-                  </div>
-                  <div class="built-perf-time-bar-track">
-                    <div class="built-perf-time-bar-search" style="width: 24.0%; background: #64748B;"></div>
-                    <div class="built-perf-time-bar-model" style="width: 64.3%; background: #CBD5E1;"></div>
-                  </div>
-                  <div class="built-perf-time-val">26.5s</div>
-                </div>
+                <!-- 6. Provider 6 (27.6s) -->
+                <g class="built-perf-time-bar-group">
+                  <title>Provider 6: 27.6s (Search: 12.7s, Model: 14.9s)</title>
+                  <text x="326.5" y="19.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">27.6s</text>
+                  <rect x="309.5" y="21.54" width="34" height="4.81" fill="#20808D" rx="0.5" />
+                  <text x="326.5" y="25.4" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">12.7s</text>
+                  <rect x="309.5" y="26.35" width="34" height="5.65" fill="#64748B" rx="0.5" />
+                  <text x="326.5" y="30.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">14.9s</text>
+                  <!-- Asterism icon -->
+                  <path d="M326.5 34.5 V42.5 M322.5 38.5 H330.5 M323.5 35.5 L329.5 41.5 M323.5 41.5 L329.5 35.5" stroke="#20808D" stroke-width="1.2" stroke-linecap="round" />
+                </g>
 
-                <!-- Exa (auto) -->
-                <div class="built-perf-time-row" title="Exa (auto): 28.7s (Search 9.1s, Model 19.6s)">
-                  <div class="built-perf-time-prov">
-                    <span class="built-perf-prov-dot" style="background: #1F40ED;"></span>
-                    <span class="built-perf-time-name">Exa (auto)</span>
-                  </div>
-                  <div class="built-perf-time-bar-track">
-                    <div class="built-perf-time-bar-search" style="width: 30.3%; background: #64748B;"></div>
-                    <div class="built-perf-time-bar-model" style="width: 65.4%; background: #CBD5E1;"></div>
-                  </div>
-                  <div class="built-perf-time-val">28.7s</div>
-                </div>
-              </div>
+                <!-- 7. OpenAI (30.0s) -->
+                <g class="built-perf-time-bar-group">
+                  <title>OpenAI (Web Search): 30.0s (Search: 20.1s, Model: 9.88s)</title>
+                  <text x="381.5" y="18.6" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">30.0s</text>
+                  <rect x="364.5" y="20.63" width="34" height="7.63" fill="#1E293B" rx="0.5" />
+                  <text x="381.5" y="25.8" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">20.1s</text>
+                  <rect x="364.5" y="28.26" width="34" height="3.74" fill="#64748B" rx="0.5" />
+                  <text x="381.5" y="31.2" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.5" fill="#FFFFFF">9.88s</text>
+                  <!-- OpenAI swirl icon -->
+                  <circle cx="381.5" cy="38.5" r="4.2" fill="none" stroke="#1E293B" stroke-width="1.2" />
+                  <circle cx="381.5" cy="38.5" r="1.5" fill="#1E293B" />
+                </g>
+
+                <!-- 8. Provider 8 (31.1s) -->
+                <g class="built-perf-time-bar-group">
+                  <title>Provider 8: 31.1s (Search: 15.6s, Model: 15.5s)</title>
+                  <text x="436.5" y="18.2" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">31.1s</text>
+                  <rect x="419.5" y="20.22" width="34" height="5.91" fill="#2563EB" rx="0.5" />
+                  <text x="436.5" y="24.8" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">15.6s</text>
+                  <rect x="419.5" y="26.13" width="34" height="5.87" fill="#64748B" rx="0.5" />
+                  <text x="436.5" y="30.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">15.5s</text>
+                  <!-- Hourglass icon -->
+                  <path d="M433 34.5 H440 L433 42.5 H440 Z" fill="#2563EB" opacity="0.9" />
+                </g>
+
+                <!-- 9. Provider 9 (40.6s) -->
+                <g class="built-perf-time-bar-group">
+                  <title>Provider 9: 40.6s (Search: 8.97s, Model: 31.7s)</title>
+                  <text x="491.5" y="14.6" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">40.6s</text>
+                  <rect x="474.5" y="16.62" width="34" height="3.37" fill="#A1A12A" rx="0.5" />
+                  <text x="491.5" y="19.2" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.5" fill="#FFFFFF">8.97s</text>
+                  <rect x="474.5" y="19.99" width="34" height="12.01" fill="#64748B" rx="0.5" />
+                  <text x="491.5" y="27" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="5" fill="#FFFFFF">31.7s</text>
+                  <!-- Lightning icon -->
+                  <rect x="487.5" y="34.5" width="8" height="8" rx="1.5" fill="#FACC15" />
+                  <path d="M490 35.5 L488.5 38.5 H490.5 L489.5 41.5 L492.5 38 H490.5 Z" fill="#000" />
+                </g>
+
+                <!-- 10. Provider 10 (40.7s) -->
+                <g class="built-perf-time-bar-group">
+                  <title>Provider 10: 40.7s (Search: 25.5s, Model: 15.2s)</title>
+                  <text x="546.5" y="14.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">40.7s</text>
+                  <rect x="529.5" y="16.58" width="34" height="9.66" fill="#A8A29E" rx="0.5" />
+                  <text x="546.5" y="22.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="5" fill="#FFFFFF">25.5s</text>
+                  <rect x="529.5" y="26.24" width="34" height="5.76" fill="#64748B" rx="0.5" />
+                  <text x="546.5" y="30.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">15.2s</text>
+                  <!-- Globe icon -->
+                  <circle cx="546.5" cy="38.5" r="4.2" fill="#A8A29E" />
+                  <line x1="543" y1="37" x2="550" y2="37" stroke="#FFF" stroke-width="0.8" />
+                  <line x1="543" y1="40" x2="550" y2="40" stroke="#FFF" stroke-width="0.8" />
+                </g>
+
+                <!-- 11. TinyFish (57.2s) -->
+                <g class="built-perf-time-bar-group">
+                  <title>TinyFish: 57.2s (Search: 35.2s, Model: 22.1s)</title>
+                  <text x="601.5" y="8.3" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">57.2s</text>
+                  <rect x="584.5" y="10.33" width="34" height="13.3" fill="#F97316" rx="0.5" />
+                  <text x="601.5" y="18" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="5" fill="#FFFFFF">35.2s</text>
+                  <rect x="584.5" y="23.63" width="34" height="8.37" fill="#64748B" rx="0.5" />
+                  <text x="601.5" y="28.8" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="5" fill="#FFFFFF">22.1s</text>
+                  <!-- Fish icon -->
+                  <path d="M605 38.5 C603.5 36.2 600 36 598 38.5 C600 41 603.5 40.8 605 38.5 Z" fill="#F97316" />
+                  <path d="M604 38.5 L606 36.8 V40.2 Z" fill="#F97316" />
+                </g>
+
+                <!-- 12. Firecrawl (60.7s) -->
+                <g class="built-perf-time-bar-group">
+                  <title>Firecrawl: 60.7s (Search: 42.8s, Model: 17.9s)</title>
+                  <text x="656.5" y="7.0" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">60.7s</text>
+                  <rect x="639.5" y="9.0" width="34" height="16.22" fill="#EA580C" rx="0.5" />
+                  <text x="656.5" y="18.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="5" fill="#FFFFFF">42.8s</text>
+                  <rect x="639.5" y="25.22" width="34" height="6.78" fill="#64748B" rx="0.5" />
+                  <text x="656.5" y="30.2" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="5" fill="#FFFFFF">17.9s</text>
+                  <!-- Flame icon -->
+                  <path d="M656.5 34.5 C657.8 36.5 659.5 37.5 659.5 39.5 C659.5 41.5 658 42.5 656.5 42.5 C655 42.5 653.5 41.5 653.5 39.5 C653.5 37.5 655.2 36.5 656.5 34.5 Z" fill="#EA580C" />
+                </g>
+              </svg>
             </div>
 
             <!-- Card Footnote -->
