@@ -263,7 +263,7 @@
   background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.7) 100%);
   border-radius: 8px;
   overflow: hidden;
-  padding: 24px 32px 18px;
+  padding: 18px 30px 14px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -353,8 +353,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 1;
-  min-height: 0;
+  flex: 0 0 auto;
   margin: 4px 0 2px 0;
 }
 
@@ -363,7 +362,7 @@
   width: 100%;
   height: auto;
   max-width: 710px;
-  max-height: 240px;
+  max-height: 236px;
   pointer-events: auto !important;
 }
 
@@ -515,7 +514,7 @@
 /* Card Footnote */
 .built-perf-card-footer {
   border-top: 0.5px solid rgba(75, 75, 75, 0.25);
-  padding-top: 8px;
+  padding-top: 6px;
   width: 100%;
   flex-shrink: 0;
 }
@@ -630,13 +629,13 @@
    ========================================================================== */
 .built-perf-time-section {
   position: relative;
-  margin-top: 4px;
-  padding-top: 3px;
+  margin-top: 2px;
+  padding-top: 5px;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
-  height: 56px;
-  max-height: 60px;
+  height: 74px;
+  max-height: 78px;
   box-sizing: border-box;
   overflow: visible !important;
   width: 100%;
@@ -644,7 +643,7 @@
 }
 
 .built-perf-time-header {
-  height: 12px;
+  height: 13px;
   margin-bottom: 2px !important;
   padding-bottom: 0 !important;
   display: flex;
@@ -708,16 +707,8 @@
 .built-perf-time-svg {
   display: block;
   width: 100%;
-  height: 38px;
-  max-height: 40px;
-  flex: 1;
-}
-
-.built-perf-time-svg {
-  display: block;
-  width: 100%;
-  height: 38px;
-  max-height: 40px;
+  height: 52px;
+  max-height: 54px;
   flex: 1;
   cursor: pointer;
   pointer-events: auto !important;
