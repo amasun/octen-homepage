@@ -258,6 +258,7 @@
 }
 
 .built-perf-card-inner {
+  position: relative;
   background-color: #FFFFFF;
   background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.7) 100%);
   border-radius: 8px;
@@ -713,11 +714,44 @@
 
 .built-perf-time-bar-group {
   cursor: pointer;
-  transition: opacity 0.15s ease;
+  transition: opacity 0.2s ease, filter 0.2s ease;
 }
 
-.built-perf-time-bar-group:hover {
-  opacity: 0.85;
+.built-perf-time-svg:hover .built-perf-time-bar-group:not(.active-hover) {
+  opacity: 0.45;
+}
+
+.built-perf-time-bar-group.active-hover {
+  opacity: 1;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+}
+
+.time-chart-tooltip {
+  min-width: 236px;
+  pointer-events: none;
+}
+
+.time-tooltip-badge {
+  display: inline-block;
+  margin-left: 8px;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: #039855;
+  background: #E8F7EE;
+  padding: 1px 6px;
+  border-radius: 6px;
+  letter-spacing: -0.1px;
+  vertical-align: middle;
+}
+
+.time-tooltip-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 1px;
+  margin-right: 6px;
+  vertical-align: middle;
 }
 
 

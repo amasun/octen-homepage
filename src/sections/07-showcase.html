@@ -1268,155 +1268,137 @@
                 <line x1="24" y1="32" x2="684" y2="32" stroke="#CBD5E1" stroke-width="0.8" stroke-dasharray="2 3" />
 
                 <!-- 1. Octen (Fastest - 15.3s) -->
-                <g class="built-perf-time-bar-group">
-                  <title>Octen (highlights): 15.3s (Search: 1.9s, Model: 13.4s) - Benchmark Leader</title>
-                  <text x="51.5" y="23.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="700" font-size="7" fill="#039855">15.3s</text>
+                <g class="built-perf-time-bar-group" data-name="Octen (highlights)" data-total="15.3s" data-search="1.90s" data-model="13.4s" data-color="#039855" data-fastest="true">
+                  <rect x="34.5" y="0" width="34" height="44" fill="transparent" class="time-hit-area" />
                   <!-- Search Latency (Green) -->
                   <rect x="34.5" y="26" width="34" height="1.2" fill="#039855" rx="0.5" />
                   <!-- Model Time (Grey) -->
                   <rect x="34.5" y="27.2" width="34" height="4.8" fill="#64748B" rx="0.5" />
-                  <text x="51.5" y="31" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">13.4s</text>
                   <!-- Provider Icon -->
                   <image href="/images/benchmarks/octen-mark.svg" x="46.5" y="34" width="10" height="9" />
                 </g>
 
                 <!-- 2. Provider 2 (19.0s) -->
-                <g class="built-perf-time-bar-group">
-                  <title>Provider 2: 19.0s (Search: 6.67s, Model: 12.3s)</title>
-                  <text x="106.5" y="22.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">19.0s</text>
+                <g class="built-perf-time-bar-group" data-name="Azure AI / Bing" data-total="19.0s" data-search="6.67s" data-model="12.3s" data-color="#4361EE">
+                  <rect x="89.5" y="0" width="34" height="44" fill="transparent" class="time-hit-area" />
                   <rect x="89.5" y="24.8" width="34" height="2.54" fill="#4361EE" rx="0.5" />
                   <rect x="89.5" y="27.34" width="34" height="4.66" fill="#64748B" rx="0.5" />
-                  <text x="106.5" y="31" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">12.3s</text>
-                  <!-- 4-point star icon -->
                   <path d="M106.5 34 L107.8 37.5 L110.5 38.5 L107.8 39.5 L106.5 43 L105.2 39.5 L102.5 38.5 L105.2 37.5 Z" fill="#4361EE" />
                 </g>
 
                 <!-- 3. Brave (22.0s) -->
-                <g class="built-perf-time-bar-group">
-                  <title>Brave: 22.0s (Search: 5.29s, Model: 16.7s)</title>
-                  <text x="161.5" y="21.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">22.0s</text>
+                <g class="built-perf-time-bar-group" data-name="Brave (LLM context)" data-total="22.0s" data-search="5.29s" data-model="16.7s" data-color="#EF4444">
+                  <rect x="144.5" y="0" width="34" height="44" fill="transparent" class="time-hit-area" />
                   <rect x="144.5" y="23.66" width="34" height="2.01" fill="#EF4444" rx="0.5" />
                   <rect x="144.5" y="25.67" width="34" height="6.33" fill="#64748B" rx="0.5" />
-                  <text x="161.5" y="30.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">16.7s</text>
-                  <!-- Shield icon -->
                   <path d="M157.5 34.5 H165.5 L164.5 38.5 C164.5 41.2 161.5 42.5 161.5 42.5 C161.5 42.5 158.5 41.2 158.5 38.5 Z" fill="#EF4444" />
                 </g>
 
                 <!-- 4. Parallel (25.6s) -->
-                <g class="built-perf-time-bar-group">
-                  <title>Parallel (fast): 25.6s (Search: 9.23s, Model: 16.4s)</title>
-                  <text x="216.5" y="20.3" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">25.6s</text>
+                <g class="built-perf-time-bar-group" data-name="Parallel (fast)" data-total="25.6s" data-search="9.23s" data-model="16.4s" data-color="#BBAE90">
+                  <rect x="199.5" y="0" width="34" height="44" fill="transparent" class="time-hit-area" />
                   <rect x="199.5" y="22.3" width="34" height="3.49" fill="#BBAE90" rx="0.5" />
-                  <text x="216.5" y="25" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.5" fill="#FFFFFF">9.23s</text>
                   <rect x="199.5" y="25.79" width="34" height="6.21" fill="#64748B" rx="0.5" />
-                  <text x="216.5" y="30.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">16.4s</text>
-                  <!-- Globe icon -->
                   <circle cx="216.5" cy="38.5" r="4.2" fill="#BBAE90" />
                   <line x1="213" y1="37" x2="220" y2="37" stroke="#FFF" stroke-width="0.8" />
                   <line x1="213" y1="40" x2="220" y2="40" stroke="#FFF" stroke-width="0.8" />
                 </g>
 
                 <!-- 5. Perplexity (26.9s) -->
-                <g class="built-perf-time-bar-group">
-                  <title>Perplexity: 26.9s (Search: 13.5s, Model: 13.4s)</title>
-                  <text x="271.5" y="19.8" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">26.9s</text>
+                <g class="built-perf-time-bar-group" data-name="Perplexity (medium)" data-total="26.9s" data-search="13.5s" data-model="13.4s" data-color="#20808D">
+                  <rect x="254.5" y="0" width="34" height="44" fill="transparent" class="time-hit-area" />
                   <rect x="254.5" y="21.8" width="34" height="5.12" fill="#20808D" rx="0.5" />
-                  <text x="271.5" y="25.8" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">13.5s</text>
                   <rect x="254.5" y="26.92" width="34" height="5.08" fill="#64748B" rx="0.5" />
-                  <text x="271.5" y="30.8" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">13.4s</text>
-                  <!-- Asterism icon -->
                   <path d="M271.5 34.5 V42.5 M267.5 38.5 H275.5 M268.5 35.5 L274.5 41.5 M268.5 41.5 L274.5 35.5" stroke="#20808D" stroke-width="1.2" stroke-linecap="round" />
                 </g>
 
                 <!-- 6. Provider 6 (27.6s) -->
-                <g class="built-perf-time-bar-group">
-                  <title>Provider 6: 27.6s (Search: 12.7s, Model: 14.9s)</title>
-                  <text x="326.5" y="19.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">27.6s</text>
+                <g class="built-perf-time-bar-group" data-name="Perplexity (fast)" data-total="27.6s" data-search="12.7s" data-model="14.9s" data-color="#20808D">
+                  <rect x="309.5" y="0" width="34" height="44" fill="transparent" class="time-hit-area" />
                   <rect x="309.5" y="21.54" width="34" height="4.81" fill="#20808D" rx="0.5" />
-                  <text x="326.5" y="25.4" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">12.7s</text>
                   <rect x="309.5" y="26.35" width="34" height="5.65" fill="#64748B" rx="0.5" />
-                  <text x="326.5" y="30.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">14.9s</text>
-                  <!-- Asterism icon -->
                   <path d="M326.5 34.5 V42.5 M322.5 38.5 H330.5 M323.5 35.5 L329.5 41.5 M323.5 41.5 L329.5 35.5" stroke="#20808D" stroke-width="1.2" stroke-linecap="round" />
                 </g>
 
                 <!-- 7. OpenAI (30.0s) -->
-                <g class="built-perf-time-bar-group">
-                  <title>OpenAI (Web Search): 30.0s (Search: 20.1s, Model: 9.88s)</title>
-                  <text x="381.5" y="18.6" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">30.0s</text>
+                <g class="built-perf-time-bar-group" data-name="OpenAI (Web Search)" data-total="30.0s" data-search="20.1s" data-model="9.88s" data-color="#1E293B">
+                  <rect x="364.5" y="0" width="34" height="44" fill="transparent" class="time-hit-area" />
                   <rect x="364.5" y="20.63" width="34" height="7.63" fill="#1E293B" rx="0.5" />
-                  <text x="381.5" y="25.8" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">20.1s</text>
                   <rect x="364.5" y="28.26" width="34" height="3.74" fill="#64748B" rx="0.5" />
-                  <text x="381.5" y="31.2" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.5" fill="#FFFFFF">9.88s</text>
-                  <!-- OpenAI swirl icon -->
                   <circle cx="381.5" cy="38.5" r="4.2" fill="none" stroke="#1E293B" stroke-width="1.2" />
                   <circle cx="381.5" cy="38.5" r="1.5" fill="#1E293B" />
                 </g>
 
                 <!-- 8. Provider 8 (31.1s) -->
-                <g class="built-perf-time-bar-group">
-                  <title>Provider 8: 31.1s (Search: 15.6s, Model: 15.5s)</title>
-                  <text x="436.5" y="18.2" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">31.1s</text>
+                <g class="built-perf-time-bar-group" data-name="Tavily Search" data-total="31.1s" data-search="15.6s" data-model="15.5s" data-color="#2563EB">
+                  <rect x="419.5" y="0" width="34" height="44" fill="transparent" class="time-hit-area" />
                   <rect x="419.5" y="20.22" width="34" height="5.91" fill="#2563EB" rx="0.5" />
-                  <text x="436.5" y="24.8" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">15.6s</text>
                   <rect x="419.5" y="26.13" width="34" height="5.87" fill="#64748B" rx="0.5" />
-                  <text x="436.5" y="30.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">15.5s</text>
-                  <!-- Hourglass icon -->
                   <path d="M433 34.5 H440 L433 42.5 H440 Z" fill="#2563EB" opacity="0.9" />
                 </g>
 
                 <!-- 9. Provider 9 (40.6s) -->
-                <g class="built-perf-time-bar-group">
-                  <title>Provider 9: 40.6s (Search: 8.97s, Model: 31.7s)</title>
-                  <text x="491.5" y="14.6" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">40.6s</text>
+                <g class="built-perf-time-bar-group" data-name="Google Grounding" data-total="40.6s" data-search="8.97s" data-model="31.7s" data-color="#A1A12A">
+                  <rect x="474.5" y="0" width="34" height="44" fill="transparent" class="time-hit-area" />
                   <rect x="474.5" y="16.62" width="34" height="3.37" fill="#A1A12A" rx="0.5" />
-                  <text x="491.5" y="19.2" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.5" fill="#FFFFFF">8.97s</text>
                   <rect x="474.5" y="19.99" width="34" height="12.01" fill="#64748B" rx="0.5" />
-                  <text x="491.5" y="27" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="5" fill="#FFFFFF">31.7s</text>
-                  <!-- Lightning icon -->
                   <rect x="487.5" y="34.5" width="8" height="8" rx="1.5" fill="#FACC15" />
                   <path d="M490 35.5 L488.5 38.5 H490.5 L489.5 41.5 L492.5 38 H490.5 Z" fill="#000" />
                 </g>
 
                 <!-- 10. Provider 10 (40.7s) -->
-                <g class="built-perf-time-bar-group">
-                  <title>Provider 10: 40.7s (Search: 25.5s, Model: 15.2s)</title>
-                  <text x="546.5" y="14.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">40.7s</text>
+                <g class="built-perf-time-bar-group" data-name="Exa (auto)" data-total="40.7s" data-search="25.5s" data-model="15.2s" data-color="#A8A29E">
+                  <rect x="529.5" y="0" width="34" height="44" fill="transparent" class="time-hit-area" />
                   <rect x="529.5" y="16.58" width="34" height="9.66" fill="#A8A29E" rx="0.5" />
-                  <text x="546.5" y="22.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="5" fill="#FFFFFF">25.5s</text>
                   <rect x="529.5" y="26.24" width="34" height="5.76" fill="#64748B" rx="0.5" />
-                  <text x="546.5" y="30.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="4.8" fill="#FFFFFF">15.2s</text>
-                  <!-- Globe icon -->
                   <circle cx="546.5" cy="38.5" r="4.2" fill="#A8A29E" />
                   <line x1="543" y1="37" x2="550" y2="37" stroke="#FFF" stroke-width="0.8" />
                   <line x1="543" y1="40" x2="550" y2="40" stroke="#FFF" stroke-width="0.8" />
                 </g>
 
                 <!-- 11. TinyFish (57.2s) -->
-                <g class="built-perf-time-bar-group">
-                  <title>TinyFish: 57.2s (Search: 35.2s, Model: 22.1s)</title>
-                  <text x="601.5" y="8.3" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">57.2s</text>
+                <g class="built-perf-time-bar-group" data-name="TinyFish (web)" data-total="57.2s" data-search="35.2s" data-model="22.1s" data-color="#F97316">
+                  <rect x="584.5" y="0" width="34" height="44" fill="transparent" class="time-hit-area" />
                   <rect x="584.5" y="10.33" width="34" height="13.3" fill="#F97316" rx="0.5" />
-                  <text x="601.5" y="18" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="5" fill="#FFFFFF">35.2s</text>
                   <rect x="584.5" y="23.63" width="34" height="8.37" fill="#64748B" rx="0.5" />
-                  <text x="601.5" y="28.8" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="5" fill="#FFFFFF">22.1s</text>
-                  <!-- Fish icon -->
                   <path d="M605 38.5 C603.5 36.2 600 36 598 38.5 C600 41 603.5 40.8 605 38.5 Z" fill="#F97316" />
                   <path d="M604 38.5 L606 36.8 V40.2 Z" fill="#F97316" />
                 </g>
 
                 <!-- 12. Firecrawl (60.7s) -->
-                <g class="built-perf-time-bar-group">
-                  <title>Firecrawl: 60.7s (Search: 42.8s, Model: 17.9s)</title>
-                  <text x="656.5" y="7.0" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="600" font-size="6.8" fill="#475569">60.7s</text>
+                <g class="built-perf-time-bar-group" data-name="Firecrawl" data-total="60.7s" data-search="42.8s" data-model="17.9s" data-color="#EA580C">
+                  <rect x="639.5" y="0" width="34" height="44" fill="transparent" class="time-hit-area" />
                   <rect x="639.5" y="9.0" width="34" height="16.22" fill="#EA580C" rx="0.5" />
-                  <text x="656.5" y="18.5" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="5" fill="#FFFFFF">42.8s</text>
                   <rect x="639.5" y="25.22" width="34" height="6.78" fill="#64748B" rx="0.5" />
-                  <text x="656.5" y="30.2" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="5" fill="#FFFFFF">17.9s</text>
-                  <!-- Flame icon -->
                   <path d="M656.5 34.5 C657.8 36.5 659.5 37.5 659.5 39.5 C659.5 41.5 658 42.5 656.5 42.5 C655 42.5 653.5 41.5 653.5 39.5 C653.5 37.5 655.2 36.5 656.5 34.5 Z" fill="#EA580C" />
                 </g>
               </svg>
+            </div>
+
+            <!-- Interactive Hover Tooltip for Time per Task (styled matching Pareto tooltip) -->
+            <div id="timeChartTooltip" class="pareto-tooltip time-chart-tooltip" aria-hidden="true">
+              <div class="pareto-tooltip-header">
+                <span class="pareto-tooltip-title" id="timeTooltipTitle">Octen (highlights)</span>
+                <span class="time-tooltip-badge" id="timeTooltipBadge">Fastest</span>
+              </div>
+              <div class="pareto-tooltip-row">
+                <span class="pareto-tooltip-label">Total Time per Task</span>
+                <span class="pareto-tooltip-val font-bold text-[#039855]" id="timeTooltipTotal">15.3s</span>
+              </div>
+              <div class="pareto-tooltip-row">
+                <span class="pareto-tooltip-label">
+                  <span class="time-tooltip-dot" id="timeTooltipSearchDot" style="background: #039855;"></span>
+                  Search latency
+                </span>
+                <span class="pareto-tooltip-val" id="timeTooltipSearch">1.90s</span>
+              </div>
+              <div class="pareto-tooltip-row">
+                <span class="pareto-tooltip-label">
+                  <span class="time-tooltip-dot" style="background: #64748B;"></span>
+                  Model time
+                </span>
+                <span class="pareto-tooltip-val" id="timeTooltipModel">13.4s</span>
+              </div>
             </div>
 
             <!-- Card Footnote -->
@@ -1672,8 +1654,82 @@
         }, { passive: true });
       }
 
+      function initTimeChartTooltip() {
+        const cardInner = document.querySelector('.built-perf-card-inner');
+        const timeSvg = document.querySelector('.built-perf-time-svg');
+        const tooltip = document.getElementById('timeChartTooltip');
+        const paretoTooltip = document.getElementById('paretoChartTooltip');
+        if (!cardInner || !timeSvg || !tooltip || timeSvg.dataset.tooltipBound === 'true') return;
+        timeSvg.dataset.tooltipBound = 'true';
+
+        const title = document.getElementById('timeTooltipTitle');
+        const badge = document.getElementById('timeTooltipBadge');
+        const total = document.getElementById('timeTooltipTotal');
+        const search = document.getElementById('timeTooltipSearch');
+        const searchDot = document.getElementById('timeTooltipSearchDot');
+        const model = document.getElementById('timeTooltipModel');
+
+        const barGroups = Array.from(timeSvg.querySelectorAll('.built-perf-time-bar-group'));
+
+        function updateTooltip(el) {
+          if (!el) return;
+          const name = el.dataset.name || '';
+          const isFastest = el.dataset.fastest === 'true';
+          if (title) title.textContent = name;
+          if (badge) badge.style.display = isFastest ? 'inline-block' : 'none';
+          if (total) total.textContent = el.dataset.total || '';
+          if (search) search.textContent = el.dataset.search || '';
+          if (model) model.textContent = el.dataset.model || '';
+          if (searchDot) searchDot.style.background = el.dataset.color || '#039855';
+        }
+
+        function positionTooltip(el) {
+          const cardRect = cardInner.getBoundingClientRect();
+          const elRect = el.getBoundingClientRect();
+
+          const tooltipWidth = tooltip.offsetWidth || 236;
+          const tooltipHalfWidth = tooltipWidth / 2;
+
+          const elCenterX = elRect.left - cardRect.left + elRect.width / 2;
+          const clampedX = Math.max(tooltipHalfWidth + 12, Math.min(cardRect.width - tooltipHalfWidth - 12, elCenterX));
+          const targetY = elRect.top - cardRect.top;
+
+          tooltip.style.left = clampedX + 'px';
+          tooltip.style.top = targetY + 'px';
+        }
+
+        function clearActive() {
+          barGroups.forEach(g => g.classList.remove('active-hover'));
+          tooltip.classList.remove('active');
+        }
+
+        barGroups.forEach(group => {
+          group.addEventListener('pointerenter', () => {
+            if (paretoTooltip) paretoTooltip.classList.remove('active');
+            barGroups.forEach(g => g.classList.remove('active-hover'));
+            group.classList.add('active-hover');
+            updateTooltip(group);
+            positionTooltip(group);
+            tooltip.classList.add('active');
+          });
+
+          group.addEventListener('pointermove', () => {
+            positionTooltip(group);
+          });
+
+          group.addEventListener('pointerleave', () => {
+            group.classList.remove('active-hover');
+            tooltip.classList.remove('active');
+          });
+        });
+
+        timeSvg.addEventListener('pointerleave', clearActive);
+        window.addEventListener('scroll', clearActive, { passive: true });
+      }
+
       function setup() {
         initParetoTooltip();
+        initTimeChartTooltip();
 
         const container = document.getElementById('perfTabsList');
         if (!container || container.dataset.bound === 'true') return;
