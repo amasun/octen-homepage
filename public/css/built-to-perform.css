@@ -729,16 +729,16 @@
 
 .built-perf-time-bar-group {
   cursor: pointer;
-  transition: opacity 0.2s ease, filter 0.2s ease;
+  transition: opacity 0.2s ease;
 }
 
 .built-perf-time-svg:hover .built-perf-time-bar-group:not(.active-hover) {
-  opacity: 0.4;
+  opacity: 0.45;
 }
 
 .built-perf-time-bar-group.active-hover {
   opacity: 1 !important;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+  filter: none !important;
 }
 
 .time-chart-tooltip {
