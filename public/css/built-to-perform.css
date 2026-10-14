@@ -967,22 +967,31 @@
 #chartCostEfficiency-b .lbl.hot { transform: scale(1.08); font-weight: 600; fill: #0F172A; }
 
 /* Interactive Hover Tooltip (Option A Colors & Typography) */
+#chartCostEfficiency-b {
+  --tip-bg: #ffffff;
+  --tip-border: rgba(11, 11, 11, 0.12);
+  --ink: #2c2c2a;
+  --ink-2: #52514e;
+  --model-seg: #dcdbd4;
+}
+
+/* Interactive Hover Tooltip (Faithfully matching search-api-bubble-chart.html) */
 #chartCostEfficiency-b .bubble-tip {
   position: absolute;
   pointer-events: none;
   opacity: 0;
-  transition: opacity .12s ease;
-  z-index: 60;
-  width: 236px;
-  padding: 12px 14px;
-  border-radius: 8px;
-  background: #FFFFFF;
-  border: 1px solid #E5E7EB;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 12.5px;
-  line-height: 1.45;
-  color: #111827;
+  transition: opacity .1s ease;
+  z-index: 10;
+  width: 240px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--tip-bg, #ffffff);
+  border: 1px solid var(--tip-border, rgba(11, 11, 11, 0.12));
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .10);
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink, #2c2c2a);
   box-sizing: border-box;
 }
 
@@ -990,53 +999,48 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 600;
-  color: #111827;
-  letter-spacing: -0.1px;
+  color: var(--ink, #2c2c2a);
 }
 
 #chartCostEfficiency-b .tip-logo {
   width: 18px;
   height: 18px;
   flex: none;
-  border-radius: 3px;
   object-fit: contain;
 }
 
 #chartCostEfficiency-b .bubble-tip hr {
   border: 0;
-  border-top: 1px solid #F1F5F9;
-  margin: 7px 0;
+  border-top: 1px solid var(--tip-border, rgba(11, 11, 11, 0.12));
+  margin: 10px 0;
 }
 
 #chartCostEfficiency-b .tip-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  color: #4B5563;
-  font-size: 12px;
+  color: var(--ink-2, #52514e);
+  font-size: 13px;
 }
 
 #chartCostEfficiency-b .tip-row + .tip-row {
-  margin-top: 3px;
+  margin-top: 4px;
 }
 
 #chartCostEfficiency-b .tip-row b {
-  color: #111827;
+  color: var(--ink, #2c2c2a);
   font-weight: 600;
-  font-size: 12.5px;
   font-variant-numeric: tabular-nums;
 }
 
 #chartCostEfficiency-b .tip-bar {
   display: flex;
   gap: 2px;
-  height: 8px;
-  margin: 8px 0 6px;
+  height: 10px;
+  margin: 8px 0;
   border-radius: 3px;
   overflow: hidden;
-  background: #F1F5F9;
 }
 
 #chartCostEfficiency-b .tip-bar i {
@@ -1047,33 +1051,33 @@
 #chartCostEfficiency-b .tip-keys {
   display: flex;
   justify-content: space-between;
-  font-size: 11px;
-  color: #64748B;
+  font-size: 12px;
+  color: var(--ink-2, #52514e);
   font-variant-numeric: tabular-nums;
 }
 
 #chartCostEfficiency-b .tip-keys span {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 }
 
 #chartCostEfficiency-b .tip-keys span::before {
   content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
   background: var(--c);
 }
 
 /* Source citation */
 #chartCostEfficiency-b .bubble-source {
   font-family: 'DM Sans', -apple-system, sans-serif;
-  font-size: 10.5px;
-  color: #94A3B8;
+  font-size: 11px;
+  color: #898781;
   margin: 6px 0 0;
-  padding-top: 6px;
-  border-top: 1px solid #F1F5F9;
+  padding-top: 7px;
+  border-top: 1px solid #e1e0d9;
 }
 
 #chartCostEfficiency-b .bubble-source a {

@@ -2140,7 +2140,6 @@
         const tip = root.querySelector('.bubble-tip');
         if (!wrapper || !svg || !tip) return null;
 
-        // [name, Search Index, Search $ per 1k tasks, Model $ per 1k tasks, time per task (s), search time (s), model time (s), color, preferred label position]
         const ROWS = [
           ["Perplexity Search (medium)", 80, 62.30, 8.04, 26.6, 13.5, 13.1, null, "r"],
           ["Perplexity Search (high)", 79, 56.93, 9.72, 27.3, 12.7, 14.6, null, "tl"],
@@ -2173,6 +2172,15 @@
         const logoOf = name => LOGOS[name.split(" ")[0].toLowerCase().replace(".", "")];
         const secs = v => (v < 10 ? v.toFixed(2) : v.toFixed(1)) + "s";
 
+        const M = { l: 54, r: 14, t: 14, b: 40 };
+        const X = { min: 0, max: 0.1, step: 0.01 }, Y = { min: 70, max: 82, step: 2 };
+        const QUAD = { x: 0.05, y: 76 };
+
+        let W = 720, H = 360;
+        let sx = v => M.l + (v - X.min) / (X.max - X.min) * (W - M.l - M.r);
+        let sy = v => H - M.b - (v - Y.min) / (Y.max - Y.min) * (H - M.t - M.b);
+        const radius = t => 1.55 * Math.sqrt(t);
+
         let bubbles = [];
         let current = null;
 
@@ -2185,66 +2193,48 @@
         function hide() {
           highlight(current, false);
           current = null;
-          tip.style.opacity = '0';
+          tip.style.opacity = 0;
           svg.style.cursor = "";
         }
 
-        function renderTip(c) {
+        function render(c) {
           if (current === c) return;
           highlight(current, false);
           current = c;
           highlight(c, true);
           const p = c._p;
-          // Option A colors: Octen search is #039855, other providers are #EC6D51, model time is #E4E4E4
-          const searchColor = p.name.startsWith("Octen") ? "#039855" : "#EC6D51";
-          const modelColor = "#E4E4E4";
-          const logoSrc = logoOf(p.name);
-          const cleanName = p.name.replace(/ (Web )?Search/, "");
-
+          const seg = p.name.startsWith("Octen") ? p.color : "#EC6D51";
+          const modelSeg = "var(--model-seg, #dcdbd4)";
           tip.innerHTML = `
-            <div class="tip-head">
-              ${logoSrc ? `<img class="tip-logo" src="${logoSrc}" alt="${cleanName}">` : ''}
-              <span>${cleanName}</span>
-            </div>
+            <div class="tip-head"><img class="tip-logo" src="${logoOf(p.name)}" alt="">${p.name.replace(/ (Web )?Search/, "")}</div>
             <hr>
             <div class="tip-row"><span>Search Index:</span><b>${p.score}</b></div>
             <div class="tip-row"><span>Cost per Task:</span><b>$${p.cost.toFixed(4)}</b></div>
             <hr>
-            <div class="tip-row"><span>Time per Task:</span><b style="color: ${p.name.startsWith("Octen") ? '#039855' : '#111827'}">${secs(p.t)}</b></div>
-            <div class="tip-bar">
-              <i style="flex:${p.ts};background:${searchColor};"></i>
-              <i style="flex:${p.tm};background:${modelColor};border-left:0.5px solid #CBD5E1;"></i>
-            </div>
-            <div class="tip-keys">
-              <span style="--c:${searchColor}">Search: ${secs(p.ts)}</span>
-              <span style="--c:${modelColor}">Model: ${secs(p.tm)}</span>
-            </div>
-          `;
+            <div class="tip-row"><span>Time per Task:</span><b>${secs(p.t)}</b></div>
+            <div class="tip-bar"><i style="flex:${p.ts};background:${seg}"></i><i style="flex:${p.tm};background:${modelSeg}"></i></div>
+            <div class="tip-keys"><span style="--c:${seg}">Search: ${secs(p.ts)}</span><span style="--c:${modelSeg}">Model: ${secs(p.tm)}</span></div>`;
         }
 
-        function placeTip(x, y) {
-          const w = wrapper.clientWidth, h = wrapper.clientHeight, gap = 14;
+        function place(x, y) {
+          const w = wrapper.clientWidth, h = wrapper.clientHeight, gap = 16;
           let left = x + gap, top = y - tip.offsetHeight / 2;
-          if (left + tip.offsetWidth > w - 4) left = x - gap - tip.offsetWidth;
-          tip.style.left = Math.max(4, left) + "px";
-          tip.style.top = Math.min(Math.max(4, top), h - tip.offsetHeight - 4) + "px";
-          tip.style.opacity = '1';
+          if (left + tip.offsetWidth > w) left = x - gap - tip.offsetWidth;
+          tip.style.left = Math.max(0, left) + "px";
+          tip.style.top = Math.min(Math.max(0, top), h - tip.offsetHeight) + "px";
+          tip.style.opacity = 1;
         }
 
         function draw() {
           while (svg.firstChild) svg.removeChild(svg.firstChild);
 
           const rect = wrapper.getBoundingClientRect();
-          const W = rect.width > 100 ? rect.width : 720;
-          const H = rect.height > 100 ? rect.height : 360;
+          W = rect.width > 50 ? rect.width : (wrapper.clientWidth || 720);
+          H = rect.height > 50 ? rect.height : (wrapper.clientHeight || 360);
           svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
 
-          const M = { l: 48, r: 16, t: 14, b: 36 };
-          const X = { min: 0, max: 0.1, step: 0.01 }, Y = { min: 70, max: 82, step: 2 };
-          const QUAD = { x: 0.05, y: 76 };
-          const sx = v => M.l + (v - X.min) / (X.max - X.min) * (W - M.l - M.r);
-          const sy = v => H - M.b - (v - Y.min) / (Y.max - Y.min) * (H - M.t - M.b);
-          const radius = t => 1.55 * Math.sqrt(t);
+          sx = v => M.l + (v - X.min) / (X.max - X.min) * (W - M.l - M.r);
+          sy = v => H - M.b - (v - Y.min) / (Y.max - Y.min) * (H - M.t - M.b);
 
           const pts = ROWS.map(([name, score, s, m, t, ts, tm, color, pos]) => ({
             name, score, cost: (s + m) / 1000, search: s / 1000, model: m / 1000, t, ts, tm, color, pos, r: radius(t),
@@ -2282,16 +2272,16 @@
 
           // Ticks
           for (let v = X.min; v <= X.max + 1e-9; v += X.step) {
-            el("line", { x1: sx(v), y1: sy(Y.min), x2: sx(v), y2: sy(Y.min) + 5, stroke: "#CBD5E1" });
-            text("$" + +v.toFixed(2), { x: sx(v), y: sy(Y.min) + 16, class: "tick", "text-anchor": "middle" });
+            el("line", { x1: sx(v), y1: sy(Y.min), x2: sx(v), y2: sy(Y.min) + 6, stroke: "#CBD5E1" });
+            text("$" + +v.toFixed(2), { x: sx(v), y: sy(Y.min) + 18, class: "tick", "text-anchor": "middle" });
           }
           for (let v = Y.min; v <= Y.max; v += Y.step) {
-            el("line", { x1: sx(X.min) - 5, y1: sy(v), x2: sx(X.min), y2: sy(v), stroke: "#CBD5E1" });
-            text(v, { x: sx(X.min) - 10, y: sy(v), class: "tick", "text-anchor": "end", "dominant-baseline": "middle" });
+            el("line", { x1: sx(X.min) - 6, y1: sy(v), x2: sx(X.min), y2: sy(v), stroke: "#CBD5E1" });
+            text(v, { x: sx(X.min) - 12, y: sy(v), class: "tick", "text-anchor": "end", "dominant-baseline": "middle" });
           }
 
           // Axis titles
-          text("Cost per Task (USD)", { x: (sx(X.min) + sx(X.max)) / 2, y: H - 3, class: "axis-title", "text-anchor": "middle" });
+          text("Cost per Task (USD)", { x: (sx(X.min) + sx(X.max)) / 2, y: H - 4, class: "axis-title", "text-anchor": "middle" });
           text("Artificial Analysis Search Index", { x: 0, y: 0, class: "axis-title", "text-anchor": "middle",
             transform: `translate(12 ${(sy(Y.min) + sy(Y.max)) / 2}) rotate(-90)` });
 
@@ -2301,7 +2291,7 @@
           let bestScore = -Infinity;
           const pareto = [...pts].sort((a, b) => a.cost - b.cost).filter(p => p.score > bestScore && (bestScore = p.score, true));
           el("polyline", { points: pareto.map(p => `${sx(p.cost)},${sy(p.score)}`).join(" "), fill: "none",
-            stroke: "#555555", "stroke-width": "2", "stroke-dasharray": "1 5", "stroke-linecap": "round" });
+            stroke: "#555555", "stroke-width": "2.5", "stroke-dasharray": "1 5", "stroke-linecap": "round" });
 
           // Bubbles
           bubbles = [...pts].sort((a, b) => b.r - a.r).map(p => {
@@ -2312,22 +2302,22 @@
           });
           pts.forEach(p => obstacles.push({ x: sx(p.cost), y: sy(p.score), r: p.r + 2, name: p.name }));
 
-          // Label placement algorithm
+          // Label placement algorithm with collision detection
           const SLOTS = {
             r:  (x, y, r) => [x + r + 6, y, "start"],
             l:  (x, y, r) => [x - r - 6, y, "end"],
-            t:  (x, y, r) => [x, y - r - 9, "middle"],
-            b:  (x, y, r) => [x, y + r + 11, "middle"],
-            tl: (x, y, r) => [x - r * 0.4, y - r - 8, "end"],
-            tr: (x, y, r) => [x + r * 0.4, y - r - 8, "start"],
-            bl: (x, y, r) => [x - r * 0.4, y + r + 10, "end"],
-            br: (x, y, r) => [x + r * 0.4, y + r + 10, "start"],
+            t:  (x, y, r) => [x, y - r - 10, "middle"],
+            b:  (x, y, r) => [x, y + r + 12, "middle"],
+            tl: (x, y, r) => [x - r * 0.4, y - r - 9, "end"],
+            tr: (x, y, r) => [x + r * 0.4, y - r - 9, "start"],
+            bl: (x, y, r) => [x - r * 0.4, y + r + 11, "end"],
+            br: (x, y, r) => [x + r * 0.4, y + r + 11, "start"],
             tr2: (x, y, r) => [x + r * 0.8, y - r - 4, "start"],
             tl2: (x, y, r) => [x - r * 0.8, y - r - 4, "end"],
-            br2: (x, y, r) => [x + r * 0.4, y + r + 7, "start"],
-            bl2: (x, y, r) => [x - r * 0.4, y + r + 7, "end"],
+            br2: (x, y, r) => [x + r * 0.4, y + r + 8, "start"],
+            bl2: (x, y, r) => [x - r * 0.4, y + r + 8, "end"],
           };
-          for (const d of [20, 32, 46]) Object.assign(SLOTS, {
+          for (const d of [22, 36, 50]) Object.assign(SLOTS, {
             ["fbr" + d]: (x, y, r) => [x + r * 0.5 + d * 0.5, y + r + d, "start", true],
             ["fbl" + d]: (x, y, r) => [x - r * 0.5 - d * 0.5, y + r + d, "end", true],
             ["ftr" + d]: (x, y, r) => [x + r * 0.5 + d * 0.5, y - r - d, "start", true],
@@ -2385,49 +2375,31 @@
 
           bubbles.forEach(c => {
             c.addEventListener("focus", () => {
-              renderTip(c);
-              const r = svg.getBoundingClientRect();
-              const scaleX = r.width / W, scaleY = r.height / H;
-              placeTip((sx(c._p.cost) + c._p.r) * scaleX, sy(c._p.score) * scaleY);
+              render(c);
+              place(sx(c._p.cost) + c._p.r, sy(c._p.score));
             });
             c.addEventListener("blur", hide);
           });
         }
 
-        // Mouse hover tracking
+        // Mouse: follows cursor with HOVER_PAD px proximity
         const HOVER_PAD = 14;
         svg.addEventListener("mousemove", e => {
-          const r = svg.getBoundingClientRect();
-          if (!r.width || !r.height) return;
-          const rect = wrapper.getBoundingClientRect();
-          const W = rect.width > 100 ? rect.width : 720;
-          const H = rect.height > 100 ? rect.height : 360;
-          const scaleX = W / r.width;
-          const scaleY = H / r.height;
-          const mx = (e.clientX - r.left) * scaleX;
-          const my = (e.clientY - r.top) * scaleY;
-
+          const r = svg.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
           let best = null, bestGap = Infinity;
           for (const c of bubbles) {
             const p = c._p;
             if (!p) continue;
-            const M = { l: 48, r: 16, t: 14, b: 36 };
-            const X = { min: 0, max: 0.1 };
-            const Y = { min: 70, max: 82 };
-            const dotX = M.l + (p.cost - X.min) / (X.max - X.min) * (W - M.l - M.r);
-            const dotY = H - M.b - (p.score - Y.min) / (Y.max - Y.min) * (H - M.t - M.b);
-            const gapToEdge = Math.hypot(mx - dotX, my - dotY) - p.r;
+            const gapToEdge = Math.hypot(mx - sx(p.cost), my - sy(p.score)) - p.r;
             if (gapToEdge <= HOVER_PAD && gapToEdge < bestGap) {
               best = c;
               bestGap = gapToEdge;
             }
           }
-
           if (!best) return hide();
           svg.style.cursor = "pointer";
-          renderTip(best);
-          const wRect = wrapper.getBoundingClientRect();
-          placeTip(e.clientX - wRect.left, e.clientY - wRect.top);
+          render(best);
+          place(mx, my);
         });
 
         svg.addEventListener("mouseleave", hide);
