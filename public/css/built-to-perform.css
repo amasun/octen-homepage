@@ -823,8 +823,13 @@
    Data & content from search-api-bubble-chart.html, styling aligned with Option A
    ========================================================================== */
 
+/* White card is 500px tall (the gray outer frame adds 10px on each side) */
+#chartCostEfficiency-b .built-perf-card-outer {
+  height: 520px;
+}
+
 #chartCostEfficiency-b .built-perf-card-inner {
-  padding: 22px 26px 16px;
+  padding: 40px 26px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -887,8 +892,8 @@
   position: relative;
   flex: 1;
   width: 100%;
-  min-height: 340px;
-  margin: 4px 0 2px;
+  min-height: 0;
+  margin: 4px 0 8px;
   overflow: visible;
 }
 
@@ -897,6 +902,8 @@
   width: 100%;
   height: 100%;
   overflow: visible;
+  /* A global `canvas, img, svg { pointer-events: none }` rule would swallow the hover tooltip's mouse events */
+  pointer-events: auto;
 }
 
 /* SVG Chart Typography and Elements */
@@ -995,6 +1002,10 @@
   box-sizing: border-box;
 }
 
+#chartCostEfficiency-b .bubble-tip.is-visible {
+  opacity: 1;
+}
+
 #chartCostEfficiency-b .tip-head {
   display: flex;
   align-items: center;
@@ -1072,12 +1083,21 @@
 
 /* Source citation */
 #chartCostEfficiency-b .bubble-source {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 30px;
+  flex: none;
+  align-self: stretch;
+  margin: 0;
+  padding: 8px 0 0;
+  border-top: 0.418826px solid rgba(75, 75, 75, 0.4);
   font-family: 'DM Sans', -apple-system, sans-serif;
-  font-size: 11px;
-  color: #898781;
-  margin: 6px 0 0;
-  padding-top: 7px;
-  border-top: 1px solid #e1e0d9;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 17px;
+  color: #A3A9B3;
 }
 
 #chartCostEfficiency-b .bubble-source a {

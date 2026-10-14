@@ -1991,7 +1991,7 @@
 
             <!-- Source Citation -->
             <p class="bubble-source">
-              <a href="https://artificialanalysis.ai/agents/search-api" target="_blank" rel="noopener">Artificial Analysis Search Index: Search API Benchmark &amp; Leaderboard</a> | Oct 14, 2026
+              <span><a href="https://artificialanalysis.ai/agents/search-api" target="_blank" rel="noopener">Artificial Analysis Search Index: Search API Benchmark &amp; Leaderboard</a> | Oct 14, 2026</span>
             </p>
           </div>
         </div>
@@ -2142,7 +2142,7 @@
 
         const ROWS = [
           ["Perplexity Search (medium)", 80, 62.30, 8.04, 26.6, 13.5, 13.1, null, "r"],
-          ["Perplexity Search (high)", 79, 56.93, 9.72, 27.3, 12.7, 14.6, null, "tl"],
+          ["Perplexity Search (high)", 79, 56.93, 9.72, 27.3, 12.7, 14.6, null, "r!"],
           ["Octen Search (highlights)", 77, 9.07, 14.92, 15.0, 1.90, 13.1, "#039855", "tl"],
           ["Parallel Search (advanced)", 75, 47.93, 11.29, 40.4, 25.5, 14.9, null, "t"],
           ["Brave Search (LLM context)", 75, 61.96, 17.46, 21.6, 5.29, 16.3, null, "r"],
@@ -2193,7 +2193,7 @@
         function hide() {
           highlight(current, false);
           current = null;
-          tip.style.opacity = 0;
+          tip.classList.remove("is-visible");  // a class, not inline opacity: navbar.css forces [style*="opacity: 0"] to opacity 1
           svg.style.cursor = "";
         }
 
@@ -2222,7 +2222,7 @@
           if (left + tip.offsetWidth > w) left = x - gap - tip.offsetWidth;
           tip.style.left = Math.max(0, left) + "px";
           tip.style.top = Math.min(Math.max(0, top), h - tip.offsetHeight) + "px";
-          tip.style.opacity = 1;
+          tip.classList.add("is-visible");
         }
 
         function draw() {
@@ -2377,7 +2377,9 @@
               continue;
             }
 
-            const order = [p.pos, ...Object.keys(SLOTS).filter(s => s !== p.pos)];
+            // A trailing "!" pins the label to that slot and skips collision fallback
+            const pinned = p.pos.endsWith("!"), pos = pinned ? p.pos.slice(0, -1) : p.pos;
+            const order = pinned ? [pos] : [pos, ...Object.keys(SLOTS).filter(s => s !== pos)];
             let leader = null;
             const put = s => {
               const [x, y, anchor, far] = SLOTS[s](cx, cy, p.r);
@@ -2392,9 +2394,9 @@
             let box = null;
             for (const s of order) {
               const b = put(s);
-              if (inPlot(b) && !placed.some(q => boxesOverlap(b, q)) && !obstacles.some(c => c.name !== p.name && boxHitsCircle(b, c))) { box = b; break; }
+              if (pinned || (inPlot(b) && !placed.some(q => boxesOverlap(b, q)) && !obstacles.some(c => c.name !== p.name && boxHitsCircle(b, c)))) { box = b; break; }
             }
-            placed.push(box || put(p.pos));
+            placed.push(box || put(pos));
             p.label = node;
             if (box && leader) {
               const dx = leader.x - cx, dy = leader.y - cy, len = Math.hypot(dx, dy);
