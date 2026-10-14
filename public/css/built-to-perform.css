@@ -923,7 +923,7 @@
 
 #chartCostEfficiency-b .lbl-hero {
   transform-box: fill-box;
-  transform-origin: right center;
+  transform-origin: center center;
   transition: transform .15s ease;
 }
 
