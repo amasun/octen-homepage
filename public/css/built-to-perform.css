@@ -273,7 +273,8 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  padding-bottom: 6px;
+  padding-bottom: 0px;
+  margin-bottom: -6px;
   gap: 16px;
   flex-wrap: wrap;
 }
@@ -335,6 +336,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: -6px;
 }
 
 .built-perf-pareto-svg {
