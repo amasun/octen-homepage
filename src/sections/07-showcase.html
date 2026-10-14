@@ -965,23 +965,14 @@
       <h2 class="built-perf-heading">Built to Perform</h2>
 
       <div class="built-perf-list" id="perfTabsList">
-        <!-- Absolute Left Indicator Track (Figma Node 13625:173776) -->
-        <div class="built-perf-rail" aria-hidden="true">
-          <img alt="Indicator Rail" class="built-perf-rail-img" src="/images/benchmarks/perf-bar.svg" />
+        <!-- Absolute Left Indicator Track (Dynamic to align with active item) -->
+        <div class="built-perf-rail" aria-hidden="true" id="builtPerfRail">
+          <div class="built-perf-rail-track"></div>
+          <div class="built-perf-rail-bar" id="perfRailBar"></div>
+          <div class="built-perf-rail-dot" id="perfRailDot"></div>
         </div>
 
-        <!-- 1. Cost Efficiency (Default Active & Expanded) -->
-        <div class="built-perf-item active" data-perf-tab="cost">
-          <p class="built-perf-label">Cost Efficiency</p>
-          <div class="built-perf-body">
-            <p class="built-perf-subtitle">Strong results. Lower cost.</p>
-            <p class="built-perf-desc">
-              Competitive search quality at a lower cost per task. On the Pareto frontier of the Artificial Analysis Search Index.
-            </p>
-          </div>
-        </div>
-
-        <!-- 2. Accuracy -->
+        <!-- 1. Accuracy -->
         <div class="built-perf-item" data-perf-tab="accuracy">
           <p class="built-perf-label">Accuracy</p>
           <div class="built-perf-body">
@@ -992,13 +983,24 @@
           </div>
         </div>
 
-        <!-- 3. Speed -->
+        <!-- 2. Speed -->
         <div class="built-perf-item" data-perf-tab="speed">
           <p class="built-perf-label">Speed</p>
           <div class="built-perf-body">
             <p class="built-perf-subtitle">Sub-100ms Latency</p>
             <p class="built-perf-desc">
               Engineered for lightning-fast retrieval pipelines, ensuring real-time response times for agentic workflows.
+            </p>
+          </div>
+        </div>
+
+        <!-- 3. Cost Efficiency (Active & Expanded) -->
+        <div class="built-perf-item active" data-perf-tab="cost">
+          <p class="built-perf-label">Cost Efficiency</p>
+          <div class="built-perf-body">
+            <p class="built-perf-subtitle">Strong results. Lower cost.</p>
+            <p class="built-perf-desc">
+              Competitive search quality at a lower cost per task. On the Pareto frontier of the Artificial Analysis Search Index.
             </p>
           </div>
         </div>
@@ -1377,10 +1379,7 @@
 
   <script>
     (function initBuiltToPerformTabs() {
-      // NOTE: Dynamic tab switching effect is intentionally paused per user requirements
-      // to demonstrate the primary Cost Efficiency Pareto benchmark presentation.
-      // The complete dynamic switching code, classes, and styles are preserved below.
-      const ENABLE_TAB_SWITCHING = false;
+      const ENABLE_TAB_SWITCHING = true;
 
       function initParetoTooltip() {
         const wrapper = document.querySelector('.built-perf-chart-wrapper');
@@ -1503,11 +1502,36 @@
         const tabs = container.querySelectorAll('.built-perf-item');
         const chartCost = document.getElementById('chartCostEfficiency');
         const chartAcc = document.getElementById('chartAccuracy');
+        const bar = document.getElementById('perfRailBar');
+        const dot = document.getElementById('perfRailDot');
+
+        function updateRail() {
+          const activeItem = container.querySelector('.built-perf-item.active');
+          if (!activeItem || !bar || !dot) return;
+
+          const containerRect = container.getBoundingClientRect();
+          const itemRect = activeItem.getBoundingClientRect();
+          const label = activeItem.querySelector('.built-perf-label');
+          const labelRect = label ? label.getBoundingClientRect() : itemRect;
+
+          const dotTop = (labelRect.top - containerRect.top) + (labelRect.height / 2) - 6.5;
+          const itemTop = itemRect.top - containerRect.top;
+          const itemHeight = itemRect.height;
+
+          dot.style.top = `${dotTop}px`;
+          bar.style.top = `${itemTop}px`;
+          bar.style.height = `${itemHeight}px`;
+        }
+
+        requestAnimationFrame(() => {
+          updateRail();
+          setTimeout(updateRail, 150);
+        });
+        window.addEventListener('resize', updateRail, { passive: true });
 
         tabs.forEach(tab => {
           tab.addEventListener('click', () => {
             if (!ENABLE_TAB_SWITCHING) {
-              // Maintained in default showcase state: Cost Efficiency expanded
               return;
             }
 
@@ -1543,6 +1567,8 @@
                 chartCost.style.display = 'block';
               }
             }
+
+            requestAnimationFrame(updateRail);
           });
         });
       }

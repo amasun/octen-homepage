@@ -117,17 +117,43 @@
 .built-perf-rail {
   position: absolute;
   left: 0;
-  top: 7.58px;
+  top: 0;
+  bottom: 0;
   width: 18px;
-  height: 319px;
   pointer-events: none;
   user-select: none;
 }
 
-.built-perf-rail-img {
-  display: block;
-  width: 100%;
-  height: 100%;
+.built-perf-rail-track {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: #CCCCCC;
+}
+
+.built-perf-rail-bar {
+  position: absolute;
+  left: 8px;
+  top: 88px;
+  height: 112px;
+  width: 2px;
+  background: #000000;
+  transition: top 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.built-perf-rail-dot {
+  position: absolute;
+  left: 2.5px;
+  top: 96px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #0A0A0A;
+  border: 3.5px solid #F9F9F9;
+  box-sizing: border-box;
+  transition: top 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Individual tab items */
