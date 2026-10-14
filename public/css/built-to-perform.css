@@ -629,6 +629,7 @@
    Data based on Artificial Analysis Search API Benchmark
    ========================================================================== */
 .built-perf-time-section {
+  position: relative;
   margin-top: 4px;
   padding-top: 3px;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
@@ -637,7 +638,7 @@
   height: 56px;
   max-height: 60px;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: visible !important;
   width: 100%;
   flex-shrink: 0;
 }
@@ -712,23 +713,53 @@
   flex: 1;
 }
 
+.built-perf-time-svg {
+  display: block;
+  width: 100%;
+  height: 38px;
+  max-height: 40px;
+  flex: 1;
+  cursor: pointer;
+  pointer-events: auto !important;
+}
+
+.built-perf-time-bar-group,
+.built-perf-time-bar-group * {
+  cursor: pointer;
+  pointer-events: auto !important;
+}
+
+.time-hit-area {
+  cursor: pointer;
+  pointer-events: all !important;
+  fill: #FFFFFF !important;
+  fill-opacity: 0.001 !important;
+}
+
 .built-perf-time-bar-group {
   cursor: pointer;
   transition: opacity 0.2s ease, filter 0.2s ease;
 }
 
 .built-perf-time-svg:hover .built-perf-time-bar-group:not(.active-hover) {
-  opacity: 0.45;
+  opacity: 0.4;
 }
 
 .built-perf-time-bar-group.active-hover {
-  opacity: 1;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+  opacity: 1 !important;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
 }
 
 .time-chart-tooltip {
   min-width: 236px;
-  pointer-events: none;
+  pointer-events: none !important;
+  z-index: 100 !important;
+}
+
+.time-chart-tooltip.active {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translate(-50%, -100%) translateY(-10px) !important;
 }
 
 .time-tooltip-badge {
