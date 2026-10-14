@@ -704,6 +704,17 @@
   line-height: 1;
 }
 
+.built-perf-time-legend-dash {
+  display: inline-block;
+  width: 14px;
+  height: 0;
+  border-top: 1.5px dashed #64748B;
+}
+
+.built-perf-model-only-group {
+  pointer-events: none !important;
+}
+
 .built-perf-time-svg {
   display: block;
   width: 100%;
