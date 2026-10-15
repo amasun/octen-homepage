@@ -1061,6 +1061,11 @@
   height: 100%;
 }
 
+/* Bars no longer reach the container edge, so round the model segment's right end */
+#chartCostEfficiency-b .tip-bar i:last-child {
+  border-radius: 0 3px 3px 0;
+}
+
 /* "Fastest" pill beside the Time per Task label of the lowest-latency product */
 #chartCostEfficiency-b .tip-badge {
   display: inline-block;
