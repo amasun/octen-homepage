@@ -1,0 +1,44 @@
+      <!-- Panel 1: Cost Efficiency Bubble Chart (from search-api-bubble-chart.html) -->
+      <div id="chartCostEfficiency-b" class="perf-chart-panel active">
+        <div class="built-perf-card-outer">
+          <div class="built-perf-card-inner">
+            <!-- Card Header: Title & Legend -->
+            <div class="built-perf-card-header">
+              <h3 class="built-perf-card-title">Search Index vs. Cost &amp; Latency per Task</h3>
+              <div class="built-perf-card-legends">
+                <div class="built-perf-legend-item">
+                  <span class="built-perf-legend-box" aria-hidden="true"></span>
+                  <span class="built-perf-legend-text">Most attractive quadrant</span>
+                </div>
+                <div class="built-perf-legend-item">
+                  <svg width="26" height="4" aria-hidden="true">
+                    <line x1="1" y1="2" x2="25" y2="2" stroke="#555555" stroke-width="2.5" stroke-dasharray="1 5" stroke-linecap="round"/>
+                  </svg>
+                  <span class="built-perf-legend-text">Pareto line</span>
+                </div>
+                <div class="built-perf-legend-item">
+                  <svg width="22" height="16" aria-hidden="true">
+                    <circle cx="15" cy="8" r="6.5" fill="#C8C7C0" stroke="#FFFFFF" stroke-width="1.5"/>
+                    <circle cx="7" cy="9" r="4.5" fill="#50504D" stroke="#FFFFFF" stroke-width="1"/>
+                  </svg>
+                  <span class="built-perf-legend-text">Bubble area = Time per task (smaller is faster)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chart Canvas Wrapper -->
+            <div class="built-perf-bubble-wrapper" id="bubbleChartWrapper-b">
+              <svg class="bubble-plot" id="bubblePlot-b" role="img" aria-labelledby="t-b d-b">
+                <title id="t-b">Search API quality, cost and latency bubble chart</title>
+                <desc id="d-b">X axis: cost per task. Y axis: Artificial Analysis Search Index. Bubble area: time per task. Octen Search scores 77 at $0.024 per task and 15.0 seconds, the only product in the most attractive quadrant.</desc>
+              </svg>
+              <div class="bubble-tip" id="bubbleTip-b"></div>
+            </div>
+
+            <!-- Source Citation -->
+            <p class="bubble-source">
+              <span><a href="https://artificialanalysis.ai/agents/search-api" target="_blank" rel="noopener">Artificial Analysis Search Index: Search API Benchmark &amp; Leaderboard</a> | Oct 14, 2026</span>
+            </p>
+          </div>
+        </div>
+      </div>
