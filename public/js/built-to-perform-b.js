@@ -77,14 +77,18 @@
           const p = c._p;
           const seg = p.name.startsWith("Octen") ? p.color : "#EC6D51";
           const modelSeg = "var(--model-seg, #dcdbd4)";
+          // Shared time scale: the slowest product fills the bar, every other bar is proportionally shorter
+          const T_MAX = Math.max(...ROWS.map(r => r[4]));
+          const T_MIN = Math.min(...ROWS.map(r => r[4]));  // the fastest product gets a "Fastest" badge
+          const pct = v => `calc(${(v / T_MAX * 100).toFixed(2)}% - 1px)`;
           tip.innerHTML = `
             <div class="tip-head"><img class="tip-logo" src="${logoOf(p.name)}" alt="">${p.name.replace(/ (Web )?Search/, "")}</div>
             <hr>
             <div class="tip-row"><span>Search Index:</span><b>${p.score}</b></div>
             <div class="tip-row"><span>Cost per Task:</span><b>$${p.cost.toFixed(4)}</b></div>
             <hr>
-            <div class="tip-row"><span>Time per Task:</span><b>${secs(p.t)}</b></div>
-            <div class="tip-bar"><i style="flex:${p.ts};background:${seg}"></i><i style="flex:${p.tm};background:${modelSeg}"></i></div>
+            <div class="tip-row"><span>Time per Task:${p.t === T_MIN ? '<i class="tip-badge">Fastest</i>' : ""}</span><b>${secs(p.t)}</b></div>
+            <div class="tip-bar"><i style="width:${pct(p.ts)};background:${seg}"></i><i style="width:${pct(p.tm)};background:${modelSeg}"></i></div>
             <div class="tip-keys"><span style="--c:${seg}">Search: ${secs(p.ts)}</span><span style="--c:${modelSeg}">Model: ${secs(p.tm)}</span></div>`;
         }
 

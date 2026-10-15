@@ -1045,6 +1045,7 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Full bar width = the slowest product's time; segments are sized on that shared scale */
 #chartCostEfficiency-b .tip-bar {
   display: flex;
   gap: 2px;
@@ -1056,7 +1057,23 @@
 
 #chartCostEfficiency-b .tip-bar i {
   display: block;
+  flex: none;
   height: 100%;
+}
+
+/* "Fastest" pill beside the Time per Task label of the lowest-latency product */
+#chartCostEfficiency-b .tip-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 999px;
+  font-style: normal;
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 16px;
+  vertical-align: 1px;
+  color: #039855;
+  background: rgba(3, 152, 85, 0.1);
 }
 
 #chartCostEfficiency-b .tip-keys {
