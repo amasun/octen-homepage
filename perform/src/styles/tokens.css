@@ -1,0 +1,45 @@
+/* Design tokens — values taken from the Figma file "Octen_汇总" */
+:root {
+  /* Brand / semantic */
+  --color-active: #039855;          /* Octen green */
+  --color-active-soft: rgba(3, 152, 85, 0.4);
+  --color-active-row: rgba(172, 194, 165, 0.1);
+  --color-active-row-line: #acc2a5;
+  --color-competitor: #ff6347;      /* competitor bar */
+  --color-competitor-soft: rgba(240, 68, 56, 0.3);
+  --color-error-500: #f04438;
+
+  /* Neutrals (Figma: Gray/500–700) */
+  --color-ink: #08120a;             /* apple/900 — card titles */
+  --color-black: #000000;
+  --color-text: #1f2937;
+  --color-gray-700: #414651;
+  --color-gray-600: #535862;
+  --color-gray-500: #717680;
+  --color-muted: #a3a9b3;
+  --color-series-muted: #9aa0a8;    /* radar non-highlighted series */
+  --color-track: #f3f4f6;
+  --color-line: rgba(75, 75, 75, 0.2);
+  --color-line-soft: rgba(75, 75, 75, 0.12);
+  --color-card-border: #ededed;
+  --color-page: #f9f9f9;
+  --color-tabs-bg: #f0f0f0;
+
+  /* Typography */
+  --font-display: 'Fraunces Variable', 'Fraunces', Georgia, serif;
+  --font-sans: 'DM Sans Variable', 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --font-badge: 'IBM Plex Serif', Georgia, serif;
+
+  --fs-value: 13.94px;
+  --fs-unit: 12.95px;
+  --fs-label: 12.95px;
+  --fs-caption: 12px;
+  --fs-card-title: 23.4px;
+
+  /* Layout */
+  --container: 1380px;
+  --card-radius: 5.2px;
+  --card-pad: 30px;
+  --card-gap: 10px;
+}

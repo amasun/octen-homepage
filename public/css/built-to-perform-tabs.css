@@ -1,0 +1,673 @@
+/* ==========================================================================
+   BUILT TO PERFORM - TABS LAYOUT
+   Section frame: Figma node 14127:44728 (header, pill tabs, copy, 1-2 cards)
+   Chart internals: mirrored from the live octen.ai benchmark panels
+   ========================================================================== */
+
+#built-to-perform.bpt-section {
+  padding: 120px 24px;
+  background: #F9F9F9;
+}
+
+.bpt-container {
+  max-width: 1380px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+/* ---------- Header: tag, heading, pill tabs (Centered) ---------- */
+.bpt-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.bpt-head .built-perf-tag {
+  margin-bottom: 10px;
+}
+
+.bpt-heading {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 44px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #000;
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.bpt-tabs {
+  display: inline-flex;
+  max-width: 100%;
+  padding: 6px;
+  border-radius: 99px;
+  background: #F0F0F0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  justify-content: center;
+}
+
+.bpt-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.bpt-tab {
+  flex-shrink: 0;
+  padding: 4px 40px;
+  border: 0;
+  border-radius: 99px;
+  background: transparent;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: normal;
+  color: rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.bpt-tab:hover {
+  color: #000;
+}
+
+.bpt-tab.is-active {
+  background: #FFF;
+  color: #000;
+}
+
+.bpt-tab:focus-visible {
+  outline: 2px solid #039855;
+  outline-offset: 2px;
+}
+
+/* ---------- Panel: copy + card row ---------- */
+.bpt-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bpt-panel[hidden] {
+  display: none;
+}
+
+.bpt-panel.is-active {
+  animation: bptFadeIn 0.35s ease both;
+}
+
+@keyframes bptFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.bpt-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  margin-bottom: 27px;
+  width: 100%;
+}
+
+.bpt-subtitle {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+  text-align: center;
+}
+
+.bpt-desc {
+  margin: 0 auto;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #070707;
+  opacity: 0.6;
+  text-align: center;
+  max-width: 600px;
+}
+
+/* One card fills the row up to max-width (786px) and centers; two cards split it equally (Figma: flex 1 0 0, gap 10). */
+.bpt-cards {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+}
+
+.bpt-card {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 440px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px;
+  border: 1.3px solid #EDEDED;
+  border-radius: 5.2px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 100%), #FFF;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* 单图表限制最长宽度（对齐 Figma 设计稿 786px 居中），双图表自适应弹性均分 */
+.bpt-card:only-child {
+  max-width: 786px;
+  width: 100%;
+}
+
+.bpt-card-title {
+  margin: 0 0 8px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #0F172A;
+}
+
+.bpt-card-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(75, 75, 75, 0.2);
+  font-size: 14px;
+  font-weight: 500;
+  color: #A3A9B3;
+}
+
+.bpt-mono {
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.bpt-mono small {
+  margin-left: 1px;
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+/* Shared bar track */
+.bpt-track {
+  position: relative;
+  width: 100%;
+  height: 18px;
+  border-radius: 2px;
+  background: #F1F5F9;
+  overflow: hidden;
+}
+
+.bpt-fill,
+.bpt-fill-diff {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  transform-origin: left center;
+}
+
+.bpt-panel.is-active .bpt-fill,
+.bpt-panel.is-active .bpt-fill-diff {
+  animation: bptGrow 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.bpt-panel.is-active .bpt-fill-diff {
+  animation-delay: 0.25s;
+}
+
+@keyframes bptGrow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* ---------- Speed: Web Search latency ---------- */
+.bpt-lat-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0;
+  font-size: 14px;
+  color: #414651;
+}
+
+.bpt-lat-head {
+  padding: 6px 0;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(75, 75, 75, 0.2);
+  font-weight: 700;
+  color: #475569;
+}
+
+.bpt-lat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bpt-lat-prov {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 140px;
+  flex-shrink: 0;
+}
+
+.bpt-lat-body .bpt-lat-prov span {
+  font-weight: 600;
+  color: #1E293B;
+}
+
+.bpt-lat-prov img {
+  width: 18px;
+  height: 18px;
+}
+
+.bpt-lat-p50 {
+  width: 60px;
+  flex-shrink: 0;
+}
+
+.bpt-lat-p50 small {
+  opacity: 1;
+}
+
+.bpt-lat-bar {
+  flex: 1;
+  min-width: 0;
+}
+
+.bpt-lat-num {
+  width: 60px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.bpt-lat-num.is-diff {
+  color: #EF4444;
+}
+
+.bpt-lat-row .bpt-fill {
+  background: #FF6347;
+}
+
+.bpt-lat-row .bpt-fill-diff {
+  background: #FAC6C3;
+  border-radius: 0 2px 2px 0;
+}
+
+.bpt-lat-row.is-octen .bpt-lat-prov span,
+.bpt-lat-row.is-octen .bpt-lat-p50,
+.bpt-lat-row.is-octen .bpt-lat-num {
+  color: #039855;
+}
+
+.bpt-lat-row.is-octen .bpt-fill {
+  background: #039855;
+}
+
+.bpt-lat-row.is-octen .bpt-fill-diff {
+  background: #93CFB7;
+}
+
+.bpt-card-foot b {
+  font-weight: 700;
+}
+
+/* ---------- Accuracy ---------- */
+.bpt-acc-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 44px;
+  font-size: 14px;
+  color: #414651;
+}
+
+.bpt-acc-head {
+  height: auto;
+  padding: 6px 0;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(75, 75, 75, 0.2);
+  font-weight: 600;
+  color: #475569;
+}
+
+.bpt-acc-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bpt-acc-prov {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 112px;
+  flex-shrink: 0;
+}
+
+.bpt-acc-body .bpt-acc-prov span {
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+  color: #1E293B;
+}
+
+.bpt-acc-prov img {
+  width: 18px;
+  height: 18px;
+}
+
+.bpt-acc-bar {
+  flex: 1;
+  min-width: 0;
+}
+
+.bpt-acc-row .bpt-track {
+  height: 16px;
+  background: #F3F4F6;
+}
+
+.bpt-acc-num {
+  width: 68px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.bpt-acc-num:nth-child(3) {
+  margin-right: 20px;
+}
+
+.bpt-acc-row .bpt-fill {
+  background: #D9D9D9;
+}
+
+.bpt-acc-row.is-octen .bpt-acc-prov span,
+.bpt-acc-row.is-octen .bpt-acc-num {
+  color: #039855;
+}
+
+.bpt-acc-row.is-octen .bpt-fill {
+  background: #039855;
+}
+
+/* ---------- Scale ---------- */
+.bpt-scale-chart {
+  flex: 1;
+  min-height: 0;
+}
+
+.bpt-scale-chart svg {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.bpt-scale-note {
+  padding-top: 4px;
+  font-size: 14px;
+  color: #94A3B8;
+}
+
+/* ---------- Search Index (placeholder) ---------- */
+.bpt-placeholder-text {
+  margin: 0;
+  font-size: 14px;
+  color: #A3A9B3;
+}
+
+/* ---------- Freshness: Octen Sync pipeline ---------- */
+.bpt-sync {
+  position: relative;
+  height: 320px;
+  margin-top: 8px;
+}
+
+.bpt-sync-step {
+  position: absolute;
+  bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.bpt-sync-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+
+.bpt-sync-step.is-end .bpt-sync-label {
+  align-items: flex-end;
+  text-align: right;
+  transform: translateX(-100%);
+}
+
+.bpt-sync-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
+  background: #1C1C1E;
+  box-shadow: 0 2px 6px -2px rgba(10, 13, 18, 0.2);
+}
+
+.bpt-sync-icon.is-green {
+  background: #039855;
+}
+
+.bpt-sync-label .bpt-sync-icon {
+  margin-bottom: 8px;
+}
+
+.bpt-sync-name {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  color: #0F172A;
+}
+
+.bpt-sync-step.is-end .bpt-sync-name {
+  white-space: nowrap;
+}
+
+.bpt-sync-time {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  color: #039855;
+}
+
+.bpt-sync-stem {
+  position: relative;
+  flex: 1;
+  left: 4px;
+  padding-top: 8px;
+  display: flex;
+  justify-content: center;
+}
+
+/* The end label is shifted left with translateX, so the stem stays at the step origin (the 100% mark). */
+.bpt-sync-step.is-end .bpt-sync-stem {
+  left: -4px;
+}
+
+.bpt-sync-stem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #039855;
+}
+
+.bpt-sync-stem::after {
+  content: '';
+  width: 1px;
+  margin: 6px 0;
+  background: linear-gradient(#039855 0%, rgba(3, 152, 85, 0) 100%);
+}
+
+.bpt-sync-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 12px;
+  display: flex;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.bpt-sync-list {
+  display: none;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bpt-sync-list li {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 0 0 20px 22px;
+}
+
+.bpt-sync-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #039855;
+}
+
+.bpt-sync-list li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 24px;
+  bottom: 0;
+  width: 2px;
+  background: var(--bpt-line, #3AB870);
+}
+
+.bpt-sync-list .bpt-sync-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+}
+
+.bpt-sync-list .bpt-sync-name {
+  line-height: 1.35;
+  margin-bottom: 2px;
+}
+
+.bpt-sync-list .bpt-sync-time {
+  font-size: 16px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .bpt-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bpt-card {
+    flex: none;
+    width: 100%;
+    max-width: 786px;
+    height: auto;
+    min-height: 360px;
+  }
+
+  .bpt-sync {
+    display: none;
+  }
+
+  .bpt-sync-list {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  #built-to-perform.bpt-section {
+    padding: 80px 16px;
+  }
+
+  .bpt-heading {
+    font-size: 32px;
+  }
+
+  .bpt-tab {
+    padding: 4px 20px;
+    font-size: 16px;
+  }
+
+  .bpt-card {
+    padding: 20px 16px;
+  }
+
+  .bpt-lat-bar {
+    display: none;
+  }
+
+  .bpt-lat-prov {
+    flex: 1;
+    width: auto;
+  }
+
+  .bpt-acc-row {
+    gap: 8px;
+    font-size: 11px;
+  }
+
+  .bpt-acc-prov {
+    width: 88px;
+  }
+
+  .bpt-acc-num {
+    width: 52px;
+  }
+
+  .bpt-acc-num:nth-child(3) {
+    margin-right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bpt-panel.is-active,
+  .bpt-panel.is-active .bpt-fill,
+  .bpt-panel.is-active .bpt-fill-diff {
+    animation: none;
+  }
+}

@@ -2,6 +2,18 @@
   "cleanUrls": true,
   "rewrites": [
     {
+      "source": "/benchmarks",
+      "destination": "/benchmarks.html"
+    },
+    {
+      "source": "/performance",
+      "destination": "/benchmarks.html"
+    },
+    {
+      "source": "/performance-preview",
+      "destination": "/benchmarks.html"
+    },
+    {
       "source": "/vertical-search",
       "destination": "/vertical-search/index.html"
     },

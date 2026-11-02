@@ -163,6 +163,7 @@ export default defineConfig({
       input: {
         main: path.resolve(process.cwd(), 'index.html'),
         backup: path.resolve(process.cwd(), 'backup-modules.html'),
+        benchmarks: path.resolve(process.cwd(), 'benchmarks.html'),
         verticalSearch: path.resolve(process.cwd(), 'vertical search', 'index.html'),
       },
     },

@@ -1,0 +1,32 @@
+<!-- ================= BUILT TO PERFORM (BENCHMARKS) - Tabs layout =================
+  Figma: Octen_汇总 node 14127:44728. Header + pill tabs + per-tab copy + 1 or 2 chart cards.
+  Card 1 of each tab mirrors the live octen.ai chart; a 2nd card (Artificial Analysis Search Index) can be
+  added inside the same .bpt-cards row and both cards split the width equally.
+  Styles: public/css/built-to-perform-tabs.css   Script: public/js/built-to-perform-tabs.js
+-->
+<div class="built-perf-section bpt-section" id="built-to-perform">
+  <span id="performance" class="scroll-anchor" style="position: absolute; top: 0; left: 0;" aria-hidden="true"></span>
+  <span id="benchmarks" class="scroll-anchor" style="position: absolute; top: 0; left: 0;" aria-hidden="true"></span>
+  <span id="builtToPerformSection" class="scroll-anchor" style="position: absolute; top: 0; left: 0;" aria-hidden="true"></span>
+  <div class="bpt-container">
+    <div class="bpt-head">
+      <div class="built-perf-tag" data-copy-anchor="#built-to-perform">Performance</div>
+      <h2 class="bpt-heading">Built to Perform</h2>
+      <div class="bpt-tabs" role="tablist" aria-label="Performance metrics">
+        <button type="button" class="bpt-tab is-active" role="tab" aria-selected="true" data-bpt-tab="speed">Speed</button>
+        <button type="button" class="bpt-tab" role="tab" aria-selected="false" data-bpt-tab="accuracy">Accuracy</button>
+        <button type="button" class="bpt-tab" role="tab" aria-selected="false" data-bpt-tab="scale">Scale</button>
+        <button type="button" class="bpt-tab" role="tab" aria-selected="false" data-bpt-tab="search-index">Search Index</button>
+        <button type="button" class="bpt-tab" role="tab" aria-selected="false" data-bpt-tab="freshness">Freshness</button>
+      </div>
+    </div>
+
+<include src="./src/sections/07-showcase/built-to-perform-tabs/speed.html"></include>
+<include src="./src/sections/07-showcase/built-to-perform-tabs/accuracy.html"></include>
+<include src="./src/sections/07-showcase/built-to-perform-tabs/scale.html"></include>
+<include src="./src/sections/07-showcase/built-to-perform-tabs/search-index.html"></include>
+<include src="./src/sections/07-showcase/built-to-perform-tabs/freshness.html"></include>
+  </div>
+
+  <script src="/js/built-to-perform-tabs.js"></script>
+</div>

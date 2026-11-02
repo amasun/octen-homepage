@@ -1,0 +1,44 @@
+.metric {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1px;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.value {
+  font-weight: 500;
+  font-size: var(--fs-value);
+}
+
+.unit {
+  font-weight: 400;
+  font-size: var(--fs-unit);
+  color: var(--color-gray-500);
+}
+
+.default .value {
+  color: var(--color-gray-700);
+}
+
+.active .value {
+  color: var(--color-active);
+}
+
+.error .value {
+  color: var(--color-error-500);
+}
+
+.best {
+  align-self: center;
+  width: 5px;
+  height: 5px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background: rgba(65, 70, 81, 0.5);
+}
+
+.active .best {
+  background: var(--color-active);
+}
