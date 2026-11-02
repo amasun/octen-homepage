@@ -335,8 +335,13 @@
         container.dataset.bound = 'true';
 
         const tabs = container.querySelectorAll('.built-perf-item');
-        const chartCost = document.getElementById('chartCostEfficiency-b');
-        const chartAcc = document.getElementById('chartAccuracy-b');
+        const panels = {
+          cost: document.getElementById('chartCostEfficiency-b'),
+          speed: document.getElementById('chartSpeed-b'),
+          accuracy: document.getElementById('chartAccuracy-b'),
+          scale: document.getElementById('chartScale-b'),
+          freshness: document.getElementById('chartFreshness-b'),
+        };
         const bar = document.getElementById('perfRailBar-b');
         const dot = document.getElementById('perfRailDot-b');
 
@@ -391,18 +396,20 @@
             });
 
             // Toggle right-hand benchmark panels
-            if (chartCost && chartAcc) {
-              if (key === 'accuracy') {
-                chartCost.style.display = 'none';
-                chartAcc.style.display = 'block';
-              } else {
-                chartAcc.style.display = 'none';
-                chartCost.style.display = 'block';
-                if (bubbleChart && bubbleChart.redraw) {
+            Object.keys(panels).forEach(pKey => {
+              const pEl = panels[pKey];
+              if (!pEl) return;
+              if (pKey === key) {
+                pEl.style.display = 'block';
+                pEl.classList.add('active');
+                if (pKey === 'cost' && bubbleChart && bubbleChart.redraw) {
                   requestAnimationFrame(bubbleChart.redraw);
                 }
+              } else {
+                pEl.style.display = 'none';
+                pEl.classList.remove('active');
               }
-            }
+            });
 
             requestAnimationFrame(updateRail);
           });

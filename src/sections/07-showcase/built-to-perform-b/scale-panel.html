@@ -1,0 +1,31 @@
+      <!-- Panel: Scale (Aligned with Option 1) -->
+      <div id="chartScale-b" class="perf-chart-panel" style="display: none;">
+        <div class="built-perf-card-outer">
+          <div class="built-perf-card-inner" style="padding: 30px; justify-content: center; height: 100%; box-sizing: border-box;">
+            <h3 class="bpt-card-title">P50 latency (ms) vs QPS</h3>
+            <div class="bpt-scale-chart">
+              <svg viewBox="0 0 760 370" width="100%" height="100%" role="img" aria-label="P50 latency stays at 62ms from 1K to 1M+ QPS">
+                <defs><linearGradient id="bptScaleAreaGrad-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#039855" stop-opacity="0.28"></stop><stop offset="100%" stop-color="#039855" stop-opacity="0"></stop></linearGradient></defs>
+                <g><line x1="68" y1="318" x2="732" y2="318" stroke="#e2e8f0" stroke-width="1"></line><text x="58" y="322.5" text-anchor="end" font-size="13" fill="#717680">0</text></g>
+                <g><line x1="68" y1="243.5" x2="732" y2="243.5" stroke="#e2e8f0" stroke-width="1"></line><text x="58" y="248" text-anchor="end" font-size="13" fill="#717680">30ms</text></g>
+                <g><line x1="68" y1="169" x2="732" y2="169" stroke="#e2e8f0" stroke-width="1"></line><text x="58" y="173.5" text-anchor="end" font-size="13" fill="#717680">60ms</text></g>
+                <g><line x1="68" y1="94.5" x2="732" y2="94.5" stroke="#e2e8f0" stroke-width="1"></line><text x="58" y="99" text-anchor="end" font-size="13" fill="#717680">90ms</text></g>
+                <g><line x1="68" y1="20" x2="732" y2="20" stroke="#e2e8f0" stroke-width="1"></line><text x="58" y="24.5" text-anchor="end" font-size="13" fill="#717680">120ms</text></g>
+                <path d="M 68 164.033 L 732 164.033 L 732 318 L 68 318 Z" fill="url(#bptScaleAreaGrad-b)"></path>
+                <line x1="68" y1="164.033" x2="732" y2="164.033" stroke="#089A58" stroke-width="2.5"></line>
+                <text x="68" y="350" text-anchor="middle" font-size="13" fill="#717680">1K</text>
+                <text x="289.333" y="350" text-anchor="middle" font-size="13" fill="#717680">10K</text>
+                <text x="510.667" y="350" text-anchor="middle" font-size="13" fill="#717680">100K</text>
+                <text x="732" y="350" text-anchor="middle" font-size="13" fill="#717680">1M+</text>
+                <circle cx="732" cy="164.033" r="8" fill="#16a34a" opacity="0.2"><animate attributeName="r" values="8;26;8" dur="2.2s" repeatCount="indefinite"></animate><animate attributeName="opacity" values="0.22;0;0.22" dur="2.2s" repeatCount="indefinite"></animate></circle>
+                <circle cx="732" cy="164.033" r="7" fill="white"></circle>
+                <circle cx="732" cy="164.033" r="5" fill="#019855"></circle>
+                <rect x="612" y="119.033" width="138" height="27" rx="6" ry="6" fill="#019855"></rect>
+                <polygon points="725,146.033 739,146.033 732,155.033" fill="#019855"></polygon>
+                <text x="681" y="138.033" text-anchor="middle" font-size="16" font-weight="600" fill="white">62ms / 1M+ QPS</text>
+              </svg>
+            </div>
+            <div class="bpt-scale-note">Log scale</div>
+          </div>
+        </div>
+      </div>

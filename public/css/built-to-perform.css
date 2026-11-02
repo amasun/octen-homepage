@@ -277,6 +277,19 @@
   height: 520px;
 }
 
+#built-to-perform-b .built-perf-card-inner {
+  padding: 24px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#built-to-perform-b #chartCostEfficiency-b .built-perf-card-inner {
+  padding: 40px 26px;
+}
+
 #chartCostEfficiency .built-perf-card-inner,
 #chartCostEfficiency-b .built-perf-card-inner {
   padding-top: 40px;
@@ -826,6 +839,19 @@
 /* White card is 500px tall (the gray outer frame adds 10px on each side) */
 #chartCostEfficiency-b .built-perf-card-outer {
   height: 520px;
+}
+
+#built-to-perform-b .built-perf-card-inner {
+  padding: 24px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#built-to-perform-b #chartCostEfficiency-b .built-perf-card-inner {
+  padding: 40px 26px;
 }
 
 #chartCostEfficiency-b .built-perf-card-inner {
