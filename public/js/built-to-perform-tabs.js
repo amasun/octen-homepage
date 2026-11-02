@@ -14,6 +14,7 @@
 
     var AUTO_SWITCH_INTERVAL = 5000;
     var autoTimer = null;
+    var transitionTimer = null;
     var isPaused = false;
     var isIntersecting = true;
 
@@ -48,15 +49,61 @@
         if (on && focus) tab.focus();
       });
 
-      panels.forEach(function (panel) {
-        var on = panel.dataset.bptPanel === name;
-        panel.hidden = !on;
-        panel.classList.toggle('is-active', on);
-      });
-
       if (activeTab) {
         updatePill(activeTab, immediate);
       }
+
+      var targetPanel = null;
+      var currentPanel = null;
+
+      panels.forEach(function (panel) {
+        if (panel.dataset.bptPanel === name) {
+          targetPanel = panel;
+        } else if (!panel.hidden && panel.classList.contains('is-active')) {
+          currentPanel = panel;
+        }
+      });
+
+      if (!targetPanel) return;
+      if (targetPanel === currentPanel) return;
+
+      if (transitionTimer) {
+        clearTimeout(transitionTimer);
+        transitionTimer = null;
+      }
+
+      if (immediate || !currentPanel) {
+        panels.forEach(function (panel) {
+          var on = panel === targetPanel;
+          panel.hidden = !on;
+          panel.classList.toggle('is-active', on);
+          panel.classList.remove('is-leaving', 'is-entering');
+        });
+        return;
+      }
+
+      // Animate: currentPanel pushes left & fades out; targetPanel pushes in from right
+      panels.forEach(function (panel) {
+        if (panel !== currentPanel && panel !== targetPanel) {
+          panel.hidden = true;
+          panel.classList.remove('is-active', 'is-leaving', 'is-entering');
+        }
+      });
+
+      currentPanel.classList.remove('is-active', 'is-entering');
+      currentPanel.classList.add('is-leaving');
+      currentPanel.hidden = false;
+
+      targetPanel.hidden = false;
+      targetPanel.classList.remove('is-leaving');
+      targetPanel.classList.add('is-entering', 'is-active');
+
+      transitionTimer = setTimeout(function () {
+        currentPanel.hidden = true;
+        currentPanel.classList.remove('is-leaving');
+        targetPanel.classList.remove('is-entering');
+        transitionTimer = null;
+      }, 380);
     }
 
     function nextTab() {

@@ -73,7 +73,7 @@
   left: 0;
   border-radius: 99px;
   background: #FFFFFF;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  box-shadow: none;
   pointer-events: none;
   z-index: 0;
   opacity: 0;
@@ -113,25 +113,63 @@
   outline-offset: 2px;
 }
 
-/* ---------- Panel: copy + card row ---------- */
+/* ---------- Stage & Panels: push transition ---------- */
+.bpt-stage {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+  overflow: hidden;
+}
+
 .bpt-panel {
+  grid-area: 1 / 1;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  will-change: transform, opacity;
 }
 
 .bpt-panel[hidden] {
-  display: none;
+  display: none !important;
 }
 
-.bpt-panel.is-active {
-  animation: bptFadeIn 0.35s ease both;
+.bpt-panel.is-active:not(.is-entering):not(.is-leaving) {
+  opacity: 1;
+  transform: translateX(0);
 }
 
-@keyframes bptFadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: none; }
+.bpt-panel.is-leaving {
+  pointer-events: none;
+  animation: bptPushOutLeft 0.38s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.bpt-panel.is-entering {
+  animation: bptPushInLeft 0.38s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes bptPushOutLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-56px);
+  }
+}
+
+@keyframes bptPushInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(56px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .bpt-copy {
