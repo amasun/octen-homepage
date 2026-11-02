@@ -51,6 +51,7 @@
 
 .bpt-tabs {
   display: inline-flex;
+  position: relative;
   max-width: 100%;
   padding: 6px;
   border-radius: 99px;
@@ -58,13 +59,31 @@
   overflow-x: auto;
   scrollbar-width: none;
   justify-content: center;
+  align-items: center;
 }
 
 .bpt-tabs::-webkit-scrollbar {
   display: none;
 }
 
+.bpt-tab-pill {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  border-radius: 99px;
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), width 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s ease;
+  will-change: transform, width;
+}
+
 .bpt-tab {
+  position: relative;
+  z-index: 1;
   flex-shrink: 0;
   padding: 4px 40px;
   border: 0;
@@ -77,7 +96,7 @@
   color: rgba(0, 0, 0, 0.6);
   white-space: nowrap;
   cursor: pointer;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: color 0.25s ease;
 }
 
 .bpt-tab:hover {
@@ -85,7 +104,7 @@
 }
 
 .bpt-tab.is-active {
-  background: #FFF;
+  background: transparent;
   color: #000;
 }
 
