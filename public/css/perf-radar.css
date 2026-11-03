@@ -481,8 +481,8 @@
 
 .bpt-panel .bpr-body {
   border-top: none;
-  padding-top: 14px;
-  padding-bottom: 14px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   gap: 28px;
   flex: 1 1 auto;
   min-height: 0;
@@ -531,13 +531,17 @@
 .bpt-panel .bpr-row {
   width: 100%;
   box-sizing: border-box;
-  padding: 6.5px 8px;
+  padding: 9px 8px;
   font-size: 13.5px;
 }
 
 .bpt-panel .bpr-row[data-radar] {
-  padding-top: 6.5px;
-  padding-bottom: 6.5px;
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+
+.bpt-panel .bpr-head {
+  padding-bottom: 10px;
 }
 
 .bpt-panel .bpr-c-prov {
