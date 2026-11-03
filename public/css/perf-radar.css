@@ -103,14 +103,11 @@
   position: relative;
 }
 
-/* Overlaid in the radar's top-left corner (absolute, takes no layout space) */
-.bpr-radar-note {
-  position: absolute;
-  left: 0;
-  top: 0;
-  margin: 0;
+/* "Outer edge is better": SVG text in the radar's top-left, on the same baseline as "DeepSearchQA F1" */
+.bpr-radar-note text {
+  font-family: 'DM Sans', sans-serif;
   font-size: 12.95px;
-  color: #717680;
+  fill: #717680;
 }
 
 .bpr-ring-outer {
@@ -219,6 +216,8 @@
 }
 
 .bpr-row[data-radar] {
+  padding-top: 13px;
+  padding-bottom: 13px; /* taller rows so the table matches the radar's height */
   cursor: default;
 }
 

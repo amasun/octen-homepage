@@ -89,7 +89,7 @@
   }
 
   // Octen point tooltips: hovering (or focusing) around one of Octen's five radar points explains
-  // that metric and gives Octen's value (raw cost/time plus score for the derived axes).
+  // that metric and gives Octen's score (plus the raw cost/time per task for the derived axes).
   var AXIS_META = [
     { name: 'DeepSearchQA F1', desc: 'Broad research questions that need many searches; F1 over the listed answer items.' },
     { name: 'BrowseComp Accuracy', desc: 'Hard-to-find facts that need multi-hop browsing; exact-answer accuracy.' },
@@ -120,8 +120,8 @@
       var raw = meta.raw ? octenRow.querySelector(meta.raw).textContent.trim() : '';
       tip.innerHTML =
         '<p class="bpr-tip-title">Octen · ' + meta.name + '</p>' +
-        '<p class="bpr-tip-value"><b>' + (raw || score) + '</b>' +
-          (raw ? '<span>score ' + score + '</span>' : '') + '</p>' +
+        '<p class="bpr-tip-value"><b>' + score + '</b>' +
+          (raw ? '<span>' + raw + ' per task</span>' : '') + '</p>' +
         '<p class="bpr-tip-desc">' + meta.desc + '</p>';
     }
 
