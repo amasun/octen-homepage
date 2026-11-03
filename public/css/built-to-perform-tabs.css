@@ -7,7 +7,7 @@
 #built-to-perform.bpt-section {
   position: relative;
   width: 100%;
-  padding: 120px 24px;
+  padding: 110px 0 130px;
   background-color: #F9F9F9;
   background-image: radial-gradient(circle, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
   background-size: 10px 10px;
@@ -16,14 +16,16 @@
 }
 
 .bpt-container {
-  max-width: 1380px;
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 36px;
+  overflow: visible;
 }
 
 /* ---------- Header: tag, heading, pill tabs (Centered) ---------- */
@@ -33,6 +35,10 @@
   align-items: center;
   text-align: center;
   width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
 }
 
 .bpt-head .built-perf-tag {
@@ -113,80 +119,84 @@
   outline-offset: 2px;
 }
 
-/* ---------- Stage & Panels: push transition ---------- */
-.bpt-stage {
-  position: relative;
+/* ---------- 五连屏全视口居中画卷跑道舞台 (Full-Viewport Centered Carousel) ---------- */
+.bpt-rail-viewport {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: start;
-  overflow: hidden;
+  position: relative;
+  overflow: visible;
+  touch-action: pan-y;
+}
+
+.bpt-rail-track {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 36px;
+  width: max-content;
+  will-change: transform;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translate3d(0, 0, 0);
 }
 
 .bpt-panel {
-  grid-area: 1 / 1;
-  width: 100%;
+  flex: 0 0 auto;
+  width: 820px;
+  max-width: 88vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  will-change: transform, opacity;
+  box-sizing: border-box;
+  transform-origin: center center;
+  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.55s ease;
+  will-change: transform, opacity, filter;
 }
 
-/* Hidden panels stay in the shared grid cell (invisible) so the stage is always as tall as the
-   tallest tab — the Performance section keeps one height while tabs switch.
-   The mirrored octen.ai CSS hides [hidden] with !important inside @layer base; a layered !important
-   beats any unlayered rule, so this override must live in the same layer (higher specificity wins there). */
-@layer base {
-  .bpt-panel[hidden] {
-    display: flex !important;
-  }
+/* Value tab: contains the full radar + comparison table */
+.bpt-panel[data-bpt-panel="value"] {
+  width: 1180px;
+  max-width: 94vw;
 }
 
-.bpt-panel[hidden] {
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.bpt-panel.is-active:not(.is-entering):not(.is-leaving) {
+/* Active panel in the center: full opacity, full scale, interactive */
+.bpt-panel.is-active {
   opacity: 1;
-  transform: translateX(0);
+  transform: scale(1);
+  filter: none;
+  pointer-events: auto;
+  cursor: default;
+  z-index: 2;
 }
 
-.bpt-panel.is-leaving {
-  pointer-events: none;
-  animation: bptPushOutLeft 0.38s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+/* Inactive panels on sides: faded out, subtle scale-down, click-to-activate */
+.bpt-panel:not(.is-active) {
+  opacity: 0.28;
+  transform: scale(0.96);
+  filter: blur(0.5px);
+  cursor: pointer;
+  z-index: 1;
+  pointer-events: auto;
+  user-select: none;
 }
 
-.bpt-panel.is-entering {
-  animation: bptPushInLeft 0.38s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-}
-
-@keyframes bptPushOutLeft {
-  0% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-56px);
-  }
-}
-
-@keyframes bptPushInLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(56px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
+.bpt-panel:not(.is-active):hover {
+  opacity: 0.55;
+  transform: scale(0.975);
+  filter: none;
 }
 
 .bpt-copy {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  width: 100%;
+  min-height: 82px;
+  justify-content: flex-start;
+}
   text-align: center;
   gap: 10px;
   margin-bottom: 27px;
@@ -1057,7 +1067,21 @@
 
 @media (max-width: 768px) {
   #built-to-perform.bpt-section {
-    padding: 80px 16px;
+    padding: 80px 0;
+  }
+
+  .bpt-rail-track {
+    gap: 16px;
+  }
+
+  .bpt-panel {
+    width: 88vw;
+    max-width: 88vw;
+  }
+
+  .bpt-panel[data-bpt-panel="value"] {
+    width: 92vw;
+    max-width: 92vw;
   }
 
   .bpt-heading {
