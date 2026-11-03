@@ -95,7 +95,7 @@
   right: 0;
   bottom: 0;
   height: 2px;
-  background: rgba(0, 0, 0, 0.08);
+  background: transparent;
   overflow: hidden;
   pointer-events: none;
 }
