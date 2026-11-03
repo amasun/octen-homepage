@@ -464,8 +464,13 @@
   animation: bprRadarGrow 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.bpt-panel.is-active .bpr-shape[data-radar-key="youcom"] { animation-delay: 0.04s; }
+.bpt-panel.is-active .bpr-shape[data-radar-key="brave"] { animation-delay: 0.08s; }
+.bpt-panel.is-active .bpr-shape[data-radar-key="parallel"] { animation-delay: 0.12s; }
+.bpt-panel.is-active .bpr-shape[data-radar-key="perplexity"] { animation-delay: 0.16s; }
+.bpt-panel.is-active .bpr-shape[data-radar-key="exa"] { animation-delay: 0.20s; }
 .bpt-panel.is-active .bpr-shape.is-octen {
-  animation: bprRadarGrowOcten 0.95s cubic-bezier(0.34, 1.25, 0.64, 1) 0.12s both;
+  animation: bprRadarGrowOcten 0.95s cubic-bezier(0.34, 1.25, 0.64, 1) 0.26s both;
 }
 
 .bpt-panel.is-active .bpr-ticks text,
@@ -474,15 +479,31 @@
   animation: bprFadeIn 0.6s ease 0.2s both;
 }
 
+.bpt-panel.is-active .bpr-table .bpr-head {
+  animation: bprFadeIn 0.4s ease 0.04s both;
+}
+
 .bpt-panel.is-active .bpr-table .bpr-row[data-radar] {
   animation: bprRowSlideIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.bpt-panel.is-active .bpr-table .bpr-row[data-radar]:nth-of-type(1) { animation-delay: 0.08s; }
-.bpt-panel.is-active .bpr-table .bpr-row[data-radar]:nth-of-type(2) { animation-delay: 0.14s; }
-.bpt-panel.is-active .bpr-table .bpr-row[data-radar]:nth-of-type(3) { animation-delay: 0.20s; }
-.bpt-panel.is-active .bpr-table .bpr-row[data-radar]:nth-of-type(4) { animation-delay: 0.26s; }
-.bpt-panel.is-active .bpr-table .bpr-row[data-radar]:nth-of-type(5) { animation-delay: 0.32s; }
+.bpt-panel.is-active .bpr-table .bpr-row[data-radar-key="octen"],
+.bpt-panel.is-active .bpr-table .bpr-row:nth-child(2) { animation-delay: 0.08s; }
+
+.bpt-panel.is-active .bpr-table .bpr-row[data-radar-key="exa"],
+.bpt-panel.is-active .bpr-table .bpr-row:nth-child(3) { animation-delay: 0.14s; }
+
+.bpt-panel.is-active .bpr-table .bpr-row[data-radar-key="perplexity"],
+.bpt-panel.is-active .bpr-table .bpr-row:nth-child(4) { animation-delay: 0.20s; }
+
+.bpt-panel.is-active .bpr-table .bpr-row[data-radar-key="parallel"],
+.bpt-panel.is-active .bpr-table .bpr-row:nth-child(5) { animation-delay: 0.26s; }
+
+.bpt-panel.is-active .bpr-table .bpr-row[data-radar-key="brave"],
+.bpt-panel.is-active .bpr-table .bpr-row:nth-child(6) { animation-delay: 0.32s; }
+
+.bpt-panel.is-active .bpr-table .bpr-row[data-radar-key="youcom"],
+.bpt-panel.is-active .bpr-table .bpr-row:nth-child(7) { animation-delay: 0.38s; }
 
 @keyframes bprGridGrow {
   0% {
