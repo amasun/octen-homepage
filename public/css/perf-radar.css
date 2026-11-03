@@ -103,13 +103,6 @@
   position: relative;
 }
 
-/* "Outer edge is better": SVG text in the radar's top-left, on the same baseline as "DeepSearchQA F1" */
-.bpr-radar-note text {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12.95px;
-  fill: #717680;
-}
-
 .bpr-ring-outer {
   fill: #F5F6F7;
 }
@@ -459,8 +452,8 @@
 /* ---------- Same card inside Option 1 (Value tab) ----------
    Drop Option 2's gray frame and use Option 1's card look (8px radius, faint border), 1280px wide. */
 .bpt-panel .bpr-wrap {
-  flex: 0 0 1280px;
-  width: 1280px;
+  flex: 0 1 auto; /* width follows the radar + compact table, capped by the row */
+  width: auto;
   max-width: 100%;
   height: 100%;
   margin: 0 auto;
@@ -471,7 +464,7 @@
 }
 
 .bpt-panel .bpr-card {
-  width: 100%;
+  width: auto;
   max-width: 1280px;
   height: 440px;
   box-sizing: border-box;
@@ -487,26 +480,16 @@
   border-top: none;
   padding-top: 10px;
   padding-bottom: 10px;
-  gap: 28px;
+  gap: 36px;
   flex: 1 1 auto;
   min-height: 0;
   align-items: center;
 }
 
-.bpr-radar-note {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  color: #717680;
-  line-height: 1;
-  margin: 0 0 6px 0;
-  text-align: left;
-  align-self: flex-start;
-}
-
 .bpt-panel .bpr-radar {
-  flex: 0 0 360px;
-  max-width: 360px;
+  flex: 0 1 435px; /* larger radar; may shrink on narrower screens */
+  min-width: 300px;
+  max-width: 435px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -514,20 +497,20 @@
 }
 
 .bpt-panel .bpr-radar-svg {
-  max-height: 255px;
+  max-height: 320px;
   width: 100%;
   height: auto;
   align-self: center;
 }
 
 .bpt-panel .bpr-table-wrap {
-  flex: 1 1 0;
+  flex: 0 0 auto; /* compact columns below set the width */
   min-width: 0;
-  width: 100%;
+  width: auto;
 }
 
 .bpt-panel .bpr-table {
-  width: 100%;
+  width: max-content;
   display: flex;
   flex-direction: column;
 }
@@ -540,8 +523,13 @@
 }
 
 .bpt-panel .bpr-row[data-radar] {
-  padding-top: 9px;
-  padding-bottom: 9px;
+  padding-top: 12px;
+  padding-bottom: 12px; /* table spans about the radar's 320px height */
+}
+
+/* No divider under the last provider row */
+.bpt-panel .bpr-table .bpr-row:last-child {
+  border-bottom: none;
 }
 
 .bpt-panel .bpr-head {
@@ -549,9 +537,9 @@
 }
 
 .bpt-panel .bpr-c-prov {
-  flex: 2.2 0 160px;
-  width: auto;
-  min-width: 150px;
+  flex: 0 0 150px;
+  width: 150px;
+  min-width: 0;
   justify-content: flex-start !important;
 }
 
@@ -569,44 +557,44 @@
 }
 
 .bpt-panel .bpr-c-idx {
-  flex: 0.8 0 52px;
-  width: auto;
-  min-width: 48px;
+  flex: 0 0 52px;
+  width: 52px;
+  min-width: 0;
   justify-content: flex-end !important;
 }
 
 .bpt-panel .bpr-c-cost {
-  flex: 1.25 0 95px;
-  width: auto;
-  min-width: 85px;
+  flex: 0 0 76px;
+  width: 76px;
+  min-width: 0;
   justify-content: flex-end !important;
 }
 
 .bpt-panel .bpr-c-time {
-  flex: 1.25 0 92px;
-  width: auto;
-  min-width: 85px;
+  flex: 0 0 76px;
+  width: 76px;
+  min-width: 0;
   justify-content: flex-end !important;
 }
 
 .bpt-panel .bpr-c-bc {
-  flex: 1.25 0 92px;
-  width: auto;
-  min-width: 85px;
+  flex: 0 0 70px;
+  width: 70px;
+  min-width: 0;
   justify-content: flex-end !important;
 }
 
 .bpt-panel .bpr-c-dsqa {
-  flex: 1.35 0 102px;
-  width: auto;
-  min-width: 95px;
+  flex: 0 0 96px;
+  width: 96px;
+  min-width: 0;
   justify-content: flex-end !important;
 }
 
 .bpt-panel .bpr-c-omni {
-  flex: 1.25 0 92px;
-  width: auto;
-  min-width: 85px;
+  flex: 0 0 72px;
+  width: 72px;
+  min-width: 0;
   justify-content: flex-end !important;
 }
 
@@ -633,6 +621,32 @@
 .bpt-panel .bpr-footer {
   padding-top: 10px;
   font-size: 12px;
+}
+
+/* 1025–1280px: the base (Option 2) rule stacks radar over table at ≤1280px, which overflows the
+   fixed-height Option 1 card. Keep them side by side here; the radar shrinks if space runs short. */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .bpt-panel .bpr-body {
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .bpt-panel .bpr-radar {
+    flex: 0 1 435px;
+    width: auto;
+    min-width: 280px;
+    margin: 0;
+  }
+
+  .bpt-panel .bpr-table-wrap {
+    flex: 0 0 auto;
+    overflow-x: visible;
+  }
+
+  .bpt-panel .bpr-table {
+    min-width: 0;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -729,12 +743,7 @@
 
 .bpt-panel.is-active .bpr-ticks text,
 .bpt-panel.is-active .bpr-axis-labels text,
-.bpt-panel.is-active .bpr-radar-note,
-.bpt-panel.is-active .bpr-radar-note text {
-  animation: bprFadeIn 0.6s ease 0.2s both;
-}
-
-.bpt-panel.is-active .bpr-table .bpr-head {
+.bpt-panel.is-active .bpt-panel.is-active .bpr-table .bpr-head {
   animation: bprFadeIn 0.4s ease 0.04s both;
 }
 
@@ -820,8 +829,6 @@
   .bpt-panel.is-active .bpr-shape,
   .bpt-panel.is-active .bpr-ticks text,
   .bpt-panel.is-active .bpr-axis-labels text,
-  .bpt-panel.is-active .bpr-radar-note,
-  .bpt-panel.is-active .bpr-radar-note text,
   .bpt-panel.is-active .bpr-table .bpr-row[data-radar] {
     animation: none !important;
     transform: none !important;

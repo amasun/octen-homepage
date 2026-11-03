@@ -159,7 +159,12 @@
 .bpt-rail-viewport {
   width: 100%;
   position: relative;
-  overflow: visible;
+  /* Neighbouring cards stay visible left/right; the height is set from JS to the active panel's,
+     so a taller neighbour is clipped at the bottom instead of padding the section. */
+  overflow-x: visible;
+  overflow-y: clip;
+  overflow-clip-margin: 24px; /* keep card shadows */
+  transition: height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   touch-action: pan-y;
 }
 
@@ -188,18 +193,34 @@
   will-change: opacity, filter;
 }
 
-/* Two-card tabs (Speed has 2 cards side-by-side) & wide radar tab (Value) maintain full 1280px original width */
+/* Two-card tabs (Speed has 2 cards side-by-side) maintain full 1280px original width */
 .bpt-panel[data-bpt-panel="speed"],
-.bpt-panel[data-bpt-panel="value"],
 .bpt-panel.is-wide,
 .bpt-panel:has(.bpt-cards > .bpt-card + .bpt-card) {
   width: 1280px;
   max-width: 94vw;
 }
 
+/* Value: the radar card sizes to its content (~1137px), so the panel hugs the card and the
+   carousel gap to its neighbours stays the same 10px as between the other tabs. */
+.bpt-panel[data-bpt-panel="value"] {
+  width: auto;
+  max-width: 94vw;
+}
+
 .bpt-panel[data-bpt-panel="value"] .bpt-cards {
-  width: 1280px;
+  width: auto;
   max-width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .bpt-panel[data-bpt-panel="value"] {
+    width: 94vw;
+  }
+
+  .bpt-panel[data-bpt-panel="value"] .bpt-cards {
+    width: 100%;
+  }
 }
 
 /* Active panel in the center: full opacity, interactive */
@@ -1144,6 +1165,50 @@
   .bpt-panel[data-bpt-panel="value"] {
     width: 92vw;
     max-width: 92vw;
+  }
+
+  /* Same card height across Accuracy / Speed / Scale / Freshness on phones, using Accuracy's natural
+     height (371px). Speed's two cards are tightened below so they fit; content stays centred. */
+  .bpt-panel:not([data-bpt-panel="value"]) .bpt-card {
+    height: 371px;
+    min-height: 0;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    justify-content: center;
+  }
+
+  /* Speed · Time per query: shorter rows */
+  .bpt-lat-body {
+    gap: 4px;
+  }
+
+  .bpt-lat-body .bpt-lat-row {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .bpt-panel[data-bpt-panel="speed"] .bpt-card-foot {
+    line-height: 1.3;
+    padding-top: 8px;
+  }
+
+  /* Speed · Time per task: shorter bars and label area */
+  .bpt-tpt {
+    --bar-max: 106px;
+  }
+
+  .bpt-tpt-bars {
+    height: 130px;
+    margin-top: 10px;
+  }
+
+  .bpt-tpt-labels {
+    height: 92px; /* room for the rotated names above the footnote */
+  }
+
+  /* The Scale graph keeps its aspect ratio; don't let its box stretch, so the card can centre it */
+  .bpt-scale-chart {
+    flex: none;
   }
 
   .bpt-heading {

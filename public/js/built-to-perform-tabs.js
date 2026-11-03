@@ -46,10 +46,27 @@
       }
     }
 
+    // The rail is as tall as its tallest panel; size the viewport to the active panel instead so the
+    // section grows for tall tabs (Speed on mobile, Value) and shrinks back for single-card tabs.
+    function syncRailHeight(activePanel, immediate) {
+      if (!railViewport || !activePanel) return;
+      var h = activePanel.offsetHeight + 'px';
+      if (immediate) {
+        var prevTransition = railViewport.style.transition;
+        railViewport.style.transition = 'none';
+        railViewport.style.height = h;
+        railViewport.offsetHeight; // force reflow
+        railViewport.style.transition = prevTransition || '';
+      } else {
+        railViewport.style.height = h;
+      }
+    }
+
     function centerActivePanel(immediate) {
       if (!railViewport || !railTrack) return;
       var activePanel = panels.filter(function (p) { return p.classList.contains('is-active'); })[0];
       if (!activePanel) return;
+      syncRailHeight(activePanel, immediate);
 
       var panelCenter = activePanel.offsetLeft + (activePanel.offsetWidth / 2);
       var viewportCenter = railViewport.offsetWidth / 2;
