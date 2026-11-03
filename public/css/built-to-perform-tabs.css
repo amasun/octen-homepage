@@ -887,12 +887,6 @@
   background: #039855;
 }
 
-.bpt-tpt-col.is-integrated .bpt-tpt-bar i {
-  background-color: #212121;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.45) 1px, transparent 1px);
-  background-size: 4px 4px;
-}
-
 .bpt-panel.is-active .bpt-tpt-bar {
   animation: bptRise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
