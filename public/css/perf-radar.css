@@ -357,3 +357,75 @@
     width: 100%;
   }
 }
+
+/* ---------- Octen point tooltips (radar) ---------- */
+.bpr-axis-hit {
+  fill: transparent;
+  cursor: pointer;
+  outline: none;
+}
+
+.bpr-spoke.is-active {
+  stroke: #039855;
+  stroke-opacity: 0.5;
+}
+
+.bpr-tip {
+  position: absolute;
+  z-index: 5;
+  width: 220px;
+  padding: 12px 14px;
+  box-sizing: border-box;
+  border: 1px solid #EDEDED;
+  border-radius: 8px;
+  background: #FFF;
+  box-shadow: 0 12px 28px -12px rgba(10, 13, 18, 0.25);
+  font-family: 'DM Sans', sans-serif;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.bpr-tip.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.bpr-tip p {
+  margin: 0;
+}
+
+.bpr-tip-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #535862;
+}
+
+.bpr-tip-value {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 4px !important;
+}
+
+.bpr-tip-value b {
+  font-family: 'DM Mono', monospace;
+  font-size: 22px;
+  font-weight: 500;
+  color: #039855;
+}
+
+.bpr-tip-value span {
+  font-size: 12px;
+  color: #717680;
+}
+
+.bpr-tip-desc {
+  margin-top: 8px !important;
+  padding-top: 8px;
+  border-top: 1px solid rgba(75, 75, 75, 0.12);
+  font-size: 12px;
+  line-height: 1.45;
+  color: #717680;
+}
