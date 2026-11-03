@@ -441,6 +441,7 @@
   flex: 1 1 auto;
   width: 100%;
   max-width: 1280px;
+  height: 100%;
   margin: 0 auto;
   padding: 0;
   border-radius: 0;
@@ -448,7 +449,41 @@
 }
 
 .bpt-panel .bpr-card {
+  height: 440px;
+  box-sizing: border-box;
+  padding: 22px 28px;
   border: 1.3px solid #EDEDED;
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.bpt-panel .bpr-body {
+  padding-top: 8px;
+  gap: 16px;
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: center;
+}
+
+.bpt-panel .bpr-radar {
+  flex: 0 0 450px;
+  max-width: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bpt-panel .bpr-radar-svg {
+  max-height: 330px;
+  width: 100%;
+  height: auto;
+}
+
+.bpt-panel .bpr-row[data-radar] {
+  padding-top: 9.5px;
+  padding-bottom: 9.5px;
 }
 
 /* ---------- Five-dimension Radar Entrance Animation (Option 1 Value Tab) ---------- */
