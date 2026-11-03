@@ -310,8 +310,12 @@
   color: #717680;
 }
 
-/* "$" shares the number's colour and weight (no separate tint); units like "s" stay gray */
-.bpr-c-cost i {
+/* "$" and "s" share the number's colour, weight and size (seamless unit) */
+.bpr-c-cost i,
+.bpr-c-time i {
+  font-style: normal;
+  font-family: inherit;
+  font-size: inherit;
   font-weight: inherit;
   color: inherit;
 }
@@ -612,6 +616,13 @@
 
 .bpt-panel .bpr-num i {
   font-size: 12px;
+}
+
+.bpt-panel .bpr-c-cost i,
+.bpt-panel .bpr-c-time i {
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
 }
 
 .bpt-panel .bpr-note {
