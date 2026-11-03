@@ -851,11 +851,11 @@
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  width: 48px;
+  width: 38px;
 }
 
 .bpt-tpt-val {
-  font-size: 13.94px;
+  font-size: 12.5px;
   color: #414651;
   white-space: nowrap;
 }
@@ -866,7 +866,7 @@
 
 .bpt-tpt-bar {
   position: relative;
-  width: 36px;
+  width: 28px;
   height: calc(var(--t) / var(--max) * var(--bar-max));
   border-radius: 2px 2px 0 0;
   background: #DAD8DE; /* model time / model cost — one neutral colour for every provider */
@@ -885,6 +885,12 @@
 
 .bpt-tpt-col.is-octen .bpt-tpt-bar i {
   background: #039855;
+}
+
+.bpt-tpt-col.is-integrated .bpt-tpt-bar i {
+  background-color: #212121;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.45) 1px, transparent 1px);
+  background-size: 4px 4px;
 }
 
 .bpt-panel.is-active .bpt-tpt-bar {
@@ -925,7 +931,7 @@
   position: relative;
   display: flex;
   justify-content: center;
-  width: 48px;
+  width: 38px;
 }
 
 .bpt-tpt-label img {
