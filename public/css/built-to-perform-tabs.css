@@ -85,6 +85,44 @@
   opacity: 0;
   transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), width 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s ease;
   will-change: transform, width;
+  overflow: hidden;
+}
+
+/* Timer progress bar line at the bottom of the white capsule pill */
+.bpt-tab-progress {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 3px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bpt-tab-progress-bar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+  background: #000000;
+  transform-origin: left center;
+  transform: scaleX(0);
+  will-change: transform;
+}
+
+.bpt-tab-progress-bar.is-animating {
+  animation: bptPillProgress 5s linear forwards;
+}
+
+@keyframes bptPillProgress {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
 }
 
 .bpt-tab {
@@ -1119,6 +1157,13 @@
     font-size: 16px;
   }
 
+  .bpt-tab-progress {
+    left: 10px;
+    right: 10px;
+    bottom: 2px;
+    height: 1.5px;
+  }
+
   .bpt-card {
     padding: 20px 16px;
   }
@@ -1173,6 +1218,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .bpt-tab-progress {
+    display: none;
+  }
   .bpt-panel.is-active,
   .bpt-panel.is-active .bpt-fill,
   .bpt-panel.is-active .bpt-fill-diff {

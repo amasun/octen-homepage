@@ -15,6 +15,7 @@
     var copyItems = Array.prototype.slice.call(section.querySelectorAll('[data-bpt-copy]'));
     var tabsContainer = section.querySelector('.bpt-tabs');
     var pill = section.querySelector('.bpt-tab-pill');
+    var progressBar = section.querySelector('.bpt-tab-progress-bar');
     var railViewport = section.querySelector('#bptRailViewport') || section.querySelector('.bpt-rail-viewport');
     var railTrack = section.querySelector('#bptRailTrack') || section.querySelector('.bpt-rail-track');
 
@@ -96,6 +97,23 @@
       if (targetPanel) {
         centerActivePanel(immediate);
       }
+
+      restartProgressBar();
+    }
+
+    function restartProgressBar() {
+      if (!progressBar) return;
+      progressBar.classList.remove('is-animating');
+      progressBar.style.animationPlayState = 'running';
+      void progressBar.offsetWidth; // force reflow
+      if (!isPaused && isIntersecting && !document.hidden) {
+        progressBar.classList.add('is-animating');
+      }
+    }
+
+    function pauseProgressBar() {
+      if (!progressBar) return;
+      progressBar.style.animationPlayState = 'paused';
     }
 
     function nextTab() {
@@ -126,6 +144,7 @@
       stopAutoTimer();
       if (!isPaused && isIntersecting && !document.hidden) {
         autoTimer = setInterval(nextTab, AUTO_SWITCH_INTERVAL);
+        restartProgressBar();
       }
     }
 
@@ -134,6 +153,7 @@
         clearInterval(autoTimer);
         autoTimer = null;
       }
+      pauseProgressBar();
     }
 
     function resetAutoTimer() {
