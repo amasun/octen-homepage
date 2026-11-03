@@ -264,6 +264,7 @@
 .bpr-c-idx { width: 50px; }
 .bpr-c-dsqa { width: 100px; }
 .bpr-c-omni { width: 92px; }
+.bpr-c-tpq { width: 90px; }
 
 .bpr-c-prov img {
   width: 18px;
@@ -305,7 +306,8 @@
 
 /* "$" and "s" share the number's colour, weight and size (seamless unit) */
 .bpr-c-cost i,
-.bpr-c-time i {
+.bpr-c-time i,
+.bpr-c-tpq i {
   font-style: normal;
   font-family: inherit;
   font-size: inherit;
@@ -564,15 +566,15 @@
 }
 
 .bpt-panel .bpr-c-cost {
-  flex: 0 0 76px;
-  width: 76px;
+  flex: 0 0 108px;
+  width: 108px;
   min-width: 0;
   justify-content: flex-end !important;
 }
 
 .bpt-panel .bpr-c-time {
-  flex: 0 0 76px;
-  width: 76px;
+  flex: 0 0 108px;
+  width: 108px;
   min-width: 0;
   justify-content: flex-end !important;
 }
@@ -598,6 +600,19 @@
   justify-content: flex-end !important;
 }
 
+/* Value tab: one-line headers in the four-axis card */
+.bpt-panel .bpr-head > div {
+  white-space: nowrap;
+}
+
+/* Value tab: Time per query (four-axis card) */
+.bpt-panel .bpr-c-tpq {
+  flex: 0 0 116px;
+  width: 116px;
+  min-width: 0;
+  justify-content: flex-end !important;
+}
+
 .bpt-panel .bpr-num {
   font-size: 13.5px;
 }
@@ -607,7 +622,8 @@
 }
 
 .bpt-panel .bpr-c-cost i,
-.bpt-panel .bpr-c-time i {
+.bpt-panel .bpr-c-time i,
+.bpt-panel .bpr-c-tpq i {
   font-size: inherit;
   font-weight: inherit;
   color: inherit;

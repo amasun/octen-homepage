@@ -1,23 +1,30 @@
-/* Option 2 · radar card: draws the radar from table rows, links row hover to series,
-   and shows a metric tooltip when hovering near one of the five pentagon tips. */
+/* Radar card: draws the radar from table rows, links row hover to series,
+   and shows a metric tooltip when hovering near one of Octen's radar points.
+   The axis count follows the rows' data-radar length: 5 for Option 2, 4 for the Option 1 Value tab
+   (.bpr-card[data-radar-axes="value4"]). */
 (function () {
   var NS = 'http://www.w3.org/2000/svg';
   var CX = 250;
   var CY = 219;
   var R = 150;
-  var AXES = 5; // DeepSearchQA (top), BrowseComp, Omniscience, Cost Efficiency, Speed (clockwise)
 
-  function point(i, value) {
-    var a = (-90 + i * (360 / AXES)) * Math.PI / 180;
+  function point(i, value, n) {
+    var a = (-90 + i * (360 / n)) * Math.PI / 180;
     var r = R * value / 100;
     return [CX + r * Math.cos(a), CY + r * Math.sin(a)];
   }
 
   function points(values) {
     return values.map(function (v, i) {
-      var p = point(i, v);
+      var p = point(i, v, values.length);
       return p[0].toFixed(2) + ',' + p[1].toFixed(2);
     }).join(' ');
+  }
+
+  function fill(v, n) {
+    var out = [];
+    for (var i = 0; i < n; i++) out.push(v);
+    return out;
   }
 
   function el(name, attrs) {
@@ -38,15 +45,17 @@
     var grid = card.querySelector('.bpr-grid');
     var seriesLayer = card.querySelector('.bpr-series');
     var rows = Array.prototype.slice.call(card.querySelectorAll('[data-radar]'));
+    if (!rows.length) return;
+    var n = rows[0].dataset.radar.split(',').length;
 
     // Rings (20..100) and spokes
-    grid.appendChild(el('polygon', { 'class': 'bpr-ring-outer', points: points([100, 100, 100, 100, 100]) }));
+    grid.appendChild(el('polygon', { 'class': 'bpr-ring-outer', points: points(fill(100, n)) }));
     [20, 40, 60, 80, 100].forEach(function (v) {
-      grid.appendChild(el('polygon', { 'class': 'bpr-ring', points: points([v, v, v, v, v]) }));
+      grid.appendChild(el('polygon', { 'class': 'bpr-ring', points: points(fill(v, n)) }));
     });
     var spokes = [];
-    for (var i = 0; i < AXES; i++) {
-      var end = point(i, 100);
+    for (var i = 0; i < n; i++) {
+      var end = point(i, 100, n);
       var spoke = el('line', { 'class': 'bpr-spoke', x1: CX, y1: CY, x2: end[0], y2: end[1] });
       grid.appendChild(spoke);
       spokes.push(spoke);
@@ -63,7 +72,7 @@
       var g = el('g', { 'class': 'bpr-shape' + (row.classList.contains('is-octen') ? ' is-octen' : ''), 'data-radar-key': key });
       g.appendChild(el('polygon', { points: points(values) }));
       values.forEach(function (v, idx) {
-        var p = point(idx, v);
+        var p = point(idx, v, n);
         g.appendChild(el('circle', { cx: p[0], cy: p[1], r: 3.5 }));
       });
       seriesLayer.appendChild(g);
@@ -89,22 +98,32 @@
       groups[k].addEventListener('mouseleave', function () { highlight(null); });
     });
 
-    initAxisTips(card, rows, spokes);
+    initAxisTips(card, rows, spokes, AXIS_SETS[card.dataset.radarAxes] || AXIS_SETS.default);
   }
 
-  // Octen point tooltips: hovering (or focusing) around one of Octen's five radar points explains
-  // that metric and gives Octen's score (plus the raw cost/time per task for the derived axes).
-  var AXIS_META = [
-    { name: 'DeepSearchQA F1', desc: 'Broad research questions that need many searches; F1 over the listed answer items.' },
-    { name: 'BrowseComp Accuracy', desc: 'Hard-to-find facts that need multi-hop browsing; exact-answer accuracy.' },
-    { name: 'Omniscience Accuracy', desc: '600 factual questions across 6 domains; how much search adds to the model.' },
-    { name: 'Cost Efficiency', desc: 'Cost per task (model + search). Score = cheapest cost ÷ provider cost × 100.', raw: '.bpr-c-cost' },
-    { name: 'Speed', desc: 'Time per task (model + search). Score = fastest time ÷ provider time × 100.', raw: '.bpr-c-time' }
-  ];
+  // Octen point tooltips: hovering (or focusing) around one of Octen's radar points explains
+  // that metric and gives Octen's score (plus the raw value from the table for the derived axes).
+  var AXIS_SETS = {
+    // Option 2: DeepSearchQA (top), BrowseComp, Omniscience, Cost Efficiency, Speed (clockwise)
+    'default': [
+      { name: 'DeepSearchQA F1', desc: 'Broad research questions that need many searches; F1 over the listed answer items.' },
+      { name: 'BrowseComp Accuracy', desc: 'Hard-to-find facts that need multi-hop browsing; exact-answer accuracy.' },
+      { name: 'Omniscience Accuracy', desc: '600 factual questions across 6 domains; how much search adds to the model.' },
+      { name: 'Cost Efficiency', desc: 'Cost per task (model + search). Score = cheapest cost ÷ provider cost × 100.', raw: '.bpr-c-cost', unit: 'per task' },
+      { name: 'Speed', desc: 'Time per task (model + search). Score = fastest time ÷ provider time × 100.', raw: '.bpr-c-time', unit: 'per task' }
+    ],
+    // Option 1 Value tab: Search Index (top), Cost Efficiency, Task Speed, Query Speed (clockwise)
+    value4: [
+      { name: 'Search Index', desc: 'Equal-weighted mean of DeepSearchQA F1, BrowseComp and AA-Omniscience accuracy.' },
+      { name: 'Cost Efficiency', desc: 'Cost per task (model + search). Score = cheapest cost ÷ provider cost × 100.', raw: '.bpr-c-cost', unit: 'per task' },
+      { name: 'Task Speed', desc: 'Time per task (model + search). Score = fastest time ÷ provider time × 100.', raw: '.bpr-c-time', unit: 'per task' },
+      { name: 'Query Speed', desc: 'Search API response time for one query. Score = fastest time ÷ provider time × 100.', raw: '.bpr-c-tpq', unit: 'per query' }
+    ]
+  };
   var VIEW_Y = 36; // radar SVG viewBox y-offset (viewBox="0 36 500 368")
   var VIEW_W = 500;
 
-  function initAxisTips(card, rows, spokes) {
+  function initAxisTips(card, rows, spokes, axisMeta) {
     var radar = card.querySelector('.bpr-radar');
     var svg = card.querySelector('.bpr-radar-svg');
     if (!radar || !svg) return;
@@ -117,15 +136,16 @@
     var octenRow = rows.filter(function (r) { return r.classList.contains('is-octen'); })[0];
     if (!octenRow) return;
     var octen = octenRow.dataset.radar.split(',').map(Number);
+    var n = octen.length;
 
     function render(i) {
-      var meta = AXIS_META[i];
+      var meta = axisMeta[i];
       var score = Math.round(octen[i]);
       var raw = meta.raw ? octenRow.querySelector(meta.raw).textContent.trim() : '';
       tip.innerHTML =
         '<p class="bpr-tip-title">Octen · ' + meta.name + '</p>' +
         '<p class="bpr-tip-value"><b>' + score + '</b>' +
-          (raw ? '<span>' + raw + ' per task</span>' : '') + '</p>' +
+          (raw ? '<span>' + raw + ' ' + meta.unit + '</span>' : '') + '</p>' +
         '<p class="bpr-tip-desc">' + meta.desc + '</p>';
     }
 
@@ -133,21 +153,14 @@
       var scale = svg.getBoundingClientRect().width / VIEW_W;
       var svgBox = svg.getBoundingClientRect();
       var box = radar.getBoundingClientRect();
-      var p = point(i, octen[i]);
+      var p = point(i, octen[i], n);
       var x = svgBox.left - box.left + p[0] * scale;
       var y = svgBox.top - box.top + (p[1] - VIEW_Y) * scale;
       var w = tip.offsetWidth;
       var h = tip.offsetHeight;
-      var left;
-      var top;
-      if (i === 0) {
-        left = x + 16; // top point: open to the right
-        top = y - h / 2;
-      } else {
-        left = i <= 2 ? x - w - 16 : x + 16; // right-hand points open to the left, left-hand to the right
-        top = y - h / 2;
-      }
-      top = Math.max(0, Math.min(top, box.height - h));
+      // Points right of centre open to the left; top, bottom and left-hand points open to the right
+      var left = p[0] > CX + 1 ? x - w - 16 : x + 16;
+      var top = Math.max(0, Math.min(y - h / 2, box.height - h));
       tip.style.left = Math.round(left) + 'px';
       tip.style.top = Math.round(top) + 'px';
     }
@@ -165,8 +178,8 @@
     }
 
     var hits = el('g', { 'class': 'bpr-axis-hits' });
-    AXIS_META.forEach(function (meta, i) {
-      var p = point(i, octen[i]);
+    axisMeta.slice(0, n).forEach(function (meta, i) {
+      var p = point(i, octen[i], n);
       var hit = el('circle', { 'class': 'bpr-axis-hit', cx: p[0], cy: p[1], r: 16, tabindex: 0, 'aria-label': 'Octen ' + meta.name });
       hit.addEventListener('mouseenter', function () { show(i); });
       hit.addEventListener('mouseleave', hide);
