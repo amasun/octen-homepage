@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>Octen | Built to Perform (Option 1 & Option 2)</title>
-  <meta name="description" content="Standalone comparison preview for Octen Built to Perform layouts: Option 1 (Figma Tabs Centered 1380px) and Option 2 (Scatter Bubble Chart & Indicator Rail)." />
+  <title>Octen | Built to Perform (Benchmarks)</title>
+  <meta name="description" content="Standalone preview for Octen Built to Perform benchmarks: Speed, Accuracy, Value, Scale, and Freshness." />
   <link rel="icon" href="/favicon.ico?61c18f53744654a7" type="image/x-icon" sizes="16x16" />
 
   <!-- Base Next/Font Styles -->
@@ -54,27 +54,8 @@
 </head>
 <body>
   <main>
-    <!-- Option 1: 最新 Figma Tabs 居中布局 -->
+    <!-- Built to Perform (Tabs 居中布局) -->
     <include src="./src/sections/07-showcase/built-to-perform-tabs.html"></include>
-
-    <!-- Option 2: 原方案 B (散点气泡图与导轨指示器) -->
-    <include src="./src/sections/07-showcase/built-to-perform-b.html"></include>
   </main>
-
-  <script>
-    (function () {
-      function syncTags() {
-        var tag1 = document.querySelector('#built-to-perform .built-perf-tag');
-        if (tag1) tag1.textContent = 'Performance · Option 1';
-        var tag2 = document.querySelector('#built-to-perform-b .built-perf-tag');
-        if (tag2) tag2.textContent = 'Performance · Option 2';
-      }
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', syncTags);
-      } else {
-        syncTags();
-      }
-    })();
-  </script>
 </body>
 </html>
