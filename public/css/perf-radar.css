@@ -83,7 +83,7 @@
   align-items: center;
   gap: 12px; /* Figma 20px; trimmed so radar + table fit inside the 10px gray frame */
   padding-top: 12px;
-  border-top: 1px solid rgba(75, 75, 75, 0.2);
+  border-top: none;
 }
 
 /* ---------- Radar ---------- */
@@ -225,13 +225,6 @@
   background: rgba(31, 41, 55, 0.04);
 }
 
-.bpr-head {
-  border-bottom-color: rgba(75, 75, 75, 0.2);
-  font-size: 12px;
-  font-weight: 900;
-  color: #535862;
-}
-
 .bpr-row.is-octen {
   background: rgba(172, 194, 165, 0.1);
   border-bottom-color: #ACC2A5;
@@ -250,35 +243,27 @@
 .bpr-c-prov {
   width: 158px;
   justify-content: flex-start !important;
-  position: sticky;
-  left: 0;
-  z-index: 2;
-  background: #FFF;
 }
 
-.bpr-head .bpr-c-prov {
-  background: #FFF;
-  z-index: 3;
+.bpr-head {
+  border-bottom: 1px solid rgba(75, 75, 75, 0.2);
+  font-size: 12px;
+  font-weight: 700;
+  color: #535862;
+  align-items: flex-end;
+  padding-bottom: 8px;
 }
 
-.bpr-row.is-octen .bpr-c-prov {
-  background: #F4F8F3;
+.bpr-head > div {
+  white-space: normal;
+  line-height: 1.25;
+  text-align: right;
+  justify-content: flex-end;
 }
 
-.bpr-row[data-radar]:not(.is-octen).is-focus .bpr-c-prov {
-  background: #F8F9FA;
-}
-
-.bpr-c-prov::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 1px;
-  background: rgba(75, 75, 75, 0.12);
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.04);
-  pointer-events: none;
+.bpr-head > .bpr-c-prov {
+  text-align: left;
+  justify-content: flex-start !important;
 }
 .bpr-c-cost { width: 98px; }
 .bpr-c-time { width: 90px; }
@@ -495,48 +480,79 @@
 }
 
 .bpt-panel .bpr-body {
-  padding-top: 18px;
-  padding-bottom: 18px;
-  gap: 24px;
+  border-top: none;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  gap: 28px;
   flex: 1 1 auto;
   min-height: 0;
   align-items: center;
 }
 
+.bpr-radar-note {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #717680;
+  line-height: 1;
+  margin: 0 0 6px 0;
+  text-align: left;
+  align-self: flex-start;
+}
+
 .bpt-panel .bpr-radar {
-  flex: 0 0 420px;
-  max-width: 420px;
+  flex: 0 0 360px;
+  max-width: 360px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
 }
 
 .bpt-panel .bpr-radar-svg {
-  max-height: 285px;
+  max-height: 255px;
   width: 100%;
   height: auto;
+  align-self: center;
+}
+
+.bpt-panel .bpr-table-wrap {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 100%;
+}
+
+.bpt-panel .bpr-table {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .bpt-panel .bpr-row {
-  padding: 6px 8px;
-  font-size: 13px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6.5px 8px;
+  font-size: 13.5px;
 }
 
 .bpt-panel .bpr-row[data-radar] {
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding-top: 6.5px;
+  padding-bottom: 6.5px;
 }
 
 .bpt-panel .bpr-c-prov {
-  width: 146px;
+  flex: 2.2 0 160px;
+  width: auto;
+  min-width: 150px;
+  justify-content: flex-start !important;
 }
 
 .bpt-panel .bpr-c-prov b {
-  font-size: 13px;
+  font-size: 13.5px;
 }
 
 .bpt-panel .bpr-c-prov span {
-  font-size: 11.5px;
+  font-size: 12px;
 }
 
 .bpt-panel .bpr-c-prov img {
@@ -544,15 +560,50 @@
   height: 16px;
 }
 
-.bpt-panel .bpr-c-cost { width: 88px; }
-.bpt-panel .bpr-c-time { width: 84px; }
-.bpt-panel .bpr-c-bc { width: 84px; }
-.bpt-panel .bpr-c-idx { width: 48px; }
-.bpt-panel .bpr-c-dsqa { width: 92px; }
-.bpt-panel .bpr-c-omni { width: 84px; }
+.bpt-panel .bpr-c-idx {
+  flex: 0.8 0 52px;
+  width: auto;
+  min-width: 48px;
+  justify-content: flex-end !important;
+}
+
+.bpt-panel .bpr-c-cost {
+  flex: 1.25 0 95px;
+  width: auto;
+  min-width: 85px;
+  justify-content: flex-end !important;
+}
+
+.bpt-panel .bpr-c-time {
+  flex: 1.25 0 92px;
+  width: auto;
+  min-width: 85px;
+  justify-content: flex-end !important;
+}
+
+.bpt-panel .bpr-c-bc {
+  flex: 1.25 0 92px;
+  width: auto;
+  min-width: 85px;
+  justify-content: flex-end !important;
+}
+
+.bpt-panel .bpr-c-dsqa {
+  flex: 1.35 0 102px;
+  width: auto;
+  min-width: 95px;
+  justify-content: flex-end !important;
+}
+
+.bpt-panel .bpr-c-omni {
+  flex: 1.25 0 92px;
+  width: auto;
+  min-width: 85px;
+  justify-content: flex-end !important;
+}
 
 .bpt-panel .bpr-num {
-  font-size: 13px;
+  font-size: 13.5px;
 }
 
 .bpt-panel .bpr-num i {
@@ -561,7 +612,7 @@
 
 .bpt-panel .bpr-note {
   padding-top: 8px;
-  font-size: 11.5px;
+  font-size: 12px;
 }
 
 .bpt-panel .bpr-footer {
@@ -663,6 +714,7 @@
 
 .bpt-panel.is-active .bpr-ticks text,
 .bpt-panel.is-active .bpr-axis-labels text,
+.bpt-panel.is-active .bpr-radar-note,
 .bpt-panel.is-active .bpr-radar-note text {
   animation: bprFadeIn 0.6s ease 0.2s both;
 }
@@ -753,6 +805,7 @@
   .bpt-panel.is-active .bpr-shape,
   .bpt-panel.is-active .bpr-ticks text,
   .bpt-panel.is-active .bpr-axis-labels text,
+  .bpt-panel.is-active .bpr-radar-note,
   .bpt-panel.is-active .bpr-radar-note text,
   .bpt-panel.is-active .bpr-table .bpr-row[data-radar] {
     animation: none !important;

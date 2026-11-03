@@ -16,6 +16,7 @@
 
         <div class="bpr-body">
           <div class="bpr-radar">
+            <div class="bpr-radar-note">Outer edge is better</div>
             <!-- viewBox crops the empty band above "DeepSearchQA F1" and below the bottom labels; chart coordinates are unchanged -->
             <svg class="bpr-radar-svg" viewBox="0 36 500 368" width="500" height="368" role="img" aria-label="Radar chart comparing search APIs on five dimensions">
               <g class="bpr-grid"></g>
@@ -29,9 +30,6 @@
               </g>
               <g class="bpr-axis-labels">
                 <text x="250" y="58" text-anchor="middle">DeepSearchQA F1</text>
-              </g>
-              <g class="bpr-radar-note">
-                <text x="0" y="58">Outer edge is better</text>
               </g>
               <g class="bpr-axis-labels">
                 <text x="408" y="173" text-anchor="start"><tspan x="408">BrowseComp</tspan><tspan x="408" dy="16">Accuracy</tspan></text>
@@ -47,11 +45,11 @@
               <div class="bpr-row bpr-head" role="row">
                 <div class="bpr-c-prov" role="columnheader">Provider</div>
                 <div class="bpr-c-idx" role="columnheader">Index</div>
-                <div class="bpr-c-cost" role="columnheader">Cost per Task</div>
-                <div class="bpr-c-time" role="columnheader">Time per task</div>
-                <div class="bpr-c-bc" role="columnheader">BrowseComp</div>
-                <div class="bpr-c-dsqa" role="columnheader">DeepSearchQA</div>
-                <div class="bpr-c-omni" role="columnheader">Omniscience</div>
+                <div class="bpr-c-cost" role="columnheader">Cost per<br />Task</div>
+                <div class="bpr-c-time" role="columnheader">Time per<br />task</div>
+                <div class="bpr-c-bc" role="columnheader">Browse<br />Comp</div>
+                <div class="bpr-c-dsqa" role="columnheader">DeepSearch<br />QA</div>
+                <div class="bpr-c-omni" role="columnheader">Omni-<br />science</div>
               </div>
 
               <div class="bpr-row is-octen" role="row" data-radar-key="octen" data-radar="80,86,66,100,100">
