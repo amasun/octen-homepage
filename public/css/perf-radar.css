@@ -247,7 +247,39 @@
   white-space: nowrap;
 }
 
-.bpr-c-prov { width: 158px; justify-content: flex-start !important; }
+.bpr-c-prov {
+  width: 158px;
+  justify-content: flex-start !important;
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #FFF;
+}
+
+.bpr-head .bpr-c-prov {
+  background: #FFF;
+  z-index: 3;
+}
+
+.bpr-row.is-octen .bpr-c-prov {
+  background: #F4F8F3;
+}
+
+.bpr-row[data-radar]:not(.is-octen).is-focus .bpr-c-prov {
+  background: #F8F9FA;
+}
+
+.bpr-c-prov::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(75, 75, 75, 0.12);
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.04);
+  pointer-events: none;
+}
 .bpr-c-cost { width: 98px; }
 .bpr-c-time { width: 90px; }
 .bpr-c-bc { width: 92px; }
@@ -487,6 +519,76 @@
 .bpt-panel .bpr-row[data-radar] {
   padding-top: 9.5px;
   padding-bottom: 9.5px;
+}
+
+@media (max-width: 1024px) {
+  .bpt-panel .bpr-wrap {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .bpt-panel .bpr-card {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 440px;
+    padding: 20px 16px;
+    gap: 16px;
+    justify-content: flex-start;
+  }
+
+  .bpt-panel .bpr-body {
+    flex: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .bpt-panel .bpr-radar {
+    flex: none;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+
+  .bpt-panel .bpr-radar-svg {
+    max-height: 280px;
+    width: 100%;
+    height: auto;
+  }
+
+  .bpt-panel .bpr-table-wrap {
+    flex: none;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+  }
+
+  .bpt-panel .bpr-table {
+    min-width: 660px;
+  }
+
+  .bpt-panel .bpr-footer {
+    margin-top: 14px;
+    padding-top: 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .bpt-panel .bpr-radar {
+    max-width: 310px;
+  }
+
+  .bpt-panel .bpr-radar-svg {
+    max-height: 230px;
+  }
+
+  .bpt-panel .bpr-card {
+    padding: 16px 12px;
+  }
 }
 
 /* ---------- Five-dimension Radar Entrance Animation (Option 1 Value Tab) ---------- */
