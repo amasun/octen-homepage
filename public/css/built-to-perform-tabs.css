@@ -176,7 +176,7 @@
 
 .bpt-panel {
   flex: 0 0 auto;
-  width: 800px;
+  width: 786px;
   max-width: 88vw;
   display: flex;
   flex-direction: column;
@@ -331,7 +331,7 @@
 
 /* 单图表限制最长宽度（对齐 Figma 设计稿 786px 居中），双图表自适应弹性均分 */
 .bpt-card:only-child {
-  max-width: 786px;
+  max-width: 100%;
   width: 100%;
 }
 
