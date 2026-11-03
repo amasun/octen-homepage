@@ -151,6 +151,37 @@
   transform: scaleY(0);
 }
 
+/* Option 2 rail (octen.ai style): a dot per item — gray, black when active — and a gray track only
+   under the active item (top/height set from JS); the black bar above fills it. */
+#built-to-perform-b .built-perf-rail-dot {
+  display: none;
+}
+
+#built-to-perform-b .built-perf-rail-track {
+  bottom: auto;
+}
+
+#built-to-perform-b .built-perf-label {
+  position: relative;
+}
+
+#built-to-perform-b .built-perf-label::before {
+  content: '';
+  position: absolute;
+  left: -26px; /* centres the 10px dot on the rail line (list padding 30px, line at 9px) */
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: #999999;
+  transition: background-color 0.3s ease;
+}
+
+#built-to-perform-b .built-perf-item.active .built-perf-label::before {
+  background: #0A0A0A;
+}
+
 #built-to-perform-b .built-perf-rail-bar.is-filling {
   animation: perfRailFill 4s linear forwards;
 }

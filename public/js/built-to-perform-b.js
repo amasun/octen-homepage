@@ -344,6 +344,7 @@
         };
         const bar = document.getElementById('perfRailBar-b');
         const dot = document.getElementById('perfRailDot-b');
+        const track = container.querySelector('.built-perf-rail-track');
 
         // Like octen.ai: the bar under the active dot fills top→bottom over AUTO_ADVANCE_MS
         // (linear), then the next item activates. Clicking an item restarts the fill there.
@@ -359,13 +360,20 @@
           const label = activeItem.querySelector('.built-perf-label');
           const labelRect = label ? label.getBoundingClientRect() : itemRect;
 
-          const dotTop = (labelRect.top - containerRect.top) + (labelRect.height / 2) - 6.5;
-          const barTop = dotTop + 13 + 4; // starts just below the dot
-          const itemBottom = itemRect.bottom - containerRect.top;
+          // Each item draws its own dot (CSS, centred on its label). Under the active one, a gray
+          // track runs from just below the dot to the item's bottom; the black bar fills it.
+          const labelCenter = (labelRect.top - containerRect.top) + (labelRect.height / 2);
+          const dotTop = labelCenter - 6.5;
+          const barTop = labelCenter + 13; // 5px dot radius + 8px gap
+          const barHeight = Math.max(0, (itemRect.bottom - containerRect.top) - barTop);
 
           dot.style.top = `${dotTop}px`;
           bar.style.top = `${barTop}px`;
-          bar.style.height = `${Math.max(0, itemBottom - barTop)}px`;
+          bar.style.height = `${barHeight}px`;
+          if (track) {
+            track.style.top = `${barTop}px`;
+            track.style.height = `${barHeight}px`;
+          }
         }
 
         function restartProgress() {
