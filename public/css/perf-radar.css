@@ -438,17 +438,20 @@
 /* ---------- Same card inside Option 1 (Value tab) ----------
    Drop Option 2's gray frame and use Option 1's card look (8px radius, faint border), 1280px wide. */
 .bpt-panel .bpr-wrap {
-  flex: 1 1 auto;
-  width: 100%;
-  max-width: 1280px;
+  flex: 0 0 1280px;
+  width: 1280px;
+  max-width: 100%;
   height: 100%;
   margin: 0 auto;
   padding: 0;
   border-radius: 0;
   background: none;
+  box-sizing: border-box;
 }
 
 .bpt-panel .bpr-card {
+  width: 100%;
+  max-width: 1280px;
   height: 440px;
   box-sizing: border-box;
   padding: 22px 28px;
@@ -468,8 +471,8 @@
 }
 
 .bpt-panel .bpr-radar {
-  flex: 0 0 450px;
-  max-width: 450px;
+  flex: 0 0 490px;
+  max-width: 490px;
   display: flex;
   align-items: center;
   justify-content: center;

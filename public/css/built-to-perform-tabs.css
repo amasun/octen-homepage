@@ -162,6 +162,11 @@
   max-width: 94vw;
 }
 
+.bpt-panel[data-bpt-panel="value"] .bpt-cards {
+  width: 1280px;
+  max-width: 100%;
+}
+
 /* Active panel in the center: full opacity, full scale, interactive */
 .bpt-panel.is-active {
   opacity: 1;
