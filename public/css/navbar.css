@@ -464,3 +464,78 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
 .nav-dropdown-split .nav-product-link:hover .nav-product-name {
   color: #0E121B !important;
 }
+
+/* ==========================================================================
+   Navbar scroll state + theme (mirrors octen.ai). Set by public/js/navbar.js:
+   data-scrolled="false" → transparent; "true" → filled bar.
+   data-theme="light" (over the light retrieval/performance sections) → white bar, black text;
+   "dark" elsewhere → translucent black bar, white text.
+   ========================================================================== */
+
+/* Desktop bar */
+#pcNav[data-scrolled="false"] {
+  translate: 0 0;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+#pcNav[data-scrolled="true"] {
+  translate: 0 10px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+#pcNav[data-scrolled="true"][data-theme="dark"] {
+  background-color: #00000090 !important;
+  border-color: #FFFFFF29 !important;
+}
+
+#pcNav[data-scrolled="true"][data-theme="light"] {
+  background-color: #FFFFFFE5 !important;
+  border-color: #0000001A !important;
+}
+
+/* Light theme: black menu text, light-green hover, black "Sign in" button */
+#pcNav[data-theme="light"] nav[aria-label="Main"] {
+  color: #000000 !important;
+}
+
+#pcNav[data-theme="light"] .pc-nav_Trigger__LBs_7:hover {
+  background-color: #EBFAED !important;
+}
+
+#pcNav[data-theme="light"] a[data-slot="button"] {
+  border-color: transparent !important;
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+#pcNav[data-theme="light"] a[data-slot="button"]:hover {
+  background-color: rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Mobile bar */
+#mobileNav[data-scrolled="false"] {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+#mobileNav[data-scrolled="true"][data-theme="dark"] {
+  background-color: #00000092 !important;
+  border-color: #FFFFFF29 !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+#mobileNav[data-scrolled="true"][data-theme="light"] {
+  background-color: #FBFDF6CC !important;
+  border-color: #D7D9CD80 !important;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+}
+
+#mobileNav[data-theme="light"] button[aria-label="Toggle menu"] {
+  color: #374151 !important;
+}
