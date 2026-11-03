@@ -359,6 +359,12 @@
 }
 
 /* ---------- Octen point tooltips (radar) ---------- */
+
+/* The mirrored octen.ai stylesheet sets `canvas, img, svg { pointer-events: none }` globally,
+   which made the radar's shapes and hover points unreachable by the mouse. */
+.bpr-radar-svg {
+  pointer-events: auto;
+}
 .bpr-axis-hit {
   fill: transparent;
   cursor: pointer;
