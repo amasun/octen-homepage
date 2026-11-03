@@ -20,6 +20,30 @@
         <button type="button" class="bpt-tab" role="tab" aria-selected="false" data-bpt-tab="scale">Scale</button>
         <button type="button" class="bpt-tab" role="tab" aria-selected="false" data-bpt-tab="freshness">Freshness</button>
       </div>
+
+      <!-- 固定居中的解释文字区域 (原方案视觉呈现，不参与横向滚动，就地淡入淡出切换) -->
+      <div class="bpt-copy-stage" id="bptCopyStage">
+        <div class="bpt-copy is-active" data-bpt-copy="accuracy">
+          <p class="bpt-subtitle">Top on benchmarks</p>
+          <p class="bpt-desc">Cleaner inputs for your LLM. Fewer hallucinations downstream. Top results on SimpleQA and FreshQA Strict.</p>
+        </div>
+        <div class="bpt-copy" data-bpt-copy="speed">
+          <p class="bpt-subtitle">62ms P50 latency</p>
+          <p class="bpt-desc">The fastest web search API in the world — without trading off accuracy. 4× faster than any vendor at P50, with top accuracy across QA benchmarks.</p>
+        </div>
+        <div class="bpt-copy" data-bpt-copy="value">
+          <p class="bpt-subtitle">Top 3 on speed, cost and quality</p>
+          <p class="bpt-desc">#1 for speed, #2 for cost and top 3 for quality in the Artificial Analysis Search API Benchmark. One product, in its default configuration. <a class="bpt-copy-link" href="/blog">Read the blog →</a></p>
+        </div>
+        <div class="bpt-copy" data-bpt-copy="scale">
+          <p class="bpt-subtitle">1M+ QPS supported</p>
+          <p class="bpt-desc">Latency holds flat at 62ms from 1K to 1M+ QPS. No degradation under load — built for the most demanding AI production environments.</p>
+        </div>
+        <div class="bpt-copy" data-bpt-copy="freshness">
+          <p class="bpt-subtitle">&lt;5min from publish to queryable</p>
+          <p class="bpt-desc">New content indexed in under 5 minutes, continuously. Your AI answers what's happening now — no batch window to wait for.</p>
+        </div>
+      </div>
     </div>
 
     <!-- 五连屏全视口居中画卷跑道舞台 (Full-Viewport Centered Carousel) -->

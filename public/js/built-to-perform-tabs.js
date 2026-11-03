@@ -12,6 +12,7 @@
 
     var tabs = Array.prototype.slice.call(section.querySelectorAll('[data-bpt-tab]'));
     var panels = Array.prototype.slice.call(section.querySelectorAll('[data-bpt-panel]'));
+    var copyItems = Array.prototype.slice.call(section.querySelectorAll('[data-bpt-copy]'));
     var tabsContainer = section.querySelector('.bpt-tabs');
     var pill = section.querySelector('.bpt-tab-pill');
     var railViewport = section.querySelector('#bptRailViewport') || section.querySelector('.bpt-rail-viewport');
@@ -78,6 +79,11 @@
       if (activeTab) {
         updatePill(activeTab, immediate);
       }
+
+      copyItems.forEach(function (copy) {
+        var on = copy.dataset.bptCopy === name;
+        copy.classList.toggle('is-active', on);
+      });
 
       var targetPanel = null;
       panels.forEach(function (panel) {

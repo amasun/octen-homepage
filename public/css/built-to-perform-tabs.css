@@ -140,7 +140,7 @@
 
 .bpt-panel {
   flex: 0 0 auto;
-  width: 820px;
+  width: 800px;
   max-width: 88vw;
   display: flex;
   flex-direction: column;
@@ -153,9 +153,12 @@
   will-change: transform, opacity, filter;
 }
 
-/* Value tab: contains the full radar + comparison table */
-.bpt-panel[data-bpt-panel="value"] {
-  width: 1180px;
+/* Two-card tabs (Speed has 2 cards side-by-side) & wide radar tab (Value) maintain full 1280px original width */
+.bpt-panel[data-bpt-panel="speed"],
+.bpt-panel[data-bpt-panel="value"],
+.bpt-panel.is-wide,
+.bpt-panel:has(.bpt-cards > .bpt-card + .bpt-card) {
+  width: 1280px;
   max-width: 94vw;
 }
 
@@ -186,21 +189,39 @@
   filter: none;
 }
 
+/* ---------- Explanatory text stage (Centered, in-place fade, original visual design) ---------- */
+.bpt-copy-stage {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  min-height: 84px;
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: center;
+}
+
 .bpt-copy {
+  grid-area: 1 / 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 10px;
-  margin-bottom: 24px;
+  gap: 8px;
   width: 100%;
-  min-height: 82px;
-  justify-content: flex-start;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity 0.32s ease, transform 0.32s ease, visibility 0.32s ease;
+  pointer-events: none;
 }
-  text-align: center;
-  gap: 10px;
-  margin-bottom: 27px;
-  width: 100%;
+
+.bpt-copy.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .bpt-subtitle {
