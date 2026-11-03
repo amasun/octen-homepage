@@ -132,8 +132,19 @@
   will-change: transform, opacity;
 }
 
+/* Hidden panels stay in the shared grid cell (invisible) so the stage is always as tall as the
+   tallest tab — the Performance section keeps one height while tabs switch.
+   The mirrored octen.ai CSS hides [hidden] with !important inside @layer base; a layered !important
+   beats any unlayered rule, so this override must live in the same layer (higher specificity wins there). */
+@layer base {
+  .bpt-panel[hidden] {
+    display: flex !important;
+  }
+}
+
 .bpt-panel[hidden] {
-  display: none !important;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .bpt-panel.is-active:not(.is-entering):not(.is-leaving) {
@@ -196,15 +207,27 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 16px;
   line-height: 1.5;
-  color: #070707;
-  opacity: 0.6;
+  color: rgba(7, 7, 7, 0.6); /* same tone as opacity 0.6, but lets an inline link keep full colour */
   text-align: center;
   max-width: 600px;
 }
 
-/* Wider copy for descriptions laid out as two explicit lines (Cost Efficiency) */
+/* Wider copy for descriptions laid out as two explicit lines */
 .bpt-desc.is-wide {
   max-width: 700px;
+}
+
+/* Inline link at the end of a tab's description (e.g. Value → "Read the blog") */
+.bpt-copy-link {
+  font-weight: 500;
+  color: #039855;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.bpt-copy-link:hover {
+  opacity: 0.75;
 }
 
 /* One card fills the row up to max-width (786px) and centers; two cards split it equally (Figma: flex 1 0 0, gap 10). */
@@ -424,9 +447,8 @@
   color: #475569;
 }
 
-/* Accuracy tables fill the card (title top, footer bottom) so their padding matches the other tabs */
-.bpt-acc-body,
-.bpt-si-body {
+/* Accuracy table fills the card (title top, footer bottom) so their padding matches the other tabs */
+.bpt-acc-body {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -1009,97 +1031,6 @@
   border-radius: 0;
 }
 
-/* Search Index breakdown table */
-.bpt-si-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  height: 36px;
-  font-size: 14px;
-  color: #414651;
-}
-
-.bpt-si-head {
-  height: auto;
-  padding: 6px 0;
-  margin-bottom: 4px;
-  border-bottom: 1px solid rgba(75, 75, 75, 0.2);
-  font-size: 13px;
-  font-weight: 600;
-  color: #475569;
-}
-
-
-.bpt-si-prov {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  width: 150px;
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-
-.bpt-si-prov img {
-  width: 18px;
-  height: 18px;
-  border-radius: 3px;
-}
-
-.bpt-si-body .bpt-si-prov span {
-  font-size: 12px;
-  color: #717680;
-}
-
-.bpt-si-prov b {
-  font-size: 14px;
-  font-weight: 600;
-  color: #1E293B;
-}
-
-.bpt-si-idx {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.bpt-si-idx .bpt-track {
-  flex: 1;
-  height: 16px;
-  background: #F3F4F6;
-}
-
-.bpt-si-idx .bpt-fill {
-  background: #D9D9D9;
-}
-
-.bpt-si-idx > span {
-  width: 22px;
-  text-align: right;
-}
-
-.bpt-si-num {
-  width: 92px;
-  flex-shrink: 0;
-  text-align: right;
-}
-
-.bpt-si-row.is-octen .bpt-si-prov span,
-.bpt-si-row.is-octen .bpt-si-prov b,
-.bpt-si-row.is-octen .bpt-si-idx > span,
-.bpt-si-row.is-octen .bpt-si-num {
-  color: #039855;
-}
-
-.bpt-si-row.is-octen .bpt-si-prov b {
-  font-weight: 700;
-}
-
-.bpt-si-row.is-octen .bpt-fill {
-  background: #039855;
-}
-
 /* ---------- Responsive ---------- */
 @media (max-width: 1024px) {
   .bpt-cards {
@@ -1162,32 +1093,6 @@
 
   .bpt-tpt-val small {
     display: none;
-  }
-
-  .bpt-si-row {
-    gap: 6px;
-    font-size: 12px;
-  }
-
-  .bpt-si-head {
-    font-size: 10px;
-  }
-
-  .bpt-si-prov {
-    width: 96px;
-  }
-
-  /* Hide the variant text, keep the bold provider name */
-  .bpt-si-body .bpt-si-prov span {
-    font-size: 0;
-  }
-
-  .bpt-si-body .bpt-si-prov b {
-    font-size: 12px;
-  }
-
-  .bpt-si-num {
-    width: 58px;
   }
 
   .bpt-lat-bar {

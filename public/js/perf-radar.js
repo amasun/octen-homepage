@@ -26,9 +26,13 @@
     return node;
   }
 
+  // The card appears in both Option 1 (Value tab) and Option 2, so set up every instance once.
   function init() {
-    var card = document.getElementById('perfRadarCard');
-    if (!card || card.dataset.radarReady) return;
+    Array.prototype.forEach.call(document.querySelectorAll('.bpr-card'), setupCard);
+  }
+
+  function setupCard(card) {
+    if (card.dataset.radarReady) return;
     card.dataset.radarReady = '1';
 
     var grid = card.querySelector('.bpr-grid');
