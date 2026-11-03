@@ -1,0 +1,362 @@
+/* ==========================================================================
+   OPTION 2 · SEARCH API PERFORMANCE PROFILE (radar + comparison table)
+   Figma node 14140:4818
+   ========================================================================== */
+
+.bpr-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 40px auto 0;
+  /* Gray frame matching Option 2's .built-perf-card-outer (Web Search latency card) */
+  padding: 10px;
+  border-radius: 16px;
+  background: #EFEFEF;
+  box-sizing: border-box;
+}
+
+.bpr-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 30px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 100%), #FFF;
+  font-family: 'DM Sans', sans-serif;
+  box-sizing: border-box;
+}
+
+.bpr-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bpr-title {
+  margin: 0;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 23.4px;
+  font-weight: 700;
+  line-height: normal;
+  color: #08120A;
+}
+
+.bpr-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 13px;
+}
+
+/* Artificial Analysis badge (Figma node 14127:49113) */
+.bpr-aa-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 27px;
+  padding: 0 9.2px;
+  border-radius: 999px;
+  background: #000;
+  color: #FFF;
+  text-decoration: none;
+  font-family: 'IBM Plex Serif', Georgia, serif;
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.bpr-aa-badge:hover {
+  opacity: 0.8;
+}
+
+.bpr-aa-badge img {
+  width: 12.29px;
+  height: 12.29px;
+}
+
+.bpr-subtitle {
+  margin: 0;
+  font-size: 12.95px;
+  color: #717680;
+}
+
+.bpr-body {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Figma 20px; trimmed so radar + table fit inside the 10px gray frame */
+  padding-top: 12px;
+  border-top: 1px solid rgba(75, 75, 75, 0.2);
+}
+
+/* ---------- Radar ---------- */
+.bpr-radar {
+  flex: 0 0 500px;
+  max-width: 100%;
+}
+
+.bpr-radar-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.bpr-radar {
+  position: relative;
+}
+
+/* Sits in the radar's bottom-left corner */
+.bpr-radar-note {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin: 0;
+  font-size: 12.95px;
+  color: #717680;
+}
+
+.bpr-ring-outer {
+  fill: #F5F6F7;
+}
+
+.bpr-ring {
+  fill: none;
+  stroke: #E3E5E8;
+  stroke-width: 1;
+}
+
+.bpr-spoke {
+  stroke: #E3E5E8;
+  stroke-width: 1;
+}
+
+.bpr-ticks text {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  fill: #A3A9B3;
+  text-anchor: middle;
+}
+
+.bpr-axis-labels text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.95px;
+  font-weight: 600;
+  fill: #1F2937;
+}
+
+.bpr-shape polygon {
+  fill: rgba(156, 163, 175, 0.08);
+  stroke: #9CA3AF;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  transition: opacity 0.2s ease, stroke 0.2s ease, fill 0.2s ease;
+}
+
+/* Default: competitors recede so Octen reads first; hover/focus restores full opacity */
+.bpr-shape:not(.is-octen) polygon {
+  opacity: 0.4;
+}
+
+.bpr-shape.is-focus polygon {
+  opacity: 1;
+}
+
+.bpr-shape circle {
+  fill: #9CA3AF;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.bpr-shape.is-octen polygon {
+  fill: rgba(3, 152, 85, 0.14);
+  stroke: #039855;
+  stroke-width: 2;
+}
+
+.bpr-shape.is-octen circle {
+  fill: #039855;
+  stroke: #FFF;
+  stroke-width: 1.5;
+  opacity: 1;
+}
+
+.bpr-card.is-focusing .bpr-shape:not(.is-focus) polygon,
+.bpr-card.is-focusing .bpr-shape:not(.is-focus) circle {
+  opacity: 0.18;
+}
+
+.bpr-shape.is-focus:not(.is-octen) polygon {
+  fill: rgba(102, 102, 102, 0.08);
+  stroke: #666666;
+  stroke-width: 2;
+}
+
+.bpr-shape.is-focus circle {
+  opacity: 1;
+}
+
+.bpr-shape.is-focus:not(.is-octen) circle {
+  fill: #666666;
+}
+
+/* ---------- Table ---------- */
+.bpr-table-wrap {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.bpr-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.bpr-row {
+  display: flex;
+  align-items: center;
+  padding: 9px 8px;
+  border-bottom: 1px solid rgba(75, 75, 75, 0.12);
+  font-size: 13.94px;
+  color: #414651;
+  transition: background-color 0.2s ease;
+}
+
+.bpr-row[data-radar] {
+  cursor: default;
+}
+
+.bpr-row[data-radar]:not(.is-octen).is-focus {
+  background: rgba(31, 41, 55, 0.04);
+}
+
+.bpr-head {
+  border-bottom-color: rgba(75, 75, 75, 0.2);
+  font-size: 12px;
+  font-weight: 900;
+  color: #535862;
+}
+
+.bpr-row.is-octen {
+  background: rgba(172, 194, 165, 0.1);
+  border-bottom-color: #ACC2A5;
+  color: #039855;
+}
+
+.bpr-row > div {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.bpr-c-prov { width: 158px; justify-content: flex-start !important; }
+.bpr-c-cost { width: 98px; }
+.bpr-c-time { width: 90px; }
+.bpr-c-bc { width: 92px; }
+.bpr-c-idx { width: 50px; }
+.bpr-c-dsqa { width: 100px; }
+.bpr-c-omni { width: 92px; }
+
+.bpr-c-prov img {
+  width: 18px;
+  height: 18px;
+}
+
+.bpr-c-prov span {
+  font-size: 12px;
+  color: #717680;
+}
+
+.bpr-c-prov b {
+  font-size: 13.94px;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.bpr-row.is-octen .bpr-c-prov span,
+.bpr-row.is-octen .bpr-c-prov b {
+  color: #039855;
+}
+
+.bpr-row.is-octen .bpr-c-prov b {
+  font-weight: 700;
+}
+
+.bpr-num {
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.bpr-num i {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12.95px;
+  color: #717680;
+}
+
+/* "$" shares the number's colour and weight (no separate tint); units like "s" stay gray */
+.bpr-c-cost i {
+  font-weight: inherit;
+  color: inherit;
+}
+
+/* Keep "$" / "s" units tight to the value */
+.bpr-row > .bpr-num {
+  gap: 0;
+}
+
+.bpr-note {
+  margin: 0;
+  padding-top: 12px;
+  font-size: 12px;
+  line-height: normal;
+  color: #A3A9B3;
+}
+
+.bpr-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(75, 75, 75, 0.2);
+  font-size: 12.95px;
+  font-weight: 500;
+  color: #A3A9B3;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1280px) {
+  .bpr-body {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .bpr-radar {
+    flex: none;
+    width: 500px;
+    margin: 0 auto;
+  }
+
+  .bpr-table-wrap {
+    flex: none;
+    overflow-x: auto;
+  }
+
+  .bpr-table {
+    min-width: 696px;
+  }
+}
+
+@media (max-width: 640px) {
+  .bpr-card {
+    padding: 20px 16px;
+  }
+
+  .bpr-radar {
+    width: 100%;
+  }
+}

@@ -3,15 +3,24 @@
     showcase.html             Showcase header + 4 example cards (cards/)
     built-to-perform-a.html   Benchmarks, Plan A: tab rail + Pareto cost chart + accuracy panel  (script: public/js/built-to-perform-a.js)
     built-to-perform-b.html   Benchmarks, Plan B: tab rail + bubble chart + accuracy panel        (script: public/js/built-to-perform-b.js)
-    built-to-perform-tabs.html Benchmarks, current: pill tabs + 1-2 chart cards per tab (Figma 14127:44728) (script: public/js/built-to-perform-tabs.js)
+    built-to-perform-tabs.html Benchmarks, Option 1: pill tabs + 1-2 chart cards per tab (Figma 14127:44728) (script: public/js/built-to-perform-tabs.js)
+    perf-option-switcher.html Floating card that switches the homepage between Option 1 (default) and Option 2 (built-to-perform-b.html)
     dot-field-background.html Decorative background; its last line closes div#hero opened in 02-hero.html (keep it)
 -->
 <include src="./src/sections/07-showcase/showcase.html"></include>
 <!-- 方案 A 已隐藏 (如需恢复可取消注释以下 include):
 <include-disabled src="./src/sections/07-showcase/built-to-perform-a.html"></include-disabled>
 -->
-<!-- 方案 B 已隐藏 (如需恢复可取消注释以下 include):
-<include-disabled src="./src/sections/07-showcase/built-to-perform-b.html"></include-disabled>
--->
+<!-- Built to Perform: Option 1 (tabs, default) and Option 2 (rail + radar) share one slot.
+     The floating switcher (perf-option-switcher.html) appears while this slot is on screen and toggles them.
+     Styles: public/css/perf-option-switcher.css   Script: public/js/perf-option-switcher.js -->
+<div class="perf-options" id="perfOptions" data-active-option="1">
+  <div class="perf-option" data-perf-option="1">
 <include src="./src/sections/07-showcase/built-to-perform-tabs.html"></include>
+  </div>
+  <div class="perf-option" data-perf-option="2" hidden>
+<include src="./src/sections/07-showcase/built-to-perform-b.html"></include>
+  </div>
+</div>
+<include src="./src/sections/07-showcase/perf-option-switcher.html"></include>
 <include src="./src/sections/07-showcase/dot-field-background.html"></include>

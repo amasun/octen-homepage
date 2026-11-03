@@ -143,6 +143,23 @@
   transition: top 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Option 2: progress fill under the active dot (octen.ai: linear 0→100% per item, then auto-advance).
+   Duration is set from JS (AUTO_ADVANCE_MS); animationend advances to the next item. */
+#built-to-perform-b .built-perf-rail-bar {
+  transition: none;
+  transform-origin: top center;
+  transform: scaleY(0);
+}
+
+#built-to-perform-b .built-perf-rail-bar.is-filling {
+  animation: perfRailFill 4s linear forwards;
+}
+
+@keyframes perfRailFill {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
 .built-perf-rail-dot {
   position: absolute;
   left: 2.5px;

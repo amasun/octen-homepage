@@ -1,0 +1,117 @@
+    <!-- Option 2 · Search API performance profile (Figma node 14140:4818)
+      Radar series are drawn by public/js/perf-radar.js from each row's data-radar
+      (DeepSearchQA F1, BrowseComp, Omniscience, Cost Efficiency, Speed; 0–100).
+      Cost Efficiency / Speed = best Cost / Time per Task ÷ provider value × 100. -->
+    <div class="bpr-wrap">
+      <div class="bpr-card" id="perfRadarCard">
+        <div class="bpr-header">
+          <div class="bpr-title-row">
+            <h3 class="bpr-title">Search API performance profile</h3>
+            <a class="bpr-aa-badge" href="https://artificialanalysis.ai/agents/search-api" target="_blank" rel="noopener" title="Artificial Analysis Search Index: Search API Benchmark &amp; Leaderboard">
+              <img src="/assets/icons/perf/artificial-analysis.svg" alt="" width="12" height="12" />
+              <span>Artificial Analysis</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="bpr-body">
+          <div class="bpr-radar">
+            <svg class="bpr-radar-svg" viewBox="0 0 500 430" width="500" height="430" role="img" aria-label="Radar chart comparing search APIs on five dimensions">
+              <g class="bpr-grid"></g>
+              <g class="bpr-series"></g>
+              <g class="bpr-ticks">
+                <text x="250" y="247">20</text>
+                <text x="250" y="271">40</text>
+                <text x="250" y="295">60</text>
+                <text x="250" y="320">80</text>
+                <text x="250" y="344">100</text>
+              </g>
+              <g class="bpr-axis-labels">
+                <text x="250" y="58" text-anchor="middle">DeepSearchQA F1</text>
+                <text x="408" y="173" text-anchor="start"><tspan x="408">BrowseComp</tspan><tspan x="408" dy="16">Accuracy</tspan></text>
+                <text x="348" y="376" text-anchor="start"><tspan x="348">Omniscience</tspan><tspan x="348" dy="16">Accuracy</tspan></text>
+                <text x="152" y="376" text-anchor="end">Cost Efficiency</text>
+                <text x="92" y="182" text-anchor="end">Speed</text>
+              </g>
+            </svg>
+            <p class="bpr-radar-note">Outer edge is better</p>
+          </div>
+
+          <div class="bpr-table-wrap">
+            <div class="bpr-table" role="table" aria-label="Search API comparison">
+              <div class="bpr-row bpr-head" role="row">
+                <div class="bpr-c-prov" role="columnheader">Provider</div>
+                <div class="bpr-c-idx" role="columnheader">Index</div>
+                <div class="bpr-c-cost" role="columnheader">Cost per Task</div>
+                <div class="bpr-c-time" role="columnheader">Time per Task</div>
+                <div class="bpr-c-bc" role="columnheader">BrowseComp</div>
+                <div class="bpr-c-dsqa" role="columnheader">DeepSearchQA</div>
+                <div class="bpr-c-omni" role="columnheader">Omniscience</div>
+              </div>
+
+              <div class="bpr-row is-octen" role="row" data-radar-key="octen" data-radar="80,86,66,100,100">
+                <div class="bpr-c-prov" role="cell"><img src="/_next/static/media/icon-octen-light.a040396e.svg" alt="" width="18" height="18" /><span><b>Octen</b> highlights</span></div>
+                <div class="bpr-c-idx bpr-num" role="cell">77</div>
+                <div class="bpr-c-cost bpr-num" role="cell"><i>$</i>0.024</div>
+                <div class="bpr-c-time bpr-num" role="cell">14.9<i>s</i></div>
+                <div class="bpr-c-bc bpr-num" role="cell">86</div>
+                <div class="bpr-c-dsqa bpr-num" role="cell">80</div>
+                <div class="bpr-c-omni bpr-num" role="cell">66</div>
+              </div>
+              <div class="bpr-row" role="row" data-radar-key="exa" data-radar="86,83,73,36.4,32.7">
+                <div class="bpr-c-prov" role="cell"><img src="/assets/icons/perf/exa.svg" alt="" width="18" height="18" /><span><b>Exa</b> auto</span></div>
+                <div class="bpr-c-idx bpr-num" role="cell">80</div>
+                <div class="bpr-c-cost bpr-num" role="cell"><i>$</i>0.066</div>
+                <div class="bpr-c-time bpr-num" role="cell">45.5<i>s</i></div>
+                <div class="bpr-c-bc bpr-num" role="cell">83</div>
+                <div class="bpr-c-dsqa bpr-num" role="cell">86</div>
+                <div class="bpr-c-omni bpr-num" role="cell">73</div>
+              </div>
+              <div class="bpr-row" role="row" data-radar-key="perplexity" data-radar="81,87,72,34.3,56">
+                <div class="bpr-c-prov" role="cell"><img src="/assets/icons/perf/perplexity.svg" alt="" width="18" height="18" /><span><b>Perplexity</b> medium</span></div>
+                <div class="bpr-c-idx bpr-num" role="cell">80</div>
+                <div class="bpr-c-cost bpr-num" role="cell"><i>$</i>0.070</div>
+                <div class="bpr-c-time bpr-num" role="cell">26.6<i>s</i></div>
+                <div class="bpr-c-bc bpr-num" role="cell">87</div>
+                <div class="bpr-c-dsqa bpr-num" role="cell">81</div>
+                <div class="bpr-c-omni bpr-num" role="cell">72</div>
+              </div>
+              <div class="bpr-row" role="row" data-radar-key="parallel" data-radar="81,77,67,40.7,37">
+                <div class="bpr-c-prov" role="cell"><img src="/assets/icons/perf/parallel.svg" alt="" width="18" height="18" /><span><b>Parallel</b> advanced</span></div>
+                <div class="bpr-c-idx bpr-num" role="cell">75</div>
+                <div class="bpr-c-cost bpr-num" role="cell"><i>$</i>0.059</div>
+                <div class="bpr-c-time bpr-num" role="cell">40.3<i>s</i></div>
+                <div class="bpr-c-bc bpr-num" role="cell">77</div>
+                <div class="bpr-c-dsqa bpr-num" role="cell">81</div>
+                <div class="bpr-c-omni bpr-num" role="cell">67</div>
+              </div>
+              <div class="bpr-row" role="row" data-radar-key="brave" data-radar="78,77,69,30.4,69">
+                <div class="bpr-c-prov" role="cell"><img src="/assets/icons/perf/brave.svg" alt="" width="18" height="18" /><span><b>Brave</b> LLM context</span></div>
+                <div class="bpr-c-idx bpr-num" role="cell">75</div>
+                <div class="bpr-c-cost bpr-num" role="cell"><i>$</i>0.079</div>
+                <div class="bpr-c-time bpr-num" role="cell">21.6<i>s</i></div>
+                <div class="bpr-c-bc bpr-num" role="cell">77</div>
+                <div class="bpr-c-dsqa bpr-num" role="cell">78</div>
+                <div class="bpr-c-omni bpr-num" role="cell">69</div>
+              </div>
+              <div class="bpr-row" role="row" data-radar-key="youcom" data-radar="77,77,69,35.8,80.1">
+                <div class="bpr-c-prov" role="cell"><img src="/assets/icons/perf/youcom.svg" alt="" width="18" height="18" /><span><b>You.com</b> highlights</span></div>
+                <div class="bpr-c-idx bpr-num" role="cell">74</div>
+                <div class="bpr-c-cost bpr-num" role="cell"><i>$</i>0.067</div>
+                <div class="bpr-c-time bpr-num" role="cell">18.6<i>s</i></div>
+                <div class="bpr-c-bc bpr-num" role="cell">77</div>
+                <div class="bpr-c-dsqa bpr-num" role="cell">77</div>
+                <div class="bpr-c-omni bpr-num" role="cell">69</div>
+              </div>
+            </div>
+            <p class="bpr-note">Cost per Task = model + search cost (USD).<br />Radar: Cost Efficiency and Speed = best Cost / Time per Task ÷ provider value × 100</p>
+          </div>
+        </div>
+
+        <div class="bpr-footer">
+          <span>Source: Artificial Analysis Search Index · Data as of Oct 19, 2026</span>
+          <span>Answer model: GPT-5.6 Luna (medium)</span>
+        </div>
+      </div>
+    </div>
+    <script src="/js/perf-radar.js"></script>

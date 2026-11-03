@@ -202,6 +202,11 @@
   max-width: 600px;
 }
 
+/* Wider copy for descriptions laid out as two explicit lines (Cost Efficiency) */
+.bpt-desc.is-wide {
+  max-width: 700px;
+}
+
 /* One card fills the row up to max-width (786px) and centers; two cards split it equally (Figma: flex 1 0 0, gap 10). */
 .bpt-cards {
   display: flex;
@@ -209,6 +214,8 @@
   align-items: stretch;
   justify-content: center;
   width: 100%;
+  max-width: 1280px; /* two-card tabs total 1280px, matching the wide Cost Efficiency card */
+  margin: 0 auto;
 }
 
 .bpt-card {
@@ -221,7 +228,7 @@
   justify-content: center;
   padding: 30px;
   border: 1.3px solid #EDEDED;
-  border-radius: 5.2px;
+  border-radius: 8px; /* matches Option 2's white cards (.built-perf-card-inner / .bpr-card) */
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 100%), #FFF;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -417,10 +424,13 @@
   color: #475569;
 }
 
-.bpt-acc-body {
+/* Accuracy tables fill the card (title top, footer bottom) so their padding matches the other tabs */
+.bpt-acc-body,
+.bpt-si-body {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  justify-content: space-evenly;
 }
 
 .bpt-acc-prov {
@@ -661,6 +671,438 @@
   font-size: 16px;
 }
 
+/* ---------- Artificial Analysis cards (2nd card in Speed / Accuracy) ---------- */
+.bpt-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 13px;
+  margin-bottom: 8px;
+}
+
+.bpt-card-head .bpt-card-title {
+  margin: 0;
+}
+
+/* Artificial Analysis badge (Figma node 14127:49113) */
+.bpt-aa-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 27px;
+  padding: 0 9.2px;
+  border-radius: 999px;
+  background: #000;
+  color: #FFF;
+  text-decoration: none;
+  font-family: 'IBM Plex Serif', Georgia, serif;
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.bpt-aa-badge:hover {
+  opacity: 0.8;
+}
+
+.bpt-aa-badge img {
+  width: 12.29px;
+  height: 12.29px;
+}
+
+/* Time per Task: stacked bars (search time on top of model time) */
+.bpt-tpt-legend {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: #717680;
+}
+
+.bpt-tpt-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bpt-tpt-legend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.bpt-tpt-legend .is-search { background: #FF6347; }
+.bpt-tpt-legend .is-model { background: #DAD8DE; }
+
+.bpt-tpt {
+  --bar-max: 130px;
+}
+
+.bpt-tpt-bars,
+.bpt-tpt-labels {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 8px; /* just enough for the first rotated name to clear the card edge */
+}
+
+.bpt-tpt-bars {
+  position: relative;
+  height: 154px;
+  margin-top: 21px; /* room under the legend; taken from the label area below so the card height is unchanged */
+  align-items: flex-end;
+  border-bottom: 1px solid rgba(75, 75, 75, 0.2);
+}
+
+.bpt-tpt-col {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 48px;
+}
+
+.bpt-tpt-val {
+  font-size: 13.94px;
+  color: #414651;
+  white-space: nowrap;
+}
+
+.bpt-tpt-col.is-octen .bpt-tpt-val {
+  color: #039855;
+}
+
+.bpt-tpt-bar {
+  position: relative;
+  width: 36px;
+  height: calc(var(--t) / var(--max) * var(--bar-max));
+  border-radius: 2px 2px 0 0;
+  background: #DAD8DE; /* model time / model cost — one neutral colour for every provider */
+  overflow: hidden;
+  transform-origin: bottom center;
+}
+
+.bpt-tpt-bar i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(var(--s) / var(--max) * var(--bar-max));
+  background: #FF6347;
+}
+
+.bpt-tpt-col.is-octen .bpt-tpt-bar i {
+  background: #039855;
+}
+
+.bpt-panel.is-active .bpt-tpt-bar {
+  animation: bptRise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes bptRise {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+.bpt-tpt-baseline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--t) / var(--max) * var(--bar-max));
+  border-top: 1px dashed #A3A9B3;
+  pointer-events: none;
+}
+
+.bpt-tpt-baseline span {
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+  font-size: 11px;
+  line-height: 1;
+  color: #717680;
+  white-space: nowrap;
+}
+
+.bpt-tpt-labels {
+  height: 97px; /* tall enough for the rotated two-line names; keeps them close to the footer divider */
+  padding-top: 6px;
+  box-sizing: border-box;
+}
+
+.bpt-tpt-label {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 48px;
+}
+
+.bpt-tpt-label img {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  object-fit: contain;
+}
+
+/* Rotated two-line name, right edge anchored under the column centre (Figma: −56°) */
+.bpt-tpt-label p {
+  position: absolute;
+  top: 22px;
+  right: 50%;
+  margin: 0;
+  font-size: 11px;
+  line-height: 1;
+  color: #717680;
+  text-align: right;
+  white-space: nowrap;
+  transform: rotate(-56deg);
+  transform-origin: right top;
+}
+
+.bpt-tpt-label b {
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.bpt-tpt-label.is-octen p,
+.bpt-tpt-label.is-octen b {
+  color: #039855;
+}
+
+.bpt-tpt-label.is-octen b {
+  font-weight: 700;
+}
+
+/* Cost per Task reuses the stacked bars; dollar values are longer, so use a smaller label */
+.bpt-tpt.is-cost .bpt-tpt-val {
+  font-size: 11.5px;
+}
+
+/* "$" shares the number's colour and weight everywhere (no separate tint) */
+.bpt-tpt.is-cost .bpt-tpt-val small {
+  margin: 0;
+  font-size: 10px;
+  font-weight: inherit;
+  color: inherit;
+  opacity: 1;
+}
+
+/* In-bar segment values (AA style): search part on top, model part fills the rest,
+   each value centred in its segment. Enabled per chart with .has-seg-labels. */
+.bpt-tpt-bar span {
+  display: none;
+}
+
+.bpt-tpt.has-seg-labels .bpt-tpt-bar {
+  display: flex;
+  flex-direction: column;
+}
+
+.bpt-tpt.has-seg-labels .bpt-tpt-bar i {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bpt-tpt.has-seg-labels .bpt-tpt-bar span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  color: #FFF;
+}
+
+.bpt-tpt.has-seg-labels .bpt-tpt-bar .bpt-tpt-model {
+  flex: 1;
+  color: #414651; /* dark text on the light #DAD8DE model segment */
+}
+
+/* Dollar values only fit inside the wide desktop bars */
+@media (max-width: 1024px) {
+  .bpt-tpt.is-cost.has-seg-labels .bpt-tpt-bar span {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .bpt-tpt.has-seg-labels .bpt-tpt-bar span {
+    display: none;
+  }
+}
+
+/* Cost Efficiency on desktop: one 1280px card, so the 12 bars get wider columns,
+   taller bars and level (unrotated) provider names. Tablet/mobile keep the compact chart. */
+@media (min-width: 1025px) {
+  .bpt-card.bpt-card-wide {
+    max-width: 1280px;
+  }
+
+  .bpt-card-wide .bpt-tpt {
+    --bar-max: 160px;
+  }
+
+  .bpt-card-wide .bpt-tpt-bars,
+  .bpt-card-wide .bpt-tpt-labels {
+    padding-left: 0;
+  }
+
+  .bpt-card-wide .bpt-tpt-bars {
+    height: 184px;
+  }
+
+  .bpt-card-wide .bpt-tpt-col,
+  .bpt-card-wide .bpt-tpt-label {
+    width: 72px;
+  }
+
+  .bpt-card-wide .bpt-tpt-bar {
+    width: 52px;
+  }
+
+  .bpt-card-wide .bpt-tpt.has-seg-labels .bpt-tpt-bar span {
+    font-size: 11px;
+  }
+
+  .bpt-card-wide .bpt-tpt.is-cost .bpt-tpt-val {
+    font-size: 13.94px;
+  }
+
+  .bpt-card-wide .bpt-tpt.is-cost .bpt-tpt-val small {
+    font-size: 12px;
+  }
+
+  .bpt-card-wide .bpt-tpt-labels {
+    height: auto;
+    padding: 10px 0 4px;
+  }
+
+  .bpt-card-wide .bpt-tpt-label {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .bpt-card-wide .bpt-tpt-label img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .bpt-card-wide .bpt-tpt-label p {
+    position: static;
+    transform: none;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.25;
+  }
+}
+
+/* Model-only baseline swatch in the legend */
+.bpt-tpt-legend .is-baseline {
+  width: 14px;
+  height: 0;
+  border-top: 1px dashed #A3A9B3;
+  border-radius: 0;
+}
+
+/* Search Index breakdown table */
+.bpt-si-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 36px;
+  font-size: 14px;
+  color: #414651;
+}
+
+.bpt-si-head {
+  height: auto;
+  padding: 6px 0;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(75, 75, 75, 0.2);
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+
+.bpt-si-prov {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 150px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.bpt-si-prov img {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+}
+
+.bpt-si-body .bpt-si-prov span {
+  font-size: 12px;
+  color: #717680;
+}
+
+.bpt-si-prov b {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1E293B;
+}
+
+.bpt-si-idx {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bpt-si-idx .bpt-track {
+  flex: 1;
+  height: 16px;
+  background: #F3F4F6;
+}
+
+.bpt-si-idx .bpt-fill {
+  background: #D9D9D9;
+}
+
+.bpt-si-idx > span {
+  width: 22px;
+  text-align: right;
+}
+
+.bpt-si-num {
+  width: 92px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.bpt-si-row.is-octen .bpt-si-prov span,
+.bpt-si-row.is-octen .bpt-si-prov b,
+.bpt-si-row.is-octen .bpt-si-idx > span,
+.bpt-si-row.is-octen .bpt-si-num {
+  color: #039855;
+}
+
+.bpt-si-row.is-octen .bpt-si-prov b {
+  font-weight: 700;
+}
+
+.bpt-si-row.is-octen .bpt-fill {
+  background: #039855;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1024px) {
   .bpt-cards {
@@ -701,6 +1143,54 @@
 
   .bpt-card {
     padding: 20px 16px;
+  }
+
+  .bpt-tpt-bars,
+  .bpt-tpt-labels {
+    padding-left: 24px;
+  }
+
+  .bpt-tpt-col,
+  .bpt-tpt-label {
+    width: 26px;
+  }
+
+  .bpt-tpt-bar {
+    width: 20px;
+  }
+
+  .bpt-tpt-val {
+    font-size: 10px;
+  }
+
+  .bpt-tpt-val small {
+    display: none;
+  }
+
+  .bpt-si-row {
+    gap: 6px;
+    font-size: 12px;
+  }
+
+  .bpt-si-head {
+    font-size: 10px;
+  }
+
+  .bpt-si-prov {
+    width: 96px;
+  }
+
+  /* Hide the variant text, keep the bold provider name */
+  .bpt-si-body .bpt-si-prov span {
+    font-size: 0;
+  }
+
+  .bpt-si-body .bpt-si-prov b {
+    font-size: 12px;
+  }
+
+  .bpt-si-num {
+    width: 58px;
   }
 
   .bpt-lat-bar {

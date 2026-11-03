@@ -345,6 +345,11 @@
         const bar = document.getElementById('perfRailBar-b');
         const dot = document.getElementById('perfRailDot-b');
 
+        // Like octen.ai: the bar under the active dot fills top→bottom over AUTO_ADVANCE_MS
+        // (linear), then the next item activates. Clicking an item restarts the fill there.
+        const AUTO_ADVANCE_MS = 4000;
+        let inView = true;
+
         function updateRail() {
           const activeItem = container.querySelector('.built-perf-item.active');
           if (!activeItem || !bar || !dot) return;
@@ -355,65 +360,101 @@
           const labelRect = label ? label.getBoundingClientRect() : itemRect;
 
           const dotTop = (labelRect.top - containerRect.top) + (labelRect.height / 2) - 6.5;
-          const itemTop = itemRect.top - containerRect.top;
-          const itemHeight = itemRect.height;
+          const barTop = dotTop + 13 + 4; // starts just below the dot
+          const itemBottom = itemRect.bottom - containerRect.top;
 
           dot.style.top = `${dotTop}px`;
-          bar.style.top = `${itemTop}px`;
-          bar.style.height = `${itemHeight}px`;
+          bar.style.top = `${barTop}px`;
+          bar.style.height = `${Math.max(0, itemBottom - barTop)}px`;
         }
+
+        function restartProgress() {
+          if (!bar) return;
+          bar.classList.remove('is-filling');
+          void bar.offsetWidth; // reflow so the animation restarts from 0
+          bar.style.animationDuration = `${AUTO_ADVANCE_MS}ms`;
+          bar.classList.add('is-filling');
+          bar.style.animationPlayState = inView && !document.hidden ? 'running' : 'paused';
+        }
+
+        function setPaused(paused) {
+          if (bar) bar.style.animationPlayState = paused ? 'paused' : 'running';
+        }
+
+        if (bar) {
+          bar.addEventListener('animationend', () => {
+            const list = Array.from(tabs);
+            const current = list.findIndex(t => t.classList.contains('active'));
+            activate(list[(current + 1) % list.length]);
+          });
+        }
+
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(entries => {
+            inView = entries[0].isIntersecting;
+            setPaused(!inView || document.hidden);
+          }, { threshold: 0.2 }).observe(container);
+        }
+        document.addEventListener('visibilitychange', () => setPaused(!inView || document.hidden));
 
         requestAnimationFrame(() => {
           updateRail();
           setTimeout(updateRail, 150);
+          restartProgress();
         });
         window.addEventListener('resize', updateRail, { passive: true });
 
         tabs.forEach(tab => {
           tab.addEventListener('click', () => {
             if (!ENABLE_TAB_SWITCHING) return;
-
-            const key = tab.dataset.perfTab;
-            tabs.forEach(t => {
-              const isTarget = t === tab;
-              const body = t.querySelector('.built-perf-body');
-
-              if (isTarget) {
-                t.classList.add('active');
-                if (body) {
-                  body.style.display = 'block';
-                  body.style.opacity = '1';
-                  body.style.height = 'auto';
-                }
-              } else {
-                t.classList.remove('active');
-                if (body) {
-                  body.style.display = 'none';
-                  body.style.opacity = '0';
-                  body.style.height = '0';
-                }
-              }
-            });
-
-            // Toggle right-hand benchmark panels
-            Object.keys(panels).forEach(pKey => {
-              const pEl = panels[pKey];
-              if (!pEl) return;
-              if (pKey === key) {
-                pEl.style.display = 'block';
-                pEl.classList.add('active');
-                if (pKey === 'cost' && bubbleChart && bubbleChart.redraw) {
-                  requestAnimationFrame(bubbleChart.redraw);
-                }
-              } else {
-                pEl.style.display = 'none';
-                pEl.classList.remove('active');
-              }
-            });
-
-            requestAnimationFrame(updateRail);
+            activate(tab);
           });
         });
+
+        function activate(tab) {
+          const key = tab.dataset.perfTab;
+          tabs.forEach(t => {
+            const isTarget = t === tab;
+            const body = t.querySelector('.built-perf-body');
+
+            if (isTarget) {
+              t.classList.add('active');
+              if (body) {
+                body.style.display = 'block';
+                body.style.opacity = '1';
+                body.style.height = 'auto';
+              }
+            } else {
+              t.classList.remove('active');
+              if (body) {
+                body.style.display = 'none';
+                body.style.opacity = '0';
+                body.style.height = '0';
+              }
+            }
+          });
+
+          // Toggle right-hand benchmark panels
+          Object.keys(panels).forEach(pKey => {
+            const pEl = panels[pKey];
+            if (!pEl) return;
+            if (pKey === key) {
+              pEl.style.display = 'block';
+              pEl.classList.add('active');
+              if (pKey === 'cost' && bubbleChart && bubbleChart.redraw) {
+                requestAnimationFrame(bubbleChart.redraw);
+              }
+            } else {
+              pEl.style.display = 'none';
+              pEl.classList.remove('active');
+            }
+          });
+
+          requestAnimationFrame(() => {
+            updateRail();
+            restartProgress();
+          });
+        }
       }
 
       if (document.readyState === 'loading') {

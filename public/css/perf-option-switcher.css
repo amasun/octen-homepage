@@ -1,0 +1,103 @@
+/* ==========================================================================
+   BUILT TO PERFORM · FLOATING OPTION SWITCHER (homepage)
+   Option 1 / Option 2 share #perfOptions; this black card floats at the right edge, vertically
+   centred in the viewport, while the slot is on screen. Options are stacked vertically.
+   ========================================================================== */
+
+.perf-option[hidden] {
+  display: none;
+}
+
+/* Option 2 carries its own top hairline for the stacked benchmarks page; not needed when it replaces Option 1 */
+.perf-options #built-to-perform-b {
+  border-top: none !important;
+}
+
+.perf-switcher {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 132px;
+  padding: 12px 8px 8px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  background: #0A0A0A;
+  box-shadow: 0 12px 32px -10px rgba(10, 13, 18, 0.45), 0 2px 6px -2px rgba(10, 13, 18, 0.2);
+  font-family: 'DM Sans', sans-serif;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(12px, -50%); /* slides in from the right edge */
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s;
+}
+
+.perf-switcher.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, -50%);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s;
+}
+
+.perf-switcher-label {
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.perf-switcher-seg {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.perf-switcher-btn {
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.65);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.perf-switcher-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFF;
+}
+
+.perf-switcher-btn.is-active {
+  background: #FFF;
+  color: #0A0A0A;
+}
+
+.perf-switcher-btn:focus-visible {
+  outline: 2px solid #039855;
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .perf-switcher {
+    right: 12px;
+    width: 116px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .perf-switcher,
+  .perf-switcher.is-visible {
+    transition: none;
+  }
+}
