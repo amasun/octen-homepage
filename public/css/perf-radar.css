@@ -486,39 +486,87 @@
   max-width: 1280px;
   height: 440px;
   box-sizing: border-box;
-  padding: 22px 28px;
+  padding: 20px 28px;
   border: 1.3px solid #EDEDED;
-  gap: 8px;
+  gap: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .bpt-panel .bpr-body {
-  padding-top: 8px;
-  gap: 16px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  gap: 24px;
   flex: 1 1 auto;
   min-height: 0;
   align-items: center;
 }
 
 .bpt-panel .bpr-radar {
-  flex: 0 0 490px;
-  max-width: 490px;
+  flex: 0 0 420px;
+  max-width: 420px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .bpt-panel .bpr-radar-svg {
-  max-height: 330px;
+  max-height: 285px;
   width: 100%;
   height: auto;
 }
 
+.bpt-panel .bpr-row {
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
 .bpt-panel .bpr-row[data-radar] {
-  padding-top: 9.5px;
-  padding-bottom: 9.5px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.bpt-panel .bpr-c-prov {
+  width: 146px;
+}
+
+.bpt-panel .bpr-c-prov b {
+  font-size: 13px;
+}
+
+.bpt-panel .bpr-c-prov span {
+  font-size: 11.5px;
+}
+
+.bpt-panel .bpr-c-prov img {
+  width: 16px;
+  height: 16px;
+}
+
+.bpt-panel .bpr-c-cost { width: 88px; }
+.bpt-panel .bpr-c-time { width: 84px; }
+.bpt-panel .bpr-c-bc { width: 84px; }
+.bpt-panel .bpr-c-idx { width: 48px; }
+.bpt-panel .bpr-c-dsqa { width: 92px; }
+.bpt-panel .bpr-c-omni { width: 84px; }
+
+.bpt-panel .bpr-num {
+  font-size: 13px;
+}
+
+.bpt-panel .bpr-num i {
+  font-size: 12px;
+}
+
+.bpt-panel .bpr-note {
+  padding-top: 8px;
+  font-size: 11.5px;
+}
+
+.bpt-panel .bpr-footer {
+  padding-top: 10px;
+  font-size: 12px;
 }
 
 @media (max-width: 1024px) {
