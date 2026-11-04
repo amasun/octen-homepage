@@ -104,18 +104,27 @@
 }
 
 .bpr-ring-outer {
-  fill: #F5F6F7;
+  fill: #FFFFFF;
 }
 
 .bpr-ring {
   fill: none;
-  stroke: #E3E5E8;
+  stroke: #EFF0F2;
   stroke-width: 1;
 }
 
 .bpr-spoke {
-  stroke: #E3E5E8;
+  stroke: #EFF0F2;
   stroke-width: 1;
+}
+
+/* Spoke tails past the 100 ring, faded out by a per-axis gradient (perf-radar.js) */
+.bpr-spoke-tail {
+  stroke-width: 1;
+}
+
+.bpr-spoke-fade stop {
+  stop-color: #C9CDD3; /* a shade darker than the spoke so the tail reads on the white card */
 }
 
 .bpr-ticks text {

@@ -33,6 +33,28 @@
     return node;
   }
 
+  // Spokes run a little past the 100 ring and fade out: one short tail per axis,
+  // stroked with a gradient (userSpaceOnUse) from the spoke colour at 100 to transparent.
+  var TAIL = 24; // tail length, in radar units beyond 100
+  var tailId = 0;
+
+  function addSpokeTails(card, grid, n) {
+    var svg = card.querySelector('.bpr-radar-svg');
+    var defs = svg.querySelector('defs') || svg.insertBefore(el('defs', {}), svg.firstChild);
+    for (var i = 0; i < n; i++) {
+      var from = point(i, 100, n);
+      var to = point(i, 100 + TAIL, n);
+      var id = 'bpr-tail-' + (++tailId);
+      var grad = el('linearGradient', { id: id, 'class': 'bpr-spoke-fade', gradientUnits: 'userSpaceOnUse', x1: from[0], y1: from[1], x2: to[0], y2: to[1] });
+      grad.appendChild(el('stop', { offset: 0, 'stop-opacity': 1 }));
+      grad.appendChild(el('stop', { offset: 1, 'stop-opacity': 0 }));
+      defs.appendChild(grad);
+      var tail = el('line', { 'class': 'bpr-spoke-tail', x1: from[0], y1: from[1], x2: to[0], y2: to[1] });
+      tail.style.stroke = 'url(#' + id + ')';
+      grid.appendChild(tail);
+    }
+  }
+
   // The card appears in both Option 1 (Value tab) and Option 2, so set up every instance once.
   function init() {
     Array.prototype.forEach.call(document.querySelectorAll('.bpr-card'), setupCard);
@@ -60,6 +82,7 @@
       grid.appendChild(spoke);
       spokes.push(spoke);
     }
+    addSpokeTails(card, grid, n);
 
     // Competitors first, Octen last so it draws on top
     var ordered = rows.filter(function (r) { return !r.classList.contains('is-octen'); })
@@ -120,8 +143,6 @@
       { name: 'Query Speed', desc: 'Search API response time for one query. Score = fastest time ÷ provider time × 100.', raw: '.bpr-c-tpq', unit: 'per query' }
     ]
   };
-  var VIEW_Y = 36; // radar SVG viewBox y-offset (viewBox="0 36 500 368")
-  var VIEW_W = 500;
 
   function initAxisTips(card, rows, spokes, axisMeta) {
     var radar = card.querySelector('.bpr-radar');
@@ -150,12 +171,13 @@
     }
 
     function place(i) {
-      var scale = svg.getBoundingClientRect().width / VIEW_W;
+      var vb = svg.viewBox.baseVal; // per-card viewBox (crop differs between cards)
+      var scale = svg.getBoundingClientRect().width / vb.width;
       var svgBox = svg.getBoundingClientRect();
       var box = radar.getBoundingClientRect();
       var p = point(i, octen[i], n);
-      var x = svgBox.left - box.left + p[0] * scale;
-      var y = svgBox.top - box.top + (p[1] - VIEW_Y) * scale;
+      var x = svgBox.left - box.left + (p[0] - vb.x) * scale;
+      var y = svgBox.top - box.top + (p[1] - vb.y) * scale;
       var w = tip.offsetWidth;
       var h = tip.offsetHeight;
       // Points right of centre open to the left; top, bottom and left-hand points open to the right
