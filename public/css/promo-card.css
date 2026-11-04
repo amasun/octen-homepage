@@ -28,34 +28,6 @@
   pointer-events: auto;
 }
 
-/* Background watermark: coin symbol in top-right, tilted and clipped to reveal about half */
-.promo-card-watermark {
-  position: absolute;
-  inset: 0;
-  border-radius: 16px;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.promo-card-watermark svg {
-  position: absolute;
-  top: -32px;
-  right: -32px;
-  width: 130px;
-  height: 130px;
-  color: #8EF07A;
-  opacity: 0.16;
-  transform: rotate(18deg);
-  transform-origin: center;
-  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.promo-card:hover .promo-card-watermark svg {
-  opacity: 0.24;
-  transform: rotate(22deg) scale(1.03);
-}
-
 /* Tilted sticker over the top-right corner */
 .promo-card-sticker {
   position: absolute;
