@@ -45,6 +45,17 @@
       openModal();
     });
 
+    if (video) {
+      // Allow clicking the video itself to toggle play/pause
+      video.addEventListener('click', function () {
+        if (video.paused) {
+          video.play();
+        } else {
+          video.pause();
+        }
+      });
+    }
+
     if (closeBtn) {
       closeBtn.addEventListener('click', function (e) {
         e.stopPropagation();

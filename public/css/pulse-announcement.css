@@ -245,6 +245,7 @@
   height: 100%;
   object-fit: contain;
   display: block;
+  cursor: pointer;
 }
 
 .pulse-modal-footer {
