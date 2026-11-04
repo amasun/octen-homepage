@@ -152,10 +152,25 @@
   background: #A6F595;
 }
 
+/* Five stars above the date line, as in the reference */
+.promo-card-stars {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 12px 0 0;
+  color: #FFFFFF;
+}
+
+.promo-card-stars svg {
+  display: block;
+}
+
 .promo-card-foot {
   position: relative;
   z-index: 1;
-  margin: 12px 0 0;
+  margin: 6px 0 0;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.5);
   text-align: center;
