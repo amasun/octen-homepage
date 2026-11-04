@@ -114,7 +114,7 @@
     ],
     // Option 1 Value tab: Search Index (top), Cost Efficiency, Task Speed, Query Speed (clockwise)
     value4: [
-      { name: 'Search Index', desc: 'Equal-weighted mean of DeepSearchQA F1, BrowseComp and AA-Omniscience accuracy.' },
+      { name: 'Search Index', desc: 'Mean of DeepSearchQA F1, BrowseComp and AA-Omniscience accuracy. Score = provider index ÷ highest index × 100.', raw: '.bpr-c-idx', unit: 'index' },
       { name: 'Cost Efficiency', desc: 'Cost per task (model + search). Score = cheapest cost ÷ provider cost × 100.', raw: '.bpr-c-cost', unit: 'per task' },
       { name: 'Task Speed', desc: 'Time per task (model + search). Score = fastest time ÷ provider time × 100.', raw: '.bpr-c-time', unit: 'per task' },
       { name: 'Query Speed', desc: 'Search API response time for one query. Score = fastest time ÷ provider time × 100.', raw: '.bpr-c-tpq', unit: 'per query' }

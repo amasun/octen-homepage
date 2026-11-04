@@ -125,6 +125,12 @@
   text-anchor: middle;
 }
 
+/* Value tab: lighter ticks, drawn under the polygons */
+.bpr-card[data-radar-axes="value4"] .bpr-ticks text {
+  font-size: 11px;
+  fill: #CDD1D7;
+}
+
 .bpr-axis-labels text {
   font-family: 'DM Sans', sans-serif;
   font-size: 12.95px;
@@ -603,6 +609,12 @@
 /* Value tab: one-line headers in the four-axis card */
 .bpt-panel .bpr-head > div {
   white-space: nowrap;
+}
+
+/* Value tab: room for "Exa auto, dynamic highlights" on one line */
+.bpt-panel .bpr-card[data-radar-axes="value4"] .bpr-c-prov {
+  flex: 0 0 200px;
+  width: 200px;
 }
 
 /* Value tab: Time per query (four-axis card) */
