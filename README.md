@@ -45,6 +45,25 @@ pnpm dev
 pnpm build
 ```
 
+### ⚡ 快速预览 (Quick Preview)
+
+项目根目录已内置一键启动并自动呼起浏览器的本地预览脚本，以后随时可直接运行：
+
+- **Windows 批处理（支持双击或终端运行）**：
+  ```cmd
+  preview.bat
+  ```
+- **PowerShell 终端**：
+  ```powershell
+  .\preview.ps1
+  ```
+- **pnpm 命令**：
+  ```bash
+  pnpm dev:open
+  ```
+
+> **智能检测**：脚本会自动检查 `3001` 端口。如果开发服务已在后台运行，会直接打开浏览器预览；若未运行，会自动拉起 `pnpm dev` 并自动跳转至 `http://localhost:3001/`。
+
 ## Implementation guardrails
 
 This project serves a mirrored SSR homepage from `index.html`. The page's hydration scripts can replace or reorder markup after the initial HTML is parsed. When adding a new homepage section:
