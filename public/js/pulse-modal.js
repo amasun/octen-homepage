@@ -8,10 +8,12 @@
     var closeBtn = modal.querySelector('.pulse-modal-close');
     var dialog = modal.querySelector('.pulse-modal-dialog');
 
-    function openModal() {
+    function openModal(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
       modal.hidden = false;
-      // Force reflow for CSS transition
-      void modal.offsetWidth;
       modal.classList.add('is-open');
       document.body.style.overflow = 'hidden';
       if (video) {
@@ -19,7 +21,7 @@
         var playPromise = video.play();
         if (playPromise !== undefined) {
           playPromise.catch(function () {
-            // If browser blocks unmuted autoplay, mute and play
+            // Autoplay with sound might be blocked, mute and play
             video.muted = true;
             video.play();
           });
@@ -27,7 +29,11 @@
       }
     }
 
-    function closeModal() {
+    function closeModal(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
       modal.classList.remove('is-open');
       document.body.style.overflow = '';
       if (video) {
@@ -40,14 +46,17 @@
       }, 300);
     }
 
-    openBtn.addEventListener('click', function (e) {
-      e.preventDefault();
-      openModal();
+    openBtn.addEventListener('click', openModal);
+    openBtn.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModal(e);
+      }
     });
 
     if (video) {
-      // Allow clicking the video itself to toggle play/pause
-      video.addEventListener('click', function () {
+      video.addEventListener('click', function (e) {
+        e.stopPropagation();
         if (video.paused) {
           video.play();
         } else {
@@ -57,21 +66,18 @@
     }
 
     if (closeBtn) {
-      closeBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        closeModal();
-      });
+      closeBtn.addEventListener('click', closeModal);
     }
 
     modal.addEventListener('click', function (e) {
       if (dialog && !dialog.contains(e.target)) {
-        closeModal();
+        closeModal(e);
       }
     });
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && modal.classList.contains('is-open')) {
-        closeModal();
+        closeModal(e);
       }
     });
   }
