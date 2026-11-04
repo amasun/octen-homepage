@@ -1,0 +1,25 @@
+<!-- ================= FLOATING PROMO CARD (bottom-right) =================
+  Same promotion as the top promo bar (01-navbar.html). Slides in once the page is scrolled past the hero,
+  can be dismissed for the session. Styles: public/css/promo-card.css   Script: public/js/promo-card.js
+-->
+<aside id="promoCard" class="promo-card" aria-label="Promotion" hidden>
+  <span class="promo-card-sticker" aria-hidden="true">15% back</span>
+  <button type="button" class="promo-card-close" aria-label="Dismiss promotion"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+
+  <div class="promo-card-head">
+    <img src="/_next/static/media/logo-white.690e48c0.svg" alt="Octen" width="70" height="24" />
+  </div>
+
+  <p class="promo-card-title">Auto Search Usage Rebate</p>
+
+  <!-- Key promotion numbers, side by side -->
+  <dl class="promo-card-grid">
+    <div class="promo-card-stat"><dt>15%</dt><dd>Usage rebate</dd></div>
+    <div class="promo-card-stat"><dt>$10+</dt><dd>Min. eligible usage</dd></div>
+  </dl>
+
+  <a class="promo-card-btn promo-card-btn-primary" href="/platform/overview">Start building <span aria-hidden="true">&rarr;</span></a>
+
+  <p class="promo-card-foot">Applies to paid usage from Aug 11, 2026</p>
+</aside>
+<script src="/js/promo-card.js" defer></script>

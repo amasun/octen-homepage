@@ -539,3 +539,145 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
 #mobileNav[data-theme="light"] button[aria-label="Toggle menu"] {
   color: #374151 !important;
 }
+
+/* ---------- Promo announcement bar (above the navbars) ----------
+   Figma Octen_汇总 14185:33209: a 36px green pill inset 2px from the viewport edges. */
+/* DM Sans's own "→" (U+2192): the page's DM Sans subsets stop short of arrows, so the glyph is
+   self-hosted under its own family (subset from Google Fonts, DM Sans 400–700). */
+@font-face {
+  font-family: 'DM Sans Arrow';
+  src: url('/fonts/dm-sans-arrow.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+2192;
+}
+
+:root {
+  --promo-h: 40px; /* 36px bar + 2px inset above and below */
+}
+
+.promo-bar {
+  position: fixed;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  z-index: 60;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 44px;
+  border-radius: 8px;
+  background: #70FE7E;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  line-height: 13px;
+  color: #0D0D0D;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.promo-bar.is-hidden,
+.promo-bar.is-dismissed {
+  transform: translateY(calc(-100% - 2px));
+  opacity: 0;
+  pointer-events: none;
+}
+
+.promo-bar-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.promo-bar-tag {
+  flex: none;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #000000;
+  color: #70FE7E;
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 500;
+}
+
+.promo-bar-text {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.promo-bar-cta {
+  flex: none;
+  font-family: 'DM Sans Arrow', 'DM Sans', sans-serif;
+  color: #000000;
+  opacity: 0.5;
+  font-weight: 600;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.promo-bar-link:hover .promo-bar-cta {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+.promo-short {
+  display: none;
+}
+
+.promo-bar-close {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  translate: 0 -50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.promo-bar-close img {
+  display: block;
+}
+
+.promo-bar-close:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* Navs sit below the bar while it shows, and slide back to the top with it */
+#pcNav,
+#mobileNav {
+  transition-property: top, translate, background-color, border-color;
+}
+
+.promo-bar:not(.is-hidden):not(.is-dismissed) ~ #pcNav,
+.promo-bar:not(.is-hidden):not(.is-dismissed) ~ #mobileNav {
+  top: var(--promo-h);
+}
+
+@media (max-width: 767px) {
+  .promo-bar {
+    padding: 0 40px 0 12px;
+    font-size: 12.5px;
+  }
+
+  .promo-long {
+    display: none;
+  }
+
+  .promo-short {
+    display: inline;
+  }
+
+  .promo-bar-link {
+    gap: 8px;
+  }
+}

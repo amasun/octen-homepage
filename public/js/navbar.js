@@ -116,6 +116,12 @@
       return el ? el.getBoundingClientRect().top + window.scrollY : Infinity;
     }
 
+    var promo = document.getElementById('promoBar');
+    var promoClose = promo && promo.querySelector('.promo-bar-close');
+    if (promoClose) {
+      promoClose.addEventListener('click', function () { promo.classList.add('is-dismissed'); });
+    }
+
     var lastTheme = null;
     var lastScrolled = null;
 
@@ -125,6 +131,7 @@
       var lightEnd = docTop('get-started') - 70;
       var theme = y >= lightStart && y < lightEnd ? 'light' : 'dark';
       var scrolled = y > 0 ? 'true' : 'false';
+      if (promo) promo.classList.toggle('is-hidden', y > 0); // the promo bar only shows at the very top
       if (theme === lastTheme && scrolled === lastScrolled) return;
       lastTheme = theme;
       lastScrolled = scrolled;
