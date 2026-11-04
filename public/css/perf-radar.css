@@ -142,7 +142,7 @@
 
 .bpr-axis-labels text {
   font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
+  font-size: 15.75px; /* SVG viewBox is scaled to 320/420 (~0.762), 15.75px renders as exactly 12px on screen */
   font-weight: 600;
   fill: #1F2937;
 }
@@ -757,6 +757,10 @@
     height: auto;
   }
 
+  .bpt-panel .bpr-axis-labels text {
+    font-size: 18px; /* 18px * (280/420) ≈ 12px actual screen size */
+  }
+
   .bpt-panel .bpr-table-wrap {
     flex: none;
     width: 100%;
@@ -782,6 +786,10 @@
 
   .bpt-panel .bpr-radar-svg {
     max-height: 230px;
+  }
+
+  .bpt-panel .bpr-axis-labels text {
+    font-size: 21.5px; /* 21.5px * (230/420) ≈ 11.8px actual screen size */
   }
 
   .bpt-panel .bpr-card {
