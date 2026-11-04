@@ -183,15 +183,34 @@
   opacity: 1;
 }
 
-.bpr-card.is-focusing .bpr-shape:not(.is-focus) polygon,
-.bpr-card.is-focusing .bpr-shape:not(.is-focus) circle {
-  opacity: 0.18;
+/* Head-to-head comparison focus:
+   When hovering a competitor, HIDE all other competitor shapes completely (opacity: 0)
+   so the radar displays ONLY Octen's quadrilateral and the hovered competitor's quadrilateral. */
+.bpr-card.is-focusing .bpr-shape:not(.is-octen):not(.is-focus) polygon,
+.bpr-card.is-focusing .bpr-shape:not(.is-octen):not(.is-focus) circle {
+  opacity: 0 !important;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
+/* Octen is always fully shown in 1v1 comparison */
+.bpr-card.is-focusing .bpr-shape.is-octen polygon {
+  opacity: 1 !important;
+  stroke: #039855;
+  stroke-width: 2.2;
+}
+
+.bpr-card.is-focusing .bpr-shape.is-octen circle {
+  opacity: 1 !important;
+}
+
+/* Focused competitor polygon and points: prominent contrast against Octen */
 .bpr-shape.is-focus:not(.is-octen) polygon {
-  fill: rgba(102, 102, 102, 0.08);
-  stroke: #666666;
-  stroke-width: 2;
+  opacity: 1 !important;
+  visibility: visible !important;
+  fill: rgba(55, 65, 81, 0.1);
+  stroke: #374151;
+  stroke-width: 2.2;
 }
 
 .bpr-shape.is-focus circle {
@@ -199,7 +218,21 @@
 }
 
 .bpr-shape.is-focus:not(.is-octen) circle {
-  fill: #666666;
+  opacity: 1 !important;
+  visibility: visible !important;
+  fill: #374151;
+  stroke: #FFF;
+  stroke-width: 1.5;
+}
+
+/* In the table, soften non-hovered competitor rows to reinforce Octen vs focused comparison */
+.bpr-card.is-focusing .bpr-row[data-radar]:not(.is-octen):not(.is-focus) {
+  opacity: 0.35;
+  transition: opacity 0.2s ease;
+}
+
+.bpr-card.is-focusing .bpr-row.is-octen {
+  opacity: 1 !important;
 }
 
 /* ---------- Table ---------- */
