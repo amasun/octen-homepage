@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Layers, Zap, GitFork, RefreshCw, CheckCircle, Globe, User, Search } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Layers, Zap, GitFork, RefreshCw, CheckCircle, Globe, User, Search } from 'lucide-react';
 
 const TOPICS = [
   'AI search engines',
@@ -29,6 +29,24 @@ export const ArchitectureComparison: React.FC = () => {
           <p style={{ fontSize: '17px', color: 'var(--text-muted)', marginTop: '12px' }}>
             LLM-native web search delivering industry-leading real-time intelligence with lowest latency and enterprise-grade reliability.
           </p>
+
+          {/* Pricing Promotion Pill (Figma 14267:172351) */}
+          <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+            <a
+              href="https://pring-octen-ai.vercel.app/"
+              className="octen-web-search-promo-pill"
+              data-node-id="14267:172351"
+            >
+              <span className="octen-promo-badge">New</span>
+              <span className="octen-promo-text">
+                <span className="octen-promo-text-light">Unlimited with Search Plan from</span>
+                <span className="octen-promo-text-highlight">$20/month</span>
+              </span>
+              <span className="octen-promo-arrow">
+                <ArrowUpRight size={13} color="#09FD35" strokeWidth={2.2} />
+              </span>
+            </a>
+          </div>
         </div>
 
         {/* Visual Architecture Comparison Cards */}

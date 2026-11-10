@@ -4,31 +4,52 @@
      ========================================================================== -->
 <div class="relative w-full bg-bg-dark octen-search-surface py-30 px-8" id="web-search">
   <div class="relative z-1 max-w-7xl mx-auto space-y-15">
-    <!-- 1. Header: Search / FAST Badge, Title & Description -->
-    <div class="flex flex-col items-center text-center gap-4">
-      <span
-        class="octen-search-fast-tag"
-        data-copy-anchor="#web-search"
-        style="opacity: 0; filter: blur(8px); transform: translateY(24px)"
-        ><span class="octen-search-fast-prefix">Search</span
-        ><span class="octen-search-fast-divider">/</span
-        ><span class="octen-search-fast-keyword">FAST</span></span
-      ><span
-        class="text-5xl lg:text-[44px] font-serif text-white"
-        style="opacity: 0; filter: blur(8px); transform: translateY(24px)"
-        >Web Search</span
-      >
+    <!-- 1. Header: Search / FAST Badge, Title, Description & Promotion Bar (Figma 13625:168562) -->
+    <div class="flex flex-col items-center text-center gap-5" data-node-id="13625:168562" data-name="up">
+      <div class="flex flex-col items-center text-center gap-4" data-node-id="13625:168563" data-name="title">
+        <span
+          class="octen-search-fast-tag"
+          data-copy-anchor="#web-search"
+          data-node-id="13720:174670"
+          ><span class="octen-search-fast-prefix">Search</span
+          ><span class="octen-search-fast-divider">/</span
+          ><span class="octen-search-fast-keyword">FAST</span></span
+        ><span
+          class="text-5xl lg:text-[44px] font-serif text-white"
+          data-node-id="13625:168565"
+          >Web Search</span
+        >
+      </div>
       <p
-        class="max-w-155 text-base text-white/80 leading-relaxed px-4 mb-2"
-        style="opacity: 0; filter: blur(8px); transform: translateY(24px)"
+        class="max-w-155 text-base text-white/80 leading-relaxed px-4 mb-1"
+        data-node-id="13625:168567"
       >
         LLM-native web search, delivering industry-leading real-time
         intelligence with the lowest latency and enterprise-grade reliability.
       </p>
+
+      <!-- Web Search Pricing Promotion Pill (Figma 14267:172351) -->
+      <a
+        href="https://pring-octen-ai.vercel.app/"
+        class="octen-web-search-promo-pill"
+        data-node-id="14267:172351"
+        data-name="promotion-bar"
+      >
+        <span class="octen-promo-badge" data-node-id="14267:172356">New</span>
+        <span class="octen-promo-text" data-node-id="14267:172347">
+          <span class="octen-promo-text-light">Unlimited with Search Plan from</span>
+          <span class="octen-promo-text-highlight">$20/month</span>
+        </span>
+        <span class="octen-promo-arrow" data-node-id="14267:172364">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.08 8.42L8.16 2.34M8.16 8.42V2.34H2.08" stroke="#09FD35" stroke-width="1.32" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
     </div>
 
     <!-- 2. Dual Architecture Comparison Card -->
-    <div style="opacity: 0; filter: blur(10px); transform: translateY(32px)">
+    <div>
       <div
         class="w-full bg-[#080B12] border border-solid px-6 py-8 md:px-10 md:py-10 rounded-md octen-web-search-card"
       >

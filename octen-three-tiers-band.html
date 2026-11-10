@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Octen · Three search lines band</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080B12;--line:rgba(255,255,255,.10);--txt:#EAF0F2;--muted:#9AA6AD;--faint:#6b7780;
+    --green:#039855;--green-bright:#16B673;--gold:#D1AC62;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--txt);
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  .band{position:relative;padding:84px 24px 90px;
+    background:radial-gradient(1100px 420px at 50% -8%, rgba(17,70,43,.55), transparent 70%),var(--bg);overflow:hidden}
+  .band::before{content:"";position:absolute;inset:0;
+    background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);background-size:24px 24px;
+    mask-image:linear-gradient(to bottom, rgba(0,0,0,.9), transparent 75%);pointer-events:none}
+  .wrap{max-width:1140px;margin:0 auto;position:relative}
+  .head{text-align:center;max-width:720px;margin:0 auto 42px}
+  .eyebrow{font-size:12px;letter-spacing:.16em;font-weight:600;color:var(--green-bright);text-transform:uppercase;margin:0 0 14px}
+  h2{font-size:clamp(28px,4vw,40px);line-height:1.1;font-weight:700;margin:0 0 14px;letter-spacing:-.02em}
+  h2 .accent{color:var(--muted);font-weight:500}
+  .sub{font-size:16px;line-height:1.55;color:var(--muted);margin:0}
+
+  .axis{display:flex;align-items:center;justify-content:space-between;gap:14px;
+    max-width:980px;margin:0 auto 20px;padding:0 6px;font-size:12px;color:var(--faint)}
+  .axis .bar{flex:1;height:2px;border-radius:2px;position:relative;opacity:.85;
+    background:linear-gradient(90deg,var(--green-bright),var(--green) 50%,var(--gold))}
+  .axis .bar::after{content:"";position:absolute;right:-1px;top:50%;transform:translateY(-50%);
+    border-left:7px solid var(--gold);border-top:5px solid transparent;border-bottom:5px solid transparent}
+  .axis b{color:var(--muted);font-weight:600;white-space:nowrap}
+
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .col{position:relative;border:1px solid var(--line);border-radius:18px;
+    background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.012));
+    padding:24px 22px;display:flex;flex-direction:column;
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease}
+  .col:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.2)}
+  .col::before{content:"";position:absolute;left:22px;right:22px;top:0;height:2px;border-radius:2px;background:var(--accent);opacity:.9}
+  .c-pulse{--accent:var(--green-bright)}
+  .c-fast{--accent:var(--green)}
+  .c-premier{--accent:var(--gold)}
+  .c-pulse:hover{box-shadow:0 18px 50px -24px rgba(22,182,115,.7)}
+  .c-fast:hover{box-shadow:0 18px 50px -24px rgba(3,152,85,.7)}
+  .c-premier:hover{box-shadow:0 18px 50px -24px rgba(209,172,98,.55)}
+
+  .c-eyebrow{font-size:11px;letter-spacing:.14em;font-weight:600;text-transform:uppercase;color:var(--faint);margin-bottom:7px}
+  .c-name{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+  .c-name h3{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+
+  /* mechanism mini-visual */
+  .viz{width:100%;height:auto;display:block;margin:2px 0 18px;
+    border:1px solid rgba(255,255,255,.06);border-radius:12px;background:rgba(255,255,255,.015);padding:8px 6px}
+  .viz text{font-family:'Inter',sans-serif}
+  .viz .chip{fill:rgba(255,255,255,.03);stroke:var(--line);stroke-width:1}
+  .viz .accentchip{fill:rgba(255,255,255,.03);stroke:var(--accent);stroke-width:1.3}
+  .viz .core{fill:rgba(255,255,255,.045);stroke:var(--accent);stroke-width:1.4}
+  .viz .wire{stroke:var(--faint);stroke-width:1.3;fill:none}
+  .viz .ah{fill:var(--faint)}
+  .viz .lbl{fill:var(--muted);font-size:10px;text-anchor:middle;font-weight:500}
+  .viz .clbl{fill:var(--txt);font-size:11px;text-anchor:middle;font-weight:600}
+  .viz .csub{fill:var(--faint);font-size:8.5px;text-anchor:middle}
+  .viz .tiny{fill:var(--faint);font-size:9px}
+  .viz .bar{fill:rgba(255,255,255,.05);stroke:var(--line);stroke-width:1}
+  .viz .hl{fill:var(--accent);opacity:.5}
+  .viz .live{fill:var(--accent)}
+  .viz .ring{fill:none;stroke:var(--accent);stroke-width:1;opacity:.4}
+  .viz .node{fill:rgba(255,255,255,.04);stroke:var(--line);stroke-width:1}
+  .viz .badge{fill:var(--accent);opacity:.14}
+  .viz .blbl{fill:var(--accent);font-size:9px;font-weight:700;text-anchor:middle}
+  .viz .acc{fill:var(--accent)}
+
+  .members{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+  .pill{font-size:12px;font-weight:500;color:#cfd8dc;border:1px solid var(--line);border-radius:8px;
+    padding:5px 9px;background:rgba(255,255,255,.02);display:inline-flex;align-items:center;gap:5px}
+  .ea{font-size:8.5px;font-weight:700;letter-spacing:.05em;color:var(--gold);
+    border:1px solid rgba(209,172,98,.45);border-radius:4px;padding:1px 3px;text-transform:uppercase}
+  .desc{font-size:13.5px;line-height:1.55;color:var(--muted);margin:0 0 16px}
+  .sig{margin-top:auto;display:flex;align-items:center;gap:6px;padding-top:14px;border-top:1px solid rgba(255,255,255,.07);
+    font-size:13.5px;font-weight:600;color:var(--txt)}
+  .sig .big{color:var(--accent);font-weight:700}
+  a.pill{text-decoration:none;cursor:pointer;transition:border-color .15s,color .15s,background .15s}
+  a.pill:hover{border-color:var(--accent);color:#fff;background:rgba(255,255,255,.05)}
+  .cta{display:flex;gap:12px;justify-content:center;align-items:center;margin-top:36px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:7px;background:var(--green);color:#fff;font-size:14px;font-weight:600;
+    padding:11px 22px;border-radius:10px;text-decoration:none;border:1px solid transparent;transition:background .15s,transform .15s}
+  .btn:hover{background:var(--green-bright);transform:translateY(-1px)}
+  .btn-ghost{display:inline-flex;align-items:center;gap:7px;color:var(--txt);font-size:14px;font-weight:600;
+    padding:11px 22px;border-radius:10px;text-decoration:none;border:1px solid var(--line);transition:border-color .15s,color .15s}
+  .btn-ghost:hover{border-color:rgba(255,255,255,.32)}
+
+  @media(max-width:860px){.cols{grid-template-columns:1fr}.axis{display:none}.band{padding:60px 16px 66px}}
+</style>
+</head>
+<body>
+  <section class="band">
+    <div class="wrap">
+      <div class="head">
+        <h2>The right search <span class="accent">for every job.</span></h2>
+        <p class="sub">All three search the live web in real time, trading speed for depth. Pick the one your task needs.</p>
+      </div>
+
+      <div class="axis">
+        <b>Fastest &amp; lightest</b>
+        <span class="bar"></span>
+        <b>Deepest &amp; structured</b>
+      </div>
+
+      <div class="cols">
+        <!-- PULSE -->
+        <article class="col c-pulse" data-href="https://console.octen.ai/search?line=pulse">
+          <div class="c-eyebrow">Octen Pulse</div>
+          <div class="c-name"><span class="dot"></span><h3>Pulse</h3></div>
+          <!-- viz: one-inference generative retrieval -->
+          <svg class="viz" viewBox="0 0 320 96" role="img" aria-label="Query to model-as-index to URL in one inference">
+            <rect class="accentchip" x="130" y="4" width="60" height="18" rx="9"/>
+            <text class="lbl" style="fill:var(--green-bright)" x="160" y="16.5">~10 ms</text>
+            <rect class="chip" x="6" y="40" width="48" height="24" rx="7"/>
+            <text class="lbl" x="30" y="56">query</text>
+            <line class="wire" x1="54" y1="52" x2="92" y2="52"/>
+            <polygon class="ah" points="92,52 85,48.5 85,55.5"/>
+            <rect class="core" x="96" y="30" width="128" height="44" rx="10"/>
+            <text class="clbl" x="160" y="50">model = index</text>
+            <text class="csub" x="160" y="63">one inference</text>
+            <line class="wire" x1="226" y1="52" x2="262" y2="52"/>
+            <polygon class="ah" points="262,52 255,48.5 255,55.5"/>
+            <rect class="accentchip" x="264" y="40" width="50" height="24" rx="7"/>
+            <text class="lbl" x="289" y="56">URL</text>
+          </svg>
+          <div class="members"><a class="pill" href="https://console.octen.ai/search/pulse-search" target="_blank" rel="noopener">Pulse Search</a></div>
+          <p class="desc">Turns a query straight into a real URL in one model inference. Light enough to run on every keystroke.</p>
+          <div class="sig"><span class="big">$0.1–0.2</span> / 1k · from 10ms</div>
+        </article>
+
+        <!-- FAST -->
+        <article class="col c-fast" data-href="https://console.octen.ai/search?line=fast">
+          <div class="c-eyebrow">Octen Fast</div>
+          <div class="c-name"><span class="dot"></span><h3>Fast</h3></div>
+          <!-- viz: live query to ranked fresh results -->
+          <svg class="viz" viewBox="0 0 320 96" role="img" aria-label="Live query returning ranked fresh results">
+            <circle class="live" cx="22" cy="14" r="3.5"/>
+            <circle class="ring" cx="22" cy="14" r="8"/>
+            <text class="tiny" x="34" y="17.5">live index</text>
+            <rect class="chip" x="6" y="40" width="48" height="22" rx="7"/>
+            <text class="lbl" x="30" y="55">query</text>
+            <line class="wire" x1="54" y1="51" x2="140" y2="21"/>
+            <line class="wire" x1="54" y1="51" x2="140" y2="51"/>
+            <line class="wire" x1="54" y1="51" x2="140" y2="81"/>
+            <g>
+              <rect class="bar" x="142" y="12" width="172" height="18" rx="5"/>
+              <rect class="hl" x="148" y="17" width="42" height="8" rx="4"/>
+              <rect class="bar" x="142" y="39" width="172" height="18" rx="5"/>
+              <rect class="hl" x="148" y="44" width="36" height="8" rx="4"/>
+              <rect class="bar" x="142" y="66" width="172" height="18" rx="5"/>
+              <rect class="hl" x="148" y="71" width="30" height="8" rx="4"/>
+            </g>
+          </svg>
+          <div class="members">
+            <a class="pill" href="https://console.octen.ai/search/web-search" target="_blank" rel="noopener">Web</a>
+            <a class="pill" href="https://console.octen.ai/search/broad-search" target="_blank" rel="noopener">Broad</a>
+            <a class="pill" href="https://console.octen.ai/search/image-search" target="_blank" rel="noopener">Image</a>
+            <a class="pill" href="https://console.octen.ai/search/video-search" target="_blank" rel="noopener">Video <span class="ea">EA</span></a>
+          </div>
+          <p class="desc">Search the live web across text, images, and video. Every result comes back ranked, with its source.</p>
+          <div class="sig"><span class="big">$1–5</span> / 1k · from 62ms</div>
+        </article>
+
+        <!-- PREMIER -->
+        <article class="col c-premier" data-href="https://console.octen.ai/search?line=premier">
+          <div class="c-eyebrow">Octen Premier</div>
+          <div class="c-name"><span class="dot"></span><h3>Premier</h3></div>
+          <!-- viz: sources clustered into one structured event -->
+          <svg class="viz" viewBox="0 0 320 96" role="img" aria-label="Many sources deduplicated into one structured event">
+            <rect class="badge" x="124" y="3" width="72" height="17" rx="8.5"/>
+            <text class="blbl" x="160" y="15">deduped</text>
+            <circle class="node" cx="34" cy="30" r="10"/>
+            <circle class="node" cx="34" cy="74" r="10"/>
+            <circle class="node" cx="286" cy="30" r="10"/>
+            <circle class="node" cx="286" cy="74" r="10"/>
+            <line class="wire" x1="116" y1="46" x2="46" y2="32"/>
+            <line class="wire" x1="116" y1="56" x2="46" y2="72"/>
+            <line class="wire" x1="204" y1="46" x2="274" y2="32"/>
+            <line class="wire" x1="204" y1="56" x2="274" y2="72"/>
+            <rect class="core" x="114" y="36" width="92" height="30" rx="9"/>
+            <text class="clbl" x="160" y="55">Event</text>
+            <rect class="badge" x="122" y="74" width="76" height="17" rx="8.5"/>
+            <text class="blbl" x="160" y="86">+ sub-events</text>
+          </svg>
+          <div class="members">
+            <a class="pill" href="https://console.octen.ai/search/news-search" target="_blank" rel="noopener">News</a>
+            <a class="pill" href="https://console.octen.ai/search/business-search" target="_blank" rel="noopener">Business</a>
+            <a class="pill" href="https://console.octen.ai/search/place-search" target="_blank" rel="noopener">Place</a>
+            <a class="pill" href="https://console.octen.ai/search/design-search" target="_blank" rel="noopener">Design</a>
+          </div>
+          <p class="desc">Structured results built for each vertical. News comes back grouped into events, not a flat list of links.</p>
+          <div class="sig"><span class="big">$3–5</span> / 1k · from 100ms</div>
+        </article>
+      </div>
+
+      <div class="cta">
+        <a class="btn" href="#console" aria-label="Start building in the console">Start building <span>→</span></a>
+        <a class="btn-ghost" href="https://docs.octen.ai" target="_blank" rel="noopener">Read the docs</a>
+      </div>
+    </div>
+  </section>
+  <script>
+    document.querySelectorAll('.col[data-href]').forEach(function(c){
+      c.style.cursor = 'pointer';
+      c.addEventListener('click', function(e){
+        if (e.target.closest('a')) return;            // let pill/button links work
+        window.open(c.getAttribute('data-href'), '_blank', 'noopener');
+      });
+    });
+  </script>
+</body>
+</html>

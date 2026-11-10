@@ -260,3 +260,92 @@
   text-transform: uppercase !important;
 }
 
+/* ==========================================================================
+   Web Search Pricing Promotion Pill (Figma 14267:172351)
+   "New | Unlimited with Search Plan from $20/month ↗"
+   Hover styling aligned with Hero's "Head over to the API Platform" pill:
+   bg-[#4D4D4D4D] -> hover:bg-[#4D4D4D5D], no box-shadow glow, no translateY
+   ========================================================================== */
+.octen-web-search-promo-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  padding: 4px 20px !important;
+  min-height: 29px !important;
+  border-radius: 9999px !important;
+  background: #4D4D4D4D !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: none !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s ease, background 0.2s ease !important;
+  user-select: none;
+  box-sizing: border-box !important;
+  margin-top: 4px !important;
+  white-space: nowrap !important;
+}
+
+.octen-web-search-promo-pill:hover {
+  background: #4D4D4D5D !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.octen-promo-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #09fd35 !important;
+  color: #000000 !important;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 12px !important;
+  padding: 3px 8px !important;
+  border-radius: 4px !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.octen-promo-text {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  white-space: nowrap !important;
+}
+
+.octen-promo-text-light {
+  color: #ffffff !important;
+  font-weight: 400 !important;
+}
+
+.octen-promo-text-highlight {
+  color: #09fd35 !important;
+  font-weight: 500 !important;
+}
+
+.octen-promo-arrow {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 12px !important;
+  height: 12px !important;
+  flex-shrink: 0 !important;
+}
+
+@media (max-width: 480px) {
+  .octen-web-search-promo-pill {
+    padding: 4px 12px !important;
+    gap: 6px !important;
+  }
+  .octen-promo-text {
+    font-size: 12.5px !important;
+  }
+}
+
+

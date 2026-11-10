@@ -1,0 +1,181 @@
+/* ==========================================================================
+   Hero Search Tiers Cards (Pulse / Fast / Premier)
+   ========================================================================== */
+
+.hero-search-tiers {
+  width: 100%;
+  max-width: 1060px;
+  margin: 36px auto 24px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.hero-search-tiers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.tier-card {
+  position: relative;
+  background: rgba(14, 18, 26, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+  text-align: left;
+}
+
+.tier-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.tier-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 18px;
+  right: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--tier-accent, #039855);
+  opacity: 0.9;
+}
+
+.tier-pulse {
+  --tier-accent: #16B673;
+}
+.tier-pulse:hover {
+  box-shadow: 0 12px 32px -12px rgba(22, 182, 115, 0.45);
+}
+
+.tier-fast {
+  --tier-accent: #039855;
+}
+.tier-fast:hover {
+  box-shadow: 0 12px 32px -12px rgba(3, 152, 85, 0.45);
+}
+
+.tier-premier {
+  --tier-accent: #D1AC62;
+}
+.tier-premier:hover {
+  box-shadow: 0 12px 32px -12px rgba(209, 172, 98, 0.35);
+}
+
+.tier-header {
+  margin-bottom: 10px;
+}
+
+.tier-eyebrow {
+  display: block;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 5px;
+}
+
+.tier-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tier-dot {
+  width: 7.5px;
+  height: 7.5px;
+  border-radius: 50%;
+  background: var(--tier-accent);
+  box-shadow: 0 0 8px var(--tier-accent);
+  flex-shrink: 0;
+}
+
+.tier-title {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.tier-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.tier-pill {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #CCD4D9;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 2.5px 7.5px;
+  line-height: 1.25;
+}
+
+.tier-pill-ea {
+  color: #D1AC62;
+  border-color: rgba(209, 172, 98, 0.35);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 0 4px;
+  border-radius: 3px;
+  margin-left: 4px;
+}
+
+.tier-desc {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.62);
+  margin: 0 0 14px 0;
+  flex-grow: 1;
+}
+
+.tier-footer {
+  margin-top: auto;
+  padding-top: 11px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'DM Mono', monospace;
+  font-size: 11.5px;
+}
+
+.tier-latency {
+  color: var(--tier-accent);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tier-price {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+}
+
+@media (max-width: 860px) {
+  .hero-search-tiers-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .hero-search-tiers {
+    margin: 24px auto 16px;
+  }
+}

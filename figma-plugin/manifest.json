@@ -1,0 +1,7 @@
+{
+  "name": "Octen Poster Auto-Resize",
+  "id": "octen-poster-auto-resize-tool",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": ["figma"]
+}

@@ -119,7 +119,10 @@
     var promo = document.getElementById('promoBar');
     var promoClose = promo && promo.querySelector('.promo-bar-close');
     if (promoClose) {
-      promoClose.addEventListener('click', function () { promo.classList.add('is-dismissed'); });
+      promoClose.addEventListener('click', function () {
+        promo.classList.add('is-dismissed');
+        document.body.classList.add('promo-dismissed');
+      });
     }
 
     var lastTheme = null;

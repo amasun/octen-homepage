@@ -681,3 +681,80 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
     gap: 8px;
   }
 }
+
+/* ==========================================================================
+   Pricing "New" Micro-Pill Tag (Scheme 1 - Low Saturation Translucent Green)
+   Hidden when top promo announcement bar is active; reveals when page scrolls
+   or when promo bar is dismissed.
+   ========================================================================== */
+.nav-pricing-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  position: relative !important;
+}
+
+.nav-pricing-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  letter-spacing: 0.02em !important;
+  color: #09FD35 !important;
+  background: rgba(9, 253, 53, 0.12) !important;
+  border: 1px solid rgba(9, 253, 53, 0.28) !important;
+  border-radius: 4px !important;
+  height: 16px !important;
+  vertical-align: middle !important;
+  pointer-events: none !important;
+  white-space: nowrap !important;
+  user-select: none !important;
+
+  /* Hidden initially when top promo bar is visible */
+  opacity: 0 !important;
+  visibility: hidden !important;
+  max-width: 0 !important;
+  padding: 0 !important;
+  margin-left: 0 !important;
+  transform: scale(0.75) !important;
+  transition: opacity 0.26s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.26s cubic-bezier(0.16, 1, 0.3, 1),
+              max-width 0.26s cubic-bezier(0.16, 1, 0.3, 1),
+              margin-left 0.26s cubic-bezier(0.16, 1, 0.3, 1),
+              padding 0.26s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.26s ease !important;
+}
+
+/* Shown once page starts scrolling (promo bar hidden) or promo bar is dismissed */
+#pcNav[data-scrolled="true"] .nav-pricing-badge,
+.promo-bar.is-hidden ~ #pcNav .nav-pricing-badge,
+.promo-bar.is-dismissed ~ #pcNav .nav-pricing-badge,
+body.promo-dismissed #pcNav .nav-pricing-badge {
+  opacity: 1 !important;
+  visibility: visible !important;
+  max-width: 40px !important;
+  padding: 0 6px !important;
+  margin-left: 6px !important;
+  transform: scale(1) !important;
+}
+
+/* Hover state enhancement when hovering the Pricing item */
+.nav-pricing-link:hover .nav-pricing-badge {
+  background: rgba(9, 253, 53, 0.18) !important;
+  border-color: rgba(9, 253, 53, 0.45) !important;
+}
+
+/* Light Theme Navigation Adaptation */
+#pcNav[data-theme="light"] .nav-pricing-badge {
+  color: #027A48 !important;
+  background: rgba(3, 152, 85, 0.12) !important;
+  border-color: rgba(3, 152, 85, 0.3) !important;
+}
+
+#pcNav[data-theme="light"] .nav-pricing-link:hover .nav-pricing-badge {
+  background: rgba(3, 152, 85, 0.18) !important;
+  border-color: rgba(3, 152, 85, 0.45) !important;
+}
+
