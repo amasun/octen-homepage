@@ -693,7 +693,18 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   position: relative !important;
 }
 
+.nav-pricing-text {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
 .nav-pricing-badge {
+  position: absolute !important;
+  left: 100% !important;
+  top: 50% !important;
+  transform: translateY(-50%) scale(0.8) !important;
+  margin-left: 5px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -707,24 +718,18 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   border: 1px solid rgba(112, 254, 126, 0.3) !important;
   border-radius: 4px !important;
   height: 16px !important;
+  padding: 0 5px !important;
   vertical-align: middle !important;
   pointer-events: none !important;
   white-space: nowrap !important;
   user-select: none !important;
 
-  /* Hidden initially when top promo bar is visible */
+  /* Hidden initially when top promo bar is visible (zero layout footprint) */
   opacity: 0 !important;
   visibility: hidden !important;
-  max-width: 0 !important;
-  padding: 0 !important;
-  margin-left: 0 !important;
-  transform: scale(0.75) !important;
-  transition: opacity 0.26s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.26s cubic-bezier(0.16, 1, 0.3, 1),
-              max-width 0.26s cubic-bezier(0.16, 1, 0.3, 1),
-              margin-left 0.26s cubic-bezier(0.16, 1, 0.3, 1),
-              padding 0.26s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.26s ease !important;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.25s ease !important;
 }
 
 /* Shown once page starts scrolling (promo bar hidden) or promo bar is dismissed */
@@ -734,10 +739,8 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
 body.promo-dismissed #pcNav .nav-pricing-badge {
   opacity: 1 !important;
   visibility: visible !important;
-  max-width: 40px !important;
-  padding: 0 6px !important;
-  margin-left: 6px !important;
-  transform: scale(1) !important;
+  pointer-events: auto !important;
+  transform: translateY(-50%) scale(1) !important;
 }
 
 /* Hover state enhancement when hovering the Pricing item */
