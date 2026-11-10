@@ -702,9 +702,9 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   font-weight: 600 !important;
   line-height: 1 !important;
   letter-spacing: 0.02em !important;
-  color: #09FD35 !important;
-  background: rgba(9, 253, 53, 0.12) !important;
-  border: 1px solid rgba(9, 253, 53, 0.28) !important;
+  color: #70FE7E !important;
+  background: #000000 !important;
+  border: 1px solid rgba(112, 254, 126, 0.3) !important;
   border-radius: 4px !important;
   height: 16px !important;
   vertical-align: middle !important;
@@ -742,19 +742,19 @@ body.promo-dismissed #pcNav .nav-pricing-badge {
 
 /* Hover state enhancement when hovering the Pricing item */
 .nav-pricing-link:hover .nav-pricing-badge {
-  background: rgba(9, 253, 53, 0.18) !important;
-  border-color: rgba(9, 253, 53, 0.45) !important;
+  background: #000000 !important;
+  border-color: #70FE7E !important;
 }
 
 /* Light Theme Navigation Adaptation */
 #pcNav[data-theme="light"] .nav-pricing-badge {
-  color: #027A48 !important;
-  background: rgba(3, 152, 85, 0.12) !important;
-  border-color: rgba(3, 152, 85, 0.3) !important;
+  color: #70FE7E !important;
+  background: #000000 !important;
+  border-color: #000000 !important;
 }
 
 #pcNav[data-theme="light"] .nav-pricing-link:hover .nav-pricing-badge {
-  background: rgba(3, 152, 85, 0.18) !important;
-  border-color: rgba(3, 152, 85, 0.45) !important;
+  background: #000000 !important;
+  border-color: #70FE7E !important;
 }
 
