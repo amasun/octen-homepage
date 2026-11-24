@@ -378,3 +378,133 @@ article.rs-cell, article.rs-cell:nth-of-type(n) { background: var(--octen-card-b
 /* Embedding: the card's own dot grid flows left → right (phase set from JS via --emb-ox) */
 .rs-art--embed::before { background-position: var(--emb-ox, 0px) 0; }
 .rs-art--embed .rs-flow { transform: translateY(8px); }   /* logo 位置与 VL Embedding 一致 */
+
+/* ==========================================================================
+   Mobile layout refinements (<= 767px) — keeps desktop >= 1025px unchanged
+   ========================================================================== */
+@media (max-width: 767px) {
+  #retrieval-stack {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+  #retrieval-stack > .px-8 {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .rs-head {
+    gap: 14px;
+    padding: 0 16px;
+    margin-bottom: 32px;
+  }
+  .rs-head h2 {
+    font-size: 32px;
+    line-height: 1.18;
+  }
+  .rs-head-sub {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .rs-head-links {
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .rs-head-links .rs-btn {
+    min-height: 44px;
+    padding: 0 20px;
+    font-size: 14px;
+  }
+
+  .rs-bento {
+    gap: 12px;
+  }
+  .rs-tag {
+    top: 12px;
+    left: 12px;
+    height: 22px;
+    padding: 0 8px;
+    font-size: 11px;
+  }
+
+  /* Clear top-left .rs-tag on all 4 illustrations & keep visuals balanced */
+  .rs-art {
+    height: 176px;
+    padding: 28px 14px 8px;
+  }
+  .rs-art--embed .rs-flow,
+  .rs-art--vl .rs-flow {
+    transform: translateY(4px);
+  }
+  .rs-art--vl .rs-flow {
+    zoom: 0.82;
+  }
+  .rs-art--embed .rs-flow {
+    zoom: 0.72;
+  }
+
+  /* Monitor: tighten inner card widths so zoom stays legible with zero tag overlap */
+  .rs-art--mon {
+    height: 178px;
+    padding: 40px 12px 10px;
+  }
+  .rs-art--mon .rs-flow {
+    zoom: 0.78;
+  }
+  .rs-watch {
+    width: 216px;
+  }
+  .rs-mon-bridge {
+    width: 24px;
+    min-width: 24px;
+  }
+  .rs-hook.rs-prod {
+    width: 158px;
+  }
+
+  /* Extract: auto height + top clearance prevents tag overlap & overflow behind title */
+  .rs-art--ex {
+    height: auto;
+    padding: 44px 14px 8px;
+  }
+  .rs-art--ex .rs-ex {
+    width: 100%;
+    height: 154px;
+  }
+  .rs-art--ex .rs-imgs {
+    gap: 6px;
+  }
+  .rs-art--ex .rs-imgs i {
+    width: 38px;
+    height: 38px;
+    border-radius: 7px;
+  }
+
+  .rs-copy {
+    padding: 6px 20px 24px;
+  }
+  .rs-title {
+    font-size: 1.3125rem;
+    margin-bottom: 6px;
+  }
+  .rs-desc {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .rs-sota {
+    padding: 2px 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .rs-head h2 {
+    font-size: 28px;
+  }
+  .rs-art--mon .rs-flow {
+    zoom: 0.72;
+  }
+  .rs-art--vl .rs-flow {
+    zoom: 0.76;
+  }
+  .rs-art--embed .rs-flow {
+    zoom: 0.66;
+  }
+}

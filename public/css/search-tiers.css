@@ -179,3 +179,20 @@
     margin: 24px auto 16px;
   }
 }
+
+@media (max-width: 767px) {
+  .tier-card {
+    padding: 14px 14px 12px;
+  }
+  .tier-title {
+    font-size: 16px;
+  }
+  .tier-desc {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  .tier-footer {
+    padding-top: 9px;
+    font-size: 11px;
+  }
+}

@@ -446,5 +446,202 @@
 .octen-footer-top:hover svg { transform: translateY(-2px); color: #18FB6F; }
 .octen-footer-top:focus-visible { outline: 2px solid #18FB6F; outline-offset: 2px; }
 @media (max-width: 767px) {
-  .octen-footer-legal-links { flex-wrap: wrap; row-gap: 16px !important; }
+  .octen-footer-container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .octen-footer-header {
+    padding-top: 28px !important;
+    padding-bottom: 24px !important;
+    gap: 18px !important;
+  }
+
+  .octen-footer-logo-img {
+    width: 102px !important;
+    height: 35px !important;
+  }
+
+  .octen-footer-slogan-light,
+  .octen-footer-slogan-italic {
+    font-size: 19px !important;
+  }
+
+  .octen-footer-metric {
+    padding: 0 8px;
+    gap: 4px;
+  }
+
+  .octen-footer-metric-val {
+    font-size: 20px;
+  }
+
+  .octen-footer-metric-label {
+    font-size: 12px;
+  }
+
+  .octen-footer-metric-sep {
+    height: 32px;
+  }
+
+  .octen-footer-grid {
+    padding-top: 28px !important;
+    padding-bottom: 36px !important;
+  }
+
+  .octen-footer-col-title {
+    font-size: 12px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .octen-footer-col-list {
+    gap: 10px !important;
+  }
+
+  .octen-footer-link {
+    font-size: 14px !important;
+    line-height: 20px !important;
+  }
+
+  .octen-footer-bottom-bar {
+    border-top: 1px solid rgba(207, 207, 207, 0.14) !important;
+    min-height: 0 !important;
+    padding-top: 20px !important;
+    padding-bottom: 24px !important;
+    gap: 14px;
+  }
+
+  .octen-footer-legal-links {
+    flex-wrap: wrap;
+    gap: 12px 20px !important;
+    row-gap: 12px !important;
+    width: 100%;
+  }
+
+  .octen-footer-legal-link {
+    font-size: 13.5px !important;
+    line-height: 20px !important;
+  }
+
+  .octen-footer-certified {
+    padding: 4px 10px 4px 8px;
+  }
+
+  .octen-footer-badge-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .octen-footer-badge-text-img {
+    width: 46px;
+    height: 36px;
+  }
+
+  .octen-footer-copyright {
+    font-size: 13px !important;
+    line-height: 19px !important;
+    color: rgba(255, 255, 255, 0.65) !important;
+  }
+
+  .octen-footer-top {
+    width: 40px;
+    height: 40px;
+    bottom: 20px;
+    border-radius: 10px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 639px) {
+  .octen-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 16px;
+  }
+
+  .octen-footer-col-touch {
+    grid-column: 1 / -1;
+    padding-left: 0;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(207, 207, 207, 0.12);
+  }
+
+  .octen-footer-col-touch .octen-footer-col-list {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 16px !important;
+  }
+
+  .octen-footer-touch-item {
+    padding-left: 20px;
+    gap: 3px;
+  }
+
+  .octen-footer-touch-mail-icon {
+    left: 0;
+    top: 3px;
+    width: 14px;
+    height: 14px;
+  }
+
+  .octen-footer-touch-email {
+    font-size: 13.5px !important;
+    line-height: 20px !important;
+    word-break: break-word;
+  }
+
+  .octen-footer-touch-label {
+    font-size: 11px !important;
+  }
+
+  .octen-footer-col-search-stacked {
+    grid-column: 1;
+    grid-row: 2 / 4;
+    gap: 20px !important;
+    min-width: 0;
+    white-space: normal;
+  }
+
+  .octen-footer-col-app {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+  }
+
+  .octen-footer-col-others {
+    grid-column: 2;
+    grid-row: 3;
+    gap: 20px;
+    width: auto;
+    min-width: 0;
+  }
+
+  .octen-footer-col-dev-comp {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    flex: initial !important;
+    white-space: normal;
+    padding-top: 20px;
+    border-top: 1px solid rgba(207, 207, 207, 0.12);
+  }
+
+  .octen-footer-link {
+    white-space: normal !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .octen-footer-slogan-light,
+  .octen-footer-slogan-italic {
+    font-size: 17.5px !important;
+  }
+
+  .octen-footer-touch-email {
+    font-size: 12.5px !important;
+  }
 }

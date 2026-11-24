@@ -154,13 +154,40 @@
   }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 767px) {
+  #tier-pulse .st-art--pulse {
+    padding: 12px;
+    min-height: 0;
+  }
+
+  .st-pmx-wrap {
+    gap: 8px;
+  }
+
+  .st-pmx-state {
+    min-width: 88px;
+    height: 20px;
+    padding: 0 7px;
+    font-size: 10.5px;
+    gap: 4px;
+  }
+
+  .st-pmx-state-icon {
+    width: 11px;
+    height: 11px;
+  }
+
   .st-pmx-status {
-    font-size: 12px;
+    font-size: 11px;
+    white-space: nowrap;
   }
 
   .st-pmx-grid {
-    gap: 4px;
+    gap: 3.5px;
+  }
+
+  .st-pmx-cell {
+    border-radius: 3px;
   }
 }
 

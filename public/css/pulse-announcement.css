@@ -250,6 +250,31 @@
     align-items: flex-start;
     gap: 6px;
   }
+  .pulse-modal-backdrop {
+    padding: 12px;
+  }
+  .pulse-modal-header {
+    padding: 12px 14px;
+    gap: 8px;
+  }
+  .pulse-modal-title-group {
+    gap: 8px;
+    min-width: 0;
+  }
+  .pulse-modal-tag {
+    flex-shrink: 0;
+    font-size: 10px;
+  }
+  .pulse-modal-heading {
+    font-size: 13.5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pulse-modal-footer {
+    padding: 10px 14px;
+    font-size: 11.5px;
+  }
 }
 
 /* ================= VIDEO MODAL / LIGHTBOX ================= */

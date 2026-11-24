@@ -178,33 +178,58 @@
 
 @media (max-width: 767px) {
   .promo-card {
-    right: 16px;
-    bottom: 16px;
-    left: 16px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    left: 12px;
     width: auto;
-    padding: 16px 16px 12px;
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 12px 14px;
+    border-radius: 14px;
+    box-sizing: border-box;
+  }
+
+  .promo-card-sticker {
+    top: -11px;
+    right: 40px;
+    padding: 3px 9px;
+    font-size: 11px;
+  }
+
+  .promo-card-head img {
+    height: 17px;
   }
 
   .promo-card-title {
-    margin: 10px 0 8px;
-    font-size: 16px;
+    margin: 8px 0 8px;
+    font-size: 15px;
   }
 
   .promo-card-grid {
-    margin: 0 0 12px;
+    gap: 6px;
+    margin: 0 0 10px;
   }
 
   .promo-card-stat {
-    padding: 8px 10px;
+    padding: 7px 10px;
   }
 
   .promo-card-stat dt {
-    font-size: 18px;
+    font-size: 17px;
+  }
+
+  .promo-card-stat dd {
+    font-size: 11px;
   }
 
   .promo-card-btn {
-    height: 40px;
+    height: 38px;
     font-size: 14px;
+  }
+
+  .promo-card-stars,
+  .promo-card-foot {
+    display: none;
   }
 }
 

@@ -267,3 +267,65 @@
   }
   .sc-apps.is-dragging .sc-app { cursor: grabbing; }
 }
+
+/* ==========================================================================
+   Mobile layout refinements (<= 767px) — keeps desktop >= 1025px unchanged
+   ========================================================================== */
+@media (max-width: 767px) {
+  #showcase {
+    overflow-x: clip;
+  }
+  .sc-head {
+    gap: 14px;
+    padding: 0;
+    margin-bottom: 24px;
+  }
+  .sc-head h2 {
+    font-size: 32px;
+    line-height: 1.18;
+  }
+  .sc-apps {
+    --sc-gap: 12px;
+    --sc-edge: 16px;
+    --sc-card: min(74vw, 300px);
+    margin: 0 -16px;
+    padding: 4px var(--sc-edge) 10px;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 min(var(--sc-fl), 28px),
+      #000 calc(100% - min(var(--sc-fr), 28px)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 min(var(--sc-fl), 28px),
+      #000 calc(100% - min(var(--sc-fr), 28px)),
+      transparent 100%
+    );
+  }
+  .sc-name {
+    max-width: 100%;
+    font-size: 15px;
+    line-height: 1.35;
+  }
+  .sc-foot {
+    padding: 10px 10px 12px 12px;
+    gap: 6px;
+  }
+  .sc-tags {
+    gap: 4px;
+  }
+  .sc-tags li {
+    height: 21px;
+    padding: 0 6px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 420px) {
+  .sc-head h2 {
+    font-size: 28px;
+  }
+}

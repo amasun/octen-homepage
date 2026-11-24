@@ -588,7 +588,133 @@
 }
 @media (max-width: 767px) {
   #web-search {
-    padding: 60px 16px 160px;
+    padding: 56px 16px 128px;
+  }
+  #web-search > .space-y-15 {
+    gap: 24px;
+  }
+  #web-search [data-node-id="13625:168562"] {
+    gap: 14px;
+  }
+  #web-search [data-node-id="13625:168563"] {
+    gap: 12px;
+  }
+  #web-search [data-node-id="13625:168565"] {
+    font-size: 32px;
+    line-height: 1.15;
+  }
+  #web-search [data-node-id="13625:168567"] {
+    font-size: 14.5px;
+    line-height: 1.55;
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 0;
+  }
+  #web-search .octen-web-search-promo-pill {
+    max-width: 100%;
+    padding: 5px 12px !important;
+    gap: 6px !important;
+  }
+  #webSearchCompare {
+    --ws-pad: 6px;
+    --ws-vconn-h: 20px;
+    border-radius: 14px;
+  }
+  #webSearchCompare > .octen-web-search-card {
+    padding: 22px 16px !important;
+    gap: 14px !important;
+  }
+  #webSearchCompare > .octen-web-search-card h3 {
+    font-size: 21px;
+    margin-bottom: -8px;
+  }
+  #webSearchCompare > .octen-web-search-card > div.text-base {
+    font-size: 13.5px;
+    margin-bottom: 4px !important;
+  }
+  #webSearchCompare .octen-human-search-container {
+    max-width: 100%;
+  }
+  #webSearchCompare .octen-human-query-pill {
+    height: 38px;
+    padding: 0 8px;
+    gap: 8px;
+  }
+  #webSearchCompare .octen-human-user-avatar {
+    width: 24px;
+    height: 24px;
+  }
+  #webSearchCompare .octen-human-query-text {
+    font-size: 13px;
+  }
+  #webSearchCompare .octen-human-connector-line {
+    height: 22px;
+  }
+  #webSearchCompare .octen-human-results-panel {
+    height: 232px;
+    padding: 12px;
+    gap: 8px;
+  }
+  #webSearchCompare .octen-web-search-card--accent > .max-w-172 {
+    margin-top: -14px !important;
+  }
+  #webSearchCompare .octen-web-search-card--accent .h-35 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    height: auto !important;
+    padding: 10px !important;
+    gap: 6px !important;
+    margin-bottom: 20px !important;
+  }
+  #webSearchCompare .octen-web-search-card--accent .h-35 > .bg-\[\#32353880\] {
+    padding: 5px 8px !important;
+    font-size: 12px !important;
+    border-radius: 8px !important;
+    gap: 5px !important;
+  }
+  #webSearchCompare .octen-web-search-card--accent .h-35 > .bg-\[\#32353880\] img {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+  }
+  #webSearchCompare .octen-web-search-card--accent .h-33 {
+    height: auto !important;
+    padding: 10px 12px 14px 8px !important;
+    gap: 8px !important;
+  }
+  #webSearchCompare .octen-web-search-card--accent .h-33 > div {
+    height: 32px !important;
+    margin-right: 0 !important;
+  }
+  #webSearchCompare .octen-web-search-card--accent .h-33 .absolute.inset-0 {
+    border-radius: 6px !important;
+  }
+  #webSearchCompare .octen-web-search-card--accent .h-33 .absolute.inset-0.flex {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    gap: 4px !important;
+  }
+  #webSearchCompare .octen-web-search-card--accent .h-33 svg.lucide-globe {
+    width: 11px !important;
+    height: 11px !important;
+  }
+  #webSearchCompare .octen-web-search-card--accent .h-33 .w-3\/5 {
+    width: 60% !important;
+  }
+}
+@media (max-width: 420px) {
+  #web-search [data-node-id="13625:168565"] {
+    font-size: 29px;
+  }
+  #web-search .octen-web-search-promo-pill {
+    padding: 4px 10px !important;
+    gap: 5px !important;
+  }
+  #web-search .octen-promo-text {
+    font-size: 12px !important;
+  }
+  #web-search .octen-promo-badge {
+    font-size: 11px !important;
+    padding: 2px 6px !important;
   }
 }
 /* 标题区 → 对比卡片 的间距:原 space-y-15(60px)缩到 30px;整个模块在 1440px 宽下总高 951px(含外框卡片 8px 内边距) */
@@ -653,6 +779,12 @@
   padding: var(--ws-pad);
   background: #080b12;
   border-radius: 18px;
+}
+@media (max-width: 767px) {
+  #webSearchCompare {
+    --ws-pad: 6px;
+    border-radius: 14px;
+  }
 }
 
 /* 两张面板颜色对齐 Figma(保留 hover 叠层微调) */

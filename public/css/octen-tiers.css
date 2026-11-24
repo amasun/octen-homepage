@@ -486,28 +486,60 @@
   .st-pm--intro { grid-row: auto; grid-column: span 2; min-height: 340px; }
 }
 @media (max-width: 767px) {
-  .st-section { padding: 60px 16px 72px; }
-  .st-head { margin-bottom: 36px; }
+  .st-section { padding: 48px 16px 56px; }
+  .st-head { gap: 12px; margin-bottom: 28px; }
+  #search-tiers .st-head h2 { font-size: 32px; line-height: 1.15; text-wrap: balance; }
+  .st-head-sub { font-size: 14.5px; line-height: 1.55; }
   /* 小屏卡片本身已逐个展开,概览条与之重复 → 隐藏 */
   .st-rail, .st-axis { display: none; }
-  .st-card { padding: 20px; }
-  .st-txt h3 { font-size: 24px; }
+  .st-bento { gap: 12px; }
+  .st-card { padding: 18px 16px; gap: 16px; border-radius: 14px; }
   .st-apis { grid-template-columns: 1fr; }
   .st-api--soon { grid-column: auto; }
-  .st-pm-grid { grid-template-columns: 1fr; }
+  .st-pm-grid { grid-template-columns: 1fr; gap: 10px; }
   .st-pm--web, .st-pm--intro { grid-column: auto; }
-  .st-pm--intro { padding: 20px; min-height: 0; }
-  .pm-slogan { font-size: 18px; }
-  .st-pm-art { height: 176px; }
-  .pm-web { grid-template-columns: minmax(0, 0.86fr) 18px minmax(0, 1.14fr); gap: 4px; height: 144px; }
-  .pm-web-raw { padding: 6px 7px; }
-  .pm-raw-row { height: 22px; padding: 0 5px; gap: 4px; }
-  .pm-raw-row > span { font-size: 8.5px; }
-  .pm-web-exact { padding: 7px 8px; }
-  .pm-stock-price strong { font-size: 11px; }
-  .pm-stock-metrics { font-size: 8.5px; }
-  .st-scale-bar { flex-wrap: wrap; gap: 8px; }
-  .st-guide { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px; }
+  .st-pm--intro { padding: 16px; gap: 12px; min-height: 0; }
+  .pm-slogan { font-size: 15.5px; line-height: 1.45; }
+  .pm-search { height: 42px; padding: 0 6px 0 12px; gap: 8px; }
+  .pm-q { font-size: 13px; }
+  .pm-q-chip { height: 26px; padding: 0 10px; font-size: 11px; }
+  .st-pm-art { height: 136px; margin: 8px 8px 0; padding: 10px; }
+  .st-pm--web .st-pm-art { height: 148px; }
+  .st-pm-foot { padding: 12px 14px 14px; }
+  .st-pm-foot h4 { font-size: 14.5px; margin-bottom: 4px; }
+  .st-pm-foot p { font-size: 13px; line-height: 1.45; }
+  .pm-news-card { padding: 10px 12px; }
+  .pm-news-title { margin-bottom: 6px; font-size: 12.5px; }
+  .pm-chips { margin-bottom: 6px; gap: 4px; }
+  .pm-tl-item { padding: 3px 0 3px 14px; font-size: 11px; }
+  .pm-biz { padding: 10px; gap: 10px; }
+  .pm-biz-logo { width: 32px; height: 32px; font-size: 11px; }
+  .pm-biz-body > b { margin: 0 0 4px; font-size: 12.5px; }
+  .pm-kv > div { padding: 2px 0; font-size: 11px; }
+  .pm-pin { top: 10%; }
+  .pm-pin-shadow { top: calc(10% + 30px); }
+  .pm-place { left: 10px; bottom: 10px; padding: 7px 10px; gap: 2px; }
+  .pm-frame--web { height: 76px; }
+  .pm-frame--app { height: 94px; }
+  .pm-frame--slide { height: 56px; }
+  .pm-web { grid-template-columns: minmax(0, 0.86fr) 16px minmax(0, 1.14fr); gap: 4px; height: 126px; }
+  .pm-web-raw { padding: 5px 6px; gap: 4px; }
+  .pm-raw-row { height: 20px; padding: 0 4px; gap: 4px; }
+  .pm-raw-row > span { font-size: 8px; }
+  .pm-web-exact { padding: 6px 7px; gap: 4px; }
+  .pm-stock-ticker { font-size: 8px; height: 14px; padding: 0 4px; }
+  .pm-stock-title b { font-size: 10px; }
+  .pm-stock-price strong { font-size: 10.5px; }
+  .pm-stock-delta { font-size: 8.5px; }
+  .pm-stock-chart { min-height: 40px; }
+  .pm-stock-metrics { font-size: 8px; gap: 4px; padding-top: 4px; }
+  .st-scale-bar { flex-wrap: nowrap; gap: 8px; padding: 9px 12px; font-size: 12px; }
+  .st-scale-wave { min-width: 32px; }
+  .st-guide { flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 12px; padding: 14px 16px; }
+  .st-guide-text { font-size: 13px; line-height: 1.5; }
+}
+@media (max-width: 420px) {
+  #search-tiers .st-head h2 { font-size: 28px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .st-section *, .st-section *::before, .st-section *::after { animation: none !important; transition: none !important; }
@@ -542,8 +574,12 @@
 .st-card--premier .st-eyebrow {
   background: linear-gradient(135deg, #e7c873 0%, #b8913f 58%, #967128 100%);
 }
-@media (max-width: 767px) { .st-txt h3 { font-size: 1.375rem; } }
-@media (max-width: 767px) { .st-card.st-card--premier { padding: 10px; } }
+@media (max-width: 767px) {
+  .st-txt h3 { font-size: 21px; line-height: 1.25; margin-bottom: 6px; }
+  .st-txt p { font-size: 14px; line-height: 1.5; }
+  .st-eyebrow { margin-bottom: 10px; height: 26px; padding: 0 10px; font-size: 12px; }
+  .st-card.st-card--premier { padding: 10px; }
+}
 
 /* Pulse:延迟大数字 + 小字说明,放在介绍文字左侧,中间细分隔线(替代原底部规格表) */
 .st-lead { display: flex; align-items: center; gap: 20px; }
@@ -555,9 +591,10 @@
 .st-lead p { flex: 1; min-width: 0; }
 /* 手机:大数字移到文字上方(数字 + 小字同一行);流程图改竖排,避免溢出 */
 @media (max-width: 767px) {
-  .st-lead { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .st-stat { flex-direction: row; align-items: baseline; gap: 10px; padding: 0 0 12px; border-right: 0; border-bottom: 1px solid var(--st-line); width: 100%; }
-  .st-stat b { font-size: 36px; }
+  .st-lead { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .st-stat { flex-direction: row; align-items: baseline; gap: 8px; padding: 0 0 10px; border-right: 0; border-bottom: 1px solid var(--st-line); width: 100%; }
+  .st-stat b { font-size: 32px; }
+  .st-stat small { font-size: 15px; }
   .st-flow { flex-direction: column; gap: 0; }
   .st-flow .st-wire { flex: none; width: 1px; height: 16px; min-width: 0; }
   .st-flow .st-wire i { display: none; }
@@ -566,6 +603,10 @@
 .st-bestfor { margin: -6px 0 0; display: flex; align-items: baseline; gap: 8px; font-size: 12.5px; line-height: 1.4; color: #71717a; }
 .st-bestfor span { flex: none; font-size: 11px; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; color: #a1a1aa; }
 .st-card--premier .st-bestfor { margin: 14px 12px 6px; }
+@media (max-width: 767px) {
+  .st-bestfor { margin: -4px 0 0; font-size: 12px; }
+  .st-card--premier .st-bestfor { margin: 10px 6px 4px; }
+}
 
 /* ---------- Premier 卡片悬停突出(恢复,2026-11-24)----------
    悬停:上浮 2px + 描边加深 + 投影;与被搜索框轮播高亮(.is-hl)同一效果,并与 Fast 卡(.st-fx)一致。
