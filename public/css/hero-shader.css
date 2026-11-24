@@ -202,3 +202,195 @@
   #hero .hero-news-pill { gap: 12px; padding: 5px 14px; font-size: 13px; border-radius: 22px; }
   #hero .hero-news-pill__text { text-align: center; }
 }
+
+/* Hero 底部绿色光晕 + 叠加图形:压在 console 下方(内容层提到其上) */
+#hero .hero-bottom-glow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--hero-glow-h);
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+/* 光晕保持完整高度(按屏宽缩放,不再被截断),贴底放置;console 底部到 Hero 底部的留白固定 120px,
+   光晕多出的部分向上延伸到 console 下方(console 面板半透明,光晕从其后透出) */
+#hero { --hero-glow-h: clamp(300px, 29vw, 556px); --hero-bottom-gap: 120px; }
+#hero > section { padding-bottom: var(--hero-bottom-gap); }
+#hero > section > div.flex-center.flex-col.pt-50 {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hero console 界面:增高 + 更长、更平滑的底部渐隐(缓动多段渐变),自然消失在底部光晕里 */
+#hero .hero-console {
+  --console-fade: 260px;
+  -webkit-mask-image: linear-gradient(to bottom,
+    #000 calc(100% - var(--console-fade)),
+    rgba(0, 0, 0, 0.9) calc(100% - var(--console-fade) * 0.82),
+    rgba(0, 0, 0, 0.74) calc(100% - var(--console-fade) * 0.64),
+    rgba(0, 0, 0, 0.54) calc(100% - var(--console-fade) * 0.48),
+    rgba(0, 0, 0, 0.34) calc(100% - var(--console-fade) * 0.34),
+    rgba(0, 0, 0, 0.17) calc(100% - var(--console-fade) * 0.2),
+    rgba(0, 0, 0, 0.06) calc(100% - var(--console-fade) * 0.09),
+    transparent 100%) !important;
+  mask-image: linear-gradient(to bottom,
+    #000 calc(100% - var(--console-fade)),
+    rgba(0, 0, 0, 0.9) calc(100% - var(--console-fade) * 0.82),
+    rgba(0, 0, 0, 0.74) calc(100% - var(--console-fade) * 0.64),
+    rgba(0, 0, 0, 0.54) calc(100% - var(--console-fade) * 0.48),
+    rgba(0, 0, 0, 0.34) calc(100% - var(--console-fade) * 0.34),
+    rgba(0, 0, 0, 0.17) calc(100% - var(--console-fade) * 0.2),
+    rgba(0, 0, 0, 0.06) calc(100% - var(--console-fade) * 0.09),
+    transparent 100%) !important;
+}
+@media (min-width: 768px) {
+  #hero .hero-console { height: 700px !important; }   /* 原 540px */
+}
+
+/* 底部光晕整体下移(--hero-glow-shift 可调):底部被容器裁切掉 */
+/* 下移量随光晕高度等比缩放(PC 1440px ≈ 100px);窄屏下用更宽的内层容器(最小 1036px,水平居中)承载两张图,
+   图片不再随屏宽缩小,手机上露出的光晕高度和观感与 PC 一致。
+   (Tailwind 的 min-w-full! 在 layer 内带 !important,覆盖不了,所以改用外层加宽的方式) */
+#hero { --hero-glow-shift: calc(var(--hero-glow-h) * 0.24); }
+#hero .hero-bottom-glow__inner {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: max(100%, 1036px);
+  height: 100%;
+  transform: translateX(-50%);
+}
+/* 绿色光晕图在下移基础上再上挪 20px(--hero-glow-lift);ASCII 层(canvas.hero-ascii)不受影响 */
+#hero { --hero-glow-lift: 20px; }
+#hero .hero-bottom-glow img { transform: translateY(calc(var(--hero-glow-shift) - var(--hero-glow-lift))); }
+
+/* "Head over to the API Platform" 按钮:压暗底色 + 背景模糊,避免 console 渐隐内容透出影响文字可读性 */
+#hero a[href="/platform/answer"] {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  background-color: rgba(14, 16, 20, 0.65);   /* 原 rgba(77,77,77,.3) */
+}
+#hero a[href="/platform/answer"]:hover {
+  background-color: rgba(26, 29, 35, 0.72);
+}
+
+/* 动态 ASCII 叠加层(canvas):位置/混合方式与原静态 PNG 一致(贴底 -32px、60% 不透明、screen 混合),随光晕同步下移 */
+#hero .hero-ascii {
+  position: absolute;
+  left: 0;
+  bottom: -32px;
+  opacity: 0.6;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transform: translateY(var(--hero-glow-shift));
+}
+
+/* console 背景模糊:压住后面的动态 ASCII / 光晕,避免干扰界面内文字。
+   必须加在 console 的父级上:console 自身带 mask 渐隐会把模糊一并稀释,而且 .hero-console-wrap 的内联
+   filter:blur(0px) 会让其后代的 backdrop-filter 看不到外面的 ASCII(backdrop root),所以模糊放在这一层。
+   底部再加一小段渐隐(80px),避免模糊区域出现硬边。 */
+#hero .hero-console-wrap {
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 80px), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 80px), transparent 100%);
+}
+
+/* console 外框:降低边框亮度并减小粗细(原 2px · rgba(255,255,255,.2)) */
+#hero .hero-console {
+  border-width: 1px !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* console 内两个可滚动区(左侧 Search Process 列表、右侧 Answer 面板):
+   滚轮悬停在其上时只滚动该区域,到头也不再带动整页(overscroll-behavior: contain)。
+   不再给底部加留白:之前加的 260px 留白会让滚到底时出现一大片空白。 */
+#hero .hero-console .overflow-y-auto.px-4,
+#hero .hero-console [style*="scrollbar-gutter"] {
+  overscroll-behavior: contain;
+}
+
+/* 标题下方三个特点(Real-time indexing | Low latency | High reliability):隐藏 icon,只保留纯文字 */
+#hero .hero-features svg,
+#hero .hero-features img {
+  display: none;
+}
+/* 数字与排名加粗(其余保持 light) */
+#hero .hero-features b { font-weight: 600; color: rgba(255, 255, 255, 0.92); }
+/* 文字亮度稍降(原纯白):普通文字 75%,加粗的数字/排名保持 92% 以突出 */
+#hero .hero-features > div { color: rgba(255, 255, 255, 0.75); }
+#hero .hero-features { font-size: 18px; line-height: 28px; }
+
+/* Hero metrics NumberFlow inline alignment */
+#hero .hero-metric-flow {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  vertical-align: baseline;
+  --number-flow-char-height: 1em;
+}
+
+@media (max-width: 767px) {
+  #hero .hero-features {
+    width: 100%;
+    max-width: 390px;
+    margin-bottom: 28px;
+  }
+
+  #hero .hero-features-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    gap: 0;
+    width: 100%;
+  }
+
+  #hero .hero-feature-sep {
+    display: none;
+  }
+
+  #hero .hero-feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 0 8px;
+  }
+
+  #hero .hero-feature-item + .hero-feature-sep + .hero-feature-item {
+    border-left: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  #hero .hero-feature-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  #hero .hero-feature-val {
+    display: block;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    white-space: nowrap;
+  }
+
+  #hero .hero-feature-label {
+    display: block;
+    font-size: 11.5px;
+    line-height: 1.35;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.68);
+    letter-spacing: 0;
+  }
+
+  #hero .hero-feature-inline-b {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.88);
+  }
+}

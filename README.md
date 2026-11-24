@@ -1,10 +1,16 @@
 # Octen Homepage
 
-> Octen AI Official Homepage replica with high-performance search infrastructure, interactive 3D hero, multimodal showcase, and custom responsive navigation.
+> Octen AI Official Homepage replica with high-performance search infrastructure, a WebGL "Shine Word" hero headline, an animated Human-vs-Octen search comparison, and custom responsive navigation.
+
+## 📚 Documentation
+
+- **[HANDOVER.md](./HANDOVER.md)** — the single handover document: run/preview, page module index, design tokens, history, Vertical Search summary, and the latest Hero + Web Search technical & style notes.
+- `vertical search/*.md` — detailed News / Business Search animation and interaction specs.
+- `rotating-word-shine/README.md` — standalone Shine Word demo (not part of the site build).
 
 ## 🚀 Features
 
-- **Pixel-perfect Hero & Dashboard**: Integrated static search dashboard with custom vector glow styling.
+- **Hero**: Three.js "Shine Word" rotating headline (per-word palettes, WebGL), static search dashboard (console) that fades into a green glow, and a live canvas ASCII ripple layer.
 - **Modern Responsive Navigation**:
   - Radix NavigationMenu with custom dual-column Products showcase and compact Developers menu.
   - Zero-morphing instant dimension switching.
@@ -13,7 +19,7 @@
   - Center-aligned Omni Search typography with non-intrusive Early Access badge.
   - Direct playground access and multimodal feature cards.
 - **Web Search & Search Infrastructure**:
-  - Interactive benchmarks, architecture comparison, and real-time indexing capabilities.
+  - Animated Human Search vs Octen Broad Search comparison (typing → sequential vs concurrent results), interactive benchmarks, and real-time indexing capabilities.
 - **Vite Local Dev Environment**:
   - Local image proxy & real-time live reload on assets and templates.
   - Locked to `http://localhost:3001/`.
@@ -22,7 +28,7 @@
 
 - **Framework**: React 18, TypeScript, Vite 6
 - **Styling**: Tailwind CSS, CSS Modules
-- **Animations**: Framer Motion, Lucide Icons
+- **Animations**: Framer Motion, Lucide Icons, Three.js (Hero Shine Word), Canvas 2D (Hero ASCII)
 - **Package Manager**: `pnpm`
 
 ## 📦 Getting Started
@@ -65,6 +71,8 @@ pnpm build
 > **智能检测**：脚本会自动检查 `3001` 端口。如果开发服务已在后台运行，会直接打开浏览器预览；若未运行，会自动拉起 `pnpm dev` 并自动跳转至 `http://localhost:3001/`。
 
 ## Implementation guardrails
+
+> Note: parts of this section predate the latest page layout. Vertical Search is currently hidden on the homepage and the Omni Search section is reduced to an empty anchor strip (see [HANDOVER.md](./HANDOVER.md) §1.2); treat the Omni Search / Vertical Search references below as historical.
 
 This project serves a mirrored SSR homepage from `index.html`. The page's hydration scripts can replace or reorder markup after the initial HTML is parsed. When adding a new homepage section:
 

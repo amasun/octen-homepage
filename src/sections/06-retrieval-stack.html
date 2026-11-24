@@ -1,787 +1,131 @@
 <div
   id="retrieval-stack"
-  class="relative w-full pt-20 pb-30 border-b border-[#CCCCCC80] bg-white text-[#0a0a0a]"
+  class="retrieval-stack-section relative w-full pt-20 pb-30 border-b border-[#CCCCCC80] bg-white text-[#0a0a0a]"
   style="background-color: #ffffff !important"
 >
   <span id="api-introduce" class="scroll-anchor" style="position: absolute; top: 0; left: 0;" aria-hidden="true"></span>
   <span id="api" class="scroll-anchor" style="position: absolute; top: 0; left: 0;" aria-hidden="true"></span>
-  <div class="mb-17.5">
-    <!-- ================= SECTION 5: THE COMPLETE RETRIEVAL STACK & PARTNERS (SSR) ================= -->
-    <section class="gap-10">
-      <div class="w-full max-w-336 mx-auto px-8">
-        <div class="flex flex-col md:flex-row gap-10 justify-between">
-          <div class="flex-1">
-            <h2
-              class="font-serif text-gray-900 text-6xl md:text-[60px] overflow-visible leading-[120%]"
-              style="opacity: 0; filter: blur(8px); transform: translateY(30px)"
-            >
-              <span class="whitespace-pre-wrap">The complete<br />retrieval stack</span>
-            </h2>
-          </div>
-          <div class="max-w-md pb-1" style="opacity: 0; filter: blur(8px); transform: translateY(30px)">
-            <p class="text-2xl font-sans font-semibold text-gray-900 mb-2">Beyond search</p>
-            <p class="text-xl leading-relaxed">
-              Pull clean content from any URL, and embed meaning with the #1 retrieval model for text and vision.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="flex items-center mt-7.5 text-sm" style="opacity: 0; filter: blur(8px); transform: translateY(30px)">
-        <div class="flex-1 h-px bg-[#CCCCCC]"></div>
-        <div class="w-full max-w-7xl flex items-center max-sm:justify-between mr-8 md:mr-0 md:gap-14 ml-8 md:ml-5">
-          <button
-            type="button"
-            onclick="document.getElementById('embedding')?.scrollIntoView({ behavior: 'smooth' })"
-            class="flex items-center gap-1.5 shrink-0 tracking-wider hover:text-primary transition-colors cursor-pointer group"
-          >
-            <span class="size-1.5 bg-[#919191] group-hover:bg-primary inline-block transition-colors"></span
-            >Embedding</button
-          ><button
-            type="button"
-            onclick="document.getElementById('vl-embedding')?.scrollIntoView({ behavior: 'smooth' })"
-            class="flex items-center gap-1.5 shrink-0 tracking-wider hover:text-primary transition-colors cursor-pointer group"
-          >
-            <span class="size-1.5 bg-[#919191] group-hover:bg-primary inline-block transition-colors"></span>VL
-            Embedding</button
-          ><button
-            type="button"
-            onclick="document.getElementById('model-gateway')?.scrollIntoView({ behavior: 'smooth' })"
-            class="flex items-center gap-1.5 shrink-0 tracking-wider hover:text-primary transition-colors cursor-pointer group"
-          >
-            <span class="size-1.5 bg-[#919191] group-hover:bg-primary inline-block transition-colors"></span>Model
-            Gateway</button
-          ><button
-            type="button"
-            onclick="document.getElementById('extract')?.scrollIntoView({ behavior: 'smooth' })"
-            class="flex items-center gap-1.5 shrink-0 tracking-wider hover:text-primary transition-colors cursor-pointer group"
-          >
-            <span class="size-1.5 bg-[#919191] group-hover:bg-primary inline-block transition-colors"></span>Extract
-          </button>
-          <div class="max-sm:hidden flex-1 h-px bg-[#CCCCCC] -ml-11"></div>
-        </div>
-        <div class="flex-1 h-px bg-[#CCCCCC]"></div>
-      </div>
-    </section>
+
+  <!-- ===== 标题区:胶囊 + 大标题 + 辅助文字(居中堆叠)。这四个是 Octen 在搜索之外的额外 tools ===== -->
+  <div class="rs-head">
+    <span class="rs-head-pill">Beyond search</span>
+    <h2 class="font-serif text-gray-900 text-5xl lg:text-[44px]">Octen tools and models</h2>
+    <p class="rs-head-sub">
+      Embed meaning with the #1 retrieval models, reach top LLMs through one API, and turn any URL into clean content.
+    </p>
+    <div class="rs-head-links">
+      <a class="rs-btn rs-btn--solid" href="/platform/overview" target="_blank" rel="noreferrer">Get started</a>
+      <a class="rs-btn rs-btn--ghost" href="https://docs.octen.ai" target="_blank" rel="noreferrer">View Docs</a>
+    </div>
   </div>
+
+  <!-- ===== 2×2 Bento:Embedding / VL Embedding / Monitor / Extract(插画均为纯 HTML+SVG,动画见 public/js/retrieval-stack.js) ===== -->
   <div class="px-8">
-    <div class="max-w-7xl flex flex-col gap-10 mx-auto">
-      <div id="embedding" class="grid grid-cols-1 md:grid-cols-[1fr_1.6fr] gap-8 md:gap-16 items-center">
-        <div style="opacity: 0; filter: blur(8px); transform: translateY(40px)">
-          <div class="tag-v">Models</div>
-          <div class="flex items-center mb-2.5 gap-2.5 text-black">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="size-7.5"
-            >
-              <path
-                d="M18.6399 8.7373L4.72271 16.9242"
-                stroke="currentColor"
-                stroke-width="2.16"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-              <path
-                d="M18.6399 16.3539L5.06724 8.85394"
-                stroke="currentColor"
-                stroke-width="2.16"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-              <path
-                d="M12.089 20.2791L12.089 4.51505"
-                stroke="currentColor"
-                stroke-width="2.16"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-              <circle cx="18.6407" cy="8.85387" r="2.1519" fill="currentColor"></circle>
-              <circle cx="12.0896" cy="4.51499" r="2.05027" fill="currentColor"></circle>
-              <circle cx="12.0894" cy="20.2792" r="2.42658" fill="currentColor"></circle>
-              <circle
-                cx="19.8728"
-                cy="16.9242"
-                r="2.21043"
-                transform="rotate(124.49 19.8728 16.9242)"
-                fill="currentColor"
-              ></circle>
-              <circle
-                cx="3.98637"
-                cy="17.3171"
-                r="2.17975"
-                transform="rotate(61.0709 3.98637 17.3171)"
-                fill="currentColor"
-              ></circle>
-              <circle cx="5.06721" cy="8.85597" r="2.154" fill="currentColor"></circle>
+    <div class="rs-bento max-w-7xl mx-auto" id="rsBento">
+      <i class="rs-dot" style="left:50%;top:0"></i>
+      <i class="rs-dot" style="left:50%;top:50%"></i>
+      <i class="rs-dot" style="left:50%;top:100%"></i>
+      <i class="rs-dot" style="left:0;top:50%"></i>
+      <i class="rs-dot" style="left:100%;top:50%"></i>
+
+      <!-- 1 · Embedding:Octen 居中不动,背景点阵从左向右持续流动,Octen 不断伸出触手去抓流过的点 -->
+      <article id="embedding" class="rs-cell">
+        <span class="rs-tag">Models</span>
+        <div class="rs-art rs-art--embed" data-ms="3600000" aria-hidden="true">
+          <div class="rs-flow">
+            <svg class="emb-svg" viewBox="0 0 600 168" width="600" height="168">
+              <!-- Octen 居中不动,卡片原背景点阵(.rs-art::before)从左向右持续流动,Octen 不断伸出直线触手去抓流过的点(JS:public/js/retrieval-stack.js) -->
+              <g class="emb-grab" fill="#0a0a0a"></g>
+              <g class="emb-tent" fill="none" stroke="#a1a1aa" stroke-width="0.85" stroke-linecap="round"></g>
+              <g class="emb-hub" transform="translate(300 84)"><circle r="28" fill="#0a0a0a"/><image href="/_next/static/media/icon-octen-white.842b5932.svg" x="-16" y="-14" width="32" height="28"/></g>
             </svg>
-            <h3 class="text-3xl font-serif font-bold serif-soft-50 tracking-wide">Embedding</h3>
-          </div>
-          <p class="text-[#08120A] text-lg mb-5">
-            <span class="mr-1"
-              >The
-              <span
-                class="w-fit h-5 inline-flex items-center justify-center rounded-xs text-base font-sans font-bold text-[#08120A]"
-                >#1</span
-              >
-              text embedding model for retrieval. Built specifically to find what your agents need.</span
-            ><a
-              class="inline-flex items-center gap-0.5 text-primary font-sans font-bold text-base underline"
-              href="https://huggingface.co/spaces/mteb/leaderboard?benchmark_name=RTEB%28beta%29"
-              target="_blank"
-              rel="noreferrer"
-              >SOTA on RTEB<svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-external-link size-4"
-                aria-hidden="true"
-              >
-                <path d="M15 3h6v6"></path>
-                <path d="M10 14 21 3"></path>
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg
-            ></a>
-          </p>
-          <div class="flex items-center gap-3">
-            <a
-              target="_blank"
-              data-slot="button"
-              class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-focus-invalid aria-invalid:border-destructive border hover:bg-control-hover hover:text-accent-foreground px-4 py-2 has-[&gt;svg]:px-4 h-11 border-[#E1E1E1] bg-white text-base font-sans font-semibold shadow-none"
-              href="https://docs.octen.ai/api-reference/embedding"
-              >View Docs</a
-            >
           </div>
         </div>
-        <div class="w-full" style="opacity: 0; filter: blur(8px); transform: translateY(40px)">
-          <div class="w-full h-auto p-2.5 flex flex-col gap-2 rounded-md bg-[#EFEFEF]">
-            <div class="w-full bg-white rounded-sm p-5">
-              <div class="flex items-center gap-5 pb-1 mb-3 border-b border-slate-200 text-sm font-bold text-slate-600">
-                <div class="w-50 shrink-0">Model</div>
-                <div class="flex-1">Mean Score (RTEB)</div>
-              </div>
-              <div class="flex items-center gap-5 py-1.5">
-                <div class="flex items-center gap-2 w-50 shrink-0">
-                  <span
-                    class="inline-flex items-center justify-center w-5 h-5 rounded-xs text-sm font-semibold shrink-0"
-                    style="background: #d1ac62; color: #fff"
-                    >1</span
-                  ><span class="text-sm font-semibold" style="color: #039855">Octen-Embedding-8B</span>
-                </div>
-                <div class="relative flex-1 h-6.5 bg-[#F3F4F6] rounded-xs overflow-hidden">
-                  <div
-                    class="h-full flex items-center justify-end pr-2 rounded-xs"
-                    style="width: 100%; background: #039855"
-                  >
-                    <span class="text-sm font-mono" style="color: #fff">0.7953</span>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-center gap-5 py-1.5">
-                <div class="flex items-center gap-2 w-50 shrink-0">
-                  <span
-                    class="inline-flex items-center justify-center w-5 h-5 rounded-xs text-sm font-semibold shrink-0"
-                    style="background: #d9d8d880; color: #797979"
-                    >2</span
-                  ><span class="text-sm font-semibold" style="color: #039855">Octen-Embedding-4B</span>
-                </div>
-                <div class="relative flex-1 h-6.5 bg-[#F3F4F6] rounded-xs overflow-hidden">
-                  <div
-                    class="h-full flex items-center justify-end pr-2 rounded-xs"
-                    style="width: 89.45212493599593%; background: #039855"
-                  >
-                    <span class="text-sm font-mono" style="color: #fff">0.7747</span>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-center gap-5 py-1.5">
-                <div class="flex items-center gap-2 w-50 shrink-0">
-                  <span
-                    class="inline-flex items-center justify-center w-5 h-5 rounded-xs text-sm font-semibold shrink-0"
-                    style="background: #d9d8d880; color: #797979"
-                    >3</span
-                  ><span class="text-sm font-semibold" style="color: #1f2937">MoD-Embedding</span>
-                </div>
-                <div class="relative flex-1 h-6.5 bg-[#F3F4F6] rounded-xs overflow-hidden">
-                  <div
-                    class="h-full flex items-center justify-end pr-2 rounded-xs"
-                    style="width: 84.0757808499744%; background: #dee0e5"
-                  >
-                    <span class="text-sm font-mono" style="color: #535862">0.7642</span>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-center gap-5 py-1.5">
-                <div class="flex items-center gap-2 w-50 shrink-0">
-                  <span
-                    class="inline-flex items-center justify-center w-5 h-5 rounded-xs text-sm font-semibold shrink-0"
-                    style="background: #d9d8d880; color: #797979"
-                    >4</span
-                  ><span class="text-sm font-semibold" style="color: #1f2937">voyage-4-large</span>
-                </div>
-                <div class="relative flex-1 h-6.5 bg-[#F3F4F6] rounded-xs overflow-hidden">
-                  <div
-                    class="h-full flex items-center justify-end pr-2 rounded-xs"
-                    style="width: 83.10291858678954%; background: #dee0e5"
-                  >
-                    <span class="text-sm font-mono" style="color: #535862">0.7623</span>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-center gap-5 py-1.5">
-                <div class="flex items-center gap-2 w-50 shrink-0">
-                  <span
-                    class="inline-flex items-center justify-center w-5 h-5 rounded-xs text-sm font-semibold shrink-0"
-                    style="background: #d9d8d880; color: #797979"
-                    >5</span
-                  ><span class="text-sm font-semibold" style="color: #1f2937">voyage-3-large</span>
-                </div>
-                <div class="relative flex-1 h-6.5 bg-[#F3F4F6] rounded-xs overflow-hidden">
-                  <div
-                    class="h-full flex items-center justify-end pr-2 rounded-xs"
-                    style="width: 73.42549923195082%; background: #dee0e5"
-                  >
-                    <span class="text-sm font-mono" style="color: #535862">0.7434</span>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-center gap-5 py-1.5">
-                <div class="flex items-center gap-2 w-50 shrink-0">
-                  <span
-                    class="inline-flex items-center justify-center w-5 h-5 rounded-xs text-sm font-semibold shrink-0"
-                    style="background: #d9d8d880; color: #797979"
-                    >6</span
-                  ><span class="text-sm font-semibold" style="color: #1f2937">Qwen3-Embedding-8B</span>
-                </div>
-                <div class="relative flex-1 h-6.5 bg-[#F3F4F6] rounded-xs overflow-hidden">
-                  <div
-                    class="h-full flex items-center justify-end pr-2 rounded-xs"
-                    style="width: 67.0762928827445%; background: #dee0e5"
-                  >
-                    <span class="text-sm font-mono" style="color: #535862">0.7310</span>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-center gap-5 py-1.5">
-                <div class="flex items-center gap-2 w-50 shrink-0">
-                  <span
-                    class="inline-flex items-center justify-center w-5 h-5 rounded-xs text-sm font-semibold shrink-0"
-                    style="background: #d9d8d880; color: #797979"
-                    >7</span
-                  ><span class="text-sm font-semibold" style="color: #1f2937">Octen-Embedding-0.6B</span>
-                </div>
-                <div class="relative flex-1 h-6.5 bg-[#F3F4F6] rounded-xs overflow-hidden">
-                  <div
-                    class="h-full flex items-center justify-end pr-2 rounded-xs"
-                    style="width: 63.543266769073206%; background: #dee0e5"
-                  >
-                    <span class="text-sm font-mono" style="color: #535862">0.7241</span>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-center gap-5 py-1.5">
-                <div class="flex items-center gap-2 w-50 shrink-0">
-                  <span
-                    class="inline-flex items-center justify-center w-5 h-5 rounded-xs text-sm font-semibold shrink-0"
-                    style="background: #d9d8d880; color: #797979"
-                    >8</span
-                  ><span class="text-sm font-semibold" style="color: #1f2937">gemini-embedding-001</span>
-                </div>
-                <div class="relative flex-1 h-6.5 bg-[#F3F4F6] rounded-xs overflow-hidden">
-                  <div
-                    class="h-full flex items-center justify-end pr-2 rounded-xs"
-                    style="width: 62.365591397849464%; background: #dee0e5"
-                  >
-                    <span class="text-sm font-mono" style="color: #535862">0.7218</span>
-                  </div>
-                </div>
-              </div>
-              <div class="flex justify-between text-sm text-[#A3A9B3] mt-2 pt-2 border-t border-[#4B4B4B33]">
-                RTEB leaderboard · January 2026
-              </div>
+        <div class="rs-copy">
+          <h3 class="rs-title">Embedding</h3>
+          <p class="rs-desc">The <b>#1</b> text embedding model. Similar meaning lands close, even with no shared words. <a class="rs-sota" href="https://huggingface.co/spaces/mteb/leaderboard?benchmark_name=RTEB%28beta%29" target="_blank" rel="noreferrer">SOTA on RTEB<svg viewBox="0 0 12 12" width="10" height="10" fill="none" aria-hidden="true"><path d="M3 9L9 3M4.5 3H9v4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+        </div>
+      </article>
+
+      <!-- 2 · VL Embedding:文本 / 图片 / 视频同处一个向量空间,文本查询跨模态检索图片与视频 -->
+      <article id="vl-embedding" class="rs-cell">
+        <span class="rs-tag">Models</span>
+        <div class="rs-art rs-art--vl" data-ms="9000" aria-hidden="true">
+          <div class="rs-flow">
+            <div class="rs-card rs-map rs-map--vl">
+              <svg viewBox="0 0 360 168" width="360" height="168">
+                <g class="vl-scene">
+                <!-- 6 个不相关的数据:灰色、无连线(另 6 个灰色圆会被连线并变成图标球,所以初始共 12 个灰圆) -->
+                <g class="rs-a" style="--d:.2s" fill="#a3a3a3"><circle cx="22" cy="50" r="9" fill-opacity=".45"/><circle cx="24" cy="142" r="7" fill-opacity=".6"/><circle cx="160" cy="10" r="6" fill-opacity=".5"/><circle cx="206" cy="154" r="10" fill-opacity=".4"/><circle cx="300" cy="22" r="8" fill-opacity=".55"/><circle cx="344" cy="142" r="6" fill-opacity=".7"/></g>
+                <!-- Octen 为中心的辐射状连线;连线后整体被 Octen 拉近(见 .vl-spokes / .vl-pull) -->
+                <g class="vl-spokes" stroke="#a1a1aa" stroke-width="1" opacity=".8"><line class="rs-a" style="--d:1.10s" x1="180" y1="84" x2="62" y2="38"/><line class="rs-a" style="--d:1.25s" x1="180" y1="84" x2="30" y2="100"/><line class="rs-a" style="--d:1.40s" x1="180" y1="84" x2="120" y2="132"/><line class="rs-a" style="--d:1.55s" x1="180" y1="84" x2="272" y2="46"/><line class="rs-a" style="--d:1.70s" x1="180" y1="84" x2="334" y2="96"/><line class="rs-a" style="--d:1.85s" x1="180" y1="84" x2="250" y2="138"/></g>
+                <g class="vl-pull" style="--dx:23.6px;--dy:9.2px;--pd:3.30s"><g transform="translate(62 38)"><circle class="vl-seed" style="--sd:2.00s" r="8" fill="#a3a3a3" fill-opacity=".5"/><g class="rs-a vl-ball" style="--d:1.90s"><circle r="21" fill="#fff" stroke="#e4e4e7"/><g transform="translate(-11 -11) scale(.9167)" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></g></g></g></g>
+                <g class="vl-pull" style="--dx:30.0px;--dy:-3.2px;--pd:3.42s"><g transform="translate(30 100)"><circle class="vl-seed" style="--sd:2.15s" r="9" fill="#a3a3a3" fill-opacity=".5"/><g class="rs-a vl-ball" style="--d:2.05s"><circle r="21" fill="#fff" stroke="#e4e4e7"/><g transform="translate(-11 -11) scale(.9167)" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></g></g></g></g>
+                <g class="vl-pull" style="--dx:12.0px;--dy:-9.6px;--pd:3.54s"><g transform="translate(120 132)"><circle class="vl-seed" style="--sd:2.30s" r="7" fill="#a3a3a3" fill-opacity=".5"/><g class="rs-a vl-ball" style="--d:2.20s"><circle r="21" fill="#fff" stroke="#e4e4e7"/><g transform="translate(-11 -11) scale(.9167)" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></g></g></g></g>
+                <g class="vl-pull" style="--dx:-18.4px;--dy:7.6px;--pd:3.66s"><g transform="translate(272 46)"><circle class="vl-seed" style="--sd:2.45s" r="10" fill="#a3a3a3" fill-opacity=".5"/><g class="rs-a vl-ball" style="--d:2.35s"><circle r="21" fill="#fff" stroke="#e4e4e7"/><g transform="translate(-11 -11) scale(.9167)" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></g></g></g></g>
+                <g class="vl-pull" style="--dx:-30.8px;--dy:-2.4px;--pd:3.78s"><g transform="translate(334 96)"><circle class="vl-seed" style="--sd:2.60s" r="8" fill="#a3a3a3" fill-opacity=".5"/><g class="rs-a vl-ball" style="--d:2.50s"><circle r="21" fill="#fff" stroke="#e4e4e7"/><g transform="translate(-11 -11) scale(.9167)" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></g></g></g></g>
+                <g class="vl-pull" style="--dx:-14.0px;--dy:-10.8px;--pd:3.90s"><g transform="translate(250 138)"><circle class="vl-seed" style="--sd:2.75s" r="9" fill="#a3a3a3" fill-opacity=".5"/><g class="rs-a vl-ball" style="--d:2.65s"><circle r="21" fill="#fff" stroke="#e4e4e7"/><g transform="translate(-11 -11) scale(.9167)" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></g></g></g></g>
+                </g>
+                <g class="vl-hub" transform="translate(180 84)"><circle r="28" fill="#0a0a0a"/><image href="/_next/static/media/icon-octen-white.842b5932.svg" x="-16" y="-14" width="32" height="28"/></g>
+              </svg>
             </div>
           </div>
         </div>
-      </div>
-      <div id="vl-embedding" class="grid grid-cols-1 md:grid-cols-[1fr_1.6fr] gap-8 md:gap-16 items-center">
-        <div style="opacity: 0; filter: blur(8px); transform: translateY(40px)">
-          <div class="tag-v">Models</div>
-          <div class="flex items-center mb-2.5 gap-2.5 text-black">
-            <svg
-              width="26"
-              height="24"
-              viewBox="0 0 26 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="size-7.5"
-            >
-              <path
-                d="M16.4 2C17.4609 2 18.478 2.42173 19.2281 3.17188C19.9783 3.92202 20.4 4.93913 20.4 6V9.92969C19.7814 9.57959 19.1101 9.3129 18.4 9.14453V6C18.4 5.46957 18.1892 4.96101 17.8141 4.58594C17.439 4.21087 16.9305 4 16.4 4H4.40002C3.86959 4 3.36103 4.21086 2.98596 4.58594C2.61089 4.96101 2.40002 5.46957 2.40002 6V13.5859L5.70667 10.2793C6.3208 9.68836 7.07732 9.33008 7.90002 9.33008C8.72273 9.33008 9.47925 9.68836 10.0934 10.2793L11.0944 11.2803C10.6257 11.7649 10.2193 12.31 9.89026 12.9043L8.70667 11.7207L8.59045 11.6172C8.3238 11.398 8.08662 11.3301 7.90002 11.3301C7.68677 11.3301 7.40723 11.4187 7.09338 11.7207L2.40002 16.4141V18C2.40002 18.5304 2.61089 19.039 2.98596 19.4141C3.36103 19.7891 3.86959 20 4.40002 20H9.71252C10.076 20.7421 10.5566 21.4159 11.1285 22H4.40002C3.33916 22 2.32204 21.5783 1.5719 20.8281C0.821755 20.078 0.400024 19.0609 0.400024 18V6C0.400024 4.93913 0.821754 3.92202 1.5719 3.17188C2.32204 2.42173 3.33916 2 4.40002 2H16.4ZM13.4098 7C13.9621 7 14.4098 7.44772 14.4098 8C14.4098 8.55228 13.9621 9 13.4098 9H13.4C12.8477 9 12.4 8.55228 12.4 8C12.4 7.44772 12.8477 7 13.4 7H13.4098Z"
-                fill="currentColor"
-              ></path>
-              <g clip-path="url(#clip0_12416_18509)">
-                <path
-                  d="M21.802 14.4138L13.2031 19.4721"
-                  stroke="currentColor"
-                  stroke-width="1.33459"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></path>
-                <path
-                  d="M21.802 19.1198L13.416 14.4858"
-                  stroke="currentColor"
-                  stroke-width="1.33459"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></path>
-                <path
-                  d="M17.7545 21.545L17.7545 11.805"
-                  stroke="currentColor"
-                  stroke-width="1.33459"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></path>
-                <circle cx="21.8026" cy="14.4858" r="1.32958" fill="currentColor"></circle>
-                <circle cx="17.7548" cy="11.8049" r="1.26679" fill="currentColor"></circle>
-                <circle cx="17.7548" cy="21.545" r="1.4993" fill="currentColor"></circle>
-                <circle
-                  cx="22.5638"
-                  cy="19.4721"
-                  r="1.36574"
-                  transform="rotate(124.49 22.5638 19.4721)"
-                  fill="currentColor"
-                ></circle>
-                <circle
-                  cx="12.7481"
-                  cy="19.7148"
-                  r="1.34679"
-                  transform="rotate(61.0709 12.7481 19.7148)"
-                  fill="currentColor"
-                ></circle>
-                <circle cx="13.416" cy="14.0727" r="1.33088" fill="currentColor"></circle>
-              </g>
-              <defs>
-                <clipPath id="clip0_12416_18509">
-                  <rect width="14.8287" height="14.8287" fill="white" transform="translate(10.2852 9.01526)"></rect>
-                </clipPath>
-              </defs>
-            </svg>
-            <h3 class="text-3xl font-serif font-bold serif-soft-50 tracking-wide">VL Embedding</h3>
-          </div>
-          <p class="text-[#08120A] text-lg mb-5">
-            <span class="mr-1"
-              >The
-              <span
-                class="w-fit h-5 inline-flex items-center justify-center rounded-xs text-base font-sans font-bold text-[#08120A]"
-                >#1</span
-              >
-              multimodal embedding model for retrieval. One embedding space across text, images, videos, and visual
-              documents.</span
-            ><a
-              class="inline-flex items-center gap-0.5 text-primary font-sans font-bold text-base underline"
-              href="https://huggingface.co/spaces/TIGER-Lab/MMEB-Leaderboard"
-              target="_blank"
-              rel="noreferrer"
-              >SOTA on MMEB-v2<svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-external-link size-4"
-                aria-hidden="true"
-              >
-                <path d="M15 3h6v6"></path>
-                <path d="M10 14 21 3"></path>
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg
-            ></a>
-          </p>
-          <div class="flex items-center gap-3">
-            <a
-              target="_blank"
-              data-slot="button"
-              class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-focus-invalid aria-invalid:border-destructive border hover:bg-control-hover hover:text-accent-foreground px-4 py-2 has-[&gt;svg]:px-4 h-11 border-[#E1E1E1] bg-white text-base font-sans font-semibold shadow-none"
-              href="https://docs.octen.ai/api-reference/vl-embedding"
-              >View Docs</a
-            >
-          </div>
+        <div class="rs-copy">
+          <h3 class="rs-title">VL Embedding</h3>
+          <p class="rs-desc">The <b>#1</b> multimodal embedding model. One vector space, so text, images and video find each other. <a class="rs-sota" href="https://huggingface.co/spaces/TIGER-Lab/MMEB-Leaderboard" target="_blank" rel="noreferrer">SOTA on MMEB-v2<svg viewBox="0 0 12 12" width="10" height="10" fill="none" aria-hidden="true"><path d="M3 9L9 3M4.5 3H9v4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
         </div>
-        <div class="w-full" style="opacity: 0; filter: blur(8px); transform: translateY(40px)">
-          <div class="w-full h-auto p-2.5 flex flex-col gap-2 rounded-md bg-[#EFEFEF]">
-            <div class="w-full bg-white rounded-sm p-5">
-              <div class="flex items-center gap-5 pb-1 mb-3 border-b border-slate-200 text-sm font-bold text-slate-600">
-                <div class="w-50 shrink-0">Model</div>
-                <div class="flex-1">Score (MMEB-V2)</div>
+      </article>
+
+      <!-- 3 · Monitor:盯住页面/主题,自然语言条件命中才触发 webhook -->
+      <article id="monitor" class="rs-cell">
+        <span class="rs-tag">Tool</span>
+        <div class="rs-art rs-art--mon" data-ms="9000" aria-hidden="true">
+          <div class="rs-flow">
+            <div class="rs-card rs-watch rs-a" style="--d:.1s">
+              <div class="rs-cond rs-mono"><b>if</b> price drops &gt; 10%</div>
+              <div class="rs-wrows">
+                <span class="rs-scan"></span>
+                <div class="rs-wrow rs-a" style="--d:0.4s"><svg viewBox="0 0 24 24" width="13" height="13" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="2"/></svg><span>widget-mini</span><em class="rs-val rs-mono">$29</em><i class="rs-st"></i></div>
+                <div class="rs-wrow rs-wrow--hit rs-a" style="--d:0.6s"><svg viewBox="0 0 24 24" width="13" height="13" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="2"/></svg><span>widget-pro</span><em class="rs-val rs-mono">$49 → $42</em><i class="rs-st rs-st--hit"></i></div>
+                <div class="rs-wrow rs-a" style="--d:0.8s"><svg viewBox="0 0 24 24" width="13" height="13" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="2"/></svg><span>widget-max</span><em class="rs-val rs-mono">$79</em><i class="rs-st"></i></div>
               </div>
-              <div class="flex items-center gap-1 py-1.75">
-                <div class="flex items-center gap-2 w-54 shrink-0">
-                  <span
-                    class="inline-flex items-center justify-center w-5 h-5 rounded-xs text-sm font-semibold shrink-0"
-                    style="background: #d1ac62; color: #fff"
-                    >1</span
-                  ><span class="text-sm font-semibold" style="color: #039855">octen-vl-embedding-large</span>
-                </div>
-                <div class="relative flex-1 h-6.5 bg-[#F3F4F6] rounded-xs overflow-hidden">
-                  <div
-                    class="h-full flex items-center justify-end pr-2 rounded-xs"
-                    style="width: 100%; background: #039855"
-                  >
-                    <span class="text-sm font-mono" style="color: #fff">80.09</span>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-center gap-1 py-1.75">
-                <div class="flex items-center gap-2 w-54 shrink-0">
-                  <span
-                    class="inline-flex items-center justify-center w-5 h-5 rounded-xs text-sm font-semibold shrink-0"
-                    style="background: #d9d8d880; color: #797979"
-                    >2</span
-                  ><span class="text-sm font-semibold" style="color: #1f2937">Qwen3-VL-Embedding-8B</span>
-                </div>
-                <div class="relative flex-1 h-6.5 bg-[#F3F4F6] rounded-xs overflow-hidden">
-                  <div
-                    class="h-full flex items-center justify-end pr-2 rounded-xs"
-                    style="width: 77.50247770069366%; background: #dee0e5"
-                  >
-                    <span class="text-sm font-mono" style="color: #535862">77.82</span>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-center gap-1 py-1.75">
-                <div class="flex items-center gap-2 w-54 shrink-0">
-                  <span
-                    class="inline-flex items-center justify-center w-5 h-5 rounded-xs text-sm font-semibold shrink-0"
-                    style="background: #d9d8d880; color: #797979"
-                    >3</span
-                  ><span class="text-sm font-semibold" style="color: #1f2937">seed1.6-embedding-1215</span>
-                </div>
-                <div class="relative flex-1 h-6.5 bg-[#F3F4F6] rounded-xs overflow-hidden">
-                  <div
-                    class="h-full flex items-center justify-end pr-2 rounded-xs"
-                    style="width: 69.07829534192265%; background: #dee0e5"
-                  >
-                    <span class="text-sm font-mono" style="color: #535862">76.97</span>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-center gap-1 py-1.75">
-                <div class="flex items-center gap-2 w-54 shrink-0">
-                  <span
-                    class="inline-flex items-center justify-center w-5 h-5 rounded-xs text-sm font-semibold shrink-0"
-                    style="background: #d9d8d880; color: #797979"
-                    >4</span
-                  ><span class="text-sm font-semibold" style="color: #1f2937">octen-vl-embedding</span>
-                </div>
-                <div class="relative flex-1 h-6.5 bg-[#F3F4F6] rounded-xs overflow-hidden">
-                  <div
-                    class="h-full flex items-center justify-end pr-2 rounded-xs"
-                    style="width: 53.716551040634286%; background: #dee0e5"
-                  >
-                    <span class="text-sm font-mono" style="color: #535862">75.42</span>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-center gap-1 py-1.75">
-                <div class="flex items-center gap-2 w-54 shrink-0">
-                  <span
-                    class="inline-flex items-center justify-center w-5 h-5 rounded-xs text-sm font-semibold shrink-0"
-                    style="background: #d9d8d880; color: #797979"
-                    >5</span
-                  ><span class="text-sm font-semibold" style="color: #1f2937">DME-2B</span>
-                </div>
-                <div class="relative flex-1 h-6.5 bg-[#F3F4F6] rounded-xs overflow-hidden">
-                  <div
-                    class="h-full flex items-center justify-end pr-2 rounded-xs"
-                    style="width: 41.823587710604535%; background: #dee0e5"
-                  >
-                    <span class="text-sm font-mono" style="color: #535862">74.22</span>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-center gap-1 py-1.75">
-                <div class="flex items-center gap-2 w-54 shrink-0">
-                  <span
-                    class="inline-flex items-center justify-center w-5 h-5 rounded-xs text-sm font-semibold shrink-0"
-                    style="background: #d9d8d880; color: #797979"
-                    >6</span
-                  ><span class="text-sm font-semibold" style="color: #1f2937">WeMM-Embedding-8B</span>
-                </div>
-                <div class="relative flex-1 h-6.5 bg-[#F3F4F6] rounded-xs overflow-hidden">
-                  <div
-                    class="h-full flex items-center justify-end pr-2 rounded-xs"
-                    style="width: 38.652130822596675%; background: #dee0e5"
-                  >
-                    <span class="text-sm font-mono" style="color: #535862">73.90</span>
-                  </div>
-                </div>
-              </div>
-              <div class="flex justify-between text-sm text-[#A3A9B3] mt-2 pt-2 border-t border-[#4B4B4B33]">
-                MMEB-V2 leaderboard · May 2026
-              </div>
+            </div>
+            <div class="rs-link rs-a" style="--d:3s"><i></i></div>
+            <div class="rs-card rs-hook rs-a" style="--d:3.3s">
+              <code class="rs-evt rs-mono">monitor.run.completed</code>
+              <span class="rs-diff rs-mono rs-a" style="--d:3.7s">price <s>49</s> → <b>42</b></span>
             </div>
           </div>
         </div>
-      </div>
-      <div id="model-gateway" class="grid grid-cols-1 md:grid-cols-[1fr_1.6fr] gap-8 md:gap-16 items-center">
-        <div style="opacity: 0; filter: blur(8px); transform: translateY(40px)">
-          <div class="tag-v">Models</div>
-          <div class="flex items-center mb-2.5 gap-2.5 text-black">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="size-7.5"
-            >
-              <path
-                d="M21 12V7.99002C20.9994 7.64109 20.9066 7.29851 20.731 6.99699C20.5554 6.69548 20.3032 6.44572 20 6.27302L13 2.26502C12.6953 2.09141 12.3507 2.00012 12 2.00012C11.6493 2.00012 11.3047 2.09141 11 2.26502L4 6.27302C3.381 6.62802 3 7.28302 3 7.99102V16.009C3 16.718 3.381 17.372 4 17.726L11 21.734C11.62 22.088 12.38 22.088 13 21.734M12 22V12M12 12L20.73 6.96002M12 12L3.27 6.96002"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-              <path
-                d="M18.5201 14.9862C20.3354 14.743 22.0042 16.0177 22.2476 17.8329C22.3578 18.6554 22.1559 19.4474 21.734 20.0907L22.8189 21.498C23.1004 21.8631 23.0326 22.3873 22.6676 22.6689C22.3023 22.9503 21.7782 22.8827 21.4967 22.5175L20.4927 21.2148C20.1607 21.3877 19.7935 21.5079 19.401 21.5605C17.5857 21.8034 15.9176 20.5291 15.6744 18.7138C15.4313 16.8986 16.705 15.2297 18.5201 14.9862ZM18.7427 16.6415C17.8416 16.7623 17.2081 17.591 17.3287 18.4921C17.4494 19.3933 18.2781 20.0257 19.1793 19.9052C20.0806 19.7844 20.7131 18.9559 20.5924 18.0546C20.4714 17.1537 19.6437 16.5211 18.7427 16.6415Z"
-                fill="currentColor"
-              ></path>
-            </svg>
-            <h3 class="text-3xl font-serif font-bold serif-soft-50 tracking-wide">Model Gateway</h3>
-          </div>
-          <p class="text-[#08120A] text-lg mb-5">
-            One API to access top-tier models with Octen Search integration. Supports text and image generation.
-          </p>
-          <div class="flex items-center gap-3">
-            <a
-              target="_blank"
-              data-slot="button"
-              class="retrieval-stack-get-started inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-focus-invalid aria-invalid:border-destructive bg-background-inverse text-foreground-inverse hover:bg-background-inverse/90 px-4 py-2 has-[&gt;svg]:px-4 w-37 h-11 flex-center text-base font-sans font-semibold shadow-none"
-              href="/platform/model"
-              >Get started<svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-arrow-up-right size-4.5 text-[#60FF70] -mr-1"
-                aria-hidden="true"
-              >
-                <path d="M7 7h10v10"></path>
-                <path d="M7 17 17 7"></path></svg></a
-            ><a
-              target="_blank"
-              data-slot="button"
-              class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-focus-invalid aria-invalid:border-destructive border hover:bg-control-hover hover:text-accent-foreground px-4 py-2 has-[&gt;svg]:px-4 h-11 border-[#E1E1E1] bg-white text-base font-sans font-semibold shadow-none"
-              href="https://docs.octen.ai/api-reference/chat-completions"
-              >View Docs</a
-            >
-          </div>
+        <div class="rs-copy">
+          <h3 class="rs-title">Monitor</h3>
+          <p class="rs-desc">Watch a topic or any page and get notified only when a change meets your condition.</p>
         </div>
-        <div class="w-full" style="opacity: 0; filter: blur(8px); transform: translateY(40px)">
-          <div class="w-full p-2.5 rounded-md bg-[#EFEFEF]">
-            <include src="./src/sections/partials/model-gateway-diagram.html"></include>
-          </div>
-        </div>
-      </div>
-      <div id="extract" class="grid grid-cols-1 md:grid-cols-[1fr_1.6fr] gap-8 md:gap-16 items-center">
-        <div style="opacity: 0; filter: blur(8px); transform: translateY(40px)">
-          <div class="tag-v">Tool</div>
-          <div class="flex items-center mb-2.5 gap-2.5 text-black">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="size-7.5"
-            >
-              <g clip-path="url(#clip0_12416_18485)">
-                <path
-                  d="M12.0002 16.7005C12.6102 16.7006 13.195 16.9432 13.6262 17.3743C14.0571 17.8054 14.2999 18.3897 14.3 18.9993C14.3 19.6093 14.0574 20.195 13.6262 20.6263C13.195 21.0574 12.6101 21.3 12.0002 21.3001C11.3902 21.3001 10.8046 21.0576 10.3733 20.6263C10.2134 20.4664 10.0801 20.2849 9.97485 20.0892H7.02466C6.91941 20.2848 6.7861 20.4664 6.62622 20.6263C6.19505 21.0573 5.61009 21.3 5.00024 21.3001C4.39034 21.3001 3.80549 21.0574 3.37427 20.6263C2.94299 20.195 2.70044 19.6094 2.70044 18.9993C2.70062 18.3896 2.94328 17.8054 3.37427 17.3743C3.8055 16.9432 4.3903 16.7005 5.00024 16.7005C5.61018 16.7006 6.19504 16.9431 6.62622 17.3743C6.885 17.6332 7.0746 17.9478 7.18579 18.2894H9.8147C9.92598 17.9478 10.1147 17.6331 10.3733 17.3743C10.8046 16.9431 11.3902 16.7005 12.0002 16.7005ZM18.9993 9.69952C19.6093 9.69952 20.195 9.9422 20.6262 10.3734C21.0575 10.8046 21.3 11.3902 21.3 12.0003C21.3 12.6102 21.0573 13.1951 20.6262 13.6263C20.4434 13.8091 20.2315 13.9558 20.0032 14.0667V16.9329C20.2317 17.0438 20.4432 17.1914 20.6262 17.3743C21.0572 17.8054 21.2999 18.3896 21.3 18.9993C21.3 19.6094 21.0575 20.195 20.6262 20.6263C20.1949 21.0576 19.6093 21.3001 18.9993 21.3001C18.3896 21.2999 17.8054 21.0572 17.3743 20.6263C16.943 20.195 16.7004 19.6094 16.7004 18.9993C16.7006 18.3895 16.9432 17.8054 17.3743 17.3743C17.6112 17.1373 17.8951 16.9591 18.2034 16.845V14.1546C17.8952 14.0405 17.6111 13.863 17.3743 13.6263C16.9431 13.1951 16.7005 12.6102 16.7004 12.0003C16.7004 11.3902 16.943 10.8046 17.3743 10.3734C17.8053 9.94254 18.3897 9.69971 18.9993 9.69952ZM5.00024 9.69952C5.61 9.69963 6.19508 9.94241 6.62622 10.3734C7.05738 10.8046 7.30005 11.3903 7.30005 12.0003C7.29997 12.6101 7.05718 13.1951 6.62622 13.6263C6.19508 14.0572 5.61 14.3 5.00024 14.3001C4.39034 14.3001 3.80549 14.0574 3.37427 13.6263C2.94306 13.1951 2.70052 12.6103 2.70044 12.0003C2.70044 11.3902 2.94299 10.8046 3.37427 10.3734C3.80547 9.94241 4.39043 9.69955 5.00024 9.69952ZM12.0002 2.7005C12.6102 2.70058 13.195 2.94312 13.6262 3.37433C14.0573 3.80555 14.3 4.3904 14.3 5.00031C14.2999 5.61006 14.0572 6.19514 13.6262 6.62628C13.4161 6.83631 13.1689 7.00033 12.9006 7.11456V9.88312C13.1692 9.9974 13.4159 10.1631 13.6262 10.3734C14.0575 10.8046 14.3 11.3902 14.3 12.0003C14.3 12.6103 14.0574 13.1951 13.6262 13.6263C13.195 14.0575 12.6102 14.3 12.0002 14.3001C11.3902 14.3001 10.8046 14.0576 10.3733 13.6263C9.94221 13.1951 9.69954 12.6102 9.69946 12.0003C9.69946 11.3902 9.94202 10.8046 10.3733 10.3734C10.5838 10.1629 10.831 9.99744 11.0999 9.88312V7.11456C10.8313 7.00028 10.5836 6.83653 10.3733 6.62628C10.1372 6.39005 9.96012 6.10637 9.84595 5.79913H7.15356C7.03943 6.10641 6.86251 6.38999 6.62622 6.62628C6.19504 7.05746 5.61018 7.30001 5.00024 7.30011C4.39043 7.30008 3.80547 7.05723 3.37427 6.62628C2.94321 6.19512 2.70054 5.61015 2.70044 5.00031C2.70047 4.39026 2.94302 3.80558 3.37427 3.37433C3.80552 2.94308 4.3902 2.70053 5.00024 2.7005C5.61009 2.7006 6.19506 2.94327 6.62622 3.37433C6.80927 3.55748 6.95577 3.7696 7.06665 3.99835H9.93286C10.0438 3.76956 10.1902 3.55748 10.3733 3.37433C10.8046 2.94305 11.3902 2.7005 12.0002 2.7005ZM18.9993 2.7005C19.6093 2.7005 20.1949 2.94305 20.6262 3.37433C21.0573 3.80555 21.3 4.3904 21.3 5.00031C21.2999 5.61015 21.0573 6.19512 20.6262 6.62628C20.195 7.05743 19.6093 7.30011 18.9993 7.30011C18.3896 7.29993 17.8054 7.05722 17.3743 6.62628C16.9431 6.1951 16.7005 5.61024 16.7004 5.00031C16.7005 4.39036 16.9431 3.80556 17.3743 3.37433C17.8054 2.94334 18.3895 2.70068 18.9993 2.7005Z"
-                  fill="currentColor"
-                ></path>
-              </g>
-              <defs>
-                <clipPath id="clip0_12416_18485"><rect width="24" height="24" fill="white"></rect></clipPath>
-              </defs>
-            </svg>
-            <h3 class="text-3xl font-serif font-bold serif-soft-50 tracking-wide">Extract</h3>
-          </div>
-          <p class="text-[#08120A] text-lg mb-5">
-            Turn any URL into clean markdown, with intent-focused highlights and page classification.
-          </p>
-          <div class="flex items-center gap-3">
-            <a
-              target="_blank"
-              data-slot="button"
-              class="retrieval-stack-get-started inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-focus-invalid aria-invalid:border-destructive bg-background-inverse text-foreground-inverse hover:bg-background-inverse/90 px-4 py-2 has-[&gt;svg]:px-4 w-37 h-11 flex-center text-base font-sans font-semibold shadow-none"
-              href="/platform/extract"
-              >Get started<svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-arrow-up-right size-4.5 text-[#60FF70] -mr-1"
-                aria-hidden="true"
-              >
-                <path d="M7 7h10v10"></path>
-                <path d="M7 17 17 7"></path></svg></a
-            ><a
-              target="_blank"
-              data-slot="button"
-              class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-focus-invalid aria-invalid:border-destructive border hover:bg-control-hover hover:text-accent-foreground px-4 py-2 has-[&gt;svg]:px-4 h-11 border-[#E1E1E1] bg-white text-base font-sans font-semibold shadow-none"
-              href="https://docs.octen.ai/api-reference/extract"
-              >View Docs</a
-            >
-          </div>
-        </div>
-        <div class="w-full" style="opacity: 0; filter: blur(8px); transform: translateY(40px)">
-          <div class="w-full p-2.5 flex flex-col gap-2 rounded-md bg-[#EFEFEF]">
-            <div class="h-11 flex items-center shrink-0 justify-between px-5 bg-white rounded-sm">
-              <div class="flex items-center gap-2 text-sm font-mono text-gray-600">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="size-4.5"
-                >
-                  <path
-                    d="M20.9999 12C20.9999 10.22 20.4721 8.47991 19.4832 6.99987C18.4942 5.51983 17.0886 4.36628 15.4441 3.68509C13.7996 3.0039 11.99 2.82567 10.2441 3.17294C8.4983 3.5202 6.89465 4.37737 5.63598 5.63604C4.37731 6.89472 3.52014 8.49836 3.17288 10.2442C2.82561 11.99 3.00384 13.7996 3.68503 15.4442C4.36622 17.0887 5.51977 18.4943 6.99981 19.4832C8.47985 20.4722 10.2199 21 11.9999 21M3.59994 9H20.3999M3.59994 15H11.4999"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></path>
-                  <path
-                    d="M11.5 3C9.81532 5.69961 8.92218 8.81787 8.92218 12C8.92218 15.1821 9.81532 18.3004 11.5 21M12.5 3C14.1165 5.59006 15.0056 8.56766 15.074 11.62M20.2 20.2L22 22M15 18C15 18.7956 15.316 19.5587 15.8787 20.1213C16.4413 20.6839 17.2043 21 18 21C18.7956 21 19.5587 20.6839 20.1213 20.1213C20.6839 19.5587 21 18.7956 21 18C21 17.2044 20.6839 16.4413 20.1213 15.8787C19.5587 15.3161 18.7956 15 18 15C17.2043 15 16.4413 15.3161 15.8787 15.8787C15.316 16.4413 15 17.2044 15 18Z"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></path></svg
-                >https://www.apple.com/
-              </div>
-              <div
-                class="flex items-center gap-2 px-3 py-1.5 rounded-sm border border-[#E5E7EB] text-xs font-mono text-gray-600"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="#02B921"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-zap size-3 text-[#02B921]"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"
-                  ></path></svg
-                >164ms
-              </div>
+      </article>
+
+      <!-- 4 · Extract:URL → 干净的结构化内容 -->
+      <article id="extract" class="rs-cell">
+        <span class="rs-tag">Tool</span>
+        <div class="rs-art rs-art--ex" data-ms="9000" aria-hidden="true">
+          <div class="rs-card rs-ex rs-a" style="--d:.1s">
+            <div class="rs-url">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="2"/></svg>
+              <span class="rs-typed rs-mono" style="--n:9;--d:.4s;--dur:.9s">apple.com</span>
             </div>
-            <div class="bg-white rounded-sm pt-1 pb-4 px-5 overflow-hidden">
-              <div class="flex gap-6 py-1.5">
-                <div class="w-24 shrink-0 text-sm font-mono text-[#9CA3AF] pt-1">Title</div>
-                <div class="flex-1 min-w-0"><span class="text-sm font-mono text-[#111827]">Apple</span></div>
-              </div>
-              <div class="flex gap-6 py-1.5">
-                <div class="w-24 shrink-0 text-sm font-mono text-[#9CA3AF] pt-1">Category</div>
-                <div class="flex-1 min-w-0">
-                  <span
-                    class="inline-flex items-center px-2 py-1.5 rounded-sm md:rounded-full bg-[#F9F9F9] border border-[#E0E0E0] text-sm font-mono text-gray-600 leading-none"
-                    >Computers, Electronics &amp; Technology &gt; Consumer Electronics</span
-                  >
-                </div>
-              </div>
-              <div class="flex gap-6 py-1.5">
-                <div class="w-24 shrink-0 text-sm font-mono text-[#9CA3AF] pt-1">Page</div>
-                <div class="flex-1 min-w-0">
-                  <span
-                    class="inline-flex items-center px-2 py-1.5 rounded-sm md:rounded-full bg-[#F9F9F9] border border-[#E0E0E0] text-sm font-mono text-gray-600 leading-none"
-                    >Index Page &gt; Home Page</span
-                  >
-                </div>
-              </div>
-              <div class="flex gap-6 py-1.5">
-                <div class="w-24 shrink-0 text-sm font-mono text-[#9CA3AF] pt-1">Content</div>
-                <div class="flex-1 min-w-0">
-                  <p class="text-xs font-mono text-[#374151] leading-[1.65] whitespace-pre-wrap line-clamp-6">
-                    ## iPhone Meet the latest iPhone lineup. ![iPhone 17 Pro, back exterior, deep blue color, Pro Fusion
-                    camera system in top left corner, Apple logo in center, iPhone 17, back exterior, white color, Dual
-                    Fusion camera system in top left corner, Apple logo in center, iPhone 17e, back exterior, soft pink
-                    color, Fusion camera system in top left corner, Apple logo in center,iPhone Air, sid…
-                  </p>
-                </div>
-              </div>
-              <div class="flex gap-6 py-1.5">
-                <div class="w-24 shrink-0 text-sm font-mono text-[#9CA3AF] pt-1">Images</div>
-                <div class="flex-1 min-w-0">
-                  <div class="w-full flex gap-2.5 -mr-6 overflow-hidden">
-                    <div
-                      class="w-[23%] md:w-[21%] h-auto aspect-square rounded-lg shrink-0"
-                      style="
-                        background: url(/_next/static/media/product-apple-static-1.9f7e4181.jpg);
-                        background-size: cover;
-                        background-position: center;
-                      "
-                    ></div>
-                    <div
-                      class="w-[23%] md:w-[21%] h-auto aspect-square rounded-lg shrink-0"
-                      style="
-                        background: url(/_next/static/media/product-apple-static-2.c9871e6c.jpg);
-                        background-size: cover;
-                        background-position: center;
-                      "
-                    ></div>
-                    <div
-                      class="w-[23%] md:w-[21%] h-auto aspect-square rounded-lg shrink-0"
-                      style="
-                        background: url(/_next/static/media/product-apple-static-3.4eb1171b.jpg);
-                        background-size: cover;
-                        background-position: center;
-                      "
-                    ></div>
-                    <div
-                      class="w-[23%] md:w-[21%] h-auto aspect-square rounded-lg shrink-0"
-                      style="
-                        background: url(/_next/static/media/product-apple-static-4.75487f01.jpg);
-                        background-size: cover;
-                        background-position: center;
-                      "
-                    ></div>
-                  </div>
-                </div>
-              </div>
+            <div class="rs-rows">
+              <div class="rs-row rs-a" style="--d:1.7s"><span>Title</span><b>Apple</b></div>
+              <div class="rs-row rs-a" style="--d:2.2s"><span>Type</span><b>Home page</b></div>
+              <div class="rs-row rs-row--content rs-a" style="--d:2.45s"><span>Content</span><p class="rs-mono rs-ex-content">## iPhone — Meet the latest iPhone lineup, Pro camera system, and Apple Intelligence.</p></div>
+              <div class="rs-row rs-a" style="--d:2.7s"><span>Images</span><div class="rs-imgs"><i style="background-image:url(/images/extract/apple-1.jpg)"></i><i style="background-image:url(/images/extract/apple-2.jpg)"></i><i style="background-image:url(/images/extract/apple-3.jpg)"></i><i style="background-image:url(/images/extract/apple-4.jpg)"></i></div></div>
             </div>
           </div>
         </div>
-      </div>
+        <div class="rs-copy">
+          <h3 class="rs-title">Extract</h3>
+          <p class="rs-desc">Turn any URL into clean markdown, with highlights and page classification.</p>
+        </div>
+      </article>
     </div>
   </div>
 </div>

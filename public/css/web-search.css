@@ -430,7 +430,7 @@
   height: 56px;
   border-radius: 50%;
   background: #23252b;                 /* 内圆填充 */
-  border: var(--ws-gap, 6px) solid #090b11;   /* 用页面底色做「边框」,宽度 = 卡片间距 */
+  border: var(--ws-gap, 6px) solid var(--ws-module-bg, #090b11);   /* 用模块底色做「边框」,宽度 = 卡片间距 */
   box-shadow: none;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   font-style: normal;
@@ -571,3 +571,48 @@
     #080b12 !important;
 }
 #webSearchCompare > .octen-web-search-card--accent:hover { --ws-tint: 0.19; }
+
+/* Web Search("Search the way AI does")作为独立模块:底部内边距固定 120px(原 py-30,随屏宽缩放) */
+#web-search {
+  --ws-module-bg: #0f0f10;                           /* 模块底色(vs. 镂空圆环的边框色也引用它) */
+  background-color: var(--ws-module-bg) !important;
+  padding-top: 120px;      /* 上下内边距固定 120px;模块总高通过压缩图形(卡片)高度达到 940px(1440px 宽) */
+  padding-bottom: 120px;
+}
+/* 标题区 → 对比卡片 的间距:原 space-y-15(60px)缩到 35px;整个模块在 1440px 宽下总高 940px */
+#web-search > .space-y-15 {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+#web-search > .space-y-15 > * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* 两张对比图形压缩高度(≥768px):卡片 582px → 492px,配合上下 120px 内边距 + 标题区 173px + 间距 35px,模块总高 940px */
+@media (min-width: 768px) {
+  #webSearchCompare > .octen-web-search-card { padding-top: 28px !important; padding-bottom: 28px !important; }
+  #webSearchCompare > .octen-web-search-card > div.text-base { margin-bottom: 8px !important; }
+  /* 左:结果面板 322 → 268px,条目间距 29 → 7px */
+  #webSearchCompare .octen-human-results-panel { height: 268px; gap: 7px; }
+  /* 右:括号竖向压缩 22px(--ws-brace-shrink,由 JS 重算路径),让子查询网格顶边与左侧结果面板顶边对齐;
+     省下的 22px 平均补给子查询网格(140 → 121px)和结果网格(132 → 127px,单元 41px),使两侧底边仍然对齐、卡片总高不变 */
+  #webSearchCompare { --ws-brace-shrink: 22; }
+  #webSearchCompare .h-35 { height: 121px; margin-bottom: 20px !important; }
+  #webSearchCompare .h-33 { height: 127px; }
+  #webSearchCompare .h-33 > div { height: 41px !important; }
+}
+
+/* Octen Broad Search 图形微调:统一圆角层级 + 收敛叠层
+   圆角(外 → 内):卡片 10 → 子查询网格 / 结果网格 10 → 胶囊 / 叠层卡片 / 输入框 8(嵌套层级一致,不再 12/14 混用)
+   叠层:3 张后层偏移 2/4/6px(原 2/4/6/8px,最远一层几乎吃满行间距 10px),越靠后越淡,层次更柔和 */
+.octen-web-search-card--accent .h-35,
+.octen-web-search-card--accent .h-33 { border-radius: 10px !important; }
+.octen-web-search-card--accent .h-35 > .bg-\[\#32353880\],
+.octen-web-search-card--accent .h-33 .absolute.inset-0 { border-radius: 8px !important; }
+.octen-web-search-card--accent .h-33 .ws-layer[style*="top: 2px"] { opacity: 0.95 !important; }
+.octen-web-search-card--accent .h-33 .ws-layer[style*="top: 4px"] { opacity: 0.8 !important; }
+.octen-web-search-card--accent .h-33 .ws-layer[style*="top: 6px"] { opacity: 0.6 !important; }
+/* 左侧结果面板与右侧子查询网格顶边对齐,圆角同步为 10px */
+#webSearchCompare .octen-human-results-panel { border-radius: 10px; }

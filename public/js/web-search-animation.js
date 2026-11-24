@@ -47,10 +47,10 @@
         mark(s, 'o-stack');
         var layers = Array.prototype.slice.call(s.querySelectorAll(':scope > .absolute.inset-0')).filter(function (l) { return l.style.top; });
         layers.forEach(function (l) { l.classList.add('ws-layer'); });
-        // 追加两层更深的叠影,表达「每个子查询返回很多结果」
+        // 追加一层更深的叠影(与原 2 层共 3 层,偏移 2/4/6px),表达「每个子查询返回很多结果」
         if (layers.length) {
           var host = layers[0], front = s.querySelector(':scope > .absolute.inset-0:not(.ws-layer)');
-          [[6, 0.4], [8, 0.3]].forEach(function (p) {
+          [[6, 0.4]].forEach(function (p) {
             var c = host.cloneNode(false); c.className = host.className; c.style.cssText = 'top:' + p[0] + 'px;left:' + p[0] + 'px;opacity:' + p[1];
             s.insertBefore(c, layers[0]);
           });
@@ -68,11 +68,21 @@
       var paths = svg.querySelectorAll('path'), grads = svg.querySelectorAll('linearGradient');
       function layout(w) {
         if (!(w > 40)) return;
-        // Figma 括号:中心 x = w/2+1,左端 x=1,右端 x=w+1;半宽圆角 20,弧线控制点取自设计稿 SVG
+        // 括号竖向压缩量 D(px):让右侧子查询网格的顶边与左侧结果面板顶边对齐(仅桌面双列布局);CSS 变量 --ws-brace-shrink 控制
+        var D = 0;
+        if (window.matchMedia && matchMedia('(min-width: 768px)').matches) {
+          D = parseFloat(getComputedStyle(root).getPropertyValue('--ws-brace-shrink')) || 0;
+        }
+        var y2 = 35 - D;                          // 横线所在高度
+        var y1 = Math.max(2, 17 - D);             // 竖干终点(上弯起点)
+        var k = y1 + (y2 - y1) * 0.667;           // 上弯曲线控制点
+        var e = 55 - D;                           // 两端落点
+        // Figma 括号:中心 x = w/2+1,左端 x=1,右端 x=w+1;下角圆角固定 20px(竖向 y2 → e 恒为 20)
         var cx = w / 2 + 1, R = w + 1;
         svg.setAttribute('width', w);
-        if (paths[0]) paths[0].setAttribute('d', 'M ' + cx + ' 1 V 17 C ' + cx + ' 29 ' + (cx - 8) + ' 35 ' + (cx - 24) + ' 35 H 21 C 15.696 35 10.609 37.107 6.858 40.858 C 3.107 44.609 1 49.696 1 55');
-        if (paths[1]) paths[1].setAttribute('d', 'M ' + cx + ' 1 V 17 C ' + cx + ' 29 ' + (cx + 8) + ' 35 ' + (cx + 24) + ' 35 H ' + (R - 20) + ' C ' + (R - 15.695) + ' 35 ' + (R - 10.608) + ' 37.107 ' + (R - 6.857) + ' 40.858 C ' + (R - 3.107) + ' 44.609 ' + (R - 1) + ' 49.696 ' + (R - 1) + ' 55');
+        svg.setAttribute('height', 60 - D);
+        if (paths[0]) paths[0].setAttribute('d', 'M ' + cx + ' 1 V ' + y1 + ' C ' + cx + ' ' + k + ' ' + (cx - 8) + ' ' + y2 + ' ' + (cx - 24) + ' ' + y2 + ' H 21 C 15.696 ' + y2 + ' 10.609 ' + (y2 + 2.107) + ' 6.858 ' + (y2 + 5.858) + ' C 3.107 ' + (y2 + 9.609) + ' 1 ' + (y2 + 14.696) + ' 1 ' + e);
+        if (paths[1]) paths[1].setAttribute('d', 'M ' + cx + ' 1 V ' + y1 + ' C ' + cx + ' ' + k + ' ' + (cx + 8) + ' ' + y2 + ' ' + (cx + 24) + ' ' + y2 + ' H ' + (R - 20) + ' C ' + (R - 15.695) + ' ' + y2 + ' ' + (R - 10.608) + ' ' + (y2 + 2.107) + ' ' + (R - 6.857) + ' ' + (y2 + 5.858) + ' C ' + (R - 3.107) + ' ' + (y2 + 9.609) + ' ' + (R - 1) + ' ' + (y2 + 14.696) + ' ' + (R - 1) + ' ' + e);
         if (grads[0]) { grads[0].setAttribute('x1', cx); grads[0].setAttribute('x2', 1); }
         if (grads[1]) { grads[1].setAttribute('x1', cx); grads[1].setAttribute('x2', R); }
       }
