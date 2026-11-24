@@ -1,7 +1,7 @@
 :root {
   color-scheme: dark;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-serif: 'Fraunces', Georgia, serif;
+  --font-serif: 'IBM Plex Serif', Georgia, serif;
   --primary: #039855;
   --primary-lite: #00a63e;
   --primary-dark: #60ff70;
@@ -713,7 +713,7 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        font-family: 'Fraunces', Georgia, serif;
+        font-family: 'IBM Plex Serif', Georgia, serif;
         font-style: normal;
         font-weight: 600;
         font-size: 30px;

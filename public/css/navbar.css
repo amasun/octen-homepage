@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+:root,
+html.__variable_56bdf6 {
+  --font-fraunces: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+}
 
 @media (min-width: 1024px) {
   .lg\:grid-cols-5 {
@@ -332,13 +337,12 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
 }
 
 .nav-dropdown-split .nav-title-keyword {
-  font-family: var(--font-fraunces, 'Fraunces', Georgia, serif) !important;
+  font-family: 'IBM Plex Serif', Georgia, serif !important;
   font-weight: 700 !important;
   font-style: italic !important;
   font-size: 14px !important;
   line-height: 20px !important;
   letter-spacing: -0.42px !important;
-  font-variation-settings: 'SOFT' 0, 'WONK' 1 !important;
   white-space: nowrap !important;
 }
 
@@ -572,7 +576,7 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   background: #70FE7E;
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
-  line-height: 13px;
+  line-height: 1.45;
   color: #0D0D0D;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -600,12 +604,13 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   background: #000000;
   color: #70FE7E;
   font-size: 12px;
-  line-height: 12px;
+  line-height: 1.25;
   font-weight: 500;
 }
 
 .promo-bar-text {
   min-width: 0;
+  line-height: 1.45;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -665,8 +670,12 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
 
 @media (max-width: 767px) {
   .promo-bar {
-    padding: 0 40px 0 12px;
-    font-size: 12.5px;
+    padding: 0 36px 0 12px;
+    font-size: clamp(11.5px, 3.2vw, 12.5px);
+  }
+
+  .promo-bar-close {
+    right: 6px;
   }
 
   .promo-long {
@@ -678,7 +687,7 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   }
 
   .promo-bar-link {
-    gap: 8px;
+    gap: 6px;
   }
 }
 

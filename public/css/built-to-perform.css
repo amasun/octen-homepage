@@ -1,3 +1,8 @@
+:root,
+html.__variable_56bdf6 {
+  --font-fraunces: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+}
+
 /* ==========================================================================
    BUILT TO PERFORM (BENCHMARK SECTION)
    Pixel-perfect styling aligned with Figma Node 13625:173752 & 13865:11275
@@ -85,7 +90,7 @@
 }
 
 .built-perf-heading {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'IBM Plex Serif', Georgia, serif;
   font-size: 44px;
   font-weight: 400;
   color: #000000;
@@ -222,7 +227,7 @@
 
 .built-perf-label {
   display: block;
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'IBM Plex Serif', Georgia, serif;
   font-size: 20px;
   font-weight: 400;
   color: #000000;
@@ -382,7 +387,7 @@
 }
 
 .built-perf-card-title {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'IBM Plex Serif', Georgia, serif;
   font-size: 24px;
   font-weight: 700;
   color: #08120A;
@@ -632,7 +637,7 @@
 }
 
 .built-perf-acc-title {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'IBM Plex Serif', Georgia, serif;
   font-size: 24px;
   font-weight: 700;
   color: #0F172A;
@@ -921,7 +926,7 @@
 }
 
 #chartCostEfficiency-b .built-perf-card-title {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'IBM Plex Serif', Georgia, serif;
   font-size: 24px;
   font-weight: 700;
   color: #08120A;

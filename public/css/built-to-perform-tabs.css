@@ -46,7 +46,7 @@
 }
 
 .bpt-heading {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'IBM Plex Serif', Georgia, serif;
   font-size: 44px;
   font-weight: 400;
   line-height: 1.2;
@@ -131,7 +131,7 @@
   border: 0;
   border-radius: 99px;
   background: transparent;
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'IBM Plex Serif', Georgia, serif;
   font-size: 20px;
   font-weight: 400;
   line-height: normal;
@@ -358,7 +358,7 @@
 
 .bpt-card-title {
   margin: 0 0 8px;
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'IBM Plex Serif', Georgia, serif;
   font-size: 24px;
   font-weight: 700;
   line-height: 1.5;

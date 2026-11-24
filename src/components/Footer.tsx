@@ -142,12 +142,12 @@ export const Footer: React.FC<FooterProps> = ({ version }) => {
             <img src="/_next/static/media/logo-white.690e48c0.svg" alt="Octen logo" style={{ width: '119.4px', height: '40.5px', objectFit: 'contain' }} />
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '10px' }}>
-            <span style={{ fontSize: '24px', fontFamily: 'Fraunces, serif', fontWeight: 300, color: '#fff', lineHeight: 1 }}>
+            <span style={{ fontSize: '24px', fontFamily: "'IBM Plex Serif', Georgia, serif", fontWeight: 300, color: '#fff', lineHeight: 1 }}>
               The Foundation of
             </span>
             <span style={{ 
               fontSize: '24px', 
-              fontFamily: 'Fraunces, serif', 
+              fontFamily: "'IBM Plex Serif', Georgia, serif", 
               fontStyle: 'italic', 
               fontWeight: 400,
               lineHeight: 1,

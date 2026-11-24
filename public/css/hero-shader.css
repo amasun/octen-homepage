@@ -15,16 +15,98 @@
   animation: hero-light-rays-fade-in 0.6s ease-out both;
 }
 
-@media (max-width: 767px) {
-  #heroGlassPills {
-    max-width: 100%;
-  }
+#heroGlassPills {
+  max-width: 100%;
+}
 
-  #hero h1 {
-    width: auto;
-    max-width: 100%;
-    font-size: clamp(46px, 12.2vw, 64px);
-    line-height: 1.05;
+#hero h1 {
+  width: auto;
+  max-width: 100%;
+  font-size: clamp(28px, 9.1vw, 65px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+#hero h1 span {
+  white-space: nowrap;
+}
+
+#hero h1 .hero-title-line1 {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.22em;
+  white-space: nowrap;
+}
+
+#hero h1 .hero-type-slot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: content-box;
+  padding: 0.02em 0.28em 0.06em 0.24em;
+  border-radius: 0.16em;
+  background: rgba(96, 255, 112, 0.08);
+  border: 1px solid rgba(96, 255, 112, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 24px rgba(96, 255, 112, 0.1);
+  color: #70fe7e;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.02;
+  vertical-align: baseline;
+  transition: width 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: hidden;
+}
+
+#hero h1 .hero-type-text {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+#hero h1 .hero-type-text::after {
+  content: '\200B';
+}
+
+#hero h1 .hero-type-cursor {
+  display: inline-block;
+  width: 0.04em;
+  min-width: 2px;
+  height: 0.78em;
+  margin-left: 0.08em;
+  border-radius: 1px;
+  background: #60ff70;
+  box-shadow: 0 0 8px rgba(96, 255, 112, 0.7);
+  flex-shrink: 0;
+  transform: translateY(0.04em);
+}
+
+#hero h1 .hero-type-cursor.is-blinking {
+  animation: hero-caret-blink 1s ease-in-out infinite;
+}
+
+#hero h1 .hero-type-measure {
+  position: absolute;
+  left: 0;
+  top: 0;
+  visibility: hidden;
+  pointer-events: none;
+  white-space: nowrap;
+  font-style: italic;
+  font-weight: 500;
+}
+
+@keyframes hero-caret-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  55%,
+  100% {
+    opacity: 0.12;
   }
 }
 
@@ -32,4 +114,89 @@
   #hero .light-rays-container canvas {
     animation: none;
   }
+
+  #hero h1 .hero-type-slot {
+    transition: none;
+  }
+
+  #hero h1 .hero-type-cursor {
+    display: none;
+  }
+}
+
+/* Hero 标题轮播词:Shine Word(Three.js 渲染,字体沿用原斜体 500) */
+#hero h1 .hero-shine-word {
+  position: relative;
+  display: inline-block;
+  vertical-align: bottom;
+  color: #fff; /* 基础字色;想恢复绿色改为 #70fe7e */
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.92em; /* 比标题其他文字略小 */
+  transition: width 600ms cubic-bezier(0.5, 0, 0.4, 1);
+  clip-path: inset(-0.4em -100% -0.4em -0.4em);
+}
+#hero h1 .shine-word__sizer { display: block; width: max-content; white-space: pre; visibility: hidden; }
+#hero h1 .shine-word__canvas { position: absolute; top: -24px; left: -24px; pointer-events: none; }
+#hero h1 .shine-word--fallback .shine-word__sizer { visibility: visible; }
+#hero h1 .shine-word--fallback .shine-word__canvas { display: none; }
+
+/* Hero 背景层亮度(相对原始):顶部光晕 SVG 91%、LightRays 光线 66%;粒子/点阵保持 100%;
+   绿色渐变底色 65% 已直接写在 02-hero.html 的内联 background(rgba(11,46,28,.6) = 原 rgba(17,70,43,.6) × 0.65) */
+#hero > section > svg {
+  filter: brightness(0.91);
+}
+#hero > section > div:has(> .light-rays-container) {
+  filter: brightness(0.66);
+}
+
+/* 标题上方新闻宣传胶囊:磨砂玻璃 + 底部彩色内发光 + 竖线分隔的 Read more */
+#hero .hero-news-pill {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  max-width: calc(100vw - 48px);
+  margin-bottom: 28px;
+  padding: 6px 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.07));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+/* 底部彩色发光(青 → 绿 → 黄绿,与 Hero 主题一致) */
+#hero .hero-news-pill::after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: -7px;
+  height: 12px;
+  background: linear-gradient(90deg, transparent, rgba(40, 200, 190, 0.75) 25%, rgba(112, 254, 126, 0.95) 55%, rgba(244, 254, 56, 0.7) 80%, transparent);
+  filter: blur(6px);
+  opacity: 0.5;   /* 内部光晕亮度 */
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+#hero .hero-news-pill:hover { border-color: rgba(255, 255, 255, 0.32); background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.09)); }
+#hero .hero-news-pill:hover::after { opacity: 0.75; }
+#hero .hero-news-pill__text { position: relative; color: rgba(255, 255, 255, 0.78); }
+#hero .hero-news-pill__text strong { font-weight: 600; color: #fff; }
+#hero .hero-news-pill__divider { position: relative; flex-shrink: 0; width: 1px; height: 16px; background: rgba(255, 255, 255, 0.2); }
+#hero .hero-news-pill__cta { position: relative; flex-shrink: 0; display: inline-flex; align-items: center; color: #fff; }
+#hero .hero-news-pill__arrow { transition: transform 0.2s ease; }
+#hero .hero-news-pill:hover .hero-news-pill__arrow { transform: translate(1px, -1px); }
+@media (max-width: 720px) {
+  /* 所有宽度文字一致:窄屏不再隐藏前缀,改为缩小字号并允许文字居中换行 */
+  #hero .hero-news-pill { gap: 12px; padding: 5px 14px; font-size: 13px; border-radius: 22px; }
+  #hero .hero-news-pill__text { text-align: center; }
 }
