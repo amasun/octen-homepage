@@ -327,8 +327,8 @@ article.rs-cell, article.rs-cell:nth-of-type(n) { background: var(--octen-card-b
 
 /* Extract: taller card anchored to the top, content fades out toward the bottom */
 .rs-art--ex { align-items: flex-start; padding-top: 18px; padding-bottom: 0; }
-.rs-art--ex .rs-ex { height: 190px; overflow: hidden; border-bottom-color: transparent;
-  -webkit-mask-image: linear-gradient(#000 60%, transparent 98%); mask-image: linear-gradient(#000 60%, transparent 98%); }
+.rs-art--ex .rs-ex { height: 164px; overflow: hidden; border-bottom-color: transparent;
+  -webkit-mask-image: linear-gradient(#000 58%, transparent 98%); mask-image: linear-gradient(#000 58%, transparent 98%); }
 .rs-art--ex .rs-imgs { gap: 7px; }
 .rs-art--ex .rs-imgs i { width: 46px; height: 46px; border-radius: 8px; }
 .rs-art--ex .rs-row--content { align-items: flex-start; }

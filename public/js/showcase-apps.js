@@ -50,4 +50,50 @@
   window.addEventListener('resize', update);
   if (typeof ResizeObserver === 'function') new ResizeObserver(update).observe(track);
   update();
+
+  /* hover 到应用卡片时，在背景图上随机亮起纯白点阵 */
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) {
+    var cards = track.querySelectorAll('.sc-app');
+    cards.forEach(function (card) {
+      var banner = card.querySelector('.sc-banner');
+      if (!banner) return;
+
+      var grid = document.createElement('div');
+      grid.className = 'sc-dots';
+      grid.setAttribute('aria-hidden', 'true');
+      var dots = [];
+      for (var i = 0; i < 72; i++) {
+        var dot = document.createElement('i');
+        grid.appendChild(dot);
+        dots.push(dot);
+      }
+      var icon = banner.querySelector('.sc-icon');
+      banner.insertBefore(grid, icon || null);
+
+      var timer = null;
+      var burst = function () {
+        var count = 5 + Math.floor(Math.random() * 4);
+        for (var k = 0; k < count; k++) {
+          (function (d, peak) {
+            d.classList.add(peak ? 'is-peak' : 'is-lit');
+            setTimeout(function () {
+              d.classList.remove('is-lit', 'is-peak');
+            }, 420 + Math.floor(Math.random() * 260));
+          })(dots[Math.floor(Math.random() * dots.length)], Math.random() < 0.25);
+        }
+      };
+
+      card.addEventListener('mouseenter', function () {
+        if (timer) clearInterval(timer);
+        burst();
+        timer = setInterval(burst, 180);
+      });
+
+      card.addEventListener('mouseleave', function () {
+        if (timer) { clearInterval(timer); timer = null; }
+        dots.forEach(function (d) { d.classList.remove('is-lit', 'is-peak'); });
+      });
+    });
+  }
 })();
