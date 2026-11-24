@@ -1,0 +1,29 @@
+/* ==========================================================================
+   模块上下留白统一规则(桌面 ≥1025px;最后加载,覆盖各模块自己的 padding)
+   - 相邻两模块底色不同:各自内容到自己边缘 120px(上下各 120)
+   - 相邻两模块底色相同:两块内容之间合计 120px
+   「内容」= 模块里第一个 / 最后一个可见元素(标题胶囊、卡片、按钮等),不含整幅背景层
+
+   当前顺序与底色(1440px 实测):
+     Hero #080B12 → Web Search #101217 → Octen Search 三档 白 → Octen tools and models 白 → Showcase 白
+     → Built to Perform #F1F4F2 → Pricing 白 → Get started 白 → Footer #080B12
+   ========================================================================== */
+@media (min-width: 1025px) {
+  /* Octen Search 三档:上方 Web Search 深底不同色 → 上 120;下方 Octen tools and models 同为白色 → 合计 120(本块下 120 + 下块上 0) */
+  #search-tiers { padding-top: 120px !important; padding-bottom: 120px !important; }
+
+  /* Octen tools and models:上方 Octen Search 同为白色 → 上 0;下方 Showcase 同为白色 → 两者之间合计 120(本块下 120 + Showcase 上 0) */
+  #retrieval-stack { padding-top: 0 !important; padding-bottom: 120px !important; }
+
+  /* Showcase:上 0(见上);下方 Built to Perform 不同色 → 120(轨道自带 8px 下内边距,112 + 8 = 120) */
+  #showcase { padding-top: 0 !important; padding-bottom: 112px !important; }
+
+  /* Built to Perform:上下都不同色 → 各 120(含 1px 边线:119 + 1) */
+  #built-to-perform.bpt-section { padding-top: 119px !important; padding-bottom: 119px !important; }
+
+  /* Pricing:上方 Built to Perform 不同色 → 上 120;下方 Get started 同为白色 → 两者之间合计 120(本块下 120 + Get started 上 0) */
+  #pricing > .py-25 { padding-top: 120px !important; padding-bottom: 120px !important; }
+
+  /* Get started:上方 Pricing 同为白色 → 上 0;下方 Footer #080B12 不同色(Footer 内容距顶 45px,保留 74 + 1 + 45 = 120) */
+  #get-started > .py-25 { padding-top: 0 !important; padding-bottom: 74px !important; }
+}

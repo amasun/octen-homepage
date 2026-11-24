@@ -20,6 +20,7 @@
 }
 
 .octen-web-search-card {
+  font-family: 'DM Sans Arrow', 'DM Sans', sans-serif;
   border: 1px solid var(--octen-web-search-border) !important;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
@@ -579,11 +580,22 @@
   padding-top: 120px;      /* 上下内边距固定 120px;模块总高通过压缩图形(卡片)高度达到 940px(1440px 宽) */
   padding-bottom: 120px;
 }
-/* 标题区 → 对比卡片 的间距:原 space-y-15(60px)缩到 35px;整个模块在 1440px 宽下总高 940px */
+@media (max-width: 1024px) {
+  #web-search {
+    padding-top: clamp(60px, 9vw, 120px);
+    padding-bottom: clamp(60px, 9vw, 120px);
+  }
+}
+@media (max-width: 767px) {
+  #web-search {
+    padding: 60px 16px;
+  }
+}
+/* 标题区 → 对比卡片 的间距:原 space-y-15(60px)缩到 30px;整个模块在 1440px 宽下总高 951px(含外框卡片 8px 内边距) */
 #web-search > .space-y-15 {
   display: flex;
   flex-direction: column;
-  gap: 35px;
+  gap: 30px;
 }
 #web-search > .space-y-15 > * {
   margin-top: 0 !important;
@@ -616,3 +628,138 @@
 .octen-web-search-card--accent .h-33 .ws-layer[style*="top: 6px"] { opacity: 0.6 !important; }
 /* 左侧结果面板与右侧子查询网格顶边对齐,圆角同步为 10px */
 #webSearchCompare .octen-human-results-panel { border-radius: 10px; }
+
+/* ==========================================================================
+   浅色模块 + 整体外框卡片(Figma Octen_汇总 · node 14376:46661)
+   - 模块背景:顶部浅绿 rgba(239,255,240,.95) → 白色 渐变;标题 / 描述改深色,促销胶囊改深底
+   - #webSearchCompare 变成整体外框卡片:#080b12、圆角 18、内边距 8,内含两张面板(间距 6)
+   - 左面板 #1a1a1c;右面板 rgba(53,196,132,.3) 叠在 #080b12 上;vs. 圆 44px,边框色 = 外框底色
+   ========================================================================== */
+#web-search {
+  --ws-module-bg: #080b12;                     /* vs. 圆环「镂空」色:现在压在外框卡片上,取外框底色 */
+  background: #ffffff !important;
+}
+#web-search [data-node-id="13625:168565"] { color: #000000 !important; }
+#web-search [data-node-id="13625:168567"] { color: rgba(0, 0, 0, 0.8) !important; }
+
+#web-search .octen-web-search-promo-pill { background: rgba(0, 0, 0, 0.8) !important; }
+#web-search .octen-web-search-promo-pill:hover { background: rgba(0, 0, 0, 0.9) !important; }
+#web-search .octen-promo-text,
+#web-search .octen-promo-text-light { color: rgba(255, 255, 255, 0.82) !important; }
+
+/* 整体外框卡片 */
+#webSearchCompare {
+  --ws-pad: 8px;
+  padding: var(--ws-pad);
+  background: #080b12;
+  border-radius: 18px;
+}
+
+/* 两张面板颜色对齐 Figma(保留 hover 叠层微调) */
+@property --ws-tint-g {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0.3;
+}
+#webSearchCompare > .octen-web-search-card:not(.octen-web-search-card--accent) {
+  --ws-tint: 0;
+  background:
+    linear-gradient(rgba(255, 255, 255, var(--ws-tint)), rgba(255, 255, 255, var(--ws-tint))),
+    #1a1a1c !important;
+}
+#webSearchCompare > .octen-web-search-card:not(.octen-web-search-card--accent):hover { --ws-tint: 0.04; }
+#webSearchCompare > .octen-web-search-card--accent {
+  --ws-tint-g: 0.3;
+  transition: --ws-tint-g 0.3s ease;
+  background:
+    linear-gradient(rgba(53, 196, 132, var(--ws-tint-g)), rgba(53, 196, 132, var(--ws-tint-g))),
+    #080b12 !important;
+}
+#webSearchCompare > .octen-web-search-card--accent:hover { --ws-tint-g: 0.36; }
+
+/* vs. 圆:44px(含 6px 边框),位置把外框内边距算进去 */
+.octen-compare-vs span { width: 44px; height: 44px; background: #1e2026; }
+@media (min-width: 768px) {
+  .octen-compare-vs {
+    left: calc(var(--ws-pad, 0px) + (100% - 2 * var(--ws-pad, 0px) - var(--ws-gap, 6px)) / 2.9 + var(--ws-gap, 6px) / 2);
+  }
+}
+
+/* 标题上方胶囊「What's Broad Search」:与第三模块 .rs-head-pill("Beyond search")同一样式 */
+.ws-head-pill { display: inline-flex; align-items: center; height: 30px; padding: 0 16px; border-radius: 999px; border: 1px solid #d4d4d8; background: rgba(255, 255, 255, 0.7); font: 500 14px/1 'DM Sans', sans-serif; color: #374151; }
+
+/* 子查询网格 → 结果网格 的竖向连接线:从上网格下边框外沿起,到下网格上边框为止(高度 = 两网格间距),不与边框交叉;
+   连接线容器左右内缩 8px、列间距 10px,与子查询胶囊列完全对齐 */
+#webSearchCompare .octen-web-search-card--accent .h-35 > .-bottom-6 {
+  top: calc(100% + 1px);                 /* 绝对定位参照 padding box,+1px 跳过下边框 */
+  bottom: auto;
+  left: 8px; right: 8px; width: auto;
+  column-gap: 10px;
+  height: var(--ws-vconn-h, 28px);       /* = .h-35 的 margin-bottom(窄屏 mb-7 = 28px) */
+}
+#webSearchCompare .octen-web-search-card--accent .h-35 > .-bottom-6 > div { height: 100%; }
+#webSearchCompare .octen-web-search-card--accent .h-35 > .-bottom-6 .w-0\.5 { height: 100%; }
+@media (min-width: 768px) {
+  #webSearchCompare { --ws-vconn-h: 20px; } /* 桌面端两网格间距 20px */
+}
+
+/* ==========================================================================
+   A/B 底色方案(临时对比用,右上角 A / B 按钮切换,见 public/js/web-search-theme-ab.js)
+   A = 当前白底(默认);B = #080B12 深底:结构完全不变,只把标题区文字 / 胶囊 / 促销条改回适配深底,
+   外框卡片与模块同色,补 1px 浅描边保留卡片轮廓
+   ========================================================================== */
+#web-search.ws-theme-b { background: #101217 !important; }
+#web-search.ws-theme-b [data-node-id="13625:168565"] { color: #ffffff !important; }
+#web-search.ws-theme-b [data-node-id="13625:168567"] { color: rgba(255, 255, 255, 0.7) !important; }
+#web-search.ws-theme-b .ws-head-pill { border-color: rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.06); color: rgba(255, 255, 255, 0.82); }
+#web-search.ws-theme-b .octen-web-search-promo-pill { background: #4D4D4D4D !important; }
+#web-search.ws-theme-b .octen-web-search-promo-pill:hover { background: #4D4D4D5D !important; }
+#web-search.ws-theme-b #webSearchCompare { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08); }
+
+.ws-ab { position: absolute; top: 96px; right: 32px; z-index: 5; display: flex; padding: 3px; gap: 2px; border-radius: 999px; background: rgba(0, 0, 0, 0.06); border: 1px solid rgba(0, 0, 0, 0.08); }
+.ws-ab button { width: 32px; height: 26px; border: 0; border-radius: 999px; background: transparent; font: 600 12px/1 'DM Sans', sans-serif; color: rgba(0, 0, 0, 0.5); cursor: pointer; transition: background 0.2s, color 0.2s; }
+.ws-ab button[aria-pressed="true"] { background: #080b12; color: #fff; }
+#web-search.ws-theme-b .ws-ab { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.12); }
+#web-search.ws-theme-b .ws-ab button { color: rgba(255, 255, 255, 0.55); }
+#web-search.ws-theme-b .ws-ab button[aria-pressed="true"] { background: #fff; color: #080b12; }
+
+/* 说明文字(Human vs Broad 对比话术):桌面端容器加宽到 740px,保持两行;text-wrap: balance 让两行长度均衡 */
+#web-search [data-node-id="13625:168567"] { text-wrap: balance; }
+@media (min-width: 768px) {
+  #web-search [data-node-id="13625:168567"] { max-width: 740px !important; }
+}
+
+/* ==========================================================================
+   背景微弱网格(仅 B 深底版):48px 方格细线,白 4%;以水平中心对齐
+   遮罩:上下边缘渐隐;标题区中央椭圆减淡,保证文字可读
+   ========================================================================== */
+#web-search.ws-theme-b::before {
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: center top;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 82%, transparent 100%),
+                      radial-gradient(ellipse 34% 16% at 50% 17%, rgba(0,0,0,.25) 0, #000 100%);
+  -webkit-mask-composite: source-in;
+          mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 82%, transparent 100%),
+                      radial-gradient(ellipse 34% 16% at 50% 17%, rgba(0,0,0,.25) 0, #000 100%);
+          mask-composite: intersect;
+}
+
+/* Pricing 占位区块改白底:促销胶囊改深底(与白底 A 版 Web Search 一致) */
+#pricing .octen-web-search-promo-pill { background: rgba(0, 0, 0, 0.8) !important; }
+#pricing .octen-web-search-promo-pill:hover { background: rgba(0, 0, 0, 0.9) !important; }
+#pricing .octen-promo-text,
+#pricing .octen-promo-text-light { color: rgba(255, 255, 255, 0.82) !important; }
+#pricing p { color: rgba(0, 0, 0, 0.7); }
+#pricing .border-dashed { color: rgba(0, 0, 0, 0.4); border-color: rgba(0, 0, 0, 0.15); }
+
+/* Pricing「Start building ↗」按钮:沿用 .rs-btn--solid,箭头间距 + hover 斜向位移 */
+#pricing .pr-start-btn { --rs-ink: #0a0a0a; gap: 6px; }
+#pricing .pr-start-btn svg { transition: transform .2s; }
+#pricing .pr-start-btn:hover svg { transform: translate(2px, -2px); }
+
+/* Pricing 副文案强调「$5 in free balance」:品牌绿(白底可读的深一档)*/
+#pricing .pr-free { color: #039855; font-weight: 600; }

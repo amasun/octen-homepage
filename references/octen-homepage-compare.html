@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Octen 首页 · 方案对比</title>
+<style>
+  :root{--bg:#0b0f14;--bar:#11161d;--line:#263040;--txt:#e8edf0;--mut:#9fb0bd;--dim:#7d8c99;--green:#16B673}
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{font-family:'DM Sans',system-ui,-apple-system,'PingFang SC',sans-serif;background:var(--bg);color:var(--txt);display:flex;flex-direction:column}
+  .bar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 18px;background:var(--bar);border-bottom:1px solid var(--line)}
+  .ttl{font-weight:700;font-size:15px}
+  .seg{display:flex;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:4px}
+  .seg button{font:600 13px/1 inherit;color:var(--mut);background:transparent;border:0;border-radius:8px;padding:9px 15px;cursor:pointer;transition:background .15s,color .15s}
+  .seg button:hover{color:var(--txt)}
+  .seg button.on{background:var(--green);color:#06130c}
+  .hint{margin-left:auto;font-size:12px;color:var(--dim)}
+  .hint code{font-family:ui-monospace,Menlo,monospace;color:var(--mut);background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+  .stage{flex:1;min-height:0;display:flex}
+  .stage iframe{flex:1;width:100%;height:100%;border:0;background:#fff;display:block}
+  .stage.split iframe{border-right:1px solid var(--line)}
+  .stage.split iframe:last-child{border-right:0}
+  .lab{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:20;display:none;gap:8px;pointer-events:none}
+  .stage.split ~ .lab{display:flex}
+  .lab span{font-size:11px;font-weight:700;color:var(--txt);background:rgba(17,22,29,.9);border:1px solid var(--line);border-radius:999px;padding:4px 12px}
+</style>
+</head>
+<body>
+  <div class="bar">
+    <span class="ttl">Octen 首页 · 方案对比</span>
+    <div class="seg" id="seg">
+      <button data-m="a" class="on">A · 能力分档（深色）</button>
+      <button data-m="b">B · 按用途（浅色）</button>
+      <button data-m="both">并排</button>
+    </div>
+    <span class="hint">在浏览器打开本页切换；两版可各自独立迭代 · <code>octen-homepage-hifi.html</code> / <code>octen-homepage-byuse.html</code></span>
+  </div>
+  <div class="stage" id="stage">
+    <iframe src="octen-homepage-hifi.html" title="方案 A"></iframe>
+  </div>
+  <div class="lab"><span>← A · 能力分档</span><span>B · 按用途 →</span></div>
+
+  <script>
+    var A='octen-homepage-hifi.html', B='octen-homepage-byuse.html';
+    var stage=document.getElementById('stage');
+    function show(m){
+      document.querySelectorAll('#seg button').forEach(function(b){b.classList.toggle('on',b.dataset.m===m)});
+      if(m==='both'){
+        stage.className='stage split';
+        stage.innerHTML='<iframe src="'+A+'" title="A"></iframe><iframe src="'+B+'" title="B"></iframe>';
+      }else{
+        stage.className='stage';
+        stage.innerHTML='<iframe src="'+(m==='b'?B:A)+'" title="'+m+'"></iframe>';
+      }
+      try{localStorage.setItem('octen-ab',m)}catch(e){}
+    }
+    document.querySelectorAll('#seg button').forEach(function(b){b.addEventListener('click',function(){show(b.dataset.m)})});
+    var s='a';try{s=localStorage.getItem('octen-ab')||'a'}catch(e){}
+    show(s);
+  </script>
+</body>
+</html>

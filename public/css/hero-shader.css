@@ -332,7 +332,21 @@
   --number-flow-char-height: 1em;
 }
 
+@media (min-width: 768px) and (max-width: 1024px) {
+  #hero {
+    --hero-bottom-gap: clamp(60px, 9vw, 120px);
+  }
+}
+
 @media (max-width: 767px) {
+  #hero {
+    --hero-bottom-gap: 60px;
+  }
+
+  #hero > section > div.flex-center.flex-col.pt-50 {
+    padding-top: 120px;
+  }
+
   #hero .hero-features {
     width: 100%;
     max-width: 390px;
@@ -392,5 +406,19 @@
   #hero .hero-feature-inline-b {
     font-weight: 500;
     color: rgba(255, 255, 255, 0.88);
+  }
+}
+
+/* console 内滚动区:滚轮不响应(由 public/js/hero-console-scroll.js 拦截 wheel 并转给整页滚动),
+   内部内容只能通过拖动滚动条滚动;滚动条保持可见。
+   触摸设备(没有可拖的滚动条)内部不滚动,手指滑动直接滚整页。 */
+#hero .hero-console .overflow-y-auto.px-4,
+#hero .hero-console [style*="scrollbar-gutter"] {
+  overscroll-behavior: auto;
+}
+@media (hover: none) {
+  #hero .hero-console .overflow-y-auto.px-4,
+  #hero .hero-console [style*="scrollbar-gutter"] {
+    overflow-y: hidden !important;
   }
 }

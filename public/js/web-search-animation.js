@@ -73,10 +73,10 @@
         if (window.matchMedia && matchMedia('(min-width: 768px)').matches) {
           D = parseFloat(getComputedStyle(root).getPropertyValue('--ws-brace-shrink')) || 0;
         }
-        var y2 = 35 - D;                          // 横线所在高度
-        var y1 = Math.max(2, 17 - D);             // 竖干终点(上弯起点)
+        var e = 59 - D;                           // 两端落点:svg 底边上方 1px(线宽 2、圆头),圆头正好落在子查询网格上边框,不穿过也不悬空
+        var y2 = e - 20;                          // 横线所在高度:紧贴下角 20px 圆角上方,把汇聚点整体压低
+        var y1 = Math.max(2, y2 - 8);             // 竖干终点(汇聚/分叉点):横线上方 8px(原 2px 处,桌面端下降约 7px)
         var k = y1 + (y2 - y1) * 0.667;           // 上弯曲线控制点
-        var e = 55 - D;                           // 两端落点
         // Figma 括号:中心 x = w/2+1,左端 x=1,右端 x=w+1;下角圆角固定 20px(竖向 y2 → e 恒为 20)
         var cx = w / 2 + 1, R = w + 1;
         svg.setAttribute('width', w);

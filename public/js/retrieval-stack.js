@@ -1,8 +1,8 @@
 /**
  * Embedding 插画:Octen 始终居中不动,卡片背景点阵(.rs-art::before,16px 网格)持续从左向右流动;
  *  - 球周围 RIN 内的点按距离「放大 + 变深」(透镜,中性灰);点阵移动靠 --emb-ox 同步背景的 background-position,叠加圆跟着同一相位走;
- *  - 球不断向四周(16 个角度分区)伸出直线触手,抓住流过身边的点:触手端点跟着那个点一起向右漂,
- *    随机持有一小段时间或点漂出范围后松开,再抓别的点;端点带小圆点。
+ *  - 球不断向四周(8 个角度分区,即 8 根触手)伸出直线触手,抓住流过身边的点:触手端点跟着那个点一起向右漂,
+ *    点偏离 RIN 环超过 BAND_IN 开始按距离渐隐、到 BAND_OUT 松开(内外对称,左右线长均衡),另有寿命 LIFE 兜底;端点带小圆点。
  * 持续循环(Loop 的 data-ms 设成很大,只在进入/离开视口时启停);prefers-reduced-motion 只画静态一帧。
  */
 (function () {
@@ -11,7 +11,7 @@
   if (!art) return;
   var svg = art.querySelector('.emb-svg'), hub = art.querySelector('.emb-hub'), tent = art.querySelector('.emb-tent'), grab = art.querySelector('.emb-grab');
   if (!svg || !hub || !tent || !grab) return;
-  var NS = 'http://www.w3.org/2000/svg', VW = 600, HX = 300, HY = 84, R = 28, RIN = 104, FADE_START = 125, FADE_END = 225, NB = 16, GRID = 16, SPEED = 44;
+  var NS = 'http://www.w3.org/2000/svg', VW = 600, HX = 300, HY = 84, R = 28, RIN = 104, BAND_IN = 14, BAND_OUT = 30, LIFE = 500, NB = 8, GRID = 16, SPEED = 44;
   var rows = [], pool = [], bins = [], scale = 1, ox = 0, ncol = 0, TWO_PI = Math.PI * 2;
   var NOEL = { setAttribute: function () {} };
   function mk(tag, parent) { var e = document.createElementNS(NS, tag); parent.appendChild(e); return e; }
@@ -50,12 +50,27 @@
         else { d.el.setAttribute('cx', x.toFixed(1)); d.el.setAttribute('cy', y.toFixed(1));
           d.el.setAttribute('r', (1.3 + 3.2 * f).toFixed(2)); d.el.setAttribute('fill', shade(f)); }
       } else d.el.setAttribute('r', 0);
-      if (dist > RIN - 16 && dist < RIN + 4 && !held[w + ',' + d.row]) {
+      // 抓点范围放宽到 RIN 环附近一整圈带子里随机取点(连接点位置更随机):右半边的点向外漂、左半边向内漂,
+      // 窗口按运动方向错开(右 RIN-40..RIN+12,左 RIN-12..RIN+40),线在寿命内漂移后两侧平均线长仍对称。
+      var off = dist - RIN;
+      var ok = dx > 0 ? (off > -40 && off < 12) : (off > -12 && off < 40);
+      if (ok && !held[w + ',' + d.row]) {
         var ang = Math.atan2(dy, dx) + Math.PI, bi = Math.floor(ang / (TWO_PI / NB)) % NB;
         cand[bi].push({ w: w, r: d.row });
       }
     });
-    var k = 1 - Math.exp(-dt / 65);
+    var k = 1 - Math.exp(-dt / 30);
+    // 对称释放带:触手端点始终 = 点阵里那个点的真实位置(不截断、不回跳);线长 |dist - RIN| 偏离 BAND_IN 后按距离渐隐,
+    // 到 BAND_OUT 完全消失才松开。右侧点向外漂(线变长)、左侧点向内漂(线变短)用同一个带宽 → 左右线长基本对称(约 RIN±30)。
+    // 上下方的点几乎沿切向移动、距离变化慢,另加寿命 LIFE:到时用透明度淡出再松开,保证各方向都在持续更替。
+    // 每条线有自己的中心半径 s.c(= 抓点时的距离沿运动方向再前移 16px),渐隐带围绕 s.c 计算 → 各条线在不同半径上出现 / 消失
+    function bandFade(dist, c) {
+      var o = Math.abs(dist - c);
+      if (o <= BAND_IN) return 1;
+      if (o >= BAND_OUT) return 0;
+      var u = (o - BAND_IN) / (BAND_OUT - BAND_IN);
+      return 1 - u * u * (3 - 2 * u);
+    }
     bins.forEach(function (s, bi) {
       var distFade = 1;
       if (s.a > 0.02 || s.hold > 0) {
@@ -65,28 +80,27 @@
           return;
         }
         var dx = x - HX, dy = y - HY, dist = Math.sqrt(dx * dx + dy * dy);
-        s.hold -= dt;
         s.ex = x; s.ey = y;
-        if (dist >= FADE_END) {               // 线已随点拉长到完全淡出:这时才松开,并稍等再抓新的点
-          s.hold = 0; s.a = 0; s.cool = 150 + Math.random() * 350; s.line.style.opacity = 0; s.cap.style.opacity = 0;
+        distFade = bandFade(dist, s.c);
+        s.life = (s.life || 0) + dt;
+        if (distFade <= 0) {                    // 漂出释放带:线已渐隐完,松开并稍等再抓新的点
+          s.hold = 0; s.a = 0; s.cool = Math.random() * 40; s.line.style.opacity = 0; s.cap.style.opacity = 0;
           return;
         }
-        if (dist > FADE_START) {
-          var u = (dist - FADE_START) / (FADE_END - FADE_START);
-          distFade = 1 - u * u * (3 - 2 * u);
-        }
-        // 不再按计时松手:触手一直连着这个点,点随点阵右移时线跟着拉长并按距离渐隐(distFade),
-        // 只有点漂进球体附近才淡出松开。端点始终 = 点阵里那个点的真实位置,不做任何截断。
-        if (dist < R + 14) { s.hold = 0; s.a += (0 - s.a) * k; if (s.a < 0.03) s.cool = 150 + Math.random() * 350; }
-        else { s.hold = 1; s.a += (1 - s.a) * k; }
-      } else if ((s.cool = (s.cool || 0) - dt) <= 0 && cand[bi].length && Math.random() < dt / 110) {      // 空闲的触手:随机抓一个流过的点
-        var c = cand[bi][Math.floor(Math.random() * cand[bi].length)];
-        s.w = c.w; s.r = c.r; s.hold = 700 + Math.random() * 1100; s.a = 0.05; s.ex = xs(c.w, S); s.ey = rows[c.r];
-        var cdx = s.ex - HX, cdy = s.ey - HY, cdist = Math.sqrt(cdx * cdx + cdy * cdy);
-        if (cdist > FADE_START) {
-          var cu = Math.min(1, (cdist - FADE_START) / (FADE_END - FADE_START));
-          distFade = 1 - cu * cu * (3 - 2 * cu);
-        }
+        if (s.life > s.maxLife || dist < R + 14) {   // 寿命到 / 太靠近球:透明度淡出后松开
+          s.hold = 0; s.a += (0 - s.a) * k;
+          if (s.a < 0.03) { s.a = 0; s.cool = Math.random() * 40; }
+        } else { s.hold = 1; s.a += (1 - s.a) * k; }
+      } else if ((s.cool = (s.cool || 0) - dt) <= 0 && Math.random() < dt / 10 &&
+                 (cand[bi].length || cand[(bi + 1) % NB].length || cand[(bi + NB - 1) % NB].length)) {
+        // 本分区没有可抓的点(卡片高度有限,左上 / 左下外环常被裁掉)时向相邻分区借一个,保证 8 根触手一直在工作
+        var pickFrom = cand[bi].length ? cand[bi] : (cand[(bi + 1) % NB].length ? cand[(bi + 1) % NB] : cand[(bi + NB - 1) % NB]);      // 空闲的触手:在 RIN 环附近的带子里随机抓一个点
+        var c = pickFrom.splice(Math.floor(Math.random() * pickFrom.length), 1)[0];   // 取出,避免两根触手同帧抓同一个点
+        s.w = c.w; s.r = c.r; s.hold = 1; s.a = 0.05; s.life = 0; s.maxLife = LIFE * (0.7 + Math.random() * 0.6);
+        s.ex = xs(c.w, S); s.ey = rows[c.r];
+        var cdx = s.ex - HX, cdy = s.ey - HY, cd = Math.sqrt(cdx * cdx + cdy * cdy);
+        s.c = cd + (cdx > 0 ? 16 : -16);        // 右侧向外漂 → 中心在外;左侧向内漂 → 中心在内
+        distFade = bandFade(cd, s.c);
       }
       var vis = s.a * distFade;
       if (vis < 0.02) { s.line.style.opacity = 0; s.cap.style.opacity = 0; if (s.hold <= 0 && s.a < 0.03) s.a = 0; return; }

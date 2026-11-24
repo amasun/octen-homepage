@@ -3,14 +3,14 @@
    插画均为 HTML + SVG;动画由 public/js/retrieval-stack.js 控制(进入视口后循环,离开暂停)
    ========================================================================== */
 .rs-bento {
-  --rs-line: #e7e7e7;
+  --rs-line: var(--octen-card-line, #E6E7E6);
   --rs-ink: #0a0a0a;
   --rs-mute: #6b7280;
   --rs-green: #02b921;
   position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  background: #f6f6f6;
+  background: var(--octen-card-bg, #F4F5F4);
   border: 1px solid var(--rs-line);
   border-radius: 16px;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -43,7 +43,7 @@ article.rs-cell:nth-of-type(4) { border-bottom-right-radius: 15px; }
 .rs-flow { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; }
 .rs-card { background: #fff; border: 1px solid #e7e7e7; border-radius: 10px; }
 .rs-label { display: block; font: 600 9px/1 'DM Sans', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3af; margin-bottom: 6px; }
-.rs-mono { font-family: 'DM Mono', ui-monospace, Menlo, Consolas, monospace; }
+.rs-mono { font-family: 'DM Sans Arrow', 'DM Mono', ui-monospace, Menlo, Consolas, monospace; }
 .rs-pill { display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: 999px; background: #eaf8ee; color: #0b7a2b; border: 1px solid #cdefd7; font: 600 11px/1 'DM Sans', sans-serif; white-space: nowrap; }
 .rs-chip { display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: 6px; font: 600 10px/1 'DM Sans', sans-serif; white-space: nowrap; }
 .rs-chip--green { background: #eaf8ee; color: #0b7a2b; border: 1px solid #cdefd7; }
@@ -146,6 +146,9 @@ article.rs-cell:nth-of-type(4) { border-bottom-right-radius: 15px; }
 @container (max-width: 470px) { .rs-flow { zoom: 0.72; } .rs-art { height: 172px; } }
 @container (max-width: 380px) { .rs-flow { zoom: 0.6; } .rs-art { height: 152px; } }
 @media (max-width: 767px) {
+  #retrieval-stack { padding-top: 60px; padding-bottom: 60px; }
+  #retrieval-stack > .px-8 { padding-left: 16px; padding-right: 16px; }
+  .rs-head { padding: 0 16px; margin-bottom: 36px; }
   .rs-bento { grid-template-columns: 1fr; }
   article.rs-cell:nth-of-type(2n) { border-left: 0; }
   article.rs-cell:nth-of-type(n + 2) { border-top: 1px solid var(--rs-line); }
@@ -198,7 +201,7 @@ article.rs-cell:nth-of-type(4) { border-bottom-right-radius: 15px; }
 /* four independent cards (no shared border / grid lines) */
 .rs-bento { gap: 16px; background: transparent; border: 0; border-radius: 0; }
 .rs-dot { display: none; }
-article.rs-cell, article.rs-cell:nth-of-type(n) { background: #f6f6f6; border: 1px solid var(--rs-line); border-radius: 16px; }
+article.rs-cell, article.rs-cell:nth-of-type(n) { background: var(--octen-card-bg, #F4F5F4); border: 1px solid var(--rs-line); border-radius: 16px; }
 @media (max-width: 767px) { .rs-bento { gap: 12px; } }
 
 /* text → card bottom spacing = 30px (desc no longer carries the old button margin) */

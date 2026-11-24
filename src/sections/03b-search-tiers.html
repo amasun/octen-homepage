@@ -1,0 +1,226 @@
+<!-- ================= SECTION 3b: OCTEN SEARCH → three tiers (Pulse / Fast / Premier) =================
+  内容来源:references/octen-homepage-hifi.html 第 ② 模块,文字提取见 references/octen-search-tiers.md
+  结构:标题区 → 速度/质量轴 + 紧凑三档定位条(按钮,hover/focus 高亮下方对应卡片)→ Bento(Pulse 5 列 | Fast 7 列 | Premier 通栏)→ 底部选型引导条
+  交互(public/js/octen-tiers.js):概览联动高亮;进入视口加 .is-inview。Premier 为 5 张可视化产品卡(News / Business / Place / Design / Web Premier),悬停微动效为纯 CSS
+  样式:public/css/octen-tiers.css。白底,上接 Web Search(深底,上 120)、下接 Octen tools and models(同为白底,合计 120)
+  Premier 卡片示例数据均为虚构;本模块不展示价格/费用信息
+-->
+<section class="st-section relative w-full" id="search-tiers" aria-labelledby="stTitle">
+  <span id="octen-search" class="scroll-anchor" style="position: absolute; top: 0; left: 0;" aria-hidden="true"></span>
+
+  <div class="st-head">
+    <span class="st-head-pill" data-copy-anchor="#search-tiers">Search products</span>
+    <h2 id="stTitle" class="font-serif text-gray-900 text-5xl lg:text-[44px]">Three tiers of search, one API</h2>
+    <p class="st-head-sub">Switch freely between Pulse (~10 ms), Fast (live web), and Premier (domain-tuned) — every call tuned to the speed and depth your agent needs.</p>
+  </div>
+
+  <div class="st-wrap" id="stTiers" data-active="">
+    <div class="st-bento">
+      <!-- ========== Pulse ========== -->
+      <article class="st-card st-card--pulse" id="tier-pulse" data-tier="pulse">
+        <div class="st-txt">
+          <span class="st-eyebrow">Pulse Search</span>
+          <h3>The model is the index.</h3>
+          <!-- 延迟大数字放在介绍文字左侧(替代原底部 Product / Latency / Best for 表格) -->
+          <div class="st-lead">
+            <div class="st-stat"><b><number-flow class="st-stat-flow" data-start="0" data-value="10" data-trend="1" data-delay="80">10</number-flow><small>ms</small></b><span>Latency per call</span></div>
+            <p>Generative retrieval that recalls URLs directly — no crawl, no ranking. Fast enough for every agent step.</p>
+          </div>
+        </div>
+        <div class="st-art st-art--pulse" aria-hidden="true">
+          <span class="st-pulse-badge">1 inference</span>
+          <div class="st-flow">
+            <span class="st-node">"stripe api docs"</span>
+            <span class="st-wire"><i></i></span>
+            <span class="st-core"><b>model = index</b><em>generative recall</em></span>
+            <span class="st-wire"><i></i></span>
+            <span class="st-node st-node--url">docs.stripe.com</span>
+          </div>
+          <span class="st-cap">No crawl · no ranking pass — maps query straight to URL</span>
+        </div>
+        <p class="st-bestfor"><span>Best for</span>Routing, pre-fetch &amp; in-loop lookups</p>
+      </article>
+
+      <!-- ========== Fast ========== -->
+      <article class="st-card st-card--fast" id="tier-fast" data-tier="fast">
+        <div class="st-txt">
+          <span class="st-eyebrow">Fast Search</span>
+          <h3>Real-time search, one call per surface.</h3>
+          <!-- 同 Pulse:延迟大数字在介绍文字左侧 -->
+          <div class="st-lead">
+            <div class="st-stat"><b><number-flow class="st-stat-flow" data-start="0" data-value="62" data-trend="1" data-delay="180">62</number-flow><small>ms</small></b><span>Latency per call</span></div>
+            <p>A family of live-web APIs, each its own endpoint. Call just the one your task needs — from general web queries to visual media.</p>
+          </div>
+        </div>
+        <ul class="st-apis">
+          <li class="st-api">
+            <a class="st-api-link" href="https://docs.octen.ai/api-reference/search" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 30 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5h24M3 11h24M3 17h16"/></svg>
+              <b>Web</b><em>Ranked links for general queries</em>
+            </a>
+          </li>
+          <li class="st-api st-api--broad">
+            <a class="st-api-link" href="https://docs.octen.ai/api-reference/search" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 30 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="5" cy="11" r="2.4"/><circle cx="25" cy="4" r="2.4"/><circle cx="25" cy="11" r="2.4"/><circle cx="25" cy="18" r="2.4"/><path class="st-fan" d="M7.4 10 22 4.6M7.4 11H22.6M7.4 12 22 17.4"/></svg>
+              <b>Broad</b><em>Splits a hard question into concurrent sub-queries</em>
+            </a>
+          </li>
+          <li class="st-api">
+            <a class="st-api-link" href="https://docs.octen.ai/api-reference/search" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 30 22" fill="currentColor"><rect x="2" y="3" width="11" height="7" rx="1.5"/><rect x="17" y="3" width="11" height="7" rx="1.5"/><rect x="2" y="12" width="11" height="7" rx="1.5"/><rect x="17" y="12" width="11" height="7" rx="1.5"/></svg>
+              <b>Image</b><em>Visual results</em>
+            </a>
+          </li>
+          <li class="st-api">
+            <a class="st-api-link" href="https://docs.octen.ai/api-reference/search" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 30 22" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="26" height="16" rx="2.5"/><path d="M13 7.5l6 3.5-6 3.5z" fill="currentColor" stroke="none"/></svg>
+              <b>Video</b><em>Clips + timestamps</em>
+            </a>
+          </li>
+          <li class="st-api st-api--soon">
+            <svg viewBox="0 0 30 22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="15" cy="11" r="3"/><path d="M8.5 4.5a9 9 0 0 0 0 13M21.5 4.5a9 9 0 0 1 0 13M5 1.5a13.5 13.5 0 0 0 0 19M25 1.5a13.5 13.5 0 0 1 0 19"/></svg>
+            <b>Sense <span class="st-soon">Soon</span></b><em>Cameras, robots &amp; devices</em>
+          </li>
+        </ul>
+
+        <div class="st-scale-bar" aria-label="Latency holds flat from 1K to 1M+ QPS at ~62 ms">
+          <span class="st-scale-qps st-mono">1K → 1M+ QPS</span>
+          <i aria-hidden="true"></i>
+          <span class="st-scale-lat st-mono">flat latency</span>
+          <span class="st-scale-note">Octen load test</span>
+        </div>
+
+        <p class="st-bestfor"><span>Best for</span>Grounding answers &amp; research agents</p>
+      </article>
+
+      <!-- ========== Premier:6 格 Bento(参考左高卡 + 深色卡 + 搜索框的组合)==========
+           4 列 × 2 行:A 标语 + 搜索框(左列跨两行)| B News | C Web Premier 深色卡(跨两列)
+                                               | D Business | E Place | F Design
+           A 的搜索框自动轮流输入 News / Business / Place 示例查询,对应卡片同步高亮(public/js/octen-tiers.js)
+           文案来源:Premier 描述来自 hifi 参考页;News/Business/Place/Design 描述与示例来自 "Search by type" 参考图(示例公司/地点为虚构)
+           Web Premier 插图只示意「标出含答案的结果」,不表达排序机制 -->
+      <article class="st-card st-card--premier" id="tier-premier" data-tier="premier">
+        <div class="st-pm-grid" data-hl="">
+          <!-- A · 标语 + 搜索框 -->
+          <div class="st-pm st-pm--intro">
+            <div class="st-txt">
+              <span class="st-eyebrow">Premier Search</span>
+              <h3>Our best results, tuned per domain.</h3>
+            </div>
+            <p class="pm-slogan"><span>Where structure helps, Premier returns structure.</span> Where it doesn't, Web Premier returns markedly better web results.</p>
+            <div class="pm-search-wrap">
+              <div class="pm-search" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                <span class="pm-q" data-q>port strike latest</span><span class="pm-caret"></span>
+                <span class="pm-q-chip" data-chip>News</span>
+              </div>
+              <p class="pm-best">Best for results that must contain the answer.</p>
+            </div>
+          </div>
+
+          <!-- News → event -->
+          <div class="st-pm st-pm--news" data-dom="news">
+            <div class="st-pm-art" aria-hidden="true">
+              <div class="pm-news">
+                <span class="pm-dupe"></span><span class="pm-dupe"></span>
+                <div class="pm-news-card">
+                  <b>Port strike enters third day</b>
+                  <div class="pm-chips"><span class="is-acc">14 sources</span><span>3 original</span><span>11 reprints merged</span></div>
+                  <ul class="pm-tl">
+                    <li>Updated 18 min ago</li>
+                    <li>Sub-event: talks resume Friday</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="st-pm-foot">
+              <h4>News Search</h4>
+              <p>Live news grouped into one event — related coverage and sources together.</p>
+            </div>
+          </div>
+
+          <!-- C · Web Premier (Soon):深色卡。一列结果,标出含答案的那条(悬停时高亮) -->
+          <div class="st-pm st-pm--web is-dark">
+            <div class="st-pm-art" aria-hidden="true">
+              <div class="pm-web">
+                <div class="pm-web-q"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><b></b><span>Web Premier</span></div>
+                <ol class="pm-list">
+                  <li class="is-ans"><i></i><span><b class="w80"></b><em class="st-mono">docs.example</em></span><mark>Contains answer</mark></li>
+                  <li><i></i><span><b class="w70"></b><em class="st-mono">guide.example</em></span></li>
+                  <li><i></i><span><b class="w55"></b><em class="st-mono">reference.example</em></span></li>
+                </ol>
+              </div>
+            </div>
+            <div class="st-pm-foot">
+              <h4>Web Premier <span class="st-soon">Soon</span></h4>
+              <p>Markedly better web results, for queries where the results must contain the answer.</p>
+            </div>
+          </div>
+
+          <!-- Business → profile -->
+          <div class="st-pm st-pm--biz" data-dom="business">
+            <div class="st-pm-art" aria-hidden="true">
+              <div class="pm-biz">
+                <span class="pm-biz-logo">NR</span>
+                <div class="pm-biz-body">
+                  <b>Northwind Robotics</b>
+                  <dl class="pm-kv">
+                    <div style="--i:0"><dt>Founded</dt><dd class="st-mono">2019</dd></div>
+                    <div style="--i:1"><dt>HQ</dt><dd>Berlin</dd></div>
+                    <div style="--i:2"><dt>Funding</dt><dd>Series B</dd></div>
+                    <div style="--i:3"><dt>Site</dt><dd class="st-mono">northwind.example</dd></div>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <div class="st-pm-foot">
+              <h4>Business Search</h4>
+              <p>Companies and people, returned as structured entity cards.</p>
+            </div>
+          </div>
+
+          <!-- Place → location -->
+          <div class="st-pm st-pm--place" data-dom="place">
+            <div class="st-pm-art st-pm-art--map" aria-hidden="true">
+              <span class="pm-road"></span><span class="pm-road pm-road--b"></span>
+              <svg class="pm-pin" width="26" height="32" viewBox="0 0 26 32"><path d="M13 31s11-10.2 11-18A11 11 0 0 0 2 13c0 7.8 11 18 11 18z" fill="currentColor"/><circle cx="13" cy="13" r="4" fill="#fff"/></svg>
+              <span class="pm-pin-shadow"></span>
+              <div class="pm-place">
+                <b>Harbor Street Coffee</b>
+                <span>4.6 ★ · Open until 18:00</span>
+              </div>
+            </div>
+            <div class="st-pm-foot">
+              <h4>Place Search</h4>
+              <p>Places by location — cards with hours and ratings, plus optional web results.</p>
+            </div>
+          </div>
+
+          <!-- Design (Soon) -->
+          <div class="st-pm st-pm--design">
+            <div class="st-pm-art" aria-hidden="true">
+              <div class="pm-design">
+                <div class="pm-frame pm-frame--web"><i class="pm-bar"></i><i class="pm-hero"></i><span class="pm-cols"><i></i><i></i></span><em>Web</em></div>
+                <div class="pm-frame pm-frame--app"><i class="pm-bar"></i><i class="pm-hero"></i><i class="pm-line"></i><i class="pm-line pm-line--s"></i><em>App</em></div>
+                <div class="pm-frame pm-frame--slide"><i class="pm-bar"></i><span class="pm-cols"><i></i><i></i></span><em>Slide</em></div>
+              </div>
+            </div>
+            <div class="st-pm-foot">
+              <h4>Design Search <span class="st-soon">Soon</span></h4>
+              <p>Design references — web pages, app screens, slides.</p>
+            </div>
+          </div>
+
+        </div>
+      </article>
+    </div>
+
+    <!-- 底部选型引导条 -->
+    <div class="st-guide">
+      <p class="st-guide-text">
+        <strong>Not sure where to start?</strong> Start with <strong>Web Search</strong> — switch to <strong>Pulse</strong> for ~10 ms lookups, <strong>Premier</strong> when results must contain the answer, or <strong>Image, Video, News, Business or Place</strong> for that result type.
+      </p>
+      <a class="st-guide-cta" href="https://docs.octen.ai/api-reference/search" target="_blank" rel="noopener noreferrer">API Docs →</a>
+    </div>
+  </div>
+</section>

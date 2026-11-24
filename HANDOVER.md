@@ -37,7 +37,7 @@
 | 4 | `src/sections/05-vertical-search.html` | News / Business 垂直搜索。⚠️ **当前被设为 `display:none`(隐藏)**,是否恢复请确认 |
 | 5 | `src/sections/04-modalities.html` | Omni Search 过渡条。当前**只保留锚点,高度 0**(绿色光晕与叠加图已迁入 Hero 底部);Image/Video Search 文案已暂存到备份 |
 | 6 | `src/sections/06-retrieval-stack.html` | **Octen tools and models**:2×2 Bento(Embedding / VL Embedding / Monitor / Extract),扁平插画 + 循环动画,见第二部分 §3.5 |
-| 7 | `src/sections/07-showcase.html` | Built on Octen Search 案例 + Built to Perform 基准(拆成 `07-showcase/` 下多个 partial) |
+| 7 | `src/sections/07-showcase.html` | **Try Octen in our applications**(五个 app 横版 banner,横向滚动)+ Built to Perform 基准(拆成 `07-showcase/` 下多个 partial) |
 | 7.5 | `src/sections/12-pricing.html` | **Pricing 占位区块**(新增,待实现) |
 | 8 | `src/sections/08-get-started.html` | Start Building 行动号召与三步上手 |
 | 9 | `src/sections/09-footer.html` | 页脚 |
@@ -231,9 +231,25 @@ new ShineWord(host, {
 
 ### 3. Web Search 模块(`#web-search`)
 
+#### 3.0 浅色 + 整体外框卡片(2026-11-24,Figma `Octen_汇总` node `14376:46661`)
+
+> 以下 3.1–3.4 中与本节冲突的值以本节为准。样式全部追加在 `public/css/web-search.css` 末尾的「浅色模块 + 整体外框卡片」块里(HTML 未改)。
+
+- **模块背景**改为纯白 `#ffffff`(Figma 里是浅绿→白渐变,按需求改为纯色);标题 `#000`、描述 `rgba(0,0,0,.8)`(用 `data-node-id` 选择器覆盖 HTML 里的 `text-white`)。
+- **促销胶囊**改深底 `rgba(0,0,0,.8)`(hover .9),文字 `rgba(255,255,255,.82)`,`$20/month` 仍为 `#09fd35`。
+- **`#webSearchCompare` 变成整体外框卡片**:`#080b12`、圆角 18px、内边距 `--ws-pad: 8px`,两张面板间距仍为 `--ws-gap: 6px`。
+- **面板颜色对齐 Figma**:左 `#1a1a1c`(hover 叠白 .04);右 `rgba(53,196,132,.3)` 叠在 `#080b12` 上(hover .36,变量 `--ws-tint-g`)。
+- **vs.**:44px(含 6px 边框),内圆 `#1e2026`;`--ws-module-bg` 改为 `#080b12`(外框底色),所以「镂空」圆环仍成立。桌面端 left 公式已把 `--ws-pad` 算进去:`calc(pad + (100% - 2·pad - gap)/2.9 + gap/2)`,1440px 下实测与间隙中心重合。
+- **标题上方新增胶囊「How Octen works」**(`.ws-head-pill`,样式同第三模块 `.rs-head-pill`;与标题间距沿用 title 组的 gap 16px)。标题区因此增高约 46px,模块总高相应增加。
+- **括号 / 连接线不再与边框交叉**:括号两端落点 `e = 59 - D`(`web-search-animation.js` 的 `fitBrace`),圆头正好压在子查询网格上边框;汇聚点下移:横线 `y2 = e - 20`、竖干终点 `y1 = y2 - 8`(桌面端汇聚点从 y=2 降到 y=9,竖干约 8px);子查询→结果的竖线容器改为 `top: calc(100% + 1px)`、高度 `--ws-vconn-h`(桌面 20px / 窄屏 28px,= 两网格间距)、左右内缩 8px + 列间距 10px,竖线与胶囊列中心完全对齐,首尾正好贴两条边框。
+- **底色定稿为 B 版深底,模块底色 `#101217`**(外框卡片仍 `#080B12`);背景叠 48px 微弱网格细线(白 4%,`#web-search.ws-theme-b::before`,上下边缘渐隐、标题区中央减淡;曾试过点阵 / 点线网络 / 随机亮点,均已移除):`03-web-search.html` 的 `#web-search` 直接带类名 `ws-theme-b`(标题白、说明 `rgba(255,255,255,.7)`、胶囊深色玻璃、促销条 `#4D4D4D4D`、外框卡片 1px `rgba(255,255,255,.08)` 内描边)。白底 A 版样式仍保留在 `web-search.css`,去掉该类名即恢复。A/B 切换按钮已下线:`10-scripts.html` 不再引用 `public/js/web-search-theme-ab.js`(文件保留,重新引用即可恢复按钮;`.ws-ab*` 样式也还在)。
+- **标题区 → 卡片间距改为 30px**(原 35px,Figma 为 62px,按需求取 30)。
+- 模块总高 1440px 宽下 **951px**(120+173+30+508+120,外框上下各 8px 内边距)。
+- 窄屏只做了数值检查,未逐屏目测。
+
 #### 3.1 文案与结构
 
-- 标题 `Search the way AI does`;说明 `A person searches one query at a time. Octen fans a hard question into many sub-queries and runs them at once — then ranks and dedupes the results.`
+- 标题 `Search the way AI does`;说明 `A single query only reaches a few sources. Broad Search expands it into sub-queries from different angles and runs them all at once — wider coverage, no longer wait.`(依据 docs.octen.ai/capabilities/broad-search)
 - 已**移除**标题上方的 `Search / FAST` 胶囊 → 该胶囊带的 `data-copy-anchor="#web-search"`(点击复制锚点链接)随之失效;页面锚点 `#web-search` 本身仍可用。
 - 促销条(`.octen-web-search-promo-pill`,"New · Unlimited with Search Plan from $20/month")**在 Web Search 与 Pricing 占位区块各有一份**,共用同一份 CSS。
 - 右卡标题为 `Octen Broad Search`。
@@ -306,7 +322,7 @@ section#web-search            (--ws-module-bg: #0f0f10)
 
 | 卡片 | 描述文案 | 插画逻辑 |
 |---|---|---|
-| Embedding(`Models`) | The **#1** text embedding model. Similar meaning lands close, even with no shared words. + 行内外链 `SOTA on RTEB ↗`(与描述同一行) | 参考产品动画 `p1.mp4`,形式为**持续不断的循环**:黑色圆形 Octen(r=28,与 VL 一样大)**始终居中不动**(SVG 600×168,整体 `translateY(8px)`,与 VL 的 logo 位置一致,实测两者圆心到插画区顶部都是 104px);卡片**原背景点阵**(`.rs-art::before`,16px 网格)通过 CSS 变量 `--emb-ox` 同步 `background-position-x` **从左向右持续流动**(约 44px/s);**所有点保持背景原样、不放大**(最初参考视频做过「距离透镜」放大变深,已按需求移除);球不断向四周(16 个角度分区)伸出**直线触手**去抓流过身边的点——端点**始终等于点阵里那个点的真实位置**(不截断、不按计时松手):点随点阵右移时线跟着拉长,离球 125→225px 之间按距离渐隐,完全淡出才松开;点漂进球体附近(< R+14)则淡出松开;松开后该方向冷却 0.15–0.5s 再抓新点。被抓住的点只在端点显示一个小圆点(r=2.6,`#a1a1aa`;线宽 0.85、线透明度 ×0.55、端点 ×0.65)。⚠️ 曾有 bug:触手按计时(0.7–4s)松手后同方向立刻抓更近的点,看起来像「线有最大长度、点往回跳」,已改为上述按距离松手。**由 JS 驱动**(`public/js/retrieval-stack.js` 顶部的 Embedding IIFE,`requestAnimationFrame`;`measure()` 把背景网格换算到 SVG 坐标,窗口缩放会重算;常量 `SPEED` 流速、`NB` 触手数、`RIN` 触手抓取半径、`R` 球半径);该卡片 `data-ms=3600000`,即不做周期性淡出重启,只在进入/离开视口时启停;`prefers-reduced-motion` 只画静态一帧。⚠️ 开发预览窗格会把 rAF 压到约 2fps,触手分配节奏在预览里偏慢且偏向右侧,真实流畅度需在正常浏览器里看 |
+| Embedding(`Models`) | The **#1** text embedding model. Similar meaning lands close, even with no shared words. + 行内外链 `SOTA on RTEB ↗`(与描述同一行) | 参考产品动画 `p1.mp4`,形式为**持续不断的循环**:黑色圆形 Octen(r=28,与 VL 一样大)**始终居中不动**(SVG 600×168,整体 `translateY(8px)`,与 VL 的 logo 位置一致,实测两者圆心到插画区顶部都是 104px);卡片**原背景点阵**(`.rs-art::before`,16px 网格)通过 CSS 变量 `--emb-ox` 同步 `background-position-x` **从左向右持续流动**(约 44px/s);**所有点保持背景原样、不放大**(最初参考视频做过「距离透镜」放大变深,已按需求移除);球不断向四周(**8 个角度分区 = 8 根触手**)伸出**直线触手**去抓流过身边的点——端点**始终等于点阵里那个点的真实位置**(不截断、不按计时松手):**对称释放带**:线长偏离 RIN 环 `BAND_IN`(14px)后按距离渐隐,到 `BAND_OUT`(30px)完全消失才松开;**连接点位置随机**:在 RIN 环附近一整条带子里随机抓点(右半边点向外漂 → RIN-40..RIN+12;左半边向内漂 → RIN-12..RIN+40),每条线有自己的中心半径 `s.c`(抓点距离沿运动方向前移 16px),渐隐带围绕 `s.c` 计算,所以两侧都是「渐显 → 穿过中心 → 渐隐」;某分区没有可抓的点时(卡片高度有限,左上外环常被裁掉)向相邻分区借点,保证 8 根触手一直在工作;每条线另有寿命 `LIFE`(0.5s×0.7–1.3)兜底,到时淡出,保证上下方向也持续更替;松开后该方向冷却 0–0.04s 再抓新点。实测(逐帧 60fps 模拟,1440px):左右平均线长 99 / 98px(范围约 51–157),同时可见 6–8 根(最常见 7 根),约 13 次新接触 / 秒,端点 0 次回跳。(旧版:离球 125→225px 才渐隐,右侧线拖得很长、左侧很短,已替换。)中央 logo 圆加了远距离弥散投影(SVG `<filter id="emb-hub-shadow">` feDropShadow:dy 14、模糊 14、黑 18%,只作用于圆、不作用于 logo 图形),营造悬浮感;VL Embedding 的 logo 圆通过 `filter="url(#emb-hub-shadow)"` 复用同一投影(filter 定义在 Embedding 卡的 SVG 里,删 Embedding 卡时要把 `<defs>` 挪走)。被抓住的点只在端点显示一个小圆点(r=2.6,`#a1a1aa`;线宽 0.85、线透明度 ×0.55、端点 ×0.65)。⚠️ 曾有 bug:触手按计时(0.7–4s)松手后同方向立刻抓更近的点,看起来像「线有最大长度、点往回跳」,已改为上述按距离松手。**由 JS 驱动**(`public/js/retrieval-stack.js` 顶部的 Embedding IIFE,`requestAnimationFrame`;`measure()` 把背景网格换算到 SVG 坐标,窗口缩放会重算;常量 `SPEED` 流速、`NB` 触手数、`RIN` 触手抓取半径、`R` 球半径);该卡片 `data-ms=3600000`,即不做周期性淡出重启,只在进入/离开视口时启停;`prefers-reduced-motion` 只画静态一帧。⚠️ 开发预览窗格会把 rAF 压到约 2fps,触手分配节奏在预览里偏慢且偏向右侧,真实流畅度需在正常浏览器里看 |
 | VL Embedding(`Models`) | The **#1** multimodal embedding model. One vector space, so text, images and video find each other. + `SOTA on MMEB-v2 ↗` | **无外层白卡片**,直接画在卡片点阵上(SVG 360×168,整体下移 8px)。中心是黑色圆形 Octen 标志(引用站内 `/_next/static/media/icon-octen-white.842b5932.svg`);周围先出现 **12 个中性灰圆**(大小不一),其中 **6 个**被浅灰连线(`#a1a1aa`)连到 Octen 并**变形成图标球**(白底圆,半径 21,图标取自 **Lucide**:`type` 文字 / `image` 图片 / `video` 视频,蓝 / 紫 / 橙),另外 6 个灰圆不相关、无连线、原地不动;最后 Octen **把 6 个球连同连线一起拉近 20%**(带轻微回弹)。6 个图标球位置、类型都刻意不规则 |
 | Monitor(`Tool`) | Watch a topic or any page and get notified only when a change meets your condition. | 监控卡片:顶部条件栏 `if price drops > 10%`(取自文档)→ 三行商品页(`widget-mini` / `widget-pro` / `widget-max`,右侧带价格),扫描条扫过后只有中间一行高亮、价格变 `$49 → $42` → 箭头 → 事件卡片:绿色描边 `monitor.run.completed` + `price 49 → 42`(结构化前后值) |
 | Extract(`Tool`) | Turn any URL into clean markdown, with highlights and page classification. | 内部卡片被**拉高到 190px 并贴顶**,整体做底部渐隐 mask(约 52% 处开始,到 96% 消失):`apple.com`(逐字输入)→ Title / Type / Content / Images 逐行出现;Images 是 **4 张真实 Apple 产品图**(46px 方形缩略图),随渐隐一起消失 |
@@ -334,7 +350,36 @@ section#web-search            (--ws-module-bg: #0f0f10)
 
 ### 4. 其它改动
 
-- **Pricing 占位区块**:`src/sections/12-pricing.html`,在 `index.html` 中插入于 07 showcase 与 08 get-started 之间;含标题 "Pricing"(占位文案)、一份促销条、虚线占位框。导航栏的 Pricing 仍指向外部 `pring-octen-ai.vercel.app`。
+- **Pricing 占位区块**:`src/sections/12-pricing.html`,在 `index.html` 中插入于 07 showcase 与 08 get-started 之间;含标题 "Pricing"(占位文案)、一份促销条、虚线占位框。**白底**(与上方 Showcase 同色):标题黑、说明黑 70%、虚线框黑 15%;促销胶囊在白底下改深底 `rgba(0,0,0,.8)`(`web-search.css` 末尾 `#pricing` 规则)。导航栏的 Pricing 仍指向外部 `pring-octen-ai.vercel.app`。
+- **Showcase 改为「Try Octen in our applications」(2026-11-24)**:`07-showcase/showcase.html` 重写,样式在新文件 `public/css/showcase-apps.css`(`index.html` 已引入)。
+  - 标题区同 Retrieval Stack 规范:胶囊 `Showcase`(30px,保留 `data-copy-anchor="#showcase"`)+ 44px serif 居中标题,无副标题;去掉了原来的左右箭头、装饰背景图和白色网格。
+  - **五个 app**:Answer / Search Agent / Deep Research / Grounded Generation / Auto Search。每个是 2:1、圆角 16px 的横版 banner,**以图片为底**:5 张素材统一裁成 **616×308(2:1,banner 的 2x)**,存于 `public/images/apps/bg-*.png`——Answer=bg-green、Search Agent=bg-desert、Deep Research=bg-blue、Grounded Generation=bg-forest(这四张为用户提供的动感模糊图,原截图带圆角白边,裁切时四周各去掉 6%)、Auto Search=bg-auto(用户提供的绿色弧形光带图);图片放在 `.sc-banner::before`,hover 放大 1.04。原版 Application 背景图(`/_next/static/media/showcase-entry-*.svg`)已不再引用(旧 cards/*.html 仍在用,未删);背景图上叠 **35% 黑色遮罩**(`.sc-banner::after`,logo 方块 z-index 1 在最上层);背景图模糊曾加过(blur 12px、hover 去模糊),已按需求去掉,中央 56px **黑色玻璃**圆角方块(60% 黑 + 很淡的顶部白色高光渐变 + 1px 白 14% 描边,`background-clip: padding-box`;上下 inset 亮线曾造成多余黑白边,已去掉;现加 `backdrop-filter: blur(12px)` 磨砂,配 `overflow:hidden` + `will-change: transform` 防圆角锯齿 —— 若仍有锯齿,先去掉 backdrop-filter 排查),logo 用 `filter: brightness(0) invert(1)` 转为**纯白**,里放 **Figma app logo**(Figma `Octen_汇总` node `14304:38085`,已下载到 `public/images/apps/*.svg`;answer / grounded 两个 logo 在 Figma 中带内边距,用 `.is-inset` 缩到 87.5%),名称在 banner 下方的名称行里。banner 渐变和链接(`href="#"`)仍是占位。
+  - Retrieval Stack 与 Showcase 之间的分界线已去掉(删除 `06-retrieval-stack.html` 根节点的 `border-b border-[#CCCCCC80]`);Showcase 底色改为白色与上方一致,顶部内边距归零(`showcase-apps.css` 末尾,`!important` 覆盖平板 / 手机规则),两模块间距 = Retrieval Stack 下内边距,1440px 下实测 bento 卡片底 → Showcase 胶囊顶 **120px**。
+  - **嵌套卡片结构**(参考 health-traffic 卡片,只取结构不取颜色,无投影):外层 `.sc-app` 浅灰壳 `rgb(246,246,246)` + 1px `#e7e7e7`(与上方 Octen tools and models 卡片同色)、圆角 18、内边距 4;内层图形卡 `.sc-banner` 圆角 14(与外壳同心)在上;底部 `.sc-foot` 名称(16px `#3f3f46`)在下(箭头已去掉)。hover:外壳描边加深(底色不变)、中央 logo 放大 1.06。1440px 宽下卡片高 203px,模块高约 508px;375px 宽下模块约 450px。
+  - **能力标签 `.sc-tags`**(名称下方,22px 高、`rgba(255,255,255,.5)` 底色、1px `#d4d4d8` 描边、圆角 4px,12px `#52525b`;卡片 hover 时不变):标注每个 app 用到的 Octen 能力,依据 docs.octen.ai 各 app 页描述推断,**需产品确认**:
+    - Answer → Broad Search("synthesized from a Broad Search")
+    - Search Agent → Web Search、News Search("searches the web and news")
+    - Deep Research → Web Search、Image Search、Video Search(报告配图 / 视频来自来源)
+    - Grounded Generation → Image Search、Video Search("retrieves the images and videos")
+    - Auto Search → Model Gateway(一个 API key 接入多家前沿模型 + 内置实时搜索;按需求改为此标签)
+    桌面端各卡标签都在一行内(卡高 238px,模块约 543px);375px 下 Deep Research 的 3 个标签折成两行,模块约 498px。
+  - **横向滚动轨道**(`.sc-apps`,flex + `overflow-x:auto` + `scroll-snap`):
+    - 桌面:首卡左缘对齐 1280px 内容区(`--sc-edge = max(32px, (100% - 1280px)/2)`),卡宽 `--sc-card = (1280 - 3×16)/4 = 308px`,前四张正好铺满 1280,**第五张自然排在右侧、突破 1280 限制**,向右滑动可看全;滚动条隐藏。
+    - ≤1024px:卡宽固定 300px;≤767px:卡宽 72vw、间距 12px,轨道用 `margin: 0 -16px` 贴到屏幕边缘(`#showcase` 手机端有 16px 左右内边距)。任何屏宽都可左右滑动并吸附到卡片(375px 实测)。
+  - **边缘渐隐 + 左右切换按钮**(新文件 `public/js/showcase-apps.js`,在 `10-scripts.html` 引入):
+    - 渐隐:`.sc-apps` 用 `mask-image` 线性渐隐,长度变量 `--sc-fl` / `--sc-fr`(桌面 120px、≤767px 48px)由 JS 按滚动位置写入——还能向右滑时右侧渐隐、滑过之后左侧渐隐,到头的一侧不渐隐。无 JS 时默认只右侧渐隐。
+    - 按钮 `.sc-nav`:卡片下方、右对齐 1280 内容区,40px 圆形白底 + 1px `#e4e4e7`(无投影);每次滚动一张卡(卡宽 + 间距),到两端禁用(透明度 .35);内容不溢出时整组隐藏;≤767px 隐藏(靠滑动)。1440px 下可滚动距离 324px(正好一张卡),实测前进 / 后退 / 禁用状态正确。
+  - 模块上下内边距桌面 80px(原 120px),1440px 宽下模块高约 473px,375px 宽下约 439px。
+  - 旧版 4 张动图卡片 `07-showcase/cards/*.html` 保留未删,只是不再 include。
+- **新增模块 Octen Search 三档(Pulse / Fast / Premier,2026-11-24)**:放在 Web Search 之后、Octen tools and models 之前,白底。内容取自 `references/octen-homepage-hifi.html` 第 ② 模块,文字整理在 `references/octen-search-tiers.md`。文件:`src/sections/03b-search-tiers.html`(index.html 中 include)、`public/css/octen-tiers.css`、`public/js/octen-tiers.js`(10-scripts.html 引入)。注意:`public/css/search-tiers.css` 是另一个旧文件(hero 里已隐藏的三档小卡用),不要混淆。布局:标题区 → 速度/质量轴 + 三档概览按钮 → Bento(Pulse 5 列 | Fast 7 列 | Premier 通栏左文右图)。交互:概览按钮 hover/focus 高亮下方对应卡片、其余淡出(≤1024px 点击滚动到卡片;≤767px 概览条隐藏);Pulse 插画光点 query → model → URL 循环(进入视口才播);Fast 的 API 网格悬停上浮,Broad 图标扇出;Premier(2026-11-24 改为 6 格 Bento,参考"左高卡 + 深色卡 + 搜索框"布局)= 整体放在一个父级灰底卡(同 Pulse / Fast,内边距 12px)中,格子白底、插画面板 #fafafa;4 列 × 2 行:A 标语 + 搜索框(左列跨两行,淡网格底,标语灰/黑两段,底部搜索框自动轮流输入 News / Business / Place 示例查询并高亮对应卡片,进入视口才运行)| B News | C Web Premier 深色卡 #101217(跨两列,一列结果标出 "Contains answer",悬停高亮该条;不演示排序/对比)| D Business | E Place | F Design(Soon)。每格灰底 + 内嵌白色插画面板 190px + 名称/一句话。悬停(或被搜索框高亮)时:News 转载卡合并、Business 字段逐行填入、Place 针落下 + 地点卡弹出、Design 扫光选中 App。平板 2 列(A 通栏,dense 填充),手机 1 列。内容来源:Premier 标语来自 hifi 参考页;News/Business/Place/Design 描述与示例取自 "Search by type" 参考图(示例公司/地点为参考图里的虚构示意);Web Premier 描述拼自 hifi 参考页 + FAQ;Web Premier 插图为示意,非真实检索结果。注意参考页本身对 Web Premier 是否已上线、名称("Web Premier" vs "Web Search Premier")不一致,待产品确认。每档强调色:Pulse #16B673、Fast #039855、Premier #B8913F。navbar 浅色区起点改为 `#search-tiers`(`public/js/navbar.js`)。留白:上 120;与下方 Octen tools and models 同白 → 合计 120(本块下 120,`#retrieval-stack` 上改为 0)。标题格式已与其他模块统一(octen-tiers.css 末尾):h2 IBM Plex Serif 44/500;卡片 h3 同 `.rs-title`(24/600/1.33);描述同 `.rs-desc`(16/1.5/#71717a);卡片标签同 `.rs-tag` 灰框小标签(保留色点)。
+- **Pricing 头部(2026-11-24)**:副文案改为 "Sign up and get $5 in free balance",下方新增主按钮 "Start building ↗"(复用 `.rs-btn--solid`,链接 /platform/overview,悬停箭头斜向位移;样式见 web-search.css 末尾 `#pricing .pr-start-btn`),促销胶囊保留在按钮下方。"$5 in free balance" 用绿色 #039855 / 600 强调(`#pricing .pr-free`)。
+- **Pulse 卡改版(2026-11-24)**:去掉底部 Product / Latency / Best for 规格表;延迟改为大字 "~10 ms" + 小字 "Latency per call",放在介绍文字左侧(细竖线分隔,`.st-lead` / `.st-stat`);"Best for · Routing, pre-fetch & in-loop lookups" 作为小字放在卡片内部底部(`.st-bestfor`);插图徽标改为 "1 inference" 避免与大数字重复。手机端大数字移到文字上方、query → model → URL 流程图改竖排(原横排在 390px 宽溢出)。Pulse Search 文档链接随规格表一起移除。 Fast 卡同样处理:大字 "~62 ms" + "Latency per call" 在介绍文字左侧,底部规格表删除,"Best for · Grounding answers & research agents" 小字在卡片底部;QPS 条右侧文字由 "~62 ms flat" 改为 "flat latency" 避免重复。
+- **白底模块灰卡统一色值(2026-11-24)**:原中性灰 #F6F6F6 / #E7E7E7 与绿调灰 #F2F4F2 / #E6E6E6 合为一套 **#F4F5F4 / #E6E7E6**,定义在 `public/css/surface-tokens.css`(`--octen-card-bg` / `--octen-card-line`,index.html 中在 octen-tiers.css 之前引入)。已引用:octen-tiers.css(`--st-soft` / `--st-line`)、retrieval-stack.css(`--rs-line`、bento 与 `.rs-cell` 底色)、showcase-apps.css(`.sc-app` 及 hover)、get-started.css(步骤卡 + Skills 卡)、pricing-search-plans.css(`.sp-alt-card`)。Built to Perform 的整块底色 #F1F4F2 属于模块背景,不在此列。要整体调色只改 surface-tokens.css。
+- **Footer「Back to top」(2026-11-24)**:底栏最右(SOC 2 徽章之后)幽灵胶囊 "Back to top ↑",点击平滑滚回顶部(减少动态效果时直接跳)。`09-footer.html` + `footer.css` 末尾 `.octen-footer-top` + `public/js/back-to-top.js`(10-scripts.html 引入)。悬停箭头上移并变绿 #18FB6F。手机端随法律链接换行。
+- **模块上下留白统一规则(桌面 ≥1025px,`public/css/section-spacing.css`,最后加载、覆盖各模块自己的 padding;下文各处旧的 80 / 96 / 100px 留白以此为准)**:相邻模块**底色不同** → 各自内容到自己边缘 120px;**底色相同** → 两块内容之间合计 120px。1440px 实测(内容 = 第一个 / 最后一个可见元素):Hero 底 120(到 "API Platform" 胶囊)→ Web Search 120/120 → Octen Search 三档 120/120 → Octen tools and models 上 0(与上块同白)/ 下 120 → Showcase 上 0(与上块同白,合计 120)/ 下 120(原 88)→ Built to Perform 120/120(原 97,含 1px 边线)→ Pricing 120/120(原 100)→ Get started 上 120(原 100)/ 下 74 + Footer logo 距顶 45 + 1 = 120(两者同为 #080B12)。平板 / 手机留白未改(仍按 section-titles.css 等处的 clamp / 60px)。
+- **Built to Perform 头部改为左右布局(2026-11-24,仅 ≥1025px)**:`public/css/built-to-perform-tabs.css` 末尾一段。`.bpt-head` 改为 grid——左列 `Performance` 标签 + 标题 + tabs(左对齐),右列小标题 + 详述(`.bpt-copy-stage`,最宽 440px,贴容器右侧、文字左对齐、底边与 tabs 对齐)。头部宽 `min(1084px, 94vw)`,与默认 Value 面板卡片左右边缘对齐。模块内边距 110/130 → 96/96、头部与卡片间距 36 → 32。1440px 宽下模块高 983 → **823px**。≤1024px 保持原居中堆叠。切换 Scale / Freshness 时右侧文字就地淡入淡出,高度不变。
+- **Built to Perform 背景**:已去除 10px 点阵,底色定为 **`#F1F4F2`**(CSS 变量 `--bpt-bg`)。Tab 胶囊改为无色 + 透明度(吸收底色色调):轨道 `rgba(0,0,0,.05)` + 1px `rgba(0,0,0,.04)` 内描边;选中胶囊 `rgba(255,255,255,.85)` + 轻投影 `rgba(0,0,0,.06)`;未选中文字 `rgba(0,0,0,.55)`。均在 `built-to-perform-tabs.css` 末尾。(调色用的临时 H/S/L 滑块面板已删除。)上下边界统一:本模块自带上下各 1px `#CCCCCC80` 边线;原先上方那条来自 `#showcase` 的 `border-b`(已从 showcase.html 移除),下方与 Pricing 之间原本没有线。
+- **Hero console 取消滚轮响应(2026-11-24)**:原先 console 内两个滚动区(Search Process 列表 / Answer 面板)设了 `overscroll-behavior: contain`,鼠标停在 console 上时滚轮只滚内部、带不动整页。现在 `public/js/hero-console-scroll.js`(在 `10-scripts.html` 引入)在 console 上监听 wheel(`passive:false`),`preventDefault` 后用 `window.scrollBy` 把滚动量转给整页(ctrl+滚轮缩放不拦截);内部内容**只能拖动滚动条**滚动(overflow 仍为 auto,滚动条可见)。触摸设备(`hover: none`)内部 `overflow-y: hidden`,手指滑动直接滚整页。实测:滚轮在 console 上滚动 → 页面 400→700、内部 scrollTop 保持 0。
 - **模块大标题字重**:`public/css/section-titles.css` 以变量 `--module-title-weight: 500` 统一(Web Search、垂直搜索、多模态、retrieval stack、showcase、Built to Perform、Get started、Pricing)。Web Search 两张卡片的 `h3` 为 600。
 - **Hero 标题**:`h1` 字号 `clamp(28px, 9.1vw, 65px)`(原 80px 上限)。
 - `rotating-word-shine/`:Shine Word 的独立演示(`index.html` + `shine-word.js/css` + README),需要本地服务器(ES module);**未同步**后续改动(无 baseGradient、仍带 bloom、无收起/停留逻辑)。
@@ -373,7 +418,7 @@ section#web-search            (--ws-module-bg: #0f0f10)
 | hover 底色变化 | `web-search.css` | `--ws-tint` 的 hover 值 |
 | 标题字重 | `section-titles.css` | `--module-title-weight` |
 | Bento 插画动画节奏 | `public/js/retrieval-stack.js` / 各 `.rs-art` 的 `data-ms`、`--d` | 单轮时长、元素出现延迟 |
-| Embedding 点阵流速 / 触手数 / 抓取半径 | `retrieval-stack.js` 顶部 Embedding IIFE | `SPEED`(44px/s)、`NB`(16)、`RIN`(104)、空闲触手重新抓取概率 `dt/110`、松开后冷却 `150 + random*350`ms、淡入淡出时间常数 65ms、离球渐隐区间 `FADE_START/FADE_END`(125→225);连线更替快慢主要由 `SPEED` 与 `FADE_END` 决定 |
+| Embedding 点阵流速 / 触手数 / 抓取半径 | `retrieval-stack.js` 顶部 Embedding IIFE | `SPEED`(44px/s)、`NB`(8,触手根数)、`RIN`(104)、空闲触手重新抓取概率 `dt/10`、松开后冷却 `random*40`ms、淡入淡出时间常数 30ms、对称释放带 `BAND_IN/BAND_OUT`(14 / 30px,线长范围 ≈ RIN±30)、寿命 `LIFE`(500ms);连线更替快慢主要由 `SPEED`、`BAND_OUT`、`LIFE` 决定 |
 | 卡片描述文字颜色 | `retrieval-stack.css` 末尾 | `.rs-desc`(`#71717a`)、`.rs-desc b` |
 | 卡片内边距 / 插画区高度 | `retrieval-stack.css` | `.rs-art { height: 192px }`、`.rs-copy { padding-bottom: 30px }` |
 

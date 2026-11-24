@@ -2,11 +2,13 @@
      SECTION 3: WEB SEARCH (ARCHITECTURE COMPARISON)
      Human Search (Sequential Pipeline) vs Octen Search (Concurrent AI Execution)
      ========================================================================== -->
-<div class="relative w-full bg-bg-dark octen-search-surface py-30 px-8" id="web-search">
+<!-- 定稿用 B 版深底(.ws-theme-b,#080B12);白底 A 版样式仍留在 web-search.css,去掉此类名即恢复 -->
+<div class="relative w-full bg-bg-dark octen-search-surface py-30 px-8 ws-theme-b" id="web-search">
   <div class="relative z-1 max-w-7xl mx-auto space-y-15">
     <!-- 1. Header: Search / FAST Badge, Title, Description & Promotion Bar (Figma 13625:168562) -->
     <div class="flex flex-col items-center text-center gap-5" data-node-id="13625:168562" data-name="up">
       <div class="flex flex-col items-center text-center gap-4" data-node-id="13625:168563" data-name="title">
+        <span class="ws-head-pill">What's Broad Search</span>
         <span
           class="text-5xl lg:text-[44px] font-serif text-white"
           data-node-id="13625:168565"
@@ -17,9 +19,9 @@
         class="max-w-155 text-base text-white/80 leading-relaxed px-4 mb-1"
         data-node-id="13625:168567"
       >
-        A person searches one query at a time. Octen fans a hard question into
-        many sub-queries and runs them at once — then ranks and dedupes the
-        results.
+        A single query only reaches a few sources. Broad Search expands it into
+        sub-queries from different angles and runs them all at once — wider
+        coverage, no longer wait.
       </p>
 
       <!-- Web Search Pricing Promotion Pill (Figma 14267:172351) -->

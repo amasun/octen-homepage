@@ -295,7 +295,7 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   box-sizing: border-box !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 10px !important;
+  gap: 24px !important;
   align-self: stretch !important;
 }
 
@@ -315,8 +315,28 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
   margin: 0 !important;
 }
 
-.nav-dropdown-split .nav-dropdown-col-search .nav-dropdown-col-title {
+.nav-dropdown-split .nav-dropdown-col-search .nav-dropdown-col-title,
+.nav-dropdown-split .nav-dropdown-col-middle .nav-dropdown-col-title {
   gap: 6px !important;
+}
+
+.nav-dropdown-split .nav-title-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 16px !important;
+  padding: 0 5px !important;
+  border-radius: 4px !important;
+  background: #0d0d0d !important;
+  border: 1px solid #0a0a0a !important;
+  color: #ffffff !important;
+  font-family: 'DM Mono', ui-monospace, monospace !important;
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+  transform: skewX(-12deg) !important;
+  white-space: nowrap !important;
 }
 
 .nav-dropdown-split .nav-title-prefix {
@@ -550,6 +570,15 @@ button.pc-nav_Trigger__LBs_7[data-state="open"] svg.lucide-chevron-down {
    self-hosted under its own family (subset from Google Fonts, DM Sans 400–700). */
 @font-face {
   font-family: 'DM Sans Arrow';
+  src: url('/fonts/dm-sans-arrow.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+2192;
+}
+
+@font-face {
+  font-family: 'DM Sans';
   src: url('/fonts/dm-sans-arrow.woff2') format('woff2');
   font-weight: 400 700;
   font-style: normal;

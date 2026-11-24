@@ -130,7 +130,7 @@
 
     function update() {
       var y = window.scrollY;
-      var lightStart = docTop('api-introduce') - 140;
+      var lightStart = docTop('search-tiers') - 140;
       var lightEnd = docTop('get-started') - 70;
       var theme = y >= lightStart && y < lightEnd ? 'light' : 'dark';
       var scrolled = y > 0 ? 'true' : 'false';

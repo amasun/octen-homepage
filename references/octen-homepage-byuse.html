@@ -1,0 +1,585 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Octen Search Homepage — By use</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --canvas:#080B12; --paper:#0e131d; --panel:#121a26; --line:rgba(255,255,255,.12); --line-strong:rgba(255,255,255,.22);
+  --ink:#EAF0F2; --ink-2:#b7c1c8; --ink-3:#8b97a0;
+  --green:#16B673; --green-act:#60ff70; --green-soft:rgba(22,182,115,.15); --green-ink:#7fe3ab;
+  --gold:#D1AC62; --gold-soft:rgba(209,172,98,.16);
+  --code-bg:#070d0a; --code-ink:#DDE7E0; --code-dim:#7E9488; --code-key:#7FD8A6; --code-str:#F2C46B;
+  --note-bg:rgba(209,172,98,.08); --note-line:rgba(209,172,98,.35); --note-ink:#e8c98a;
+  --dark-a:#05080c; --dark-b:#132019; --on-dark:#EAF0F2; --on-dark-2:#9AA6AD;
+  --shadow-card:0 24px 54px -34px rgba(0,0,0,.9);
+  --font-display:"Fraunces",Georgia,"Times New Roman",serif;
+  --font-ui:"DM Sans",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+  --font-mono:"DM Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--canvas);color:var(--ink);font-family:var(--font-ui);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;margin:0}
+.wrap{max-width:1280px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@media (min-width:900px){.wrap{padding-left:40px;padding-right:40px}}
+a{color:inherit}
+code{font-family:var(--font-mono);font-size:.92em}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+
+.review{position:relative;z-index:30;background:var(--paper);border-bottom:1px solid var(--line)}
+.review .wrap{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;padding-block:10px}
+.review b{font-weight:700}
+.review .toc{display:flex;flex-wrap:wrap;gap:6px}
+.review .toc a{font-size:12.5px;text-decoration:none;color:var(--ink-2);background:var(--panel);border-radius:999px;padding:3px 9px}
+.review .toc a.new{background:var(--green-soft);color:var(--green-ink)}
+.toggle{margin-left:auto;font:500 13px var(--font-ui);color:var(--ink-2);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+
+.note{display:flex;gap:10px;flex-wrap:wrap;background:var(--note-bg);border:1px solid var(--note-line);color:var(--note-ink);border-radius:10px;padding:10px 14px;font-size:14px;line-height:1.6;margin-bottom:28px}
+.note strong{white-space:nowrap}
+.note .st{font:700 11px var(--font-ui);border-radius:999px;padding:2px 8px;align-self:flex-start;margin-top:2px;white-space:nowrap}
+.st.new{background:var(--green-soft);color:var(--green-ink)}
+.st.chg{background:var(--gold-soft);color:var(--gold)}
+.st.keep{background:var(--panel);color:var(--ink-3)}
+.note span:last-child{flex:1 1 300px;min-width:0}
+body.no-notes .note{display:none}
+
+section.band{padding-block:72px;border-bottom:1px solid var(--line);scroll-margin-top:60px}
+section.band.alt{background:transparent}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font:500 13px var(--font-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--green);margin-bottom:14px}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green)}
+h1,h2{font-family:var(--font-display);font-weight:400;letter-spacing:-.01em;text-wrap:balance}
+h1{font-size:clamp(40px,6.4vw,68px);line-height:1.04;margin:0 0 18px}
+h2{font-size:clamp(32px,4.6vw,50px);line-height:1.08;margin:0 0 14px}
+h1 em,h2 em{font-style:italic;color:var(--green)}
+.lede{font-size:18px;color:var(--ink-2);max-width:60ch;margin:0}
+.head{margin-bottom:40px}
+.btn{display:inline-flex;align-items:center;gap:6px;font:700 15px var(--font-ui);border-radius:48px;padding:12px 22px;text-decoration:none;border:1px solid transparent;cursor:pointer;background:none;color:var(--ink)}
+.btn.primary{background:var(--green);color:#fff;box-shadow:0 4px 8px rgba(0,0,0,.18)}
+.btn.ghost{border-color:var(--line-strong)}
+.pill{font:700 11px var(--font-ui);letter-spacing:.05em;text-transform:uppercase;border-radius:999px;padding:3px 9px}
+.pill.g{background:var(--green-soft);color:var(--green-ink)}
+.pill.y{background:var(--gold-soft);color:var(--gold)}
+.pill.n{background:var(--panel);color:var(--ink-3)}
+
+.site-head{background:var(--canvas);border-bottom:1px solid var(--line);position:relative;z-index:5}
+.site-head .wrap{display:flex;align-items:center;gap:20px;height:70px}
+.logo-w{display:flex;align-items:center;gap:8px;font:700 20px var(--font-ui);text-decoration:none}
+.logo-w i{width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,rgb(7,170,90),rgb(154,204,83))}
+.nav{display:flex;gap:4px;align-items:center}
+.nav button,.nav a{font:500 15px var(--font-ui);color:var(--ink-2);background:none;border:0;padding:8px 10px;border-radius:8px;text-decoration:none;cursor:pointer}
+.nav button[aria-expanded="true"]{background:var(--panel);color:var(--ink)}
+.head-cta{margin-left:auto;display:flex;gap:8px;align-items:center}
+.head-cta .btn{padding:9px 16px;font-size:14px}
+.mega{position:absolute;left:0;right:0;top:70px;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:var(--shadow-card)}
+.mega .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;padding-block:24px}
+.mega h4{margin:0 0 8px;font:700 12px var(--font-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.mega ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.mega li{font-size:15px}
+.mega li small{display:block;color:var(--ink-3);font-size:13px}
+@media (max-width:760px){.nav .hide-s,.head-cta .ghost{display:none}}
+
+.hero{position:relative;overflow:hidden;padding-block:72px 60px;background:radial-gradient(1000px 520px at 50% -6%,rgba(17,70,43,.55),transparent 68%),var(--canvas)}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:24px 24px;-webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.85),transparent 72%);mask-image:linear-gradient(to bottom,rgba(0,0,0,.85),transparent 72%);pointer-events:none}
+.hero .wrap{position:relative;z-index:1}
+.hero-teaser{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);border:1px solid var(--line);border-radius:999px;padding:5px 14px;margin:0 0 26px;background:rgba(255,255,255,.02)}
+.hero-teaser b{color:#7fe3ab;font-weight:700}
+.hero-teaser .dot{width:6px;height:6px;border-radius:50%;background:#16B673}
+.hero-tags{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;color:var(--ink-2);font-size:16px;margin:0 0 28px}
+.hero-tags span{display:inline-flex;align-items:center;gap:7px;padding:0 18px}
+.hero-tags span+span{border-left:1px solid var(--line)}
+.demo-meta{display:flex;align-items:center;gap:8px;padding:13px 16px 6px;font-size:13px;color:var(--ink-3)}
+.demo-meta b{color:var(--ink);font-weight:700}
+.demo-lat{margin-left:auto;font-family:var(--font-mono);font-size:18px;color:var(--green);font-weight:500}
+.demo-lat i{font-size:11px;color:var(--ink-3);font-style:normal;margin-left:2px}
+.demo-chips{display:flex;flex-wrap:wrap;gap:6px;padding:6px 16px 14px;border-bottom:1px solid var(--line)}
+.demo-chips span{font-size:11px;color:#cfd8dc;border:1px solid rgba(22,182,115,.22);border-radius:7px;padding:3px 9px;background:rgba(22,182,115,.06)}
+.demo-answer{padding:14px 16px}
+.demo-answer .da-tag{display:inline-block;font:700 10px var(--font-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--green-ink);background:var(--green-soft);border-radius:5px;padding:2px 8px;margin-bottom:9px}
+.demo-answer p{margin:0 0 9px;font-size:14px;line-height:1.55;color:var(--ink)}
+.demo-answer p sup{color:var(--green);font-size:10px;margin-left:1px}
+.demo-answer .da-src{font-size:11.5px;color:var(--ink-3);font-family:var(--font-mono)}
+.demo-answer mark{background:var(--gold-soft);color:inherit;border-radius:3px;padding:0 2px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:44px;justify-items:center;text-align:center}
+.hero-grid > div:first-child{max-width:820px;display:flex;flex-direction:column;align-items:center}
+.hero-grid .demo{width:100%;max-width:760px;text-align:left}
+.hero .hero-ctas{justify-content:center}
+.hero .setup{justify-content:center}
+.hero .sub{font-size:19px;color:var(--ink-2);max-width:52ch;margin:0 0 28px}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.setup{display:flex;align-items:center;gap:10px;margin-top:22px;flex-wrap:wrap;font-size:14px;color:var(--ink-3)}
+.setup code{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--ink);font-size:13px;max-width:100%;overflow-x:auto;white-space:nowrap}
+.copy{font:500 13px var(--font-ui);background:none;border:1px solid var(--line-strong);border-radius:8px;padding:5px 10px;cursor:pointer;color:var(--ink-2)}
+.demo{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-card);overflow:hidden;min-width:0}
+.demo-q{display:flex;align-items:center;gap:10px;padding:12px 12px 12px 16px;border-bottom:1px solid var(--line);font-size:15px}
+.demo-q .mag{width:14px;height:14px;border:2px solid var(--ink-3);border-radius:50%;position:relative;flex:none}
+.demo-q .mag::after{content:"";position:absolute;width:6px;height:2px;background:var(--ink-3);right:-6px;bottom:-3px;transform:rotate(45deg)}
+.demo-input{flex:1;min-width:0;font:inherit;font-size:15px;color:var(--ink);background:none;border:0;outline:none}
+.demo-try{font:700 13px var(--font-ui);color:#fff;background:var(--green);border:0;border-radius:8px;padding:8px 13px;cursor:pointer;white-space:nowrap}
+.demo .ex-tag{padding:8px 16px 0;font:500 11px var(--font-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.demo ol{list-style:none;margin:0;padding:6px 0}
+.demo li{padding:12px 16px;display:grid;gap:3px;border-bottom:1px solid var(--line)}
+.demo li:last-child{border-bottom:0}
+.demo .t{font-weight:700;font-size:15px}
+.demo .u{font:400 12.5px var(--font-mono);color:var(--green)}
+.demo .h{font-size:14px;color:var(--ink-2)}
+.demo-f{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:12px 16px;border-top:1px solid var(--line);background:var(--canvas);font-size:13px;color:var(--ink-3)}
+.demo .h mark{background:var(--gold-soft);color:inherit;border-radius:3px;padding:0 2px}
+
+.scale{background:var(--canvas);border:1px solid var(--line);border-radius:16px;padding:28px clamp(16px,3vw,32px) 28px}
+.axis{display:flex;justify-content:space-between;font:500 13px var(--font-ui);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px}
+.bar{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:22px}
+.bar i{height:4px;border-radius:4px;background:var(--green-soft)}
+.bar i.on{background:var(--green)} .bar i.gold{background:var(--gold)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+@media (min-width:860px){.cols{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.col{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.col.main{border-color:var(--green);box-shadow:var(--shadow-card)}
+.col h3{margin:0;font-size:19px}
+.col .lat{align-self:flex-start;font:500 11.5px var(--font-mono);color:var(--green-ink);background:rgba(22,182,115,.1);border:1px solid rgba(22,182,115,.25);border-radius:7px;padding:3px 9px}
+.col.premier .lat{color:var(--gold);background:rgba(209,172,98,.1);border-color:rgba(209,172,98,.3)}
+.default-tag{font:700 11px var(--font-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--green);background:var(--green-soft);border-radius:999px;padding:2px 8px;white-space:nowrap;align-self:flex-start}
+.col .pill{align-self:flex-start}
+.col .when{margin:0;font-size:14.5px;color:var(--ink-2);line-height:1.5}
+.col .get{margin:0;font-size:14px;color:var(--ink-3);line-height:1.5}
+.col .when b,.col .get b{color:var(--ink);font-weight:700}
+.ex{margin-top:auto;display:grid;gap:8px;padding-top:14px;border-top:1px dashed var(--line)}
+.ex-l{font:700 11px var(--font-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.ex .q{font:400 13.5px var(--font-mono);background:var(--panel);border-radius:8px;padding:8px 10px;color:var(--ink)}
+.ex .q em{font-style:normal;color:var(--ink-3)}
+.ex .r{font-size:13.5px;color:var(--ink-3);display:grid;gap:2px}
+.ex .r b{color:var(--green-ink);font-weight:700;font-size:14px}
+.col.premier .ex .r b{color:var(--gold)}
+.swap{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 16px;margin-top:30px}
+.swap-line{font:400 14.5px var(--font-mono);background:var(--code-bg);color:var(--code-ink);border-radius:10px;padding:12px 16px;max-width:100%;overflow-x:auto;white-space:nowrap}
+.swap-line .ep-live{color:var(--code-str);font-weight:500}.swap-line .d{color:var(--code-dim)}
+.swap-claim{font-family:var(--font-display);font-size:clamp(20px,2.4vw,26px);font-weight:700}
+.swap-claim em{color:var(--green)}
+.foot-link{margin-top:20px;text-align:center;font-size:15px;color:var(--ink-3)}
+.foot-link a{color:var(--green);font-weight:500}
+
+.types{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+@media (min-width:640px){.types{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1000px){.types{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.type{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.viz{height:148px;background:var(--panel);border-bottom:1px solid var(--line);padding:14px;position:relative;overflow:hidden}
+.type .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px}
+.type h3{margin:0;font-size:18px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.type p{margin:0;font-size:14.5px;color:var(--ink-2)}
+.type.soon{opacity:.82}
+.v-img{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);gap:6px;height:100%}
+.v-img div{border-radius:6px}
+.v-img div:nth-child(1){background:linear-gradient(135deg,#D9C7A7,#B79A6E);grid-row:span 2}
+.v-img div:nth-child(2){background:linear-gradient(135deg,#A9C3B4,#6F9A85)}
+.v-img div:nth-child(3){background:linear-gradient(135deg,#E8DCCB,#CDB592)}
+.v-img div:nth-child(4){background:linear-gradient(135deg,#C7CFC9,#8EA197)}
+.v-img div:nth-child(5){background:linear-gradient(135deg,#B9A58A,#8C7356);grid-column:span 2}
+.v-img div:nth-child(6){background:linear-gradient(135deg,#DCE6DF,#AFC4B7)}
+.v-vid{height:100%;border-radius:8px;background:linear-gradient(160deg,#21352B,#0E1813);position:relative}
+.v-vid::after{content:"";position:absolute;left:50%;top:44%;transform:translate(-40%,-50%);border-left:18px solid rgba(255,255,255,.9);border-top:11px solid transparent;border-bottom:11px solid transparent}
+.v-vid .mbar{position:absolute;left:12px;right:12px;bottom:12px;height:4px;background:rgba(255,255,255,.2);border-radius:4px}
+.v-vid .mbar i{position:absolute;left:38%;width:16%;top:0;bottom:0;background:#3DD68C;border-radius:4px}
+.v-vid .ts{position:absolute;right:12px;top:10px;font:500 11px var(--font-mono);color:#fff;background:rgba(0,0,0,.45);padding:2px 6px;border-radius:4px}
+.v-news{display:flex;flex-direction:column;gap:7px;font-size:12.5px}
+.v-news .ev{font-weight:700;font-size:13.5px;color:var(--ink)}
+.v-news .row{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font:500 11px var(--font-ui);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:2px 8px;color:var(--ink-2)}
+.chip.g{background:var(--green-soft);border-color:transparent;color:var(--green-ink)}
+.v-news .src{display:flex;align-items:center;gap:6px;color:var(--ink-3)}
+.v-news .src i{width:14px;height:14px;border-radius:3px;background:var(--line-strong);display:inline-block}
+.v-biz{display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px;align-items:start;font-size:12.5px}
+.v-biz .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--green),var(--gold))}
+.v-biz dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:3px 10px}
+.v-biz dt{color:var(--ink-3)} .v-biz dd{margin:0;color:var(--ink);font-weight:500}
+.v-biz .nm{font-weight:700;font-size:13.5px;margin-bottom:2px}
+.v-place{height:100%;border-radius:8px;position:relative;background:
+  repeating-linear-gradient(0deg,transparent 0 26px,var(--line) 26px 27px),
+  repeating-linear-gradient(90deg,transparent 0 34px,var(--line) 34px 35px),var(--paper)}
+.v-place .road{position:absolute;left:-10%;right:-10%;top:58%;height:10px;background:var(--line-strong);transform:rotate(-8deg);opacity:.6}
+.v-place .pin{position:absolute;left:46%;top:22%;width:22px;height:22px;border-radius:50% 50% 50% 0;background:var(--green);transform:rotate(-45deg)}
+.v-place .card-mini{position:absolute;left:10px;bottom:10px;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px;box-shadow:var(--shadow-card)}
+.v-place .card-mini b{display:block;font-size:12.5px}
+.v-design{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;height:100%}
+.v-design div{border:1px solid var(--line-strong);border-radius:6px;background:var(--paper);position:relative}
+.v-design div::before{content:"";position:absolute;left:8px;right:30%;top:10px;height:6px;border-radius:3px;background:var(--line-strong)}
+.v-design div::after{content:"";position:absolute;left:8px;right:8px;bottom:8px;height:40%;border-radius:4px;background:var(--panel)}
+
+.two{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+@media (min-width:820px){.two{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tool{background:var(--canvas);border:1px solid var(--line);border-radius:14px;padding:24px;display:grid;gap:14px;min-width:0}
+.tool h3{margin:0;font-size:20px}
+.tool p{margin:0;color:var(--ink-2);font-size:15px}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font:400 13px var(--font-mono)}
+.flow span{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--ink-2)}
+.flow b{color:var(--ink-3);font-weight:400}
+.flow span.out{border-color:var(--green);color:var(--green-ink);background:var(--green-soft)}
+
+.pillars{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+@media (min-width:860px){.pillars{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.pillar{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:24px;display:grid;gap:8px;min-width:0}
+.pillar .lbl{font:700 12px var(--font-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.pillar .big{font-family:var(--font-display);font-style:italic;font-weight:700;font-size:44px;line-height:1;color:var(--green)}
+.pillar .big small{font-size:20px}
+.pillar p{margin:0;font-size:14.5px;color:var(--ink-2)}
+.pillar .src{font-size:12.5px;color:var(--ink-3)}
+
+.dark{background:linear-gradient(160deg,var(--dark-a),var(--dark-b));color:var(--on-dark);border-bottom:0}
+.dark h2{color:var(--on-dark)} .dark h2 em{color:#3DD68C}
+.dark .lede{color:var(--on-dark-2)}
+.dark .eyebrow{color:#3DD68C} .dark .eyebrow::before{background:#3DD68C}
+.steps{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;counter-reset:s}
+@media (min-width:860px){.steps{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.step{border:1px solid rgba(114,239,198,.35);border-radius:14px;padding:22px;display:grid;gap:10px;min-width:0;counter-increment:s}
+.step::before{content:counter(s);font-family:var(--font-display);font-style:italic;font-size:32px;color:#3DD68C;line-height:1}
+.step h3{margin:0;font-size:18px;color:var(--on-dark)}
+.step p{margin:0;font-size:14.5px;color:var(--on-dark-2)}
+.step code{display:block;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.08);color:#DDE7E0;border-radius:8px;padding:8px 10px;font-size:12.5px;overflow-x:auto;white-space:nowrap}
+
+.models{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+@media (min-width:820px){.models{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.model{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:24px;display:grid;gap:8px;min-width:0}
+.model h3{margin:0;font-size:19px}
+.model .score{font-family:var(--font-display);font-style:italic;font-size:34px;font-weight:700;color:var(--green);line-height:1.1}
+.model p{margin:0;font-size:14.5px;color:var(--ink-2)}
+.built{margin-top:20px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:15px;color:var(--ink-2)}
+.built .chip{font-size:13px;padding:4px 10px}
+.built a{margin-left:auto;color:var(--green);font-weight:500}
+
+.faq{display:grid;gap:0;border-top:1px solid var(--line);max-width:860px}
+.faq details{border-bottom:1px solid var(--line);padding:18px 0}
+.faq summary{cursor:pointer;font-weight:700;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::after{content:"+";color:var(--ink-3);font-weight:400;font-size:22px;line-height:1}
+.faq details[open] summary::after{content:"\2013"}
+.faq .ans{margin-top:10px;color:var(--ink-2);font-size:15.5px}
+.faq .ans ul{margin:8px 0 0;padding-left:20px;display:grid;gap:4px}
+
+.final{text-align:center}
+.final .hero-ctas{justify-content:center;margin-top:24px}
+
+@media (max-width:560px){.axis{font-size:11px}section.band{padding-block:52px}}
+</style>
+<style>
+/* ===== SHARED MODULES — identical in A & B ===== */
+:root{--sh-bg:#080B12;--sh-panel:#0e131d;--sh-line:rgba(255,255,255,.12);--sh-line2:rgba(255,255,255,.22);--sh-txt:#EAF0F2;--sh-mut:#b7c1c8;--sh-dim:#8b97a0;--sh-green:#16B673;--sh-bright:#60ff70;--sh-gold:#D1AC62;--sh-ser:"Fraunces",Georgia,serif;--sh-ui:"DM Sans",system-ui,sans-serif;--sh-mono:"DM Mono",ui-monospace,monospace;--sh-maxw:1180px}
+.sh-nav{position:sticky;top:0;z-index:40;background:rgba(8,11,18,.72);backdrop-filter:blur(12px);border-bottom:1px solid var(--sh-line);font-family:var(--sh-ui)}
+.sh-nav .in{max-width:var(--sh-maxw);margin:0 auto;display:flex;align-items:center;gap:22px;height:64px;padding:0 24px}
+.sh-logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:19px;color:var(--sh-txt);text-decoration:none}
+.sh-logo i{width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--sh-bright),var(--sh-green));box-shadow:0 0 14px rgba(96,255,112,.4)}
+.sh-nav nav{display:flex;gap:4px;align-items:center}
+.sh-nav nav button,.sh-nav nav a{font:500 15px var(--sh-ui);color:var(--sh-mut);background:none;border:0;padding:8px 10px;border-radius:8px;text-decoration:none;cursor:pointer}
+.sh-nav nav button[aria-expanded="true"]{background:rgba(255,255,255,.06);color:var(--sh-txt)}
+.sh-nav nav a:hover,.sh-nav nav button:hover{color:var(--sh-txt)}
+.sh-right{margin-left:auto;display:flex;gap:10px;align-items:center}
+.sh-btn{display:inline-flex;align-items:center;gap:6px;font:600 14px var(--sh-ui);border-radius:10px;padding:9px 16px;text-decoration:none;cursor:pointer;border:1px solid transparent}
+.sh-btn.p{background:var(--sh-bright);color:#06130c}
+.sh-btn.g{border-color:var(--sh-line2);color:var(--sh-txt);background:rgba(255,255,255,.03)}
+.sh-mega{position:absolute;left:0;right:0;top:64px;background:var(--sh-panel);border-bottom:1px solid var(--sh-line);box-shadow:0 30px 60px -30px rgba(0,0,0,.9)}
+.sh-mega .in{max-width:var(--sh-maxw);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;padding:24px}
+.sh-mega h4{margin:0 0 10px;font:700 12px var(--sh-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--sh-dim)}
+.sh-mega ul{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.sh-mega li{font-size:15px;color:var(--sh-txt)}
+.sh-mega li small{display:block;color:var(--sh-dim);font-size:13px}
+@media(max-width:820px){.sh-nav .hide{display:none}}
+.sh-sec{padding:76px 24px;border-top:1px solid var(--sh-line);font-family:var(--sh-ui);color:var(--sh-txt)}
+.sh-sec .in{max-width:var(--sh-maxw);margin:0 auto}
+.sh-head{max-width:760px;margin:0 auto 38px;text-align:center}
+.sh-eyebrow{display:inline-flex;align-items:center;gap:8px;font:600 12px var(--sh-ui);letter-spacing:.16em;text-transform:uppercase;color:var(--sh-green);margin-bottom:14px}
+.sh-eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--sh-green)}
+.sh-h2{font-family:var(--sh-ser);font-weight:400;font-size:clamp(30px,4.4vw,46px);line-height:1.08;margin:0 0 14px}
+.sh-h2 em{font-style:italic;color:var(--sh-green)}
+.sh-lede{font-size:16.5px;line-height:1.55;color:var(--sh-mut);margin:0}
+.sh-pill3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.sh-pillar{border:1px solid var(--sh-line);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.008));padding:24px}
+.sh-pillar .l{font:700 12px var(--sh-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--sh-dim);margin-bottom:10px}
+.sh-pillar .big{font-family:var(--sh-ser);font-weight:400;font-size:42px;line-height:1;color:var(--sh-bright);margin-bottom:9px}
+.sh-pillar .big small{font-size:19px;color:var(--sh-mut)}
+.sh-pillar p{margin:0 0 8px;font-size:14px;color:var(--sh-mut);line-height:1.5}
+.sh-pillar .src{font-size:12px;color:var(--sh-dim)}
+.sh-foot-link{text-align:center;margin-top:22px;font-size:14px;color:var(--sh-dim)}
+.sh-foot-link a{color:var(--sh-green);text-decoration:none}
+.sh-two{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:22px}
+.sh-model{border:1px solid var(--sh-line);border-radius:14px;background:var(--sh-panel);padding:22px}
+.sh-model h3{margin:0 0 6px;font-size:19px;font-weight:600}
+.sh-model .score{font-family:var(--sh-ser);font-style:italic;font-size:30px;color:var(--sh-bright);line-height:1.1;margin-bottom:6px}
+.sh-model p{margin:0;font-size:14px;color:var(--sh-mut)}
+.sh-strip{display:flex;align-items:center;gap:8px 10px;flex-wrap:wrap;border:1px solid var(--sh-line);border-radius:12px;background:rgba(255,255,255,.015);padding:14px 18px}
+.sh-strip b{font-size:13px;color:var(--sh-txt)}
+.sh-chip{font:500 13px var(--sh-ui);color:#cfd8dc;border:1px solid var(--sh-line);border-radius:8px;padding:4px 10px;text-decoration:none}
+.sh-chip:hover{border-color:var(--sh-bright);color:#fff}
+.sh-strip .more{margin-left:auto;font-size:13px;color:var(--sh-green);text-decoration:none}
+.sh-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px}
+.sh-step{border:1px solid var(--sh-line);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.008));padding:22px}
+.sh-step .n{font-family:var(--sh-ser);font-size:30px;color:var(--sh-bright);line-height:1;margin-bottom:10px}
+.sh-step h3{margin:0 0 5px;font-size:16px;font-weight:600}
+.sh-step p{margin:0 0 11px;font-size:13px;color:var(--sh-mut);line-height:1.5}
+.sh-code{display:flex;align-items:center;gap:8px;font-family:var(--sh-mono);font-size:12px;color:#cfe8d8;background:rgba(0,0,0,.35);border:1px solid var(--sh-line);border-radius:9px;padding:9px 11px;overflow-x:auto;white-space:nowrap}
+.sh-code .cp{margin-left:auto;color:var(--sh-dim);cursor:pointer;flex:0 0 auto}
+.sh-access{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;border:1px solid var(--sh-line);border-radius:12px;background:rgba(255,255,255,.015);padding:14px 18px;font-size:14px;color:var(--sh-mut)}
+.sh-access b{color:var(--sh-txt)}
+.sh-access .tag{font:600 12px var(--sh-ui);color:#cfd8dc;border:1px solid var(--sh-line);border-radius:7px;padding:3px 9px}
+.sh-cta{display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap}
+.sh-faqwrap{max-width:820px;margin:0 auto;border-top:1px solid var(--sh-line)}
+.sh-faqwrap details{border-bottom:1px solid var(--sh-line);padding:18px 0}
+.sh-faqwrap summary{cursor:pointer;font-weight:600;font-size:16.5px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.sh-faqwrap summary::after{content:"+";color:var(--sh-dim);font-size:22px;line-height:1}
+.sh-faqwrap details[open] summary::after{content:"\2013"}
+.sh-faqwrap .a{margin-top:10px;color:var(--sh-mut);font-size:15px;line-height:1.6}
+.sh-faqwrap .a ul{margin:8px 0 0;padding-left:20px;display:grid;gap:5px}
+.sh-foot{border-top:1px solid var(--sh-line);background:linear-gradient(180deg,rgba(8,11,18,.6),var(--sh-bg));padding:54px 24px 38px;font-family:var(--sh-ui);color:var(--sh-txt)}
+.sh-foot .in{max-width:var(--sh-maxw);margin:0 auto}
+.sh-foot .fh{font-family:var(--sh-ser);font-weight:400;font-size:24px;margin:14px 0 30px}
+.sh-foot .fh em{font-style:italic;color:var(--sh-green)}
+.sh-cols{display:grid;grid-template-columns:repeat(5,1fr);gap:24px}
+.sh-col h5{font:700 11px var(--sh-ui);letter-spacing:.1em;text-transform:uppercase;color:var(--sh-dim);margin:0 0 12px}
+.sh-col a{display:block;font-size:13.5px;color:var(--sh-mut);text-decoration:none;margin-bottom:9px}
+.sh-col a:hover{color:var(--sh-txt)}
+.sh-fbtm{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:40px;padding-top:22px;border-top:1px solid var(--sh-line);font-size:12.5px;color:var(--sh-dim)}
+.sh-tool{border:1px solid var(--sh-line);border-radius:14px;background:var(--sh-panel);padding:24px;display:grid;gap:14px}
+.sh-tool h3{margin:0;font-size:20px;font-weight:600}
+.sh-tool p{margin:0;font-size:14.5px;color:var(--sh-mut);line-height:1.5}
+.sh-flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-family:var(--sh-mono);font-size:13px}
+.sh-flow span{background:rgba(255,255,255,.03);border:1px solid var(--sh-line);border-radius:8px;padding:6px 10px;color:var(--sh-mut)}
+.sh-flow b{color:var(--sh-dim);font-weight:400}
+.sh-flow span.out{border-color:var(--sh-green);color:#7fe3ab;background:rgba(22,182,115,.1)}
+.sh-apps{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.sh-app{border:1px solid var(--sh-line);border-radius:14px;background:var(--sh-panel);padding:22px}
+.sh-app .sh-ptag{display:inline-block;font:600 10px var(--sh-ui);letter-spacing:.04em;text-transform:uppercase;color:#7fe3ab;border:1px solid rgba(22,182,115,.3);border-radius:6px;padding:2px 8px;margin-bottom:11px}
+.sh-app h3{margin:0 0 5px;font-size:18px;font-weight:600}
+.sh-app p{margin:0;font-size:14px;color:var(--sh-mut);line-height:1.5}
+.sh-app .sh-link{display:inline-block;margin-top:12px;font-size:13px;color:var(--sh-green);text-decoration:none}
+@media(max-width:800px){.sh-apps{grid-template-columns:1fr}}
+.broad{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.015);padding:26px 28px;margin-top:22px}
+.broad-eye{font:600 12px var(--font-ui);letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:10px}
+.broad-h{font-family:var(--font-display);font-weight:400;font-size:24px;line-height:1.1;margin:0 0 10px;color:var(--ink)}
+.broad-p{margin:0 0 14px;font-size:14.5px;color:var(--ink-2);line-height:1.55}
+.broad-viz{display:flex;flex-direction:column;gap:10px}
+.bv-q{font-family:var(--font-mono);font-size:12.5px;color:#cfd8dc;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:9px;padding:9px 12px}
+.bv-fan{display:flex;flex-wrap:wrap;gap:6px}
+.bv-fan span{font-size:10.5px;color:#cfd8dc;border:1px solid rgba(22,182,115,.25);border-radius:7px;padding:3px 9px;background:rgba(22,182,115,.07)}
+.bv-out{font-family:var(--font-mono);font-size:11.5px;color:var(--green-ink)}
+.bvc{border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02);padding:12px 14px}
+.bvc.me{border-color:rgba(22,182,115,.35);background:rgba(22,182,115,.05)}
+.bvc-lbl{display:flex;align-items:center;gap:8px;font:600 11px var(--font-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px}
+.bvc.me .bvc-lbl{color:var(--green-ink)}
+.bvc-tag{font:600 9px var(--font-ui);color:#7fe3ab;border:1px solid rgba(22,182,115,.3);border-radius:4px;padding:1px 6px;letter-spacing:.04em}
+.bvc-q{font-family:var(--font-mono);font-size:12px;color:#cfd8dc;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:7px;padding:6px 9px;margin-bottom:8px}
+.bvc-one{font-family:var(--font-mono);font-size:11px;color:var(--ink-3)}
+.bvc-fan{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.bvc-fan span{font-size:10px;color:#cfd8dc;border:1px solid rgba(22,182,115,.25);border-radius:6px;padding:2px 7px;background:rgba(22,182,115,.06)}
+.bvc-merge{font-family:var(--font-mono);font-size:11px;color:var(--green-ink)}
+@media(max-width:760px){.broad{grid-template-columns:1fr;gap:18px}}
+@media(max-width:800px){.sh-pill3,.sh-two,.sh-steps{grid-template-columns:1fr}.sh-cols{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head><body>
+
+<div class="sh-nav">
+  <div class="in">
+    <a class="sh-logo" href="#"><i></i>Octen</a>
+    <nav>
+      <button type="button" id="sh-prod" aria-expanded="false" aria-controls="sh-mega">Products ▾</button>
+      <a class="hide" href="https://docs.octen.ai" target="_blank" rel="noopener">Docs</a>
+      <a class="hide" href="#">Pricing</a>
+      <a class="hide" href="#">Blog</a>
+    </nav>
+    <div class="sh-right"><a class="sh-btn g" href="#">Sign in</a><a class="sh-btn p" href="#">Get API Key</a></div>
+  </div>
+  <div class="sh-mega" id="sh-mega" hidden>
+    <div class="in">
+      <div><h4>Search</h4><ul><li>Web Search<small>Start here</small></li><li>Pulse Search<small>Latency-first</small></li><li>Web Search Premier<small>Accuracy-first</small></li><li>Broad Search</li></ul></div>
+      <div><h4>Search by type</h4><ul><li>Image Search</li><li>Video Search</li><li>News Search</li><li>Business Search</li><li>Place Search</li></ul></div>
+      <div><h4>Read &amp; Monitor</h4><ul><li>Extract</li><li>Monitor</li></ul></div>
+      <div><h4>Models</h4><ul><li>Embedding</li><li>VL Embedding</li></ul></div>
+      <div><h4>Built on Octen</h4><ul><li>Answer</li><li>Search Agent</li><li>Deep Research</li><li>Grounded Generation</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- ① Hero -->
+<section class="hero" id="s1">
+  <div class="wrap">
+<div class="hero-grid">
+      <div>
+        <h1>Search infrastructure for <em>AI</em></h1>
+        <div class="hero-tags"><span>Real-time indexing</span><span>Low latency</span><span>High reliability</span></div>
+        <div class="hero-ctas">
+          <a class="btn primary" href="#">Start Building</a>
+          <a class="btn ghost" href="https://docs.octen.ai" target="_blank" rel="noopener">View Docs</a>
+        </div>
+        <div class="setup"><span>Or in Claude Code:</span><code id="skill-cmd">npx skills add Octen-Team/octen-skills -a claude-code</code><button class="copy" type="button" id="copy-cmd">Copy</button></div>
+      </div>
+      <div class="demo" aria-label="Try a search">
+        <form class="demo-q" onsubmit="return false"><span class="mag" aria-hidden="true"></span><input class="demo-input" value="What are AI agents actually being used for in production?" aria-label="Try a search"><button class="demo-try" type="submit">Try it →</button></form>
+        <div class="demo-meta"><b>16</b> sub-queries · <b>69</b> results · searched in parallel<span class="demo-lat">114<i>ms avg</i></span></div>
+        <div class="demo-chips"><span>AI agents in production 2026</span><span>enterprise agent deployments</span><span>customer-service agents</span><span>coding agents adoption</span><span>agent reliability</span><span>+11</span></div>
+        <div class="demo-answer"><div class="da-tag">Answer</div><p>Agents have moved from pilots to production across <mark>customer service</mark>, <mark>software development</mark>, finance and manufacturing — doing autonomous task execution, not just chat<sup>3</sup><sup>12</sup>.</p><div class="da-src">bloomberg.com · mckinsey.com · +14 sources</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ② Tune it -->
+<section class="band alt" id="tune">
+  <div class="wrap">
+<div class="head">
+      <div class="eyebrow">Pick the right call</div>
+      <h2>Tune it to <em>your task</em></h2>
+      <p class="lede">Start with Web Search — it covers most cases. Dial from the fastest lookups to the highest accuracy.</p>
+    </div>
+    <div class="scale">
+      <div class="axis"><span>← Latency-first</span><span>Accuracy-first →</span></div>
+      <div class="bar" aria-hidden="true"><i></i><i class="on"></i><i class="gold"></i></div>
+      <div class="cols">
+        <article class="col">
+          <h3>Pulse Search</h3><span class="lat">~10 ms · $0.1/1k</span>
+          <p class="when"><b>Best for</b> pages you already know exist — docs, official sites, known destinations.</p>
+          <p class="get"><b>Returns</b> the right URL instantly, with no ranking pass.</p>
+        </article>
+        <article class="col main">
+          <span class="default-tag">Start here</span>
+          <h3>Web Search</h3><span class="lat">~62 ms · $1/1k</span>
+          <p class="when"><b>Best for</b> everyday questions — the real-time default for most calls.</p>
+          <p class="get"><b>Returns</b> ranked pages with model-ready highlights; filter by domain, time or language.</p>
+        </article>
+        <article class="col premier">
+          <span class="pill y">New</span>
+          <h3>Web Search Premier</h3><span class="lat">~420 ms · $4/1k</span>
+          <p class="when"><b>Best for</b> when the answer must be in the results — agent Q&amp;A, a hard fact, a named page.</p>
+          <p class="get"><b>Returns</b> higher-accuracy results from deeper retrieval and reranking — same query as Web Search, more certain.</p>
+        </article>
+      </div>
+      <div class="swap">
+        <div class="swap-claim">One key for all three. <em>Web and Premier take the same request</em></div>
+        <div class="swap-line">/search <span class="d">→</span> <span class="ep-live">/search-premier</span> <span class="d">· same params</span></div>
+      </div>
+    </div>
+    <div class="broad">
+      <div class="broad-txt">
+        <div class="broad-eye">Broad Search</div>
+        <h3 class="broad-h">One question, every angle — in one call.</h3>
+        <p class="broad-p">When a single query isn't enough, Broad decomposes a hard question into many sub-queries, searches them in parallel, then merges one ranked, deduplicated set.</p>
+        <a class="sh-link" href="#">Broad Search docs →</a>
+      </div>
+      <div class="broad-viz">
+        <div class="bvc">
+          <div class="bvc-lbl">Web Search</div>
+          <div class="bvc-q">evaluate RAG systems</div>
+          <div class="bvc-one">1 query → one ranked set · one angle</div>
+        </div>
+        <div class="bvc me">
+          <div class="bvc-lbl">Broad <span class="bvc-tag">one call</span></div>
+          <div class="bvc-q">evaluate RAG systems</div>
+          <div class="bvc-fan"><span>retrieval metrics</span><span>answer faithfulness</span><span>chunking eval</span><span>benchmark datasets</span><span>+6</span></div>
+          <div class="bvc-merge">→ merged, ranked, deduped · every angle</div>
+        </div>
+      </div>
+    </div>
+    <p class="foot-link"><a href="https://docs.octen.ai" target="_blank" rel="noopener">Compare search APIs ↗</a></p>
+  </div>
+</section>
+
+<!-- ③ Search by type -->
+<section class="band" id="types">
+  <div class="wrap">
+<div class="head">
+      <div class="eyebrow">Specialized search</div>
+      <h2>Search by <em>type</em></h2>
+      <p class="lede">Know the kind of result you want? Call the API built for it — on the same key.</p>
+    </div>
+    <div class="types">
+      <article class="type"><div class="viz"><div class="v-img"><div></div><div></div><div></div><div></div><div></div><div></div></div></div><div class="body"><h3>Image Search</h3><p>Images by description or by example — with their source pages.</p></div></article>
+      <article class="type"><div class="viz"><div class="v-vid"><span class="ts">02:14 – 02:41</span><div class="mbar"><i></i></div></div></div><div class="body"><h3>Video Search <span class="pill n">Early Access</span></h3><p>Relevant videos for a text query, ranked.</p></div></article>
+      <article class="type"><div class="viz"><div class="v-news"><div class="ev">Port strike enters third day</div><div class="row"><span class="chip g">14 sources</span><span class="chip">3 original</span><span class="chip">11 reprints merged</span></div><div class="src"><i></i>Updated 18 min ago</div><div class="src"><i></i>Sub-event: talks resume Friday</div></div></div><div class="body"><h3>News Search</h3><p>Live news grouped into one event — related coverage and sources together.</p></div></article>
+      <article class="type"><div class="viz"><div class="v-biz"><div class="logo" aria-hidden="true"></div><div><div class="nm">Northwind Robotics</div><dl><dt>Founded</dt><dd>2019</dd><dt>HQ</dt><dd>Berlin</dd><dt>Funding</dt><dd>Series B</dd><dt>Site</dt><dd>northwind.example</dd></dl></div></div></div><div class="body"><h3>Business Search</h3><p>Companies and people, returned as structured entity cards.</p></div></article>
+      <article class="type"><div class="viz"><div class="v-place"><div class="road"></div><div class="pin"></div><div class="card-mini"><b>Harbor Street Coffee</b>4.6 ★ · Open until 18:00</div></div></div><div class="body"><h3>Place Search</h3><p>Places by location — cards with hours and ratings, plus optional web results.</p></div></article>
+      <article class="type"><div class="viz"><div class="v-design"><div></div><div></div><div></div></div></div><div class="body"><h3>Design Search <span class="pill y">New</span></h3><p>Design references — web pages, app screens, slides.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- Performance (shared) -->
+<section class="sh-sec" id="performance">
+  <div class="in">
+    <div class="sh-head"><span class="sh-eyebrow">Performance</span><h2 class="sh-h2">Built to <em>perform</em></h2>
+      <p class="sh-lede">Top 3 on speed, cost and quality in the Artificial Analysis Search API Benchmark.</p></div>
+    <div class="sh-pill3">
+      <div class="sh-pillar"><div class="l">Value</div><div class="big">Top 3</div><p>#1 for speed, #2 for cost and top 3 for quality in the Artificial Analysis Search API Benchmark — one product, in its default configuration.</p><div class="src">Artificial Analysis · Nov 3, 2026</div></div>
+      <div class="sh-pillar"><div class="l">Scale</div><div class="big">62<small>ms</small></div><p>Latency holds flat from 1K to 1M+ QPS.</p><div class="src">Octen internal load test</div></div>
+      <div class="sh-pillar"><div class="l">Freshness</div><div class="big">&lt;5<small>min</small></div><p>New content indexed in under 5 minutes, continuously.</p><div class="src">Octen index pipeline</div></div>
+    </div>
+    <div class="sh-strip" style="margin-top:16px"><b>Retrieval models, also #1</b><span class="sh-chip">#1 on RTEB · Octen-Embedding-8B 0.7953</span><span class="sh-chip">#1 on MMEB-v2 · octen-vl-embedding-large 80.09</span></div>
+    <p class="sh-foot-link"><a href="#">See the full benchmark ↗</a></p>
+  </div>
+</section>
+
+<!-- Read & Monitor (B) -->
+<section class="sh-sec" id="read">
+  <div class="in">
+    <div class="sh-head"><span class="sh-eyebrow">Beyond search</span><h2 class="sh-h2">Read and <em>watch</em> the web</h2>
+      <p class="sh-lede">Already have the URL, or need to know when a page changes? Same key, two more calls.</p></div>
+    <div class="sh-two">
+      <div class="sh-tool"><h3>Extract</h3><p>Turn any URL into clean markdown your model can read, with the title and page type attached.</p><div class="sh-flow"><span>apple.com/iphone</span><b>→</b><span class="out"># iPhone · product page</span></div></div>
+      <div class="sh-tool"><h3>Monitor</h3><p>Watch a query or a set of pages and get a webhook when something new shows up.</p><div class="sh-flow"><span>"EU AI Act guidance"</span><b>→</b><span class="out">monitor.run.completed</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Built on Octen search (B) -->
+<section class="sh-sec" id="built">
+  <div class="in">
+    <div class="sh-head"><span class="sh-eyebrow">Built on Octen search</span><h2 class="sh-h2">From search to a <em>finished answer</em></h2>
+      <p class="sh-lede">Ready-made workflows on the same key — each one runs on Octen search.</p></div>
+    <div class="sh-apps">
+      <div class="sh-app"><h3>Answer</h3><p>A synthesized, cited answer grounded in live search results.</p><a class="sh-link" href="#">View docs →</a></div>
+      <div class="sh-app"><h3>Search Agent</h3><p>Plans, searches and reads on its own — returns a cited answer, or schema-defined JSON.</p><a class="sh-link" href="#">View docs →</a></div>
+      <div class="sh-app"><h3>Deep Research</h3><p>Multi-round planning and search into a structured, source-backed report.</p><a class="sh-link" href="#">View docs →</a></div>
+      <div class="sh-app"><h3>Grounded Generation</h3><p>Images and video grounded in real-world references from live search.</p><a class="sh-link" href="#">View docs →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- Get started (shared) -->
+<section class="sh-sec" id="get-started">
+  <div class="in">
+    <div class="sh-head"><span class="sh-eyebrow">Get started</span><h2 class="sh-h2">Live in <em>minutes</em></h2><p class="sh-lede">One key, then call it from code or hand it to your agent.</p></div>
+    <div class="sh-steps">
+      <div class="sh-step"><div class="n">01</div><h3>Get your API key</h3><p>Sign up in the console. The same key works for every Octen API.</p><div class="sh-code">OCTEN_API_KEY=sk-…</div></div>
+      <div class="sh-step"><div class="n">02</div><h3>Make your first request</h3><p>Call Web Search from curl, Python or Node.</p><div class="sh-code">pip install octen</div></div>
+      <div class="sh-step"><div class="n">03</div><h3>Connect your agent</h3><p>Add Octen to Claude Code, Cursor or any MCP client.</p><div class="sh-code">npx skills add Octen-Team/octen-skills<span class="cp">⧉</span></div></div>
+    </div>
+    <div class="sh-access"><b>Built with Skills, MCP &amp; CLI</b><span>One key, three ways in —</span><span class="tag">Skills</span><span class="tag">MCP</span><span class="tag">CLI</span><span>in Claude Code, Cursor, VS Code and any MCP client.</span></div>
+    <div class="sh-access" style="margin-top:12px"><b>Then pick how you pay</b><span>Pay-as-you-go per call, or the <b>Search Plan</b> at $20/mo for unlimited Web Search. Need guaranteed throughput? Add a <b>QPS Plan</b>.</span><a class="sh-link" href="#" style="margin-left:auto;white-space:nowrap">See pricing →</a></div>
+    <div class="sh-cta"><a class="sh-btn p" href="#">Start Building</a><a class="sh-btn g" href="https://docs.octen.ai" target="_blank" rel="noopener">View Docs</a></div>
+  </div>
+</section>
+
+<!-- Footer (shared) -->
+<footer class="sh-foot">
+  <div class="in">
+    <a class="sh-logo" href="#"><i></i>Octen</a>
+    <p class="fh">The Foundation of <em>Real-Time AI</em></p>
+    <div class="sh-cols">
+      <div class="sh-col"><h5>Search</h5><a href="#">Web Search</a><a href="#">Pulse Search</a><a href="#">Web Search Premier</a><a href="#">Broad Search</a></div>
+      <div class="sh-col"><h5>Search by type</h5><a href="#">Image</a><a href="#">Video</a><a href="#">News</a><a href="#">Business</a><a href="#">Place</a></div>
+      <div class="sh-col"><h5>Read &amp; Monitor · Models</h5><a href="#">Extract</a><a href="#">Monitor</a><a href="#">Embedding</a><a href="#">VL Embedding</a></div>
+      <div class="sh-col"><h5>Built on Octen</h5><a href="#">Answer</a><a href="#">Search Agent</a><a href="#">Deep Research</a><a href="#">Grounded Generation</a></div>
+      <div class="sh-col"><h5>Developers</h5><a href="#">Docs</a><a href="#">API Platform</a><a href="#">Status</a><a href="#">GitHub</a><a href="#">Pricing</a></div>
+    </div>
+    <div class="sh-fbtm"><span>© 2026 APITECH AI PTE. LTD.</span><span>SOC 2 Type II · Privacy · Terms</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var nb=document.getElementById('sh-prod'),mega=document.getElementById('sh-mega');
+  if(nb&&mega){nb.addEventListener('click',function(){var open=mega.hidden;mega.hidden=!open;nb.setAttribute('aria-expanded',open?'true':'false')});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!mega.hidden){mega.hidden=true;nb.setAttribute('aria-expanded','false')}});}
+
+  function copy(text,btn){
+    var done=function(){var o=btn.textContent;btn.textContent='Copied';setTimeout(function(){btn.textContent=o},1400)};
+    try{navigator.clipboard.writeText(text).then(done,done)}catch(e){}
+  }
+  var cc=document.getElementById('copy-cmd');if(cc)cc.addEventListener('click',function(){copy(document.getElementById('skill-cmd').textContent,this)});
+  var cp=document.getElementById('copy-prompt');if(cp)cp.addEventListener('click',function(){copy('Set up Octen search in this project. Read https://docs.octen.ai, then install the Octen skills with: npx skills add Octen-Team/octen-skills. Use OCTEN_API_KEY from the environment.',this)});
+})();
+</script>
+
+</body></html>

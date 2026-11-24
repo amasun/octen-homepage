@@ -1,6 +1,6 @@
 <div
   id="retrieval-stack"
-  class="retrieval-stack-section relative w-full pt-20 pb-30 border-b border-[#CCCCCC80] bg-white text-[#0a0a0a]"
+  class="retrieval-stack-section relative w-full pt-20 pb-30 bg-white text-[#0a0a0a]"
   style="background-color: #ffffff !important"
 >
   <span id="api-introduce" class="scroll-anchor" style="position: absolute; top: 0; left: 0;" aria-hidden="true"></span>
@@ -37,7 +37,7 @@
               <!-- Octen 居中不动,卡片原背景点阵(.rs-art::before)从左向右持续流动,Octen 不断伸出直线触手去抓流过的点(JS:public/js/retrieval-stack.js) -->
               <g class="emb-grab" fill="#0a0a0a"></g>
               <g class="emb-tent" fill="none" stroke="#a1a1aa" stroke-width="0.85" stroke-linecap="round"></g>
-              <g class="emb-hub" transform="translate(300 84)"><circle r="28" fill="#0a0a0a"/><image href="/_next/static/media/icon-octen-white.842b5932.svg" x="-16" y="-14" width="32" height="28"/></g>
+              <defs><!-- 中央 logo 远距离弥散投影(悬浮感):向下偏移 14、模糊 14、黑 18% --><filter id="emb-hub-shadow" x="-200%" y="-200%" width="500%" height="500%"><feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#000000" flood-opacity="0.18"/></filter></defs><g class="emb-hub" transform="translate(300 84)"><circle r="28" fill="#0a0a0a" filter="url(#emb-hub-shadow)"/><image href="/_next/static/media/icon-octen-white.842b5932.svg" x="-16" y="-14" width="32" height="28"/></g>
             </svg>
           </div>
         </div>
@@ -66,7 +66,7 @@
                 <g class="vl-pull" style="--dx:-30.8px;--dy:-2.4px;--pd:3.78s"><g transform="translate(334 96)"><circle class="vl-seed" style="--sd:2.60s" r="8" fill="#a3a3a3" fill-opacity=".5"/><g class="rs-a vl-ball" style="--d:2.50s"><circle r="21" fill="#fff" stroke="#e4e4e7"/><g transform="translate(-11 -11) scale(.9167)" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></g></g></g></g>
                 <g class="vl-pull" style="--dx:-14.0px;--dy:-10.8px;--pd:3.90s"><g transform="translate(250 138)"><circle class="vl-seed" style="--sd:2.75s" r="9" fill="#a3a3a3" fill-opacity=".5"/><g class="rs-a vl-ball" style="--d:2.65s"><circle r="21" fill="#fff" stroke="#e4e4e7"/><g transform="translate(-11 -11) scale(.9167)" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></g></g></g></g>
                 </g>
-                <g class="vl-hub" transform="translate(180 84)"><circle r="28" fill="#0a0a0a"/><image href="/_next/static/media/icon-octen-white.842b5932.svg" x="-16" y="-14" width="32" height="28"/></g>
+                <g class="vl-hub" transform="translate(180 84)"><circle r="28" fill="#0a0a0a" filter="url(#emb-hub-shadow)"/><!-- 复用 Embedding 卡里定义的弥散投影 --><image href="/_next/static/media/icon-octen-white.842b5932.svg" x="-16" y="-14" width="32" height="28"/></g>
               </svg>
             </div>
           </div>

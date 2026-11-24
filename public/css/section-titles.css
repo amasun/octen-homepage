@@ -1,3 +1,13 @@
+/* 全局文本选中高亮:黑底白字 */
+::selection {
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
+::-moz-selection {
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
+
 /* 各模块大标题(IBM Plex Serif)统一加粗。想再粗/细只改这一个变量(可选 300–700) */
 :root { --module-title-weight: 500; }
 
@@ -5,7 +15,7 @@
 #verticalSearchHeading,                          /* Search built for vertical industries */
 #modalities h2.font-serif,                       /* Image Search / Video Search */
 #retrieval-stack h2.font-serif,                  /* The complete retrieval stack */
-#showcase h2.font-serif,                         /* Built on Octen Search */
+#showcase h2.font-serif,                         /* Try Octen in our applications */
 #built-to-perform .bpt-heading,                  /* Built to Perform */
 #pricing h2.font-serif,                          /* Pricing */
 #get-started h2.font-serif {                     /* Get started in minutes */
@@ -15,4 +25,46 @@
 /* Web Search 双卡片标题(Human Search / Octen Broad Search)加粗 */
 #web-search .octen-web-search-card h3 {
   font-weight: 600;
+}
+
+/* 平板与移动端各模块上下留白自适应: PC 保持 120px, 平板 clamp 平滑过渡, 移动端统一 60px */
+@media (max-width: 1024px) {
+  #showcase {
+    padding-top: clamp(60px, 9vw, 120px);
+    padding-bottom: clamp(60px, 9vw, 120px);
+  }
+  #retrieval-stack {
+    padding-top: clamp(60px, 7vw, 80px);
+    padding-bottom: clamp(60px, 9vw, 120px);
+  }
+  #pricing > .py-25 {
+    padding-top: clamp(60px, 8vw, 100px);
+    padding-bottom: clamp(60px, 8vw, 100px);
+  }
+  #get-started > .py-25 {
+    padding-top: 0;
+    padding-bottom: clamp(60px, 8vw, 100px);
+  }
+}
+
+@media (max-width: 767px) {
+  #showcase {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  #pricing,
+  #get-started {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  #pricing > .py-25 {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+  #get-started > .py-25 {
+    padding-top: 0;
+    padding-bottom: 60px;
+  }
 }

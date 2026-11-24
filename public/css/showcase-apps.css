@@ -1,0 +1,229 @@
+/* ==========================================================================
+   Showcase → 「Try Octen in our applications」:五个 app 横版小 banner(占位渐变 + Figma app logo)
+   标题区与 Retrieval Stack(.rs-head)同一规范:胶囊 30px + IBM Plex Serif 44px 居中
+   卡片区:横向滚动轨道
+     - 首卡左缘对齐 1280px 内容区(--sc-edge),卡宽 = (1280 - 3×16) / 4 = 308px,前四张正好铺满 1280;
+     - 第五张自然排在右侧,突破 1280 限制(轨道本身全屏宽,向右滑动可看全);
+     - 任何屏宽都可左右滑动,scroll-snap 吸附到卡片;小屏卡宽收窄为约 72vw,露出下一张提示可滑。
+   ========================================================================== */
+@media (min-width: 1025px) {
+  #showcase { padding-top: 80px; padding-bottom: 80px; }   /* 原 py-30(120px),压缩模块高度 */
+}
+
+.sc-head { position: relative; display: flex; flex-direction: column; align-items: center; gap: 18px; max-width: calc(80rem + 64px); margin: 0 auto 40px; padding: 0 32px; text-align: center; }
+.sc-head-pill { display: inline-flex; align-items: center; height: 30px; padding: 0 16px; border-radius: 999px; border: 1px solid #d4d4d8; background: rgba(255, 255, 255, 0.7); font: 500 14px/1 'DM Sans', sans-serif; color: #374151; cursor: pointer; user-select: none; }
+.sc-head h2 { margin: 0; }
+
+.sc-apps {
+  --sc-gap: 16px;
+  --sc-edge: max(32px, calc((100% - 80rem) / 2));               /* 与 1280 内容区左缘对齐 */
+  --sc-card: calc((min(100%, 80rem) - 3 * var(--sc-gap)) / 4);   /* 桌面:四张铺满 1280(100% = 轨道内容宽,已扣掉左右 --sc-edge) */
+  display: flex;
+  gap: var(--sc-gap);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px var(--sc-edge) 8px;                               /* 上 4px 给 hover 上浮留位置 */
+  scroll-padding-left: var(--sc-edge);
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.sc-apps::-webkit-scrollbar { display: none; }
+
+.sc-app {
+  flex: 0 0 var(--sc-card);
+  scroll-snap-align: start;
+  text-decoration: none; color: inherit;
+}
+
+/* 嵌套卡片(结构参考 health-traffic 卡片,颜色走本站中性灰,无投影):
+   外层 = 浅灰壳(.sc-app 自身),内层 = 图形卡(.sc-banner,上),底部 = 名称行(.sc-foot,下) */
+.sc-app {
+  display: flex; flex-direction: column;
+  padding: 4px;
+  border-radius: 18px;
+  background: #efefef;
+  border: 1px solid #e4e4e7;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+.sc-app:hover { border-color: #d4d4d8; background: #eaeaea; }
+
+.sc-banner {
+  position: relative;
+  aspect-ratio: 2 / 1;
+  border-radius: 14px;                      /* 外壳 18 - 内边距 4 = 14,嵌套圆角同心 */
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+.sc-banner > .sc-icon { transition: transform 0.25s ease; }
+.sc-app:hover .sc-banner > .sc-icon { transform: scale(1.06); }
+/* 图片底 banner:5 张素材统一裁成 616×308(2:1,= banner 308×154 的 2x),存于 public/images/apps/bg-*.png,
+   与 banner 比例一致,cover 不再二次裁切。Answer=bg-green、Search Agent=bg-desert、Deep Research=bg-blue、
+   Grounded Generation=bg-forest、Auto Search=bg-auto。图片放在 ::before 里,hover 轻微放大 */
+.sc-banner { background: #0f1a14; isolation: isolate; }
+.sc-banner::before {
+  content: '';
+  position: absolute; inset: 0;
+  z-index: -1;
+  background: var(--sc-img) center / cover no-repeat;
+  transition: transform 0.4s ease;
+}
+.sc-app:hover .sc-banner::before { transform: scale(1.04); }
+.sc-banner--answer   { --sc-img: url(/images/apps/bg-green.png); }
+.sc-banner--agent    { --sc-img: url(/images/apps/bg-desert.png); }
+.sc-banner--research { --sc-img: url(/images/apps/bg-blue.png); }
+.sc-banner--grounded { --sc-img: url(/images/apps/bg-forest.png); }
+.sc-banner--auto     { --sc-img: url(/images/apps/bg-auto.png); }
+
+/* 中央 app logo:白色圆角方块 + Figma 绿色 logo(logo 盒 28px,对应 Figma 20px 图标盒;
+   answer / grounded 两个 logo 在 Figma 里有内边距,HTML 里按比例设了 img 尺寸) */
+.sc-icon {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, 0.88);          /* 图片底上用近白磨砂方块,保证绿色 logo 在亮 / 暗图上都清楚 */
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.sc-icon img { display: block; width: 28px; height: 28px; }
+.sc-icon img.is-inset { width: 24.5px; height: 24.5px; }   /* answer / grounded:Figma 里图形只占 20px 盒的约 87.5% */
+
+.sc-foot {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+  padding: 12px 10px 12px 12px;
+}
+.sc-name { font: 500 16px/1.4 'IBM Plex Serif', Georgia, serif; color: rgb(10, 10, 10); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* 用到的 Octen 能力标签(xxx Search):白色 50% 底、1px 描边、圆角 4px;卡片 hover 时标签保持不变 */
+.sc-tags { display: flex; flex-wrap: wrap; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.sc-tags li {
+  display: inline-flex; align-items: center;
+  height: 22px; padding: 0 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid #d4d4d8;
+  font: 500 12px/1 'DM Sans', sans-serif;
+  color: #52525b;
+  white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+  .sc-apps { --sc-card: 300px; }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .sc-head h2 { padding-inline: 104px; }
+}
+@media (max-width: 767px) {
+  .sc-head { padding: 0; margin-bottom: 28px; }
+  /* #showcase 在手机上自带左右 16px 内边距:轨道用负外边距贴到屏幕边缘,左缘仍与内容对齐 */
+  .sc-apps { --sc-gap: 12px; --sc-edge: 16px; --sc-card: 72vw; margin: 0 -16px; }
+}
+@media (max-width: 480px) {
+  .sc-icon { width: 44px; height: 44px; border-radius: 12px; }
+  .sc-icon img { width: 22px; height: 22px; }
+  .sc-icon img.is-inset { width: 19.25px; height: 19.25px; }
+  .sc-name { font-size: 14px; }
+  .sc-foot { padding: 10px 10px 10px 12px; gap: 6px; }
+  .sc-tags li { height: 20px; font-size: 11px; padding: 0 7px; }
+}
+
+/* 与上方 Retrieval Stack 同底色(白)、无分界线:两模块之间的总间距 = Retrieval Stack 的下内边距(桌面 120px),
+   所以 Showcase 顶部内边距归零(覆盖 section-titles.css 的平板 / 手机规则) */
+#showcase { background-color: #ffffff; padding-top: 0 !important; }
+
+/* ---------- 屏幕边缘渐隐 ----------
+   轨道两端用 mask 渐隐,渐隐长度由 JS 按滚动位置写入:还能向右滑 → 右侧渐隐 --sc-fr;已经向右滑过 → 左侧渐隐 --sc-fl。
+   无 JS 时默认只有右侧渐隐。 */
+.sc-apps {
+  --sc-fl: 0px;
+  --sc-fr: 120px;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--sc-fl), #000 calc(100% - var(--sc-fr)), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 var(--sc-fl), #000 calc(100% - var(--sc-fr)), transparent 100%);
+}
+@media (max-width: 767px) { .sc-apps { --sc-fr: 48px; } }
+
+/* ---------- 左右切换按钮:位于标题栏右侧,右对齐 1280 内容区;小屏隐藏(靠滑动) ---------- */
+.sc-nav {
+  position: absolute;
+  right: 32px;
+  bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sc-nav-btn {
+  width: 40px; height: 40px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 999px;
+  border: 1px solid #18181b;
+  background: #18181b;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+.sc-nav-btn svg { width: 18px; height: 18px; }
+.sc-nav-btn:hover:not(:disabled) { background: #27272a; border-color: #27272a; }
+.sc-nav-btn:disabled { opacity: 0.28; cursor: default; }
+.sc-nav[hidden] { display: none; }
+@media (max-width: 767px) { .sc-nav { display: none; } }
+
+/* 背景图模糊 + 黑色半透明遮罩:图片 blur 12px(::before 向外扩 24px,避免模糊后边缘透出底色),
+   ::after 叠 35% 黑;中央 logo 方块在最上层 */
+.sc-banner::before { inset: -24px; filter: blur(12px); }
+.sc-banner::after {
+  content: '';
+  position: absolute; inset: 0;
+  z-index: 0;
+  background: rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+.sc-banner > .sc-icon { position: relative; z-index: 1; }
+
+/* 中央 icon:黑底方块 + 白色 logo(Figma logo 原为绿色,用 filter 转成纯白) */
+.sc-icon {
+  background: #0a0a0a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.sc-icon img { filter: brightness(0) invert(1); }
+
+/* 中央 icon 玻璃质感(简化版,避免锯齿 / 上下多余黑白边):
+   - 去掉 backdrop-filter(背后图片本身已模糊,和圆角一起用在部分浏览器会出现锯齿边)
+   - 去掉上 / 下 inset 亮线(和 border 叠成双线)
+   - background-clip: padding-box,高光渐变不再铺到描边下面
+   只保留:半透明黑 + 很淡的顶部高光渐变 + 1px 白 14% 描边 */
+.sc-icon {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 60%),
+    rgba(10, 10, 10, 0.6);
+  background-clip: padding-box;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+
+/* hover:背景图去掉模糊(同时保留轻微放大) */
+.sc-banner::before { transition: transform 0.4s ease, filter 0.4s ease; }
+.sc-app:hover .sc-banner::before { filter: blur(0); }
+
+/* app icon 圆角矩形:背景模糊(磨砂)。
+   为避免之前出现的圆角锯齿:只用 backdrop-filter、不叠 inset 亮线;overflow: hidden + will-change 让圆角裁切在合成层里完成 */
+.sc-icon {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+  will-change: transform;
+}
+
+/* 卡片外壳底色与上方 Octen tools and models 卡片统一:rgb(246,246,246) + 同色描边 #e7e7e7;hover 只加深描边 */
+.sc-app { background: var(--octen-card-bg, #F4F5F4); border-color: var(--octen-card-line, #E6E7E6); } /* 全站灰卡统一色值,见 surface-tokens.css */
+.sc-app:hover { background: var(--octen-card-bg, #F4F5F4); border-color: #d4d4d8; }
+
+/* 去掉背景图模糊(保留 35% 黑色遮罩);图片恢复铺满 banner,不再外扩 */
+.sc-banner::before { inset: 0; filter: none; }
+.sc-app:hover .sc-banner::before { filter: none; }

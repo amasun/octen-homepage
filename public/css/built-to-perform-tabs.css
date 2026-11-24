@@ -1148,9 +1148,15 @@
   }
 }
 
+@media (min-width: 769px) and (max-width: 1024px) {
+  #built-to-perform.bpt-section {
+    padding: clamp(60px, 9vw, 110px) 0 clamp(60px, 10vw, 130px);
+  }
+}
+
 @media (max-width: 768px) {
   #built-to-perform.bpt-section {
-    padding: 80px 0;
+    padding: 60px 0;
   }
 
   .bpt-rail-track {
@@ -1290,3 +1296,64 @@
     animation: none;
   }
 }
+
+/* ==========================================================================
+   头部改为左右布局(≥1025px):左列 = 标签 + 标题 + tabs(左对齐);右列 = 小标题 + 详述(容器右侧、文字左对齐、底边与 tabs 对齐)
+   头部宽度与默认 Value 面板的卡片宽度一致(约 1084px),左右边缘和下方卡片对齐;模块上下内边距 110/130 → 96/96,整体高度自然缩小。
+   ≤1024px 保持原来的居中堆叠。
+   ========================================================================== */
+@media (min-width: 1025px) {
+  #built-to-perform.bpt-section { padding: 96px 0 96px; }
+  .bpt-container { gap: 32px; }
+
+  .bpt-head {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      "tag     copy"
+      "heading copy"
+      "tabs    copy";
+    align-items: end;
+    column-gap: 48px;
+    text-align: left;
+    max-width: min(1084px, 94vw);
+    padding: 0;
+  }
+  .bpt-head .built-perf-tag { grid-area: tag; justify-self: start; margin-bottom: 10px; }
+  .bpt-heading { grid-area: heading; text-align: left; margin: 0 0 20px; }
+  .bpt-tabs { grid-area: tabs; justify-self: start; }
+
+  .bpt-copy-stage {
+    grid-area: copy;
+    justify-self: end;
+    align-self: end;
+    max-width: 440px;
+    min-height: 0;
+    margin: 0;
+    justify-items: start;
+  }
+  .bpt-copy { align-items: flex-start; text-align: left; }
+  .bpt-subtitle { text-align: left; }
+  .bpt-desc, .bpt-desc.is-wide { text-align: left; margin: 0; max-width: none; }
+}
+
+/* ==========================================================================
+   背景:去除点阵,底色 #F1F4F2(带一点绿调的浅灰;变量 --bpt-bg)
+   Tab 胶囊配合底色:全部用无色(黑 / 白)+ 透明度,自动吸收底色色调,更协调——
+   轨道 黑 5% + 黑 4% 内描边;选中胶囊 白 85% + 轻投影;未选中文字 黑 55%
+   ========================================================================== */
+#built-to-perform.bpt-section { background-image: none; background-color: var(--bpt-bg, #F1F4F2); }
+/* 上下边界统一:原来只有上方一条线(来自 #showcase 的 border-b),下方与 Pricing 之间没有;
+   现改为本模块自己上下各一条 1px #CCCCCC80,#showcase 的 border-b 已移除 */
+#built-to-perform.bpt-section { border-top: 1px solid #CCCCCC80; border-bottom: 1px solid #CCCCCC80; }
+#built-to-perform .bpt-tabs {
+  background: rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+#built-to-perform .bpt-tab-pill {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+#built-to-perform .bpt-tab { color: rgba(0, 0, 0, 0.55); }
+#built-to-perform .bpt-tab:hover,
+#built-to-perform .bpt-tab.is-active { color: #000; }

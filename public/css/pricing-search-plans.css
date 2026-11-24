@@ -1,0 +1,563 @@
+/* ==========================================================================
+   Pricing Section -> Search Plan Cards (Standard & Plus)
+   Ported from octen-pricing SearchPlanSection.tsx
+   ========================================================================== */
+
+.sp-wrap {
+  width: 100%;
+  max-width: 916px;
+  margin: 0 auto;
+}
+
+.sp-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: stretch;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .sp-grid {
+    grid-template-columns: repeat(2, minmax(0, 450px));
+    justify-content: center;
+    gap: 16px;
+  }
+}
+
+.sp-card-shell {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.sp-card-shell--popular {
+  background: rgba(139, 239, 149, 0.5);
+  border-radius: 16px 16px 12px 12px;
+  z-index: 10;
+}
+
+@media (min-width: 1024px) {
+  .sp-card-shell--regular {
+    margin-top: 28px;
+  }
+}
+
+.sp-popular-bar {
+  height: 28px;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+#pricing .sp-popular-label {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 13px;
+  white-space: nowrap;
+  color: #276533;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sp-card {
+  background: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  box-sizing: border-box;
+  border: 1px solid rgba(26, 26, 25, 0.12);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  text-align: left;
+}
+
+.sp-card-shell:hover .sp-card {
+  border-color: #B5B5B0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.sp-header {
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+@media (min-width: 640px) {
+  .sp-header {
+    padding: 30px 20px 20px;
+    height: 178px;
+    gap: 20px;
+  }
+}
+
+.sp-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 34px;
+}
+
+#pricing .sp-title {
+  margin: 0;
+  font-family: 'IBM Plex Serif', Georgia, serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 24px;
+  color: #100F09;
+}
+
+/* Billing Cycle Toggle */
+.sp-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: 9999px;
+  background: #F6F6F3;
+  border: 1px solid #E7E7E3;
+  box-sizing: border-box;
+}
+
+.sp-toggle-pill {
+  position: absolute;
+  top: 2px;
+  height: 28px;
+  border-radius: 9999px;
+  background: #100F09;
+}
+
+.sp-toggle-pill--animate {
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sp-toggle-btn {
+  position: relative;
+  z-index: 1;
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  background: transparent;
+  border-radius: 9999px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: #57575E;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+
+.sp-toggle-btn:hover {
+  color: #100F09;
+}
+
+.sp-toggle-btn[aria-selected="true"] {
+  color: #ffffff;
+}
+
+/* Price Block */
+.sp-price-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sp-price-row {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  min-height: 44px;
+}
+
+.sp-price-main {
+  display: flex;
+  align-items: baseline;
+}
+
+.sp-currency {
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1;
+  color: #100F09;
+  padding-right: 2px;
+  user-select: none;
+  align-self: flex-start;
+  padding-top: 6px;
+}
+
+@media (min-width: 640px) {
+  .sp-currency {
+    font-size: 20px;
+    padding-top: 4px;
+  }
+}
+
+.sp-price-num {
+  margin: -0.25em 0;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 44px;
+  color: #100F09;
+}
+
+@media (min-width: 640px) {
+  .sp-price-num {
+    font-size: 40px;
+  }
+}
+
+.sp-nf-trim {
+  margin: -0.25em 0;
+}
+
+.sp-original-price {
+  display: block;
+  padding-left: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  color: #9C9CA4;
+  text-decoration: line-through;
+  white-space: nowrap;
+}
+
+.sp-per-month {
+  margin-left: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #57575E;
+  white-space: nowrap;
+}
+
+.sp-billed-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 24px;
+}
+
+.sp-billed-text {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #57575E;
+}
+
+.sp-billed-text strong {
+  font-weight: 600;
+  color: #57575E;
+}
+
+.sp-save-wrap {
+  display: block;
+  padding-left: 8px;
+}
+
+.sp-save-badge {
+  height: 24px;
+  padding: 0 8px;
+  background: #70FE7E;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 13px;
+  color: #100F09;
+  white-space: nowrap;
+}
+
+/* Collapse & AnimatedWidth Transitions */
+.sp-collapse {
+  display: grid;
+  grid-template-columns: 0fr;
+  opacity: 0;
+  transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sp-collapse--open {
+  grid-template-columns: 1fr;
+  opacity: 1;
+}
+
+.sp-collapse-inner {
+  min-width: 0;
+  overflow: clip;
+}
+
+.sp-anim-width {
+  overflow: clip;
+  white-space: nowrap;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sp-anim-width-inner {
+  display: inline-block;
+}
+
+/* CTA & Body */
+.sp-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.sp-cta-wrap {
+  padding: 0 16px 16px;
+  border-bottom: 1px solid rgba(26, 26, 25, 0.12);
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+@media (min-width: 640px) {
+  .sp-cta-wrap {
+    padding: 0 20px 20px;
+  }
+}
+
+.sp-cta {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  width: 100%;
+  height: 40px;
+  padding: 0 17px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  background: #100F09;
+  color: #ffffff;
+  text-decoration: none;
+  user-select: none;
+  box-sizing: border-box;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sp-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: radial-gradient(33.01% 73.58% at 50% 100%, rgba(155, 155, 155, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%), #100F09;
+  opacity: 0;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -1;
+}
+
+.sp-cta:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  color: #ffffff;
+}
+
+.sp-cta:hover::before {
+  opacity: 1;
+}
+
+.sp-cta:active {
+  transform: scale(0.97);
+}
+
+.sp-cta:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #039855;
+}
+
+.sp-features-wrap {
+  padding: 20px 16px;
+  flex: 1;
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  .sp-features-wrap {
+    padding: 30px 20px;
+  }
+}
+
+.sp-features-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sp-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.sp-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #100F09;
+}
+
+.sp-feature-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sp-feature-text {
+  flex: 1;
+  margin-left: 4px;
+}
+
+.sp-feature-text strong {
+  font-weight: 700;
+}
+
+#pricing .sp-note {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  color: rgb(139, 139, 139);
+}
+
+/* Secondary Cards: Pay-As-You-Go & QPS Plan */
+.sp-alt-section {
+  margin-top: 32px;
+  width: 100%;
+}
+
+#pricing .sp-alt-caption {
+  margin: 0 0 16px;
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: #52525b;
+}
+
+.sp-alt-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .sp-alt-grid {
+    grid-template-columns: repeat(2, minmax(0, 450px));
+    justify-content: center;
+    gap: 16px;
+  }
+}
+
+.sp-alt-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--octen-card-bg, #F4F5F4);
+  border: 1px solid var(--octen-card-line, #E6E7E6);
+  text-decoration: none;
+  text-align: left;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.sp-alt-card:hover {
+  border-color: #D6D8D6;
+  background: #EAECEB;
+}
+
+.sp-alt-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #3f3f46;
+  border: 1px solid #3f3f46;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #ffffff;
+}
+
+.sp-alt-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sp-alt-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+#pricing .sp-alt-title {
+  margin: 0;
+  font-family: 'IBM Plex Serif', Georgia, serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  color: #100F09;
+}
+
+.sp-alt-arrow {
+  flex-shrink: 0;
+  color: #71717A;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.sp-alt-card:hover .sp-alt-arrow {
+  transform: translate(2px, -2px);
+  color: #100F09;
+}
+
+#pricing .sp-alt-desc {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #57575E;
+}
