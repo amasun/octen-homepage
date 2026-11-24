@@ -2,7 +2,8 @@
    1. 概览按钮 hover / focus → 高亮下方对应卡片;≤1024px 点击平滑滚动到该卡片
    2. 进入视口时给 section 加 .is-inview,驱动 Pulse 光点动画
    3. Premier Bento 的搜索框轮流输入 News / Business / Place 示例查询,对应卡片加 .is-hl(触发与悬停相同的动效)
-   其余悬停动效为纯 CSS(octen-tiers.css「Premier Bento」) */
+   4. Fast API 卡片进入视口后轮流高亮(.is-hl),悬停暂停
+   其余悬停动效为纯 CSS(octen-tiers.css「Premier Bento」、fast-bento.css) */
 (function () {
   var root = document.getElementById('search-tiers');
   if (!root) return;
@@ -29,6 +30,7 @@
   /* ---------- Premier 搜索框:轮流输入三类示例查询,对应卡片同步高亮(.is-hl) ---------- */
   var QUERIES = [
     { dom: 'news', chip: 'News', q: 'port strike latest' },
+    { dom: 'web', chip: 'Web Premier', q: 'northwind q4 stock price' },
     { dom: 'business', chip: 'Business', q: 'northwind robotics' },
     { dom: 'place', chip: 'Place', q: 'coffee near harbor st' }
   ];
@@ -87,6 +89,110 @@
   } else {
     root.classList.add('is-inview');
     start();
+  }
+
+  /* ---------- Fast API 卡片:进入视口后逐个轮流高亮 Web → Broad → Image → Video → Sense(.is-hl 与 :hover 样式一致),
+     悬停网格时暂停轮播、交给鼠标;离开视口停止 ---------- */
+  var fxGrid = root.querySelector('.st-fx-grid');
+  if (fxGrid && !reduce && 'IntersectionObserver' in window) {
+    var fxCards = Array.prototype.slice.call(fxGrid.querySelectorAll('.st-fx[data-fx]'));
+    var fxDurations = { web: 1800, broad: 2400, image: 2600, video: 2400, sense: 2600 };
+    var fxVideoCard = fxGrid.querySelector('.st-fx--video');
+    var fxVideoEl = fxGrid.querySelector('.fx-vid-bg');
+    var fxDotsWrap = fxGrid.querySelector('[data-vid-dots]');
+    var fxDots = [];
+    if (fxDotsWrap) {
+      for (var d = 0; d < 50; d++) {
+        var dot = document.createElement('i');
+        fxDotsWrap.appendChild(dot);
+        fxDots.push(dot);
+      }
+    }
+    var fxDotTimer = null;
+    var fxI = 0, fxTimer = null, fxOn = false, fxHover = false;
+
+    var clearDots = function () {
+      if (fxDotTimer) { clearInterval(fxDotTimer); fxDotTimer = null; }
+      fxDots.forEach(function (dot) { dot.classList.remove('is-lit', 'is-peak'); });
+    };
+
+    var pulseDots = function () {
+      if (!fxDots.length) return;
+      var burst = 5 + Math.floor(Math.random() * 4);
+      for (var k = 0; k < burst; k++) {
+        (function (dot, isPeak) {
+          dot.classList.add(isPeak ? 'is-peak' : 'is-lit');
+          setTimeout(function () {
+            dot.classList.remove('is-lit', 'is-peak');
+          }, 360 + Math.floor(Math.random() * 140));
+        })(fxDots[Math.floor(Math.random() * fxDots.length)], k === 0 || (k === 1 && Math.random() > 0.5));
+      }
+    };
+
+    var syncVideo = function (play) {
+      if (fxVideoEl) {
+        if (play) {
+          var p = fxVideoEl.play();
+          if (p && typeof p.catch === 'function') p.catch(function () {});
+        } else {
+          fxVideoEl.pause();
+        }
+      }
+      if (play) {
+        if (!fxDotTimer && fxDots.length) {
+          pulseDots();
+          fxDotTimer = setInterval(pulseDots, 160);
+        }
+      } else {
+        clearDots();
+      }
+    };
+
+    var fxSet = function (el) {
+      fxCards.forEach(function (c) { c.classList.toggle('is-hl', c === el); });
+      if (!fxHover) syncVideo(el === fxVideoCard);
+    };
+
+    var fxTick = function () {
+      if (!fxOn || fxHover || !fxCards.length) return;
+      var activeCard = fxCards[fxI];
+      fxSet(activeCard);
+      var dur = fxDurations[activeCard.getAttribute('data-fx')] || 2400;
+      fxI = (fxI + 1) % fxCards.length;
+      fxTimer = setTimeout(fxTick, dur);
+    };
+
+    var fxStop = function () {
+      clearTimeout(fxTimer);
+      fxSet(null);
+      syncVideo(false);
+    };
+
+    fxGrid.addEventListener('mouseenter', function () {
+      fxHover = true;
+      clearTimeout(fxTimer);
+      fxCards.forEach(function (c) { c.classList.remove('is-hl'); });
+      syncVideo(false);
+    });
+    fxGrid.addEventListener('mouseleave', function () {
+      fxHover = false;
+      syncVideo(false);
+      if (fxOn) fxTimer = setTimeout(fxTick, 600);
+    });
+
+    if (fxVideoCard) {
+      fxVideoCard.addEventListener('mouseenter', function () { syncVideo(true); });
+      fxVideoCard.addEventListener('mouseleave', function () {
+        if (fxHover || !fxVideoCard.classList.contains('is-hl')) syncVideo(false);
+      });
+    }
+
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        fxOn = e.isIntersecting;
+        if (fxOn) { clearTimeout(fxTimer); fxTick(); } else fxStop();
+      });
+    }, { threshold: 0.4 }).observe(fxGrid);
   }
 
   /* ---------- Pulse / Fast 延迟大数字 NumberFlow 滚轮动画 ---------- */
@@ -159,5 +265,70 @@
       }, { threshold: 0.15 });
       flowIo.observe(bento);
     });
+  }
+
+  /* ---------- Fast: 1K → 1M+ QPS 实时波动延迟曲线 (50ms ~ 80ms) ---------- */
+  var scaleBar = root.querySelector('.st-scale-bar');
+  var scalePath = root.querySelector('[data-scale-path]');
+  var scaleDot = root.querySelector('[data-scale-dot]');
+  var scaleMs = root.querySelector('[data-scale-ms]');
+  if (scaleBar && scalePath && scaleDot && scaleMs && !reduce) {
+    var scaleRaf = null;
+    var scaleOn = false;
+    var lastMsUpdate = 0;
+
+    var sampleWave = function (x, t) {
+      var w1 = Math.sin(x * 0.042 - t * 2.1) * 0.55;
+      var w2 = Math.sin(x * 0.095 - t * 3.4 + 1.1) * 0.3;
+      var w3 = Math.cos(x * 0.023 - t * 1.3 + 2.4) * 0.15;
+      return w1 + w2 + w3; // roughly [-1, 1]
+    };
+
+    var drawWave = function (now) {
+      if (!scaleOn) return;
+      var t = now * 0.001;
+      var d = '';
+      var tipY = 9;
+      var tipNorm = 0;
+      var steps = 40;
+      var maxX = 356;
+
+      for (var i = 0; i <= steps; i++) {
+        var x = (maxX / steps) * i;
+        var norm = sampleWave(x, t);
+        var y = 9 - norm * 2.4;
+        d += (i === 0 ? 'M' : ' L') + x.toFixed(1) + ' ' + y.toFixed(2);
+        if (i === steps) {
+          tipY = y;
+          tipNorm = norm;
+        }
+      }
+
+      scalePath.setAttribute('d', d);
+      scaleDot.setAttribute('cy', tipY.toFixed(2));
+
+      if (now - lastMsUpdate >= 180) {
+        lastMsUpdate = now;
+        var msVal = Math.max(50, Math.min(80, Math.round(65 + tipNorm * 15)));
+        scaleMs.textContent = String(msVal);
+      }
+
+      scaleRaf = requestAnimationFrame(drawWave);
+    };
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        scaleOn = Boolean(es[0] && es[0].isIntersecting);
+        if (scaleOn) {
+          if (!scaleRaf) scaleRaf = requestAnimationFrame(drawWave);
+        } else if (scaleRaf) {
+          cancelAnimationFrame(scaleRaf);
+          scaleRaf = null;
+        }
+      }, { threshold: 0.2 }).observe(scaleBar);
+    } else {
+      scaleOn = true;
+      scaleRaf = requestAnimationFrame(drawWave);
+    }
   }
 })();

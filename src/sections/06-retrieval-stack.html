@@ -77,24 +77,43 @@
         </div>
       </article>
 
-      <!-- 3 · Monitor:盯住页面/主题,自然语言条件命中才触发 webhook -->
+      <!-- 3 · Monitor:盯住页面/主题,自然语言条件命中才触发价格同步 -->
       <article id="monitor" class="rs-cell">
         <span class="rs-tag">Tool</span>
-        <div class="rs-art rs-art--mon" data-ms="9000" aria-hidden="true">
+        <div class="rs-art rs-art--mon" data-ms="3600000" aria-hidden="true">
           <div class="rs-flow">
-            <div class="rs-card rs-watch rs-a" style="--d:.1s">
-              <div class="rs-cond rs-mono"><b>if</b> price drops &gt; 10%</div>
+            <div class="rs-card rs-watch">
+              <div class="rs-cond rs-mono">
+                <span class="rs-cond-left"><i class="rs-cond-dot"></i><span><b>if</b> lowest price</span></span>
+                <span class="rs-cond-live">Live</span>
+              </div>
               <div class="rs-wrows">
-                <span class="rs-scan"></span>
-                <div class="rs-wrow rs-a" style="--d:0.4s"><svg viewBox="0 0 24 24" width="13" height="13" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="2"/></svg><span>widget-mini</span><em class="rs-val rs-mono">$29</em><i class="rs-st"></i></div>
-                <div class="rs-wrow rs-wrow--hit rs-a" style="--d:0.6s"><svg viewBox="0 0 24 24" width="13" height="13" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="2"/></svg><span>widget-pro</span><em class="rs-val rs-mono">$49 → $42</em><i class="rs-st rs-st--hit"></i></div>
-                <div class="rs-wrow rs-a" style="--d:0.8s"><svg viewBox="0 0 24 24" width="13" height="13" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="2"/></svg><span>widget-max</span><em class="rs-val rs-mono">$79</em><i class="rs-st"></i></div>
+                <div class="rs-wrow is-active" data-mon-row="0"><svg viewBox="0 0 24 24" width="13" height="13" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="1.8"/></svg><span>amazon.com/pro</span><em class="rs-val rs-mono">$<number-flow class="rs-val-flow" data-mon-val>49</number-flow></em><i class="rs-st"></i></div>
+                <div class="rs-wrow" data-mon-row="1"><svg viewBox="0 0 24 24" width="13" height="13" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="1.8"/></svg><span>bestbuy.com/pro</span><em class="rs-val rs-mono">$<number-flow class="rs-val-flow" data-mon-val>53</number-flow></em><i class="rs-st"></i></div>
+                <div class="rs-wrow" data-mon-row="2"><svg viewBox="0 0 24 24" width="13" height="13" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="1.8"/></svg><span>target.com/pro</span><em class="rs-val rs-mono">$<number-flow class="rs-val-flow" data-mon-val>55</number-flow></em><i class="rs-st"></i></div>
               </div>
             </div>
-            <div class="rs-link rs-a" style="--d:3s"><i></i></div>
-            <div class="rs-card rs-hook rs-a" style="--d:3.3s">
-              <code class="rs-evt rs-mono">monitor.run.completed</code>
-              <span class="rs-diff rs-mono rs-a" style="--d:3.7s">price <s>49</s> → <b>42</b></span>
+            <div class="rs-mon-bridge">
+              <span class="rs-mon-wire"><i class="rs-mon-beam"></i></span>
+              <svg class="rs-mon-chev" viewBox="0 0 8 10" width="7" height="9" fill="none"><path d="M1.5 1.5L5.5 5L1.5 8.5" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="rs-card rs-hook rs-prod">
+              <div class="rs-prod-hd">
+                <span class="rs-prod-ico">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                </span>
+                <div class="rs-prod-meta">
+                  <b class="rs-prod-name">Widget Pro</b>
+                </div>
+              </div>
+              <div class="rs-prod-skels">
+                <i style="width: 82%"></i>
+                <i style="width: 56%"></i>
+              </div>
+              <div class="rs-prod-price-area">
+                <span class="rs-prod-lbl">Best price</span>
+                <strong class="rs-prod-val rs-mono">$<number-flow class="rs-prod-flow" data-mon-price>49</number-flow></strong>
+              </div>
             </div>
           </div>
         </div>

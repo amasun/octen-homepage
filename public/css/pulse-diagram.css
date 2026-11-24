@@ -1,0 +1,171 @@
+/* ==========================================================================
+   Pulse Search Diagram (#tier-pulse .st-art--pulse)
+   12x6 LLM inference token-matrix marquee (brain as cell 0, zero protrusion)
+   ========================================================================== */
+
+#tier-pulse .st-art--pulse {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 16px;
+  min-height: 220px;
+}
+
+.st-pmx-wrap {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 424px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.st-pmx-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.st-pmx-status {
+  font: 500 13px/1 'DM Mono', ui-monospace, monospace;
+  color: #0f9f63;
+  letter-spacing: -0.01em;
+}
+
+.st-pmx-state {
+  min-width: 102px;
+  height: 22px;
+  padding: 0 9px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font: 500 11.5px/1 'DM Mono', ui-monospace, monospace;
+  background: #f4f4f5;
+  border: 1px solid #e4e4e7;
+  color: #52525b;
+  box-sizing: border-box;
+  transition: background-color 0.14s ease, border-color 0.14s ease, color 0.14s ease;
+}
+
+.st-pmx-state-icon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.st-pmx-icon-search,
+.st-pmx-icon-check {
+  display: none;
+}
+
+.st-pmx-state.is-searching .st-pmx-icon-brain {
+  display: none;
+}
+
+.st-pmx-state.is-searching .st-pmx-icon-search {
+  display: block;
+}
+
+.st-pmx-state.is-done .st-pmx-icon-brain {
+  display: none;
+}
+
+.st-pmx-state.is-done .st-pmx-icon-check {
+  display: block;
+  color: #16b673;
+}
+
+.st-pmx-state.is-searching {
+  background: rgba(15, 159, 99, 0.1);
+  border-color: rgba(15, 159, 99, 0.4);
+  color: #0f9f63;
+}
+
+.st-pmx-state.is-done {
+  background: #111827;
+  border-color: #111827;
+  color: #ffffff;
+}
+
+.st-pmx-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.st-pmx-cell {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.14s ease, border-color 0.14s ease;
+}
+
+.st-pmx-cell.is-done {
+  background: #d8dad9;
+  border-color: transparent;
+}
+
+.st-pmx-cell.is-hit {
+  background: #0f9f63;
+  border-color: #0f9f63;
+}
+
+.st-pmx-cell .st-pmx-bot {
+  width: 68%;
+  height: 68%;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+.st-pmx-cell.is-hit .st-pmx-bot {
+  opacity: 1;
+}
+
+.st-pmx-cell.is-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 6px;
+  border: 1px solid rgba(15, 159, 99, 0.55);
+  pointer-events: none;
+  animation: st-pmx-halo 0.45s ease-out forwards;
+}
+
+@keyframes st-pmx-halo {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.22);
+  }
+}
+
+@media (max-width: 520px) {
+  .st-pmx-status {
+    font-size: 12px;
+  }
+
+  .st-pmx-grid {
+    gap: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .st-pmx-cell.is-pulse::after {
+    animation: none !important;
+  }
+}

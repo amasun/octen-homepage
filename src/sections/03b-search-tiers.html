@@ -28,15 +28,33 @@
           </div>
         </div>
         <div class="st-art st-art--pulse" aria-hidden="true">
-          <span class="st-pulse-badge">1 inference</span>
-          <div class="st-flow">
-            <span class="st-node">"stripe api docs"</span>
-            <span class="st-wire"><i></i></span>
-            <span class="st-core"><b>model = index</b><em>generative recall</em></span>
-            <span class="st-wire"><i></i></span>
-            <span class="st-node st-node--url">docs.stripe.com</span>
+          <div class="st-pmx-wrap">
+            <div class="st-pmx-head">
+              <span class="st-pmx-state" data-pulse-state>
+                <svg class="st-pmx-state-icon st-pmx-icon-brain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+                  <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+                  <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
+                  <path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/>
+                  <path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/>
+                  <path d="M3.477 10.896a4 4 0 0 1 .585-.396"/>
+                  <path d="M19.938 10.5a4 4 0 0 1 .585.396"/>
+                  <path d="M6 18a4 4 0 0 1-1.967-.516"/>
+                  <path d="M19.967 17.484A4 4 0 0 1 18 18"/>
+                </svg>
+                <svg class="st-pmx-state-icon st-pmx-icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="m21 21-4.3-4.3"/>
+                </svg>
+                <svg class="st-pmx-state-icon st-pmx-icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 6 9 17l-5-5"/>
+                </svg>
+                <span data-pulse-state-text>Thinking</span>
+              </span>
+              <span class="st-pmx-status"><span data-pulse-count>0</span> lookups · no stops</span>
+            </div>
+            <div class="st-pmx-grid" data-pulse-grid></div>
           </div>
-          <span class="st-cap">No crawl · no ranking pass — maps query straight to URL</span>
         </div>
         <p class="st-bestfor"><span>Best for</span>Routing, pre-fetch &amp; in-loop lookups</p>
       </article>
@@ -52,42 +70,120 @@
             <p>A family of live-web APIs, each its own endpoint. Call just the one your task needs — from general web queries to visual media.</p>
           </div>
         </div>
-        <ul class="st-apis">
-          <li class="st-api">
-            <a class="st-api-link" href="https://docs.octen.ai/api-reference/search" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 30 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5h24M3 11h24M3 17h16"/></svg>
-              <b>Web</b><em>Ranked links for general queries</em>
-            </a>
-          </li>
-          <li class="st-api st-api--broad">
-            <a class="st-api-link" href="https://docs.octen.ai/api-reference/search" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 30 22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="5" cy="11" r="2.4"/><circle cx="25" cy="4" r="2.4"/><circle cx="25" cy="11" r="2.4"/><circle cx="25" cy="18" r="2.4"/><path class="st-fan" d="M7.4 10 22 4.6M7.4 11H22.6M7.4 12 22 17.4"/></svg>
-              <b>Broad</b><em>Splits a hard question into concurrent sub-queries</em>
-            </a>
-          </li>
-          <li class="st-api">
-            <a class="st-api-link" href="https://docs.octen.ai/api-reference/search" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 30 22" fill="currentColor"><rect x="2" y="3" width="11" height="7" rx="1.5"/><rect x="17" y="3" width="11" height="7" rx="1.5"/><rect x="2" y="12" width="11" height="7" rx="1.5"/><rect x="17" y="12" width="11" height="7" rx="1.5"/></svg>
-              <b>Image</b><em>Visual results</em>
-            </a>
-          </li>
-          <li class="st-api">
-            <a class="st-api-link" href="https://docs.octen.ai/api-reference/search" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 30 22" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="26" height="16" rx="2.5"/><path d="M13 7.5l6 3.5-6 3.5z" fill="currentColor" stroke="none"/></svg>
-              <b>Video</b><em>Clips + timestamps</em>
-            </a>
-          </li>
-          <li class="st-api st-api--soon">
-            <svg viewBox="0 0 30 22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="15" cy="11" r="3"/><path d="M8.5 4.5a9 9 0 0 0 0 13M21.5 4.5a9 9 0 0 1 0 13M5 1.5a13.5 13.5 0 0 0 0 19M25 1.5a13.5 13.5 0 0 1 0 19"/></svg>
-            <b>Sense <span class="st-soon">Soon</span></b><em>Cameras, robots &amp; devices</em>
-          </li>
-        </ul>
+        <!-- Fast API 卡片(Premier 同款:上插画面板 + 下名称/一句话)。3 列:Web | Broad(跨两列)/ Image | Video(唯一深色卡)| Sense(Soon)
+             交互:悬停或被自动轮播高亮(.is-hl,public/js/octen-tiers.js)时插画播放微动效;样式见 public/css/fast-bento.css
+             Broad 的示例问题与子查询取自 hifi 参考页 "Search the way AI does" 对比图 -->
+        <div class="st-fx-grid">
+          <a class="st-fx st-fx--web" data-fx="web" href="https://docs.octen.ai/capabilities/web-search" target="_blank" rel="noopener noreferrer">
+            <div class="st-fx-art" aria-hidden="true">
+              <div class="fx-web">
+                <div class="fx-q"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><b></b></div>
+                <ol class="fx-rank">
+                  <li style="--i:0"><i>1</i><b style="--w:88%"></b></li>
+                  <li style="--i:1"><i>2</i><b style="--w:70%"></b></li>
+                  <li style="--i:2"><i>3</i><b style="--w:54%"></b></li>
+                </ol>
+              </div>
+            </div>
+            <div class="st-fx-foot"><h4>Web Search</h4><p>Ranked links for general queries</p></div>
+          </a>
 
-        <div class="st-scale-bar" aria-label="Latency holds flat from 1K to 1M+ QPS at ~62 ms">
-          <span class="st-scale-qps st-mono">1K → 1M+ QPS</span>
-          <i aria-hidden="true"></i>
-          <span class="st-scale-lat st-mono">flat latency</span>
-          <span class="st-scale-note">Octen load test</span>
+          <a class="st-fx st-fx--broad" data-fx="broad" href="https://docs.octen.ai/capabilities/broad-search" target="_blank" rel="noopener noreferrer">
+            <div class="st-fx-art" aria-hidden="true">
+              <div class="fx-broad">
+                <span class="fx-bq">What is the best AI search engine?</span>
+                <svg class="fx-fan" viewBox="0 0 60 100" preserveAspectRatio="none">
+                  <path style="--i:0" d="M0 50 C 30 50, 30 12, 60 12"/>
+                  <path style="--i:1" d="M0 50 C 30 50, 30 37, 60 37"/>
+                  <path style="--i:2" d="M0 50 C 30 50, 30 63, 60 63"/>
+                  <path style="--i:3" d="M0 50 C 30 50, 30 88, 60 88"/>
+                </svg>
+                <ul class="fx-subs">
+                  <li style="--i:0">AI search engines</li>
+                  <li style="--i:1">LLM vs keyword</li>
+                  <li style="--i:2">retrieval methods</li>
+                  <li style="--i:3">hybrid search</li>
+                </ul>
+              </div>
+            </div>
+            <div class="st-fx-foot"><h4>Broad Search</h4><p>Splits a hard question into concurrent sub-queries</p></div>
+          </a>
+
+          <a class="st-fx st-fx--image" data-fx="image" href="https://docs.octen.ai/capabilities/image-search" target="_blank" rel="noopener noreferrer">
+            <div class="st-fx-art" aria-hidden="true">
+              <div class="fx-img-stage">
+                <div class="fx-img-track">
+                  <span class="fx-img-card"><img src="/images/image-search/card-1.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-2.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-3.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-4.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-5.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-6.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-7.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-8.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-9.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-10.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-1.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-2.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-3.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-4.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-5.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-6.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-7.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-8.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-9.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-10.png" alt="" loading="lazy" decoding="async" /></span>
+                </div>
+              </div>
+              <div class="fx-img-pill">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                <span class="fx-img-caret"></span>
+                <span class="fx-img-label">Search image</span>
+                <span class="fx-img-badge"><img src="/images/image-search/octen-robot.svg" width="13" height="13" alt="" /></span>
+              </div>
+            </div>
+            <div class="st-fx-foot"><h4>Image Search</h4><p>Ranked images for visual queries</p></div>
+          </a>
+
+          <a class="st-fx st-fx--video is-dark" data-fx="video" href="https://docs.octen.ai/capabilities/video-search" target="_blank" rel="noopener noreferrer">
+            <div class="st-fx-art" aria-hidden="true">
+              <div class="fx-vid">
+                <video class="fx-vid-bg" src="/static/video/multimodal-video.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
+                <div class="fx-vid-dots" data-vid-dots aria-hidden="true"></div>
+                <span class="fx-ts st-mono">02:15 – 02:38</span>
+                <span class="fx-play"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.8 10 6 3 10.2z"/></svg></span>
+                <span class="fx-track"><i class="fx-seg"></i><i class="fx-head"></i></span>
+              </div>
+            </div>
+            <div class="st-fx-foot"><h4>Video Search</h4><p>Clips + timestamps</p></div>
+          </a>
+
+          <div class="st-fx st-fx--sense" data-fx="sense">
+            <div class="st-fx-art" aria-hidden="true">
+              <div class="fx-sense">
+                <span class="fx-radar-ring r1"></span>
+                <span class="fx-radar-ring r2"></span>
+                <span class="fx-radar-ring r3"></span>
+                <span class="fx-radar-sweep"></span>
+                <i class="fx-blip b1"></i>
+                <i class="fx-blip b2"></i>
+                <i class="fx-blip b3"></i>
+                <b class="fx-radar-core"></b>
+              </div>
+            </div>
+            <div class="st-fx-foot"><h4>Sense Search <span class="st-soon">Soon</span></h4><p>Cameras, robots &amp; devices</p></div>
+          </div>
+
+          <div class="st-scale-bar" aria-label="1K to 1M+ QPS at ~62ms latency">
+            <span class="st-scale-qps st-mono">1K → 1M+ QPS</span>
+            <span class="st-scale-wave" aria-hidden="true">
+              <svg class="st-scale-svg" viewBox="0 0 360 18" preserveAspectRatio="none">
+                <path class="st-scale-line" data-scale-path d="M0 9 L356 9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle class="st-scale-dot" data-scale-dot cx="356" cy="9" r="2.6" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="st-scale-lat st-mono"><b data-scale-ms>62</b>ms <em>latency</em></span>
+          </div>
         </div>
 
         <p class="st-bestfor"><span>Best for</span>Grounding answers &amp; research agents</p>
@@ -114,7 +210,6 @@
                 <span class="pm-q" data-q>port strike latest</span><span class="pm-caret"></span>
                 <span class="pm-q-chip" data-chip>News</span>
               </div>
-              <p class="pm-best">Best for results that must contain the answer.</p>
             </div>
           </div>
 
@@ -124,11 +219,11 @@
               <div class="pm-news">
                 <span class="pm-dupe"></span><span class="pm-dupe"></span>
                 <div class="pm-news-card">
-                  <b>Port strike enters third day</b>
+                  <b class="pm-news-title"><span class="pm-news-type">Port strike enters third day</span></b>
                   <div class="pm-chips"><span class="is-acc">14 sources</span><span>3 original</span><span>11 reprints merged</span></div>
                   <ul class="pm-tl">
-                    <li>Updated 18 min ago</li>
-                    <li>Sub-event: talks resume Friday</li>
+                    <li class="pm-tl-item"><time>Day 1</time><span>Cargo halted at 3 terminals</span></li>
+                    <li class="pm-tl-item is-now"><time>18m ago</time><span>Talks set to resume Friday</span></li>
                   </ul>
                 </div>
               </div>
@@ -139,20 +234,89 @@
             </div>
           </div>
 
-          <!-- C · Web Premier (Soon):深色卡。一列结果,标出含答案的那条(悬停时高亮) -->
-          <div class="st-pm st-pm--web is-dark">
+          <!-- C · Web Premier (Soon):深色卡。左右对比：左侧网页内容筛选 + 中间传导 + 右侧股价曲线与关键数据结果卡 -->
+          <div class="st-pm st-pm--web is-dark" data-dom="web">
             <div class="st-pm-art" aria-hidden="true">
               <div class="pm-web">
-                <div class="pm-web-q"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><b></b><span>Web Premier</span></div>
-                <ol class="pm-list">
-                  <li class="is-ans"><i></i><span><b class="w80"></b><em class="st-mono">docs.example</em></span><mark>Contains answer</mark></li>
-                  <li><i></i><span><b class="w70"></b><em class="st-mono">guide.example</em></span></li>
-                  <li><i></i><span><b class="w55"></b><em class="st-mono">reference.example</em></span></li>
-                </ol>
+                <div class="pm-web-raw">
+                  <div class="pm-raw-hd">
+                    <span>Web Sources</span>
+                    <em class="st-mono">12 &rarr; 1</em>
+                  </div>
+                  <div class="pm-raw-list">
+                    <div class="pm-raw-row is-noise" style="--i:0">
+                      <i></i>
+                      <span class="st-mono">forum.example/rumor</span>
+                      <b>&times;</b>
+                    </div>
+                    <div class="pm-raw-row is-noise" style="--i:1">
+                      <i></i>
+                      <span class="st-mono">blog.example/recap</span>
+                      <b>&times;</b>
+                    </div>
+                    <div class="pm-raw-row is-match">
+                      <i></i>
+                      <span class="st-mono">ir.northwind.example/q4</span>
+                      <mark>Match</mark>
+                    </div>
+                    <div class="pm-raw-row is-noise" style="--i:2">
+                      <i></i>
+                      <span class="st-mono">digest.example/daily</span>
+                      <b>&times;</b>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pm-web-bridge">
+                  <span class="pm-bridge-track">
+                    <span class="pm-bridge-dot"></span>
+                  </span>
+                  <span class="pm-bridge-icon">
+                    <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9.5 4.5L13 8l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </div>
+
+                <div class="pm-web-exact">
+                  <div class="pm-stock-hd">
+                    <div class="pm-stock-title">
+                      <span class="pm-stock-ticker st-mono">NWRB</span>
+                      <b>Northwind &middot; Q4</b>
+                    </div>
+                    <div class="pm-stock-price">
+                      <strong class="st-mono">$142.80</strong>
+                      <span class="pm-stock-delta st-mono">+4.82%</span>
+                    </div>
+                  </div>
+
+                  <div class="pm-stock-chart">
+                    <svg viewBox="0 0 180 54" preserveAspectRatio="none" fill="none">
+                      <defs>
+                        <linearGradient id="pmStockFill" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stop-color="#d1ac62" stop-opacity="0.34"/>
+                          <stop offset="100%" stop-color="#d1ac62" stop-opacity="0"/>
+                        </linearGradient>
+                      </defs>
+                      <line x1="0" y1="13" x2="180" y2="13" stroke="rgba(255,255,255,0.06)" stroke-dasharray="2 3"/>
+                      <line x1="0" y1="29" x2="180" y2="29" stroke="rgba(255,255,255,0.06)" stroke-dasharray="2 3"/>
+                      <line x1="0" y1="45" x2="180" y2="45" stroke="rgba(255,255,255,0.06)" stroke-dasharray="2 3"/>
+                      <path class="pm-chart-area" d="M4 42 L28 38 L46 43 L70 30 L92 34 L118 21 L140 24 L174 10 L174 52 L4 52 Z" fill="url(#pmStockFill)"/>
+                      <path class="pm-chart-line" d="M4 42 L28 38 L46 43 L70 30 L92 34 L118 21 L140 24 L174 10" stroke="#e7c873" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      <circle class="pm-chart-ring" cx="174" cy="10" r="5.5" fill="rgba(209,172,98,0.26)"/>
+                      <circle class="pm-chart-dot" cx="174" cy="10" r="2.6" fill="#e7c873"/>
+                    </svg>
+                    <span class="pm-stock-peak st-mono">$142.80</span>
+                  </div>
+
+                  <div class="pm-stock-metrics">
+                    <span>Rev <b class="st-mono">$3.9B</b></span>
+                    <span>EPS <b class="st-mono">$1.42</b></span>
+                    <em class="pm-stock-exact"><i></i>Exact</em>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="st-pm-foot">
-              <h4>Web Premier <span class="st-soon">Soon</span></h4>
+              <h4>Web Search Premier <span class="st-soon">Soon</span></h4>
               <p>Markedly better web results, for queries where the results must contain the answer.</p>
             </div>
           </div>
@@ -212,6 +376,7 @@
           </div>
 
         </div>
+        <p class="st-bestfor"><span>Best for</span>Results that must contain the answer &amp; structured domain lookups</p>
       </article>
     </div>
 

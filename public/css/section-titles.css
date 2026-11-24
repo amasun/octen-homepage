@@ -8,6 +8,35 @@
   color: #ffffff;
 }
 
+/* 暗色区块/深色卡片中的选中高亮:灰底白字 */
+#hero::selection, #hero *::selection,
+#web-search.ws-theme-b::selection, #web-search.ws-theme-b *::selection,
+#webSearchCompare::selection, #webSearchCompare *::selection,
+#modalities::selection, #modalities *::selection,
+#footer::selection, #footer *::selection,
+.octen-footer-root::selection, .octen-footer-root *::selection,
+.bg-bg-dark::selection, .bg-bg-dark *::selection,
+.octen-search-surface::selection, .octen-search-surface *::selection,
+.is-dark::selection, .is-dark *::selection,
+.promo-card::selection, .promo-card *::selection {
+  background-color: #52525b;
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+}
+#hero::-moz-selection, #hero *::-moz-selection,
+#web-search.ws-theme-b::-moz-selection, #web-search.ws-theme-b *::-moz-selection,
+#webSearchCompare::-moz-selection, #webSearchCompare *::-moz-selection,
+#modalities::-moz-selection, #modalities *::-moz-selection,
+#footer::-moz-selection, #footer *::-moz-selection,
+.octen-footer-root::-moz-selection, .octen-footer-root *::-moz-selection,
+.bg-bg-dark::-moz-selection, .bg-bg-dark *::-moz-selection,
+.octen-search-surface::-moz-selection, .octen-search-surface *::-moz-selection,
+.is-dark::-moz-selection, .is-dark *::-moz-selection,
+.promo-card::-moz-selection, .promo-card *::-moz-selection {
+  background-color: #52525b;
+  color: #ffffff;
+}
+
 /* 各模块大标题(IBM Plex Serif)统一加粗。想再粗/细只改这一个变量(可选 300–700) */
 :root { --module-title-weight: 500; }
 

@@ -90,6 +90,7 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 16px;
+  border-bottom: 1px solid rgba(26, 26, 25, 0.12);
   box-sizing: border-box;
   flex-shrink: 0;
 }
@@ -326,22 +327,18 @@
 }
 
 .sp-cta-wrap {
-  padding: 0 16px 16px;
-  border-bottom: 1px solid rgba(26, 26, 25, 0.12);
+  padding: 0 16px 20px;
   box-sizing: border-box;
   flex-shrink: 0;
 }
 
 @media (min-width: 640px) {
   .sp-cta-wrap {
-    padding: 0 20px 20px;
+    padding: 0 20px 24px;
   }
 }
 
 .sp-cta {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
   width: 100%;
   height: 40px;
   padding: 0 17px;
@@ -358,27 +355,12 @@
   text-decoration: none;
   user-select: none;
   box-sizing: border-box;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.sp-cta::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 9999px;
-  background: radial-gradient(33.01% 73.58% at 50% 100%, rgba(155, 155, 155, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%), #100F09;
-  opacity: 0;
-  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: -1;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease;
 }
 
 .sp-cta:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  background: #27272a;
   color: #ffffff;
-}
-
-.sp-cta:hover::before {
-  opacity: 1;
 }
 
 .sp-cta:active {
@@ -398,7 +380,7 @@
 
 @media (min-width: 640px) {
   .sp-features-wrap {
-    padding: 30px 20px;
+    padding: 24px 20px;
   }
 }
 

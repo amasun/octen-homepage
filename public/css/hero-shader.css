@@ -203,8 +203,8 @@
   #hero .hero-news-pill__text { text-align: center; }
 }
 
-/* Hero 底部绿色光晕 + 叠加图形:压在 console 下方(内容层提到其上) */
-#hero .hero-bottom-glow {
+/* 第二模块(#web-search)底部绿色光晕 + 叠加图形:压在内容层下方 */
+#web-search .hero-bottom-glow {
   position: absolute;
   left: 0;
   right: 0;
@@ -214,9 +214,9 @@
   pointer-events: none;
   z-index: 0;
 }
-/* 光晕保持完整高度(按屏宽缩放,不再被截断),贴底放置;console 底部到 Hero 底部的留白固定 120px,
-   光晕多出的部分向上延伸到 console 下方(console 面板半透明,光晕从其后透出) */
-#hero { --hero-glow-h: clamp(300px, 29vw, 556px); --hero-bottom-gap: 120px; }
+/* Hero 与 Web Search 同为 #080B12,Hero 底部留白归零(120px 间距由 #web-search padding-top 承担),两模块无分界线 */
+#hero { --hero-bottom-gap: 0px; }
+#web-search { --hero-glow-h: clamp(300px, 29vw, 556px); }
 #hero > section { padding-bottom: var(--hero-bottom-gap); }
 #hero > section > div.flex-center.flex-col.pt-50 {
   position: relative;
@@ -249,12 +249,9 @@
   #hero .hero-console { height: 700px !important; }   /* 原 540px */
 }
 
-/* 底部光晕整体下移(--hero-glow-shift 可调):底部被容器裁切掉 */
-/* 下移量随光晕高度等比缩放(PC 1440px ≈ 100px);窄屏下用更宽的内层容器(最小 1036px,水平居中)承载两张图,
-   图片不再随屏宽缩小,手机上露出的光晕高度和观感与 PC 一致。
-   (Tailwind 的 min-w-full! 在 layer 内带 !important,覆盖不了,所以改用外层加宽的方式) */
-#hero { --hero-glow-shift: calc(var(--hero-glow-h) * 0.24); }
-#hero .hero-bottom-glow__inner {
+/* 底部光晕贴底完整展示(--hero-glow-shift: 0px),露出底部白色过渡边缘与下方白色模块自然融合 */
+#web-search { --hero-glow-shift: 0px; }
+#web-search .hero-bottom-glow__inner {
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -262,12 +259,12 @@
   height: 100%;
   transform: translateX(-50%);
 }
-/* 绿色光晕图在下移基础上再上挪 20px(--hero-glow-lift);ASCII 层(canvas.hero-ascii)不受影响 */
-#hero { --hero-glow-lift: 20px; }
-#hero .hero-bottom-glow img { transform: translateY(calc(var(--hero-glow-shift) - var(--hero-glow-lift))); }
+#web-search { --hero-glow-lift: 0px; }
+#web-search .hero-bottom-glow img { transform: translateY(calc(var(--hero-glow-shift) - var(--hero-glow-lift))); }
 
 /* "Head over to the API Platform" 按钮:压暗底色 + 背景模糊,避免 console 渐隐内容透出影响文字可读性 */
 #hero a[href="/platform/answer"] {
+  margin-top: -54px;
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   background-color: rgba(14, 16, 20, 0.65);   /* 原 rgba(77,77,77,.3) */
@@ -277,10 +274,10 @@
 }
 
 /* 动态 ASCII 叠加层(canvas):位置/混合方式与原静态 PNG 一致(贴底 -32px、60% 不透明、screen 混合),随光晕同步下移 */
-#hero .hero-ascii {
+#web-search .hero-ascii {
   position: absolute;
   left: 0;
-  bottom: -32px;
+  bottom: 0;
   opacity: 0.6;
   mix-blend-mode: screen;
   pointer-events: none;
@@ -332,17 +329,7 @@
   --number-flow-char-height: 1em;
 }
 
-@media (min-width: 768px) and (max-width: 1024px) {
-  #hero {
-    --hero-bottom-gap: clamp(60px, 9vw, 120px);
-  }
-}
-
 @media (max-width: 767px) {
-  #hero {
-    --hero-bottom-gap: 60px;
-  }
-
   #hero > section > div.flex-center.flex-col.pt-50 {
     padding-top: 120px;
   }

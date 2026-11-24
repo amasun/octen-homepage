@@ -8,7 +8,7 @@
 (function () {
   'use strict';
 
-  var host = document.querySelector('#hero .hero-bottom-glow__inner');
+  var host = document.querySelector('#web-search .hero-bottom-glow__inner, .hero-bottom-glow__inner');
   if (!host) return;
 
   // 字符集取自 Hacker / Signal / Symbols 三套:

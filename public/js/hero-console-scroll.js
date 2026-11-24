@@ -12,6 +12,7 @@
   consoleEl.addEventListener('wheel', function (e) {
     if (e.ctrlKey) return;                        // 保留 ctrl+滚轮 / 触控板捏合缩放
     e.preventDefault();
+    if (window.__lenis) return;
     var k = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
     window.scrollBy(e.deltaX * k, e.deltaY * k);
   }, { passive: false });

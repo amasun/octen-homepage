@@ -477,25 +477,25 @@
 
 /* 输入框 */
 .octen-web-search-card--accent > .max-w-84 > div {
-  border: 1.2px solid rgba(112, 254, 126, 0.55) !important;
+  border: 1.2px solid rgba(112, 254, 126, 0.3) !important;
   border-radius: 8px !important;
 }
 .octen-web-search-card--accent > .max-w-84 > div > div {
   background-image:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.05) 100%),
-    linear-gradient(rgba(14, 51, 37, 0.95), rgba(14, 51, 37, 0.95)) !important;
+    linear-gradient(90deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.03) 100%),
+    linear-gradient(rgba(10, 34, 25, 0.95), rgba(10, 34, 25, 0.95)) !important;
   background-color: transparent !important;
 }
 
 /* 子查询网格容器 + 子查询胶囊 */
 .octen-web-search-card--accent .h-35 {
   background: rgba(4, 27, 18, 0.5);
-  border: 1px solid rgba(112, 254, 126, 0.42) !important;
+  border: 1px solid rgba(112, 254, 126, 0.24) !important;
   border-radius: 12px !important;
 }
 .octen-web-search-card--accent .h-35 > .bg-\[\#32353880\] {
-  background: #143f2f !important;
-  border: 1px solid rgba(94, 229, 152, 0.42);
+  background: #0e2c21 !important;
+  border: 1px solid rgba(94, 229, 152, 0.24);
   border-radius: 12px !important;
   color: #ffffff;
 }
@@ -503,35 +503,35 @@
 
 /* 子查询 → 结果 的竖向连接线 */
 .octen-web-search-card--accent .-bottom-6 .w-0\.5 {
-  background: linear-gradient(to bottom, rgba(52, 211, 153, 0.55), rgba(112, 254, 126, 0.95)) !important;
+  background: linear-gradient(to bottom, rgba(52, 211, 153, 0.35), rgba(112, 254, 126, 0.65)) !important;
   opacity: 0.95 !important;
 }
 
 /* 括号整体不透明度 */
 .octen-web-search-card--accent .w-\[85\%\] > .opacity-30 { opacity: 0.95 !important; }
 
-/* 结果网格容器 + 叠层结果卡片(后 4 层 #0b251a,前层 #133b2c) */
+/* 结果网格容器 + 叠层结果卡片(后 4 层 #091c14,前层 #0e2a20) */
 .octen-web-search-card--accent .h-33 {
   background: rgba(4, 27, 18, 0.5);
-  border: 1px solid rgba(112, 254, 126, 0.42) !important;
+  border: 1px solid rgba(112, 254, 126, 0.24) !important;
   border-radius: 14px !important;
 }
 .octen-web-search-card--accent .h-33 .absolute.inset-0 {
-  background: #0b251a !important;
-  border: 1px solid rgba(53, 122, 91, 0.85) !important;
+  background: #091c14 !important;
+  border: 1px solid rgba(53, 122, 91, 0.5) !important;
   border-radius: 12px !important;
   opacity: 1 !important;
 }
 .octen-web-search-card--accent .h-33 .absolute.inset-0.flex {
-  background: #133b2c !important;
-  border-color: rgba(74, 222, 128, 0.55) !important;
+  background: #0e2a20 !important;
+  border-color: rgba(74, 222, 128, 0.32) !important;
   padding-left: 12px !important;
   padding-right: 12px !important;
   gap: 6px !important;
 }
-.octen-web-search-card--accent .h-33 svg.lucide-globe { color: #4ade80 !important; width: 16px; height: 16px; }
-.octen-web-search-card--accent .h-33 .bg-\[\#679987\]\/60 { background: rgba(198, 246, 222, 0.9) !important; }
-.octen-web-search-card--accent .h-33 .bg-\[\#679987\]\/30 { background: rgba(134, 217, 179, 0.55) !important; }
+.octen-web-search-card--accent .h-33 svg.lucide-globe { color: #34d399 !important; width: 16px; height: 16px; }
+.octen-web-search-card--accent .h-33 .bg-\[\#679987\]\/60 { background: rgba(198, 246, 222, 0.78) !important; }
+.octen-web-search-card--accent .h-33 .bg-\[\#679987\]\/30 { background: rgba(134, 217, 179, 0.42) !important; }
 .octen-web-search-card--accent .h-33 .w-3\/5 { width: 46.8px !important; }
 
 /* 两张对比卡片之间的间距(与 vs. 边框宽度一致;JS/HTML 中的 gap-5 在此覆盖) */
@@ -577,18 +577,18 @@
 #web-search {
   --ws-module-bg: #0f0f10;                           /* 模块底色(vs. 镂空圆环的边框色也引用它) */
   background-color: var(--ws-module-bg) !important;
-  padding-top: 120px;      /* 上下内边距固定 120px;模块总高通过压缩图形(卡片)高度达到 940px(1440px 宽) */
-  padding-bottom: 120px;
+  padding-top: 120px;      /* 顶部固定 120px;底部 240px 留白以衔接绿色光晕与 ASCII 涟漪 */
+  padding-bottom: 240px;
 }
 @media (max-width: 1024px) {
   #web-search {
     padding-top: clamp(60px, 9vw, 120px);
-    padding-bottom: clamp(60px, 9vw, 120px);
+    padding-bottom: clamp(160px, 18vw, 240px);
   }
 }
 @media (max-width: 767px) {
   #web-search {
-    padding: 60px 16px;
+    padding: 60px 16px 160px;
   }
 }
 /* 标题区 → 对比卡片 的间距:原 space-y-15(60px)缩到 30px;整个模块在 1440px 宽下总高 951px(含外框卡片 8px 内边距) */
@@ -659,7 +659,7 @@
 @property --ws-tint-g {
   syntax: '<number>';
   inherits: false;
-  initial-value: 0.3;
+  initial-value: 0.15;
 }
 #webSearchCompare > .octen-web-search-card:not(.octen-web-search-card--accent) {
   --ws-tint: 0;
@@ -669,13 +669,13 @@
 }
 #webSearchCompare > .octen-web-search-card:not(.octen-web-search-card--accent):hover { --ws-tint: 0.04; }
 #webSearchCompare > .octen-web-search-card--accent {
-  --ws-tint-g: 0.3;
+  --ws-tint-g: 0.15;
   transition: --ws-tint-g 0.3s ease;
   background:
     linear-gradient(rgba(53, 196, 132, var(--ws-tint-g)), rgba(53, 196, 132, var(--ws-tint-g))),
     #080b12 !important;
 }
-#webSearchCompare > .octen-web-search-card--accent:hover { --ws-tint-g: 0.36; }
+#webSearchCompare > .octen-web-search-card--accent:hover { --ws-tint-g: 0.2; }
 
 /* vs. 圆:44px(含 6px 边框),位置把外框内边距算进去 */
 .octen-compare-vs span { width: 44px; height: 44px; background: #1e2026; }
@@ -708,7 +708,7 @@
    A = 当前白底(默认);B = #080B12 深底:结构完全不变,只把标题区文字 / 胶囊 / 促销条改回适配深底,
    外框卡片与模块同色,补 1px 浅描边保留卡片轮廓
    ========================================================================== */
-#web-search.ws-theme-b { background: #101217 !important; }
+#web-search.ws-theme-b { --ws-module-bg: #080B12; background: #080B12 !important; overflow: hidden; }
 #web-search.ws-theme-b [data-node-id="13625:168565"] { color: #ffffff !important; }
 #web-search.ws-theme-b [data-node-id="13625:168567"] { color: rgba(255, 255, 255, 0.7) !important; }
 #web-search.ws-theme-b .ws-head-pill { border-color: rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.06); color: rgba(255, 255, 255, 0.82); }

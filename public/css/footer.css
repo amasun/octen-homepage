@@ -435,7 +435,6 @@
   background: rgba(15, 24, 20, 0.72);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   font: 500 11px/1 "DM Sans", sans-serif;
   color: rgba(255, 255, 255, 0.85);
   text-decoration: none;

@@ -214,17 +214,6 @@ function SearchPlanCard({
         </div>
 
         <div className="sp-body">
-          <div className="sp-cta-wrap">
-            <a
-              href="https://octen.ai/platform/billing"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="sp-cta"
-            >
-              Subscribe
-            </a>
-          </div>
-
           <div className="sp-features-wrap">
             <div className="sp-features-inner">
               <ul className="sp-features-list">
@@ -237,6 +226,17 @@ function SearchPlanCard({
               </ul>
               <p className="sp-note">{note}</p>
             </div>
+          </div>
+
+          <div className="sp-cta-wrap">
+            <a
+              href="https://octen.ai/platform/billing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="sp-cta"
+            >
+              Subscribe
+            </a>
           </div>
         </div>
       </div>

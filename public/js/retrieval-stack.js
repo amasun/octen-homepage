@@ -186,3 +186,141 @@
   }, { threshold: 0.35 });
   loops.forEach(function (l) { io.observe(l.art); });
 })();
+
+/**
+ * Monitor 左侧多网址最低价轮动激活 + 右侧商品卡 NumberFlow 同步跟价
+ */
+(function () {
+  'use strict';
+  var mon = document.querySelector('.rs-art--mon');
+  var flow = mon ? mon.querySelector('[data-mon-price]') : null;
+  if (!mon || !flow || typeof customElements === 'undefined') return;
+
+  var rows = Array.prototype.slice.call(mon.querySelectorAll('[data-mon-row]'));
+  var vals = rows.map(function (r) { return r.querySelector('[data-mon-val]'); });
+  var bridge = mon.querySelector('.rs-mon-bridge');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var PRICE_TICKS = [
+    [49, 53, 55],
+    [51, 44, 52],
+    [48, 46, 39],
+    [37, 45, 42],
+    [43, 35, 41],
+    [46, 40, 38],
+    [41, 44, 47],
+    [45, 42, 49]
+  ];
+
+  var definedPromise = customElements.get('number-flow')
+    ? Promise.resolve()
+    : customElements.whenDefined('number-flow');
+  var pluginPromise = window.NumberFlowContinuous
+    ? Promise.resolve()
+    : new Promise(function (resolve) {
+        window.addEventListener('numberflow-ready', resolve, { once: true });
+      });
+
+  Promise.all([definedPromise, pluginPromise]).then(function () {
+    var plugins = window.NumberFlowContinuous ? [window.NumberFlowContinuous] : [];
+    vals.forEach(function (v) {
+      if (!v) return;
+      v.plugins = plugins;
+      v.spinTiming = { duration: 520, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' };
+      v.transformTiming = { duration: 380, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' };
+      v.opacityTiming = { duration: 200, easing: 'ease-out' };
+    });
+
+    flow.plugins = plugins;
+    flow.spinTiming = { duration: 680, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' };
+    flow.transformTiming = { duration: 460, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' };
+    flow.opacityTiming = { duration: 240, easing: 'ease-out' };
+
+    var tickIdx = 0;
+    var prevPrices = PRICE_TICKS[0].slice();
+    var prevBest = Math.min.apply(null, prevPrices);
+    var loopTimer = null;
+    var activeTimer = null;
+    var priceTimer = null;
+
+    function findMinIndex(prices) {
+      var minIdx = 0;
+      for (var i = 1; i < prices.length; i++) {
+        if (prices[i] < prices[minIdx]) minIdx = i;
+      }
+      return minIdx;
+    }
+
+    function applyTick(prices, animate) {
+      var minIdx = findMinIndex(prices);
+      var minPrice = prices[minIdx];
+
+      vals.forEach(function (v, i) {
+        if (!v || typeof v.update !== 'function') return;
+        v.trend = prices[i] < prevPrices[i] ? -1 : 1;
+        v.animated = !!animate;
+        v.update(prices[i]);
+      });
+      prevPrices = prices.slice();
+
+      clearTimeout(activeTimer);
+      clearTimeout(priceTimer);
+
+      if (animate) {
+        activeTimer = setTimeout(function () {
+          rows.forEach(function (r, i) { r.classList.toggle('is-active', i === minIdx); });
+          if (bridge) {
+            bridge.classList.remove('is-pulsing');
+            void bridge.offsetWidth;
+            bridge.classList.add('is-pulsing');
+          }
+        }, 140);
+
+        var dir = minPrice < prevBest ? -1 : 1;
+        prevBest = minPrice;
+        priceTimer = setTimeout(function () {
+          flow.trend = dir;
+          flow.animated = true;
+          flow.update(minPrice);
+        }, 260);
+      } else {
+        rows.forEach(function (r, i) { r.classList.toggle('is-active', i === minIdx); });
+        prevBest = minPrice;
+        flow.animated = false;
+        flow.update(minPrice);
+      }
+    }
+
+    if (reduce) {
+      applyTick(PRICE_TICKS[1], false);
+      return;
+    }
+
+    function startCycle() {
+      if (loopTimer) return;
+      tickIdx = 0;
+      applyTick(PRICE_TICKS[0], false);
+      loopTimer = setInterval(function () {
+        tickIdx = (tickIdx + 1) % PRICE_TICKS.length;
+        applyTick(PRICE_TICKS[tickIdx], true);
+      }, 2100);
+    }
+
+    function stopCycle() {
+      if (loopTimer) { clearInterval(loopTimer); loopTimer = null; }
+      clearTimeout(activeTimer);
+      clearTimeout(priceTimer);
+      if (bridge) bridge.classList.remove('is-pulsing');
+    }
+
+    function sync() {
+      if (mon.classList.contains('rs-run')) startCycle();
+      else stopCycle();
+    }
+
+    if (typeof MutationObserver === 'function') {
+      new MutationObserver(sync).observe(mon, { attributes: true, attributeFilter: ['class'] });
+    }
+    sync();
+  });
+})();
