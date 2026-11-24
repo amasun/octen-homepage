@@ -1,0 +1,13 @@
+/* 宿主:继承父级字体/颜色;宽度过渡由 JS 设置 width 触发 */
+.shine-word {
+  position: relative;
+  display: inline-block;
+  vertical-align: bottom;
+  transition: width 600ms cubic-bezier(0.5, 0, 0.4, 1);
+  clip-path: inset(-0.4em -100% -0.4em -0.4em);
+}
+.shine-word__sizer { display: block; width: max-content; white-space: pre; visibility: hidden; }
+.shine-word__canvas { position: absolute; top: -24px; left: -24px; pointer-events: none; } /* = PAD */
+/* 无 WebGL / reduced-motion:直接显示文本 */
+.shine-word--fallback .shine-word__sizer { visibility: visible; }
+.shine-word--fallback .shine-word__canvas { display: none; }

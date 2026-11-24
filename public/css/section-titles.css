@@ -1,0 +1,18 @@
+/* 各模块大标题(IBM Plex Serif)统一加粗。想再粗/细只改这一个变量(可选 300–700) */
+:root { --module-title-weight: 500; }
+
+#web-search [data-node-id="13625:168565"],       /* Search the way AI does */
+#verticalSearchHeading,                          /* Search built for vertical industries */
+#modalities h2.font-serif,                       /* Image Search / Video Search */
+#retrieval-stack h2.font-serif,                  /* The complete retrieval stack */
+#showcase h2.font-serif,                         /* Built on Octen Search */
+#built-to-perform .bpt-heading,                  /* Built to Perform */
+#pricing h2.font-serif,                          /* Pricing */
+#get-started h2.font-serif {                     /* Get started in minutes */
+  font-weight: var(--module-title-weight);
+}
+
+/* Web Search 双卡片标题(Human Search / Octen Broad Search)加粗 */
+#web-search .octen-web-search-card h3 {
+  font-weight: 600;
+}

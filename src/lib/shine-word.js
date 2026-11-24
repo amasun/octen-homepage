@@ -90,7 +90,7 @@ const FRAG = /* glsl */ `
   uniform sampler2D uGlyphMap;
   uniform vec3 uTextColor, uTextColor2;   // 静止态字色:左 → 右渐变
   uniform vec3 uPal[6];
-  uniform float uBaseOpacity, uOpacity, uRenderMode, uShineStrength, uPrimaryProgress, uSecondaryProgress, uSecondaryStrength, uWordAspect;
+  uniform float uBaseOpacity, uOpacity, uShineStrength, uPrimaryProgress, uSecondaryProgress, uSecondaryStrength, uWordAspect;
   varying vec2 vUv, vWordUv;
   ${HEAT}
   void main() {
@@ -98,42 +98,11 @@ const FRAG = /* glsl */ `
     if (alpha == 0.) { gl_FragColor = vec4(0.); return; }
     vec4 h = combinedHeatAt(vWordUv);
 
-    if (uRenderMode > .5) {                      // 模式 1:只输出「发光源」,给 bloom 用
-      float e = smoothstep(.48, .94, h.a);
-      vec3 c = mix(h.rgb, vec3(1., .96, .90), e * .42);
-      gl_FragColor = alpha * e > 1e-5 ? vec4(c * alpha * e, alpha * e) : vec4(0.);
-      return;
-    }
     vec3 base = mix(uTextColor, uTextColor2, vWordUv.x);
     vec3 color = mix(base, h.rgb, h.a);    // 模式 0:正常字形,被光环染色
     gl_FragColor = vec4(color, alpha * mix(uBaseOpacity, 1., h.a));
     #include <colorspace_fragment>
     gl_FragColor.rgb *= gl_FragColor.a;          // 预乘 alpha
-  }`;
-
-const POST_VERT = /* glsl */ `varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0., 1.); }`;
-
-// 5-tap 可分离高斯
-const BLUR_FRAG = /* glsl */ `
-  uniform sampler2D uInputMap; uniform vec2 uDirection; varying vec2 vUv;
-  void main() {
-    vec4 c = texture2D(uInputMap, vUv) * .2270270270;
-    c += texture2D(uInputMap, vUv + uDirection * 1.3846153846) * .3162162162;
-    c += texture2D(uInputMap, vUv - uDirection * 1.3846153846) * .3162162162;
-    c += texture2D(uInputMap, vUv + uDirection * 3.2307692308) * .0702702703;
-    c += texture2D(uInputMap, vUv - uDirection * 3.2307692308) * .0702702703;
-    gl_FragColor = c;
-  }`;
-
-const GLOW_FRAG = /* glsl */ `
-  uniform sampler2D uGlowMap; varying vec2 vUv;
-  void main() {
-    vec4 b = texture2D(uGlowMap, vUv);
-    float a = clamp(b.a * .5, 0., .38);
-    if (a <= 1e-5) { gl_FragColor = vec4(0.); return; }
-    gl_FragColor = vec4(b.rgb / max(b.a, 1e-4), a);
-    #include <colorspace_fragment>
-    gl_FragColor.rgb *= gl_FragColor.a;
   }`;
 
 /* ───────────── 5 套镭射金属配色(每套 6 个色标:冷暗 → … → 高光) ───────────── */
@@ -165,9 +134,11 @@ export class ShineWord {
    * @param {{name:string,stops:number[][]}[]} [o.palettes] 配色方案,第 i 个词用 palettes[i % n]
    * @param {number} [o.baseOpacity=1]
    * @param {[string,string]} [o.baseGradient] 静止态字色渐变(CSS 颜色,左→右);缺省用宿主 color
+   * @param {number} [o.loopPause=0] 每轮轮播结束(回到第一个词之前)槽位收起、只剩前文居中的停留毫秒数
+   * @param {number} [o.initialDelay=0] 首屏加载后先让轮播词槽位保持收起(前文居中)的毫秒数,之后才展开并开始入场 + 扫光
    */
-  constructor(host, { words, holdMs = 700, baseOpacity = 1, palettes = PALETTES, baseGradient = null }) {
-    this.host = host; this.words = words; this.holdMs = holdMs; this.palettes = palettes; this.baseGradient = baseGradient; this.baseOpacity = baseOpacity;
+  constructor(host, { words, holdMs = 700, baseOpacity = 1, palettes = PALETTES, baseGradient = null, initialDelay = 0, loopPause = 0 }) {
+    this.host = host; this.words = words; this.holdMs = holdMs; this.palettes = palettes; this.baseGradient = baseGradient; this.baseOpacity = baseOpacity; this.initialDelay = initialDelay; this.loopPause = loopPause; this.started = false;
     this.index = 0; this.glyphs = []; this.state = 'idle'; this.t0 = 0; this.dead = false;
 
     // DOM:sizer(不可见,撑开宽度并提供测量) + canvas(实际绘制)
@@ -181,18 +152,34 @@ export class ShineWord {
     this.sizer.textContent = words[0];
 
     this.reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (this.reduced || !this.#initRenderer()) { host.classList.add('shine-word--fallback'); return; }
+    if (this.reduced || !this.#initRenderer()) { host.classList.add('shine-word--fallback'); host.classList.remove('shine-word--collapsed'); host.style.width = ''; return; }
 
     this.io = new IntersectionObserver(([e]) => (this.visible = e.isIntersecting), { threshold: 0.1 });
     this.io.observe(host);
     this.visible = true;
-    (document.fonts?.ready ?? Promise.resolve()).then(() => { if (!this.dead) this.#showWord(); });
+    if (initialDelay > 0) { host.style.width = '0px'; host.classList.add('shine-word--collapsed'); }   // 初始收起,前文居中
+    (document.fonts?.ready ?? Promise.resolve()).then(() => this.#start());
     this.raf = requestAnimationFrame(this.#tick);
 
     // 字号随视口变化(clamp/vw)时重新烘焙
     let timer;
-    this.onResize = () => { clearTimeout(timer); timer = setTimeout(() => { if (this.dead) return; this.host.style.width = ''; this.#showWord(); }, 150); };
+    this.onResize = () => { clearTimeout(timer); timer = setTimeout(() => { if (this.dead || !this.started) return; this.host.style.width = ''; this.#showWord(); }, 150); };
     addEventListener('resize', this.onResize);
+  }
+
+  /* 首次启动:可选的「前文居中停留」→ 槽位展开(宽度过渡)→ 词入场并扫光 */
+  async #start() {
+    if (this.dead) return;
+    if (this.initialDelay > 0) {
+      await new Promise((r) => setTimeout(r, this.initialDelay));
+      if (this.dead) return;
+      this.host.style.width = this.sizer.getBoundingClientRect().width + 'px';
+      this.host.classList.remove('shine-word--collapsed');
+      await new Promise((r) => setTimeout(r, 250));
+      if (this.dead) return;
+    }
+    this.started = true;
+    this.#showWord();
   }
 
   destroy() {
@@ -208,14 +195,6 @@ export class ShineWord {
     const r = this.renderer;
     r.setClearColor(0, 0); r.autoClear = false; r.outputColorSpace = THREE.SRGBColorSpace;
     this.scene = new THREE.Scene();
-    this.postScene = new THREE.Scene();
-    this.postCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const quadGeo = new THREE.PlaneGeometry(2, 2);
-    const mk = (frag, extra) => new THREE.ShaderMaterial({ vertexShader: POST_VERT, fragmentShader: frag, depthTest: false, depthWrite: false, toneMapped: false, ...extra });
-    this.blurMat = mk(BLUR_FRAG, { blending: THREE.NoBlending, uniforms: { uInputMap: { value: null }, uDirection: { value: new THREE.Vector2() } } });
-    this.glowMat = mk(GLOW_FRAG, { transparent: true, premultipliedAlpha: true, uniforms: { uGlowMap: { value: null } } });
-    this.postQuad = new THREE.Mesh(quadGeo, this.blurMat);
-    this.postScene.add(this.postQuad);
     return true;
   }
 
@@ -272,7 +251,7 @@ export class ShineWord {
           vertexShader: VERT, fragmentShader: FRAG, transparent: true, depthTest: false, depthWrite: false, premultipliedAlpha: true, toneMapped: false,
           uniforms: {
             uGlyphMap: { value: tex }, uPal: { value: pal }, uTextColor: { value: textColor.clone() }, uTextColor2: { value: textColor2.clone() }, uBaseOpacity: { value: this.baseOpacity },
-            uOpacity: { value: 0 }, uRenderMode: { value: 0 }, uShineStrength: { value: 0 },
+            uOpacity: { value: 0 }, uShineStrength: { value: 0 },
             uPrimaryProgress: { value: 0 }, uSecondaryProgress: { value: 0 }, uSecondaryStrength: { value: 0 },
             uGlyphLeft: { value: PAD + x - GLYPH_PAD - PAD }, uGlyphWidth: { value: pw }, uWordWidth: { value: box.width }, uWordAspect: { value: box.width / ph },
           },
@@ -287,14 +266,6 @@ export class ShineWord {
     });
     this.enterDur = Math.max(0, ...this.glyphs.map((g) => g.delay)) + ENTER_MS;
     this.exitDur = Math.max(0, ...this.glyphs.map((g) => g.delay)) + EXIT_MS;
-
-    // 低分辨率 bloom 目标(0.5x)
-    const sz = r.getDrawingBufferSize(new THREE.Vector2());
-    const gw = Math.max(1, Math.ceil(sz.x * 0.5)), gh = Math.max(1, Math.ceil(sz.y * 0.5));
-    const opt = { depthBuffer: false, stencilBuffer: false, format: THREE.RGBAFormat, type: THREE.HalfFloatType, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter };
-    this.glowA?.dispose(); this.glowB?.dispose();
-    this.glowA = new THREE.WebGLRenderTarget(gw, gh, opt); this.glowB = new THREE.WebGLRenderTarget(gw, gh, opt);
-    this.glowW = gw; this.glowH = gh; this.stride = (5 * pr * 0.5) / 3.2307692308;
 
     this.state = 'enter'; this.t0 = performance.now();
   }
@@ -320,8 +291,20 @@ export class ShineWord {
         this.state = 'switching';
         this.index = (this.index + 1) % this.words.length;
         this.sizer.textContent = this.words[this.index];
-        this.host.style.width = this.sizer.getBoundingClientRect().width + 'px';  // CSS transition 负责宽度过渡
-        setTimeout(() => !this.dead && this.#showWord(), 250);
+        if (this.index === 0 && this.loopPause > 0) {
+          // 一轮结束:槽位收起,回到只剩前文居中的「干净」状态,停留 loopPause 后再开始下一轮
+          this.host.style.width = '0px';
+          this.host.classList.add('shine-word--collapsed');
+          setTimeout(() => {
+            if (this.dead) return;
+            this.host.style.width = this.sizer.getBoundingClientRect().width + 'px';
+            this.host.classList.remove('shine-word--collapsed');
+            setTimeout(() => !this.dead && this.#showWord(), 250);
+          }, this.loopPause);
+        } else {
+          this.host.style.width = this.sizer.getBoundingClientRect().width + 'px';  // CSS transition 负责宽度过渡
+          setTimeout(() => !this.dead && this.#showWord(), 250);
+        }
       }
     }
   };
@@ -344,27 +327,12 @@ export class ShineWord {
       u.uOpacity.value = o; u.uShineStrength.value = shine ? 1 : 0;
       u.uPrimaryProgress.value = primary; u.uSecondaryProgress.value = secondary; u.uSecondaryStrength.value = secondaryStrength;
     }
-    this.#render(shine);
+    this.#render();
   }
 
-  #render(glow) {
-    const r = this.renderer, setMode = (v) => this.glyphs.forEach((g) => (g.mat.uniforms.uRenderMode.value = v));
-    if (glow) {
-      setMode(1);                                           // 1) 发光源 → glowA
-      r.setRenderTarget(this.glowA); r.clear(true, false, false); r.render(this.scene, this.camera);
-      this.postQuad.material = this.blurMat;                // 2) 水平模糊 → glowB
-      this.blurMat.uniforms.uInputMap.value = this.glowA.texture;
-      this.blurMat.uniforms.uDirection.value.set(this.stride / this.glowW, 0);
-      r.setRenderTarget(this.glowB); r.clear(true, false, false); r.render(this.postScene, this.postCam);
-      this.blurMat.uniforms.uInputMap.value = this.glowB.texture;   // 3) 垂直模糊 → glowA
-      this.blurMat.uniforms.uDirection.value.set(0, this.stride / this.glowH);
-      r.setRenderTarget(this.glowA); r.clear(true, false, false); r.render(this.postScene, this.postCam);
-    }
+  #render() {
+    const r = this.renderer;
     r.setRenderTarget(null); r.clear(true, false, false);
-    if (glow) {                                             // 4) 先叠光晕
-      this.postQuad.material = this.glowMat; this.glowMat.uniforms.uGlowMap.value = this.glowA.texture;
-      r.render(this.postScene, this.postCam);
-    }
-    setMode(0); r.render(this.scene, this.camera);          // 5) 再画字形
+    r.render(this.scene, this.camera);                      // 只画字形(扫光染色在片元着色器里),无外发光
   }
 }

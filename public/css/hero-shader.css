@@ -133,9 +133,11 @@
   font-style: italic;
   font-weight: 400;
   font-size: 0.92em; /* 比标题其他文字略小 */
-  transition: width 600ms cubic-bezier(0.5, 0, 0.4, 1);
+  transition: width 600ms cubic-bezier(0.5, 0, 0.4, 1), margin-left 600ms cubic-bezier(0.5, 0, 0.4, 1);
   clip-path: inset(-0.4em -100% -0.4em -0.4em);
 }
+/* 首屏收起状态:槽位宽度为 0,同时抵消行内 gap(.22em),让前文 "Search" 严格居中 */
+#hero h1 .hero-shine-word.shine-word--collapsed { width: 0; margin-left: -0.22em; }   /* 写在 HTML 初始类名上:首帧就居中,不会从左边滑回 */
 #hero h1 .shine-word__sizer { display: block; width: max-content; white-space: pre; visibility: hidden; }
 #hero h1 .shine-word__canvas { position: absolute; top: -24px; left: -24px; pointer-events: none; }
 #hero h1 .shine-word--fallback .shine-word__sizer { visibility: visible; }
