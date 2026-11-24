@@ -19,6 +19,7 @@
     var atStart = x <= 2, atEnd = x >= max - 2, f = fadeLen();
     track.style.setProperty('--sc-fl', atStart ? '0px' : f + 'px');
     track.style.setProperty('--sc-fr', atEnd ? '0px' : f + 'px');
+    track.classList.toggle('is-draggable', max > 2);
     if (nav) {
       nav.hidden = max <= 2;
       if (prev) prev.disabled = atStart;
@@ -50,6 +51,44 @@
   window.addEventListener('resize', update);
   if (typeof ResizeObserver === 'function') new ResizeObserver(update).observe(track);
   update();
+
+  /* PC 端鼠标拖拽横向滑动 */
+  var dragging = false, moved = false, suppressClick = false, startX = 0, startScroll = 0;
+  track.addEventListener('dragstart', function (e) { e.preventDefault(); });
+  track.addEventListener('mousedown', function (e) {
+    if (e.button !== 0 || track.scrollWidth <= track.clientWidth + 2) return;
+    dragging = true;
+    moved = false;
+    startX = e.pageX;
+    startScroll = track.scrollLeft;
+  });
+  window.addEventListener('mousemove', function (e) {
+    if (!dragging) return;
+    var dx = e.pageX - startX;
+    if (!moved && Math.abs(dx) > 4) {
+      moved = true;
+      track.classList.add('is-dragging');
+    }
+    if (moved) track.scrollLeft = startScroll - dx;
+  });
+  function stopDrag() {
+    if (!dragging) return;
+    dragging = false;
+    track.classList.remove('is-dragging');
+    if (moved) {
+      suppressClick = true;
+      setTimeout(function () { suppressClick = false; }, 0);
+    }
+    moved = false;
+  }
+  window.addEventListener('mouseup', stopDrag);
+  window.addEventListener('blur', stopDrag);
+  track.addEventListener('click', function (e) {
+    if (!suppressClick) return;
+    e.preventDefault();
+    e.stopPropagation();
+    suppressClick = false;
+  }, true);
 
   /* hover 到应用卡片时，在背景图上随机亮起纯白点阵 */
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

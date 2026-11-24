@@ -255,3 +255,15 @@
 @media (prefers-reduced-motion: reduce) {
   .sc-dots { display: none; }
 }
+
+/* PC 端鼠标拖拽滑动支持 */
+@media (hover: hover) and (pointer: fine) {
+  .sc-apps.is-draggable { cursor: grab; }
+  .sc-apps.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .sc-apps.is-dragging .sc-app { cursor: grabbing; }
+}
