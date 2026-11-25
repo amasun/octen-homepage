@@ -1680,3 +1680,23 @@
 #built-to-perform .bpt-stat-card .bpt-desc { font-size: 15px; }
 @media (max-width: 860px) { #built-to-perform .bpt-stat small { font-size: 20px; } }
 #built-to-perform .bpt-flow { display: inline-block; font: inherit; letter-spacing: inherit; color: inherit; font-variant-numeric: tabular-nums; margin: -0.25em 0; }
+
+/* 轮播两侧在屏幕边缘渐隐:用遮罩(而不是靠卡片整体透明度);非激活卡片自身透明度同时调低(0.5 → 0.4,hover 0.8 → 0.7) */
+#built-to-perform .bpt-rail-viewport {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+#built-to-perform .bpt-panel:not(.is-active) { opacity: 0.4; }
+#built-to-perform .bpt-panel:not(.is-active):hover { opacity: 0.7; }
+
+/* 两侧卡片可见度提高:遮罩渐隐带收窄(14% → 8%),非激活卡片透明度 0.4 → 0.46(仍低于原来的 0.5),hover 0.7 → 0.78 */
+#built-to-perform .bpt-rail-viewport {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+#built-to-perform .bpt-panel:not(.is-active) { opacity: 0.46; }
+#built-to-perform .bpt-panel:not(.is-active):hover { opacity: 0.78; }
