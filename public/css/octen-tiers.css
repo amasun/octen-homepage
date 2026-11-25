@@ -650,6 +650,10 @@
 .st-stat-flow { display: inline-block; margin: -0.25em 0; font-variant-numeric: tabular-nums; }
 .st-stat span { font-size: 12px; color: #9ca3af; white-space: nowrap; }
 .st-lead p { flex: 1; min-width: 0; }
+@media (min-width: 1025px) {
+  .st-card--pulse .st-lead,
+  .st-card--fast .st-lead { min-height: 72px; }
+}
 /* 手机:大数字移到文字上方(数字 + 小字同一行);流程图改竖排,避免溢出 */
 @media (max-width: 767px) {
   .st-lead { flex-direction: column; align-items: flex-start; gap: 10px; }
