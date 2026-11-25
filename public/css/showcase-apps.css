@@ -329,3 +329,7 @@
     font-size: 28px;
   }
 }
+
+/* 滚动驱动模式(桌面):页面照常滚动,卡片轨道随滚动自动向左移(src/motion/smooth-scroll.ts),关闭吸附与左右按钮 */
+#showcase.is-scroll-driven .sc-apps { scroll-snap-type: none; scroll-behavior: auto; }
+#showcase.is-scroll-driven .sc-nav { visibility: hidden; }
