@@ -1,5 +1,5 @@
 import NumberFlow from '@number-flow/react';
-import { ArrowUpRight, Coins, Gauge } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 const NUM_FORMAT = { maximumFractionDigits: 2 };
@@ -299,49 +299,22 @@ export function PricingSearchPlans() {
       </div>
 
       <div className="sp-alt-section">
-        <p className="sp-alt-caption">
-          To experience the full Octen search capabilities, you may also want to know
-        </p>
-        <div className="sp-alt-grid">
-        <a
-          href="https://pring-octen-ai.vercel.app/#pay-as-you-go"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="sp-alt-card"
-        >
-          <div className="sp-alt-icon">
-            <Coins size={20} strokeWidth={1.75} aria-hidden="true" />
-          </div>
-          <div className="sp-alt-content">
-            <div className="sp-alt-head">
-              <h4 className="sp-alt-title">Pay-As-You-Go</h4>
-              <ArrowUpRight className="sp-alt-arrow" size={16} strokeWidth={1.75} aria-hidden="true" />
-            </div>
-            <p className="sp-alt-desc">
-              Charges are deducted from your balance in real time, based on what you actually call.
+        <div className="sp-guide-card">
+          <div className="sp-guide-text">
+            <h4 className="sp-guide-title">Pay-As-You-Go &amp; Full Search Plan Pricing</h4>
+            <p className="sp-guide-desc">
+              Pulse Search from $0.1 / 1k, Web Search $1 / 1k, Web Search Premier $4 / 1k, plus QPS plans for reserved throughput.
             </p>
           </div>
-        </a>
-
-        <a
-          href="https://pring-octen-ai.vercel.app/#qps-plans"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="sp-alt-card"
-        >
-          <div className="sp-alt-icon">
-            <Gauge size={20} strokeWidth={1.75} aria-hidden="true" />
-          </div>
-          <div className="sp-alt-content">
-            <div className="sp-alt-head">
-              <h4 className="sp-alt-title">QPS Plan</h4>
-              <ArrowUpRight className="sp-alt-arrow" size={16} strokeWidth={1.75} aria-hidden="true" />
-            </div>
-            <p className="sp-alt-desc">
-              Pay as you go for usage. Add QPS when you need reserved search throughput.
-            </p>
-          </div>
-        </a>
+          <a
+            href="https://octen.ai/pricing"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="sp-guide-btn"
+          >
+            <span>View Pricing</span>
+            <ArrowUpRight size={16} strokeWidth={1.75} aria-hidden="true" />
+          </a>
         </div>
       </div>
     </div>

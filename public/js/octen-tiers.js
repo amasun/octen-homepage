@@ -30,7 +30,7 @@
   /* ---------- Premier 搜索框:轮流输入三类示例查询,对应卡片同步高亮(.is-hl) ---------- */
   var QUERIES = [
     { dom: 'news', chip: 'News', q: 'port strike latest' },
-    { dom: 'web', chip: 'Web Premier', q: 'northwind q4 stock price' },
+    { dom: 'web', chip: 'Web Search Premier', q: 'northwind q4 stock price' },
     { dom: 'business', chip: 'Business', q: 'northwind robotics' },
     { dom: 'place', chip: 'Place', q: 'coffee near harbor st' }
   ];
@@ -379,9 +379,9 @@
   var finePointer = ENABLE_TIER_CURSOR && window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (finePointer) {
     var TIER_LABELS = {
-      pulse: 'Pulse Search',
-      fast: 'Fast Search',
-      premier: 'Premier Search'
+      pulse: 'Octen Pulse',
+      fast: 'Octen Fast',
+      premier: 'Octen Premier'
     };
 
     var cursorEl = document.createElement('div');

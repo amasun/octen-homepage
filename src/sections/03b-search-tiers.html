@@ -10,21 +10,74 @@
 
   <div class="st-head">
     <span class="st-head-pill" data-copy-anchor="#search-tiers">Search products</span>
-    <h2 id="stTitle" class="font-serif text-gray-900 text-5xl lg:text-[44px]">Three tiers of search, one API</h2>
-    <p class="st-head-sub">Switch freely between Pulse (~10 ms), Fast (live web), and Premier (domain-tuned) — every call tuned to the speed and depth your agent needs.</p>
+    <h2 id="stTitle" class="font-serif text-gray-900 text-5xl lg:text-[44px]">Three tiers of search, one key</h2>
+    <p class="st-head-sub">Switch freely between Pulse (~10 ms), Fast (live web), and Premier (domain-tuned). Every call is tuned to the speed and depth your AI app needs.</p>
   </div>
 
   <div class="st-wrap" id="stTiers" data-active="">
+    <!-- 主轴能力对比:Pulse Search → Web Search → Web Search Premier -->
+    <div class="st-axis" aria-label="Search progression from fastest to deepest">
+      <div class="st-axis-bar" aria-hidden="true">
+        <span>Faster · Lower latency</span>
+        <span class="st-axis-line"></span>
+        <span>Deeper · Higher precision</span>
+      </div>
+      <div class="st-axis-grid">
+        <button type="button" class="st-ov st-axis-card" data-tier="pulse">
+          <div class="st-axis-head">
+            <span class="st-d"></span>
+            <strong>Pulse Search</strong>
+            <span class="st-axis-pill">Fastest</span>
+          </div>
+          <p class="st-axis-desc">Generative URL recall with no crawl or ranking.</p>
+          <div class="st-axis-meta">
+            <span class="st-mono">~10ms P50</span>
+            <span>Routing &amp; in-loop lookups</span>
+          </div>
+        </button>
+
+        <span class="st-axis-arrow" aria-hidden="true">→</span>
+
+        <button type="button" class="st-ov st-axis-card" data-tier="fast">
+          <div class="st-axis-head">
+            <span class="st-d"></span>
+            <strong>Web Search</strong>
+            <span class="st-axis-pill st-axis-pill--default">Default</span>
+          </div>
+          <p class="st-axis-desc">Real-time ranked web results for general AI queries.</p>
+          <div class="st-axis-meta">
+            <span class="st-mono">from 62ms P50</span>
+            <span>Grounding &amp; live web</span>
+          </div>
+        </button>
+
+        <span class="st-axis-arrow" aria-hidden="true">→</span>
+
+        <button type="button" class="st-ov st-axis-card" data-tier="premier">
+          <div class="st-axis-head">
+            <span class="st-d"></span>
+            <strong>Web Search Premier</strong>
+            <span class="st-axis-pill st-axis-pill--premier">Deepest</span>
+          </div>
+          <p class="st-axis-desc">Deeper retrieval and reranking for complex queries.</p>
+          <div class="st-axis-meta">
+            <span class="st-mono">Higher precision</span>
+            <span>Answers that must be right</span>
+          </div>
+        </button>
+      </div>
+    </div>
+
     <div class="st-bento">
       <!-- ========== Pulse ========== -->
       <article class="st-card st-card--pulse" id="tier-pulse" data-tier="pulse">
         <div class="st-txt">
-          <span class="st-eyebrow">Pulse Search</span>
+          <span class="st-eyebrow">Octen Pulse</span>
           <h3>The model is the index.</h3>
           <!-- 延迟大数字放在介绍文字左侧(替代原底部 Product / Latency / Best for 表格) -->
           <div class="st-lead">
-            <div class="st-stat"><b><number-flow class="st-stat-flow" data-start="0" data-value="10" data-trend="1" data-delay="80">10</number-flow><small>ms</small></b><span>Latency per call</span></div>
-            <p>Generative retrieval that recalls URLs directly — no crawl, no ranking. Fast enough for every agent step.</p>
+            <div class="st-stat"><b><number-flow class="st-stat-flow" data-start="0" data-value="10" data-trend="1" data-delay="80">10</number-flow><small>ms</small></b><span>P50 latency (server-side)</span></div>
+            <p>Pulse Search uses generative retrieval to recall URLs directly, with no crawl and no ranking. Fast enough for every AI step.</p>
           </div>
         </div>
         <div class="st-art st-art--pulse" aria-hidden="true">
@@ -62,12 +115,12 @@
       <!-- ========== Fast ========== -->
       <article class="st-card st-card--fast" id="tier-fast" data-tier="fast">
         <div class="st-txt">
-          <span class="st-eyebrow">Fast Search</span>
+          <span class="st-eyebrow">Octen Fast</span>
           <h3>Real-time search, one call per surface.</h3>
           <!-- 同 Pulse:延迟大数字在介绍文字左侧 -->
           <div class="st-lead">
-            <div class="st-stat"><b><number-flow class="st-stat-flow" data-start="0" data-value="62" data-trend="1" data-delay="180">62</number-flow><small>ms</small></b><span>Latency per call</span></div>
-            <p>A family of live-web APIs, each its own endpoint. Call just the one your task needs — from general web queries to visual media.</p>
+            <div class="st-stat"><b><number-flow class="st-stat-flow" data-start="0" data-value="62" data-trend="1" data-delay="180">62</number-flow><small>ms</small></b><span>P50 latency (as low as)</span></div>
+            <p>A family of live-web APIs, each its own endpoint. Call just the one your task needs, from general web queries to visual media.</p>
           </div>
         </div>
         <!-- Fast API 卡片(Premier 同款:上插画面板 + 下名称/一句话)。3 列:Web | Broad(跨两列)/ Image | Video(唯一深色卡)| Sense(Soon)
@@ -85,13 +138,13 @@
                 </ol>
               </div>
             </div>
-            <div class="st-fx-foot"><h4>Web Search</h4><p>Ranked links for general queries</p></div>
+            <div class="st-fx-foot"><h4>Web Search <span class="st-soon st-default">Default</span></h4><p>Ranked links for general queries</p></div>
           </a>
 
           <a class="st-fx st-fx--broad" data-fx="broad" href="https://docs.octen.ai/capabilities/broad-search" target="_blank" rel="noopener noreferrer">
             <div class="st-fx-art" aria-hidden="true">
               <div class="fx-broad">
-                <span class="fx-bq">What is the best AI search engine?</span>
+                <span class="fx-bq">AWS vs Azure vs GCP AI revenue</span>
                 <svg class="fx-fan" viewBox="0 0 60 100" preserveAspectRatio="none">
                   <path style="--i:0" d="M0 50 C 30 50, 30 12, 60 12"/>
                   <path style="--i:1" d="M0 50 C 30 50, 30 37, 60 37"/>
@@ -99,10 +152,10 @@
                   <path style="--i:3" d="M0 50 C 30 50, 30 88, 60 88"/>
                 </svg>
                 <ul class="fx-subs">
-                  <li style="--i:0">AI search engines</li>
-                  <li style="--i:1">LLM vs keyword</li>
-                  <li style="--i:2">retrieval methods</li>
-                  <li style="--i:3">hybrid search</li>
+                  <li style="--i:0">AWS Q3 AI revenue</li>
+                  <li style="--i:1">Azure AI growth</li>
+                  <li style="--i:2">GCP cloud margin</li>
+                  <li style="--i:3">AI capex 2026</li>
                 </ul>
               </div>
             </div>
@@ -155,7 +208,7 @@
                 <span class="fx-track"><i class="fx-seg"></i><i class="fx-head"></i></span>
               </div>
             </div>
-            <div class="st-fx-foot"><h4>Video Search</h4><p>Clips + timestamps</p></div>
+            <div class="st-fx-foot"><h4>Video Search <span class="st-soon st-beta">Beta</span></h4><p>Clips + timestamps</p></div>
           </a>
 
           <div class="st-fx st-fx--sense" data-fx="sense">
@@ -171,7 +224,7 @@
                 <b class="fx-radar-core"></b>
               </div>
             </div>
-            <div class="st-fx-foot"><h4>Sense Search <span class="st-soon">Soon</span></h4><p>Cameras, robots &amp; devices</p></div>
+            <div class="st-fx-foot"><h4>Sense Search</h4><p>Cameras, robots &amp; devices</p></div>
           </div>
 
           <div class="st-scale-bar" aria-label="1K to 1M+ QPS at ~62ms latency">
@@ -186,7 +239,7 @@
           </div>
         </div>
 
-        <p class="st-bestfor"><span>Best for</span>Grounding answers &amp; research agents</p>
+        <p class="st-bestfor"><span>Best for</span>Grounding answers &amp; AI apps</p>
       </article>
 
       <!-- ========== Premier:6 格 Bento(参考左高卡 + 深色卡 + 搜索框的组合)==========
@@ -200,10 +253,10 @@
           <!-- A · 标语 + 搜索框 -->
           <div class="st-pm st-pm--intro">
             <div class="st-txt">
-              <span class="st-eyebrow">Premier Search</span>
-              <h3>Our best results, tuned per domain.</h3>
+              <span class="st-eyebrow">Octen Premier</span>
+              <h3>Deeper retrieval and structured domain search.</h3>
             </div>
-            <p class="pm-slogan"><span>Where structure helps, Premier returns structure.</span> Where it doesn't, Web Premier returns markedly better web results.</p>
+            <p class="pm-slogan"><span>Vertical endpoints return structured domain results.</span> For general queries, Web Search Premier adds deeper retrieval and reranking.</p>
             <div class="pm-search-wrap">
               <div class="pm-search" aria-hidden="true">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -223,14 +276,14 @@
                   <div class="pm-chips"><span class="is-acc">14 sources</span><span>3 original</span><span>11 reprints merged</span></div>
                   <ul class="pm-tl">
                     <li class="pm-tl-item"><time>Day 1</time><span>Cargo halted at 3 terminals</span></li>
-                    <li class="pm-tl-item is-now"><time>18m ago</time><span>Talks set to resume Friday</span></li>
+                    <li class="pm-tl-item is-now"><time>2m ago</time><span>Talks set to resume Friday</span></li>
                   </ul>
                 </div>
               </div>
             </div>
             <div class="st-pm-foot">
               <h4>News Search</h4>
-              <p>Live news grouped into one event — related coverage and sources together.</p>
+              <p>Breaking news within minutes, grouped into one event with related coverage and sources.</p>
             </div>
           </div>
 
@@ -314,8 +367,8 @@
               </div>
             </div>
             <div class="st-pm-foot">
-              <h4>Web Search Premier <span class="st-soon">Soon</span></h4>
-              <p>Markedly better web results, for queries where the results must contain the answer.</p>
+              <h4>Web Search Premier</h4>
+              <p>Deeper retrieval and reranking for complex queries where the answer must be in the results.</p>
             </div>
           </div>
 
@@ -354,11 +407,11 @@
             </div>
             <div class="st-pm-foot">
               <h4>Place Search</h4>
-              <p>Places by location — cards with hours and ratings, plus optional web results.</p>
+              <p>Places by location: cards with hours and ratings, plus optional web results.</p>
             </div>
           </div>
 
-          <!-- Design (Soon) -->
+          <!-- Design -->
           <div class="st-pm st-pm--design">
             <div class="st-pm-art" aria-hidden="true">
               <div class="pm-design">
@@ -368,8 +421,8 @@
               </div>
             </div>
             <div class="st-pm-foot">
-              <h4>Design Search <span class="st-soon">Soon</span></h4>
-              <p>Design references — web pages, app screens, slides.</p>
+              <h4>Design Search</h4>
+              <p>Design references across web pages, app screens, and slides.</p>
             </div>
           </div>
 
@@ -381,7 +434,7 @@
     <!-- 底部选型引导条 -->
     <div class="st-guide">
       <p class="st-guide-text">
-        <strong>Not sure where to start?</strong> Start with <strong>Web Search</strong> — switch to <strong>Pulse</strong> for ~10 ms lookups, <strong>Premier</strong> when results must contain the answer, or <strong>Image, Video, News, Business or Place</strong> for that result type.
+        <strong>Not sure where to start?</strong> Start with <strong>Web Search</strong>. Switch to <strong>Pulse Search</strong> for ~10 ms lookups, <strong>Web Search Premier</strong> when results must contain the answer, or <strong>Image, Video, News, Business or Place</strong> for that result type.
       </p>
       <a class="st-guide-cta" href="https://docs.octen.ai/api-reference/search" target="_blank" rel="noopener noreferrer">API Docs →</a>
     </div>

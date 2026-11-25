@@ -12,6 +12,8 @@
   box-shadow: 0 16px 36px -28px rgba(0, 0, 0, .35);
 }
 .st-fx--broad { grid-column: span 2; }
+.st-fx--web { border-color: color-mix(in srgb, var(--st-fast) 35%, var(--st-line)); }
+.st-default { background: color-mix(in srgb, var(--st-fast) 12%, #fff); border-color: color-mix(in srgb, var(--st-fast) 35%, #fff); color: var(--st-fast); }
 
 .st-fx-art { position: relative; height: 116px; margin: 8px 8px 0; display: flex; align-items: center; justify-content: center; padding: 12px; border: 1px solid #efefef; border-radius: 8px; background: #fafafa; overflow: hidden; }
 .st-fx-art::before {
@@ -256,6 +258,8 @@
 @media (max-width: 767px) {
   #tier-fast .st-fx-grid { grid-template-columns: 1fr 1fr; grid-auto-flow: dense; gap: 8px; }
   .st-fx--broad { grid-column: span 2; }
+.st-fx--web { border-color: color-mix(in srgb, var(--st-fast) 35%, var(--st-line)); }
+.st-default { background: color-mix(in srgb, var(--st-fast) 12%, #fff); border-color: color-mix(in srgb, var(--st-fast) 35%, #fff); color: var(--st-fast); }
   .st-fx-art { height: 96px; margin: 6px 6px 0; padding: 8px; }
   .st-fx-foot { padding: 10px 10px 12px; }
   .st-fx-foot h4 { font-size: 13px; gap: 4px; flex-wrap: nowrap; }

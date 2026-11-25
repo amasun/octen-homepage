@@ -226,14 +226,14 @@
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var PRICE_TICKS = [
-    [49, 53, 55],
+    [42, 53, 55],
     [51, 44, 52],
     [48, 46, 39],
-    [37, 45, 42],
-    [43, 35, 41],
-    [46, 40, 38],
-    [41, 44, 47],
-    [45, 42, 49]
+    [37, 47, 49],
+    [49, 35, 46],
+    [46, 48, 38],
+    [41, 46, 47],
+    [47, 42, 49]
   ];
 
   var definedPromise = customElements.get('number-flow')
@@ -267,16 +267,19 @@
     var activeTimer = null;
     var priceTimer = null;
 
-    function findMinIndex(prices) {
+    function findTriggerIndex(prices) {
+      for (var i = 0; i < prices.length; i++) {
+        if (prices[i] < 45) return i;
+      }
       var minIdx = 0;
-      for (var i = 1; i < prices.length; i++) {
-        if (prices[i] < prices[minIdx]) minIdx = i;
+      for (var j = 1; j < prices.length; j++) {
+        if (prices[j] < prices[minIdx]) minIdx = j;
       }
       return minIdx;
     }
 
     function applyTick(prices, animate) {
-      var minIdx = findMinIndex(prices);
+      var minIdx = findTriggerIndex(prices);
       var minPrice = prices[minIdx];
 
       vals.forEach(function (v, i) {

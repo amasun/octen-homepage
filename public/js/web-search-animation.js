@@ -10,7 +10,7 @@
 (function () {
   'use strict';
 
-  var QUERY = 'What is the best AI search engine?';
+  var QUERY = 'AWS vs Azure vs GCP AI revenue';
   var TYPE_MS = 60;             // 左右两侧输入速度一致(每字符)
   var HUMAN_SEARCH_MS = 1600;   // 人:加载等待
   var HUMAN_RESULT_MS = 750;    // 人:每条结果间隔

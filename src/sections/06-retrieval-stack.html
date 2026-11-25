@@ -11,7 +11,7 @@
     <span class="rs-head-pill">Beyond search</span>
     <h2 class="font-serif text-gray-900 text-5xl lg:text-[44px]">Octen tools and models</h2>
     <p class="rs-head-sub">
-      Embed meaning with the #1 retrieval models, reach top LLMs through one API, and turn any URL into clean content.
+      Embed meaning with the #1 retrieval models, monitor pages and topics for changes, and turn any URL into clean content.
     </p>
     <div class="rs-head-links">
       <a class="rs-btn rs-btn--solid" href="/platform/overview" target="_blank" rel="noreferrer">Get started</a>
@@ -19,78 +19,53 @@
     </div>
   </div>
 
-  <!-- ===== 2×2 Bento:Embedding / VL Embedding / Monitor / Extract(插画均为纯 HTML+SVG,动画见 public/js/retrieval-stack.js) ===== -->
+  <!-- ===== 2 栏主 Bento(Extract / Monitor)+ 下方紧凑次级卡片(Embedding / VL Embedding) ===== -->
   <div class="px-8">
     <div class="rs-bento max-w-7xl mx-auto" id="rsBento">
       <i class="rs-dot" style="left:50%;top:0"></i>
-      <i class="rs-dot" style="left:50%;top:50%"></i>
       <i class="rs-dot" style="left:50%;top:100%"></i>
-      <i class="rs-dot" style="left:0;top:50%"></i>
-      <i class="rs-dot" style="left:100%;top:50%"></i>
 
-      <!-- 1 · Embedding:Octen 居中不动,背景点阵从左向右持续流动,Octen 不断伸出触手去抓流过的点 -->
-      <article id="embedding" class="rs-cell">
-        <span class="rs-tag">Models</span>
-        <div class="rs-art rs-art--embed" data-ms="3600000" aria-hidden="true">
-          <div class="rs-flow">
-            <svg class="emb-svg" viewBox="0 0 600 168" width="600" height="168">
-              <!-- Octen 居中不动,卡片原背景点阵(.rs-art::before)从左向右持续流动,Octen 不断伸出直线触手去抓流过的点(JS:public/js/retrieval-stack.js) -->
-              <g class="emb-grab" fill="#0a0a0a"></g>
-              <g class="emb-tent" fill="none" stroke="#a1a1aa" stroke-width="0.85" stroke-linecap="round"></g>
-              <defs><!-- 中央 logo 远距离弥散投影(悬浮感):向下偏移 14、模糊 14、黑 18% --><filter id="emb-hub-shadow" x="-200%" y="-200%" width="500%" height="500%"><feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#000000" flood-opacity="0.18"/></filter></defs><g class="emb-hub" transform="translate(300 84)"><circle r="28" fill="#0a0a0a" filter="url(#emb-hub-shadow)"/><image href="/_next/static/media/icon-octen-white.842b5932.svg" x="-16" y="-14" width="32" height="28"/></g>
-            </svg>
-          </div>
-        </div>
+      <!-- 1 · Extract:URL → 干净的结构化内容 -->
+      <article id="extract" class="rs-cell">
+        <span class="rs-tag">Tool</span>
         <div class="rs-copy">
-          <h3 class="rs-title">Embedding</h3>
-          <p class="rs-desc">The <b>#1</b> text embedding model. Similar meaning lands close, even with no shared words. <a class="rs-sota" href="https://huggingface.co/spaces/mteb/leaderboard?benchmark_name=RTEB%28beta%29" target="_blank" rel="noreferrer">SOTA on RTEB<svg viewBox="0 0 12 12" width="10" height="10" fill="none" aria-hidden="true"><path d="M3 9L9 3M4.5 3H9v4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+          <h3 class="rs-title">Extract</h3>
+          <p class="rs-desc">Turn any URL into clean markdown, with highlights and page classification.</p>
         </div>
-      </article>
-
-      <!-- 2 · VL Embedding:文本 / 图片 / 视频同处一个向量空间,文本查询跨模态检索图片与视频 -->
-      <article id="vl-embedding" class="rs-cell">
-        <span class="rs-tag">Models</span>
-        <div class="rs-art rs-art--vl" data-ms="9000" aria-hidden="true">
-          <div class="rs-flow">
-            <div class="rs-card rs-map rs-map--vl">
-              <svg viewBox="0 0 360 168" width="360" height="168">
-                <g class="vl-scene">
-                <!-- 6 个不相关的数据:灰色、无连线(另 6 个灰色圆会被连线并变成图标球,所以初始共 12 个灰圆) -->
-                <g class="rs-a" style="--d:.2s" fill="#a3a3a3"><circle cx="22" cy="50" r="9" fill-opacity=".45"/><circle cx="24" cy="142" r="7" fill-opacity=".6"/><circle cx="160" cy="10" r="6" fill-opacity=".5"/><circle cx="206" cy="154" r="10" fill-opacity=".4"/><circle cx="300" cy="22" r="8" fill-opacity=".55"/><circle cx="344" cy="142" r="6" fill-opacity=".7"/></g>
-                <!-- Octen 为中心的辐射状连线;连线后整体被 Octen 拉近(见 .vl-spokes / .vl-pull) -->
-                <g class="vl-spokes" stroke="#a1a1aa" stroke-width="1" opacity=".8"><line class="rs-a" style="--d:1.10s" x1="180" y1="84" x2="62" y2="38"/><line class="rs-a" style="--d:1.25s" x1="180" y1="84" x2="30" y2="100"/><line class="rs-a" style="--d:1.40s" x1="180" y1="84" x2="120" y2="132"/><line class="rs-a" style="--d:1.55s" x1="180" y1="84" x2="272" y2="46"/><line class="rs-a" style="--d:1.70s" x1="180" y1="84" x2="334" y2="96"/><line class="rs-a" style="--d:1.85s" x1="180" y1="84" x2="250" y2="138"/></g>
-                <g class="vl-pull" style="--dx:23.6px;--dy:9.2px;--pd:3.30s"><g transform="translate(62 38)"><circle class="vl-seed" style="--sd:2.00s" r="8" fill="#a3a3a3" fill-opacity=".5"/><g class="rs-a vl-ball" style="--d:1.90s"><circle r="21" fill="#fff" stroke="#e4e4e7"/><g transform="translate(-11 -11) scale(.9167)" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></g></g></g></g>
-                <g class="vl-pull" style="--dx:30.0px;--dy:-3.2px;--pd:3.42s"><g transform="translate(30 100)"><circle class="vl-seed" style="--sd:2.15s" r="9" fill="#a3a3a3" fill-opacity=".5"/><g class="rs-a vl-ball" style="--d:2.05s"><circle r="21" fill="#fff" stroke="#e4e4e7"/><g transform="translate(-11 -11) scale(.9167)" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></g></g></g></g>
-                <g class="vl-pull" style="--dx:12.0px;--dy:-9.6px;--pd:3.54s"><g transform="translate(120 132)"><circle class="vl-seed" style="--sd:2.30s" r="7" fill="#a3a3a3" fill-opacity=".5"/><g class="rs-a vl-ball" style="--d:2.20s"><circle r="21" fill="#fff" stroke="#e4e4e7"/><g transform="translate(-11 -11) scale(.9167)" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></g></g></g></g>
-                <g class="vl-pull" style="--dx:-18.4px;--dy:7.6px;--pd:3.66s"><g transform="translate(272 46)"><circle class="vl-seed" style="--sd:2.45s" r="10" fill="#a3a3a3" fill-opacity=".5"/><g class="rs-a vl-ball" style="--d:2.35s"><circle r="21" fill="#fff" stroke="#e4e4e7"/><g transform="translate(-11 -11) scale(.9167)" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></g></g></g></g>
-                <g class="vl-pull" style="--dx:-30.8px;--dy:-2.4px;--pd:3.78s"><g transform="translate(334 96)"><circle class="vl-seed" style="--sd:2.60s" r="8" fill="#a3a3a3" fill-opacity=".5"/><g class="rs-a vl-ball" style="--d:2.50s"><circle r="21" fill="#fff" stroke="#e4e4e7"/><g transform="translate(-11 -11) scale(.9167)" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></g></g></g></g>
-                <g class="vl-pull" style="--dx:-14.0px;--dy:-10.8px;--pd:3.90s"><g transform="translate(250 138)"><circle class="vl-seed" style="--sd:2.75s" r="9" fill="#a3a3a3" fill-opacity=".5"/><g class="rs-a vl-ball" style="--d:2.65s"><circle r="21" fill="#fff" stroke="#e4e4e7"/><g transform="translate(-11 -11) scale(.9167)" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></g></g></g></g>
-                </g>
-                <g class="vl-hub" transform="translate(180 84)"><circle r="28" fill="#0a0a0a" filter="url(#emb-hub-shadow)"/><!-- 复用 Embedding 卡里定义的弥散投影 --><image href="/_next/static/media/icon-octen-white.842b5932.svg" x="-16" y="-14" width="32" height="28"/></g>
-              </svg>
+        <div class="rs-art rs-art--ex" data-ms="9000" aria-hidden="true">
+          <div class="rs-card rs-ex rs-a" style="--d:.1s">
+            <div class="rs-url">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="2"/></svg>
+              <span class="rs-typed rs-mono" style="--n:9;--d:.4s;--dur:.9s">apple.com</span>
+            </div>
+            <div class="rs-rows">
+              <div class="rs-row rs-a" style="--d:1.7s"><span>Title</span><b>Apple</b></div>
+              <div class="rs-row rs-a" style="--d:2.2s"><span>Type</span><b>Home page</b></div>
+              <div class="rs-row rs-row--content rs-a" style="--d:2.45s"><span>Content</span><p class="rs-mono rs-ex-content">## iPhone — Meet the latest iPhone lineup, Pro camera system, and Apple Intelligence.</p></div>
+              <div class="rs-row rs-a" style="--d:2.7s"><span>Images</span><div class="rs-imgs"><i style="background-image:url(/images/extract/apple-1.jpg)"></i><i style="background-image:url(/images/extract/apple-2.jpg)"></i><i style="background-image:url(/images/extract/apple-3.jpg)"></i><i style="background-image:url(/images/extract/apple-4.jpg)"></i></div></div>
             </div>
           </div>
         </div>
-        <div class="rs-copy">
-          <h3 class="rs-title">VL Embedding</h3>
-          <p class="rs-desc">The <b>#1</b> multimodal embedding model. One vector space, so text, images and video find each other. <a class="rs-sota" href="https://huggingface.co/spaces/TIGER-Lab/MMEB-Leaderboard" target="_blank" rel="noreferrer">SOTA on MMEB-v2<svg viewBox="0 0 12 12" width="10" height="10" fill="none" aria-hidden="true"><path d="M3 9L9 3M4.5 3H9v4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
-        </div>
       </article>
 
-      <!-- 3 · Monitor:盯住页面/主题,自然语言条件命中才触发价格同步 -->
+      <!-- 2 · Monitor:盯住页面/主题,自然语言条件命中才触发价格同步 -->
       <article id="monitor" class="rs-cell">
         <span class="rs-tag">Tool</span>
+        <div class="rs-copy">
+          <h3 class="rs-title">Monitor</h3>
+          <p class="rs-desc">Watch your URLs or a topic and trigger alerts when a change meets your condition.</p>
+        </div>
         <div class="rs-art rs-art--mon" data-ms="3600000" aria-hidden="true">
           <div class="rs-flow">
             <div class="rs-card rs-watch">
               <div class="rs-cond rs-mono">
-                <span class="rs-cond-left"><i class="rs-cond-dot"></i><span><b>if</b> lowest price</span></span>
+                <span class="rs-cond-left"><i class="rs-cond-dot"></i><span><b>if</b> price &lt; $45</span></span>
                 <span class="rs-cond-live">Live</span>
               </div>
               <div class="rs-wrows">
-                <div class="rs-wrow is-active" data-mon-row="0"><svg viewBox="0 0 24 24" width="13" height="13" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="1.8"/></svg><span>amazon.com/item</span><em class="rs-val rs-mono">$<number-flow class="rs-val-flow" data-mon-val>49</number-flow></em><i class="rs-st"></i></div>
-                <div class="rs-wrow" data-mon-row="1"><svg viewBox="0 0 24 24" width="13" height="13" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="1.8"/></svg><span>bestbuy.com/item</span><em class="rs-val rs-mono">$<number-flow class="rs-val-flow" data-mon-val>53</number-flow></em><i class="rs-st"></i></div>
-                <div class="rs-wrow" data-mon-row="2"><svg viewBox="0 0 24 24" width="13" height="13" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="1.8"/></svg><span>target.com/item</span><em class="rs-val rs-mono">$<number-flow class="rs-val-flow" data-mon-val>55</number-flow></em><i class="rs-st"></i></div>
+                <div class="rs-wrow is-active" data-mon-row="0"><svg viewBox="0 0 24 24" width="13" height="13" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="1.8"/></svg><span>store.example/item-a</span><em class="rs-val rs-mono">$<number-flow class="rs-val-flow" data-mon-val>42</number-flow></em><i class="rs-st"></i></div>
+                <div class="rs-wrow" data-mon-row="1"><svg viewBox="0 0 24 24" width="13" height="13" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="1.8"/></svg><span>store.example/item-b</span><em class="rs-val rs-mono">$<number-flow class="rs-val-flow" data-mon-val>53</number-flow></em><i class="rs-st"></i></div>
+                <div class="rs-wrow" data-mon-row="2"><svg viewBox="0 0 24 24" width="13" height="13" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="1.8"/></svg><span>store.example/item-c</span><em class="rs-val rs-mono">$<number-flow class="rs-val-flow" data-mon-val>55</number-flow></em><i class="rs-st"></i></div>
               </div>
             </div>
             <div class="rs-mon-bridge">
@@ -111,38 +86,44 @@
                 <i style="width: 56%"></i>
               </div>
               <div class="rs-prod-price-area">
-                <span class="rs-prod-lbl">Best price</span>
-                <strong class="rs-prod-val rs-mono">$<number-flow class="rs-prod-flow" data-mon-price>49</number-flow></strong>
+                <span class="rs-prod-lbl">Alert price</span>
+                <strong class="rs-prod-val rs-mono">$<number-flow class="rs-prod-flow" data-mon-price>42</number-flow></strong>
               </div>
             </div>
           </div>
         </div>
-        <div class="rs-copy">
-          <h3 class="rs-title">Monitor</h3>
-          <p class="rs-desc">Watch a topic or any page and get notified only when a change meets your condition.</p>
+      </article>
+
+    </div>
+
+    <div class="rs-models-row max-w-7xl mx-auto">
+      <!-- 3 · Embedding (compact secondary card) -->
+      <article id="embedding" class="rs-model-card">
+        <div class="rs-model-icon" aria-hidden="true">
+          <img src="/assets/icons/products/embedding.svg" alt="" width="20" height="20" />
+        </div>
+        <div class="rs-model-body">
+          <div class="rs-model-head">
+            <h3 class="rs-model-title">Embedding</h3>
+            <span class="rs-model-tag">Models</span>
+            <a class="rs-sota" href="https://huggingface.co/spaces/mteb/leaderboard?benchmark_name=RTEB%28beta%29" target="_blank" rel="noreferrer">SOTA on RTEB<svg viewBox="0 0 12 12" width="10" height="10" fill="none" aria-hidden="true"><path d="M3 9L9 3M4.5 3H9v4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+          <p class="rs-model-desc">The <b>#1</b> text embedding model. Similar meaning lands close, even with no shared words.</p>
         </div>
       </article>
 
-      <!-- 4 · Extract:URL → 干净的结构化内容 -->
-      <article id="extract" class="rs-cell">
-        <span class="rs-tag">Tool</span>
-        <div class="rs-art rs-art--ex" data-ms="9000" aria-hidden="true">
-          <div class="rs-card rs-ex rs-a" style="--d:.1s">
-            <div class="rs-url">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9s-1.2 6.3-3.7 9c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="2"/></svg>
-              <span class="rs-typed rs-mono" style="--n:9;--d:.4s;--dur:.9s">apple.com</span>
-            </div>
-            <div class="rs-rows">
-              <div class="rs-row rs-a" style="--d:1.7s"><span>Title</span><b>Apple</b></div>
-              <div class="rs-row rs-a" style="--d:2.2s"><span>Type</span><b>Home page</b></div>
-              <div class="rs-row rs-row--content rs-a" style="--d:2.45s"><span>Content</span><p class="rs-mono rs-ex-content">## iPhone — Meet the latest iPhone lineup, Pro camera system, and Apple Intelligence.</p></div>
-              <div class="rs-row rs-a" style="--d:2.7s"><span>Images</span><div class="rs-imgs"><i style="background-image:url(/images/extract/apple-1.jpg)"></i><i style="background-image:url(/images/extract/apple-2.jpg)"></i><i style="background-image:url(/images/extract/apple-3.jpg)"></i><i style="background-image:url(/images/extract/apple-4.jpg)"></i></div></div>
-            </div>
-          </div>
+      <!-- 4 · VL Embedding (compact secondary card) -->
+      <article id="vl-embedding" class="rs-model-card">
+        <div class="rs-model-icon" aria-hidden="true">
+          <img src="/assets/icons/products/vl_embedding.svg" alt="" width="21" height="20" />
         </div>
-        <div class="rs-copy">
-          <h3 class="rs-title">Extract</h3>
-          <p class="rs-desc">Turn any URL into clean markdown, with highlights and page classification.</p>
+        <div class="rs-model-body">
+          <div class="rs-model-head">
+            <h3 class="rs-model-title">VL Embedding</h3>
+            <span class="rs-model-tag">Models</span>
+            <a class="rs-sota" href="https://huggingface.co/spaces/TIGER-Lab/MMEB-Leaderboard" target="_blank" rel="noreferrer">SOTA on MMEB-v2<svg viewBox="0 0 12 12" width="10" height="10" fill="none" aria-hidden="true"><path d="M3 9L9 3M4.5 3H9v4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+          <p class="rs-model-desc">The <b>#1</b> multimodal embedding model. One vector space for text, images, and video.</p>
         </div>
       </article>
     </div>
