@@ -1,18 +1,18 @@
 <!-- Floating top-left Vercel plan switcher (A = main, B = planB, C = planC) -->
-<div class="octen-plan-switcher" id="octenPlanSwitcher" aria-label="Switch preview plan">
+<div class="octen-plan-switcher" id="octenPlanSwitcher" data-default-plan="__OCTEN_PLAN__" aria-label="Switch preview plan">
   <button
     type="button"
     class="octen-plan-trigger"
     id="octenPlanTrigger"
     aria-haspopup="true"
-    aria-label="Current plan: A"
+    aria-label="Current plan: __OCTEN_PLAN__"
     title="Hover to switch plan (A / B / C)"
-  >A</button>
+  >__OCTEN_PLAN__</button>
   <div class="octen-plan-menu" role="menu">
     <div class="octen-plan-menu-inner">
       <a
         href="https://octen-homepage.vercel.app/"
-        class="octen-plan-item is-active"
+        class="octen-plan-item"
         data-plan="A"
         role="menuitem"
         title="Plan A · main"
@@ -122,8 +122,30 @@
 
 <script>
   (function () {
+    var root = document.getElementById('octenPlanSwitcher');
+    var fallback = (root && root.getAttribute('data-default-plan')) || 'A';
+    if (fallback !== 'A' && fallback !== 'B' && fallback !== 'C') fallback = 'A';
     var host = (window.location && window.location.hostname || '').toLowerCase();
-    var current = host.indexOf('planb') !== -1 ? 'B' : host.indexOf('planc') !== -1 ? 'C' : 'A';
+    var current = host.indexOf('planb') !== -1 ? 'B' : host.indexOf('planc') !== -1 ? 'C' : fallback;
+
+    // Local preview: A/B/C jump between local dev servers (one per branch worktree).
+    // On Vercel (any other host) the hrefs keep their real deployment URLs.
+    var LOCAL_PORTS = { A: '3001', B: '3002', C: '3003' };
+    var isLocal =
+      host === 'localhost' ||
+      host === '127.0.0.1' ||
+      host === '[::1]' ||
+      /\.local$/.test(host) ||
+      /^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|198\.18\.)/.test(host);
+    if (isLocal) {
+      var byPort = { '3001': 'A', '3002': 'B', '3003': 'C' }[window.location.port];
+      if (byPort) current = byPort;
+      document.querySelectorAll('#octenPlanSwitcher .octen-plan-item').forEach(function (el) {
+        var port = LOCAL_PORTS[el.getAttribute('data-plan')];
+        if (port) el.setAttribute('href', window.location.protocol + '//' + window.location.hostname + ':' + port + '/');
+      });
+    }
+
     var trigger = document.getElementById('octenPlanTrigger');
     if (trigger) {
       trigger.textContent = current;

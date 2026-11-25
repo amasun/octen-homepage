@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -45,6 +46,26 @@ function localNextImageProxy() {
   };
 }
 
+function detectGitPlan(): 'A' | 'B' | 'C' {
+  let branch = process.env.VERCEL_GIT_COMMIT_REF || process.env.GIT_BRANCH || '';
+  if (!branch) {
+    try {
+      branch = execSync('git rev-parse --abbrev-ref HEAD', {
+        cwd: process.cwd(),
+        stdio: ['ignore', 'pipe', 'ignore'],
+      })
+        .toString()
+        .trim();
+    } catch {
+      branch = '';
+    }
+  }
+  const normalized = branch.toLowerCase();
+  if (normalized.includes('planb')) return 'B';
+  if (normalized.includes('planc')) return 'C';
+  return 'A';
+}
+
 function htmlPartialsPlugin() {
   return {
     name: 'html-partials-plugin',
@@ -64,7 +85,7 @@ function htmlPartialsPlugin() {
             return _match;
           });
         }
-        return html;
+        return html.replaceAll('__OCTEN_PLAN__', detectGitPlan());
       },
     },
   };
