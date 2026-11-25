@@ -1513,3 +1513,7 @@
 /* 层级:大字在 .st-scale 的层叠上下文里(画在非定位的普通内容之上),所以把标题、Compare 胶囊、Search by type 设为定位元素,让它们画在大字之上;
    Search by type 不再有白底(白底会把大字硬生生裁切掉),大字从它背后自然透出 */
 .st-head, .st-compare-link, .st-types { position: relative; z-index: 1; }
+
+/* 灰色大字是 fixed 的屏幕背景字:给整个 Search 区块加 clip-path 裁切(上下按区块边界,左右放开),
+   这样无论滚得多快,大字都不会画到 Hero 或下方的 Tools 区块上 */
+.st-section { clip-path: inset(0 -50vw); }

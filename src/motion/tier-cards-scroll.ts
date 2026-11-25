@@ -67,10 +67,8 @@ export function initTierCardsScroll(): void {
        0.00–0.25  OCTEN SEARCH 先出现:渐显,位置略高于卡片区中心,完整可读(卡片、面板此时都还没出现)
        0.30–0.80  三张卡片逐次进场(Pulse → Fast → Premier 最后;Pulse 最快所以最先),盖在大字之上;大字同时视差下移到卡片下方
        0.55–1.00  Broad Search 面板上升靠近(间距 120 → 12px),盖住大字(大字不再渐隐,继续随滚动下移,直到 Search by type 卡片背后) */
-    if (bigword) {
-      // 渐显:先于卡片出现;之后不再渐隐,一直保持可见(被 Broad Search 面板盖住的那一段看不到,之后会从面板下方的空隙重新露出)
-      tl.fromTo(bigword, { opacity: 0 }, { opacity: 1, duration: 0.22, ease: 'none' }, 0);
-    }
+    // 大字的透明度不再由 scrub 时间轴控制(scrub 有滞后,滚得很快时会还没来得及淡出),改由下面按滚动位置直接计算
+    if (bigword) gsap.set(bigword, { opacity: 0 });
 
     // 卡片:Pulse → Fast → Premier(按速度,Pulse 最快所以最先);起始位置依次更低,逐次收拢到同一水平线(整体推迟到大字出现之后)
     tl.fromTo(pulse, { y: 72, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 }, 0.3);
@@ -105,27 +103,29 @@ export function initTierCardsScroll(): void {
       const setSize = (): void => { scale.style.setProperty('--st-bw-fs', `${(scale.clientWidth * 0.141).toFixed(2)}px`); };   // 字号 = 一排宽度的 14.1%
       setSize();
       ScrollTrigger.addEventListener('refreshInit', setSize);
-      let fading = false;
+      // 透明度完全由滚动位置决定(取 ScrollTrigger 当前的真实滚动位置,没有滞后):
+      //   进入区间后 220px 内由 0 渐显到 1;结束前 320px 内由 1 渐隐到 0;区间之外一律为 0 并隐藏。
+      //   所以无论滚得多快、一下子回到 Hero,大字都不会残留
+      const FADE_IN = 220, FADE_OUT = 320;
+      const clamp01 = (v: number): number => Math.max(0, Math.min(1, v));
+      const applyOpacity = (self: ScrollTrigger): void => {
+        const sc = self.scroll();
+        gsap.set(bigword, { opacity: Math.min(clamp01((sc - self.start) / FADE_IN), clamp01((self.end - sc) / FADE_OUT)) });
+      };
       ScrollTrigger.create({
         trigger: scale,
         start: 'top 92%',
         end: () => Math.round(docTop(typesGrid) - marginFix() + typesGrid.offsetHeight - window.innerHeight * 0.72),
         invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          if (!self.isActive) return;
-          const remain = self.end - self.scroll();
-          if (remain < 320) {                       // 出场渐隐(渐显那一段由上面的卡片演进时间轴负责)
-            fading = true;
-            gsap.set(bigword, { opacity: Math.max(0, remain / 320) });
-          } else if (fading) {
-            fading = false;
-            gsap.set(bigword, { opacity: 1 });
-          }
-        },
+        onEnter: (self) => { bigword.classList.remove('is-gone'); applyOpacity(self); },
+        onEnterBack: (self) => { bigword.classList.remove('is-gone'); applyOpacity(self); },
+        onUpdate: (self) => { if (self.isActive) applyOpacity(self); },
         onLeave: () => { gsap.set(bigword, { opacity: 0 }); bigword.classList.add('is-gone'); },
-        onEnterBack: () => bigword.classList.remove('is-gone'),
-        onLeaveBack: () => { fading = false; },
-        onRefresh: (self) => { bigword.classList.toggle('is-gone', self.progress >= 1); },
+        onLeaveBack: () => { gsap.set(bigword, { opacity: 0 }); },
+        onRefresh: (self) => {
+          if (self.isActive) { bigword.classList.remove('is-gone'); applyOpacity(self); }
+          else { gsap.set(bigword, { opacity: 0 }); bigword.classList.toggle('is-gone', self.progress >= 1); }
+        },
       });
     }
 
