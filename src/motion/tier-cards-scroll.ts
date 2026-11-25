@@ -66,12 +66,10 @@ export function initTierCardsScroll(): void {
     /* 时序(0 → 1):
        0.00–0.25  OCTEN SEARCH 先出现:渐显,位置略高于卡片区中心,完整可读(卡片、面板此时都还没出现)
        0.30–0.80  三张卡片逐次进场(Pulse → Fast → Premier 最后;Pulse 最快所以最先),盖在大字之上;大字同时视差下移到卡片下方
-       0.55–1.00  Broad Search 面板上升靠近(间距 120 → 12px),大字被盖住并渐隐消失 */
+       0.55–1.00  Broad Search 面板上升靠近(间距 120 → 12px),盖住大字(大字不再渐隐,继续随滚动下移,直到 Search by type 卡片背后) */
     if (bigword) {
-      // 位移全程单调下降(视差):起点比「居中在卡片区」再高 70px,匀速下移到卡片下方的空隙;不再先上升
-      tl.fromTo(bigword, { y: () => wordStartY() - 70 }, { y: 40, duration: 0.88, ease: 'none' }, 0);
+      // 渐显:先于卡片出现;之后不再渐隐,一直保持可见(被 Broad Search 面板盖住的那一段看不到,之后会从面板下方的空隙重新露出)
       tl.fromTo(bigword, { opacity: 0 }, { opacity: 1, duration: 0.22, ease: 'none' }, 0);
-      tl.to(bigword, { opacity: 0, duration: 0.3, ease: 'none' }, 0.7);
     }
 
     // 卡片:Pulse → Fast → Premier(按速度,Pulse 最快所以最先);起始位置依次更低,逐次收拢到同一水平线(整体推迟到大字出现之后)
@@ -94,7 +92,51 @@ export function initTierCardsScroll(): void {
     // 面板保持不透明(不做淡入),这样灰色大字始终在它后面、被它实实在在地盖住,不会透出来;最终间距收到 12px
     tl.fromTo(scale, { marginBottom: 120 }, { marginBottom: 12, duration: 0.45, ease: 'power2.inOut' }, 0.55);
 
-    return () => scale.classList.remove('has-bigword');
+    // 灰色大字:position:fixed 的屏幕背景字(不跟着页面位移,所以不会受 Lenis 平滑影响而忽上忽下)——
+    //   入场:在屏幕下部的固定位置(top 74%)随滚动渐隐出现(不从页面下方升起);
+    //   卡片到位后,用一段时间驱动的缓动(非滚动驱动)平移到屏幕正中并停住,页面继续滚动、它始终停在屏幕中间;
+    //   层级最低:Broad Search 面板、Search by type(标题 + 卡片)都画在它上面,大字不会压在文字上;
+    //   出场:等 Search by type 快浏览完(其底边升到视口 72% 处)才结束,最后 320px 滚动距离内渐隐消失
+    const typesGrid = document.querySelector<HTMLElement>('.st-types');
+    if (bigword && typesGrid) {
+      const docTop = (el: HTMLElement): number => el.getBoundingClientRect().top + window.scrollY;
+      // 卡片区动画走完后 .st-scale 的下边距是 12px;刷新时可能还在 120px,这里换算到最终版面
+      const marginFix = (): number => (parseFloat(getComputedStyle(scale).marginBottom) || 0) - 12;
+      const setSize = (): void => { scale.style.setProperty('--st-bw-fs', `${(scale.clientWidth * 0.141).toFixed(2)}px`); };   // 字号 = 一排宽度的 14.1%
+      setSize();
+      ScrollTrigger.addEventListener('refreshInit', setSize);
+      let fading = false;
+      ScrollTrigger.create({
+        trigger: scale,
+        start: 'top 92%',
+        end: () => Math.round(docTop(typesGrid) - marginFix() + typesGrid.offsetHeight - window.innerHeight * 0.72),
+        invalidateOnRefresh: true,
+        onToggle: (self) => bigword.classList.toggle('is-floating', self.isActive),
+        onUpdate: (self) => {
+          if (!self.isActive) return;
+          const remain = self.end - self.scroll();
+          if (remain < 320) {                       // 出场渐隐(渐显那一段由上面的卡片演进时间轴负责)
+            fading = true;
+            gsap.set(bigword, { opacity: Math.max(0, remain / 320) });
+          } else if (fading) {
+            fading = false;
+            gsap.set(bigword, { opacity: 1 });
+          }
+        },
+        onLeave: () => { gsap.set(bigword, { opacity: 0 }); bigword.classList.add('is-gone'); },
+        onEnterBack: () => bigword.classList.remove('is-gone'),
+        onLeaveBack: () => { fading = false; },
+        onRefresh: (self) => { bigword.classList.toggle('is-gone', self.progress >= 1); },
+      });
+      // 卡片到位后(.st-scale 顶部上到 150px)大字平移到屏幕正中;往回滚则回到下部
+      ScrollTrigger.create({
+        trigger: scale,
+        start: 'top 150px',
+        onToggle: (self) => bigword.classList.toggle('is-centered', self.isActive || self.progress >= 1),
+      });
+    }
+
+    return () => { scale.classList.remove('has-bigword'); bigword?.classList.remove('is-floating', 'is-gone', 'is-centered'); };
   });
 
   // 窄屏:竖排,各自进入视口时上浮一次

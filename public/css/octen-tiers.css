@@ -103,7 +103,6 @@
 /* ---------- 调优总览 (无外层灰框:紧凑三档彩色卡 + Plan A 同款指示线) ---------- */
 .st-scale {
   position: relative;
-  container-type: inline-size;   /* 背景大字用 cqw 单位,随这一排的宽度自适应 */
   isolation: isolate;            /* 自成层叠上下文:背景大字 z-index:-1 只沉到本区域最底层,不会掉到区块白底后面 */
   margin-bottom: 12px;           /* 卡片(含指标轴)与 Broad Search 面板之间的最终间距 */
 }
@@ -120,7 +119,7 @@
   white-space: nowrap;
   pointer-events: none;
   user-select: none;
-  font: 800 14.1cqw/1 'DM Sans', 'Inter', -apple-system, sans-serif;
+  font: 800 var(--st-bw-fs, 14.1vw)/1 'DM Sans', 'Inter', -apple-system, sans-serif;   /* 字号 = 一排宽度的 14.1%(--st-bw-fs 由 tier-cards-scroll.ts 设置;不能再用 cqw:container-type 会让 fixed 失效) */
   letter-spacing: -0.035em;
   text-transform: uppercase;
   background: linear-gradient(180deg, #e6e6e9 0%, rgba(240, 240, 243, 0.6) 55%, rgba(244, 244, 246, 0.2) 86%);   /* 字形底边透明度 80%(不透明度 0.2) */
@@ -1500,3 +1499,19 @@
   .st-types .st-bt .st-fx-art,
   .st-types .st-bt .st-pm-art { height: 200px; }
 }
+
+/* 灰色大字:fixed 的屏幕背景字。入场在屏幕下部(top 74%)渐隐出现,卡片到位后缓动平移到正中(.is-centered)停住;出场渐隐后隐藏(.is-gone) */
+.st-scale.has-bigword .st-bigword.is-floating {
+  position: fixed;
+  left: 0; right: 0; top: 74%;
+  margin-top: 0;
+  transform: translateY(-50%) !important;
+  z-index: -1;
+  transition: top 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.st-scale.has-bigword .st-bigword.is-floating.is-centered { top: 50%; }
+.st-scale.has-bigword .st-bigword.is-gone { visibility: hidden; }
+
+/* 层级:大字在 .st-scale 的层叠上下文里(画在非定位的普通内容之上),所以把标题、Compare 胶囊、Search by type 设为定位元素,让它们画在大字之上;
+   Search by type 不再有白底(白底会把大字硬生生裁切掉),大字从它背后自然透出 */
+.st-head, .st-compare-link, .st-types { position: relative; z-index: 1; }
