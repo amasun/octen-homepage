@@ -92,9 +92,9 @@ export function initTierCardsScroll(): void {
     // 面板保持不透明(不做淡入),这样灰色大字始终在它后面、被它实实在在地盖住,不会透出来;最终间距收到 12px
     tl.fromTo(scale, { marginBottom: 120 }, { marginBottom: 12, duration: 0.45, ease: 'power2.inOut' }, 0.55);
 
-    // 灰色大字:position:fixed 的屏幕背景字(不跟着页面位移,所以不会受 Lenis 平滑影响而忽上忽下)——
-    //   入场:在屏幕下部的固定位置(top 74%)随滚动渐隐出现(不从页面下方升起);
-    //   卡片到位后,用一段时间驱动的缓动(非滚动驱动)平移到屏幕正中并停住,页面继续滚动、它始终停在屏幕中间;
+    // 灰色大字:始终是 position:fixed 的屏幕背景字,置底在屏幕下部(CSS top 76%)——相对屏幕不位移,
+    //   所以不会有任何向上的"跳起",也不受 Lenis 平滑影响(页面向上滚多少像素,它相对页面就向下移多少像素,看起来一直置底);
+    //   入场:只随滚动渐隐出现(透明度由卡片演进时间轴负责),位置不变;
     //   层级最低:Broad Search 面板、Search by type(标题 + 卡片)都画在它上面,大字不会压在文字上;
     //   出场:等 Search by type 快浏览完(其底边升到视口 72% 处)才结束,最后 320px 滚动距离内渐隐消失
     const typesGrid = document.querySelector<HTMLElement>('.st-types');
@@ -111,7 +111,6 @@ export function initTierCardsScroll(): void {
         start: 'top 92%',
         end: () => Math.round(docTop(typesGrid) - marginFix() + typesGrid.offsetHeight - window.innerHeight * 0.72),
         invalidateOnRefresh: true,
-        onToggle: (self) => bigword.classList.toggle('is-floating', self.isActive),
         onUpdate: (self) => {
           if (!self.isActive) return;
           const remain = self.end - self.scroll();
@@ -128,15 +127,9 @@ export function initTierCardsScroll(): void {
         onLeaveBack: () => { fading = false; },
         onRefresh: (self) => { bigword.classList.toggle('is-gone', self.progress >= 1); },
       });
-      // 卡片到位后(.st-scale 顶部上到 150px)大字平移到屏幕正中;往回滚则回到下部
-      ScrollTrigger.create({
-        trigger: scale,
-        start: 'top 150px',
-        onToggle: (self) => bigword.classList.toggle('is-centered', self.isActive || self.progress >= 1),
-      });
     }
 
-    return () => { scale.classList.remove('has-bigword'); bigword?.classList.remove('is-floating', 'is-gone', 'is-centered'); };
+    return () => { scale.classList.remove('has-bigword'); bigword?.classList.remove('is-gone'); };
   });
 
   // 窄屏:竖排,各自进入视口时上浮一次

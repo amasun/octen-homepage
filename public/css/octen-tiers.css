@@ -1500,16 +1500,14 @@
   .st-types .st-bt .st-pm-art { height: 200px; }
 }
 
-/* 灰色大字:fixed 的屏幕背景字。入场在屏幕下部(top 74%)渐隐出现,卡片到位后缓动平移到正中(.is-centered)停住;出场渐隐后隐藏(.is-gone) */
-.st-scale.has-bigword .st-bigword.is-floating {
+/* 灰色大字:始终 fixed 的屏幕背景字,置底在屏幕下部(top 76%),相对屏幕不位移;入场只渐隐、出场渐隐后隐藏(.is-gone) */
+.st-scale.has-bigword .st-bigword {
   position: fixed;
-  left: 0; right: 0; top: 74%;
+  left: 0; right: 0; top: 76%;
   margin-top: 0;
   transform: translateY(-50%) !important;
   z-index: -1;
-  transition: top 0.95s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.st-scale.has-bigword .st-bigword.is-floating.is-centered { top: 50%; }
 .st-scale.has-bigword .st-bigword.is-gone { visibility: hidden; }
 
 /* 层级:大字在 .st-scale 的层叠上下文里(画在非定位的普通内容之上),所以把标题、Compare 胶囊、Search by type 设为定位元素,让它们画在大字之上;
