@@ -102,7 +102,7 @@
 
 /* ---------- 主轴能力对比(Pulse → Web Search → Web Search Premier) ---------- */
 .st-axis { margin-bottom: 20px; }
-.st-axis-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 12px; font-weight: 500; color: #6b7280; }
+.st-axis-bar { display: flex; align-items: center; gap: 12px; margin-top: 12px; font-size: 12px; font-weight: 500; color: #6b7280; }
 .st-axis-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--st-pulse), var(--st-fast) 50%, var(--st-premier)); position: relative; }
 .st-axis-line::after { content: ''; position: absolute; right: 0; top: -3px; width: 6px; height: 6px; border-top: 1.5px solid var(--st-premier); border-right: 1.5px solid var(--st-premier); transform: rotate(45deg); }
 .st-axis-grid { display: grid; grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr) 20px minmax(0, 1fr); align-items: stretch; gap: 8px; }
