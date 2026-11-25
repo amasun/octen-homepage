@@ -203,7 +203,8 @@
   #hero .hero-news-pill__text { text-align: center; }
 }
 
-/* 第二模块(#web-search)底部绿色光晕 + 叠加图形:压在内容层下方 */
+/* Hero 底部绿色光晕 + 叠加图形:压在内容层下方 */
+#hero .hero-bottom-glow,
 #web-search .hero-bottom-glow {
   position: absolute;
   left: 0;
@@ -214,8 +215,8 @@
   pointer-events: none;
   z-index: 0;
 }
-/* Hero 与 Web Search 同为 #080B12,Hero 底部留白归零(120px 间距由 #web-search padding-top 承担),两模块无分界线 */
-#hero { --hero-bottom-gap: 0px; }
+/* 去掉 #web-search 后,Hero 底部保留 160px 呼吸空间以容纳底部光晕自然过渡到下方白色 #search-tiers */
+#hero { --hero-bottom-gap: 160px; --hero-glow-h: clamp(300px, 29vw, 556px); }
 #web-search { --hero-glow-h: clamp(300px, 29vw, 556px); }
 #hero > section { padding-bottom: var(--hero-bottom-gap); }
 #hero > section > div.flex-center.flex-col.pt-50 {
@@ -250,7 +251,8 @@
 }
 
 /* 底部光晕贴底完整展示(--hero-glow-shift: 0px),露出底部白色过渡边缘与下方白色模块自然融合 */
-#web-search { --hero-glow-shift: 0px; }
+#hero, #web-search { --hero-glow-shift: 0px; --hero-glow-lift: 0px; }
+#hero .hero-bottom-glow__inner,
 #web-search .hero-bottom-glow__inner {
   position: absolute;
   bottom: 0;
@@ -259,7 +261,7 @@
   height: 100%;
   transform: translateX(-50%);
 }
-#web-search { --hero-glow-lift: 0px; }
+#hero .hero-bottom-glow img,
 #web-search .hero-bottom-glow img { transform: translateY(calc(var(--hero-glow-shift) - var(--hero-glow-lift))); }
 
 /* "Head over to the API Platform" 按钮:压暗底色 + 背景模糊,避免 console 渐隐内容透出影响文字可读性 */
@@ -274,6 +276,7 @@
 }
 
 /* 动态 ASCII 叠加层(canvas):位置/混合方式与原静态 PNG 一致(贴底 -32px、60% 不透明、screen 混合),随光晕同步下移 */
+#hero .hero-ascii,
 #web-search .hero-ascii {
   position: absolute;
   left: 0;

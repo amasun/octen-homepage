@@ -121,10 +121,10 @@
 
   /* ---------- Fast API 卡片:进入视口后逐个轮流高亮 Web → Broad → Image → Video → Sense(.is-hl 与 :hover 样式一致),
      悬停网格时暂停轮播、交给鼠标;离开视口停止 ---------- */
-  var fxGrid = root.querySelector('.st-fx-grid');
+  var fxGrid = root.querySelector('#stTypes');
   if (fxGrid && !reduce && 'IntersectionObserver' in window) {
-    var fxCards = Array.prototype.slice.call(fxGrid.querySelectorAll('.st-fx[data-fx]'));
-    var fxDurations = { web: 1800, broad: 2400, image: 2600, video: 2400, sense: 2600 };
+    var fxCards = Array.prototype.slice.call(fxGrid.querySelectorAll('.st-bt[data-fx]'));
+    var fxDurations = { image: 2600, video: 2400, news: 2800, business: 2600, place: 2600, design: 2600 };
     var fxVideoCard = fxGrid.querySelector('.st-fx--video');
     var fxVideoEl = fxGrid.querySelector('.fx-vid-bg');
     var fxDotsWrap = fxGrid.querySelector('[data-vid-dots]');
@@ -373,6 +373,47 @@
       startScaleWave();
     }
   }
+
+  /* ---------- Image Search 搜索框:轮流输入不同的 query(打字 → 停留 → 回删 → 下一条),进入视口才运行 ---------- */
+  (function () {
+    var label = root.querySelector('.st-bt--image .fx-img-label');
+    if (!label || reduce) return;
+    var IMG_QUERIES = [
+      'sunset over harbor',
+      'green geometric art',
+      'latte on wooden table',
+      'neon city at night',
+      'vintage jazz poster',
+      'orange abstract blur'
+    ];
+    var qi = 0, ci = 0, timer = null, on = false, phase = 'type';
+    label.textContent = '';
+    function step() {
+      if (!on) return;
+      var q = IMG_QUERIES[qi];
+      if (phase === 'type') {
+        label.textContent = q.slice(0, ++ci);
+        if (ci >= q.length) { phase = 'hold'; timer = setTimeout(step, 1900); return; }
+        timer = setTimeout(step, 48 + Math.random() * 40);
+      } else if (phase === 'hold') {
+        phase = 'erase';
+        timer = setTimeout(step, 0);
+      } else {
+        label.textContent = q.slice(0, --ci);
+        if (ci <= 0) { phase = 'type'; qi = (qi + 1) % IMG_QUERIES.length; timer = setTimeout(step, 380); return; }
+        timer = setTimeout(step, 22);
+      }
+    }
+    function start() { if (on) return; on = true; step(); }
+    function stop() { on = false; clearTimeout(timer); }
+    var card = root.querySelector('.st-bt--image');
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting && !document.hidden) start(); else stop(); });
+      }, { threshold: 0.3 }).observe(card);
+    } else { start(); }
+    document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); });
+  })();
 
   /* ---------- 三档主卡片原生鼠标旁跟随档位标签（当前已隐藏） ---------- */
   var ENABLE_TIER_CURSOR = false;

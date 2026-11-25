@@ -588,3 +588,11 @@ article.rs-cell, article.rs-cell:nth-of-type(n) { background: var(--octen-card-b
     zoom: 0.66;
   }
 }
+
+/* 整张卡片可点击(跳转 docs):用一个铺满卡片的透明链接覆盖(stretched link),卡片内部已有的链接(SOTA 榜单)仍在其上可点 */
+.rs-model-card { position: relative; }
+.rs-card-link { position: absolute; inset: 0; z-index: 5; border-radius: inherit; }
+.rs-card-link:focus-visible { outline: 2px solid var(--rs-ink, #0a0a0a); outline-offset: -2px; }
+.rs-sota { position: relative; z-index: 6; }
+.rs-cell, .rs-model-card { transition: box-shadow .25s ease, border-color .25s ease; }
+.rs-model-card:hover { border-color: #d4d4d8; box-shadow: 0 14px 30px -24px rgba(0, 0, 0, .35); }

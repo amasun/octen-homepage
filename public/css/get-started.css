@@ -678,3 +678,31 @@
     font-size: 20px;
   }
 }
+
+/* ==========================================================================
+   灰底白框(同 Built to Perform):底色 #F1F4F2(--bpt-bg),上边线 1px #CCCCCC80;
+   步骤卡 / 集成面板为白色卡片,描边 #EDEDED,圆角 8px
+   ========================================================================== */
+.gs-wrap,
+.gs-section { background-color: var(--bpt-bg, #F1F4F2); }
+.gs-section { border-top: 1px solid #CCCCCC80; }
+.gs-step-card,
+.gs-integrations {
+  background: #ffffff;
+  border: 1.3px solid #EDEDED;
+  border-radius: 8px;
+}
+
+/* 卡片间距统一 12px(与 Search tiers / Search by type / Built to Perform 一致):三张步骤卡之间、步骤卡与下方集成面板之间 */
+.gs-steps { gap: 12px; margin-bottom: 12px; }
+
+/* 灰底上的白色点阵 */
+.gs-section {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.95) 1.2px, transparent 1.6px);
+  background-size: 20px 20px;
+  background-position: center top;
+}
+
+/* 随机亮起的灰点画布(public/js/get-started-dots.js):位于点阵之上、内容之下 */
+.gs-dots-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.gs-section > .gs-inner { position: relative; z-index: 1; }

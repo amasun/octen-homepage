@@ -13,13 +13,36 @@
     var tabs = Array.prototype.slice.call(section.querySelectorAll('[data-bpt-tab]'));
     var panels = Array.prototype.slice.call(section.querySelectorAll('[data-bpt-panel]'));
     var copyItems = Array.prototype.slice.call(section.querySelectorAll('[data-bpt-copy]'));
-    var tabsContainer = section.querySelector('.bpt-tabs');
+    var tabsContainer = section.querySelector('.bpt-stats') || section.querySelector('.bpt-tabs');
     var pill = section.querySelector('.bpt-tab-pill');
-    var progressBar = section.querySelector('.bpt-tab-progress-bar');
+    var progressBars = Array.prototype.slice.call(section.querySelectorAll('.bpt-tab-progress-bar'));
     var railViewport = section.querySelector('#bptRailViewport') || section.querySelector('.bpt-rail-viewport');
     var railTrack = section.querySelector('#bptRailTrack') || section.querySelector('.bpt-rail-track');
 
-    if (!tabs.length || !panels.length) return;
+    if (!panels.length) return;
+
+    // 底部圆点分页器:每张轮播卡片一个点,当前卡片为拉长的胶囊;点击跳转
+    var dots = [];
+    if (railViewport && railViewport.parentNode) {
+      var dotsWrap = document.createElement('div');
+      dotsWrap.className = 'bpt-dots';
+      dotsWrap.setAttribute('role', 'tablist');
+      dotsWrap.setAttribute('aria-label', 'Performance charts');
+      panels.forEach(function (panel, i) {
+        var dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'bpt-dot';
+        dot.setAttribute('role', 'tab');
+        dot.setAttribute('aria-label', 'Show chart ' + (i + 1) + ' of ' + panels.length);
+        dot.addEventListener('click', function () {
+          activate(panel.dataset.bptPanel, false, false);
+          resetAutoTimer();
+        });
+        dotsWrap.appendChild(dot);
+        dots.push(dot);
+      });
+      railViewport.parentNode.insertBefore(dotsWrap, railViewport.nextSibling);
+    }
 
     var AUTO_SWITCH_INTERVAL = 5000;
     var autoTimer = null;
@@ -104,11 +127,17 @@
       });
 
       var targetPanel = null;
+      var activeIdx = -1;
       panels.forEach(function (panel) {
         var on = panel.dataset.bptPanel === name;
-        if (on) targetPanel = panel;
+        if (on) { targetPanel = panel; activeIdx = panels.indexOf(panel); }
         panel.classList.toggle('is-active', on);
         panel.setAttribute('aria-hidden', on ? 'false' : 'true');
+      });
+
+      dots.forEach(function (d, i) {
+        d.classList.toggle('is-active', i === activeIdx);
+        d.setAttribute('aria-selected', i === activeIdx ? 'true' : 'false');
       });
 
       if (targetPanel) {
@@ -119,42 +148,34 @@
     }
 
     function restartProgressBar() {
-      if (!progressBar) return;
-      progressBar.classList.remove('is-animating');
-      progressBar.style.animationPlayState = 'running';
-      void progressBar.offsetWidth; // force reflow
+      if (!progressBars.length) return;
+      progressBars.forEach(function (bar) {
+        bar.classList.remove('is-animating');
+        bar.style.animationPlayState = 'running';
+      });
+      void section.offsetWidth; // force reflow
       if (!isPaused && isIntersecting && !document.hidden) {
-        progressBar.classList.add('is-animating');
+        progressBars.forEach(function (bar) { bar.classList.add('is-animating'); });
       }
     }
 
     function pauseProgressBar() {
-      if (!progressBar) return;
-      progressBar.style.animationPlayState = 'paused';
+      progressBars.forEach(function (bar) { bar.style.animationPlayState = 'paused'; });
+    }
+
+    function currentPanelIndex() {
+      for (var i = 0; i < panels.length; i++) {
+        if (panels[i].classList.contains('is-active')) return i;
+      }
+      return 0;
     }
 
     function nextTab() {
-      var currentIdx = -1;
-      for (var i = 0; i < tabs.length; i++) {
-        if (tabs[i].classList.contains('is-active')) {
-          currentIdx = i;
-          break;
-        }
-      }
-      var nextIdx = (currentIdx + 1) % tabs.length;
-      activate(tabs[nextIdx].dataset.bptTab, false, false);
+      activate(panels[(currentPanelIndex() + 1) % panels.length].dataset.bptPanel, false, false);
     }
 
     function prevTab() {
-      var currentIdx = -1;
-      for (var i = 0; i < tabs.length; i++) {
-        if (tabs[i].classList.contains('is-active')) {
-          currentIdx = i;
-          break;
-        }
-      }
-      var prevIdx = (currentIdx - 1 + tabs.length) % tabs.length;
-      activate(tabs[prevIdx].dataset.bptTab, false, false);
+      activate(panels[(currentPanelIndex() - 1 + panels.length) % panels.length].dataset.bptPanel, false, false);
     }
 
     function startAutoTimer() {
@@ -185,6 +206,7 @@
         resetAutoTimer();
       });
       tab.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tab.click(); return; }
         var step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
         if (!step) return;
         e.preventDefault();
@@ -280,11 +302,7 @@
 
     // Window resize & font load handling for pixel-perfect pill & rail positioning
     function refreshLayout() {
-      var current = tabs.filter(function (t) { return t.classList.contains('is-active'); })[0] || tabs[0];
-      if (current) {
-        updatePill(current, true);
-        centerActivePanel(true);
-      }
+      centerActivePanel(true);
     }
 
     window.addEventListener('resize', refreshLayout, { passive: true });
@@ -293,17 +311,10 @@
     }
 
     // Initial activation
-    var initial = tabs.filter(function (t) { return t.classList.contains('is-active'); })[0] || tabs[0];
-    if (initial) {
-      activate(initial.dataset.bptTab, false, true);
-      requestAnimationFrame(function () {
-        updatePill(initial, true);
-        centerActivePanel(true);
-      });
-      setTimeout(function () {
-        refreshLayout();
-      }, 100);
-    }
+    var firstPanel = panels.filter(function (p) { return p.classList.contains('is-active'); })[0] || panels[0];
+    activate(firstPanel.dataset.bptPanel, false, true);
+    requestAnimationFrame(function () { centerActivePanel(true); });
+    setTimeout(refreshLayout, 100);
 
     startAutoTimer();
   }

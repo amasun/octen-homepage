@@ -1,6 +1,8 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
+import { initTierMetrics, initBptMetrics } from './tier-metrics';
+import { initTierCardsScroll } from './tier-cards-scroll';
 
 declare global {
   interface Window {
@@ -17,7 +19,11 @@ interface RevealOptions {
 
 function initMotion(): void {
   if (typeof window === 'undefined') return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    initTierMetrics(false);   // 只写入最终值,不做滚轮动画
+    initBptMetrics(false);
+    return;
+  }
 
   gsap.registerPlugin(ScrollTrigger);
   ScrollTrigger.config({ ignoreMobileResize: true });
@@ -161,6 +167,65 @@ function initMotion(): void {
       start: 'top 84%',
     });
 
+    // 2b) Broad Search 文字:跟随滚动逐步显现(scrub,进度由 Lenis 平滑后的滚动位置驱动)
+    //     标题整块上浮淡入 → 正文逐词由暗变亮 → 链接最后淡入;prefers-reduced-motion 时本函数不执行,文字保持完全可见
+    const shiftForGap = (): number => (window.matchMedia('(min-width: 861px)').matches ? 120 - 12 : 0);
+    const bsTxt = document.querySelector<HTMLElement>('.st-bs-txt');
+    if (bsTxt) {
+      const bsTitle = bsTxt.querySelector<HTMLElement>('.st-bs-h');
+      const bsPara = bsTxt.querySelector<HTMLElement>('.st-bs-p');
+      const bsLink = bsTxt.querySelector<HTMLElement>('.st-bs-link');
+
+      const bsWords: HTMLElement[] = [];
+      if (bsPara) {
+        const text = bsPara.textContent ?? '';
+        bsPara.textContent = '';
+        text.split(/(\s+)/).forEach((token) => {
+          if (!token) return;
+          if (/^\s+$/.test(token)) {
+            bsPara.append(document.createTextNode(token));
+            return;
+          }
+          const span = document.createElement('span');
+          span.className = 'st-bs-w';
+          span.textContent = token;
+          bsPara.append(span);
+          bsWords.push(span);
+        });
+      }
+
+      // 标记为滚动 scrub 元素:navbar.css 的「inline opacity:0 → 强制显示」回退规则会跳过它们
+      [bsTitle, bsLink, ...bsWords].forEach((el) => el?.setAttribute('data-scrub', ''));
+
+      const bsTl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: bsTxt,
+          // ScrollTrigger 在 refresh 时按「卡片与面板间距 = 120px」的初始版面量位置,而三张卡片的动画走完后间距收到 12px,
+          // 面板实际上会比量到的位置高 108px。这里把这 108px 补进来,让进度与「真实版面」对齐:
+          //   开始:文字块顶部进入视口 90% 处;结束:文字块中心到达视口 54% 处 —— 在 Broad Search 卡片到达页面中心之前就过渡完毕
+          start: () => `top ${Math.round(window.innerHeight * 0.9 + shiftForGap())}px`,
+          end: () => `center ${Math.round(window.innerHeight * 0.54 + shiftForGap())}px`,
+          scrub: 0.5,
+          invalidateOnRefresh: true,
+        },
+      });
+      if (bsTitle) {
+        bsTl.fromTo(bsTitle, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }, 0);
+      }
+      if (bsWords.length) {
+        bsTl.fromTo(
+          bsWords,
+          { opacity: 0.14 },
+          { opacity: 1, duration: 0.12, stagger: { each: 0.6 / bsWords.length } },
+          0.2,
+        );
+      }
+      if (bsLink) {
+        bsTl.fromTo(bsLink, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.15, ease: 'power2.out' }, 0.85);
+      }
+    }
+
     // 3) Search Products (#search-tiers)
     revealGroup('#search-tiers .st-head > *', '#search-tiers .st-head', {
       y: 18,
@@ -173,6 +238,9 @@ function initMotion(): void {
         revealGroup(card, card, { y: 26, duration: 0.7, start: 'top 86%' });
       }
     });
+    // Search by type 六类 Bento:标题区 + 卡片逐张上浮
+    revealGroup('#search-tiers .st-types-head > *', '#search-tiers .st-types-head', { y: 18, stagger: 0.07, start: 'top 88%' });
+    revealGroup('#stTypes > .st-bt', '#stTypes', { y: 26, stagger: 0.08, start: 'top 86%' });
     revealGroup('#search-tiers .st-fx-grid > .st-fx', '#search-tiers .st-fx-grid', {
       y: 18,
       stagger: 0.06,
@@ -261,6 +329,11 @@ function initMotion(): void {
       { y: 18, stagger: 0.08, start: 'top 92%' },
     );
   });
+
+  // Search 总览卡片指标(10 ms / 62 ms / High):直接显示最终值
+  initTierCardsScroll();
+  initTierMetrics(false);   // 卡片内的数字不再单独触发滚轮,随卡片整体出现(直接显示最终值)
+  initBptMetrics(true);     // Built to Perform 指标数字:NumberFlow + ScrollTrigger 滚入触发
 
   // Refresh ScrollTrigger after async fonts, images, and React-mounted sections settle
   window.addEventListener('load', () => ScrollTrigger.refresh());

@@ -1389,3 +1389,294 @@
 #built-to-perform .bpt-tab { color: rgba(0, 0, 0, 0.55); }
 #built-to-perform .bpt-tab:hover,
 #built-to-perform .bpt-tab.is-active { color: #000; }
+
+/* ==========================================================================
+   三张独立指标卡(.bpt-stat-card)+ 底部检索模型排名条(.bpt-models)。
+   卡片即"Tab":点击 / 自动轮播联动下方图表;选中卡片描边加深并显示底部进度线。
+   ========================================================================== */
+#built-to-perform .bpt-stats {
+  width: 100%;
+  max-width: 1080px;
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  text-align: left;
+}
+#built-to-perform .bpt-stat-card {
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 24px 26px 26px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: border-color .25s ease, box-shadow .25s ease, background-color .25s ease;
+}
+#built-to-perform .bpt-stat-card:hover { border-color: rgba(0, 0, 0, 0.18); }
+#built-to-perform .bpt-stat-card.is-active {
+  background: #fff;
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 18px 36px -28px rgba(0, 0, 0, 0.35);
+}
+#built-to-perform .bpt-stat-card:focus-visible { outline: 2px solid #039855; outline-offset: 2px; }
+#built-to-perform .bpt-stat-label {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(7, 7, 7, 0.5);
+}
+#built-to-perform .bpt-stat {
+  margin: 14px 0 12px;
+  font-family: 'IBM Plex Serif', Georgia, serif;
+  font-size: 52px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: #039855;
+}
+#built-to-perform .bpt-stat small { font-size: 0.5em; margin-left: 2px; font-weight: 500; letter-spacing: 0; }
+#built-to-perform .bpt-stat-card .bpt-desc {
+  margin: 0;
+  max-width: none;
+  text-align: left;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(7, 7, 7, 0.72);
+}
+#built-to-perform .bpt-src {
+  margin: 12px 0 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: rgba(7, 7, 7, 0.45);
+}
+/* 底部进度线只在选中卡片出现 */
+#built-to-perform .bpt-stat-card .bpt-tab-progress { opacity: 0; transition: opacity .2s ease; }
+#built-to-perform .bpt-stat-card.is-active .bpt-tab-progress { opacity: 1; }
+
+#built-to-perform .bpt-models {
+  width: 100%;
+  max-width: 1080px;
+  box-sizing: border-box;
+  margin-top: -4px;
+  padding: 14px 22px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  color: #0a0a0a;
+}
+#built-to-perform .bpt-models strong { font-weight: 700; margin-right: 4px; }
+#built-to-perform .bpt-chip {
+  padding: 7px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: #0a0a0a;
+  text-decoration: none;
+  transition: border-color .2s ease;
+}
+#built-to-perform .bpt-chip:hover { border-color: rgba(0, 0, 0, 0.35); }
+@media (max-width: 860px) {
+  #built-to-perform .bpt-stats { grid-template-columns: 1fr; gap: 12px; }
+  #built-to-perform .bpt-stat-card { padding: 18px 18px 20px; border-radius: 16px; }
+  #built-to-perform .bpt-stat { font-size: 40px; margin: 10px 0; }
+  #built-to-perform .bpt-models { border-radius: 16px; padding: 12px 14px; font-size: 14px; }
+}
+
+/* 指标卡精简:全白卡片、更矮;数字缩小为黑色;去掉选中态底部进度线 */
+#built-to-perform .bpt-stat-card,
+#built-to-perform .bpt-stat-card.is-active { background: #fff; padding: 16px 22px 18px; box-shadow: none; border-color: rgba(0, 0, 0, 0.1); }
+#built-to-perform .bpt-stat-card.is-active { border-color: rgba(0, 0, 0, 0.28); }
+#built-to-perform .bpt-stat-label { font-size: 12px; }
+#built-to-perform .bpt-stat { margin: 8px 0 6px; font-size: 34px; line-height: 1.1; color: #0a0a0a; }
+#built-to-perform .bpt-stat-card .bpt-desc { font-size: 15px; line-height: 1.45; color: rgba(7, 7, 7, 0.65); }
+#built-to-perform .bpt-src { margin-top: 8px; font-size: 13px; }
+#built-to-perform .bpt-stat-card .bpt-tab-progress { display: none; }
+#built-to-perform .bpt-models { background: #fff; padding: 12px 20px; }
+@media (max-width: 860px) { #built-to-perform .bpt-stat { font-size: 30px; } }
+/* 指标卡不再是 Tab:无手型、无选中态 */
+#built-to-perform .bpt-stat-card,
+#built-to-perform .bpt-stat-card:hover,
+#built-to-perform .bpt-stat-card.is-active { cursor: default; border-color: rgba(0, 0, 0, 0.1); }
+
+/* Retrieval models:拆为两张独立白卡,#1 大字 + 下行小字 */
+#built-to-perform .bpt-models {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  margin-top: -4px;
+}
+#built-to-perform .bpt-model-card {
+  display: block;
+  padding: 16px 22px 18px;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  transition: border-color .2s ease;
+}
+#built-to-perform .bpt-model-card:hover { border-color: rgba(0, 0, 0, 0.28); }
+#built-to-perform .bpt-model-card .bpt-stat { margin: 0 0 6px; }
+#built-to-perform .bpt-model-card .bpt-src { margin: 0; font-size: 14px; }
+@media (max-width: 860px) {
+  #built-to-perform .bpt-models { grid-template-columns: 1fr; gap: 12px; }
+  #built-to-perform .bpt-model-card { border-radius: 16px; padding: 14px 18px 16px; }
+}
+#built-to-perform .bpt-model-card, #built-to-perform .bpt-model-card .bpt-stat, #built-to-perform .bpt-model-card .bpt-src { text-align: left; }
+
+/* 五张卡间距统一 16px(横向 / 纵向),圆角与下方轮播图表卡片一致(8px) */
+#built-to-perform .bpt-stats { margin-top: 0; }
+#built-to-perform .bpt-models { margin-top: 16px; width: 100%; max-width: 1080px; gap: 16px; }
+#built-to-perform .bpt-stat-card,
+#built-to-perform .bpt-model-card { border-radius: 8px; }
+@media (max-width: 860px) {
+  #built-to-perform .bpt-stats, #built-to-perform .bpt-models { gap: 16px; }
+  #built-to-perform .bpt-stat-card, #built-to-perform .bpt-model-card { border-radius: 8px; }
+}
+#built-to-perform .bpt-rail-viewport { margin-top: -20px; }
+
+/* 间距统一 12px */
+#built-to-perform .bpt-stats, #built-to-perform .bpt-models { gap: 12px; }
+#built-to-perform .bpt-models { margin-top: 12px; }
+#built-to-perform .bpt-rail-viewport { margin-top: -24px; }
+@media (max-width: 860px) { #built-to-perform .bpt-stats, #built-to-perform .bpt-models { gap: 12px; } }
+
+/* 可跳转卡片(Top 3 / #1 / #1)右上角斜箭头 */
+#built-to-perform .bpt-linkcard, #built-to-perform .bpt-model-card { position: relative; display: block; color: inherit; text-decoration: none; cursor: pointer; }
+#built-to-perform .bpt-linkcard:hover, #built-to-perform .bpt-model-card:hover { border-color: rgba(0, 0, 0, 0.28); }
+#built-to-perform .bpt-card-arrow {
+  position: absolute; top: 14px; right: 18px;
+  font-family: 'DM Sans', sans-serif; font-size: 18px; line-height: 1; color: rgba(7, 7, 7, 0.4);
+  transition: color .2s ease, transform .2s ease;
+}
+#built-to-perform .bpt-linkcard:hover .bpt-card-arrow, #built-to-perform .bpt-model-card:hover .bpt-card-arrow { color: #0a0a0a; transform: translate(2px, -2px); }
+
+/* 指标卡大数字改用 DM Sans */
+#built-to-perform .bpt-stat { font-family: 'DM Sans', sans-serif; font-weight: 600; letter-spacing: -0.02em; }
+#built-to-perform .bpt-stat small { font-weight: 500; letter-spacing: 0; }
+
+/* 箭头:与全站一致的 DM Sans 箭头字体栈(含自托管箭头子集) */
+#built-to-perform .bpt-card-arrow { font-family: 'DM Sans', 'DM Sans Arrow', -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 500; font-size: 20px; }
+
+/* 指标卡大数字恢复 IBM Plex Serif(箭头仍为 DM Sans) */
+#built-to-perform .bpt-stat { font-family: 'IBM Plex Serif', Georgia, serif; font-weight: 500; letter-spacing: -0.01em; }
+#built-to-perform .bpt-card-arrow { font-size: 15px; top: 16px; right: 18px; }
+
+/* ==========================================================================
+   轮播卡片统一宽度:每个 panel 都与上方指标卡栏同宽(min(1080px, 94vw));
+   单图表卡片撑满,双图表(Speed)两张等分;高度统一为 440px。
+   ========================================================================== */
+#built-to-perform .bpt-panel,
+#built-to-perform .bpt-panel[data-bpt-panel="value"],
+#built-to-perform .bpt-panel[data-bpt-panel="speed"] {
+  width: min(1080px, 94vw);
+  max-width: 94vw;
+}
+#built-to-perform .bpt-panel .bpt-cards,
+#built-to-perform .bpt-panel[data-bpt-panel="value"] .bpt-cards { width: 100%; max-width: 100%; }
+#built-to-perform .bpt-panel .bpt-card { height: 440px; }
+#built-to-perform .bpt-panel .bpr-wrap { width: 100%; flex: 1 1 auto; }
+#built-to-perform .bpt-panel .bpr-card { width: 100%; max-width: none; height: 440px; }
+
+/* 除第一张(Value)和 Scale 外,其余轮播卡片加大左右内边距,图形不至于太散(参照 P50 latency vs QPS 图的留白) */
+@media (min-width: 861px) {
+  #built-to-perform .bpt-panel[data-bpt-panel="accuracy"] .bpt-card,
+  #built-to-perform .bpt-panel[data-bpt-panel="speed"] .bpt-card,
+  #built-to-perform .bpt-panel[data-bpt-panel="speed-task"] .bpt-card,
+  #built-to-perform .bpt-panel[data-bpt-panel="freshness"] .bpt-card {
+    padding-left: clamp(30px, 14%, 150px);
+    padding-right: clamp(30px, 14%, 150px);
+  }
+}
+
+/* Scale(P50 latency vs QPS):标题与其余卡片标题左对齐(同样的左右内边距) */
+@media (min-width: 861px) {
+  #built-to-perform .bpt-panel[data-bpt-panel="scale"] .bpt-card {
+    padding-left: clamp(30px, 14%, 150px);
+    padding-right: clamp(30px, 14%, 150px);
+  }
+}
+
+/* 非激活轮播卡片更清晰一些(原 0.28 / hover 0.55) */
+#built-to-perform .bpt-panel:not(.is-active) { opacity: 0.5; }
+#built-to-perform .bpt-panel:not(.is-active):hover { opacity: 0.8; }
+
+/* 底部圆点分页器 */
+#built-to-perform .bpt-dots { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: -8px; }
+#built-to-perform .bpt-dot {
+  width: 8px; height: 8px; padding: 0; border: 0; border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18); cursor: pointer;
+  transition: width .3s cubic-bezier(0.22, 1, 0.36, 1), background-color .2s ease;
+}
+#built-to-perform .bpt-dot:hover { background: rgba(0, 0, 0, 0.35); }
+#built-to-perform .bpt-dot.is-active { width: 24px; background: #0a0a0a; }
+#built-to-perform .bpt-dot:focus-visible { outline: 2px solid #039855; outline-offset: 3px; }
+
+/* 四张指标卡一排;第四张为检索模型(两个 #1 合并),下方两行为各自榜单链接 */
+#built-to-perform .bpt-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+#built-to-perform .bpt-stat-card { padding: 16px 18px 18px; }
+#built-to-perform .bpt-stat-card .bpt-desc { font-size: 14.5px; }
+#built-to-perform .bpt-src-links { display: flex; flex-direction: column; gap: 4px; }
+#built-to-perform .bpt-src-links a { color: rgba(7, 7, 7, 0.55); text-decoration: none; transition: color .2s ease; }
+#built-to-perform .bpt-src-links a:hover { color: #0a0a0a; }
+#built-to-perform .bpt-src-links .octen-arrow { font-size: 13px; }
+@media (max-width: 1100px) and (min-width: 861px) { #built-to-perform .bpt-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 860px) { #built-to-perform .bpt-stats { grid-template-columns: 1fr; } }
+
+/* 指标区去掉卡片:无底色/描边/圆角,四列之间用竖向分割线分隔 */
+#built-to-perform .bpt-stats { gap: 0; }
+#built-to-perform .bpt-stat-card,
+#built-to-perform .bpt-stat-card:hover,
+#built-to-perform .bpt-stat-card.is-active {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 4px 28px 6px;
+}
+#built-to-perform .bpt-stat-card + .bpt-stat-card { border-left: 1px solid rgba(0, 0, 0, 0.12); }
+#built-to-perform .bpt-stat-card:first-child { padding-left: 0; }
+#built-to-perform .bpt-stat-card:last-child { padding-right: 0; }
+#built-to-perform .bpt-card-arrow { right: 28px; }
+#built-to-perform .bpt-stat-card:hover .bpt-card-arrow { color: #0a0a0a; transform: translate(2px, -2px); }
+@media (max-width: 1100px) and (min-width: 861px) {
+  #built-to-perform .bpt-stats { row-gap: 24px; }
+  #built-to-perform .bpt-stat-card { padding: 4px 24px 6px; }
+  #built-to-perform .bpt-stat-card:nth-child(odd) { padding-left: 0; border-left: 0; }
+  #built-to-perform .bpt-stat-card:nth-child(even) { padding-right: 0; }
+}
+@media (max-width: 860px) {
+  #built-to-perform .bpt-stats { row-gap: 20px; }
+  #built-to-perform .bpt-stat-card, #built-to-perform .bpt-stat-card:first-child, #built-to-perform .bpt-stat-card:last-child { padding: 0 0 20px; }
+  #built-to-perform .bpt-stat-card + .bpt-stat-card { border-left: 0; border-top: 1px solid rgba(0, 0, 0, 0.12); padding-top: 20px; }
+  #built-to-perform .bpt-card-arrow { right: 0; }
+}
+#built-to-perform .bpt-rail-viewport { margin-top: 12px; }
+
+/* 大数字加大;斜箭头移到底部辅助文字里 */
+#built-to-perform .bpt-stat { font-size: 56px; margin: 12px 0 10px; line-height: 1.05; }
+#built-to-perform .bpt-stat small { font-size: 0.42em; }
+#built-to-perform .bpt-src-link .octen-arrow { font-size: 13px; transition: transform .2s ease, color .2s ease; display: inline-block; }
+#built-to-perform .bpt-linkcard:hover .bpt-src-link { color: #0a0a0a; }
+#built-to-perform .bpt-linkcard:hover .bpt-src-link .octen-arrow { transform: translate(2px, -2px); }
+@media (max-width: 860px) { #built-to-perform .bpt-stat { font-size: 44px; } }
+
+/* 字号取整,不出现小数 */
+#built-to-perform .bpt-stat small { font-size: 24px; }
+#built-to-perform .bpt-stat-card .bpt-desc { font-size: 15px; }
+@media (max-width: 860px) { #built-to-perform .bpt-stat small { font-size: 20px; } }
+#built-to-perform .bpt-flow { display: inline-block; font: inherit; letter-spacing: inherit; color: inherit; font-variant-numeric: tabular-nums; margin: -0.25em 0; }

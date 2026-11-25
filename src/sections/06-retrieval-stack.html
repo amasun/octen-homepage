@@ -9,14 +9,10 @@
   <!-- ===== 标题区:胶囊 + 大标题 + 辅助文字(居中堆叠)。这四个是 Octen 在搜索之外的额外 tools ===== -->
   <div class="rs-head">
     <span class="rs-head-pill">Beyond search</span>
-    <h2 class="font-serif text-gray-900 text-5xl lg:text-[44px]">Octen tools and models</h2>
+    <h2 class="font-serif text-gray-900 text-5xl lg:text-[44px]">Tools</h2>
     <p class="rs-head-sub">
       Embed meaning with the #1 retrieval models, monitor pages and topics for changes, and turn any URL into clean content.
     </p>
-    <div class="rs-head-links">
-      <a class="rs-btn rs-btn--solid" href="/platform/overview" target="_blank" rel="noreferrer">Get started</a>
-      <a class="rs-btn rs-btn--ghost" href="https://docs.octen.ai" target="_blank" rel="noreferrer">View Docs</a>
-    </div>
   </div>
 
   <!-- ===== 2 栏主 Bento(Extract / Monitor)+ 下方紧凑次级卡片(Embedding / VL Embedding) ===== -->
@@ -27,6 +23,7 @@
 
       <!-- 1 · Extract:URL → 干净的结构化内容 -->
       <article id="extract" class="rs-cell">
+        <a class="rs-card-link" href="https://docs.octen.ai/capabilities/extract" target="_blank" rel="noopener noreferrer" aria-label="Extract docs"></a>
         <span class="rs-tag">Tool</span>
         <div class="rs-copy">
           <h3 class="rs-title">Extract</h3>
@@ -50,6 +47,7 @@
 
       <!-- 2 · Monitor:盯住页面/主题,自然语言条件命中才触发价格同步 -->
       <article id="monitor" class="rs-cell">
+        <a class="rs-card-link" href="https://docs.octen.ai/capabilities/monitor" target="_blank" rel="noopener noreferrer" aria-label="Monitor docs"></a>
         <span class="rs-tag">Tool</span>
         <div class="rs-copy">
           <h3 class="rs-title">Monitor</h3>
@@ -94,38 +92,6 @@
         </div>
       </article>
 
-    </div>
-
-    <div class="rs-models-row max-w-7xl mx-auto">
-      <!-- 3 · Embedding (compact secondary card) -->
-      <article id="embedding" class="rs-model-card">
-        <div class="rs-model-icon" aria-hidden="true">
-          <img src="/assets/icons/products/embedding.svg" alt="" width="20" height="20" />
-        </div>
-        <div class="rs-model-body">
-          <div class="rs-model-head">
-            <h3 class="rs-model-title">Embedding</h3>
-            <span class="rs-model-tag">Models</span>
-            <a class="rs-sota" href="https://huggingface.co/spaces/mteb/leaderboard?benchmark_name=RTEB%28beta%29" target="_blank" rel="noreferrer">SOTA on RTEB<svg viewBox="0 0 12 12" width="10" height="10" fill="none" aria-hidden="true"><path d="M3 9L9 3M4.5 3H9v4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          </div>
-          <p class="rs-model-desc">The <b>#1</b> text embedding model. Similar meaning lands close, even with no shared words.</p>
-        </div>
-      </article>
-
-      <!-- 4 · VL Embedding (compact secondary card) -->
-      <article id="vl-embedding" class="rs-model-card">
-        <div class="rs-model-icon" aria-hidden="true">
-          <img src="/assets/icons/products/vl_embedding.svg" alt="" width="21" height="20" />
-        </div>
-        <div class="rs-model-body">
-          <div class="rs-model-head">
-            <h3 class="rs-model-title">VL Embedding</h3>
-            <span class="rs-model-tag">Models</span>
-            <a class="rs-sota" href="https://huggingface.co/spaces/TIGER-Lab/MMEB-Leaderboard" target="_blank" rel="noreferrer">SOTA on MMEB-v2<svg viewBox="0 0 12 12" width="10" height="10" fill="none" aria-hidden="true"><path d="M3 9L9 3M4.5 3H9v4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          </div>
-          <p class="rs-model-desc">The <b>#1</b> multimodal embedding model. One vector space for text, images, and video.</p>
-        </div>
-      </article>
     </div>
   </div>
 </div>

@@ -100,64 +100,574 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.48), inset 0 -2px 4px rgba(0, 0, 0, 0.16), 0 16px 32px -6px rgba(184, 145, 63, 0.55);
 }
 
-/* ---------- 主轴能力对比(Pulse → Web Search → Web Search Premier) ---------- */
-.st-axis { margin-bottom: 20px; }
-.st-axis-bar { display: flex; align-items: center; gap: 12px; margin-top: 12px; font-size: 12px; font-weight: 500; color: #6b7280; }
-.st-axis-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--st-pulse), var(--st-fast) 50%, var(--st-premier)); position: relative; }
-.st-axis-line::after { content: ''; position: absolute; right: 0; top: -3px; width: 6px; height: 6px; border-top: 1.5px solid var(--st-premier); border-right: 1.5px solid var(--st-premier); transform: rotate(45deg); }
-.st-axis-grid { display: grid; grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr) 20px minmax(0, 1fr); align-items: stretch; gap: 8px; }
-.st-axis-arrow { display: flex; align-items: center; justify-content: center; font-size: 16px; color: #a1a1aa; user-select: none; }
-.st-axis-card {
-  display: flex; flex-direction: column; gap: 8px; padding: 16px 18px;
-  border: 1px solid transparent; border-radius: 12px; background: #18181b;
-  text-align: left; cursor: pointer; font: inherit; color: #ffffff;
-  transition: border-color .2s, box-shadow .2s, transform .2s;
+/* ---------- 调优总览 (无外层灰框:紧凑三档彩色卡 + Plan A 同款指示线) ---------- */
+.st-scale {
+  position: relative;
+  container-type: inline-size;   /* 背景大字用 cqw 单位,随这一排的宽度自适应 */
+  isolation: isolate;            /* 自成层叠上下文:背景大字 z-index:-1 只沉到本区域最底层,不会掉到区块白底后面 */
+  margin-bottom: 12px;           /* 卡片(含指标轴)与 Broad Search 面板之间的最终间距 */
 }
-.st-axis-card:hover,
-.st-axis-card.is-on { transform: translateY(-2px); }
-.st-axis-card:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
-.st-axis-head { display: flex; align-items: center; gap: 7px; }
-.st-axis-ico { width: 17px; height: 17px; flex: none; display: block; filter: brightness(0) invert(1); opacity: 0.95; }
-.st-axis-head strong { font: 600 15px/1.25 'DM Sans', sans-serif; color: #ffffff; }
-.st-axis-pill,
-.st-axis-pill--default,
-.st-axis-pill--premier {
-  margin-left: auto; height: 20px; padding: 0 8px; border-radius: 999px;
-  font: 600 10.5px/1 'DM Sans', sans-serif; display: inline-flex; align-items: center;
-  background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.24);
-  color: #ffffff; white-space: nowrap;
+/* 背景大字 "OCTEN SEARCH":浅灰渐变;仅在 JS 动画启用时(.has-bigword,桌面)显示,居中在卡片区先出现,再随视差下移、被下方面板盖住后消失 */
+.st-bigword {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin-top: -6px;
+  z-index: -1;   /* 最底层:在卡片、指标轴、Broad Search 面板之下(.st-scale 自成层叠上下文,不会掉到页面背景后面) */
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  font: 800 14.1cqw/1 'DM Sans', 'Inter', -apple-system, sans-serif;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #e6e6e9 0%, rgba(240, 240, 243, 0.6) 55%, rgba(244, 244, 246, 0.2) 86%);   /* 字形底边透明度 80%(不透明度 0.2) */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
-.st-axis-desc { margin: 0; font-size: 13px; line-height: 1.45; color: rgba(255, 255, 255, 0.86); }
-.st-axis-meta { margin-top: auto; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.18); display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 11.5px; color: rgba(255, 255, 255, 0.78); }
-.st-axis-meta > span:first-child { font-weight: 600; color: #ffffff; }
+.st-scale.has-bigword .st-bigword { display: block; }
+.st-scale-cols { position: relative; z-index: 1; }
 
-/* 三种档位全色主题卡片 + 反白文字 */
-.st-axis-card[data-tier="pulse"] {
-  background: linear-gradient(135deg, #27AE72 0%, #038C4E 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 8px 20px -14px rgba(3, 140, 78, 0.55);
+.st-scale-cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  align-items: stretch;
 }
-.st-axis-card[data-tier="pulse"]:is(:hover, .is-on) {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 14px 28px -14px rgba(3, 140, 78, 0.65);
+.st-axis-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;   /* 位于三张卡片与 Broad Search 面板之间 */
+  position: relative;
+  z-index: 2;         /* 始终在卡片之上,入场过程中不被卡片压住 */
+  font-family: 'DM Sans Arrow', 'DM Mono', ui-monospace, Menlo, Consolas, monospace;   /* 等宽字体(同 .st-mono) */
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: #6b7280;
+}
+/* 两端文字颜色与上方卡片一致:左 = Pulse 卡片的翡翠绿,右 = Premier 卡片的古铜棕(取卡片边框那一档,白底上可读) */
+.st-axis-bar > span:first-child { color: oklch(0.5 0.09 165); }
+.st-axis-bar > span:last-child { color: oklch(0.52 0.085 78); }
+.st-axis-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--st-pulse), var(--st-fast) 50%, var(--st-premier));
+  position: relative;
+}
+.st-axis-line::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -4px;
+  width: 8px;
+  height: 8px;
+  border-top: 1.5px solid var(--st-premier);
+  border-right: 1.5px solid var(--st-premier);
+  transform: translateX(-1px) rotate(45deg);
+  transform-origin: center;
+}
+.st-tier-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-height: 236px;
+  padding: 0;
+  /* 嵌套卡片:外层按档位着色(档位色 22% 混入深底),内层是下沉的深色面板;圆角同心(外 16 = 内 8 + 间距 8) */
+  border: 1px solid var(--tint-bd);
+  border-radius: 16px;
+  background: var(--tint-bg);   /* 外层:中性灰为主,仅带一点档位色倾向;内层才是近黑 */
+  box-shadow: 0 10px 24px -12px rgba(9, 9, 11, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: #ffffff;
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: none;
+  transition: box-shadow .2s, translate .2s;   /* 悬停上浮用独立的 translate 属性,不与 GSAP 写入的 transform 互相覆盖 */
+}
+/* 外层着色(OKLCH,沿用上方指示线 绿 → 金 的色相走向,与下方 Broad Search 深底面板同属深色系):
+   Pulse 深翡翠(色相 165) → Fast 取两端中间色(OKLCH 插值,经黄绿 ~122) → Premier 深古铜金(色相 80);
+   明度 / 彩度三档一致,只变色相,整排像同一块材质 */
+.st-tier-card {
+  --tint-bg: var(--acc);
+  --tint-bd: var(--acc);
+}
+.st-tier-card[data-tier="pulse"] {
+  --tint-bg: oklch(0.36 0.075 165);
+  --tint-bd: oklch(0.5 0.09 165);
+}
+.st-tier-card[data-tier="premier"] {
+  --tint-bg: oklch(0.38 0.07 78);
+  --tint-bd: oklch(0.52 0.085 78);
+}
+.st-tier-card[data-tier="fast"] {
+  --tint-bg: color-mix(in oklch, oklch(0.36 0.075 165), oklch(0.38 0.07 78));
+  --tint-bd: color-mix(in oklch, oklch(0.5 0.09 165), oklch(0.52 0.085 78));
+}
+.st-tier-card:hover,
+.st-tier-card.is-on {
+  translate: 0 -2px;
+  box-shadow: 0 16px 32px -12px rgba(9, 9, 11, 0.55);
+}
+.st-tier-card:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
+
+.st-tier-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px 12px 12px;
+}
+.st-tier-ico-wrap {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: color-mix(in oklch, var(--tint-bg) 55%, #05070c);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.st-tier-ico {
+  width: 18px;
+  height: 18px;
+  display: block;
+  filter: brightness(0) invert(1);
+  opacity: 0.96;
+}
+/* 内层面板:下沉的深色容器,承载指标 / 能力标签 / 适用场景 */
+.st-tier-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0 8px 8px;
+  padding: 18px 18px 16px;
+  border-radius: 8px;
+  background: rgba(8, 11, 18, 0.62);   /* 品牌深底 #080B12 半透明:外层着色透出来,内外同色系,也与下方深色面板呼应 */
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+.st-tier-top strong {
+  font: 500 20px/1.2 'IBM Plex Serif', Georgia, serif;
+  color: #ffffff;
+}
+.st-tier-pill {
+  margin-left: auto;
+  height: 22px;
+  padding: 0 9px;
+  border-radius: 999px;
+  font: 600 11px/1 'DM Sans', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  background: #16a365;
+  color: #ffffff;
+  border: 0;
+}
+.st-tier-pill.is-default {
+  background: #ffffff;
+  color: #09090b;
+  border: 0;
+}
+.st-tier-pill.is-premier {
+  background: #b8913f;
+  color: #ffffff;
+  border: 0;
 }
 
-.st-axis-card[data-tier="fast"] {
-  background: linear-gradient(135deg, #2b2b30 0%, #141418 55%, #09090b 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 8px 20px -14px rgba(9, 9, 11, 0.55);
+.st-tier-metric {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 2px 0;
 }
-.st-axis-card[data-tier="fast"]:is(:hover, .is-on) {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.20), 0 14px 28px -14px rgba(9, 9, 11, 0.65);
+.st-tier-metric strong {
+  font: 600 28px/1 'DM Sans', sans-serif;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+}
+.st-tier-metric strong small {
+  font-size: 14.5px;
+  font-weight: 500;
+  margin-left: 2px;
+  color: rgba(255, 255, 255, 0.82);
+}
+.st-tier-metric strong small.is-word { margin-left: 6px; }
+/* 指标滚轮:数字(number-flow)与 "High" 逐字母字母带,保持与原静态字相同的字号 / 基线 */
+.st-tier-flow { display: inline-block; margin: -0.25em 0; font-variant-numeric: tabular-nums; }
+.st-tier-textflow { display: inline-flex; vertical-align: baseline; }
+.st-tf-slot { display: inline-block; height: 1.2em; margin: -0.1em 0; line-height: 1.2; clip-path: inset(0 -1.5em); }   /* 只裁上下,左右不裁 */
+.st-tf-strip { display: block; will-change: transform; }
+.st-tf-cell { display: block; width: max-content; height: 1.2em; line-height: 1.2; }
+/* Premier 的 "High precision":大字比数字档(10 / 62)小一档;metric 行保持 28px 最小高度,避免三张卡片错位 */
+.st-tier-metric { min-height: 28px; }
+.st-tier-metric strong:has(small.is-word) { font-size: 22px; }
+.st-tier-metric > span {
+  font: 500 12.5px/1.2 'DM Sans', sans-serif;
+  color: rgba(255, 255, 255, 0.78);
 }
 
-.st-axis-card[data-tier="premier"] {
-  background: linear-gradient(135deg, #c9a14a 0%, #a07a2c 60%, #86631e 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24), 0 8px 20px -14px rgba(134, 99, 30, 0.55);
+.st-tier-copy {
+  margin: 0;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.80);
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: none;
 }
-.st-axis-card[data-tier="premier"]:is(:hover, .is-on) {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.30), 0 14px 28px -14px rgba(134, 99, 30, 0.65);
+.st-tier-copy b {
+  color: #ffffff;
+  font-weight: 600;
 }
-@media (max-width: 768px) {
-  .st-axis-grid { grid-template-columns: 1fr; gap: 10px; }
-  .st-axis-arrow { display: none; }
+.st-tier-caps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.st-tier-cap {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 9px;
+  border-radius: 6px;
+  font: 500 11.5px/1 'DM Sans', sans-serif;
+  color: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.09);
+  border: 0;
+  white-space: nowrap;
+}
+
+/* 全站统一的「跳转」箭头:斜上箭头 ↗,字体 DM Sans(↗ 字形由 DM Sans / 自托管箭头子集提供,缺失时才回退系统字体) */
+.octen-arrow {
+  font-family: 'DM Sans', 'DM Sans Arrow', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: normal;
+  font-weight: inherit;
+  font-feature-settings: normal;
+}
+
+/* ---------- Broad Search:深色面板(沿用 Plan A 对比图),文字在上、对比图在下 ---------- */
+/* 网格更明显:白色 4% → 6%;去掉 Plan A 为标题区中央做的椭圆减淡遮罩(本面板没有居中标题),仅保留上下边缘渐隐 */
+#web-search.st-bs::before {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 86%, transparent 100%);
+  -webkit-mask-composite: source-over;
+  mask-composite: add;
+}
+/* 面板必须是定位祖先:Plan A 的背景网格(#web-search.ws-theme-b::before,absolute + inset:0)以它为边界,
+   否则网格会相对更外层的 Search tiers 整个区块铺开,盖到上方三张卡片 */
+#web-search.st-bs {
+  position: relative;
+  z-index: 1;   /* 压在背景大字之上 */
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  gap: 40px;
+  align-items: center;
+  padding: 28px 32px 6px 40px !important;   /* 底部渐隐,图形底边可更贴近面板下沿 */
+  margin-bottom: 16px;
+  border-radius: 16px;
+}
+.st-bs-txt { min-width: 0; position: relative; z-index: 1; }   /* 文字与图形在网格之上 */
+.st-bs-h {
+  margin: 0 0 16px;
+  font-family: 'IBM Plex Serif', Georgia, serif;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.16;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+/* 标题强调词 "Broad Search":Shine Word(Three.js 扫光,见 src/lib/shine-word.js);字体沿用标题 */
+.st-bs-h .st-bs-shine {
+  position: relative;
+  display: inline-block;
+  vertical-align: bottom;
+  font-style: italic; /* 与 Hero 轮播词一致;ShineWord 从宿主读取 font-style 烘焙进字形 */
+  clip-path: inset(-0.4em -100% -0.4em -0.4em);
+}
+.st-bs-h .shine-word__sizer { display: block; width: max-content; white-space: pre; visibility: hidden; }
+.st-bs-h .shine-word__canvas { position: absolute; top: -24px; left: -24px; pointer-events: none; }
+.st-bs-h .shine-word--fallback .shine-word__sizer { visibility: visible; }
+.st-bs-h .shine-word--fallback .shine-word__canvas { display: none; }
+.st-bs-p {
+  margin: 0 0 18px;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.68);
+  max-width: 46ch;
+}
+.st-bs-link {
+  font: 500 13.5px/1 'DM Sans', sans-serif;
+  color: #70fe7e;
+  text-decoration: none;
+}
+.st-bs-link:hover { text-decoration: underline; }
+.st-bs-viz {
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+  /* 底部渐隐:遮罩自下而上(垂直方向,不倾斜),底边完全透明,向上渐变到完全不透明 */
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 8%, rgba(0, 0, 0, 0.65) 20%, #000 34%);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 8%, rgba(0, 0, 0, 0.65) 20%, #000 34%);
+}
+/* 简化 Plan A 对比图(保留 Human vs Octen):窄栏下 Octen 侧改 3 列 × 2 行,Human 侧只留 3 条结果;动画脚本照常运行 */
+.st-bs #webSearchCompare { --ws-gap: 6px; gap: 6px; }
+.st-bs #webSearchCompare > .octen-web-search-card { padding: 20px 18px 22px; gap: 12px; }
+/* 图示精简文字:保留卡片标题(Human Search / Broad Search)与 query 文字;副标题隐藏;子查询芽片文字改为加粗删除线骨架条 */
+.st-bs #webSearchCompare > .octen-web-search-card > div.text-base { display: none !important; }
+.st-bs #webSearchCompare > .octen-web-search-card > h3 { font-size: 18px; margin-bottom: 4px; }
+.st-bs .octen-web-search-card--accent .h-35 span.truncate {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.26);
+  color: transparent !important;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+/* 结果叠层同心圆角:前层圆角 8px,后三层分别向右下偏移 2 / 4 / 6px,圆角 = 前层圆角 + 偏移(10 / 12 / 14px),四层右下角圆心重合 */
+.st-bs #webSearchCompare .octen-web-search-card--accent .h-33 .ws-layer:nth-child(1) { border-radius: 14px !important; } /* 偏移 6px */
+.st-bs #webSearchCompare .octen-web-search-card--accent .h-33 .ws-layer:nth-child(2) { border-radius: 12px !important; } /* 偏移 4px */
+.st-bs #webSearchCompare .octen-web-search-card--accent .h-33 .ws-layer:nth-child(3) { border-radius: 10px !important; } /* 偏移 2px */
+
+/* 子查询网格 / 结果网格为空时:白色半透明运动点阵(底层淡点缓慢漂移 + 上层高亮光带扫过);内容出现(任一子元素 .ws-on)后淡出 */
+.st-bs .octen-web-search-card--accent .h-35,
+.st-bs .octen-web-search-card--accent .h-33 { position: relative; }
+.st-bs .octen-web-search-card--accent .h-35::before,
+.st-bs .octen-web-search-card--accent .h-35::after,
+.st-bs .octen-web-search-card--accent .h-33::before,
+.st-bs .octen-web-search-card--accent .h-33::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0.7px, transparent 1.2px);
+  background-size: 12px 12px;
+  background-position: 6px 6px;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+.st-bs .octen-web-search-card--accent .h-35:not(:has(.ws-on))::before,
+.st-bs .octen-web-search-card--accent .h-33:not(:has(.ws-on))::before { opacity: 0.28; }
+.st-bs .octen-web-search-card--accent .h-35:not(:has(.ws-on))::after,
+.st-bs .octen-web-search-card--accent .h-33:not(:has(.ws-on))::after { opacity: 0.08; }
+.st-bs .octen-web-search-card--accent .h-35::before,
+.st-bs .octen-web-search-card--accent .h-33::before {
+  -webkit-mask-image: linear-gradient(100deg, transparent 30%, #000 50%, transparent 70%);
+  mask-image: linear-gradient(100deg, transparent 30%, #000 50%, transparent 70%);
+  -webkit-mask-size: 260% 100%;
+  mask-size: 260% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: st-dots-sweep 3.2s linear infinite, st-dots-drift 6s linear infinite;
+}
+.st-bs .octen-web-search-card--accent .h-35::after,
+.st-bs .octen-web-search-card--accent .h-33::after { animation: st-dots-drift 6s linear infinite; }
+.st-bs .octen-web-search-card--accent .h-33::before,
+.st-bs .octen-web-search-card--accent .h-33::after { animation-delay: -1.6s; }
+@keyframes st-dots-sweep {
+  from { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
+  to { -webkit-mask-position: 0% 0; mask-position: 0% 0; }
+}
+@keyframes st-dots-drift {
+  from { background-position: 6px 6px; }
+  to { background-position: 18px 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .st-bs .octen-web-search-card--accent .h-35::before,
+  .st-bs .octen-web-search-card--accent .h-35::after,
+  .st-bs .octen-web-search-card--accent .h-33::before,
+  .st-bs .octen-web-search-card--accent .h-33::after { animation: none; }
+}
+/* ---- 统一规范:两侧同构(输入框 42px → 连接区 → 主体),连接线 2px,面板圆角 12px / 边框 20% 白,左右顶边、底边对齐 ---- */
+.st-bs #webSearchCompare { --ws-brace-shrink: 22; align-items: stretch; }
+.st-bs #webSearchCompare > .octen-web-search-card { padding: 26px 18px 18px; }
+.st-bs #webSearchCompare > .octen-web-search-card > h3 { margin-bottom: 8px; }
+/* 括号顶端紧贴输入框下沿(不再重叠):抵消卡片 flex gap(12px),括号高 60 - 22 = 38px,与 Human 连接线等高 */
+.st-bs .octen-web-search-card--accent .max-w-172 { margin-top: -12px; }
+/* 线宽统一为 1px:Octen 括号(svg 描边)、Octen 子查询→结果竖线、Human 连接线 */
+.st-bs .octen-web-search-card--accent .w-\[85\%\] path { stroke-width: 1px; }
+.st-bs .octen-web-search-card--accent .-bottom-6 .w-0\.5 { width: 1px; }
+.st-bs .octen-human-connector-line {
+  width: 1px;
+  background: linear-gradient(to bottom, #5a5a5a, #c0c0c0);
+  opacity: 0.3;
+}
+.st-bs .octen-human-results-panel,
+.st-bs .octen-web-search-card--accent .h-35,
+.st-bs .octen-web-search-card--accent .h-33 {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+}
+.st-bs .octen-human-results-panel { padding: 16px 14px; }
+/* vs. 圆标:外径 56 → 42px,边框仍为 6px */
+.st-bs .octen-compare-vs span { width: 42px; height: 42px; }
+.st-bs .octen-human-query-text { font-size: 11.5px; letter-spacing: -0.01em; }
+/* Human 展示 5 条结果,每条三行骨架条:亮色标题条 + 两条摘要条(去掉标题行右侧的第二条) */
+.st-bs .octen-human-result-item .line-top-2 { display: none; }
+.st-bs .octen-web-search-card--accent [style*="repeat(5"] { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+.st-bs .octen-web-search-card--accent [style*="repeat(5"] > :nth-child(n+7):not(.-bottom-6) { display: none !important; }
+.st-bs .octen-web-search-card--accent .-bottom-6 > :nth-child(n+4) { display: none; }
+
+.st-compare-link {
+  margin: 0 0 28px;
+  text-align: center;
+}
+.st-compare-link a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid #d4d4d8;
+  background: #ffffff;
+  color: #111827;
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: border-color .2s, background-color .2s, color .2s;
+}
+.st-compare-link a:hover {
+  border-color: #039855;
+  color: #039855;
+  background: rgba(3, 152, 85, 0.04);
+}
+.st-broad-eye {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 11px;
+  border-radius: 6px;
+  background: #039855;
+  font: 600 11.5px/1 'DM Sans', sans-serif;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+.st-broad-h {
+  margin: 0 0 10px;
+  font-family: 'IBM Plex Serif', Georgia, serif;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1.15;
+  color: #0a0a0a;
+}
+.st-broad-p {
+  margin: 0 0 14px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: #4b5563;
+  max-width: 52ch;
+}
+.st-broad-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font: 600 13.5px/1 'DM Sans', sans-serif;
+  color: #039855;
+  text-decoration: none;
+}
+.st-broad-link:hover { text-decoration: underline; }
+
+.st-broad-viz {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.st-bvc {
+  border: 1px solid var(--st-line);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 13px 15px;
+}
+.st-bvc.is-broad {
+  border-color: rgba(22, 182, 115, 0.42);
+  background: linear-gradient(135deg, #16241d 0%, #0b120f 100%);
+  box-shadow: 0 12px 28px -18px rgba(11, 18, 15, 0.65);
+}
+.st-bvc-lbl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 600 11px/1 'DM Sans', sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+.st-bvc.is-broad .st-bvc-lbl { color: #7fe3ab; }
+.st-bvc-tag {
+  font: 600 10px/1 'DM Sans', sans-serif;
+  color: #7fe3ab;
+  background: rgba(22, 182, 115, 0.16);
+  border: 1px solid rgba(22, 182, 115, 0.34);
+  border-radius: 5px;
+  padding: 2px 6px;
+  letter-spacing: 0.04em;
+}
+.st-bvc-q {
+  font-size: 12.5px;
+  color: #111827;
+  background: #f4f5f4;
+  border: 1px solid var(--st-line);
+  border-radius: 7px;
+  padding: 7px 10px;
+  margin-bottom: 8px;
+}
+.st-bvc.is-broad .st-bvc-q {
+  color: #f3f4f6;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.st-bvc-one {
+  font-size: 11.5px;
+  color: #6b7280;
+}
+.st-bvc-fan {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.st-bvc-fan span {
+  font-size: 11px;
+  color: #7fe3ab;
+  background: rgba(22, 182, 115, 0.16);
+  border: 1px solid rgba(22, 182, 115, 0.35);
+  border-radius: 6px;
+  padding: 3px 8px;
+}
+.st-bvc-merge {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #7fe3ab;
+}
+
+@media (max-width: 860px) {
+  .st-scale-cols { grid-template-columns: 1fr; gap: 12px; }
+  .st-tier-card { min-height: 0; }
+  #web-search.st-bs { grid-template-columns: 1fr; gap: 22px; padding: 24px 16px 20px !important; }
+  .st-bs-h { font-size: 26px; }
 }
 
 /* ---------- Bento ---------- */
@@ -734,4 +1244,250 @@
 
 @media (hover: none), (pointer: coarse) {
   .st-tier-cursor { display: none !important; }
+}
+
+
+/* 桌面且视口高度偏矮(≤ 940px)时,压缩三张卡片与 Broad Search 面板的内边距,
+   让「三张卡片 + 指标轴 + 面板」的最终形态完整落在一屏内(配合 tier-cards-scroll.ts 的动画终点) */
+@media (min-width: 861px) and (max-height: 940px) {
+  .st-tier-top { padding: 10px 14px 10px 12px; }
+  .st-tier-body { gap: 10px; padding: 14px 16px 12px; margin: 0 8px 8px; }
+  .st-tier-copy { padding-top: 10px; line-height: 1.45; }
+  .st-tier-card { min-height: 0; }
+  #web-search.st-bs { padding: 20px 28px 4px 36px !important; gap: 32px; }
+}
+
+/* ==========================================================================
+   Search by type · 六类 API Bento(替代原 Pulse / Fast / Premier 三张详情大卡)
+   上三下三等宽 3 × 2 网格:Image · Video · News / Business · Place · Design
+   插画沿用既有图形(fast-bento.css / 上文 Premier Bento 样式),这里只负责卡片外框、占比与图文比例
+   ========================================================================== */
+.st-types { margin-top: 120px; }   /* 与上方区块(Compare search APIs 胶囊)的总间距 120px(与该胶囊的 28px 下边距重叠取大值) */
+.st-types-head { margin: 0 0 32px; text-align: center; }   /* 与其它模块标题区一致:居中 */
+.st-types-title {
+  margin: 0 0 14px;
+  /* 与其它模块标题一致(如 "Three tiers of search, one key"):IBM Plex Serif 500 / 44px / 行高 44px */
+  font: 500 44px/44px 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+  letter-spacing: normal;
+  color: var(--st-ink);
+}
+.st-types-title em { font-style: italic; font-weight: 500; color: var(--st-fast); }
+.st-types-sub { margin: 0 auto; max-width: 62ch; font-size: 15px; line-height: 1.625; color: rgba(17, 24, 39, 0.8); }
+
+.st-types-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));   /* 上三下三:等宽 3 × 2 网格 */
+  grid-auto-rows: 1fr;                                /* 两行等高 */
+  gap: 12px;
+}
+.st-types .st-bt {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--st-line);
+  border-radius: 16px;
+  background: var(--st-soft);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color .3s, box-shadow .3s, transform .3s;
+}
+.st-types .st-bt.is-dark { background: #101217; border-color: #1d212b; }
+.st-types .st-bt:is(:hover, .is-hl) { border-color: #d4d4d8; box-shadow: 0 18px 40px -30px rgba(0, 0, 0, .35); }
+.st-types .st-bt.is-dark:is(:hover, .is-hl) { border-color: #2c3240; box-shadow: 0 22px 44px -26px rgba(0, 0, 0, .6); }
+.st-types .st-bt:hover { transform: translateY(-2px); }
+
+/* 画面区:撑满卡片剩余高度(文字区固定,图形吃掉剩余空间) */
+.st-types .st-bt .st-fx-art,
+.st-types .st-bt .st-pm-art {
+  height: auto;
+  flex: 1 1 auto;
+  min-height: 220px;
+  margin: 6px 6px 0;   /* 内层画面区与外层卡片的间距 10 → 6px */
+}
+
+.st-types .st-bt :is(.st-fx-foot, .st-pm-foot) { padding: 16px 20px 20px; }
+.st-types .st-bt :is(.st-fx-foot, .st-pm-foot) h4 {
+  display: flex; align-items: center; gap: 8px; margin: 0 0 6px;
+  font: 600 20px/1.25 'IBM Plex Serif', Georgia, 'Times New Roman', serif; color: var(--st-ink);   /* 标题:IBM Plex Serif 加粗 */
+}
+.st-types .st-bt :is(.st-fx-foot, .st-pm-foot) h4 .st-soon { font-family: 'DM Sans', sans-serif; }
+.st-types .st-bt :is(.st-fx-foot, .st-pm-foot) p { margin: 0; font-size: 14px; line-height: 1.5; color: #71717a; }
+.st-types .st-bt.is-dark :is(.st-fx-foot, .st-pm-foot) h4 { color: #fff; }
+.st-types .st-bt.is-dark :is(.st-fx-foot, .st-pm-foot) p { color: rgba(255, 255, 255, .6); }
+
+@media (max-width: 1024px) {
+  .st-types-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .st-types { margin-top: 80px; }
+  .st-types-title { font-size: 34px; line-height: 38px; }
+  .st-types-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+  .st-types .st-bt .st-fx-art,
+  .st-types .st-bt .st-pm-art { min-height: 200px; }
+}
+
+/* 画面占比微调:图形按所在格子的大小等比放大,让画面撑满画面区(zoom 等比缩放,不改图形自身结构) */
+.st-types .st-bt--design .pm-design { zoom: 1.08; }
+.st-types .st-bt--place .pm-place { zoom: 1.1; }
+
+/* ==========================================================================
+   Search by type · 配色(克制版):保持 shadcn 式中性灰卡片不变,只在「关键元素」上点一点色——
+   画面区底色仅带 4~5% 的色相;地图 / 标签 / 头像 / 骨架条做低饱和赋色;图钉与强调标签用一个小面积的亮色
+   Image 橙 · News 蓝 · Business 靛 · Place 绿(图钉红) · Design 粉 · Video 保持深色
+   ========================================================================== */
+.st-types .st-bt--image  { --bt: #f59e6b; --acc: #ea7a3c; }
+.st-types .st-bt--video  { --acc: #18fb6f; }
+.st-types .st-bt--news   { --bt: #4f8ef7; --acc: #2f6fe0; }
+.st-types .st-bt--biz    { --bt: #8b7cf6; --acc: #6d5ce0; }
+.st-types .st-bt--place  { --bt: #3fae6a; --acc: #e8484f; }
+.st-types .st-bt--design { --bt: #f472b6; --acc: #e2509b; }
+
+/* 画面区底色:除地图(Place)外一律白色 */
+.st-types .st-bt--image .st-fx-art,
+.st-types .st-bt--news .st-pm-art,
+.st-types .st-bt--biz .st-pm-art,
+.st-types .st-bt--design .st-pm-art {
+  background: #ffffff;
+  border-color: #ececec;
+}
+
+/* News:强调标签用蓝 */
+.st-types .st-bt--news .pm-chips span.is-acc { color: #1e4fc4; background: #eaf1ff; border-color: #cddcf8; }
+/* Business:头像用靛色(低饱和渐变) */
+.st-types .st-bt--biz .pm-biz-logo { background: linear-gradient(135deg, #5b50c8, #8a6fd8); }
+/* Design:三个画框的骨架条各带一点暖色 */
+.st-types .st-bt--design .pm-frame--web .pm-hero { background: #fbd9bf; }
+.st-types .st-bt--design .pm-frame--app .pm-hero { background: #f6cde0; }
+.st-types .st-bt--design .pm-frame--slide .pm-bar { background: #dccdf4; }
+
+/* Place:地图低饱和赋色——浅灰绿底、淡绿公园、淡蓝水系、白色街网格、浅黄主干道、红色图钉 */
+.st-types .st-bt--place .st-pm-art--map {
+  background:
+    radial-gradient(ellipse 20% 26% at 14% 30%, #dcebd3 96%, transparent 100%),
+    radial-gradient(ellipse 16% 22% at 78% 78%, #dcebd3 96%, transparent 100%),
+    linear-gradient(112deg, transparent 56%, #d3e5f1 56%, #d3e5f1 64%, transparent 64%),
+    #f3f6ef;
+  border-color: #e4eadc;
+}
+.st-types .st-bt--place .st-pm-art--map::before {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, .9) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, .9) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+.st-types .st-bt--place .pm-road { background: #fbf4d6; border-color: #eee3b4; }
+.st-types .st-bt--place .pm-road--b { background: #ffffff; border-color: #ece9dc; }
+
+/* Place 地图:内联 SVG 街区图(不接第三方)——街道网格、街区与建筑轮廓、公园(树与小径)、港湾海岸线与码头、主干道 + 滨海路、街名标注 */
+.st-types .st-bt--place .pm-map-svg { position: absolute !important; inset: 0; width: 100%; height: 100%; z-index: 0 !important; }
+.st-types .st-bt--place .st-pm-art--map { background: #f3f6ef; padding: 0; }
+.st-types .st-bt--place .st-pm-art--map::before { display: none; }
+.st-types .st-bt--place .pm-road { display: none; }
+
+/* Image Search:搜索框在画面底部居中;9 张图片沿正圆等间距排成「扇形」环绕搜索框(只露出上半圈)。
+   offset-rotate: auto 让每张图片的朝向跟随轨道切线——顶部正立、越靠两侧倾斜越多,整体是规整的扇形;轨道用 offset-path,无需 JS。 */
+.st-types .st-bt--image .fx-img-stage { align-items: stretch; }
+.st-types .st-bt--image .fx-img-track {
+  position: absolute; inset: 0; width: auto; display: block; gap: 0;
+  animation: none; transform: none; will-change: auto;
+}
+.st-types .st-bt--image .fx-img-card {
+  position: absolute; left: 0; top: 0;
+  width: 68px; height: 84px; border-radius: 9px;
+  box-shadow: 0 5px 14px -6px rgba(0, 0, 0, .2);
+  transform: none !important;
+  rotate: none;
+  offset-path: circle(250px at 50% calc(100% + 130px));   /* 大半径正圆,圆心在画面下方:只露出不到半圈的圆弧 */
+  offset-rotate: auto;
+  offset-anchor: 50% 50%;
+  animation: fx-img-orbit 88s linear infinite;
+  animation-play-state: paused;
+}
+.st-types .st-bt--image:is(:hover, .is-hl) .fx-img-card { animation-play-state: running; }
+
+.st-types .st-bt--image .fx-img-card:nth-child(1) { animation-delay: calc(-88s * 0 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(2) { animation-delay: calc(-88s * 1 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(3) { animation-delay: calc(-88s * 2 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(4) { animation-delay: calc(-88s * 3 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(5) { animation-delay: calc(-88s * 4 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(6) { animation-delay: calc(-88s * 5 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(7) { animation-delay: calc(-88s * 6 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(8) { animation-delay: calc(-88s * 7 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(9) { animation-delay: calc(-88s * 8 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(10) { animation-delay: calc(-88s * 9 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(11) { animation-delay: calc(-88s * 10 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(12) { animation-delay: calc(-88s * 11 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(13) { animation-delay: calc(-88s * 12 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(14) { animation-delay: calc(-88s * 13 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(15) { animation-delay: calc(-88s * 14 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(16) { animation-delay: calc(-88s * 15 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(17) { animation-delay: calc(-88s * 16 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(18) { animation-delay: calc(-88s * 17 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(19) { animation-delay: calc(-88s * 18 / 20); }
+.st-types .st-bt--image .fx-img-card:nth-child(20) { animation-delay: calc(-88s * 19 / 20); }
+@keyframes fx-img-orbit { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+
+.st-types .st-bt--image .fx-img-pill {
+  position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%);
+  height: 44px; width: 244px; gap: 9px; padding: 4px 4px 4px 15px;
+  /* 搜索框:中灰半透明 + 白描边(介于最初的亮灰与压暗之间) */
+  background: rgba(78, 78, 84, 0.5);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.3);
+}
+.st-types .st-bt--image .fx-img-pill > svg { width: 17px; height: 17px; }
+.st-types .st-bt--image .fx-img-caret { height: 18px; }
+.st-types .st-bt--image .fx-img-label { font-size: 15px; }
+.st-types .st-bt--image .fx-img-badge { width: 34px; height: 34px; }
+/* 徽标 SVG 本身是 29.2 × 23.5(preserveAspectRatio=none),必须按原比例给尺寸,否则会被拉变形 */
+.st-types .st-bt--image .fx-img-badge img { width: 21px; height: 17px; }
+
+/* Image Search 搜索框:query 打字效果——文字区弹性占位、光标跟在文字后面闪烁(原先静止的 caret 元素隐藏) */
+.st-types .st-bt--image .fx-img-caret { display: none; }
+.st-types .st-bt--image .fx-img-label { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; display: inline-flex; align-items: center; min-height: 18px; }
+.st-types .st-bt--image .fx-img-label::after {
+  content: ''; flex: none; width: 1px; height: 17px; margin-left: 2px;
+  background: rgba(255, 255, 255, 0.85);
+  animation: fx-img-caret-blink 1.05s steps(1) infinite;
+}
+@keyframes fx-img-caret-blink { 50% { opacity: 0; } }
+
+/* Broad Search 卡片:右侧图形整体缩小到 80%(zoom 同时缩小布局占位),卡片整体高度收到 400px。
+   宽度取 80%(= 缩放后的视觉宽度),并靠右,这样图形内部的逻辑宽度不变,仍是原来的比例,只是整体等比缩小。 */
+@media (min-width: 861px) {
+  #web-search.st-bs {
+    height: 400px;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    align-items: center;
+  }
+  #web-search.st-bs .st-bs-viz {
+    zoom: 0.8;
+    width: 80%;
+    justify-self: end;
+    top: 25px;   /* 整体下移 20px(zoom 0.8 下 CSS 值要除以 0.8) */
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 8%, rgba(0, 0, 0, 0.65) 20%, #000 34%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 8%, rgba(0, 0, 0, 0.65) 20%, #000 34%);
+  }
+}
+
+/* Search by type:卡片标签(Early access / New)放大——文字 14px,留出更大的内边距 */
+.st-types .st-bt :is(.st-fx-foot, .st-pm-foot) h4 .st-soon {
+  height: auto; margin-left: 2px; padding: 3px 10px; border-radius: 6px;
+  font: 600 14px/1.2 'DM Sans', sans-serif; letter-spacing: 0; text-transform: none;
+}
+
+/* Broad Search:Traditional Search(左)卡片加宽 45px 原始(zoom 前)像素 = 屏幕上 36px(zoom 0.8),
+   右侧 Broad Search 卡片宽度不变;整体向左多占 45px(屏幕上 36px),保持右缘不动 */
+@media (min-width: 861px) {
+  #web-search.st-bs .st-bs-viz { width: calc(80% + 45px); }
+  .st-bs #webSearchCompare {
+    grid-template-columns: minmax(0, 1fr) calc((100% - 45px - var(--ws-gap)) * 1.9 / 2.9) !important;
+  }
+}
+@media (min-width: 861px) {
+  /* vs. 圆标跟着左右两卡的间隙走:左列 = (内容宽 − 间隙) / 2.9 + 45 × 1.9 / 2.9(≈ 29.483px) */
+  .st-bs #webSearchCompare .octen-compare-vs {
+    left: calc(var(--ws-pad, 0px) + (100% - 2 * var(--ws-pad, 0px) - var(--ws-gap, 6px)) / 2.9 + 29.483px + var(--ws-gap, 6px) / 2) !important;
+  }
 }
