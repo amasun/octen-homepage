@@ -29,8 +29,8 @@
 
   /* ---------- Premier 搜索框:轮流输入三类示例查询,对应卡片同步高亮(.is-hl) ---------- */
   var QUERIES = [
-    { dom: 'news', chip: 'News', q: 'port strike latest' },
     { dom: 'web', chip: 'Web Search Premier', q: 'northwind q4 stock price' },
+    { dom: 'news', chip: 'News', q: 'port strike latest' },
     { dom: 'business', chip: 'Business', q: 'northwind robotics' },
     { dom: 'place', chip: 'Place', q: 'coffee near harbor st' }
   ];
@@ -121,13 +121,14 @@
 
   /* ---------- Fast API 卡片:进入视口后逐个轮流高亮 Web → Broad → Image → Video → Sense(.is-hl 与 :hover 样式一致),
      悬停网格时暂停轮播、交给鼠标;离开视口停止 ---------- */
-  var fxGrid = root.querySelector('.st-fx-grid');
+  var fxGrids = Array.prototype.slice.call(root.querySelectorAll('.st-fx-grid'));   // Fast(Web / Broad)+ Sense(Image / Video / Sense)
+  var fxGrid = fxGrids[0];
   if (fxGrid && !reduce && 'IntersectionObserver' in window) {
-    var fxCards = Array.prototype.slice.call(fxGrid.querySelectorAll('.st-fx[data-fx]'));
+    var fxCards = Array.prototype.slice.call(root.querySelectorAll('.st-fx-grid .st-fx[data-fx]'));
     var fxDurations = { web: 1800, broad: 2400, image: 2600, video: 2400, sense: 2600 };
-    var fxVideoCard = fxGrid.querySelector('.st-fx--video');
-    var fxVideoEl = fxGrid.querySelector('.fx-vid-bg');
-    var fxDotsWrap = fxGrid.querySelector('[data-vid-dots]');
+    var fxVideoCard = root.querySelector('.st-fx--video');
+    var fxVideoEl = root.querySelector('.fx-vid-bg');
+    var fxDotsWrap = root.querySelector('[data-vid-dots]');
     var fxDots = [];
     if (fxDotsWrap) {
       for (var d = 0; d < 50; d++) {
@@ -196,16 +197,18 @@
       syncVideo(false);
     };
 
-    fxGrid.addEventListener('mouseenter', function () {
-      fxHover = true;
-      clearTimeout(fxTimer);
-      fxCards.forEach(function (c) { c.classList.remove('is-hl'); });
-      syncVideo(false);
-    });
-    fxGrid.addEventListener('mouseleave', function () {
-      fxHover = false;
-      syncVideo(false);
-      if (fxOn) fxTimer = setTimeout(fxTick, 600);
+    fxGrids.forEach(function (g) {
+      g.addEventListener('mouseenter', function () {
+        fxHover = true;
+        clearTimeout(fxTimer);
+        fxCards.forEach(function (c) { c.classList.remove('is-hl'); });
+        syncVideo(false);
+      });
+      g.addEventListener('mouseleave', function () {
+        fxHover = false;
+        syncVideo(false);
+        if (fxOn) fxTimer = setTimeout(fxTick, 600);
+      });
     });
 
     if (fxVideoCard) {
@@ -215,12 +218,17 @@
       });
     }
 
-    new IntersectionObserver(function (es) {
+    var fxVisible = new Set();
+    var fxIo = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
-        fxOn = e.isIntersecting;
-        if (fxOn && !document.hidden) { clearTimeout(fxTimer); fxTick(); } else fxStop();
+        if (e.isIntersecting) fxVisible.add(e.target); else fxVisible.delete(e.target);
       });
-    }, { threshold: 0.4 }).observe(fxGrid);
+      var on = fxVisible.size > 0;
+      if (on === fxOn) return;
+      fxOn = on;
+      if (fxOn && !document.hidden) { clearTimeout(fxTimer); fxTick(); } else fxStop();
+    }, { threshold: 0.4 });
+    fxGrids.forEach(function (g) { fxIo.observe(g); });
   }
 
   /* ---------- Pulse / Fast 延迟大数字 NumberFlow 滚轮动画 ---------- */

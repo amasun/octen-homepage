@@ -172,6 +172,8 @@ function verticalSearchPlugin() {
 }
 
 export default defineConfig({
+  // 换一个缓存目录名:依赖 URL 随之改变,绕开浏览器里缓存的旧依赖块(否则会出现两份 React,React 组件渲染为空)
+  cacheDir: 'node_modules/.vite-v2',
   plugins: [htmlPartialsPlugin(), react(), localNextImageProxy(), liveReloadPlugin(), verticalSearchPlugin()],
   server: {
     port: 3001,

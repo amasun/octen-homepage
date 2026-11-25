@@ -735,3 +735,49 @@
 @media (hover: none), (pointer: coarse) {
   .st-tier-cursor { display: none !important; }
 }
+
+/* ==========================================================================
+   Plan C:Pulse | Fast → Premier → Sense(独立成段)→ 选择指引
+   ========================================================================== */
+/* Pulse:产品名行(替代原来的产品 spec 行) */
+.st-prodline { margin: -6px 0 0; display: flex; align-items: baseline; gap: 8px; font-size: 12.5px; line-height: 1.4; color: #71717a; }
+.st-prodline span { flex: none; font-size: 11px; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; color: #a1a1aa; }
+.st-prodline b { font-weight: 600; color: var(--st-ink); }
+
+/* Fast:背书行(点击跳到 Performance) */
+.st-endorse { display: inline-flex; align-items: center; gap: 4px; margin-top: 10px; font-size: 13px; font-weight: 600; line-height: 1.4; color: var(--acc); text-decoration: none; }
+.st-endorse:hover { text-decoration: underline; }
+.st-endorse .octen-arrow { font-size: 13px; }
+
+/* Premier:Web Search Premier(深色宽卡)在第一行左,News 在第一行右;第二行 Business / Place / Design */
+@media (min-width: 1025px) {
+  .st-pm--intro { grid-column: 1; grid-row: 1 / span 2; }
+  .st-pm--web { grid-column: 2 / span 2; grid-row: 1; }
+  .st-pm--news { grid-column: 4; grid-row: 1; }
+  .st-pm--biz { grid-column: 2; grid-row: 2; }
+  .st-pm--place { grid-column: 3; grid-row: 2; }
+  .st-pm--design { grid-column: 4; grid-row: 2; }
+}
+
+/* Sense:整行,左文字 + 右三张产品卡;产品线标签与三档标签区分(描边胶囊 + 小圆点,不是第四档) */
+[data-tier="sense"], .st-card--sense { --acc: #5b6ee1; }
+.st-card--sense { grid-column: span 12; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr); gap: 28px; align-items: stretch; background: var(--st-soft); }
+.st-card--sense .st-txt { display: flex; flex-direction: column; }
+.st-card--sense .st-txt .st-bestfor { margin-top: auto; padding-top: 18px; }
+.st-eyebrow--sense { align-self: flex-start; height: 24px; padding: 0 10px 0 8px; margin-bottom: 14px; border: 1px solid color-mix(in srgb, var(--acc) 40%, #fff); border-radius: 999px; background: color-mix(in srgb, var(--acc) 8%, #fff); letter-spacing: .08em; }
+.st-eyebrow--sense::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--acc); }
+#tier-sense .st-fx-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-content: start; }
+@media (max-width: 1024px) {
+  .st-card--sense { grid-template-columns: 1fr; }
+  #tier-sense .st-fx-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 767px) {
+  #tier-sense .st-fx-grid { grid-template-columns: 1fr; }
+}
+/* Sense 标签:描边胶囊 + 小圆点(三档为实心渐变圆角块),不是第四档;需压过上面 .st-eyebrow 的白字 */
+.st-card--sense .st-eyebrow--sense {
+  height: 28px; padding: 0 12px 0 10px; gap: 6px; border-radius: 999px;
+  color: color-mix(in srgb, var(--acc) 85%, #000);
+  border: 1px solid color-mix(in srgb, var(--acc) 40%, #fff);
+  background: color-mix(in srgb, var(--acc) 8%, #fff);
+}
