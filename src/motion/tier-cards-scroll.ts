@@ -3,9 +3,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 /**
  * Search 总览三张卡片的「跟滚轮演进」入场(scrub,进度由 Lenis 平滑后的滚动位置驱动):
- *   帧 1:中间 Fast 最先浮现(最实),右侧 Premier 次之(半透明),左侧 Pulse 最后(几乎透明);三张错落,两侧更低
- *   帧 2:三张都已显现,中间最高、两侧稍低
- *   帧 3:三张并排对齐 —— Pulse 最后到位
+ *   帧 1:Pulse(最快)最先浮现,Fast 次之,Premier 最后(依次更低、更透明)
+ *   帧 2:三张都已显现,左高右低
+ *   帧 3:三张并排对齐 —— Premier 最后到位
  * 上下元素协调:
  *   - 指标轴(Lower latency → Higher precision)随卡片收拢「画出」:先左标签,线条自左向右,最后右标签
  *   - 下方 Broad Search 面板在卡片并排之后才浮起(单独的 scrub 段)
@@ -65,7 +65,7 @@ export function initTierCardsScroll(): void {
 
     /* 时序(0 → 1):
        0.00–0.25  OCTEN SEARCH 先出现:渐显,位置略高于卡片区中心,完整可读(卡片、面板此时都还没出现)
-       0.30–0.80  三张卡片逐次进场(Fast → Premier → Pulse 最后),盖在大字之上;大字同时视差下移到卡片下方
+       0.30–0.80  三张卡片逐次进场(Pulse → Fast → Premier 最后;Pulse 最快所以最先),盖在大字之上;大字同时视差下移到卡片下方
        0.55–1.00  Broad Search 面板上升靠近(间距 120 → 12px),大字被盖住并渐隐消失 */
     if (bigword) {
       // 位移全程单调下降(视差):起点比「居中在卡片区」再高 70px,匀速下移到卡片下方的空隙;不再先上升
@@ -74,14 +74,14 @@ export function initTierCardsScroll(): void {
       tl.to(bigword, { opacity: 0, duration: 0.3, ease: 'none' }, 0.7);
     }
 
-    // 卡片:中间 → 右 → 左(Pulse 最后);两侧起始更低,逐次收拢到同一水平线(整体推迟到大字出现之后)
-    tl.fromTo(fast, { y: 72, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 }, 0.3);
-    tl.fromTo(premier, { y: 112, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 }, 0.4);
-    tl.fromTo(pulse, { y: 112, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 }, 0.5);
+    // 卡片:Pulse → Fast → Premier(按速度,Pulse 最快所以最先);起始位置依次更低,逐次收拢到同一水平线(整体推迟到大字出现之后)
+    tl.fromTo(pulse, { y: 72, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 }, 0.3);
+    tl.fromTo(fast, { y: 92, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 }, 0.4);
+    tl.fromTo(premier, { y: 112, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 }, 0.5);
 
     // 卡片内部元素(标签、数字、说明)不再单独做动画:随卡片整体一起出现
 
-    // 指标轴:出现时贴在 Pulse 卡片(最后到位的那张)的底部,与它同步(同起点、同缓动、同位移 112px)上升,
+    // 指标轴:出现时贴在 Premier 卡片(最后到位的那张)的底部,与它同步(同起点、同缓动、同位移 112px)上升,
     // 不再被卡片压在下面;随后回到最终位置(卡片正下方、Broad Search 面板上方)
     if (axis) tl.fromTo(axis, { y: 112 }, { y: 0, duration: 0.4 }, 0.5);
 

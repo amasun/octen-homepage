@@ -1491,3 +1491,12 @@
     left: calc(var(--ws-pad, 0px) + (100% - 2 * var(--ws-pad, 0px) - var(--ws-gap, 6px)) / 2.9 + 29.483px + var(--ws-gap, 6px) / 2) !important;
   }
 }
+
+/* Search by type:六张卡内的嵌套画面区统一高度——以最矮的一张为准(220px),不再按文字行数撑高;多出的空间留给下方文字区 */
+.st-types .st-bt .st-fx-art,
+.st-types .st-bt .st-pm-art { flex: 0 0 auto; height: 220px; min-height: 0; }
+.st-types .st-bt :is(.st-fx-foot, .st-pm-foot) { flex: 1 1 auto; }
+@media (max-width: 640px) {
+  .st-types .st-bt .st-fx-art,
+  .st-types .st-bt .st-pm-art { height: 200px; }
+}
