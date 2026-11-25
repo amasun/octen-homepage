@@ -117,7 +117,7 @@
 .st-axis-card.is-on { transform: translateY(-2px); }
 .st-axis-card:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
 .st-axis-head { display: flex; align-items: center; gap: 7px; }
-.st-axis-card .st-d { background: rgba(255, 255, 255, 0.92); }
+.st-axis-ico { width: 17px; height: 17px; flex: none; display: block; filter: brightness(0) invert(1); opacity: 0.95; }
 .st-axis-head strong { font: 600 15px/1.25 'DM Sans', sans-serif; color: #ffffff; }
 .st-axis-pill,
 .st-axis-pill--default,
