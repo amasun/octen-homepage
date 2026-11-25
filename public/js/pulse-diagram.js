@@ -162,18 +162,25 @@
     setState('thinking');
   }
 
+  var inView = false;
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
-          if (entry.isIntersecting) start();
+          inView = entry.isIntersecting;
+          if (inView && !document.hidden) start();
           else stop();
         });
       },
       { threshold: 0.25 }
     );
     io.observe(tier);
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stop();
+      else if (inView) start();
+    });
   } else {
+    inView = true;
     start();
   }
 })();

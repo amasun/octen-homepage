@@ -8,9 +8,13 @@
   function start() {
     const icons = Array.from(document.querySelectorAll('.octen-spiral-icon'));
     if (!icons.length) return;
+    if (icons[0].closest('[hidden]') || getComputedStyle(icons[0]).display === 'none' || icons[0].offsetParent === null) {
+      return;
+    }
 
     let previousSet = new Set();
     let cycleTimer = null;
+    let inView = true;
 
     function pulseNext() {
       // Clear pulsing state from all icons and boxes
@@ -60,15 +64,36 @@
       }, 900);
     }
 
-    // Faster recurring cycle: every 1.8s
-    cycleTimer = setInterval(pulseNext, 1800);
+    function startShimmer() {
+      if (cycleTimer || !inView || document.hidden) return;
+      pulseNext();
+      cycleTimer = setInterval(pulseNext, 1800);
+    }
 
-    // Initial pulse after short delay
-    setTimeout(pulseNext, 300);
+    function stopShimmer() {
+      if (cycleTimer) {
+        clearInterval(cycleTimer);
+        cycleTimer = null;
+      }
+    }
 
-    window.addEventListener('pagehide', () => {
-      if (cycleTimer) clearInterval(cycleTimer);
+    const hostSection = icons[0].closest('section') || icons[0].parentElement;
+    if ('IntersectionObserver' in window && hostSection) {
+      new IntersectionObserver((entries) => {
+        inView = Boolean(entries[0] && entries[0].isIntersecting);
+        if (inView) startShimmer();
+        else stopShimmer();
+      }, { threshold: 0.05 }).observe(hostSection);
+    } else {
+      startShimmer();
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stopShimmer();
+      else startShimmer();
     });
+
+    window.addEventListener('pagehide', stopShimmer);
   }
 
   if (document.readyState === 'loading') {
@@ -91,6 +116,9 @@
     const track = document.getElementById('octen-video-track');
     const canvas = document.getElementById('octen-audio-waves');
     if (!card || !track || !canvas) return;
+    if (card.closest('[hidden]') || getComputedStyle(card).display === 'none' || card.offsetParent === null) {
+      return;
+    }
 
     // ----------------------------------------------------
     // 1. Dual-Frequency Audio Sine Wave Canvas Simulator
@@ -98,6 +126,7 @@
     const ctx = canvas.getContext('2d');
     let animFrameId = null;
     let waveTime = 0;
+    let isVisible = true;
 
     function resizeCanvas() {
       const rect = canvas.getBoundingClientRect();
@@ -112,6 +141,8 @@
     window.addEventListener('resize', resizeCanvas);
 
     function drawWaves() {
+      animFrameId = null;
+      if (!isVisible || document.hidden) return;
       const w = 716;
       const h = 60;
       ctx.clearRect(0, 0, w, h);
@@ -146,7 +177,18 @@
       animFrameId = requestAnimationFrame(drawWaves);
     }
 
-    animFrameId = requestAnimationFrame(drawWaves);
+    function startWaves() {
+      if (!animFrameId && isVisible && !document.hidden) {
+        animFrameId = requestAnimationFrame(drawWaves);
+      }
+    }
+
+    function stopWaves() {
+      if (animFrameId) {
+        cancelAnimationFrame(animFrameId);
+        animFrameId = null;
+      }
+    }
 
     // ----------------------------------------------------
     // 2. 4-Slide Infinite Rightward State Machine Loop
@@ -270,18 +312,34 @@
       }, 2200);
     }
 
-    // Start running immediately
-    runCycle();
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        isVisible = Boolean(entries[0] && entries[0].isIntersecting);
+        if (isVisible && !document.hidden) {
+          startWaves();
+          clearAllTimeouts();
+          runCycle();
+        } else {
+          stopWaves();
+          clearAllTimeouts();
+        }
+      }, { threshold: 0.05 }).observe(card);
+    } else {
+      startWaves();
+      runCycle();
+    }
 
     window.addEventListener('pagehide', () => {
-      if (animFrameId) cancelAnimationFrame(animFrameId);
+      stopWaves();
       clearAllTimeouts();
     });
 
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
+        stopWaves();
         clearAllTimeouts();
-      } else {
+      } else if (isVisible) {
+        startWaves();
         clearAllTimeouts();
         runCycle();
       }

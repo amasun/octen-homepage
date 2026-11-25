@@ -428,6 +428,7 @@ export function Carousel({
 } = {}) {
   const still = stillness();
 
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const slots = useRef<(HTMLDivElement | null)[]>([]);
   /* ── where the ring is, and it is a REF ──────────────────
      A continuous position in card-steps: 0 puts the first
@@ -474,15 +475,58 @@ export function Carousel({
     if (!spin || still || held) return;
     let id = 0;
     let prev = 0;
+    let inView = true;
+
     const step = (t: number) => {
+      id = 0;
+      if (!inView || document.hidden) return;
       /* N cards over `spin` seconds is one whole revolution */
       if (prev) turn.current += ((t - prev) / 1000) * (N / spin);
       prev = t;
       paint();
       id = requestAnimationFrame(step);
     };
-    id = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(id);
+
+    const startLoop = () => {
+      if (!id && inView && !document.hidden) {
+        prev = 0;
+        id = requestAnimationFrame(step);
+      }
+    };
+
+    const stopLoop = () => {
+      if (id) {
+        cancelAnimationFrame(id);
+        id = 0;
+      }
+      prev = 0;
+    };
+
+    let io: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver === "function" && stageRef.current) {
+      io = new IntersectionObserver(
+        (entries) => {
+          inView = Boolean(entries[0]?.isIntersecting);
+          if (inView) startLoop();
+          else stopLoop();
+        },
+        { threshold: 0.05 },
+      );
+      io.observe(stageRef.current);
+    }
+
+    const onVisChange = () => {
+      if (document.hidden) stopLoop();
+      else startLoop();
+    };
+    document.addEventListener("visibilitychange", onVisChange);
+
+    startLoop();
+    return () => {
+      stopLoop();
+      io?.disconnect();
+      document.removeEventListener("visibilitychange", onVisChange);
+    };
   }, [spin, still, held, paint]);
 
   /* ── the settle ──────────────────────────────────────────
@@ -568,7 +612,7 @@ export function Carousel({
   const r = clamp(corner, 0, 40);
 
   return (
-    <div className="car" style={{ width: STAGE_W, height: STAGE_H }}>
+    <div ref={stageRef} className="car" style={{ width: STAGE_W, height: STAGE_H }}>
       <div
         className="car-track"
         data-held={held}

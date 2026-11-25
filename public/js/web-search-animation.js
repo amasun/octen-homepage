@@ -173,11 +173,21 @@
     /* ---------- 进入视口开始,离开视口重置 ---------- */
     if (typeof IntersectionObserver !== 'function') { loop(); return; }
     var playing = false;
+    var inView = false;
     new IntersectionObserver(function (entries) {
-      var vis = entries[0].isIntersecting;
-      if (vis && !playing) { playing = true; loop(); }
-      else if (!vis && playing) { playing = false; runId++; reset(); }
+      inView = Boolean(entries[0] && entries[0].isIntersecting);
+      if (inView && !document.hidden && !playing) { playing = true; loop(); }
+      else if (!inView && playing) { playing = false; runId++; reset(); }
     }, { threshold: 0.3 }).observe(root);
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) {
+        if (playing) { playing = false; runId++; reset(); }
+      } else if (inView && !playing) {
+        playing = true;
+        loop();
+      }
+    });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });

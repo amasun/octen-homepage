@@ -18,3 +18,12 @@ html.lenis, html.lenis body {
 .lenis.lenis-smooth iframe {
   pointer-events: none;
 }
+
+.is-offscreen *,
+.is-offscreen *::before,
+.is-offscreen *::after,
+html.is-page-hidden *,
+html.is-page-hidden *::before,
+html.is-page-hidden *::after {
+  animation-play-state: paused !important;
+}

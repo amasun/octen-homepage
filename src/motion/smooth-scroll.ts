@@ -33,10 +33,39 @@ function initMotion(): void {
   window.__lenis = lenis;
 
   lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time: number) => {
+  const onTick = (time: number) => {
     lenis.raf(time * 1000);
-  });
+  };
+  gsap.ticker.add(onTick);
   gsap.ticker.lagSmoothing(0);
+
+  document.addEventListener('visibilitychange', () => {
+    const hidden = document.hidden;
+    document.documentElement.classList.toggle('is-page-hidden', hidden);
+    if (hidden) {
+      lenis.stop();
+      gsap.ticker.sleep();
+    } else {
+      gsap.ticker.wake();
+      lenis.start();
+    }
+  });
+
+  if (typeof IntersectionObserver === 'function') {
+    const offscreenIo = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle('is-offscreen', !entry.isIntersecting);
+        });
+      },
+      { rootMargin: '120px 0px', threshold: 0 },
+    );
+    document
+      .querySelectorAll(
+        '#hero, #web-search, #search-tiers, #retrieval-stack, #showcase, #built-to-perform, #pricing, #get-started, #footer',
+      )
+      .forEach((el) => offscreenIo.observe(el));
+  }
 
   // Smooth anchor navigation via Lenis
   document.addEventListener('click', (e: MouseEvent) => {

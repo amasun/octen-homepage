@@ -5,6 +5,7 @@ import { Carousel } from './components/Carousel';
 function mount() {
   const container = document.getElementById('hero-carousel-root');
   if (!container) return;
+  if (container.hidden || getComputedStyle(container).display === 'none') return;
 
   // Prevent multiple mounts
   if (container.dataset.mounted === 'true') return;

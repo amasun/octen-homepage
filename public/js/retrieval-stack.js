@@ -130,15 +130,32 @@
   if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
     measure(); for (var z = 0; z < 40; z++) frame(1200, 40); return;
   }
-  var start = 0, running = false, last = 0;
+  var start = 0, running = false, last = 0, rafId = 0;
   function tick(now) {
-    var on = art.classList.contains('rs-run');
-    if (on && !running) { running = true; start = now; last = now; measure(); reset(); }
-    if (!on && running) { running = false; reset(); }
-    if (running) { frame(now - start, Math.min(now - last, 64)); last = now; }
-    requestAnimationFrame(tick);
+    rafId = 0;
+    if (!art.classList.contains('rs-run') || document.hidden) {
+      if (!art.classList.contains('rs-run') && running) { running = false; reset(); }
+      return;
+    }
+    if (!running) { running = true; start = now; last = now; measure(); reset(); }
+    frame(now - start, Math.min(now - last, 64));
+    last = now;
+    rafId = requestAnimationFrame(tick);
   }
-  requestAnimationFrame(tick);
+  function syncRaf() {
+    var shouldRun = art.classList.contains('rs-run') && !document.hidden;
+    if (shouldRun) {
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    } else {
+      if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+      if (!art.classList.contains('rs-run') && running) { running = false; reset(); }
+    }
+  }
+  if (typeof MutationObserver === 'function') {
+    new MutationObserver(syncRaf).observe(art, { attributes: true, attributeFilter: ['class'] });
+  }
+  document.addEventListener('visibilitychange', syncRaf);
+  syncRaf();
 })();
 
 /**
@@ -154,7 +171,7 @@
   bento.classList.add('rs-js');   // 启用「未播放时隐藏」规则;无 JS 时保持静态完整画面
 
   function Loop(art) {
-    this.art = art; this.ms = +art.getAttribute('data-ms') || 9000; this.timer = null; this.on = false;
+    this.art = art; this.ms = +art.getAttribute('data-ms') || 9000; this.timer = null; this.on = false; this.inView = false;
   }
   Loop.prototype.start = function () {
     var self = this, art = this.art;
@@ -176,15 +193,22 @@
   };
 
   var loops = Array.prototype.map.call(bento.querySelectorAll('.rs-art'), function (a) { return new Loop(a); });
-  if (typeof IntersectionObserver !== 'function') { loops.forEach(function (l) { l.start(); }); return; }
+  if (typeof IntersectionObserver !== 'function') { loops.forEach(function (l) { l.inView = true; l.start(); }); return; }
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       var loop = loops.filter(function (l) { return l.art === e.target; })[0];
       if (!loop) return;
-      e.isIntersecting ? loop.start() : loop.stop();
+      loop.inView = e.isIntersecting;
+      (e.isIntersecting && !document.hidden) ? loop.start() : loop.stop();
     });
   }, { threshold: 0.35 });
   loops.forEach(function (l) { io.observe(l.art); });
+  document.addEventListener('visibilitychange', function () {
+    loops.forEach(function (l) {
+      if (document.hidden) l.stop();
+      else if (l.inView) l.start();
+    });
+  });
 })();
 
 /**

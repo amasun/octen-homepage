@@ -12,6 +12,9 @@ import { initStepControls } from './engine/step-controls.js';
 import { initFinancialsChartHover } from './render/card-templates.js';
 
 (function init() {
+  const section = document.getElementById('vertical-search');
+  if (!section || section.hidden || getComputedStyle(section).display === 'none') return;
+
   // Preload subject covers in background
   preloadCovers();
 

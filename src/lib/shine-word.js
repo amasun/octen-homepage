@@ -140,6 +140,7 @@ export class ShineWord {
   constructor(host, { words, holdMs = 700, baseOpacity = 1, palettes = PALETTES, baseGradient = null, initialDelay = 0, loopPause = 0 }) {
     this.host = host; this.words = words; this.holdMs = holdMs; this.palettes = palettes; this.baseGradient = baseGradient; this.baseOpacity = baseOpacity; this.initialDelay = initialDelay; this.loopPause = loopPause; this.started = false;
     this.index = 0; this.glyphs = []; this.state = 'idle'; this.t0 = 0; this.dead = false;
+    this.raf = 0; this.pausedAt = 0; this.switchTimer = null;
 
     // DOM:sizer(不可见,撑开宽度并提供测量) + canvas(实际绘制)
     host.classList.add('shine-word');
@@ -154,12 +155,21 @@ export class ShineWord {
     this.reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (this.reduced || !this.#initRenderer()) { host.classList.add('shine-word--fallback'); host.classList.remove('shine-word--collapsed'); host.style.width = ''; return; }
 
-    this.io = new IntersectionObserver(([e]) => (this.visible = e.isIntersecting), { threshold: 0.1 });
+    this.io = new IntersectionObserver(([e]) => {
+      this.visible = Boolean(e && e.isIntersecting);
+      if (this.visible) this.#startLoop();
+      else this.#stopLoop();
+    }, { threshold: 0.1 });
     this.io.observe(host);
     this.visible = true;
+    this.onVisChange = () => {
+      if (document.hidden) this.#stopLoop();
+      else this.#startLoop();
+    };
+    document.addEventListener('visibilitychange', this.onVisChange);
     if (initialDelay > 0) { host.style.width = '0px'; host.classList.add('shine-word--collapsed'); }   // 初始收起,前文居中
     (document.fonts?.ready ?? Promise.resolve()).then(() => this.#start());
-    this.raf = requestAnimationFrame(this.#tick);
+    this.#startLoop();
 
     // 字号随视口变化(clamp/vw)时重新烘焙
     let timer;
@@ -183,8 +193,30 @@ export class ShineWord {
   }
 
   destroy() {
-    this.dead = true; cancelAnimationFrame(this.raf); this.io?.disconnect(); removeEventListener('resize', this.onResize);
+    this.dead = true;
+    this.#stopLoop();
+    clearTimeout(this.switchTimer);
+    this.io?.disconnect();
+    removeEventListener('resize', this.onResize);
+    if (this.onVisChange) document.removeEventListener('visibilitychange', this.onVisChange);
     this.#disposeGlyphs(); this.renderer?.dispose();
+  }
+
+  #startLoop() {
+    if (this.dead || !this.visible || document.hidden || this.raf) return;
+    if (this.pausedAt) {
+      this.t0 += performance.now() - this.pausedAt;
+      this.pausedAt = 0;
+    }
+    this.raf = requestAnimationFrame(this.#tick);
+  }
+
+  #stopLoop() {
+    if (this.raf) {
+      cancelAnimationFrame(this.raf);
+      this.raf = 0;
+    }
+    if (!this.pausedAt) this.pausedAt = performance.now();
   }
 
   /* ───── 渲染器 + bloom 管线 ───── */
@@ -209,7 +241,7 @@ export class ShineWord {
     const box = this.sizer.getBoundingClientRect();
     const fontSize = parseFloat(cs.fontSize) || box.height;
     const lineH = parseFloat(cs.lineHeight) || box.height;
-    const pr = Math.min(devicePixelRatio || 1, 3);
+    const pr = Math.min(devicePixelRatio || 1, 2);
     const W = Math.ceil(box.width + PAD * 2), H = Math.ceil(box.height + PAD * 2);
     this.W = W; this.H = H; this.fontSize = fontSize;
     if (!this.host.style.width) this.host.style.width = box.width + 'px';   // 先固定一次宽度,之后的变化才有 CSS 过渡
@@ -244,7 +276,7 @@ export class ShineWord {
         g.scale(pr, pr); g.font = m.font; g.fillStyle = '#fff'; g.textBaseline = 'alphabetic';
         g.fillText(ch, GLYPH_PAD, GLYPH_PAD + (lineH - asc - desc) / 2 + asc);
         const tex = new THREE.CanvasTexture(c);
-        tex.colorSpace = THREE.SRGBColorSpace; tex.generateMipmaps = true; tex.minFilter = THREE.LinearMipmapLinearFilter; tex.needsUpdate = true;
+        tex.colorSpace = THREE.SRGBColorSpace; tex.generateMipmaps = false; tex.minFilter = THREE.LinearFilter; tex.needsUpdate = true;
 
         const geo = new THREE.PlaneGeometry(pw, ph);
         const mat = new THREE.ShaderMaterial({
@@ -267,7 +299,8 @@ export class ShineWord {
     this.enterDur = Math.max(0, ...this.glyphs.map((g) => g.delay)) + ENTER_MS;
     this.exitDur = Math.max(0, ...this.glyphs.map((g) => g.delay)) + EXIT_MS;
 
-    this.state = 'enter'; this.t0 = performance.now();
+    this.state = 'enter'; this.t0 = performance.now(); this.pausedAt = 0;
+    this.#startLoop();
   }
 
   #disposeGlyphs() {
@@ -277,9 +310,12 @@ export class ShineWord {
 
   /* ───── 主循环:enter → shine → hold → exit → 切词 ───── */
   #tick = (now) => {
-    if (this.dead) return;
-    this.raf = requestAnimationFrame(this.#tick);
-    if (!this.visible || document.hidden || !this.glyphs.length) return;
+    this.raf = 0;
+    if (this.dead || !this.visible || document.hidden) return;
+    if (!this.glyphs.length) {
+      this.raf = requestAnimationFrame(this.#tick);
+      return;
+    }
     const t = now - this.t0;
 
     if (this.state === 'enter' || this.state === 'hold') {
@@ -295,18 +331,20 @@ export class ShineWord {
           // 一轮结束:槽位收起,回到只剩前文居中的「干净」状态,停留 loopPause 后再开始下一轮
           this.host.style.width = '0px';
           this.host.classList.add('shine-word--collapsed');
-          setTimeout(() => {
+          this.switchTimer = setTimeout(() => {
             if (this.dead) return;
             this.host.style.width = this.sizer.getBoundingClientRect().width + 'px';
             this.host.classList.remove('shine-word--collapsed');
-            setTimeout(() => !this.dead && this.#showWord(), 250);
+            this.switchTimer = setTimeout(() => !this.dead && this.#showWord(), 250);
           }, this.loopPause);
         } else {
           this.host.style.width = this.sizer.getBoundingClientRect().width + 'px';  // CSS transition 负责宽度过渡
-          setTimeout(() => !this.dead && this.#showWord(), 250);
+          this.switchTimer = setTimeout(() => !this.dead && this.#showWord(), 250);
         }
+        return;
       }
     }
+    this.raf = requestAnimationFrame(this.#tick);
   };
 
   #frame(phase, t) {

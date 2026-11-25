@@ -53,6 +53,10 @@
     }
   }
   var qi = 0, timer = null, running = false;
+  var rootInView = false, pmInView = false, fxOn = false, fxHover = false, scaleOn = false;
+  var fxStop = function () {}, fxTick = function () {};
+  var startScaleWave = function () {}, stopScaleWave = function () {};
+  var hideCursor = function () {};
 
   function highlight(dom) {
     cards.forEach(function (c) { c.classList.toggle('is-hl', c.getAttribute('data-dom') === dom); });
@@ -80,16 +84,40 @@
 
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (es) {
-      es.forEach(function (e) { root.classList.toggle('is-inview', e.isIntersecting); });
+      es.forEach(function (e) {
+        rootInView = e.isIntersecting;
+        root.classList.toggle('is-inview', rootInView && !document.hidden);
+        if (!rootInView) hideCursor();
+      });
     }, { threshold: 0.2 }).observe(root);
     var grid = root.querySelector('.st-pm-grid');
     if (grid) new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) start(); else stop(); });
+      es.forEach(function (e) {
+        pmInView = e.isIntersecting;
+        if (pmInView && !document.hidden) start(); else stop();
+      });
     }, { threshold: 0.35 }).observe(grid);
   } else {
+    rootInView = true;
+    pmInView = true;
     root.classList.add('is-inview');
     start();
   }
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      root.classList.remove('is-inview');
+      stop();
+      fxStop();
+      stopScaleWave();
+      hideCursor();
+    } else {
+      if (rootInView) root.classList.add('is-inview');
+      if (pmInView) start();
+      if (fxOn && !fxHover) { clearTimeout(fxTimer); fxTick(); }
+      if (scaleOn) startScaleWave();
+    }
+  });
 
   /* ---------- Fast API 卡片:进入视口后逐个轮流高亮 Web → Broad → Image → Video → Sense(.is-hl 与 :hover 样式一致),
      悬停网格时暂停轮播、交给鼠标;离开视口停止 ---------- */
@@ -109,7 +137,7 @@
       }
     }
     var fxDotTimer = null;
-    var fxI = 0, fxTimer = null, fxOn = false, fxHover = false;
+    var fxI = 0, fxTimer = null;
 
     var clearDots = function () {
       if (fxDotTimer) { clearInterval(fxDotTimer); fxDotTimer = null; }
@@ -153,8 +181,8 @@
       if (!fxHover) syncVideo(el === fxVideoCard);
     };
 
-    var fxTick = function () {
-      if (!fxOn || fxHover || !fxCards.length) return;
+    fxTick = function () {
+      if (!fxOn || fxHover || document.hidden || !fxCards.length) return;
       var activeCard = fxCards[fxI];
       fxSet(activeCard);
       var dur = fxDurations[activeCard.getAttribute('data-fx')] || 2400;
@@ -162,7 +190,7 @@
       fxTimer = setTimeout(fxTick, dur);
     };
 
-    var fxStop = function () {
+    fxStop = function () {
       clearTimeout(fxTimer);
       fxSet(null);
       syncVideo(false);
@@ -190,7 +218,7 @@
     new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         fxOn = e.isIntersecting;
-        if (fxOn) { clearTimeout(fxTimer); fxTick(); } else fxStop();
+        if (fxOn && !document.hidden) { clearTimeout(fxTimer); fxTick(); } else fxStop();
       });
     }, { threshold: 0.4 }).observe(fxGrid);
   }
@@ -274,8 +302,8 @@
   var scaleMs = root.querySelector('[data-scale-ms]');
   if (scaleBar && scalePath && scaleDot && scaleMs && !reduce) {
     var scaleRaf = null;
-    var scaleOn = false;
     var lastMsUpdate = 0;
+    var lastWaveDraw = 0;
 
     var sampleWave = function (x, t) {
       var w1 = Math.sin(x * 0.042 - t * 2.1) * 0.55;
@@ -285,7 +313,13 @@
     };
 
     var drawWave = function (now) {
-      if (!scaleOn) return;
+      scaleRaf = null;
+      if (!scaleOn || document.hidden) return;
+      if (now - lastWaveDraw < 33) {
+        scaleRaf = requestAnimationFrame(drawWave);
+        return;
+      }
+      lastWaveDraw = now;
       var t = now * 0.001;
       var d = '';
       var tipY = 9;
@@ -316,19 +350,102 @@
       scaleRaf = requestAnimationFrame(drawWave);
     };
 
+    startScaleWave = function () {
+      if (!scaleRaf && scaleOn && !document.hidden) {
+        scaleRaf = requestAnimationFrame(drawWave);
+      }
+    };
+    stopScaleWave = function () {
+      if (scaleRaf) {
+        cancelAnimationFrame(scaleRaf);
+        scaleRaf = null;
+      }
+    };
+
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (es) {
         scaleOn = Boolean(es[0] && es[0].isIntersecting);
-        if (scaleOn) {
-          if (!scaleRaf) scaleRaf = requestAnimationFrame(drawWave);
-        } else if (scaleRaf) {
-          cancelAnimationFrame(scaleRaf);
-          scaleRaf = null;
-        }
+        if (scaleOn) startScaleWave();
+        else stopScaleWave();
       }, { threshold: 0.2 }).observe(scaleBar);
     } else {
       scaleOn = true;
-      scaleRaf = requestAnimationFrame(drawWave);
+      startScaleWave();
     }
+  }
+
+  /* ---------- 三档主卡片原生鼠标旁跟随档位标签（当前已隐藏） ---------- */
+  var ENABLE_TIER_CURSOR = false;
+  var finePointer = ENABLE_TIER_CURSOR && window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (finePointer) {
+    var TIER_LABELS = {
+      pulse: 'Pulse Search',
+      fast: 'Fast Search',
+      premier: 'Premier Search'
+    };
+
+    var cursorEl = document.createElement('div');
+    cursorEl.className = 'st-tier-cursor';
+    cursorEl.setAttribute('aria-hidden', 'true');
+    cursorEl.innerHTML =
+      '<div class="st-tier-cursor-inner">' +
+        '<span class="st-tier-cursor-tag"></span>' +
+      '</div>';
+    document.body.appendChild(cursorEl);
+
+    var tagEl = cursorEl.querySelector('.st-tier-cursor-tag');
+    var lastX = -999;
+    var lastY = -999;
+    var activeTier = '';
+
+    function updateCursorTarget(el) {
+      var card = el && typeof el.closest === 'function' ? el.closest('#search-tiers .st-card[data-tier]') : null;
+      var tier = card ? card.getAttribute('data-tier') : '';
+      if (tier && TIER_LABELS[tier]) {
+        if (activeTier !== tier) {
+          activeTier = tier;
+          cursorEl.setAttribute('data-tier', tier);
+          tagEl.textContent = TIER_LABELS[tier];
+        }
+        cursorEl.classList.add('is-on');
+      } else {
+        activeTier = '';
+        cursorEl.classList.remove('is-on', 'is-down');
+      }
+    }
+
+    hideCursor = function () {
+      activeTier = '';
+      cursorEl.classList.remove('is-on', 'is-down');
+    };
+
+    window.addEventListener('mousemove', function (e) {
+      lastX = e.clientX;
+      lastY = e.clientY;
+      if (!rootInView || document.hidden) {
+        if (activeTier) hideCursor();
+        return;
+      }
+      cursorEl.style.transform = 'translate3d(' + lastX + 'px, ' + lastY + 'px, 0)';
+      updateCursorTarget(e.target);
+    }, { passive: true });
+
+    window.addEventListener('mousedown', function () {
+      if (activeTier) cursorEl.classList.add('is-down');
+    }, { passive: true });
+
+    window.addEventListener('mouseup', function () {
+      cursorEl.classList.remove('is-down');
+    }, { passive: true });
+
+    document.documentElement.addEventListener('mouseleave', hideCursor);
+    window.addEventListener('blur', hideCursor);
+    window.addEventListener('scroll', function () {
+      if (!rootInView || document.hidden || lastX < 0 || lastY < 0) {
+        if (activeTier) hideCursor();
+        return;
+      }
+      updateCursorTarget(document.elementFromPoint(lastX, lastY));
+    }, { passive: true });
   }
 })();

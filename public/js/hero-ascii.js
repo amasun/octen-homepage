@@ -58,8 +58,10 @@
     return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
   }
 
-  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
   var W = 0, H = 0, cw = 0, rh = 0, cols = 0, rows = 0, originX = 0, originY = 0, wl = WAVE_LEN;
+  var buckets = [];
+  for (var bk = 0; bk < BUCKETS; bk++) buckets.push([]);
 
   function resize() {
     var w = host.clientWidth;
@@ -88,8 +90,7 @@
   function draw(now) {
     ctx.clearRect(0, 0, W, H);
     var tt = now / 1000, imgH = W * IMG_ASPECT;
-    var buckets = [];
-    for (var k = 0; k < BUCKETS; k++) buckets.push([]);
+    for (var k = 0; k < BUCKETS; k++) buckets[k].length = 0;
 
     for (var r = 0; r < rows; r++) {
       var y = r * rh;
@@ -130,11 +131,23 @@
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var visible = true, last = 0, raf = 0;
   function loop(now) {
-    raf = requestAnimationFrame(loop);
+    raf = 0;
     if (!visible || document.hidden) return;
-    if (now - last < 1000 / FPS) return;
-    last = now;
-    draw(now);
+    if (!last || now - last >= 1000 / FPS) {
+      last = now;
+      draw(now);
+    }
+    raf = requestAnimationFrame(loop);
+  }
+  function startLoop() {
+    if (reduce || !visible || document.hidden || raf) return;
+    raf = requestAnimationFrame(loop);
+  }
+  function stopLoop() {
+    if (raf) {
+      cancelAnimationFrame(raf);
+      raf = 0;
+    }
   }
 
   if (typeof ResizeObserver === 'function') new ResizeObserver(resize).observe(host);
@@ -142,8 +155,18 @@
   resize();
 
   if (!reduce) {
-    if (typeof IntersectionObserver === 'function') new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(host);
+    if (typeof IntersectionObserver === 'function') {
+      new IntersectionObserver(function (e) {
+        visible = Boolean(e[0] && e[0].isIntersecting);
+        if (visible) startLoop();
+        else stopLoop();
+      }).observe(host);
+    }
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stopLoop();
+      else startLoop();
+    });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(resize);
-    raf = requestAnimationFrame(loop);
+    startLoop();
   }
 })();

@@ -217,13 +217,17 @@
 
     var targetMouse = { x: 0.5, y: 0.5 };
     var smoothMouse = { x: 0.5, y: 0.5 };
+    var cachedWidth = 1;
+    var cachedHeight = 1;
     var isVisible = true;
     var rafId = null;
 
     function updateSize() {
-      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var dpr = Math.min(window.devicePixelRatio || 1, 1.25);
       var w = container.clientWidth || 1;
       var h = container.clientHeight || 1;
+      cachedWidth = w;
+      cachedHeight = h;
       var pw = Math.max(1, Math.round(w * dpr));
       var ph = Math.max(1, Math.round(h * dpr));
       if (canvas.width !== pw || canvas.height !== ph) {
@@ -248,10 +252,8 @@
     }
 
     function tick(now) {
-      if (!isVisible) {
-        rafId = null;
-        return;
-      }
+      rafId = null;
+      if (!isVisible || document.hidden) return;
       renderFrame(now * 0.001);
       rafId = requestAnimationFrame(tick);
     }
@@ -261,7 +263,7 @@
         renderFrame(1.0);
         return;
       }
-      if (rafId === null && isVisible) {
+      if (rafId === null && isVisible && !document.hidden) {
         rafId = requestAnimationFrame(tick);
       }
     }
@@ -290,11 +292,9 @@
     window.addEventListener(
       'mousemove',
       function (e) {
-        var rect = container.getBoundingClientRect();
-        if (rect.width > 0 && rect.height > 0) {
-          targetMouse.x = (e.clientX - rect.left) / rect.width;
-          targetMouse.y = (e.clientY - rect.top) / rect.height;
-        }
+        if (!isVisible || document.hidden) return;
+        targetMouse.x = e.clientX / cachedWidth;
+        targetMouse.y = e.clientY / cachedHeight;
       },
       { passive: true }
     );
@@ -312,6 +312,14 @@
         { threshold: 0.01 }
       ).observe(container);
     }
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) {
+        stopLoop();
+      } else {
+        startLoop();
+      }
+    });
 
     startLoop();
   }

@@ -48,7 +48,7 @@
 
 .st-fly--pulse {
   right: calc(100% + 24px); top: 4px;
-  background: linear-gradient(135deg, #2ce494 0%, #16b673 55%, #0e945c 100%);
+  background: linear-gradient(90deg, #3DB47F 0%, #039855 100%);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38), inset 0 -2px 4px rgba(0, 0, 0, 0.14), 0 12px 26px -6px rgba(22, 182, 115, 0.45);
   transform: translate(56px, 4px) scale(0.72) perspective(420px) rotateY(32deg) rotateX(12deg) rotateZ(-12deg);
 }
@@ -566,7 +566,7 @@
   font: 600 12.5px/1 'DM Sans', sans-serif; letter-spacing: 0.01em; text-transform: none; color: #ffffff;
 }
 .st-card--pulse .st-eyebrow {
-  background: linear-gradient(135deg, #2ce494 0%, #16b673 55%, #0e945c 100%);
+  background: linear-gradient(90deg, #3DB47F 0%, #039855 100%);
 }
 .st-card--fast .st-eyebrow {
   background: linear-gradient(135deg, #4b4b52 0%, #1e1e22 55%, #09090b 100%);
@@ -618,3 +618,55 @@
 .st-pm.is-dark:is(:hover, .is-hl) { border-color: #2c3240; box-shadow: 0 22px 44px -26px rgba(0, 0, 0, .6); }
 .st-pm--web:hover .pm-web-q span { background: rgba(209, 172, 98, .22); }
 @media (prefers-reduced-motion: reduce) { .st-pm:hover { transform: none; } }
+
+/* ---------- 三档主卡片原生鼠标旁跟随档位标签(2026-11-25) ---------- */
+.st-tier-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+  transition: opacity 0.16s ease;
+}
+.st-tier-cursor.is-on { opacity: 1; }
+
+.st-tier-cursor-inner {
+  position: relative;
+  transform: scale(0.92);
+  transform-origin: 0 0;
+  transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.st-tier-cursor.is-on .st-tier-cursor-inner { transform: scale(1); }
+.st-tier-cursor.is-on.is-down .st-tier-cursor-inner { transform: scale(0.94); }
+
+.st-tier-cursor-tag {
+  position: absolute;
+  left: 16px;
+  top: 18px;
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 7px;
+  font: 600 11.5px/1 'DM Sans', sans-serif;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.24);
+}
+.st-tier-cursor[data-tier="pulse"] .st-tier-cursor-tag {
+  background: linear-gradient(90deg, #3DB47F 0%, #039855 100%);
+}
+.st-tier-cursor[data-tier="fast"] .st-tier-cursor-tag {
+  background: linear-gradient(135deg, #4b4b52 0%, #1e1e22 55%, #09090b 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+.st-tier-cursor[data-tier="premier"] .st-tier-cursor-tag {
+  background: linear-gradient(135deg, #e7c873 0%, #b8913f 58%, #967128 100%);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .st-tier-cursor { display: none !important; }
+}
