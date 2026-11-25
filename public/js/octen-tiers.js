@@ -457,3 +457,118 @@
     }, { passive: true });
   }
 })();
+
+/* Sense 卡片:跟随鼠标的微弱立体倾斜(最大 ±2.2°)+ 背景点阵拖尾:鼠标经过的点依次点亮(放大、变亮),随后逐渐褪去,形成拖尾;
+   触屏 / 减少动画偏好下不启用 */
+(function () {
+  var card = document.querySelector('#tier-sense');
+  if (!card) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  /* ---- 倾斜 ---- */
+  var MAX = 2.2, tx = 0, ty = 0, cx = 0, cy = 0, tiltRaf = 0;
+  function tiltFrame() {
+    cx += (tx - cx) * 0.14;
+    cy += (ty - cy) * 0.14;
+    card.style.setProperty('--st-rx', cx.toFixed(3) + 'deg');
+    card.style.setProperty('--st-ry', cy.toFixed(3) + 'deg');
+    if (Math.abs(tx - cx) > 0.004 || Math.abs(ty - cy) > 0.004) tiltRaf = requestAnimationFrame(tiltFrame);
+    else tiltRaf = 0;
+  }
+  function tiltKick() { if (!tiltRaf) tiltRaf = requestAnimationFrame(tiltFrame); }
+
+  /* ---- 点阵拖尾(画布):与 CSS 底层点阵同一网格(12px,圆心在格子中心) ---- */
+  var STEP = 12, REACH = 52, DECAY = 0.94, TURB = 5;   // 点阵间距 12px(与 CSS 底层点阵一致);TURB = 尾部湍流的最大位移(px)
+  var canvas = document.createElement('canvas');
+  canvas.className = 'st-dots-canvas';
+  canvas.setAttribute('aria-hidden', 'true');
+  card.insertBefore(canvas, card.firstChild);
+  var ctx = canvas.getContext('2d');
+  var W = 0, H = 0, cols = 0, rows = 0, level = null, dotRaf = 0, lastX = null, lastY = null;
+  function resize() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = card.offsetWidth; H = card.offsetHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cols = Math.ceil(W / STEP); rows = Math.ceil(H / STEP);
+    level = new Float32Array(cols * rows);
+  }
+  resize();
+  if ('ResizeObserver' in window) new ResizeObserver(resize).observe(card);
+
+  function stamp(px, py) {   // 以 (px,py) 为圆心点亮周围的点(强度随距离衰减,取较大值,所以划过的路径上的点都会被点亮)
+    var c0 = Math.max(0, Math.floor((px - REACH) / STEP)), c1 = Math.min(cols - 1, Math.ceil((px + REACH) / STEP));
+    var r0 = Math.max(0, Math.floor((py - REACH) / STEP)), r1 = Math.min(rows - 1, Math.ceil((py + REACH) / STEP));
+    for (var r = r0; r <= r1; r++) {
+      for (var c = c0; c <= c1; c++) {
+        var d = Math.hypot(c * STEP + STEP / 2 - px, r * STEP + STEP / 2 - py);
+        if (d >= REACH) continue;
+        var v = 1 - d / REACH;
+        v = v * v * (3 - 2 * v);
+        var i = r * cols + c;
+        if (v > level[i]) level[i] = v;
+      }
+    }
+  }
+  function dotFrame(now) {
+    ctx.clearRect(0, 0, W, H);
+    var alive = false, t = now || performance.now();
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        var i = r * cols + c, v = level[i];
+        if (v < 0.015) { level[i] = 0; continue; }
+        alive = true;
+        // 尾部湍流:亮度越低(越靠近尾部)位移越大,位移方向由随位置 / 时间变化的伪噪声决定,点在褪去时像被气流卷走
+        var tail = 1 - v, amp = TURB * tail * tail;
+        var nx = Math.sin(c * 0.83 + r * 0.41 + t * 0.0031) * Math.cos(r * 0.97 - c * 0.29 + t * 0.0023);
+        var ny = Math.cos(c * 0.57 - r * 0.88 + t * 0.0027) * Math.sin(r * 0.62 + c * 0.35 - t * 0.0035);
+        ctx.fillStyle = 'rgba(255,255,255,' + (0.62 * v).toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.arc(c * STEP + STEP / 2 + nx * amp, r * STEP + STEP / 2 + ny * amp, 0.75 + 0.7 * v, 0, 6.2832);
+        ctx.fill();
+        level[i] = v * DECAY;
+      }
+    }
+    dotRaf = alive ? requestAnimationFrame(dotFrame) : 0;
+  }
+  function dotKick() { if (!dotRaf) dotRaf = requestAnimationFrame(dotFrame); }
+
+  card.addEventListener('pointermove', function (e) {
+    var r = card.getBoundingClientRect();
+    var x = e.clientX - r.left, y = e.clientY - r.top;
+    ty = (x / r.width - 0.5) * 2 * MAX;     // 鼠标在右 → 右侧远离(rotateY 为正)
+    tx = -(y / r.height - 0.5) * 2 * MAX;   // 鼠标在上 → 上侧远离(rotateX 为正)
+    pTx = (x / r.width - 0.5) * 2; pTy = (y / r.height - 0.5) * 2;   // -1 ~ 1
+    parKick();
+    card.classList.add('is-tilting');
+    tiltKick();
+    // 在上一个指针位置到当前位置之间补点,快速移动时轨迹也连续
+    if (lastX !== null) {
+      var dist = Math.hypot(x - lastX, y - lastY), n = Math.max(1, Math.ceil(dist / (STEP * 0.8)));
+      for (var k = 1; k <= n; k++) stamp(lastX + (x - lastX) * k / n, lastY + (y - lastY) * k / n);
+    } else stamp(x, y);
+    lastX = x; lastY = y;
+    dotKick();
+  });
+
+  /* ---- 右侧图形视差:各卡片按「远近」系数随鼠标反向位移(近的动得多、远的动得少),连线起点同步贴着卡片边缘 ---- */
+  var DEPTH = { '.sv-video': 10, '.sv-news': 7, '.sv-img': 15, '.sv-biz': 6, '.sv-place': 6, '.sv-chart': 9, '.sv-text': 12, '.sv-web': 9, '.sv-code': 13, '.sv-center': -4 };
+  var parNodes = Object.keys(DEPTH).map(function (sel) { return { el: card.querySelector('.sense-viz ' + sel), d: DEPTH[sel] }; }).filter(function (n) { return n.el; });
+  var pTx = 0, pTy = 0, pCx = 0, pCy = 0, parRaf = 0;
+  function parFrame() {
+    pCx += (pTx - pCx) * 0.08;
+    pCy += (pTy - pCy) * 0.08;
+    for (var i = 0; i < parNodes.length; i++) {
+      parNodes[i].el.style.translate = (-pCx * parNodes[i].d).toFixed(2) + 'px ' + (-pCy * parNodes[i].d).toFixed(2) + 'px';
+    }
+    if (window.__senseRebuildLines) window.__senseRebuildLines();
+    if (Math.abs(pTx - pCx) > 0.002 || Math.abs(pTy - pCy) > 0.002) parRaf = requestAnimationFrame(parFrame);
+    else parRaf = 0;
+  }
+  function parKick() { if (!parRaf) parRaf = requestAnimationFrame(parFrame); }
+  card.addEventListener('pointerleave', function () {
+    tx = 0; ty = 0; lastX = null; lastY = null; pTx = 0; pTy = 0; parKick();
+    card.classList.remove('is-tilting');
+    tiltKick();
+  });
+})();

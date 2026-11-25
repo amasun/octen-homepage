@@ -25,5 +25,18 @@
   #pricing > .py-25 { padding-top: 120px !important; padding-bottom: 120px !important; }
 
   /* Get started:上方 Pricing 同为白色 → 上 0;下方 Footer #080B12 不同色(Footer 内容距顶 45px,保留 74 + 1 + 45 = 120) */
-  #get-started > .py-25 { padding-top: 0 !important; padding-bottom: 74px !important; }
+  /* (已改为灰底,与上方 Pricing 不同色 → 上 120(含 1px 上边线:119 + 1);下方 Footer 不变) */
+  #get-started > .py-25 { padding-top: 119px !important; padding-bottom: 74px !important; }
+}
+
+/* ==========================================================================
+   各模块「标题区 → 自己的内容」间距统一为 56px(桌面;以 Search tiers / Octen tools 现值为准)
+   标题区底边到第一个内容元素(卡片等)顶边 = 56px
+   ========================================================================== */
+@media (min-width: 1025px) {
+  .st-head, .rs-head { margin-bottom: 56px !important; }
+  .sc-head { margin-bottom: 52px !important; }   /* 轨道自带 4px 上内边距(给卡片 hover 上浮留位),52 + 4 = 56 */
+  .gs-head { margin-bottom: 56px !important; }
+  #pricing .py-25 > .flex.flex-col { margin-bottom: 56px !important; }
+  #built-to-perform .bpt-heading { margin-bottom: 56px !important; }
 }

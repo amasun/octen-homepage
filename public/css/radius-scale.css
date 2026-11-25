@@ -1,0 +1,66 @@
+/* ==========================================================================
+   圆角统一刻度(偶数阶梯,中和原则:相近的值并到中间值)
+     4px   极小标签 / 角标
+     6px   小图标块 / 小标签
+     8px   内层元素 / 按钮 / 缩略图(嵌套内卡 = 外层 − 内边距,保持同心)
+     12px  所有外层卡片 / 面板(原来 8 与 16 混用,取中间值)
+     999px 胶囊(不变)
+   最后加载,覆盖各模块自己的值。Hero / Web Search 深色控制台、Broad 对比图内部的同心圆角体系不动。
+   ========================================================================== */
+
+/* ---- 12px:外层卡片 / 面板 ---- */
+.st-tier-card,
+#web-search.st-bs,
+.st-types .st-bt,
+.rs-bento,
+.rs-model-card,
+.sc-app,
+.bpt-card,
+.bpt-panel .bpr-card,
+.gs-step-card,
+.gs-integrations,
+.sp-card,
+.sp-card-shell--popular,
+.sp-alt-card,
+.sp-guide-card,
+.promo-card { border-radius: 12px; }
+
+/* Octen tools 的 2×2 Bento 各单元格(retrieval-stack.css 末尾按 16px 单独定义) */
+article.rs-cell,
+article.rs-cell:nth-of-type(n) { border-radius: 12px; }
+
+/* ---- 嵌套内卡:同心 = 外层 12 − 内边距 4 = 8 ---- */
+.sc-banner { border-radius: 8px; }
+.sc-icon { border-radius: 8px; }
+
+/* ---- 8px ---- */
+.fx-img-card,
+.st-types .st-bt--image .fx-img-card,
+.sp-alt-icon { border-radius: 8px; }
+
+/* ---- 6px ---- */
+.rs-prod-ico { border-radius: 6px; }
+
+/* ---- 4px ---- */
+.rs-model-tag,
+.fx-ts { border-radius: 4px; }
+
+/* ---- 胶囊:24 / 19.5 高 30 的标签本来就是胶囊,统一为 999px ---- */
+.octen-glass-tag,
+.start-building-tag,
+.built-perf-tag { border-radius: 999px !important; }   /* octen-tags.css 以 !important 定义了 24px / 19.46px */
+
+/* ---- Search by type 各插画里的内部元素:并到相邻的偶数档 ---- */
+.st-types .st-pm-art,
+.st-types .pm-biz-logo,
+.st-types .pm-dupe,
+.st-types .pm-news-card,
+.st-types .pm-biz,
+.st-types .pm-place,
+.rs-model-icon { border-radius: 8px; }
+.st-types .pm-hero { border-radius: 4px; }
+.st-types .pm-frame { border-radius: 6px; }
+.st-types .pm-frame--app { border-radius: 12px; }
+
+/* Octen tools 单元格内的插画小卡 */
+.rs-card { border-radius: 8px; }

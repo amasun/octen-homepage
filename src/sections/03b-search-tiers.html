@@ -1,6 +1,6 @@
 <!-- ================= SECTION 3b: OCTEN SEARCH → three tiers (Pulse / Fast / Premier) =================
   内容来源:references/octen-homepage-hifi.html 第 ② 模块,文字提取见 references/octen-search-tiers.md
-  结构:标题区 → 速度/质量轴 + 紧凑三档定位条 → Bento(Pulse | Fast / Premier 通栏 / Sense 通栏)→ 底部选型引导条(Plan C:Sense 独立成段)
+  结构:标题区 → 速度/质量轴 + 紧凑三档定位条 → Bento(Pulse | Fast / Premier 通栏 / Sense 通栏)(Plan C:Sense 独立成段;底部选型引导条已去掉)
   交互(public/js/octen-tiers.js):概览联动高亮;进入视口加 .is-inview。Premier 为 5 张可视化产品卡(News / Business / Place / Design / Web Premier),悬停微动效为纯 CSS
   样式:public/css/octen-tiers.css。白底,上接 Web Search(深底,上 120)、下接 Octen tools and models(同为白底,合计 120)
   Premier 卡片示例数据均为虚构;本模块不展示价格/费用信息
@@ -11,7 +11,7 @@
   <div class="st-head">
     <span class="st-head-pill" data-copy-anchor="#search-tiers">Search products</span>
     <h2 id="stTitle" class="font-serif text-gray-900 text-5xl lg:text-[44px]">Three tiers of search, one key</h2>
-    <p class="st-head-sub">Switch freely between Pulse (~10 ms), Fast (live web) and Premier (highest quality), then go beyond text with Sense. Every call is tuned to the speed and depth your AI app needs.</p>
+    <p class="st-head-sub"><span class="st-sub-line">Switch freely between Pulse (~10 ms), Fast (live web) and Premier (highest quality), then go beyond text with Sense.</span> <span class="st-sub-line">Every call is tuned to the speed and depth your AI app needs.</span></p>
   </div>
 
   <div class="st-wrap" id="stTiers" data-active="">
@@ -31,8 +31,6 @@
           </div>
         </button>
 
-        <span class="st-axis-arrow" aria-hidden="true">→</span>
-
         <button type="button" class="st-ov st-axis-card" data-tier="fast">
           <div class="st-axis-head">
             <img class="st-axis-ico" src="/assets/icons/products/web_search.svg" alt="" width="17" height="17" aria-hidden="true" />
@@ -45,8 +43,6 @@
             <span>Grounding &amp; live web</span>
           </div>
         </button>
-
-        <span class="st-axis-arrow" aria-hidden="true">→</span>
 
         <button type="button" class="st-ov st-axis-card" data-tier="premier">
           <div class="st-axis-head">
@@ -72,7 +68,7 @@
       <!-- ========== Pulse ========== -->
       <article class="st-card st-card--pulse" id="tier-pulse" data-tier="pulse">
         <div class="st-txt">
-          <span class="st-eyebrow">Pulse</span>
+          <span class="st-eyebrow">Pulse Search</span>
           <h3>The model is the index.</h3>
           <!-- 延迟大数字放在介绍文字左侧(替代原底部 Product / Latency / Best for 表格) -->
           <div class="st-lead">
@@ -109,23 +105,21 @@
             <div class="st-pmx-grid" data-pulse-grid></div>
           </div>
         </div>
-        <p class="st-prodline"><span>Product</span><b>Pulse Search</b></p>
-        <p class="st-bestfor"><span>Best for</span>Routing, pre-fetch and in-loop lookups</p>
+        <p class="st-bestfor"><span>Best for</span><i class="st-bf-tag">Routing</i><i class="st-bf-tag">Pre-fetch</i><i class="st-bf-tag">In-loop lookups</i></p>
       </article>
 
       <!-- ========== Fast ========== -->
       <article class="st-card st-card--fast" id="tier-fast" data-tier="fast">
         <div class="st-txt">
-          <span class="st-eyebrow">Fast</span>
+          <span class="st-eyebrow">Fast Search</span>
           <h3>Real-time web search, built for AI.</h3>
           <!-- 同 Pulse:延迟大数字在介绍文字左侧 -->
           <div class="st-lead">
             <div class="st-stat"><b><number-flow class="st-stat-flow" data-start="0" data-value="62" data-trend="1" data-delay="180">62</number-flow><small>ms</small></b><span>P50 latency</span></div>
-            <p>Ranked, model-ready results from the live web, in one call.</p>
-            <a class="st-endorse" href="#built-to-perform">#1 for speed on the Artificial Analysis Search API Benchmark <span class="octen-arrow" aria-hidden="true">↓</span></a>
+            <p>Ranked, model-ready results from the live web, in one call. <a class="st-endorse" href="#built-to-perform"><b class="st-endorse-n">#1</b> for speed on the Artificial Analysis Search API Benchmark&nbsp;<span class="octen-arrow" aria-hidden="true">↗</span></a></p>
           </div>
         </div>
-        <!-- Fast API 卡片(Premier 同款:上插画面板 + 下名称/一句话)。Web | Broad(跨两列);Image / Video / Sense 已移到下方独立的 Sense 区块
+        <!-- Fast API 卡片(Premier 同款:上插画面板 + 下名称/一句话)。Web | Broad(跨两列);Image / Video 与 Web / Broad 同在 Fast;Sense 在下方独立区块
              交互:悬停或被自动轮播高亮(.is-hl,public/js/octen-tiers.js)时插画播放微动效;样式见 public/css/fast-bento.css
              Broad 的示例问题与子查询取自 hifi 参考页 "Search the way AI does" 对比图 -->
         <div class="st-fx-grid">
@@ -164,6 +158,55 @@
             <div class="st-fx-foot"><h4>Broad Search</h4><p>Splits a hard question into concurrent sub-queries, with results grouped by sub-query.</p></div>
           </a>
 
+          <a class="st-fx st-fx--image" data-fx="image" href="https://docs.octen.ai/capabilities/image-search" target="_blank" rel="noopener noreferrer">
+            <div class="st-fx-art" aria-hidden="true">
+              <div class="fx-img-stage">
+                <div class="fx-img-track">
+                  <span class="fx-img-card"><img src="/images/image-search/card-1.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-2.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-3.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-4.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-5.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-6.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-7.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-8.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-9.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-10.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-1.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-2.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-3.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-4.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-5.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-6.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-7.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-8.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-9.png" alt="" loading="lazy" decoding="async" /></span>
+                  <span class="fx-img-card"><img src="/images/image-search/card-10.png" alt="" loading="lazy" decoding="async" /></span>
+                </div>
+              </div>
+              <div class="fx-img-pill">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                <span class="fx-img-caret"></span>
+                <span class="fx-img-label">Search image</span>
+                <span class="fx-img-badge"><img src="/images/image-search/octen-robot.svg" width="13" height="13" alt="" /></span>
+              </div>
+            </div>
+            <div class="st-fx-foot"><h4>Image Search</h4><p>Ranked images for a text or image query.</p></div>
+          </a>
+
+          <a class="st-fx st-fx--video is-dark" data-fx="video" href="https://docs.octen.ai/capabilities/video-search" target="_blank" rel="noopener noreferrer">
+            <div class="st-fx-art" aria-hidden="true">
+              <div class="fx-vid">
+                <video class="fx-vid-bg" src="/static/video/multimodal-video.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>
+                <div class="fx-vid-dots" data-vid-dots aria-hidden="true"></div>
+                <span class="fx-ts st-mono">02:15 – 02:38</span>
+                <span class="fx-play"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.8 10 6 3 10.2z"/></svg></span>
+                <span class="fx-track"><i class="fx-seg"></i><i class="fx-head"></i></span>
+              </div>
+            </div>
+            <div class="st-fx-foot"><h4>Video Search <span class="st-soon st-beta">Early Access</span></h4><p>Relevant clips with timestamps.</p></div>
+          </a>
+
           <div class="st-scale-bar" aria-label="1K to 1M+ QPS at ~62ms latency">
             <span class="st-scale-qps st-mono">1K → 1M+ QPS</span>
             <span class="st-scale-wave" aria-hidden="true">
@@ -176,7 +219,7 @@
           </div>
         </div>
 
-        <p class="st-bestfor"><span>Best for</span>Grounding answers and research</p>
+        <p class="st-bestfor"><span>Best for</span><i class="st-bf-tag">Grounding answers</i><i class="st-bf-tag">Research</i></p>
       </article>
 
       <!-- ========== Premier:6 格 Bento(参考左高卡 + 深色卡 + 搜索框的组合)==========
@@ -190,7 +233,7 @@
           <!-- A · 标语 + 搜索框 -->
           <div class="st-pm st-pm--intro">
             <div class="st-txt">
-              <span class="st-eyebrow">Premier</span>
+              <span class="st-eyebrow">Premier Search</span>
               <h3>Our highest-quality results.</h3>
             </div>
             <p class="pm-slogan"><span>Web Search Premier returns higher-quality web results, through deeper retrieval and reranking.</span> Where structure helps, News, Business and Place return it.</p>
@@ -205,6 +248,7 @@
 
           <!-- Web Search Premier(已上线,无 SOON):第一行左,深色宽卡。左右对比：左侧网页内容筛选 + 中间传导 + 右侧股价曲线与关键数据结果卡 -->
           <div class="st-pm st-pm--web is-dark" data-dom="web">
+            <a class="st-pm-link" href="https://docs.octen.ai/capabilities/web-search" target="_blank" rel="noopener noreferrer" aria-label="Web Search Premier docs"></a>
             <div class="st-pm-art" aria-hidden="true">
               <div class="pm-web">
                 <div class="pm-web-raw">
@@ -290,6 +334,7 @@
 
           <!-- News → event -->
           <div class="st-pm st-pm--news" data-dom="news">
+            <a class="st-pm-link" href="https://docs.octen.ai/capabilities/news-search" target="_blank" rel="noopener noreferrer" aria-label="News Search docs"></a>
             <div class="st-pm-art" aria-hidden="true">
               <div class="pm-news">
                 <span class="pm-dupe"></span><span class="pm-dupe"></span>
@@ -311,6 +356,7 @@
 
           <!-- Business → profile -->
           <div class="st-pm st-pm--biz" data-dom="business">
+            <a class="st-pm-link" href="https://docs.octen.ai/capabilities/business-search" target="_blank" rel="noopener noreferrer" aria-label="Business Search docs"></a>
             <div class="st-pm-art" aria-hidden="true">
               <div class="pm-biz">
                 <span class="pm-biz-logo">NR</span>
@@ -333,6 +379,7 @@
 
           <!-- Place → location -->
           <div class="st-pm st-pm--place" data-dom="place">
+            <a class="st-pm-link" href="https://docs.octen.ai/capabilities/place-search" target="_blank" rel="noopener noreferrer" aria-label="Place Search docs"></a>
             <div class="st-pm-art st-pm-art--map" aria-hidden="true">
               <span class="pm-road"></span><span class="pm-road pm-road--b"></span>
               <svg class="pm-pin" width="26" height="32" viewBox="0 0 26 32"><path d="M13 31s11-10.2 11-18A11 11 0 0 0 2 13c0 7.8 11 18 11 18z" fill="currentColor"/><circle cx="13" cy="13" r="4" fill="#fff"/></svg>
@@ -350,6 +397,7 @@
 
           <!-- Design -->
           <div class="st-pm st-pm--design">
+            <a class="st-pm-link" href="https://docs.octen.ai/capabilities/design-search" target="_blank" rel="noopener noreferrer" aria-label="Design Search docs"></a>
             <div class="st-pm-art" aria-hidden="true">
               <div class="pm-design">
                 <div class="pm-frame pm-frame--web"><i class="pm-bar"></i><i class="pm-hero"></i><span class="pm-cols"><i></i><i></i></span><em>Web</em></div>
@@ -364,95 +412,21 @@
           </div>
 
         </div>
-        <p class="st-bestfor"><span>Best for</span>Results that must contain the answer, and structured domain lookups</p>
+        <p class="st-bestfor"><span>Best for</span><i class="st-bf-tag">Results that must contain the answer</i><i class="st-bf-tag">Structured domain lookups</i></p>
       </article>
 
       <!-- ========== Sense(新增,单独一段,整行):文本以外的搜索产品线 ==========
            不是第四档,不讲延迟,不参与性能对比。底层调用 Image / News / Place / Web Search 等多种搜索,
-           所以不放在 Fast 里。Image / Video / Sense Search 三张卡复用此前 Fast 里的插画(样式 public/css/fast-bento.css)。 -->
+           所以不放在 Fast 里。Image / Video Search 回到 Fast;这里是深色卡片,右侧为 v1「Image / Video Search」介绍部分的多模态示意图(03d-sense-visual.html)。 -->
       <article class="st-card st-card--sense" id="tier-sense" data-tier="sense">
         <div class="st-txt">
-          <span class="st-eyebrow st-eyebrow--sense">Sense</span>
-          <h3>Search beyond text.</h3>
-          <p>Find images and video, or search from what a device sees and where it is. Sense Search reads the scene, then returns web, news and place results.</p>
-          <p class="st-bestfor"><span>Best for</span>Visual search, media and on-device AI</p>
+          <span class="st-eyebrow st-eyebrow--sense">Sensing</span>
+          <h3 class="st-sense-h"><span class="st-sense-line">Search beyond text</span> <span class="st-sense-line">with <span class="st-sense-shine" id="senseShineWord">Sense Search</span></span></h3>
+          <p>Search from what a device sees and where it is. Sense Search reads the scene, then calls Image, News, Place and Web Search underneath and returns the results.</p>
+          <p class="st-bestfor"><span>Best for</span><i class="st-bf-tag">On-device AI</i><i class="st-bf-tag">Cameras</i><i class="st-bf-tag">Robots</i></p>
         </div>
-        <div class="st-fx-grid st-fx-grid--sense">
-              <a class="st-fx st-fx--image" data-fx="image" href="https://docs.octen.ai/capabilities/image-search" target="_blank" rel="noopener noreferrer">
-                <div class="st-fx-art" aria-hidden="true">
-                  <div class="fx-img-stage">
-                    <div class="fx-img-track">
-                      <span class="fx-img-card"><img src="/images/image-search/card-1.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-2.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-3.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-4.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-5.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-6.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-7.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-8.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-9.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-10.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-1.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-2.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-3.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-4.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-5.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-6.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-7.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-8.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-9.png" alt="" loading="lazy" decoding="async" /></span>
-                      <span class="fx-img-card"><img src="/images/image-search/card-10.png" alt="" loading="lazy" decoding="async" /></span>
-                    </div>
-                  </div>
-                  <div class="fx-img-pill">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-                    <span class="fx-img-caret"></span>
-                    <span class="fx-img-label">Search image</span>
-                    <span class="fx-img-badge"><img src="/images/image-search/octen-robot.svg" width="13" height="13" alt="" /></span>
-                  </div>
-                </div>
-                <div class="st-fx-foot"><h4>Image Search</h4><p>Ranked images for a text or image query.</p></div>
-              </a>
-
-              <a class="st-fx st-fx--video is-dark" data-fx="video" href="https://docs.octen.ai/capabilities/video-search" target="_blank" rel="noopener noreferrer">
-                <div class="st-fx-art" aria-hidden="true">
-                  <div class="fx-vid">
-                    <video class="fx-vid-bg" src="/static/video/multimodal-video.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>
-                    <div class="fx-vid-dots" data-vid-dots aria-hidden="true"></div>
-                    <span class="fx-ts st-mono">02:15 – 02:38</span>
-                    <span class="fx-play"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.8 10 6 3 10.2z"/></svg></span>
-                    <span class="fx-track"><i class="fx-seg"></i><i class="fx-head"></i></span>
-                  </div>
-                </div>
-                <div class="st-fx-foot"><h4>Video Search <span class="st-soon st-beta">Early Access</span></h4><p>Relevant clips with timestamps.</p></div>
-              </a>
-
-              <div class="st-fx st-fx--sense" data-fx="sense">
-                <div class="st-fx-art" aria-hidden="true">
-                  <div class="fx-sense">
-                    <span class="fx-radar-ring r1"></span>
-                    <span class="fx-radar-ring r2"></span>
-                    <span class="fx-radar-ring r3"></span>
-                    <span class="fx-radar-sweep"></span>
-                    <i class="fx-blip b1"></i>
-                    <i class="fx-blip b2"></i>
-                    <i class="fx-blip b3"></i>
-                    <b class="fx-radar-core"></b>
-                  </div>
-                </div>
-                <div class="st-fx-foot"><h4>Sense Search <span class="st-soon">Soon</span></h4><p>Search from what a device sees and where it is. For cameras, robots and devices.</p></div>
-              </div>
-
-        </div>
+        <include src="./src/sections/03d-sense-visual.html"></include>
       </article>
-    </div>
-
-    <!-- 底部选型引导条 -->
-    <div class="st-guide">
-      <p class="st-guide-text">
-        <strong>Not sure where to start?</strong> Start with <strong>Web Search</strong>. Switch to <strong>Pulse</strong> for ~10 ms lookups, or <strong>Premier</strong> when results must contain the answer. Use <strong>News</strong>, <strong>Business</strong> or <strong>Place</strong> for that result type, and <strong>Sense</strong> for images, video and devices.
-      </p>
-      <a class="st-guide-cta" href="https://docs.octen.ai/api-reference/search" target="_blank" rel="noopener noreferrer">API Docs →</a>
     </div>
   </div>
 </section>

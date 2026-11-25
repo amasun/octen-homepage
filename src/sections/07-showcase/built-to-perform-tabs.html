@@ -12,28 +12,34 @@
     <div class="bpt-head">
       <div class="built-perf-tag" data-copy-anchor="#built-to-perform">Performance</div>
       <h2 class="bpt-heading">Built to Perform</h2>
-      <div class="bpt-tabs" role="tablist" aria-label="Performance metrics">
-        <div class="bpt-tab-pill" aria-hidden="true">
-          <span class="bpt-tab-progress"><i class="bpt-tab-progress-bar"></i></span>
+      <!-- 四张并排指标卡(Value / Scale / Freshness / Retrieval models,不再充当 Tab);下方图表卡片自行轮播 -->
+      <div class="bpt-stats">
+        <a class="bpt-stat-card bpt-linkcard" href="/blog">
+          <span class="bpt-stat-label">Value</span>
+          <p class="bpt-stat" aria-label="Top 3">Top <number-flow class="bpt-flow" data-start="0" data-value="3">3</number-flow></p>
+          <p class="bpt-desc">#1 for speed, #2 for cost and top 3 for quality in the Artificial Analysis Search API Benchmark.</p>
+          <p class="bpt-src bpt-src-link">Artificial Analysis &middot; Nov 3, 2026&nbsp;<span class="octen-arrow" aria-hidden="true">↗</span></p>
+        </a>
+        <div class="bpt-stat-card">
+          <span class="bpt-stat-label">Scale</span>
+          <p class="bpt-stat" aria-label="62 milliseconds"><number-flow class="bpt-flow" data-start="0" data-value="62">62</number-flow><small>ms</small></p>
+          <p class="bpt-desc">Latency holds flat at 62ms from 1K to 1M+ QPS, with no degradation under production load.</p>
+          <p class="bpt-src">Octen internal load test</p>
         </div>
-        <button type="button" class="bpt-tab is-active" role="tab" aria-selected="true" data-bpt-tab="value">Value</button>
-        <button type="button" class="bpt-tab" role="tab" aria-selected="false" data-bpt-tab="scale">Scale</button>
-        <button type="button" class="bpt-tab" role="tab" aria-selected="false" data-bpt-tab="freshness">Freshness</button>
-      </div>
-
-      <!-- 固定居中的解释文字区域 (原方案视觉呈现，不参与横向滚动，就地淡入淡出切换) -->
-      <div class="bpt-copy-stage" id="bptCopyStage">
-        <div class="bpt-copy is-active" data-bpt-copy="value">
-          <p class="bpt-subtitle">Top 3 on speed, cost and quality</p>
-          <p class="bpt-desc">#1 for speed, and top 3 for cost and quality in the Artificial Analysis Search API Benchmark. One product, one configuration. <a class="bpt-copy-link" href="/blog">Read the blog →</a></p>
+        <div class="bpt-stat-card">
+          <span class="bpt-stat-label">Freshness</span>
+          <p class="bpt-stat" aria-label="Under 5 minutes">&lt;<number-flow class="bpt-flow" data-start="0" data-value="5">5</number-flow><small>min</small></p>
+          <p class="bpt-desc">New content is indexed in under 5 minutes, continuously, with no batch window to wait for.</p>
+          <p class="bpt-src">Octen index pipeline</p>
         </div>
-        <div class="bpt-copy" data-bpt-copy="scale">
-          <p class="bpt-subtitle">1M+ QPS supported</p>
-          <p class="bpt-desc">Latency holds flat at 62ms from 1K to 1M+ QPS. No degradation under load, built for the most demanding AI production environments.</p>
-        </div>
-        <div class="bpt-copy" data-bpt-copy="freshness">
-          <p class="bpt-subtitle">&lt;5min from publish to queryable</p>
-          <p class="bpt-desc">New content indexed in under 5 minutes, continuously. Your AI answers what's happening now with no batch window to wait for.</p>
+        <div class="bpt-stat-card bpt-models-card">
+          <span class="bpt-stat-label">Retrieval models</span>
+          <p class="bpt-stat" aria-label="Number 1, twice">#<number-flow class="bpt-flow" data-start="0" data-value="1">1</number-flow><small>&times;2</small></p>
+          <p class="bpt-desc">Both retrieval models rank first on their public leaderboards, RTEB and MMEB-v2.</p>
+          <p class="bpt-src bpt-src-links">
+            <a href="https://docs.octen.ai/capabilities/embedding" target="_blank" rel="noopener noreferrer">RTEB &middot; Octen-Embedding-8B 0.7953&nbsp;<span class="octen-arrow" aria-hidden="true">↗</span></a>
+            <a href="https://docs.octen.ai/capabilities/vl-embedding" target="_blank" rel="noopener noreferrer">MMEB-v2 &middot; octen-vl-embedding-large 80.09&nbsp;<span class="octen-arrow" aria-hidden="true">↗</span></a>
+          </p>
         </div>
       </div>
     </div>
@@ -42,6 +48,8 @@
     <div class="bpt-rail-viewport" id="bptRailViewport">
       <div class="bpt-rail-track" id="bptRailTrack">
 <include src="./src/sections/07-showcase/built-to-perform-tabs/value.html"></include>
+<include src="./src/sections/07-showcase/built-to-perform-tabs/accuracy.html"></include>
+<include src="./src/sections/07-showcase/built-to-perform-tabs/speed.html"></include>
 <include src="./src/sections/07-showcase/built-to-perform-tabs/scale.html"></include>
 <include src="./src/sections/07-showcase/built-to-perform-tabs/freshness.html"></include>
       </div>
