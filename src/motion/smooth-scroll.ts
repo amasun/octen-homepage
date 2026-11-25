@@ -468,7 +468,7 @@ function initMotion(): void {
     });
 
     // 5b) Showcase 卡片轨道:页面始终正常滚动(不 pin);区块在视口里经过的这段滚动中,卡片随滚轮自动向左移动,
-    //     区块刚进入视口时在最左,快要离开视口时最后一张完整露出。桌面端启用(窄屏保持手指横滑);系统开了「减少动态效果」时本函数不会执行
+    //     区块进入视口后先停在最左,稍晚才开始左移,快要离开视口时最后一张完整露出。桌面端启用(窄屏保持手指横滑);系统开了「减少动态效果」时本函数不会执行
     const showcaseEl = document.querySelector<HTMLElement>('#showcase');
     const showcaseApps = showcaseEl?.querySelector<HTMLElement>('.sc-apps');
     if (showcaseEl && showcaseApps) {
@@ -485,8 +485,8 @@ function initMotion(): void {
             ease: 'none',
             scrollTrigger: {
               trigger: showcaseEl,
-              start: 'top 85%',        // 区块顶部进入视口 85% 处开始向左移
-              end: 'center 40%',       // 区块中心上到视口 40% 处,最后一张卡片完整露出
+              start: 'top 55%',        // 区块顶部上到视口 55% 处才开始向左移(延后,先让区块完整进入视线)
+              end: 'bottom 62%',       // 区块底部上到视口 62% 处,最后一张卡片完整露出
               scrub: 0.6,
               invalidateOnRefresh: true,
             },
