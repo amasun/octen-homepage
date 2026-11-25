@@ -379,9 +379,9 @@
   var finePointer = ENABLE_TIER_CURSOR && window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (finePointer) {
     var TIER_LABELS = {
-      pulse: 'Octen Pulse',
-      fast: 'Octen Fast',
-      premier: 'Octen Premier'
+      pulse: 'Pulse Search',
+      fast: 'Fast Search',
+      premier: 'Premier Search'
     };
 
     var cursorEl = document.createElement('div');
