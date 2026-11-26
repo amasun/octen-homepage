@@ -166,6 +166,12 @@
         d.setAttribute('aria-selected', i === activeIdx ? 'true' : 'false');
       });
 
+      // 第一张隐藏左按钮,最后一张隐藏右按钮
+      if (arrowPrev) {
+        arrowPrev.classList.toggle('is-hidden', activeIdx <= 0);
+        arrowNext.classList.toggle('is-hidden', activeIdx >= panels.length - 1);
+      }
+
       if (targetPanel) {
         centerActivePanel(immediate);
       }
