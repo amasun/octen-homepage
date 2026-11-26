@@ -23,13 +23,13 @@
         <div class="bpt-stat-card">
           <span class="bpt-stat-label">Scale</span>
           <p class="bpt-stat" aria-label="62 milliseconds"><number-flow class="bpt-flow" data-start="0" data-value="62">62</number-flow><small>ms</small></p>
-          <p class="bpt-desc">Latency holds flat at 62ms from 1K to 1M+ QPS, with no degradation under production load.</p>
+          <p class="bpt-desc">Latency stays flat at 62ms from 1K to 1M+ QPS, even under production load.</p>
           <p class="bpt-src">Octen internal load test</p>
         </div>
         <div class="bpt-stat-card">
           <span class="bpt-stat-label">Freshness</span>
           <p class="bpt-stat" aria-label="Under 5 minutes">&lt;<number-flow class="bpt-flow" data-start="0" data-value="5">5</number-flow><small>min</small></p>
-          <p class="bpt-desc">New content is indexed in under 5 minutes, continuously, with no batch window to wait for.</p>
+          <p class="bpt-desc">New content is indexed in under 5 minutes, continuously, with no batch wait.</p>
           <p class="bpt-src">Octen index pipeline</p>
         </div>
         <div class="bpt-stat-card bpt-models-card">
