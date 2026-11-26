@@ -1700,3 +1700,25 @@
 }
 #built-to-perform .bpt-panel:not(.is-active) { opacity: 0.46; }
 #built-to-perform .bpt-panel:not(.is-active):hover { opacity: 0.78; }
+
+/* 轮播左右两侧圆形翻页按钮(定位在 section 上,垂直位置由 JS 对齐到当前卡片中部) */
+#built-to-perform { position: relative; }
+#built-to-perform .bpt-arrow {
+  position: absolute; z-index: 5;
+  width: 44px; height: 44px; margin-top: -22px;
+  display: grid; place-items: center; padding: 0;
+  border-radius: 50%; border: 1px solid rgba(0, 0, 0, .12);
+  background: #fff; color: #0a0a0a; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .08);
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+#built-to-perform .bpt-arrow--prev { left: 24px; }
+#built-to-perform .bpt-arrow--next { right: 24px; }
+#built-to-perform .bpt-arrow:hover { transform: scale(1.06); box-shadow: 0 6px 18px rgba(0, 0, 0, .14); }
+#built-to-perform .bpt-arrow:active { transform: scale(.96); }
+#built-to-perform .bpt-arrow:focus-visible { outline: 2px solid #039855; outline-offset: 2px; }
+@media (max-width: 860px) {
+  #built-to-perform .bpt-arrow { width: 36px; height: 36px; margin-top: -18px; }
+  #built-to-perform .bpt-arrow--prev { left: 8px; }
+  #built-to-perform .bpt-arrow--next { right: 8px; }
+}
