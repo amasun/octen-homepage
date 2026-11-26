@@ -11,7 +11,7 @@
   <div class="st-head">
     <span class="st-head-pill" data-copy-anchor="#search-tiers">Search products</span>
     <h2 id="stTitle" class="font-serif text-gray-900 text-5xl lg:text-[44px]">Three tiers of search, one key</h2>
-    <p class="st-head-sub">One key for all three: Pulse (~10 ms), Fast (live web), and Premier (domain-tuned). Fast and Premier take the same request, tuned to the speed and depth your AI app needs.</p>
+    <p class="st-head-sub"><span class="st-sub-line">Web Search comes in three tiers, on the same key.</span><span class="st-sub-line">Pulse is the fastest, Fast is the default, and Premier goes the deepest.</span></p>
   </div>
 
   <div class="st-wrap" id="stTiers" data-active="">
@@ -25,14 +25,11 @@
             <span class="st-tier-pill">Fastest</span>
           </div>
           <div class="st-tier-body">
-            <div class="st-tier-metric"><strong><number-flow class="st-tier-flow" data-start="0" data-value="10">10</number-flow><small>ms</small></strong><span>Server-side P50</span></div>
+            <div class="st-tier-metric"><strong><number-flow class="st-tier-flow" data-start="0" data-value="10">10</number-flow><small>ms</small></strong><span>P50 latency</span></div>
             <div class="st-tier-caps" aria-label="Included capabilities">
-              <span class="st-tier-cap">URL Recall</span>
-              <span class="st-tier-cap">Routing</span>
-              <span class="st-tier-cap">Pre-fetch</span>
-              <span class="st-tier-cap">In-loop Lookups</span>
+              <span class="st-tier-cap">Pulse Search</span>
             </div>
-            <p class="st-tier-copy"><b>Best for</b> known destinations, docs, routing, and in-loop agent lookups.</p>
+            <p class="st-tier-copy"><b>Best for</b> routing, pre-fetch and in-loop lookups.</p>
           </div>
         </button>
 
@@ -43,15 +40,12 @@
             <span class="st-tier-pill is-default">Default</span>
           </div>
           <div class="st-tier-body">
-            <div class="st-tier-metric"><strong><number-flow class="st-tier-flow" data-start="0" data-value="62">62</number-flow><small>ms</small></strong><span>P50 · as low as</span></div>
+            <div class="st-tier-metric"><strong><number-flow class="st-tier-flow" data-start="0" data-value="62">62</number-flow><small>ms</small></strong><span>P50 latency</span></div>
             <div class="st-tier-caps" aria-label="Included capabilities">
               <span class="st-tier-cap">Web Search</span>
-              <span class="st-tier-cap">Broad Search</span>
-              <span class="st-tier-cap">Image Search</span>
-              <span class="st-tier-cap">Video Search</span>
-              <span class="st-tier-cap">Sense Search</span>
             </div>
-            <p class="st-tier-copy"><b>Best for</b> everyday live-web queries, grounding answers, and visual media.</p>
+            <p class="st-tier-copy"><a class="st-tier-endorse" href="#built-to-perform"><b>#1</b> for speed on the Artificial Analysis Search API Benchmark <span class="octen-arrow" aria-hidden="true">↓</span></a></p>
+            <p class="st-tier-copy"><b>Best for</b> grounding answers and research.</p>
           </div>
         </button>
 
@@ -62,15 +56,11 @@
             <span class="st-tier-pill is-premier">Deepest</span>
           </div>
           <div class="st-tier-body">
-            <div class="st-tier-metric"><strong><span class="st-tier-textflow" data-text="High">High</span><small class="is-word">precision</small></strong><span>Deeper reranking</span></div>
+            <div class="st-tier-metric"><strong><span class="st-tier-textflow" data-text="Higher">Higher</span><small class="is-word">accuracy</small></strong><span>Deeper retrieval and reranking</span></div>
             <div class="st-tier-caps" aria-label="Included capabilities">
               <span class="st-tier-cap">Web Search Premier</span>
-              <span class="st-tier-cap">News Search</span>
-              <span class="st-tier-cap">Business Search</span>
-              <span class="st-tier-cap">Place Search</span>
-              <span class="st-tier-cap">Design Search</span>
             </div>
-            <p class="st-tier-copy"><b>Best for</b> high-stakes Q&amp;A, hard facts, and domain-tuned vertical queries.</p>
+            <p class="st-tier-copy"><b>Best for</b> results that must contain the answer.</p>
           </div>
         </button>
       </div>
@@ -80,7 +70,7 @@
         <span>Higher precision</span>
       </div>
       <!-- 背景大字:三张卡片并排后,从下方面板后面升起,表示 Octen Search 登场(浅灰渐变,随滚动出现) -->
-      <div class="st-bigword" aria-hidden="true">Octen Search</div>
+      <div class="st-bigword" aria-hidden="true"><span class="st-bw st-bw--a" data-scrub>Web Search</span><span class="st-bw st-bw--b" data-scrub>Vertical Search</span></div>
     </div>
 
     <!-- Broad Search:Octen 高效输出的基石。右侧对比图沿用 Plan A 的 Human vs Octen 深色卡片与动画 -->
@@ -221,6 +211,17 @@
         <div class="st-pm-foot"><h4>Design Search <span class="st-soon st-beta">New</span></h4><p>Design references &mdash; web pages, app screens, slides.</p></div>
       </a>
       </div>
+
+      <!-- ========== Sense:Search by type 最下面的整行黑色卡片(从 planC 移植):文本以外的搜索产品线,右侧为多模态示意图 ========== -->
+      <article class="st-card st-card--sense" id="tier-sense" data-tier="sense">
+        <div class="st-txt">
+          <span class="st-eyebrow st-eyebrow--sense">Sensing</span>
+          <h3 class="st-sense-h"><span class="st-sense-line">Search beyond text</span> <span class="st-sense-line">with <span class="st-sense-shine" id="senseShineWord">Sense Search</span></span></h3>
+          <p>Search from what a device sees and where it is. Sense Search reads the scene, then calls Image, News, Place and Web Search underneath and returns the results.</p>
+          <p class="st-bestfor"><span>Best for</span><i class="st-bf-tag">On-device AI</i><i class="st-bf-tag">Cameras</i><i class="st-bf-tag">Robots</i></p>
+        </div>
+        <include src="./src/sections/03d-sense-visual.html"></include>
+      </article>
     </div>
   </div>
 </section>

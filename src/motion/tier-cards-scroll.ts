@@ -109,8 +109,20 @@ export function initTierCardsScroll(): void {
       const MOVE_START = 950, MOVE_END = 1400;   // 灰字从这里开始随滚动上移
       const FADE_IN = 150, FADE_OUT = 320;
       const clamp01 = (v: number): number => Math.max(0, Math.min(1, v));
+      // 灰字内容切换:Search by type 标题升到视口 80% 处开始,260px 滚动内先淡出 "Web Search"、再淡入 "Vertical Search"
+      const bwA = bigword.querySelector<HTMLElement>('.st-bw--a');
+      const bwB = bigword.querySelector<HTMLElement>('.st-bw--b');
+      const typesHead = document.querySelector<HTMLElement>('.st-types-head');
+      const applySwap = (): void => {
+        if (!bwA || !bwB || !typesHead) return;
+        const p = clamp01((window.innerHeight * 0.8 - typesHead.getBoundingClientRect().top) / 260);
+        // 先淡出旧词、再淡入新词,两段文字不同时可见(避免叠在一起)
+        bwA.style.opacity = String(1 - clamp01(p * 2));
+        bwB.style.opacity = String(clamp01(p * 2 - 1));
+      };
       const applyOpacity = (self: ScrollTrigger): void => {
         const sc = self.scroll();
+        applySwap();
         gsap.set(bigword, { opacity: Math.min(clamp01((sc - self.start) / FADE_IN), clamp01((self.end - sc) / FADE_OUT)) });
         // 950px 起文字上移,起始速度与页面滚动 1:1,之后速度线性递减,到 1400px 速度为 0(此后相对屏幕不动)
         const d = Math.min(Math.max(0, sc - MOVE_START), MOVE_END - MOVE_START), L = MOVE_END - MOVE_START;
