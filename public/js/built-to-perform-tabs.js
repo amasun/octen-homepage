@@ -44,6 +44,31 @@
       railViewport.parentNode.insertBefore(dotsWrap, railViewport.nextSibling);
     }
 
+    // 左右两侧圆形翻页按钮:上一张 / 下一张(循环)。放在 section 上而不是跑道里(跑道有边缘渐隐遮罩),垂直居中于当前卡片
+    var arrowPrev = null, arrowNext = null;
+    if (railViewport) {
+      var mkArrow = function (dir) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'bpt-arrow bpt-arrow--' + dir;
+        b.setAttribute('aria-label', dir === 'prev' ? 'Previous chart' : 'Next chart');
+        b.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + (dir === 'prev' ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7') + '"/></svg>';
+        b.addEventListener('click', function () {
+          if (dir === 'prev') prevTab(); else nextTab();
+          resetAutoTimer();
+        });
+        section.appendChild(b);
+        return b;
+      };
+      arrowPrev = mkArrow('prev');
+      arrowNext = mkArrow('next');
+    }
+    function placeArrows() {
+      if (!arrowPrev || !railViewport) return;
+      var top = (railViewport.getBoundingClientRect().top - section.getBoundingClientRect().top) + railViewport.offsetHeight / 2;
+      arrowPrev.style.top = arrowNext.style.top = top + 'px';
+    }
+
     var AUTO_SWITCH_INTERVAL = 5000;
     var autoTimer = null;
     var isPaused = false;
@@ -90,6 +115,7 @@
       var activePanel = panels.filter(function (p) { return p.classList.contains('is-active'); })[0];
       if (!activePanel) return;
       syncRailHeight(activePanel, immediate);
+      placeArrows();
 
       var panelCenter = activePanel.offsetLeft + (activePanel.offsetWidth / 2);
       var viewportCenter = railViewport.offsetWidth / 2;
