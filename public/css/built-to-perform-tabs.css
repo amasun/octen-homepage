@@ -1722,3 +1722,5 @@
   #built-to-perform .bpt-arrow--prev { left: 8px; }
   #built-to-perform .bpt-arrow--next { right: 8px; }
 }
+#built-to-perform .bpt-arrow { transition: transform .2s ease, box-shadow .2s ease, background .2s ease, opacity .25s ease, visibility 0s; }
+#built-to-perform .bpt-arrow.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .25s ease, visibility 0s .25s; }
