@@ -67,6 +67,15 @@
       if (!arrowPrev || !railViewport) return;
       var top = (railViewport.getBoundingClientRect().top - section.getBoundingClientRect().top) + railViewport.offsetHeight / 2;
       arrowPrev.style.top = arrowNext.style.top = top + 'px';
+      // 水平位置:当前卡片(居中)两侧外侧 30px;窄屏夹在屏幕内
+      var active = panels.filter(function (p) { return p.classList.contains('is-active'); })[0];
+      if (!active) return;
+      var secW = section.clientWidth, size = arrowPrev.offsetWidth || 44, gap = 30;
+      var half = active.offsetWidth / 2, cx = secW / 2;
+      var minLeft = 8;
+      arrowPrev.style.left = Math.max(minLeft, cx - half - gap - size) + 'px';
+      arrowNext.style.left = Math.min(secW - minLeft - size, cx + half + gap) + 'px';
+      arrowPrev.style.right = arrowNext.style.right = 'auto';
     }
 
     var AUTO_SWITCH_INTERVAL = 5000;
