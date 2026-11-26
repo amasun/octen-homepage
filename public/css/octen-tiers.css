@@ -1517,3 +1517,6 @@
 /* 灰色大字是 fixed 的屏幕背景字:给整个 Search 区块加 clip-path 裁切(上下按区块边界,左右放开),
    这样无论滚得多快,大字都不会画到 Hero 或下方的 Tools 区块上 */
 .st-section { clip-path: inset(0 -50vw); }
+
+/* 与 Hero 无缝衔接:Hero 底边是小数像素,会漏出一条深色/灰色细线;白底上提 1px 盖住接缝 */
+.st-section { position: relative; z-index: 1; margin-top: -1px; }
