@@ -1724,3 +1724,7 @@
 }
 #built-to-perform .bpt-arrow { transition: transform .2s ease, box-shadow .2s ease, background .2s ease, opacity .25s ease, visibility 0s; }
 #built-to-perform .bpt-arrow.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .25s ease, visibility 0s .25s; }
+
+/* 翻页按钮:黑底白箭头 */
+#built-to-perform .bpt-arrow { background: #0a0a0a; color: #fff; border-color: #0a0a0a; box-shadow: 0 4px 14px rgba(0, 0, 0, .18); }
+#built-to-perform .bpt-arrow:hover { background: #26262a; box-shadow: 0 6px 18px rgba(0, 0, 0, .26); }
