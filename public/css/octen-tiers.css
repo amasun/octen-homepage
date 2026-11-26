@@ -1503,9 +1503,9 @@
 /* 灰色大字:始终 fixed 的屏幕背景字,置底在屏幕下部(top 76%),相对屏幕不位移;入场只渐隐、出场渐隐后隐藏(.is-gone) */
 .st-scale.has-bigword .st-bigword {
   position: fixed;
-  left: 0; right: 0; top: 76%;
+  left: 0; right: 0; top: auto; bottom: 0;   /* 贴在屏幕底部边缘 */
   margin-top: 0;
-  transform: translateY(-50%) !important;
+  transform: none !important;
   z-index: -1;
 }
 .st-scale.has-bigword .st-bigword.is-gone { visibility: hidden; }

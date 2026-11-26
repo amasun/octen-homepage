@@ -106,25 +106,29 @@ export function initTierCardsScroll(): void {
       // 透明度完全由滚动位置决定(取 ScrollTrigger 当前的真实滚动位置,没有滞后):
       //   进入区间后 220px 内由 0 渐显到 1;结束前 320px 内由 1 渐隐到 0;区间之外一律为 0 并隐藏。
       //   所以无论滚得多快、一下子回到 Hero,大字都不会残留
-      const FADE_IN = 220, FADE_OUT = 320;
+      const MOVE_START = 950, MOVE_END = 1400;   // 灰字从这里开始随滚动上移
+      const FADE_IN = 150, FADE_OUT = 320;
       const clamp01 = (v: number): number => Math.max(0, Math.min(1, v));
       const applyOpacity = (self: ScrollTrigger): void => {
         const sc = self.scroll();
         gsap.set(bigword, { opacity: Math.min(clamp01((sc - self.start) / FADE_IN), clamp01((self.end - sc) / FADE_OUT)) });
+        // 950px 起文字上移,起始速度与页面滚动 1:1,之后速度线性递减,到 1400px 速度为 0(此后相对屏幕不动)
+        const d = Math.min(Math.max(0, sc - MOVE_START), MOVE_END - MOVE_START), L = MOVE_END - MOVE_START;
+        bigword.style.translate = `0 ${-(d - (d * d) / (2 * L)).toFixed(1)}px`;
       };
       ScrollTrigger.create({
         trigger: scale,
-        start: 'top 92%',
+        start: 850,   // 滚动到 850px 灰字开始渐显,1000px 完整(绝对滚动像素)
         end: () => Math.round(docTop(typesGrid) - marginFix() + typesGrid.offsetHeight - window.innerHeight * 0.72),
         invalidateOnRefresh: true,
         onEnter: (self) => { bigword.classList.remove('is-gone'); applyOpacity(self); },
         onEnterBack: (self) => { bigword.classList.remove('is-gone'); applyOpacity(self); },
         onUpdate: (self) => { if (self.isActive) applyOpacity(self); },
         onLeave: () => { gsap.set(bigword, { opacity: 0 }); bigword.classList.add('is-gone'); },
-        onLeaveBack: () => { gsap.set(bigword, { opacity: 0 }); },
+        onLeaveBack: () => { gsap.set(bigword, { opacity: 0 }); bigword.style.translate = '0 0'; },
         onRefresh: (self) => {
           if (self.isActive) { bigword.classList.remove('is-gone'); applyOpacity(self); }
-          else { gsap.set(bigword, { opacity: 0 }); bigword.classList.toggle('is-gone', self.progress >= 1); }
+          else { gsap.set(bigword, { opacity: 0 }); if (self.progress <= 0) bigword.style.translate = '0 0'; bigword.classList.toggle('is-gone', self.progress >= 1); }
         },
       });
     }
