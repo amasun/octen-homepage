@@ -1035,3 +1035,9 @@
 
 /* 底部两张卡(Web / Code)不再处在同一水平线上:Code 下移 */
 .sv-code { top: 83%; }
+
+/* Premier 精简:插画里的细小文字改成骨架条,只留关键字 */
+.pm-sk { display: inline-block; height: 6px; border-radius: 3px; background: currentColor; opacity: .2; vertical-align: middle; max-width: 100%; }
+.pm-sk-chip { display: inline-block; width: 44px; height: 16px; border-radius: 999px; background: currentColor; opacity: .12; }
+.pm-kv dt.pm-sk, .pm-kv dd.pm-sk { display: block; }
+.pm-tl-item time.pm-sk { display: inline-block; }
