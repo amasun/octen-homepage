@@ -750,3 +750,6 @@
 
 /* 放大镜图标统一用 Lucide search(Search Agent 的 Searching 条目、Auto Search 的 Searching 条目) */
 .scw-mag { flex: none; width: 10px; height: 10px; color: rgba(255, 255, 255, .62); }
+
+/* 性能:静态最终画面时暂停所有循环动画(原先 Thinking 点阵 300 个方块在不可见画面里也一直在闪);hover 播放时才运行,且只运行当前可见的画面 */
+.sc-demo:not(.is-playing) *, .sc-demo [data-scene].is-out * { animation-play-state: paused !important; }

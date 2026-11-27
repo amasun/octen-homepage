@@ -602,7 +602,7 @@
   }
   function waveKick() { if (!waveRaf) waveRaf = requestAnimationFrame(waveFrame); }
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (es) { waveVisible = es[0].isIntersecting; if (waveVisible) waveKick(); }).observe(card);
+    new IntersectionObserver(function (es) { waveVisible = es[0].isIntersecting; card.classList.toggle('is-offscreen', !waveVisible); if (waveVisible) waveKick(); }, { rootMargin: '80px' }).observe(card);
   }
   document.addEventListener('visibilitychange', function () { if (!document.hidden) waveKick(); });
   waveKick();
