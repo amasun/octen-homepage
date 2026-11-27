@@ -458,7 +458,7 @@
   }
 })();
 
-/* Sense 卡片:跟随鼠标的微弱立体倾斜(最大 ±2.2°)+ 背景点阵拖尾:鼠标经过的点依次点亮(放大、变亮),随后逐渐褪去,形成拖尾;
+/* Sense 卡片:跟随鼠标的微弱立体倾斜(最大 ±2.2°;右侧分支图本身没有视差)+ 背景点阵拖尾:鼠标经过的点依次点亮(放大、变亮),随后逐渐褪去,形成拖尾;
    触屏 / 减少动画偏好下不启用 */
 (function () {
   var card = document.querySelector('#tier-sense');
@@ -484,6 +484,7 @@
   canvas.className = 'st-dots-canvas';
   canvas.setAttribute('aria-hidden', 'true');
   card.insertBefore(canvas, card.firstChild);
+  card.classList.add('has-dot-canvas');   // 画布接管整层背景点阵(CSS 的底层点阵隐藏),涟漪 / 拖尾点亮的就是这些点本身
   var ctx = canvas.getContext('2d');
   var W = 0, H = 0, cols = 0, rows = 0, level = null, tint = null, dotRaf = 0, lastX = null, lastY = null;
   function resize() {
@@ -494,6 +495,23 @@
     cols = Math.ceil(W / STEP); rows = Math.ceil(H / STEP);
     level = new Float32Array(cols * rows);
     tint = new Float32Array(cols * rows);
+    drawBase(dpr);
+    ctx.clearRect(0, 0, W, H); ctx.drawImage(baseCanvas, 0, 0, W, H);
+  }
+  // 底层点阵(与原 CSS 点阵同一网格、同样的淡白色)预先画到离屏画布,每帧整张贴回;被点亮的点在同一个位置上变亮 / 变大
+  var baseCanvas = document.createElement('canvas');
+  function drawBase(dpr) {
+    baseCanvas.width = W * dpr; baseCanvas.height = H * dpr;
+    var b = baseCanvas.getContext('2d');
+    b.setTransform(dpr, 0, 0, dpr, 0, 0);
+    b.fillStyle = 'rgba(255,255,255,0.12)';
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        b.beginPath();
+        b.arc(c * STEP + STEP / 2, r * STEP + STEP / 2, 0.95, 0, 6.2832);
+        b.fill();
+      }
+    }
   }
   resize();
   if ('ResizeObserver' in window) new ResizeObserver(resize).observe(card);
@@ -514,6 +532,7 @@
   }
   function dotFrame(now) {
     ctx.clearRect(0, 0, W, H);
+    ctx.drawImage(baseCanvas, 0, 0, W, H);   // 先铺满底层点阵,再在原位置叠加被点亮的点
     var alive = false, t = now || performance.now();
     for (var r = 0; r < rows; r++) {
       for (var c = 0; c < cols; c++) {
@@ -521,12 +540,12 @@
         if (v < 0.015) { level[i] = 0; continue; }
         alive = true;
         // 尾部湍流:亮度越低(越靠近尾部)位移越大,位移方向由随位置 / 时间变化的伪噪声决定,点在褪去时像被气流卷走
-        var tail = 1 - v, amp = TURB * tail * tail;
+        var lit = tint[i] > 0.08, tail = 1 - v, amp = lit ? 0 : TURB * tail * tail;   // 涟漪点不做湍流位移,始终钉在网格上
         var nx = Math.sin(c * 0.83 + r * 0.41 + t * 0.0031) * Math.cos(r * 0.97 - c * 0.29 + t * 0.0023);
         var ny = Math.cos(c * 0.57 - r * 0.88 + t * 0.0027) * Math.sin(r * 0.62 + c * 0.35 - t * 0.0035);
         ctx.fillStyle = tint[i] > 0.08 ? 'rgba(112,254,126,' + (0.6 * v).toFixed(3) + ')' : 'rgba(255,255,255,' + (0.62 * v).toFixed(3) + ')';   // 涟漪点为绿色,鼠标拖尾为白色
         ctx.beginPath();
-        ctx.arc(c * STEP + STEP / 2 + nx * amp, r * STEP + STEP / 2 + ny * amp, 0.75 + 0.7 * v, 0, 6.2832);
+        ctx.arc(c * STEP + STEP / 2 + nx * amp, r * STEP + STEP / 2 + ny * amp, (lit ? 0.95 + 1.0 * v : 0.75 + 0.7 * v), 0, 6.2832);
         ctx.fill();
         level[i] = v * DECAY;
         tint[i] = tint[i] * DECAY;
@@ -593,8 +612,6 @@
     var x = e.clientX - r.left, y = e.clientY - r.top;
     ty = (x / r.width - 0.5) * 2 * MAX;     // 鼠标在右 → 右侧远离(rotateY 为正)
     tx = -(y / r.height - 0.5) * 2 * MAX;   // 鼠标在上 → 上侧远离(rotateX 为正)
-    pTx = (x / r.width - 0.5) * 2; pTy = (y / r.height - 0.5) * 2;   // -1 ~ 1
-    parKick();
     card.classList.add('is-tilting');
     tiltKick();
     // 在上一个指针位置到当前位置之间补点,快速移动时轨迹也连续
@@ -606,23 +623,8 @@
     dotKick();
   });
 
-  /* ---- 右侧图形视差:各卡片按「远近」系数随鼠标反向位移(近的动得多、远的动得少),连线起点同步贴着卡片边缘 ---- */
-  var DEPTH = { '.sv-video': 10, '.sv-news': 7, '.sv-img': 15, '.sv-biz': 6, '.sv-place': 6, '.sv-chart': 9, '.sv-text': 12, '.sv-web': 9, '.sv-code': 13, '.sv-center': -4 };
-  var parNodes = Object.keys(DEPTH).map(function (sel) { return { el: card.querySelector('.sense-viz ' + sel), d: DEPTH[sel] }; }).filter(function (n) { return n.el; });
-  var pTx = 0, pTy = 0, pCx = 0, pCy = 0, parRaf = 0;
-  function parFrame() {
-    pCx += (pTx - pCx) * 0.08;
-    pCy += (pTy - pCy) * 0.08;
-    for (var i = 0; i < parNodes.length; i++) {
-      parNodes[i].el.style.translate = (-pCx * parNodes[i].d).toFixed(2) + 'px ' + (-pCy * parNodes[i].d).toFixed(2) + 'px';
-    }
-    if (window.__senseRebuildLines) window.__senseRebuildLines();
-    if (Math.abs(pTx - pCx) > 0.002 || Math.abs(pTy - pCy) > 0.002) parRaf = requestAnimationFrame(parFrame);
-    else parRaf = 0;
-  }
-  function parKick() { if (!parRaf) parRaf = requestAnimationFrame(parFrame); }
   if (hoverFine) card.addEventListener('pointerleave', function () {
-    tx = 0; ty = 0; lastX = null; lastY = null; pTx = 0; pTy = 0; parKick();
+    tx = 0; ty = 0; lastX = null; lastY = null;
     card.classList.remove('is-tilting');
     tiltKick();
   });
