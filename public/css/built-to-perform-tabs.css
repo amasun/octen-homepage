@@ -1731,3 +1731,7 @@
 #built-to-perform .bpt-arrow { background: #0a0a0a; color: #fff; border-color: #0a0a0a; box-shadow: 0 4px 14px rgba(0, 0, 0, .18); }
 #built-to-perform .bpt-arrow:hover { background: #26262a; box-shadow: 0 6px 18px rgba(0, 0, 0, .26); }
 
+
+/* 指标卡可点击:跳到下方对应图表 */
+#built-to-perform .bpt-stat-card[data-bpt-jump] { cursor: pointer; }
+#built-to-perform a.bpt-src-link { display: block; text-decoration: none; }

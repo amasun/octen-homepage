@@ -14,6 +14,19 @@
     var panels = Array.prototype.slice.call(section.querySelectorAll('[data-bpt-panel]'));
     var copyItems = Array.prototype.slice.call(section.querySelectorAll('[data-bpt-copy]'));
     var statCards = Array.prototype.slice.call(section.querySelectorAll('.bpt-stat-card'));
+    // 点击上方指标卡 → 下方轮播跳到对应图表(卡片里的外链照常打开)
+    statCards.forEach(function (c) {
+      var idx = +c.getAttribute('data-bpt-jump');
+      if (isNaN(idx)) return;
+      c.setAttribute('role', 'button'); c.tabIndex = 0;
+      function go(e) {
+        if (e.target.closest && e.target.closest('a')) return;
+        var p = panels[idx];
+        if (p) { e.preventDefault(); activate(p.dataset.bptPanel, false, false); }
+      }
+      c.addEventListener('click', go);
+      c.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') go(e); });
+    });
     var tabsContainer = section.querySelector('.bpt-stats') || section.querySelector('.bpt-tabs');
     var pill = section.querySelector('.bpt-tab-pill');
     var progressBars = Array.prototype.slice.call(section.querySelectorAll('.bpt-tab-progress-bar'));
