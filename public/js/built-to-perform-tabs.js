@@ -13,6 +13,7 @@
     var tabs = Array.prototype.slice.call(section.querySelectorAll('[data-bpt-tab]'));
     var panels = Array.prototype.slice.call(section.querySelectorAll('[data-bpt-panel]'));
     var copyItems = Array.prototype.slice.call(section.querySelectorAll('[data-bpt-copy]'));
+    var statCards = Array.prototype.slice.call(section.querySelectorAll('.bpt-stat-card'));
     var tabsContainer = section.querySelector('.bpt-stats') || section.querySelector('.bpt-tabs');
     var pill = section.querySelector('.bpt-tab-pill');
     var progressBars = Array.prototype.slice.call(section.querySelectorAll('.bpt-tab-progress-bar'));
@@ -169,6 +170,10 @@
         panel.classList.toggle('is-active', on);
         panel.setAttribute('aria-hidden', on ? 'false' : 'true');
       });
+
+      // 上方四张指标数字:下方轮播切到对应图表时变绿。前三张图表(Value / Speed / Speed 任务)对应 Rank,之后一一对应 Scale / Freshness / Retrieval models
+      var statMap = [0, 0, 0, 1, 2, 3];
+      statCards.forEach(function (c, ci) { c.classList.toggle('is-lit', activeIdx >= 0 && statMap[activeIdx] === ci); });
 
       dots.forEach(function (d, i) {
         d.classList.toggle('is-active', i === activeIdx);

@@ -1437,8 +1437,10 @@
   font-weight: 500;
   line-height: 1.05;
   letter-spacing: -0.01em;
-  color: #039855;
+  color: #18181b;   /* 默认深色;对应的轮播图表被选中时变绿(.is-lit) */
+  transition: color .35s ease;
 }
+#built-to-perform .bpt-stat-card.is-lit .bpt-stat { color: #039855; }
 #built-to-perform .bpt-stat small { font-size: 0.5em; margin-left: 2px; font-weight: 500; letter-spacing: 0; }
 #built-to-perform .bpt-stat-card .bpt-desc {
   margin: 0;
