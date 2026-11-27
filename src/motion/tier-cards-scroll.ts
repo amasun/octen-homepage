@@ -50,15 +50,11 @@ export function initTierCardsScroll(): void {
       defaults: { ease: 'power2.out' },
       scrollTrigger: {
         trigger: scale,
-        start: 'top 92%',
-        // 终点:让「三张卡片 + 指标轴 + Broad Search 面板」的最终形态完整落在一屏内——
-        // 整体高度 H = 卡片区(含轴)+ 最终间距 12 + 面板高度;卡片区顶部停在 (视口高 - H) / 2 处(上限 140px,下限 100px 避开 promo 条与导航栏)
-        end: () => {
-          const H = scale.offsetHeight + 12 + (broad ? broad.offsetHeight : 0);
-          const top = Math.max(100, Math.min((window.innerHeight - H) / 2, 140));   // 下限 100px:避开顶部 promo 条 + 导航栏
-          return `top ${Math.round(top)}px`;
-        },
-        scrub: 0.6,
+        start: 'top 88%',
+        // 终点:加快演进 —— 三张卡片 + 指标轴 + Broad Search 面板的最终形态,在卡片区顶部升到视口约 22% 处就已完整到位
+        // (此时四张卡片都在一屏内可见,不必再滚到 100px 才结束);下限 150px 避开 promo 条与导航栏
+        end: () => `top ${Math.round(Math.max(150, window.innerHeight * 0.22))}px`,
+        scrub: 0.35,
         invalidateOnRefresh: true,
       },
     });
