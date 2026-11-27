@@ -337,8 +337,8 @@
   display: inline-flex;
   align-items: center;
   gap: 2px;
-  padding: 6px 14px 6px 12px;
-  border-radius: 8px;
+  padding: 4px 10px 4px 9px;
+  border-radius: 6px;
   border: 1px solid #41535b;
   background: rgba(15, 32, 24, 0.53);
   backdrop-filter: blur(2px);
@@ -349,15 +349,15 @@
 }
 
 .octen-footer-badge-icon {
-  width: 36px;
-  height: 36px;
+  width: 27px;
+  height: 27px;
   flex-shrink: 0;
   display: block;
 }
 
 .octen-footer-badge-text-img {
-  width: 58px;
-  height: 46px;
+  width: 44px;
+  height: 35px;
   flex-shrink: 0;
   display: block;
 }
@@ -432,7 +432,7 @@
   height: 48px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(15, 24, 20, 0.72);
+  background: transparent;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   font: 500 11px/1 "DM Sans", sans-serif;
@@ -442,7 +442,7 @@
   transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.2s;
 }
 .octen-footer-top svg { transition: transform 0.25s cubic-bezier(.2, .7, .2, 1); }
-.octen-footer-top:hover { border-color: rgba(255, 255, 255, 0.32); background: rgba(24, 38, 31, 0.88); color: #fff; transform: translateY(-2px); }
+.octen-footer-top:hover { border-color: rgba(255, 255, 255, 0.32); background: transparent; color: #fff; transform: translateY(-2px); }
 .octen-footer-top:hover svg { transform: translateY(-2px); color: #18FB6F; }
 .octen-footer-top:focus-visible { outline: 2px solid #18FB6F; outline-offset: 2px; }
 @media (max-width: 767px) {
@@ -524,17 +524,17 @@
   }
 
   .octen-footer-certified {
-    padding: 4px 10px 4px 8px;
+    padding: 3px 8px 3px 7px;
   }
 
   .octen-footer-badge-icon {
-    width: 28px;
-    height: 28px;
+    width: 22px;
+    height: 22px;
   }
 
   .octen-footer-badge-text-img {
-    width: 46px;
-    height: 36px;
+    width: 36px;
+    height: 28px;
   }
 
   .octen-footer-copyright {
