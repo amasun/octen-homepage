@@ -14,7 +14,7 @@ function CardOrb({ card, state }: { card: HTMLElement; state: any }) {
     card.addEventListener('focus', on); card.addEventListener('blur', off);
     return () => { card.removeEventListener('mouseenter', on); card.removeEventListener('mouseleave', off); card.removeEventListener('focus', on); card.removeEventListener('blur', off); };
   }, [card]);
-  return <ThinkingOrb state={state} size={64} dark paused={reduce || !play} />;
+  return <ThinkingOrb state={state} size={64} theme="dark" paused={reduce || !play} />;
 }
 
 function mount() {
