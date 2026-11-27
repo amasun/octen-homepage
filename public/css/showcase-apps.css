@@ -506,8 +506,6 @@
 .scw-jr u { text-decoration: none; padding: 0 5px; border-radius: 5px; background: rgba(255, 255, 255, .1); font-size: 7.5px; color: rgba(255, 255, 255, .62); }
 .scw-jr em { font-style: normal; color: rgba(255, 255, 255, .42); font-size: 8px; min-width: 20px; text-align: right; display: inline-flex; justify-content: flex-end; }
 .scw-jr s { flex: none; width: 8px; height: 8px; position: relative; opacity: .6; }
-.scw-jr s.q::before { content: ''; position: absolute; left: 0; top: 0; width: 5px; height: 5px; border: 1.2px solid #fff; border-radius: 50%; }
-.scw-jr s.q::after { content: ''; position: absolute; right: 0; bottom: 0; width: 3px; height: 1.2px; background: #fff; transform: rotate(45deg); transform-origin: right; }
 .scw-jr s.d::before { content: ''; position: absolute; inset: 0 1px; border: 1.2px solid #fff; border-radius: 1.5px; }
 .scw-jr.is-done span { text-decoration: line-through; color: rgba(255, 255, 255, .4); }
 
@@ -744,3 +742,11 @@
 /* 光标只在输入框正在打字时显示;输完以及静止的最终画面里都不出现 */
 .scw-caret { display: none; }
 .sc-demo.is-typing .scw-caret { display: inline-block; }
+
+/* Auto Search 结果里的三张图片:代表模型调用了图片搜索(octen_multimodal_search 会把图片直接放进回答) */
+.scw-aimgs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+.scw-ai { display: block; height: 28px; border-radius: 5px; overflow: hidden; border: 1px solid rgba(255, 255, 255, .14); background: #1b1d22; }
+.scw-ai img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* 放大镜图标统一用 Lucide search(Search Agent 的 Searching 条目、Auto Search 的 Searching 条目) */
+.scw-mag { flex: none; width: 10px; height: 10px; color: rgba(255, 255, 255, .62); }
