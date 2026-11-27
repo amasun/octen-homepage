@@ -259,27 +259,32 @@
   color: #ffffff;
 }
 .st-tier-pill {
-  margin-left: auto;
-  height: 22px;
-  padding: 0 9px;
-  border-radius: 999px;
-  font: 600 11px/1 'DM Sans', sans-serif;
+  margin-left: 0;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 4px;
+  font: 500 13px/1 'JetBrains Mono', ui-monospace, monospace;
+  text-transform: uppercase;
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
-  background: #16a365;
+  position: relative;
+  isolation: isolate;
+  background: none;
   color: #ffffff;
   border: 0;
+  padding: 0 11px;
 }
-.st-tier-pill.is-default {
-  background: #ffffff;
-  color: #09090b;
-  border: 0;
-}
-.st-tier-pill.is-premier {
-  background: #b8913f;
-  color: #ffffff;
-  border: 0;
+/* 平行四边形倾斜底(tag-skew):只倾斜底板,文字保持正立 */
+.st-tier-pill::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #0d0d0d;
+  border: 1px solid #0a0a0a;
+  border-radius: 4px;
+  transform: skewX(-14deg);
 }
 
 .st-tier-metric {
@@ -317,15 +322,25 @@
 
 .st-tier-copy {
   margin: 0;
-  margin-top: auto;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
   font-size: 14.5px;
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.80);
   word-break: normal;
   overflow-wrap: break-word;
   hyphens: none;
+}
+.st-tier-copy.is-best {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+.st-tier-copy.is-best { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.st-bf-chips { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.st-bf-chip {
+  display: inline-flex; align-items: center; height: 24px; padding: 0 9px;
+  border-radius: 6px; font: 500 13px/1 'DM Sans', sans-serif; color: #fff;
+  background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.16);
+  white-space: nowrap;
 }
 .st-tier-copy b {
   color: #ffffff;
@@ -1251,7 +1266,8 @@
 @media (min-width: 861px) and (max-height: 940px) {
   .st-tier-top { padding: 10px 14px 10px 12px; }
   .st-tier-body { gap: 10px; padding: 14px 16px 12px; margin: 0 8px 8px; }
-  .st-tier-copy { padding-top: 10px; line-height: 1.45; }
+  .st-tier-copy { line-height: 1.45; }
+  .st-tier-copy.is-best { padding-top: 10px; }
   .st-tier-card { min-height: 0; }
   #web-search.st-bs { padding: 20px 28px 4px 36px !important; gap: 32px; }
 }
@@ -1532,3 +1548,37 @@
 
 /* Search by type 上方标签(与 Web Search products 同款胶囊),与标题保持 18px */
 .st-types-head .st-types-pill { display: flex; width: fit-content; margin: 0 auto 18px; }
+
+/* 档位卡右上角的 Orb(thinking-orbs):放大后圆心落在卡片右上角,只露出 1/4;内容在其上层 */
+.st-tier-card { overflow: hidden; }
+.st-tier-card > .st-tier-top, .st-tier-card > .st-tier-body { position: relative; z-index: 1; }
+.st-tier-orb {
+  position: absolute; top: 0; right: 0; width: 0; height: 0; z-index: 0; pointer-events: none;
+  mix-blend-mode: screen;   /* 滤色叠加:亮部提亮卡片底色,黑色部分自然消失 */
+}
+.st-tier-card { isolation: isolate; }
+.st-tier-orb > * {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(2.88); transform-origin: center;
+}
+
+/* hover 时档位标签亮起为该档主题色 */
+.st-tier-card[data-tier="pulse"] { --tag-on: #16a365; }
+.st-tier-card[data-tier="fast"] { --tag-on: #7fa944; }
+.st-tier-card[data-tier="premier"] { --tag-on: #b8913f; }
+.st-tier-pill::before { transition: background-color .25s ease, border-color .25s ease; }
+.st-tier-card:hover .st-tier-pill::before,
+.st-tier-card:focus-visible .st-tier-pill::before { background: var(--tag-on); border-color: var(--tag-on); }
+
+/* 加强 hover:上浮更多 + 轻微放大 + 主题色光晕 + 描边提亮 + 内层面板提亮 */
+.st-tier-card { transition: box-shadow .35s ease, translate .35s cubic-bezier(.2,.8,.2,1), scale .35s cubic-bezier(.2,.8,.2,1), border-color .3s ease, background-color .3s ease; }
+.st-tier-card:hover,
+.st-tier-card:focus-visible {
+  translate: 0 -12px;
+  scale: 1.012;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+.st-tier-card .st-tier-body { transition: background-color .3s ease, border-color .3s ease; }
+.st-tier-card:hover .st-tier-body,
+.st-tier-card:focus-visible .st-tier-body {
+  background: rgba(8, 11, 18, 0.5);
+}

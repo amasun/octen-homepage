@@ -118,6 +118,7 @@
   // 从头播放一遍:重置 → 按顺序出现 / 打字 / 切画面;播完停在最终画面
   async function play(st) {
     var tk = ++st.token;
+    st.d.classList.add('is-playing');   // 播放期间才让循环动画(点阵闪烁 / 旋转等)运行
     resetAll(st);
     if (!(await sleep(250, st, tk))) return;
     var ok = true;
@@ -163,7 +164,7 @@
     var card = st.d.closest('.sc-app');
     if (!card) return;
     card.addEventListener('mouseenter', function () { play(st); });
-    card.addEventListener('mouseleave', function () { st.token++; showAll(st); });
+    card.addEventListener('mouseleave', function () { st.token++; st.d.classList.remove('is-playing'); showAll(st); });
     card.addEventListener('touchstart', function () { play(st); }, { passive: true });
   });
   // 布局稳定后(字体 / 图片加载完)重新计算"跟随"的位置

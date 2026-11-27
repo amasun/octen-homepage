@@ -20,10 +20,8 @@
     b.addEventListener('focus', function () { setActive(t); });
     b.addEventListener('mouseleave', function () { setActive(''); });
     b.addEventListener('blur', function () { setActive(''); });
-    b.addEventListener('click', function () {
-      setActive(t);
-      var card = document.getElementById('tier-' + t);
-      if (card) card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    b.addEventListener('click', function () {   // 点击三档卡片 → 打开 Web Search 文档(新标签页)
+      window.open('https://docs.octen.ai/capabilities/web-search', '_blank', 'noopener');
     });
   });
 
@@ -635,7 +633,7 @@
   }
   function waveKick() { if (!waveRaf) waveRaf = requestAnimationFrame(waveFrame); }
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (es) { waveVisible = es[0].isIntersecting; if (waveVisible) waveKick(); }).observe(card);
+    new IntersectionObserver(function (es) { waveVisible = es[0].isIntersecting; card.classList.toggle('is-offscreen', !waveVisible); if (waveVisible) waveKick(); }, { rootMargin: '80px' }).observe(card);
   }
   document.addEventListener('visibilitychange', function () { if (!document.hidden) waveKick(); });
   waveKick();

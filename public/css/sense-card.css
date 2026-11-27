@@ -256,3 +256,6 @@
 }
 /* 画布接管背景点阵后,隐藏 CSS 的底层点阵(否则会和画布里的点叠成两层) */
 .st-card--sense.has-dot-canvas::before { display: none; }
+
+/* 性能:Sense 卡片离开视口时暂停其中所有 CSS 动画(呼吸 / 图标轮播) */
+#tier-sense.is-offscreen, #tier-sense.is-offscreen * { animation-play-state: paused !important; }
