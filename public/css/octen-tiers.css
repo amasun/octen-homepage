@@ -105,7 +105,7 @@
 .st-axis-bar { display: flex; align-items: center; gap: 12px; margin-top: 12px; font-size: 12px; font-weight: 500; color: #6b7280; }
 .st-axis-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--st-pulse), var(--st-fast) 50%, var(--st-premier)); position: relative; }
 .st-axis-line::after { content: ''; position: absolute; right: 0; top: -3px; width: 6px; height: 6px; border-top: 1.5px solid var(--st-premier); border-right: 1.5px solid var(--st-premier); transform: rotate(45deg); }
-.st-axis-grid { display: grid; grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr) 20px minmax(0, 1fr); align-items: stretch; gap: 8px; }
+.st-axis-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; gap: 12px; }   /* 三张卡之间不再有箭头,间距 12px */
 .st-axis-arrow { display: flex; align-items: center; justify-content: center; font-size: 16px; color: #a1a1aa; user-select: none; }
 .st-axis-card {
   display: flex; flex-direction: column; gap: 8px; padding: 16px 18px;
@@ -736,11 +736,363 @@
   .st-tier-cursor { display: none !important; }
 }
 
+/* ==========================================================================
+   Plan C:Pulse | Fast → Premier → Sense(独立成段)→ 选择指引
+   ========================================================================== */
+/* Pulse:产品名行(替代原来的产品 spec 行) */
+.st-prodline { margin: -6px 0 0; display: flex; align-items: baseline; gap: 8px; font-size: 12.5px; line-height: 1.4; color: #71717a; }
+.st-prodline span { flex: none; font-size: 11px; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; color: #a1a1aa; }
+.st-prodline b { font-weight: 600; color: var(--st-ink); }
+
+/* Fast:背书行(点击跳到 Performance) */
+.st-endorse { display: inline-flex; align-items: center; gap: 4px; margin-top: 14px; font-size: 13px; font-weight: 600; line-height: 1.4; color: var(--acc); text-decoration: none; }
+.st-endorse:hover { text-decoration: underline; }
+.st-endorse .octen-arrow { font-size: 13px; }
+
+/* Premier:Web Search Premier(深色宽卡)在第一行左,News 在第一行右;第二行 Business / Place / Design */
+@media (min-width: 1025px) {
+  .st-pm--intro { grid-column: 1; grid-row: 1 / span 2; }
+  .st-pm--web { grid-column: 2 / span 2; grid-row: 1; }
+  .st-pm--news { grid-column: 4; grid-row: 1; }
+  .st-pm--biz { grid-column: 2; grid-row: 2; }
+  .st-pm--place { grid-column: 3; grid-row: 2; }
+  .st-pm--design { grid-column: 4; grid-row: 2; }
+}
+
+/* Sense:整行,左文字 + 右三张产品卡;产品线标签与三档标签区分(描边胶囊 + 小圆点,不是第四档) */
+[data-tier="sense"], .st-card--sense { --acc: #5b6ee1; }
+.st-card--sense { grid-column: span 12; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr); gap: 28px; align-items: stretch; background: var(--st-soft); }
+.st-card--sense .st-txt { display: flex; flex-direction: column; }
+.st-card--sense .st-txt .st-bestfor { margin-top: auto; padding-top: 18px; }
+.st-eyebrow--sense { align-self: flex-start; height: 24px; padding: 0 10px 0 8px; margin-bottom: 14px; border: 1px solid color-mix(in srgb, var(--acc) 40%, #fff); border-radius: 999px; background: color-mix(in srgb, var(--acc) 8%, #fff); letter-spacing: .08em; }
+.st-eyebrow--sense::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--acc); }
+#tier-sense .st-fx-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-content: start; }
+@media (max-width: 1024px) {
+  .st-card--sense { grid-template-columns: 1fr; }
+  #tier-sense .st-fx-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 767px) {
+  #tier-sense .st-fx-grid { grid-template-columns: 1fr; }
+}
+/* Sense 标签:描边胶囊 + 小圆点(三档为实心渐变圆角块),不是第四档;需压过上面 .st-eyebrow 的白字 */
+.st-card--sense .st-eyebrow--sense {
+  height: 28px; padding: 0 12px 0 10px; gap: 6px; border-radius: 999px;
+  color: color-mix(in srgb, var(--acc) 85%, #000);
+  border: 1px solid color-mix(in srgb, var(--acc) 40%, #fff);
+  background: color-mix(in srgb, var(--acc) 8%, #fff);
+}
+
+/* 全站统一的「跳转」箭头:斜上箭头 ↗,字体 DM Sans(↗ 字形由 DM Sans / 自托管箭头子集提供,缺失时才回退系统字体) */
+.octen-arrow {
+  font-family: 'DM Sans', 'DM Sans Arrow', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: normal;
+  font-weight: inherit;
+  font-feature-settings: normal;
+}
+
+/* ---- Image / Video 回到 Fast:6 列栅格,第一行 Web(2)+ Broad(4),第二行 Image(3)+ Video(3) ---- */
+#search-tiers #tier-fast .st-fx-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+#search-tiers #tier-fast .st-fx--web { grid-column: span 2; }
+#search-tiers #tier-fast .st-fx--broad { grid-column: span 4; }
+#search-tiers #tier-fast .st-fx--image, #search-tiers #tier-fast .st-fx--video { grid-column: span 3; }
+/* Sense:只剩 Sense Search 一张卡,左文字右卡 */
+.st-card--sense { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+#search-tiers #tier-sense .st-fx-grid { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 1024px) { .st-card--sense { grid-template-columns: 1fr; } #search-tiers #tier-sense .st-fx-grid { grid-template-columns: 1fr; max-width: 420px; } }
+@media (max-width: 767px) {
+  #search-tiers #tier-fast .st-fx-grid { grid-template-columns: 1fr 1fr; }
+  #search-tiers #tier-fast .st-fx--web { grid-column: span 1; }
+  #search-tiers #tier-fast .st-fx--broad { grid-column: span 2; }
+  #search-tiers #tier-fast .st-fx--image, #search-tiers #tier-fast .st-fx--video { grid-column: span 1; }
+}
+
+/* Fast:背书链接与说明文字同一段(行内),箭头为斜上箭头;两张卡的导语区统一高度并顶部对齐,大数字与下方插画对齐 */
+.st-endorse { display: inline; margin-top: 0; font-size: inherit; font-weight: 600; line-height: inherit; }
+.st-endorse .octen-arrow { font-size: 0.9em; }
+@media (min-width: 1025px) {
+  .st-card--pulse .st-lead, .st-card--fast .st-lead { min-height: 72px; align-items: center; }
+}
+
 /* 副标题两行布局:每句一行(窄屏自然折行) */
 .st-head-sub .st-sub-line { display: block; }
+
+/* ==========================================================================
+   Sense:黑色卡片 + 右侧 v1 多模态示意图(03d-sense-visual.html)
+   ========================================================================== */
+.st-card--sense { background: #0a0a0a; border-color: #1d212b; color: #fff; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); align-items: center; overflow: visible; }
+.st-card--sense .st-txt h3 { color: #fff; }
+.st-card--sense .st-txt p { color: rgba(255, 255, 255, .7); }
+.st-card--sense .st-bestfor { color: rgba(255, 255, 255, .6); }
+.st-card--sense .st-bestfor span { color: rgba(255, 255, 255, .4); }
+.st-card--sense .st-eyebrow--sense {
+  color: #c7d0ff; border-color: rgba(129, 146, 255, .45); background: rgba(91, 110, 225, .16);
+}
+.st-card--sense .st-eyebrow--sense::before { background: #8ea0ff; }
+
+.sense-viz { position: relative; min-width: 0; padding: 36px 8% 12px 8%; }
+.sv-stage { position: relative; width: 100%; aspect-ratio: 1020 / 425; }
+.sv-lines { position: absolute; inset: 0; width: 100%; height: 100%; }
+.sv-center { position: absolute; left: 50%; top: 49.4%; width: 19%; transform: translate(-50%, -50%) scale(.88); z-index: 2; }
+.sv-center .sv-svg { display: block; width: 100%; height: auto; }
+.sv-video { position: absolute; left: -8%; top: -15%; width: 24%; border: 1px solid rgba(255, 255, 255, .3); border-radius: 8px; transform: scale(.88); transform-origin: top left; z-index: 1; overflow: hidden; }
+.sv-video video { display: block; width: 100%; height: auto; }
+.sv-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.sv-play-ico { width: 38%; height: auto; }
+.sv-pill { position: absolute; left: 20%; top: 9%; display: flex; align-items: center; gap: 10px; padding: 8px 12px; border: 1px solid rgba(70, 70, 70, .8); border-radius: 12px; background: #070707; transform: scale(.88); transform-origin: top left; white-space: nowrap; z-index: 1; }
+.sv-pill img { width: 18px; height: 18px; flex: none; }
+.sv-pill span { font-size: 12px; color: rgba(255, 255, 255, .8); }
+.sv-pill i { font-style: normal; animation: sv-caret 1s steps(1) infinite; }
+@keyframes sv-caret { 50% { opacity: 0; } }
+.sv-img { position: absolute; right: -7%; top: -12%; width: 18.5%; border: 1px solid rgba(255, 255, 255, .3); border-radius: 8px; overflow: hidden; transform: scale(.88); z-index: 1; }
+.sv-img img, .sv-text img, .sv-chart img, .sv-code img { display: block; width: 100%; height: auto; }
+.sv-text { position: absolute; left: 9%; top: 55%; width: 11.5%; transform: scale(.88); }
+.sv-chart { position: absolute; right: 14%; top: 40.5%; width: 16%; transform: scale(.88); }
+.sv-code { position: absolute; right: 10%; top: 74%; width: 16%; transform: scale(.88); }
+@media (max-width: 1024px) {
+  .st-card--sense { grid-template-columns: 1fr; }
+  .sense-viz { padding: 36px 10% 8px; max-width: 640px; margin: 0 auto; width: 100%; }
+}
+@media (max-width: 767px) { .sv-pill { display: none; } }
+
+/* Sense 左侧文字规范对齐其他模块:Best for 行 12.5px / 标签 11px(原来被 .st-txt p 撑成 16px),标签与标题间距 16px */
+.st-card--sense .st-txt .st-bestfor { font-size: 12.5px; line-height: 1.4; max-width: none; color: rgba(255, 255, 255, .6); }
+.st-card--sense .st-txt .st-bestfor span { font-size: 11px; }
+.st-card--sense .st-eyebrow--sense { margin-bottom: 16px; }
+
+/* Sense 标签:白色文字 + 闪烁红点(live) */
+.st-card--sense .st-eyebrow--sense {
+  color: #fff;
+  border-color: rgba(255, 255, 255, .28);
+  background: rgba(255, 255, 255, .08);
+}
+.st-card--sense .st-eyebrow--sense::before {
+  background: #ff3b30;
+  box-shadow: 0 0 0 0 rgba(255, 59, 48, .55);
+  animation: st-live-blink 1.4s ease-in-out infinite;
+}
+@keyframes st-live-blink {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255, 59, 48, .55); }
+  50% { opacity: .35; box-shadow: 0 0 0 5px rgba(255, 59, 48, 0); }
+}
+@media (prefers-reduced-motion: reduce) { .st-card--sense .st-eyebrow--sense::before { animation: none; } }
+
+/* Sense 标题里的产品名 "Sense Search":Shine Word(Three.js 扫光,见 src/lib/shine-word.js),与 planB 的 Broad Search 同款 */
+.st-sense-h .st-sense-shine {
+  position: relative;
+  display: inline-block;
+  vertical-align: bottom;
+  font-style: italic;
+  clip-path: inset(-0.4em -100% -0.4em -0.4em);
+}
+.st-sense-h .shine-word__sizer { display: block; width: max-content; white-space: pre; visibility: hidden; }
+.st-sense-h .shine-word__canvas { position: absolute; top: -24px; left: -24px; pointer-events: none; }
+.st-sense-h .shine-word--fallback .shine-word__sizer { visibility: visible; }
+.st-sense-h .shine-word--fallback .shine-word__canvas { display: none; }
+
+/* Best for:空心标签(描边、无底色)逐项展示 */
+.st-bestfor { flex-wrap: wrap; align-items: center; gap: 6px 6px; }
+.st-bestfor span { margin-right: 2px; }
+.st-bf-tag {
+  display: inline-flex; align-items: center; height: 22px; padding: 0 9px;
+  border: 1px solid #d4d4d8; border-radius: 6px; background: transparent;
+  font: 500 12px/1 'DM Sans', sans-serif; font-style: normal; letter-spacing: 0; text-transform: none; color: #52525b; white-space: nowrap;
+}
+.st-card--sense .st-txt .st-bestfor .st-bf-tag { font-size: 12px; border-color: rgba(255, 255, 255, .3); color: rgba(255, 255, 255, .82); }
+
+/* Premier 子卡片整卡可点击(铺满卡片的透明链接,跳到对应 docs);Fast 子卡片本身就是链接 */
+.st-pm--web, .st-pm--news, .st-pm--biz, .st-pm--place, .st-pm--design { cursor: pointer; }
+.st-pm-link { position: absolute; inset: 0; z-index: 5; border-radius: inherit; }
+.st-pm-link:focus-visible { outline: 2px solid var(--st-ink); outline-offset: -2px; }
+.st-pm--web .st-pm-link:focus-visible { outline-color: #fff; }
+.st-pm:is(:hover, :focus-within) { border-color: color-mix(in srgb, var(--acc) 55%, #fff); box-shadow: 0 18px 40px -30px rgba(0, 0, 0, .35); }
+
+/* Sense:精致投影(多层柔和阴影 + 顶部高光内描边) + 正文里的绿色 docs 文字链接 */
+.st-card--sense {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, .06) inset,
+    0 0 0 1px rgba(255, 255, 255, .04) inset,
+    0 2px 4px rgba(10, 10, 10, .08),
+    0 12px 24px -8px rgba(10, 10, 10, .22),
+    0 32px 64px -24px rgba(10, 10, 10, .38);
+}
+.st-doc-link { display: inline; font-weight: 600; color: #70fe7e; text-decoration: none; white-space: nowrap; transition: color .2s ease; }
+.st-doc-link:hover { color: #a6ffb0; text-decoration: underline; text-underline-offset: 3px; }
+.st-doc-link .octen-arrow { font-size: 0.95em; }
+
+/* Sense 标题:放大到 32px,固定两行(Search beyond text / with Sense Search) */
+.st-card--sense .st-txt h3.st-sense-h { font-size: 28px; line-height: 1.22; margin-bottom: 14px; }
+.st-sense-h .st-sense-line { display: block; }
+@media (max-width: 767px) { .st-card--sense .st-txt h3.st-sense-h { font-size: 24px; } }
+
+/* Sense:弥散投影减弱;跟随鼠标的微弱立体倾斜(--st-rx / --st-ry 由 public/js/octen-tiers.js 在指针移动时写入) */
+.st-card--sense {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, .06) inset,
+    0 0 0 1px rgba(255, 255, 255, .04) inset,
+    0 1px 3px rgba(10, 10, 10, .06),
+    0 8px 18px -10px rgba(10, 10, 10, .16),
+    0 20px 40px -28px rgba(10, 10, 10, .2);
+  transform: perspective(1400px) rotateX(var(--st-rx, 0deg)) rotateY(var(--st-ry, 0deg));
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.st-card--sense.is-tilting { transition: opacity .3s, border-color .3s, box-shadow .3s; }
+.st-card--sense:not(.is-tilting) { transition: opacity .3s, border-color .3s, box-shadow .3s, transform .6s cubic-bezier(.22, 1, .36, 1); }
+.st-card--sense .sense-viz { transform: translateZ(18px); }
+@media (prefers-reduced-motion: reduce), (hover: none) { .st-card--sense { transform: none; } .st-card--sense .sense-viz { transform: none; } }
+
+/* Sense 卡片:高度 +20px(上下内边距各 +10)、微弱点阵(鼠标附近的点放大变清晰)、右下角绿色光晕(取 landing page 的亮绿 #70fe7e / 品牌绿 #039855) */
+.st-card--sense {
+  padding-top: 38px; padding-bottom: 38px;
+  background:
+    radial-gradient(ellipse 52% 78% at 100% 100%, rgba(112, 254, 126, .26) 0%, rgba(3, 152, 85, .14) 38%, rgba(3, 152, 85, 0) 72%),
+    #0a0a0a;
+}
+.st-card--sense > * { position: relative; z-index: 1; }
+.st-card--sense::before,
+.st-card--sense::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 0; background-size: 18px 18px; }
+.st-card--sense::before { background-image: radial-gradient(circle, rgba(255, 255, 255, .11) 0.9px, transparent 1.4px); }
+.st-card--sense::after {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, .6) 1.25px, transparent 1.85px);   /* hover 高亮点:比底层点略大一点即可 */
+  -webkit-mask-image: radial-gradient(circle 130px at var(--mx, 50%) var(--my, 50%), #000 0%, rgba(0, 0, 0, .55) 45%, transparent 100%);
+  mask-image: radial-gradient(circle 130px at var(--mx, 50%) var(--my, 50%), #000 0%, rgba(0, 0, 0, .55) 45%, transparent 100%);
+  opacity: 0; transition: opacity 1.1s ease .45s;   /* 离开后延迟 0.45s 再缓慢褪去(延迟回退) */
+}
+.st-card--sense.is-tilting::after { opacity: 1; transition: opacity .25s ease 0s; }
+@media (hover: none) { .st-card--sense::after { display: none; } }
+
+/* Sense 点阵响应改为画布拖尾(public/js/octen-tiers.js):鼠标划过的点依次点亮并逐渐褪去,形成拖尾;原先的遮罩高亮层停用 */
+.st-card--sense::after { display: none; }
+.st-card--sense > .st-dots-canvas { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: inherit; pointer-events: none; z-index: 0; }
+
+/* Sense 底层点阵加密:间距 18px → 12px(与画布拖尾的网格一致) */
+.st-card--sense::before { background-size: 12px 12px; background-image: radial-gradient(circle, rgba(255, 255, 255, .11) 0.75px, transparent 1.25px); }
+
+/* Sense 图形:四角定位的扫描框,不断切换聚焦的目标(src/motion/smooth-scroll.ts) */
+.sv-scan { position: absolute; left: 0; top: 0; width: 60px; height: 60px; z-index: 4; pointer-events: none; opacity: 0; filter: drop-shadow(0 0 5px rgba(112, 254, 126, .55)); }
+.sv-scan i { position: absolute; width: 11px; height: 11px; border: 0 solid #70fe7e; }
+.sv-scan i:nth-child(1) { left: 0; top: 0; border-left-width: 1.5px; border-top-width: 1.5px; border-top-left-radius: 3px; }
+.sv-scan i:nth-child(2) { right: 0; top: 0; border-right-width: 1.5px; border-top-width: 1.5px; border-top-right-radius: 3px; }
+.sv-scan i:nth-child(3) { left: 0; bottom: 0; border-left-width: 1.5px; border-bottom-width: 1.5px; border-bottom-left-radius: 3px; }
+.sv-scan i:nth-child(4) { right: 0; bottom: 0; border-right-width: 1.5px; border-bottom-width: 1.5px; border-bottom-right-radius: 3px; }
+
+/* Sense 图形:沿连线分布的搜索内容示意卡(News / Place / Web / Business) */
+.sv-node { position: absolute; z-index: 1; display: flex; flex-direction: column; gap: 4px; padding: 7px 8px; border: 1px solid rgba(255, 255, 255, .22); border-radius: 8px; background: #070707; box-shadow: 0 6px 16px -8px rgba(0, 0, 0, .8); transform: scale(.88); transform-origin: top left; }
+.sv-node .sv-tag { font: 600 8.5px/1 'DM Sans', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: rgba(255, 255, 255, .55); }
+.sv-node i { display: block; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, .22); }
+.sv-node i.s { width: 62%; }
+.sv-node i.hit { background: #3dd68c; width: 90%; }
+.sv-news { left: 30%; top: -6%; width: 16.5%; }
+.sv-news b { display: block; height: 5px; width: 82%; border-radius: 2px; background: rgba(255, 255, 255, .8); }
+.sv-news em { display: flex; align-items: center; gap: 4px; font: 500 8px/1 'DM Sans', sans-serif; font-style: normal; color: rgba(255, 255, 255, .6); }
+.sv-news em u { width: 5px; height: 5px; border-radius: 50%; background: #3dd68c; animation: sv-caret 1.6s steps(1) infinite; }
+.sv-place { left: 54%; top: 23%; width: 13.5%; align-items: flex-start; }
+.sv-place .sv-pin { width: 13px; height: 16px; }
+.sv-place i { width: 100%; }
+.sv-place i.s { width: 60%; }
+.sv-web { left: 21%; top: 66.5%; width: 16.5%; }
+.sv-web .sv-dots { display: flex; gap: 3px; }
+.sv-web .sv-dots u { width: 4px; height: 4px; border-radius: 50%; background: rgba(255, 255, 255, .35); }
+.sv-biz { left: 25.5%; top: 38.5%; width: 12.5%; }
+.sv-biz .sv-logo { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 4px; background: #1d3a2b; color: #7be7ae; font: 700 7px/1 'DM Sans', sans-serif; }
+@media (max-width: 767px) { .sv-node .sv-tag, .sv-news em { display: none; } }
+
+/* Sense 图形:元素位置按均匀布局重排(左 4 + 顶 1 + 右 4,曲线均从各元素汇聚到中心 logo) */
+.sv-video { left: 3%; top: 3%; width: 22%; transform-origin: center; }
+.sv-news { left: 33%; top: 2%; width: 16.5%; transform-origin: center; }
+.sv-img { left: 77%; top: 2%; right: auto; width: 18.5%; transform-origin: center; }
+.sv-biz { left: 7%; top: 41%; width: 12.5%; transform-origin: center; }
+.sv-place { left: 58%; top: 22%; width: 13.5%; transform-origin: center; }
+.sv-chart { left: 68%; top: 49%; right: auto; width: 16%; transform-origin: center; }
+.sv-text { left: 8%; top: 64%; width: 11.5%; transform-origin: center; }
+.sv-web { left: 25%; top: 73%; width: 16.5%; transform-origin: center; }
+.sv-code { left: 70%; top: 75%; right: auto; width: 16%; transform-origin: center; }
+
+/* Sense 标题改为一行(Search beyond text with Sense Search);左栏加宽以容纳一行标题 */
+@media (min-width: 1025px) {
+  .st-card--sense { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
+  .st-sense-h .st-sense-line { display: inline; }
+  .st-card--sense .st-txt h3.st-sense-h { white-space: nowrap; }
+}
+/* 修正:左栏不必过宽(标题一行约 440px),把空间还给右侧图形;窄于 1200px 时标题允许自然折行 */
+@media (min-width: 1025px) {
+  .st-card--sense { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); }
+  .st-card--sense .st-txt h3.st-sense-h { white-space: normal; }
+}
+@media (min-width: 1200px) {
+  .st-card--sense .st-txt h3.st-sense-h { white-space: nowrap; }
+}
+
+/* Sense 图形放大:减小左右内边距(连线为地铁线路式的直角 + 圆角转折) */
+.sense-viz { padding: 26px 1.5% 4px 1.5%; }
+@media (min-width: 1025px) { .sense-viz { margin-right: -10px; } }
+
+/* Fast 背书链接:整句灰色,只有 "#1" 黑色加粗 */
+.st-endorse { color: #71717a; font-weight: 400; }
+.st-endorse:hover { color: #52525b; }
+.st-endorse .st-endorse-n { font-weight: 700; color: var(--st-ink, #0a0a0a); }
+.st-endorse .octen-arrow { color: inherit; }
+
+/* 底部两张卡(Web / Code)不再处在同一水平线上:Code 下移 */
+.sv-code { top: 83%; }
 
 /* Premier 精简:插画里的细小文字改成骨架条,只留关键字 */
 .pm-sk { display: inline-block; height: 6px; border-radius: 3px; background: currentColor; opacity: .2; vertical-align: middle; max-width: 100%; }
 .pm-sk-chip { display: inline-block; width: 44px; height: 16px; border-radius: 999px; background: currentColor; opacity: .12; }
 .pm-kv dt.pm-sk, .pm-kv dd.pm-sk { display: block; }
 .pm-tl-item time.pm-sk { display: inline-block; }
+/* 中心球体放大;球里的图标 + 文字在 On-device AI / Cameras / Robots / Smart glasses 之间不断切换 */
+.sv-center { width: 27%; container-type: inline-size; }
+.sv-ctr { position: absolute; inset: 0; pointer-events: none; }
+.sv-ctr-i { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2.2cqw; color: #fff; opacity: 0; animation: sv-ctr 9.6s ease-in-out infinite; animation-delay: calc(var(--i) * 2.4s); }
+.sv-ctr-i svg { width: 25cqw; height: 25cqw; filter: drop-shadow(0 1px 3px rgba(0, 60, 30, .35)); }
+.sv-ctr-i span { font: 600 6.8cqw/1 'DM Sans', sans-serif; letter-spacing: .02em; white-space: nowrap; text-shadow: 0 1px 3px rgba(0, 60, 30, .35); }
+@keyframes sv-ctr { 0% { opacity: 0; transform: scale(.82); } 5% { opacity: 1; transform: scale(1); } 21% { opacity: 1; transform: scale(1); } 25% { opacity: 0; transform: scale(1.12); } 100% { opacity: 0; transform: scale(1.12); } }
+@media (prefers-reduced-motion: reduce) { .sv-ctr-i { animation: none; } .sv-ctr-i:first-child { opacity: 1; } }
+
+/* 五项轮播(On-device AI / Cameras / Robots / AR/MR / Self-driving):总周期 12s,每项 2.4s */
+.sv-ctr-i { animation-duration: 12s; }
+@keyframes sv-ctr { 0% { opacity: 0; transform: scale(.82); } 4% { opacity: 1; transform: scale(1); } 16% { opacity: 1; transform: scale(1); } 20% { opacity: 0; transform: scale(1.12); } 100% { opacity: 0; transform: scale(1.12); } }
+.sv-ctr-i span { font-size: 8.4cqw; }
+.sv-ctr-i { gap: 2.6cqw; }
+/* 文字变大后,球体本身也放大一档(球体 svg 放大到 120%,容器尺寸不变),让文字完整落在球里 */
+.sv-center .sv-svg { width: 120%; max-width: none; margin: -10% 0 -10% -10%; }
+
+/* 切换方式:左右滑动(新图标从右侧滑入、旧图标向左滑出),被限制在球体的圆形窗口内,不会滑到球外 */
+.sv-ctr { clip-path: circle(38.75% at 50% 50%); }
+.sv-ctr-i { animation-name: sv-ctr-slide; }
+@keyframes sv-ctr-slide { 0% { opacity: 0; transform: translateX(55%); } 5% { opacity: 1; transform: translateX(0); } 17% { opacity: 1; transform: translateX(0); } 22% { opacity: 0; transform: translateX(-55%); } 100% { opacity: 0; transform: translateX(-55%); } }
+
+/* 四项轮播(Cameras / Robots / AR/MR / In-car AI):总周期 9.6s,每项 2.4s */
+.sv-ctr-i { animation-duration: 9.6s; }
+@keyframes sv-ctr-slide { 0% { opacity: 0; transform: translateX(55%); } 6% { opacity: 1; transform: translateX(0); } 21% { opacity: 1; transform: translateX(0); } 27% { opacity: 0; transform: translateX(-55%); } 100% { opacity: 0; transform: translateX(-55%); } }
+
+/* 外层绿色球体稍微缩小(120% → 108%);光晕呼吸:外发光在弱 / 强之间缓慢起伏 */
+.sv-center .sv-svg { width: 108%; margin: -4% 0 -4% -4%; animation: sv-breathe 3.8s ease-in-out infinite; }
+@keyframes sv-breathe {
+  0%, 100% { filter: drop-shadow(0 0 5px rgba(112, 254, 126, .11)) drop-shadow(0 0 14px rgba(112, 254, 126, .064)); }
+  50%      { filter: drop-shadow(0 0 12px rgba(112, 254, 126, .24)) drop-shadow(0 0 30px rgba(112, 254, 126, .144)); }
+}
+@media (prefers-reduced-motion: reduce) { .sv-center .sv-svg { animation: none; } }
+/* 图标切换放慢(每项 3.6s,整圈 14.4s);滑动窗口的圆形遮罩半径对齐球体边界(球体半径 ≈ 容器宽度的 35%) */
+.sv-ctr { clip-path: circle(34% at 50% 50%); }
+.sv-ctr-i { animation-duration: 14.4s; animation-delay: calc(var(--i) * 3.6s); }
+
+/* 五项轮播(Smart devices / Cameras / Robots / AR/MR / In-car AI):每项 3.6s,整圈 18s */
+.sv-ctr-i { animation-duration: 18s; }
+@keyframes sv-ctr-slide { 0% { opacity: 0; transform: translateX(55%); } 5% { opacity: 1; transform: translateX(0); } 16.5% { opacity: 1; transform: translateX(0); } 21.5% { opacity: 0; transform: translateX(-55%); } 100% { opacity: 0; transform: translateX(-55%); } }
+/* "Smart devices" 比其他词长,略缩小字号,保证完整落在球体圆形窗口内 */
+.sv-ctr-i:first-child span { font-size: 7.4cqw; }
+/* 图标过渡:进入更快(约 0.45s,先快后缓的出场曲线)、离开用先缓后快的曲线,并与下一项的进入略有重叠,像一条连续的传送带;位移缩小为 42% 更克制 */
+@keyframes sv-ctr-slide {
+  0%    { opacity: 0; transform: translateX(42%) scale(.96); animation-timing-function: cubic-bezier(.16, 1, .3, 1); }
+  2.6%  { opacity: 1; transform: translateX(0) scale(1); }
+  17.4% { opacity: 1; transform: translateX(0) scale(1); animation-timing-function: cubic-bezier(.55, .06, .68, .19); }
+  21%   { opacity: 0; transform: translateX(-42%) scale(.96); }
+  100%  { opacity: 0; transform: translateX(-42%) scale(.96); }
+}
+/* 画布接管背景点阵后,隐藏 CSS 的底层点阵(否则会和画布里的点叠成两层) */
+.st-card--sense.has-dot-canvas::before { display: none; }
+
+/* 性能:Sense 卡片离开视口时暂停其中所有 CSS 动画(呼吸 / 图标轮播) */
+#tier-sense.is-offscreen, #tier-sense.is-offscreen * { animation-play-state: paused !important; }

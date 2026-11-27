@@ -29,8 +29,8 @@
 
   /* ---------- Premier 搜索框:轮流输入三类示例查询,对应卡片同步高亮(.is-hl) ---------- */
   var QUERIES = [
-    { dom: 'news', chip: 'News', q: 'port strike latest' },
     { dom: 'web', chip: 'Web Search Premier', q: 'northwind q4 stock price' },
+    { dom: 'news', chip: 'News', q: 'port strike latest' },
     { dom: 'business', chip: 'Business', q: 'northwind robotics' },
     { dom: 'place', chip: 'Place', q: 'coffee near harbor st' }
   ];
@@ -121,13 +121,14 @@
 
   /* ---------- Fast API 卡片:进入视口后逐个轮流高亮 Web → Broad → Image → Video → Sense(.is-hl 与 :hover 样式一致),
      悬停网格时暂停轮播、交给鼠标;离开视口停止 ---------- */
-  var fxGrid = root.querySelector('.st-fx-grid');
+  var fxGrids = Array.prototype.slice.call(root.querySelectorAll('.st-fx-grid'));   // Fast(Web / Broad)+ Sense(Image / Video / Sense)
+  var fxGrid = fxGrids[0];
   if (fxGrid && !reduce && 'IntersectionObserver' in window) {
-    var fxCards = Array.prototype.slice.call(fxGrid.querySelectorAll('.st-fx[data-fx]'));
+    var fxCards = Array.prototype.slice.call(root.querySelectorAll('.st-fx-grid .st-fx[data-fx]'));
     var fxDurations = { web: 1800, broad: 2400, image: 2600, video: 2400, sense: 2600 };
-    var fxVideoCard = fxGrid.querySelector('.st-fx--video');
-    var fxVideoEl = fxGrid.querySelector('.fx-vid-bg');
-    var fxDotsWrap = fxGrid.querySelector('[data-vid-dots]');
+    var fxVideoCard = root.querySelector('.st-fx--video');
+    var fxVideoEl = root.querySelector('.fx-vid-bg');
+    var fxDotsWrap = root.querySelector('[data-vid-dots]');
     var fxDots = [];
     if (fxDotsWrap) {
       for (var d = 0; d < 50; d++) {
@@ -196,16 +197,18 @@
       syncVideo(false);
     };
 
-    fxGrid.addEventListener('mouseenter', function () {
-      fxHover = true;
-      clearTimeout(fxTimer);
-      fxCards.forEach(function (c) { c.classList.remove('is-hl'); });
-      syncVideo(false);
-    });
-    fxGrid.addEventListener('mouseleave', function () {
-      fxHover = false;
-      syncVideo(false);
-      if (fxOn) fxTimer = setTimeout(fxTick, 600);
+    fxGrids.forEach(function (g) {
+      g.addEventListener('mouseenter', function () {
+        fxHover = true;
+        clearTimeout(fxTimer);
+        fxCards.forEach(function (c) { c.classList.remove('is-hl'); });
+        syncVideo(false);
+      });
+      g.addEventListener('mouseleave', function () {
+        fxHover = false;
+        syncVideo(false);
+        if (fxOn) fxTimer = setTimeout(fxTick, 600);
+      });
     });
 
     if (fxVideoCard) {
@@ -215,12 +218,17 @@
       });
     }
 
-    new IntersectionObserver(function (es) {
+    var fxVisible = new Set();
+    var fxIo = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
-        fxOn = e.isIntersecting;
-        if (fxOn && !document.hidden) { clearTimeout(fxTimer); fxTick(); } else fxStop();
+        if (e.isIntersecting) fxVisible.add(e.target); else fxVisible.delete(e.target);
       });
-    }, { threshold: 0.4 }).observe(fxGrid);
+      var on = fxVisible.size > 0;
+      if (on === fxOn) return;
+      fxOn = on;
+      if (fxOn && !document.hidden) { clearTimeout(fxTimer); fxTick(); } else fxStop();
+    }, { threshold: 0.4 });
+    fxGrids.forEach(function (g) { fxIo.observe(g); });
   }
 
   /* ---------- Pulse / Fast 延迟大数字 NumberFlow 滚轮动画 ---------- */
@@ -448,4 +456,176 @@
       updateCursorTarget(document.elementFromPoint(lastX, lastY));
     }, { passive: true });
   }
+})();
+
+/* Sense 卡片:跟随鼠标的微弱立体倾斜(最大 ±2.2°;右侧分支图本身没有视差)+ 背景点阵拖尾:鼠标经过的点依次点亮(放大、变亮),随后逐渐褪去,形成拖尾;
+   触屏 / 减少动画偏好下不启用 */
+(function () {
+  var card = document.querySelector('#tier-sense');
+  if (!card) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var hoverFine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;   // 倾斜 / 拖尾只在有鼠标的设备上启用;从中心球体向外扩散的光点涟漪所有设备都有
+
+  /* ---- 倾斜 ---- */
+  var MAX = 2.2, tx = 0, ty = 0, cx = 0, cy = 0, tiltRaf = 0;
+  function tiltFrame() {
+    cx += (tx - cx) * 0.14;
+    cy += (ty - cy) * 0.14;
+    card.style.setProperty('--st-rx', cx.toFixed(3) + 'deg');
+    card.style.setProperty('--st-ry', cy.toFixed(3) + 'deg');
+    if (Math.abs(tx - cx) > 0.004 || Math.abs(ty - cy) > 0.004) tiltRaf = requestAnimationFrame(tiltFrame);
+    else tiltRaf = 0;
+  }
+  function tiltKick() { if (!tiltRaf) tiltRaf = requestAnimationFrame(tiltFrame); }
+
+  /* ---- 点阵拖尾(画布):与 CSS 底层点阵同一网格(12px,圆心在格子中心) ---- */
+  var STEP = 12, REACH = 52, DECAY = 0.94, TURB = 5;   // 点阵间距 12px(与 CSS 底层点阵一致);TURB = 尾部湍流的最大位移(px)
+  var canvas = document.createElement('canvas');
+  canvas.className = 'st-dots-canvas';
+  canvas.setAttribute('aria-hidden', 'true');
+  card.insertBefore(canvas, card.firstChild);
+  card.classList.add('has-dot-canvas');   // 画布接管整层背景点阵(CSS 的底层点阵隐藏),涟漪 / 拖尾点亮的就是这些点本身
+  var ctx = canvas.getContext('2d');
+  var W = 0, H = 0, cols = 0, rows = 0, level = null, tint = null, dotRaf = 0, lastX = null, lastY = null;
+  function resize() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = card.offsetWidth; H = card.offsetHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cols = Math.ceil(W / STEP); rows = Math.ceil(H / STEP);
+    level = new Float32Array(cols * rows);
+    tint = new Float32Array(cols * rows);
+    drawBase(dpr);
+    ctx.clearRect(0, 0, W, H); ctx.drawImage(baseCanvas, 0, 0, W, H);
+  }
+  // 底层点阵(与原 CSS 点阵同一网格、同样的淡白色)预先画到离屏画布,每帧整张贴回;被点亮的点在同一个位置上变亮 / 变大
+  var baseCanvas = document.createElement('canvas');
+  function drawBase(dpr) {
+    baseCanvas.width = W * dpr; baseCanvas.height = H * dpr;
+    var b = baseCanvas.getContext('2d');
+    b.setTransform(dpr, 0, 0, dpr, 0, 0);
+    b.fillStyle = 'rgba(255,255,255,0.12)';
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        b.beginPath();
+        b.arc(c * STEP + STEP / 2, r * STEP + STEP / 2, 0.95, 0, 6.2832);
+        b.fill();
+      }
+    }
+  }
+  resize();
+  if ('ResizeObserver' in window) new ResizeObserver(resize).observe(card);
+
+  function stamp(px, py) {   // 以 (px,py) 为圆心点亮周围的点(强度随距离衰减,取较大值,所以划过的路径上的点都会被点亮)
+    var c0 = Math.max(0, Math.floor((px - REACH) / STEP)), c1 = Math.min(cols - 1, Math.ceil((px + REACH) / STEP));
+    var r0 = Math.max(0, Math.floor((py - REACH) / STEP)), r1 = Math.min(rows - 1, Math.ceil((py + REACH) / STEP));
+    for (var r = r0; r <= r1; r++) {
+      for (var c = c0; c <= c1; c++) {
+        var d = Math.hypot(c * STEP + STEP / 2 - px, r * STEP + STEP / 2 - py);
+        if (d >= REACH) continue;
+        var v = 1 - d / REACH;
+        v = v * v * (3 - 2 * v);
+        var i = r * cols + c;
+        if (v > level[i]) level[i] = v;
+      }
+    }
+  }
+  function dotFrame(now) {
+    ctx.clearRect(0, 0, W, H);
+    ctx.drawImage(baseCanvas, 0, 0, W, H);   // 先铺满底层点阵,再在原位置叠加被点亮的点
+    var alive = false, t = now || performance.now();
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        var i = r * cols + c, v = level[i];
+        if (v < 0.015) { level[i] = 0; continue; }
+        alive = true;
+        // 尾部湍流:亮度越低(越靠近尾部)位移越大,位移方向由随位置 / 时间变化的伪噪声决定,点在褪去时像被气流卷走
+        var lit = tint[i] > 0.08, tail = 1 - v, amp = lit ? 0 : TURB * tail * tail;   // 涟漪点不做湍流位移,始终钉在网格上
+        var nx = Math.sin(c * 0.83 + r * 0.41 + t * 0.0031) * Math.cos(r * 0.97 - c * 0.29 + t * 0.0023);
+        var ny = Math.cos(c * 0.57 - r * 0.88 + t * 0.0027) * Math.sin(r * 0.62 + c * 0.35 - t * 0.0035);
+        ctx.fillStyle = tint[i] > 0.08 ? 'rgba(112,254,126,' + (0.6 * v).toFixed(3) + ')' : 'rgba(255,255,255,' + (0.62 * v).toFixed(3) + ')';   // 涟漪点为绿色,鼠标拖尾为白色
+        ctx.beginPath();
+        ctx.arc(c * STEP + STEP / 2 + nx * amp, r * STEP + STEP / 2 + ny * amp, (lit ? 0.95 + 1.0 * v : 0.75 + 0.7 * v), 0, 6.2832);
+        ctx.fill();
+        level[i] = v * DECAY;
+        tint[i] = tint[i] * DECAY;
+      }
+    }
+    dotRaf = alive ? requestAnimationFrame(dotFrame) : 0;
+  }
+  function dotKick() { if (!dotRaf) dotRaf = requestAnimationFrame(dotFrame); }
+
+  /* ---- 中心球体向外扩散的光点涟漪:用背景点阵本身来完成(点阵亮起 → 褪去),与球体光晕呼吸同步:光晕升到峰值时发出一圈 ---- */
+  var RIPPLE_MS = 2900, PERIOD = 3800, PEAK = 1900, SIG = 15;
+  var ringStart = -1, ringCx = 0, ringCy = 0, ringR0 = 0, ringMax = 0, waveRaf = 0, lastPhase = -1, waveVisible = true;
+  function breatheAnim() {
+    var svg = card.querySelector('.sv-center .sv-svg');
+    if (!svg || !svg.getAnimations) return null;
+    var a = svg.getAnimations();
+    for (var i = 0; i < a.length; i++) if (a[i].animationName === 'sv-breathe') return a[i];
+    return null;
+  }
+  function launchRing(now) {
+    var el = card.querySelector('.sv-center');
+    if (!el) return;
+    var cr = card.getBoundingClientRect(), r = el.getBoundingClientRect();
+    ringCx = r.left + r.width / 2 - cr.left; ringCy = r.top + r.height / 2 - cr.top;
+    ringR0 = r.width * 0.34; ringMax = Math.max(260, Math.min(W, 520) * 0.5);
+    ringStart = now;
+  }
+  function stampRing(p) {   // p: 0~1 的扩散进度;环上的点亮度按高斯分布,越往外越淡
+    var eased = 1 - Math.pow(1 - p, 2.2);
+    var R = ringR0 + (ringMax - ringR0) * eased, amp = 0.5 * Math.pow(1 - p, 1.25);
+    var c0 = Math.max(0, Math.floor((ringCx - R - 3 * SIG) / STEP)), c1 = Math.min(cols - 1, Math.ceil((ringCx + R + 3 * SIG) / STEP));
+    var r0 = Math.max(0, Math.floor((ringCy - R - 3 * SIG) / STEP)), r1 = Math.min(rows - 1, Math.ceil((ringCy + R + 3 * SIG) / STEP));
+    for (var r = r0; r <= r1; r++) {
+      for (var c = c0; c <= c1; c++) {
+        var d = Math.hypot(c * STEP + STEP / 2 - ringCx, r * STEP + STEP / 2 - ringCy), dd = d - R;
+        if (dd > 3 * SIG || dd < -3 * SIG) continue;
+        var v = amp * Math.exp(-(dd * dd) / (2 * SIG * SIG)), i = r * cols + c;
+        if (v > level[i]) { level[i] = v; if (v > tint[i]) tint[i] = v; }
+      }
+    }
+  }
+  function waveFrame(now) {
+    waveRaf = 0;
+    if (!waveVisible || document.hidden) return;
+    var an = breatheAnim();
+    var phase = an && an.currentTime != null ? (an.currentTime % PERIOD) : (now % PERIOD);
+    if (lastPhase >= 0 && lastPhase < PEAK && phase >= PEAK) launchRing(now);   // 光晕升过峰值的那一刻发出一圈
+    lastPhase = phase;
+    if (ringStart >= 0) {
+      var p = (now - ringStart) / RIPPLE_MS;
+      if (p >= 1) ringStart = -1; else { stampRing(p); dotKick(); }
+    }
+    waveRaf = requestAnimationFrame(waveFrame);
+  }
+  function waveKick() { if (!waveRaf) waveRaf = requestAnimationFrame(waveFrame); }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { waveVisible = es[0].isIntersecting; card.classList.toggle('is-offscreen', !waveVisible); if (waveVisible) waveKick(); }, { rootMargin: '80px' }).observe(card);
+  }
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) waveKick(); });
+  waveKick();
+
+  if (hoverFine) card.addEventListener('pointermove', function (e) {
+    var r = card.getBoundingClientRect();
+    var x = e.clientX - r.left, y = e.clientY - r.top;
+    ty = (x / r.width - 0.5) * 2 * MAX;     // 鼠标在右 → 右侧远离(rotateY 为正)
+    tx = -(y / r.height - 0.5) * 2 * MAX;   // 鼠标在上 → 上侧远离(rotateX 为正)
+    card.classList.add('is-tilting');
+    tiltKick();
+    // 在上一个指针位置到当前位置之间补点,快速移动时轨迹也连续
+    if (lastX !== null) {
+      var dist = Math.hypot(x - lastX, y - lastY), n = Math.max(1, Math.ceil(dist / (STEP * 0.8)));
+      for (var k = 1; k <= n; k++) stamp(lastX + (x - lastX) * k / n, lastY + (y - lastY) * k / n);
+    } else stamp(x, y);
+    lastX = x; lastY = y;
+    dotKick();
+  });
+
+  if (hoverFine) card.addEventListener('pointerleave', function () {
+    tx = 0; ty = 0; lastX = null; lastY = null;
+    card.classList.remove('is-tilting');
+    tiltKick();
+  });
 })();

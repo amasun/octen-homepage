@@ -124,6 +124,21 @@ const SHINE_MS = 3200;        // 扫光总时长
 const SHINE_OVERLAP = 500;    // 扫光在入场结束前 700ms 开始
 const SECOND_DELAY = 320, SECOND_MS = 1000;   // 第二道较弱的光环
 const stagger = (i) => i * 11; // 逐字入场间隔
+/* natural 模式(迪士尼原则):单字入场时长、逐字错峰、过冲量、拉伸/挤压幅度 */
+const NATURAL_MS = 720, NATURAL_STAGGER = 30, NATURAL_RISE_END = 0.62, NATURAL_OVERSHOOT = 0.16, NATURAL_STRETCH = 0.07, NATURAL_SQUASH = 0.035;
+const easeOutCubic = (u) => 1 - Math.pow(1 - u, 3);
+const easeInOutSine = (u) => 0.5 - 0.5 * Math.cos(Math.PI * u);
+/** 入场:p∈[0,1] → { y: 位移(单位 = fontSize*RISE,正值向上), sy: 纵向缩放, o: 不透明度 } */
+function naturalEnter(p) {
+  p = clamp01(p);
+  const o = easeOutCubic(clamp01(p / 0.45));                                       // 先淡入,运动主体在可见时完成
+  if (p < NATURAL_RISE_END) {                                                       // 上升:慢出(快起、渐缓)+ 过冲,运动中沿运动方向拉伸
+    const u = p / NATURAL_RISE_END;
+    return { y: -1 + easeOutCubic(u) * (1 + NATURAL_OVERSHOOT), sy: 1 + NATURAL_STRETCH * Math.sin(Math.PI * u), o };
+  }
+  const u = (p - NATURAL_RISE_END) / (1 - NATURAL_RISE_END);                       // 回弹落定:慢入慢出,落地瞬间轻微挤压
+  return { y: NATURAL_OVERSHOOT * (1 - easeInOutSine(u)), sy: 1 - NATURAL_SQUASH * Math.sin(Math.PI * u), o: 1 };
+}
 
 export class ShineWord {
   /**
@@ -135,10 +150,12 @@ export class ShineWord {
    * @param {number} [o.baseOpacity=1]
    * @param {[string,string]} [o.baseGradient] 静止态字色渐变(CSS 颜色,左→右);缺省用宿主 color
    * @param {number} [o.loopPause=0] 每轮轮播结束(回到第一个词之前)槽位收起、只剩前文居中的停留毫秒数
+   * @param {boolean} [o.once=false] 只播放一次入场 + 扫光,之后静止停在最终字形(再次进入视口时重播);用于静态标题里的强调词
+   * @param {boolean} [o.natural=false] 入场运动按迪士尼动画原则:慢入慢出、过冲后回弹落定(跟随)、运动中纵向拉伸/落定时轻微挤压、逐字错峰(重叠动作);默认保持原线性位移
    * @param {number} [o.initialDelay=0] 首屏加载后先让轮播词槽位保持收起(前文居中)的毫秒数,之后才展开并开始入场 + 扫光
    */
-  constructor(host, { words, holdMs = 700, baseOpacity = 1, palettes = PALETTES, baseGradient = null, initialDelay = 0, loopPause = 0 }) {
-    this.host = host; this.words = words; this.holdMs = holdMs; this.palettes = palettes; this.baseGradient = baseGradient; this.baseOpacity = baseOpacity; this.initialDelay = initialDelay; this.loopPause = loopPause; this.started = false;
+  constructor(host, { words, holdMs = 700, baseOpacity = 1, palettes = PALETTES, baseGradient = null, initialDelay = 0, loopPause = 0, once = false, natural = false }) {
+    this.host = host; this.words = words; this.holdMs = holdMs; this.palettes = palettes; this.baseGradient = baseGradient; this.baseOpacity = baseOpacity; this.initialDelay = initialDelay; this.loopPause = loopPause; this.once = once; this.natural = natural; this.started = false;
     this.index = 0; this.glyphs = []; this.state = 'idle'; this.t0 = 0; this.dead = false;
     this.raf = 0; this.pausedAt = 0; this.switchTimer = null;
 
@@ -157,7 +174,7 @@ export class ShineWord {
 
     this.io = new IntersectionObserver(([e]) => {
       this.visible = Boolean(e && e.isIntersecting);
-      if (this.visible) this.#startLoop();
+      if (this.visible) { if (this.state === 'done') this.#showWord(); else this.#startLoop(); }   // once 模式:再次进入视口时重播
       else this.#stopLoop();
     }, { threshold: 0.1 });
     this.io.observe(host);
@@ -292,11 +309,11 @@ export class ShineWord {
         const baseY = H - (PAD + box.height / 2);        // 单行:垂直居中
         mesh.position.set(PAD + x + a / 2, baseY, 0);
         this.scene.add(mesh);
-        this.glyphs.push({ mesh, geo, mat, tex, baseY, delay: stagger(n++) });
+        this.glyphs.push({ mesh, geo, mat, tex, baseY, delay: this.natural ? n++ * NATURAL_STAGGER : stagger(n++) });
       }
       x += a;
     });
-    this.enterDur = Math.max(0, ...this.glyphs.map((g) => g.delay)) + ENTER_MS;
+    this.enterDur = Math.max(0, ...this.glyphs.map((g) => g.delay)) + (this.natural ? NATURAL_MS : ENTER_MS);
     this.exitDur = Math.max(0, ...this.glyphs.map((g) => g.delay)) + EXIT_MS;
 
     this.state = 'enter'; this.t0 = performance.now(); this.pausedAt = 0;
@@ -311,7 +328,7 @@ export class ShineWord {
   /* ───── 主循环:enter → shine → hold → exit → 切词 ───── */
   #tick = (now) => {
     this.raf = 0;
-    if (this.dead || !this.visible || document.hidden) return;
+    if (this.dead || !this.visible || document.hidden || this.state === 'done') return;
     if (!this.glyphs.length) {
       this.raf = requestAnimationFrame(this.#tick);
       return;
@@ -320,6 +337,7 @@ export class ShineWord {
 
     if (this.state === 'enter' || this.state === 'hold') {
       this.#frame('enter', t);
+      if (this.once && t > this.enterDur + SHINE_MS - SHINE_OVERLAP) { this.state = 'done'; return; }   // 静止在最终字形
       if (t > this.enterDur + SHINE_MS - SHINE_OVERLAP + this.holdMs) { this.state = 'exit'; this.t0 = now; }
     } else if (this.state === 'exit') {
       this.#frame('exit', t);
@@ -357,11 +375,12 @@ export class ShineWord {
     const s = this.fontSize * RISE;
 
     for (const g of this.glyphs) {
-      let o = 1, dy = 0;
+      let o = 1, dy = 0, sy = 1;
       if (phase === 'exit') { const e = cubicBezier((t - g.delay) / EXIT_MS, 0.4, 0, 1, 1); o = 1 - e; dy = s * e; }
+      else if (this.natural) { const n = naturalEnter((t - g.delay) / NATURAL_MS); o = n.o; dy = s * n.y; sy = n.sy; }
       else { const e = cubicBezier((t - g.delay) / ENTER_MS, 0, 0, 0.3, 1); o = e; dy = -s * (1 - e); }
       const u = g.mat.uniforms;
-      g.mesh.position.y = g.baseY + dy;
+      g.mesh.position.y = g.baseY + dy; g.mesh.scale.y = sy;
       u.uOpacity.value = o; u.uShineStrength.value = shine ? 1 : 0;
       u.uPrimaryProgress.value = primary; u.uSecondaryProgress.value = secondary; u.uSecondaryStrength.value = secondaryStrength;
     }
