@@ -292,13 +292,13 @@ function initMotion(): void {
           switch (i) {
             case 0: return [[n.r, midY], [330, midY], [330, CY], [CX, CY]];                         // video → 左主干
             case 1: { const x = (n.l + n.r) / 2; return [[x, n.b], [x, CY], [CX, CY]]; }            // news → 自上而下汇入左主干
-            case 2: { const y = clamp(60, n.t + 10, n.b - 10); return [[n.l, y], [CX, y], [CX, 160]]; }   // image → 上方入口
+            case 2: { const y = clamp(60, n.t + 10, n.b - 10); return [[n.l, y], [CX, y], [CX, 138]]; }   // image → 上方入口
             case 3: { const y = clamp(CY, n.t + 10, n.b - 10); return [[n.r, y], [CX, y]]; }         // business → 直线入 logo
             case 4: { const y = clamp(137, n.t + 10, n.b - 10); return [[n.l, y], [548, y], [548, CY], [CX, CY]]; }   // place → 右主干
             case 5: { const y = clamp(224, n.t + 10, n.b - 10); return [[n.l, y], [CX, y]]; }        // chart → 直线入 logo
             case 6: return [[n.r, midY], [240, midY], [240, CY], [CX, CY]];                          // text → 左主干
-            case 7: { const y = clamp(352, n.t + 10, n.b - 10); return [[n.r, y], [CX, y], [CX, 262]]; }   // web → 下方入口
-            default: return [[n.l, midY], [CX, midY], [CX, 262]];                                   // code → 下方入口(位置比 Web 更低,取卡片中线)
+            case 7: { const y = clamp(352, n.t + 10, n.b - 10); return [[n.r, y], [CX, y], [CX, 282]]; }   // web → 下方入口
+            default: return [[n.l, midY], [CX, midY], [CX, 282]];                                   // code → 下方入口(位置比 Web 更低,取卡片中线)
           }
         });
         const ps = senseViz.querySelectorAll<SVGPathElement>('.sv-path');
