@@ -463,7 +463,8 @@
 (function () {
   var card = document.querySelector('#tier-sense');
   if (!card) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var hoverFine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;   // 倾斜 / 拖尾只在有鼠标的设备上启用;从中心球体向外扩散的光点涟漪所有设备都有
 
   /* ---- 倾斜 ---- */
   var MAX = 2.2, tx = 0, ty = 0, cx = 0, cy = 0, tiltRaf = 0;
@@ -484,7 +485,7 @@
   canvas.setAttribute('aria-hidden', 'true');
   card.insertBefore(canvas, card.firstChild);
   var ctx = canvas.getContext('2d');
-  var W = 0, H = 0, cols = 0, rows = 0, level = null, dotRaf = 0, lastX = null, lastY = null;
+  var W = 0, H = 0, cols = 0, rows = 0, level = null, tint = null, dotRaf = 0, lastX = null, lastY = null;
   function resize() {
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
     W = card.offsetWidth; H = card.offsetHeight;
@@ -492,6 +493,7 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     cols = Math.ceil(W / STEP); rows = Math.ceil(H / STEP);
     level = new Float32Array(cols * rows);
+    tint = new Float32Array(cols * rows);
   }
   resize();
   if ('ResizeObserver' in window) new ResizeObserver(resize).observe(card);
@@ -522,18 +524,71 @@
         var tail = 1 - v, amp = TURB * tail * tail;
         var nx = Math.sin(c * 0.83 + r * 0.41 + t * 0.0031) * Math.cos(r * 0.97 - c * 0.29 + t * 0.0023);
         var ny = Math.cos(c * 0.57 - r * 0.88 + t * 0.0027) * Math.sin(r * 0.62 + c * 0.35 - t * 0.0035);
-        ctx.fillStyle = 'rgba(255,255,255,' + (0.62 * v).toFixed(3) + ')';
+        ctx.fillStyle = tint[i] > 0.08 ? 'rgba(112,254,126,' + (0.6 * v).toFixed(3) + ')' : 'rgba(255,255,255,' + (0.62 * v).toFixed(3) + ')';   // 涟漪点为绿色,鼠标拖尾为白色
         ctx.beginPath();
         ctx.arc(c * STEP + STEP / 2 + nx * amp, r * STEP + STEP / 2 + ny * amp, 0.75 + 0.7 * v, 0, 6.2832);
         ctx.fill();
         level[i] = v * DECAY;
+        tint[i] = tint[i] * DECAY;
       }
     }
     dotRaf = alive ? requestAnimationFrame(dotFrame) : 0;
   }
   function dotKick() { if (!dotRaf) dotRaf = requestAnimationFrame(dotFrame); }
 
-  card.addEventListener('pointermove', function (e) {
+  /* ---- 中心球体向外扩散的光点涟漪:用背景点阵本身来完成(点阵亮起 → 褪去),与球体光晕呼吸同步:光晕升到峰值时发出一圈 ---- */
+  var RIPPLE_MS = 2900, PERIOD = 3800, PEAK = 1900, SIG = 15;
+  var ringStart = -1, ringCx = 0, ringCy = 0, ringR0 = 0, ringMax = 0, waveRaf = 0, lastPhase = -1, waveVisible = true;
+  function breatheAnim() {
+    var svg = card.querySelector('.sv-center .sv-svg');
+    if (!svg || !svg.getAnimations) return null;
+    var a = svg.getAnimations();
+    for (var i = 0; i < a.length; i++) if (a[i].animationName === 'sv-breathe') return a[i];
+    return null;
+  }
+  function launchRing(now) {
+    var el = card.querySelector('.sv-center');
+    if (!el) return;
+    var cr = card.getBoundingClientRect(), r = el.getBoundingClientRect();
+    ringCx = r.left + r.width / 2 - cr.left; ringCy = r.top + r.height / 2 - cr.top;
+    ringR0 = r.width * 0.34; ringMax = Math.max(260, Math.min(W, 520) * 0.5);
+    ringStart = now;
+  }
+  function stampRing(p) {   // p: 0~1 的扩散进度;环上的点亮度按高斯分布,越往外越淡
+    var eased = 1 - Math.pow(1 - p, 2.2);
+    var R = ringR0 + (ringMax - ringR0) * eased, amp = 0.5 * Math.pow(1 - p, 1.25);
+    var c0 = Math.max(0, Math.floor((ringCx - R - 3 * SIG) / STEP)), c1 = Math.min(cols - 1, Math.ceil((ringCx + R + 3 * SIG) / STEP));
+    var r0 = Math.max(0, Math.floor((ringCy - R - 3 * SIG) / STEP)), r1 = Math.min(rows - 1, Math.ceil((ringCy + R + 3 * SIG) / STEP));
+    for (var r = r0; r <= r1; r++) {
+      for (var c = c0; c <= c1; c++) {
+        var d = Math.hypot(c * STEP + STEP / 2 - ringCx, r * STEP + STEP / 2 - ringCy), dd = d - R;
+        if (dd > 3 * SIG || dd < -3 * SIG) continue;
+        var v = amp * Math.exp(-(dd * dd) / (2 * SIG * SIG)), i = r * cols + c;
+        if (v > level[i]) { level[i] = v; if (v > tint[i]) tint[i] = v; }
+      }
+    }
+  }
+  function waveFrame(now) {
+    waveRaf = 0;
+    if (!waveVisible || document.hidden) return;
+    var an = breatheAnim();
+    var phase = an && an.currentTime != null ? (an.currentTime % PERIOD) : (now % PERIOD);
+    if (lastPhase >= 0 && lastPhase < PEAK && phase >= PEAK) launchRing(now);   // 光晕升过峰值的那一刻发出一圈
+    lastPhase = phase;
+    if (ringStart >= 0) {
+      var p = (now - ringStart) / RIPPLE_MS;
+      if (p >= 1) ringStart = -1; else { stampRing(p); dotKick(); }
+    }
+    waveRaf = requestAnimationFrame(waveFrame);
+  }
+  function waveKick() { if (!waveRaf) waveRaf = requestAnimationFrame(waveFrame); }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { waveVisible = es[0].isIntersecting; if (waveVisible) waveKick(); }).observe(card);
+  }
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) waveKick(); });
+  waveKick();
+
+  if (hoverFine) card.addEventListener('pointermove', function (e) {
     var r = card.getBoundingClientRect();
     var x = e.clientX - r.left, y = e.clientY - r.top;
     ty = (x / r.width - 0.5) * 2 * MAX;     // 鼠标在右 → 右侧远离(rotateY 为正)
@@ -566,7 +621,7 @@
     else parRaf = 0;
   }
   function parKick() { if (!parRaf) parRaf = requestAnimationFrame(parFrame); }
-  card.addEventListener('pointerleave', function () {
+  if (hoverFine) card.addEventListener('pointerleave', function () {
     tx = 0; ty = 0; lastX = null; lastY = null; pTx = 0; pTy = 0; parKick();
     card.classList.remove('is-tilting');
     tiltKick();
