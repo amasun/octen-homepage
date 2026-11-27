@@ -503,35 +503,6 @@ function initMotion(): void {
       start: 'top 85%',
     });
 
-    // 5b) Showcase 卡片轨道:页面始终正常滚动(不 pin);区块在视口里经过的这段滚动中,卡片随滚轮自动向左移动,
-    //     区块进入视口后先停在最左,稍晚才开始左移,快要离开视口时最后一张完整露出。桌面端启用(窄屏保持手指横滑);系统开了「减少动态效果」时本函数不会执行
-    const showcaseEl = document.querySelector<HTMLElement>('#showcase');
-    const showcaseApps = showcaseEl?.querySelector<HTMLElement>('.sc-apps');
-    if (showcaseEl && showcaseApps) {
-      const scMm = gsap.matchMedia();
-      scMm.add('(min-width: 861px)', () => {
-        const maxScroll = (): number => Math.max(0, showcaseApps.scrollWidth - showcaseApps.clientWidth);
-        if (maxScroll() <= 4) return;
-        showcaseEl.classList.add('is-scroll-driven');   // CSS:关闭 scroll-snap、隐藏左右按钮(由滚动接管)
-        gsap.fromTo(
-          showcaseApps,
-          { scrollLeft: 0 },
-          {
-            scrollLeft: () => maxScroll(),
-            ease: 'none',
-            scrollTrigger: {
-              trigger: showcaseEl,
-              start: 'top 55%',        // 区块顶部上到视口 55% 处才开始向左移(延后,先让区块完整进入视线)
-              end: 'bottom 62%',       // 区块底部上到视口 62% 处,最后一张卡片完整露出
-              scrub: 0.6,
-              invalidateOnRefresh: true,
-            },
-          },
-        );
-        return () => showcaseEl.classList.remove('is-scroll-driven');
-      });
-    }
-
     // 6) Built to Perform (#built-to-perform)
     revealGroup('#built-to-perform .bpt-head > *', '#built-to-perform .bpt-head', {
       y: 18,

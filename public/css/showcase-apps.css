@@ -145,15 +145,15 @@
 }
 @media (max-width: 767px) { .sc-apps { --sc-fr: 48px; } }
 
-/* ---------- 左右切换按钮:位于标题栏右侧,右对齐 1280 内容区;小屏隐藏(靠滑动) ---------- */
+/* ---------- 左右切换按钮:放在卡片区两端(1280 内容区外侧),垂直居中于卡片图形区(top 由 showcase-apps.js 写入);小屏隐藏(靠滑动) ---------- */
+.sc-stage { position: relative; }
 .sc-nav {
-  position: absolute;
-  right: 32px;
-  bottom: 4px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  position: absolute; left: 0; right: 0; top: 80px; height: 0; z-index: 5;
+  pointer-events: none;
 }
+.sc-nav .sc-nav-btn { position: absolute; top: -20px; pointer-events: auto; }
+.sc-nav .sc-nav-btn[data-dir="-1"] { left: max(8px, calc((100% - 80rem) / 2 - 56px)); }
+.sc-nav .sc-nav-btn[data-dir="1"] { right: max(8px, calc((100% - 80rem) / 2 - 56px)); }
 .sc-nav-btn {
   width: 40px; height: 40px;
   display: inline-flex; align-items: center; justify-content: center;
@@ -331,5 +331,416 @@
 }
 
 /* 滚动驱动模式(桌面):页面照常滚动,卡片轨道随滚动自动向左移(src/motion/smooth-scroll.ts),关闭吸附与左右按钮 */
-#showcase.is-scroll-driven .sc-apps { scroll-snap-type: none; scroll-behavior: auto; }
-#showcase.is-scroll-driven .sc-nav { visibility: hidden; }
+
+/* ---------- 应用场景演示(.sc-demo):图示区增高,放一个看起来像真实控制台的深色窗口(顶栏标签 + 内容),
+   内容按顺序播放(public/js/showcase-demos.js);hover 加速 ---------- */
+.sc-banner { aspect-ratio: 1.42 / 1; align-items: stretch; }
+.sc-demo { position: absolute; inset: 12px 12px 0; z-index: 2; display: block; }
+.scw {
+  height: 100%; display: flex; flex-direction: column; overflow: hidden;
+  background: #0e1014; border: 1px solid rgba(255, 255, 255, .12); border-bottom: 0; border-radius: 10px 10px 0 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+  font: 400 10.5px/1.5 'DM Sans', -apple-system, sans-serif; color: rgba(255, 255, 255, .82);
+}
+.scw-bar { display: flex; align-items: center; gap: 6px; height: 26px; padding: 0 8px; background: #151820; border-bottom: 1px solid rgba(255, 255, 255, .08); flex: none; }
+.scw-tab { display: inline-flex; align-items: center; gap: 6px; height: 20px; padding: 0 8px; border-radius: 6px; background: rgba(255, 255, 255, .08); color: #fff; font-weight: 500; font-size: 10px; white-space: nowrap; }
+.scw-tab i { width: 6px; height: 6px; border-radius: 50%; background: #70fe7e; }
+.scw-plus { color: rgba(255, 255, 255, .4); font-size: 13px; line-height: 1; }
+.scw-dots { margin-left: auto; color: rgba(255, 255, 255, .35); letter-spacing: 1px; font-size: 11px; }
+.scw-body { flex: 1; min-height: 0; padding: 10px 11px; display: flex; flex-direction: column; gap: 7px; overflow: hidden; }
+
+/* 逐项出现 */
+.scw [data-pop], .scw [data-type] { opacity: 0; transform: translateY(4px); transition: opacity .3s ease, transform .3s ease; }
+.scw [data-pop].is-on, .scw [data-type].is-on { opacity: 1; transform: none; }
+
+/* Answer:对话 */
+.scw-msg { padding: 7px 9px; border-radius: 8px; background: rgba(255, 255, 255, .05); }
+.scw-msg.is-user { align-self: flex-end; max-width: 88%; background: rgba(112, 254, 126, .14); color: #d9ffe0; }
+.scw-msg sup { margin-left: 2px; padding: 0 3px; border-radius: 3px; background: rgba(112, 254, 126, .22); color: #70fe7e; font-size: 8px; }
+.scw-src { display: flex; gap: 5px; }
+.scw-src span { padding: 2px 7px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .14); color: rgba(255, 255, 255, .6); font-size: 9px; }
+
+/* Search Agent:终端 */
+.scw-term { font: 400 9.5px/1.55 ui-monospace, 'DM Mono', Menlo, monospace; gap: 3px; }
+.scw-l { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: rgba(255, 255, 255, .8); }
+.scw-l b { color: #70fe7e; margin-right: 6px; font-weight: 400; }
+.scw-l.is-cmd { color: #fff; margin-bottom: 3px; }
+.scw-l.is-out { color: rgba(255, 255, 255, .5); padding-left: 12px; }
+.scw-l.is-out u { text-decoration: none; color: #70fe7e; }
+.scw-l.is-final { white-space: normal; color: #fff; margin-top: 4px; padding-top: 6px; border-top: 1px solid rgba(255, 255, 255, .1); }
+
+/* Deep Research:步骤列表 */
+.scw-step { display: flex; align-items: center; gap: 8px; padding: 4px 8px; border-radius: 6px; background: rgba(255, 255, 255, .04); }
+.scw-step em { margin-left: auto; font-style: normal; color: rgba(255, 255, 255, .4); font-size: 9px; }
+.scw-step i { width: 11px; height: 11px; border-radius: 50%; flex: none; }
+.scw-step i.ok { background: rgba(112, 254, 126, .22) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 6.2l2 2L9 4' fill='none' stroke='%2370fe7e' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 11px no-repeat; }
+.scw-step i.run { border: 1.5px solid rgba(255, 255, 255, .2); border-top-color: #70fe7e; animation: scw-spin 0.9s linear infinite; }
+@keyframes scw-spin { to { transform: rotate(360deg); } }
+.scw-prog { height: 3px; border-radius: 2px; background: rgba(255, 255, 255, .12); overflow: hidden; margin-top: 2px; }
+.scw-prog b { display: block; height: 100%; width: 100%; background: #70fe7e; transform-origin: left; transform: scaleX(.2); transition: transform 2.4s ease; }
+.scw-prog.is-on b { transform: scaleX(.78); }
+.scw-meta { color: rgba(255, 255, 255, .5); font-size: 9.5px; }
+
+/* Grounded Generation:文档 */
+.scw-doc h5 { margin: 0; font: 600 12px/1.3 'IBM Plex Serif', Georgia, serif; color: #fff; }
+.scw-doc p { margin: 0; color: rgba(255, 255, 255, .78); }
+.scw-cite { margin: 0 1px 0 2px; padding: 0 3px; border-radius: 3px; background: rgba(112, 254, 126, .22); color: #70fe7e; font-size: 8px; vertical-align: super; line-height: 1; }
+.scw-thumbs { display: flex; align-items: center; gap: 5px; }
+.scw-thumbs span { width: 38px; height: 26px; border-radius: 5px; background: linear-gradient(135deg, rgba(255, 255, 255, .3), rgba(255, 255, 255, .08)); border: 1px solid rgba(255, 255, 255, .14); }
+.scw-thumbs span:nth-child(2) { background: linear-gradient(135deg, rgba(112, 254, 126, .35), rgba(255, 255, 255, .06)); }
+.scw-thumbs em { margin-left: 4px; font-style: normal; color: rgba(255, 255, 255, .5); font-size: 9.5px; }
+
+/* Auto Search:输入 + 路由 + 结果 */
+.scw-input { display: flex; align-items: center; height: 28px; padding: 0 10px; border-radius: 8px; background: #000; border: 1px solid rgba(255, 255, 255, .16); color: #fff; font-size: 11px; }
+.scw-caret { width: 1px; height: 13px; margin-left: 1px; background: #fff; animation: scw-blink 1s steps(1) infinite; }
+@keyframes scw-blink { 50% { opacity: 0; } }
+.scw-route { color: rgba(255, 255, 255, .55); font-size: 10px; }
+.scw-route b { color: #fff; font-weight: 500; padding: 1px 6px; border-radius: 5px; background: rgba(112, 254, 126, .16); border: 1px solid rgba(112, 254, 126, .5); }
+.scw-route u { text-decoration: none; color: #70fe7e; }
+.scw-res { display: flex; flex-direction: column; gap: 4px; padding: 6px 8px; border-radius: 6px; background: rgba(255, 255, 255, .04); }
+.scw-res b { font-weight: 500; color: #fff; font-size: 10.5px; }
+.scw-sk { display: block; width: 70%; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, .2); }
+.scw-sk.s { width: 48%; }
+
+@media (prefers-reduced-motion: reduce) { .scw [data-pop], .scw [data-type] { opacity: 1; transform: none; transition: none; } .scw-step i.run, .scw-caret { animation: none; } .scw-prog b { transform: scaleX(.78); } }
+@media (max-width: 767px) { .sc-demo { inset: 10px 10px 0; } .scw { font-size: 9.5px; } .scw-term { font-size: 8.5px; } }
+
+/* app icon 放到标题左侧(.sc-foot 里),图示区只放操作演示 */
+.sc-title { display: flex; align-items: center; gap: 8px; min-width: 0; max-width: 100%; }
+.sc-foot .sc-icon {
+  position: static; flex: none; width: 24px; height: 24px; border-radius: 7px; margin: 0;
+  background: #0a0a0a; border: none; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; will-change: auto;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.sc-foot .sc-icon img, .sc-foot .sc-icon img.is-inset { width: 14px; height: 14px; }
+
+/* 嵌套卡片:外层与内层的间距(内边距)设为 1px;内层圆角同心 = 外层 12 − 描边 1 − 间距 1 = 10;
+   底部名称行的文字位置保持不变(补回内边距减少的部分) —— 外层与内层间距 1px */
+.sc-app { padding: 1px; }
+.sc-banner { border-radius: 10px; }
+.sc-foot { padding: 12px 13px 15px 15px; }
+
+/* Answer:输入问题 → 画面一:拆成多个子查询的网格(各自结果数和耗时) → 切换到画面二:条理化答案 */
+.scw-flow { gap: 7px; padding: 9px 11px; }
+.scw-flow .scw-input { height: 24px; font-size: 10.5px; flex: none; }
+.scw-stage { position: relative; flex: 1; min-height: 0; }
+.scw-scene { position: absolute; inset: 0; transition: opacity .35s ease; }
+.scw-scene.is-out { opacity: 0; pointer-events: none; }
+.scw-scene--grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: min-content; gap: 5px; align-content: start; }
+.scw-qc { display: flex; flex-direction: column; gap: 2px; padding: 5px 7px; border-radius: 6px; background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .08); font: 400 8.5px/1.4 ui-monospace, 'DM Mono', Menlo, monospace; min-width: 0; }
+.scw-qc span { display: flex; align-items: center; gap: 5px; color: rgba(255, 255, 255, .86); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.scw-qc span i { width: 5px; height: 5px; border-radius: 1px; background: #70fe7e; flex: none; }
+.scw-qc em { font-style: normal; color: rgba(255, 255, 255, .42); padding-left: 10px; }
+.scw-scene--ans { display: flex; flex-direction: column; gap: 6px; }
+/* 画面二(总结 + 表格)在画面一淡出之前完全不可见,否则表格边框会提前露出来盖住子查询动画 */
+.scw-scene[data-scene="b"], .scw-scene[data-scene="c"], .scw-scene[data-scene="d"] { opacity: 0; pointer-events: none; }
+.scw-scene[data-scene="b"].is-in, .scw-scene[data-scene="c"].is-in, .scw-scene[data-scene="d"].is-in { opacity: 1; pointer-events: auto; }
+.scw-sum { margin: 0; color: rgba(255, 255, 255, .86); font-size: 9.5px; line-height: 1.45; }
+.scw-sum sup { margin-left: 3px; padding: 0 3px; border-radius: 3px; background: rgba(112, 254, 126, .22); color: #70fe7e; font-size: 8px; }
+.scw-tbl { display: flex; flex-direction: column; border: 1px solid rgba(255, 255, 255, .1); border-radius: 6px; overflow: hidden; }
+.scw-tr { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 6px; padding: 4px 8px; font-size: 9px; line-height: 1.4; color: rgba(255, 255, 255, .82); }
+.scw-tr + .scw-tr { border-top: 1px solid rgba(255, 255, 255, .07); }
+.scw-tr span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.scw-tr.is-head { background: rgba(255, 255, 255, .06); color: rgba(255, 255, 255, .5); font-size: 8.5px; letter-spacing: .02em; }
+.scw-tr:not(.is-head) span:first-child { color: #fff; }
+
+/* 卡片背景图模糊(演示窗口衬底):::before 向外扩 28px,避免模糊后边缘透出底色;hover 保持模糊 */
+.sc-banner::before { inset: -28px; filter: blur(16px); }
+.sc-app:hover .sc-banner::before { filter: blur(16px); }
+
+/* 子查询卡出现更快 */
+.scw .scw-qc[data-pop] { transition: opacity .18s ease, transform .18s ease; }
+
+/* Search Agent:提问 → 画面一:Agent Pipeline(异步任务 + 流式,Searching / Extracting / Computing / Analyzing) → 画面二:指标 + 总结 + 引用 */
+.scw-ag { gap: 6px; }
+.scw-aq { flex: none; font: 600 10.5px/1.35 'IBM Plex Serif', Georgia, serif; color: #fff; min-height: 14px; }
+.scw-scene--pipe { display: flex; flex-direction: column; gap: 5px; }
+.scw-task { font: 400 8.5px/1.4 ui-monospace, 'DM Mono', Menlo, monospace; color: rgba(255, 255, 255, .45); }
+.scw-task b { font-weight: 400; color: #70fe7e; }
+.scw-pipe { border: 1px solid rgba(255, 255, 255, .12); border-radius: 7px; background: #13151a; overflow: hidden; }
+.scw-ph, .scw-ps { display: flex; align-items: center; gap: 7px; padding: 4px 8px; font-size: 9.5px; line-height: 1.4; color: #fff; }
+.scw-ph { font-weight: 600; border-bottom: 1px solid rgba(255, 255, 255, .08); }
+.scw-ps { color: rgba(255, 255, 255, .86); }
+.scw-ps + .scw-ps { border-top: 1px solid rgba(255, 255, 255, .05); }
+.scw-ph em, .scw-ps em { margin-left: auto; font-style: normal; color: rgba(255, 255, 255, .42); font-size: 8.5px; font-weight: 400; white-space: nowrap; }
+.scw-ph i, .scw-ps i { width: 11px; height: 11px; border-radius: 50%; flex: none; }
+.scw-ph i.ok, .scw-ps i.ok { background: rgba(112, 254, 126, .22) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 6.2l2 2L9 4' fill='none' stroke='%2370fe7e' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 11px no-repeat; }
+.scw-ps i.run { border: 1.5px solid rgba(255, 255, 255, .2); border-top-color: #70fe7e; animation: scw-spin 0.9s linear infinite; }
+.scw-scene--res { display: flex; flex-direction: column; gap: 6px; }
+.scw-stats { display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; font-size: 8px; color: rgba(255, 255, 255, .5); }
+.scw-stats span { display: flex; flex-direction: column; gap: 1px; }
+.scw-stats b { font: 500 13px/1.1 'IBM Plex Serif', Georgia, serif; color: #70fe7e; }
+.scw-cites { display: flex; flex-direction: column; gap: 3px; }
+.scw-cite-row { display: flex; align-items: center; gap: 6px; padding: 3px 7px; border-radius: 6px; background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .08); font-size: 8.5px; line-height: 1.4; }
+.scw-cite-row u { text-decoration: none; width: 12px; height: 12px; border-radius: 3px; background: rgba(112, 254, 126, .2); color: #70fe7e; display: inline-flex; align-items: center; justify-content: center; font-size: 8px; flex: none; }
+.scw-cite-row span { flex: 1; min-width: 0; color: rgba(255, 255, 255, .86); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.scw-cite-row em { font-style: normal; color: rgba(255, 255, 255, .42); white-space: nowrap; }
+
+/* Deep Research:提问 → 画面一:Research Pipeline 规划(Running) → 画面二:多轮搜索(指标 + 各步骤) → 画面三:研究报告 */
+.scw-scene--plan, .scw-scene--round, .scw-scene--rep { display: flex; flex-direction: column; gap: 5px; }
+.scw-rph { display: flex; align-items: center; gap: 7px; font-size: 10px; color: #fff; }
+.scw-rph b { font: 600 10.5px/1.3 'IBM Plex Serif', Georgia, serif; }
+.scw-run { display: inline-flex; align-items: center; gap: 4px; color: #70fe7e; font-size: 9px; }
+.scw-run i { width: 5px; height: 5px; border-radius: 50%; background: #70fe7e; animation: scw-blink 1s steps(1) infinite; }
+.scw-rph em { font-style: normal; color: rgba(255, 255, 255, .42); font-size: 9px; }
+.scw-plan { padding: 3px 0; }
+.scw-plan .scw-ps { padding: 2.5px 8px; font-size: 9.5px; }
+.scw-ps.is-active { color: #70fe7e; font-weight: 500; }
+.scw-note { padding: 2px 8px 4px 26px; font-size: 9px; font-style: italic; color: rgba(255, 255, 255, .5); }
+.scw-scene--round .scw-pipe .scw-ps { padding: 3.5px 8px; }
+.scw-rep-h { display: flex; align-items: center; gap: 6px; font: 600 10.5px/1.3 'IBM Plex Serif', Georgia, serif; color: #fff; }
+.scw-rep-h i { width: 9px; height: 11px; border: 1.3px solid #70fe7e; border-radius: 2px; }
+.scw-scene--rep h4 { margin: 0; font: 600 11.5px/1.25 'DM Sans', sans-serif; color: #fff; }
+.scw-scene--rep h5 { margin: 0; font: 600 10px/1.3 'DM Sans', sans-serif; color: rgba(255, 255, 255, .8); }
+.scw-chart { display: flex; align-items: flex-end; gap: 4px; height: 26px; padding: 3px 7px; border-radius: 6px; background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .08); }
+.scw-chart b { width: 12px; height: var(--h); border-radius: 2px 2px 0 0; background: linear-gradient(180deg, #70fe7e, rgba(112, 254, 126, .25)); }
+.scw-chart em { margin-left: auto; align-self: center; font-style: normal; font-size: 8px; color: rgba(255, 255, 255, .4); }
+
+/* Search Agent 画面一:多路搜索拆解 + 异步并行(Searching 与 Extracting 同时在运行,各自带转圈) */
+.scw-job { border: 1px solid rgba(112, 254, 126, .35); border-radius: 7px; background: #14201a; overflow: hidden; padding-bottom: 2px; }
+.scw-jh { display: flex; align-items: center; gap: 7px; padding: 4px 8px 2px; font-size: 9.5px; font-weight: 500; color: #70fe7e; }
+.scw-jh em { margin-left: auto; font-style: normal; font-weight: 400; font-size: 8.5px; color: rgba(255, 255, 255, .45); white-space: nowrap; }
+.scw-job i.run { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .2); border-top-color: #70fe7e; animation: scw-spin 0.9s linear infinite; flex: none; }
+.scw-jr { display: flex; align-items: center; gap: 6px; padding: 1px 8px 1px 10px; font-size: 8.5px; line-height: 1.4; color: rgba(255, 255, 255, .84); }
+.scw-jr span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.scw-jr u { text-decoration: none; padding: 0 5px; border-radius: 5px; background: rgba(255, 255, 255, .1); font-size: 7.5px; color: rgba(255, 255, 255, .62); }
+.scw-jr em { font-style: normal; color: rgba(255, 255, 255, .42); font-size: 8px; min-width: 20px; text-align: right; display: inline-flex; justify-content: flex-end; }
+.scw-jr s { flex: none; width: 8px; height: 8px; position: relative; opacity: .6; }
+.scw-jr s.q::before { content: ''; position: absolute; left: 0; top: 0; width: 5px; height: 5px; border: 1.2px solid #fff; border-radius: 50%; }
+.scw-jr s.q::after { content: ''; position: absolute; right: 0; bottom: 0; width: 3px; height: 1.2px; background: #fff; transform: rotate(45deg); transform-origin: right; }
+.scw-jr s.d::before { content: ''; position: absolute; inset: 0 1px; border: 1.2px solid #fff; border-radius: 1.5px; }
+.scw-jr.is-done span { text-decoration: line-through; color: rgba(255, 255, 255, .4); }
+
+/* 各 app 统一:先在输入框里输入 query(与 Answer 一致) */
+.scw-body > .scw-input { flex: none; height: 24px; font-size: 10.5px; }
+.scw-doc .scw-input + h5 { margin-top: 1px; }
+.scw-scene--pipe { gap: 3px; }
+.scw-flow { gap: 6px; }
+.scw-scene--rep { gap: 3px; }
+
+/* Answer 聊天界面:底部输入框(输入 → 发送)、右侧用户气泡、左侧助手内容(无头像)(拆解网格 → 条理化答案) */
+.scw-chat { gap: 6px; }
+.scw-chat .scw-composer { order: 99; display: flex; align-items: center; }
+.scw-chat .scw-composer span.is-empty::before { content: attr(data-ph); color: rgba(255, 255, 255, .38); }
+.scw-send { margin-left: auto; width: 16px; height: 16px; border-radius: 50%; background: #70fe7e; color: #000; display: grid; place-items: center; font-size: 10px; font-weight: 700; font-style: normal; flex: none; }
+.scw-bub { align-self: flex-end; max-width: 86%; padding: 4px 9px; border-radius: 10px 10px 2px 10px; background: rgba(112, 254, 126, .16); color: #d9ffe0; font-size: 10px; line-height: 1.4; flex: none; }
+.scw-chat { padding-top: 8px; padding-bottom: 8px; gap: 5px; }
+.scw-chat .scw-composer { height: 22px; }
+
+/* Search Agent 最终答案:两列 —— 左侧答案文字,右侧 Citations 列表(占位符) */
+.scw-two { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 9px; height: 100%; }
+.scw-left { min-width: 0; }
+.scw-left .scw-sum { font-size: 9.5px; line-height: 1.5; }
+.scw-right { min-width: 0; display: flex; flex-direction: column; gap: 4px; padding-left: 8px; border-left: 1px solid rgba(255, 255, 255, .1); }
+.scw-ct { font: 600 10.5px/1.3 'IBM Plex Serif', Georgia, serif; color: #fff; margin-bottom: 1px; }
+.scw-cc { position: relative; display: flex; flex-direction: column; gap: 3px; padding: 5px 6px 5px 22px; border-radius: 6px; background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .08); }
+.scw-cc u { position: absolute; left: 5px; top: 5px; text-decoration: none; width: 12px; height: 12px; border-radius: 3px; background: rgba(112, 254, 126, .2); color: #70fe7e; display: inline-flex; align-items: center; justify-content: center; font-size: 8px; }
+.scw-cc .scw-sk { width: 92%; height: 4px; }
+.scw-cc .scw-sk.s { width: 62%; }
+.scw-cc i { display: block; width: 38%; height: 3px; border-radius: 2px; background: rgba(112, 254, 126, .35); }
+
+/* Search Agent:pipeline 过程用骨架条代替长文字;右侧 Citations 4 条(每条两行骨架)可以超出画面;引用在答案生成过程中同步出现 */
+.scw-jr span.scw-sk { flex: 0 1 auto; margin-right: auto; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, .22); }
+.scw-jr.is-done .scw-sk { background: rgba(255, 255, 255, .12); }
+.scw-two { height: auto; align-items: start; }
+.scw-right { padding-bottom: 0; }
+
+/* Deep Research:画面一规划里体现"自动拆分为 2 轮";最终画面两列 —— 左侧报告(答案),右侧 Rounds(共 2 轮,每轮各有小步骤时间轴,随答案生成同步冒出) */
+.scw-ps.is-hl { color: #70fe7e; font-weight: 500; }
+.scw-scene--rd { display: block; }
+.scw-scene--rd .scw-left { display: flex; flex-direction: column; gap: 4px; }
+.scw-scene--rd .scw-rt { margin: 0; font: 600 11.5px/1.25 'DM Sans', sans-serif; color: #fff; }
+.scw-rounds { gap: 2px; padding-left: 9px; }
+.scw-rounds .scw-ct { display: flex; align-items: center; gap: 6px; }
+.scw-rounds .scw-ct b { font: 600 8.5px/1 'DM Sans', sans-serif; padding: 2px 5px; border-radius: 999px; background: rgba(112, 254, 126, .18); color: #70fe7e; }
+.scw-rl { margin-top: 3px; font: 600 8.5px/1.3 'DM Sans', sans-serif; letter-spacing: .04em; text-transform: uppercase; color: rgba(255, 255, 255, .62); }
+.scw-st { position: relative; display: flex; align-items: center; gap: 4px; margin-left: 3px; padding: 1.5px 0 1.5px 9px; border-left: 1px solid rgba(112, 254, 126, .35); font-size: 8.5px; line-height: 1.4; color: rgba(255, 255, 255, .82); }
+.scw-st i { position: absolute; left: -3.5px; top: 50%; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%; background: #70fe7e; box-shadow: 0 0 0 2px #0e1014; }
+.scw-st span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.scw-st em { font-style: normal; color: rgba(255, 255, 255, .42); font-size: 8px; }
+.scw-rounds { gap: 0; }
+.scw-st { padding-top: 1px; padding-bottom: 1px; line-height: 1.3; }
+.scw-rl { margin-top: 2px; line-height: 1.2; }
+.scw-scene--rd .scw-rt { font-size: 11px; }
+
+/* Deep Research:规划 → Round 1 过程 → Round 1 卡片左移 → Round 2 过程 → thinking 随机点阵闪烁 → 答案(左)+ Rounds 时间轴(右) */
+.scw-scene--rpipe { display: flex; flex-direction: column; gap: 5px; overflow: hidden; }
+.scw-track { display: flex; gap: 8px; width: max-content; transition: transform .65s cubic-bezier(.3, .7, .2, 1); }
+.scw-track.is-shifted { transform: translateX(-148px); }
+.scw-rc { width: 196px; flex: none; border: 1px solid rgba(255, 255, 255, .12); border-radius: 7px; background: #13151a; padding-bottom: 3px; transition: opacity .5s ease, transform .3s ease; }
+.scw-track.is-shifted .scw-rc:first-child { opacity: .45; }
+.scw-rch { display: flex; align-items: center; padding: 4px 8px; border-bottom: 1px solid rgba(255, 255, 255, .08); }
+.scw-rch b { font: 600 10px/1.3 'IBM Plex Serif', Georgia, serif; color: #fff; }
+.scw-rch em { margin-left: auto; font-style: normal; font-size: 8.5px; color: #70fe7e; }
+.scw-rc .scw-ps { padding: 3px 8px; font-size: 9px; }
+.scw-scene--think { display: block; }
+.scw-dotfield { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(20, 1fr); grid-auto-rows: 1fr; align-items: center; justify-items: center; opacity: .9;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 35%, transparent 85%); mask-image: radial-gradient(ellipse at center, #000 35%, transparent 85%); }
+.scw-dotfield i { width: 4px; height: 4px; border-radius: 1px; background: #cfd8d2; opacity: .05; animation: scw-tw var(--t, 2s) ease-in-out var(--d, 0s) infinite; }
+@keyframes scw-tw { 0%, 100% { opacity: .04; } 50% { opacity: var(--a, .3); } }
+.scw-think-l { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; font: 500 10px/1 'DM Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: rgba(255, 255, 255, .55); }
+.scw-think-l.is-on { transform: translateY(-50%); }
+.scw .scw-think-l[data-pop], .scw .scw-think-l[data-pop].is-on { transform: translateY(-50%); }
+
+/* Deep Research 最终答案加长:更多文字 + 表格,内容向画面下方延伸(底部渐隐,表示还有更多) */
+.scw-scene--rd { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent 100%); mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent 100%); }
+.scw-scene--rd .scw-left { gap: 5px; }
+.scw-scene--rd .scw-h5 { margin: 3px 0 0; font: 600 10px/1.3 'DM Sans', sans-serif; color: rgba(255, 255, 255, .85); }
+.scw-scene--rd .scw-tbl .scw-tr { grid-template-columns: 1.5fr .8fr .7fr; padding: 3px 7px; font-size: 8.5px; }
+
+.scw-scene--rd .scw-left { transition: transform .3s ease; }
+
+/* Deep Research 卡片轨道:Plan → 左移 → Round 1 → 左移 → Round 2(两档位移),已完成的卡片变暗 */
+.scw-track.is-shifted { transform: none; }
+.scw-track.is-s1 { transform: translateX(-156px); }
+.scw-track.is-s2 { transform: translateX(-360px); }
+.scw-track .scw-rc { transition: opacity .5s ease; }
+.scw-track.is-s1 .scw-rc:nth-child(1), .scw-track.is-s2 .scw-rc:nth-child(-n+3) { opacity: .45; }
+.scw-track.is-shifted .scw-rc:first-child { opacity: 1; }
+.scw-scene--rpipe .scw-rc .scw-ps.is-hl { color: #70fe7e; font-weight: 500; }
+
+/* 答案阶段右侧 Rounds 的各步骤用骨架条呈现 */
+.scw-st span.scw-sk { flex: 0 1 auto; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, .24); }
+
+/* 左右分栏的分割线:改为贯穿整个画面高度(不再只跟右栏内容一样高、偏在上半部分) */
+.scw-scene--res::after, .scw-scene--rd::after { content: ''; position: absolute; top: 0; bottom: 0; left: calc((100% - 9px) * .6078 + 4.5px); width: 1px; background: rgba(255, 255, 255, .1); pointer-events: none; }
+.scw-right { border-left: 0; padding-left: 9px; }
+.scw-rounds { padding-left: 9px; }
+/* Rounds 骨架行:保证每行有固定高度,圆点不再叠在一起,时间轴竖线连续 */
+.scw-rounds .scw-st { min-height: 13px; }
+.scw-rounds .scw-st i { top: 50%; }
+/* 答案区跟随上滚更平滑 */
+.scw-scene--rd .scw-left { transition: transform .5s cubic-bezier(.25, .8, .25, 1); }
+
+.scw-scene--rd .scw-left { position: relative; }
+
+/* Search Agent 的 Searching / Extracting 两个卡片改为灰色框(与 Deep Research 的 Plan / Round 卡片一致) */
+.scw-job { border-color: rgba(255, 255, 255, .12); background: #13151a; }
+.scw-jh { color: #fff; }
+
+/* Answer 画面一:子查询卡片改为骨架条(8 张,超出画面下沿的部分被裁掉,底部渐隐) */
+.scw-chat .scw-stage { overflow: hidden; }
+.scw-scene--grid { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 22px), transparent 100%); mask-image: linear-gradient(to bottom, #000 calc(100% - 22px), transparent 100%); }
+.scw-qc { gap: 5px; padding: 6px 8px; }
+.scw-qc span { display: flex; align-items: center; gap: 6px; }
+.scw-qc .scw-sk { display: block; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, .24); }
+.scw-qc span .scw-sk { flex: 0 1 auto; }
+.scw-qc .scw-sk.s { background: rgba(255, 255, 255, .13); margin-left: 11px; }
+
+/* Grounded Generation:输入描述 → 画面一 Grounded sources(3 次搜索,每次搜到一组素材图,被引用的素材带绿框和对勾) → 画面二 生成的结果图 */
+.scw-scene--src { display: flex; flex-direction: column; gap: 3px; }
+.scw-gs-h { display: flex; align-items: baseline; gap: 8px; margin-bottom: 1px; }
+.scw-gs-h b { font: 600 8.5px/1.3 'DM Sans', sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #70fe7e; }
+.scw-gs-h em { font-style: normal; font-size: 8.5px; color: rgba(255, 255, 255, .45); }
+.scw-gq { display: flex; align-items: center; gap: 6px; margin-top: 2px; font-size: 9px; color: rgba(255, 255, 255, .86); }
+.scw-gq i { font-style: normal; font-weight: 700; font-size: 8px; padding: 1px 5px; border-radius: 999px; background: #1f9d4e; color: #fff; }
+.scw-gt { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+.scw-tile { display: block; position: relative; height: 20px; border-radius: 5px; border: 1px solid rgba(255, 255, 255, .14); }
+.scw-tile.is-cited { border: 1.5px solid #2fd16a; box-shadow: 0 0 0 1px rgba(47, 209, 106, .25); }
+.scw-tile.is-cited::after { content: ''; position: absolute; left: 3px; top: 3px; width: 8px; height: 8px; border-radius: 50%; background: #2fd16a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 6.2l2 2L9 4' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 8px no-repeat; }
+.scw-scene--gen { display: flex; flex-direction: column; gap: 5px; }
+.scw-gen-img { height: 104px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255, 255, 255, .14); }
+.scw-gen-img svg { display: block; width: 100%; height: 100%; }
+.scw-gen-m { display: flex; align-items: center; gap: 7px; font-size: 8.5px; color: rgba(255, 255, 255, .5); }
+.scw-gen-m u { text-decoration: none; padding: 1px 6px; border-radius: 999px; background: rgba(47, 209, 106, .16); color: #70fe7e; font-size: 8px; }
+.scw-tile { height: 17px; }
+.scw-gq { margin-top: 1px; }
+.scw-scene--src { gap: 2px; }
+
+/* Grounded Generation 真实素材版:Expanded into 3 searches · 13 sources · 13 images;每次搜索一排真实缩略图(4 / 4 / 5 张),结果为生成的图 */
+.scw-gs-h { gap: 6px; align-items: center; }
+.scw-gs-h u { text-decoration: none; font: 600 8px/1 'DM Sans', sans-serif; padding: 3px 7px; border-radius: 999px; background: rgba(47, 209, 106, .16); color: #70fe7e; }
+.scw-gs-h em { font-style: normal; font-size: 8px; padding: 3px 7px; border-radius: 999px; background: rgba(255, 255, 255, .07); color: rgba(255, 255, 255, .6); }
+.scw-gq em { margin-left: auto; font-style: normal; font-size: 8px; color: rgba(255, 255, 255, .38); }
+.scw-gt { grid-template-columns: repeat(5, 1fr); }
+.scw-tile { height: 22px; overflow: hidden; background: #1b1d22; }
+.scw-tile img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+.scw-tile.is-cited { overflow: visible; }
+.scw-tile.is-cited img { border-radius: 4px; }
+.scw-gen-img { height: 106px; background: #1b1d22; }
+.scw-gen-img img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* 输入框里的长描述单行显示(超出省略),不再换行溢出;素材画面收紧高度以便放进画面 */
+.scw-input span { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.scw-input .scw-caret { flex: none; }
+.scw-tile { height: 18px; }
+.scw-scene--src { gap: 1px; }
+.scw-gs-h { margin-bottom: 0; }
+.scw-gq { margin-top: 0; }
+
+/* 素材画面:拉大上下间距、缩略图更大,内容超出画面的部分随出现自动上移跟随(底部渐隐) */
+.scw-scene--src { display: block; -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 22px), transparent 100%); mask-image: linear-gradient(to bottom, #000 calc(100% - 22px), transparent 100%); }
+.scw-srcin { position: relative; display: flex; flex-direction: column; gap: 6px; transition: transform .5s cubic-bezier(.25, .8, .25, 1); }
+.scw-srcin .scw-gq { margin-top: 8px; }
+.scw-srcin .scw-gt { gap: 6px; }
+.scw-srcin .scw-tile { height: 30px; }
+.scw-srcin .scw-gs-h { margin-bottom: 2px; }
+
+/* 结果图生成过程:图片由模糊变清晰(像扩散生成),底部进度条走满,说明文字从 Generating… 变为 Generated */
+.scw-gen-img { position: relative; }
+.scw-gen-img img { filter: blur(22px) saturate(.7); transform: scale(1.18); }
+.scw-gen-img.is-on img { animation: scw-deblur 2.6s cubic-bezier(.3, .6, .3, 1) forwards; }
+@keyframes scw-deblur { 0% { filter: blur(22px) saturate(.7); transform: scale(1.18); } 70% { filter: blur(4px) saturate(.95); transform: scale(1.04); } 100% { filter: blur(0) saturate(1); transform: scale(1); } }
+.scw-gen-img::after { content: ''; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: #70fe7e; transform-origin: left; transform: scaleX(0); opacity: 0; }
+.scw-gen-img.is-on::after { animation: scw-prog 2.6s ease-out forwards; }
+@keyframes scw-prog { 0% { transform: scaleX(0); opacity: 1; } 90% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(1); opacity: 0; } }
+.scw-gen-m { position: relative; height: 13px; }
+.scw-gen-b { position: absolute; left: 0; top: 0; font-weight: 500; font-size: 8.5px; color: rgba(255, 255, 255, .6); animation: none; }
+.scw-gen-m.is-on .scw-gen-b { animation: scw-fout .3s ease 2.4s forwards; }
+.scw-gen-done { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 7px; opacity: 0; }
+.scw-gen-m.is-on .scw-gen-done { animation: scw-fin .4s ease 2.6s forwards; }
+@keyframes scw-fout { to { opacity: 0; } }
+@keyframes scw-fin { to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .scw-gen-img img { filter: none; transform: none; animation: none !important; } .scw-gen-b { display: none; } .scw-gen-done { opacity: 1; } .scw-gen-img::after { display: none; } }
+
+
+/* Auto Search(参考文档):一个 key 调用前沿模型(Claude / GPT / Gemini…),内置搜索工具由模型决定何时搜索、服务端执行,最后给出基于实时网页的回答 */
+.scw-scene--auto, .scw-scene--aans { display: flex; flex-direction: column; gap: 5px; }
+.scw-al { font: 600 8px/1.3 'DM Sans', sans-serif; letter-spacing: .1em; text-transform: uppercase; color: rgba(255, 255, 255, .5); margin-top: 2px; }
+.scw-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.scw-chip { padding: 2px 8px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .05); color: rgba(255, 255, 255, .82); font-size: 9px; line-height: 1.4; }
+.scw-chip.mono { font: 400 8px/1.5 ui-monospace, 'DM Mono', Menlo, monospace; }
+.scw-chip.is-sel { border-color: #2fd16a; background: rgba(47, 209, 106, .16); color: #70fe7e; }
+.scw-al2 { display: flex; align-items: center; gap: 6px; margin-top: 3px; font-size: 9px; color: rgba(255, 255, 255, .6); }
+.scw-al2 i.run { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .2); border-top-color: #70fe7e; animation: scw-spin .9s linear infinite; flex: none; }
+.scw-meta2 { font-size: 8.5px; color: rgba(255, 255, 255, .45); }
+.scw-src2 { margin-top: 2px; }
+
+/* Auto Search 对话形式:标签与同一行芯片并排,以便放进聊天布局的画面高度 */
+.scw-chips { align-items: center; }
+.scw-chips .scw-al { margin: 0 2px 0 0; }
+
+/* Auto Search:模型思考过程 —— 大脑图标 + Thinking(思路骨架行),再 Octen logo + Searching(并发的搜索条目),最后给出答案 */
+.scw-scene--think2, .scw-scene--srch { display: flex; flex-direction: column; gap: 6px; }
+.scw-th { display: flex; align-items: center; gap: 7px; font-size: 10px; color: #fff; }
+.scw-th b { font-weight: 600; }
+.scw-th em { margin-left: auto; font-style: normal; font-size: 8px; padding: 2px 7px; border-radius: 999px; background: rgba(255, 255, 255, .08); color: rgba(255, 255, 255, .7); }
+.scw-th em.mono { font: 400 8px/1.4 ui-monospace, 'DM Mono', Menlo, monospace; background: rgba(47, 209, 106, .16); color: #70fe7e; }
+.scw-brain { width: 15px; height: 15px; color: #70fe7e; flex: none; animation: scw-pulse 1.6s ease-in-out infinite; }
+.scw-lg { width: 14px; height: 14px; flex: none; animation: scw-pulse 1.6s ease-in-out infinite; }
+@keyframes scw-pulse { 0%, 100% { opacity: .55; transform: scale(.94); } 50% { opacity: 1; transform: scale(1.04); } }
+.scw-dots3 { display: inline-flex; gap: 3px; margin-left: -2px; }
+.scw-dots3 i { width: 3px; height: 3px; border-radius: 50%; background: #70fe7e; animation: scw-dot3 1.2s ease-in-out infinite; }
+.scw-dots3 i:nth-child(2) { animation-delay: .2s; } .scw-dots3 i:nth-child(3) { animation-delay: .4s; }
+@keyframes scw-dot3 { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
+.scw-tsk { padding-left: 22px; }
+.scw-tsk .scw-sk { display: block; height: 4px; border-radius: 2px; background: linear-gradient(90deg, rgba(255,255,255,.1), rgba(255,255,255,.26), rgba(255,255,255,.1)); background-size: 200% 100%; animation: hcd-shimmer 1.4s linear infinite; }
+.scw-th-hold { height: 0; }
+.scw-scene--srch .scw-job { margin-top: 2px; }
+.scw-jr em .run { display: inline-block; width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .2); border-top-color: #70fe7e; animation: scw-spin .9s linear infinite; }
+
+/* 大脑图标为白色;Octen logo 为绿色(用遮罩把白色 logo 染成绿色) */
+.scw-brain { color: #fff; }
+.scw-lg { display: inline-block; width: 14px; height: 14px; flex: none; background: #70fe7e; -webkit-mask: url("/_next/static/media/icon-octen-white.842b5932.svg") center / contain no-repeat; mask: url("/_next/static/media/icon-octen-white.842b5932.svg") center / contain no-repeat; animation: scw-pulse 1.6s ease-in-out infinite; }
+
+/* 默认静态最终画面(.is-static):生成过程的动画不播放,结果图直接清晰,说明文字直接是 Generated */
+.sc-demo.is-static .scw-gen-img img { animation: none; filter: none; transform: none; }
+.sc-demo.is-static .scw-gen-img::after { display: none; }
+.sc-demo.is-static .scw-gen-b { display: none; }
+.sc-demo.is-static .scw-gen-done { animation: none; opacity: 1; }
+
+/* 输入框光标不闪烁:常亮 */
+.scw-caret { animation: none !important; opacity: 1; }
+
+/* 光标只在输入框正在打字时显示;输完以及静止的最终画面里都不出现 */
+.scw-caret { display: none; }
+.sc-demo.is-typing .scw-caret { display: inline-block; }

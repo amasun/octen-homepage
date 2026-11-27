@@ -1530,14 +1530,5 @@
 /* Sense 黑卡:放在 Search by type 最下面,与上方网格同一间距 */
 .st-types > .st-card--sense { margin-top: 12px; }
 
-/* 灰字两段文案叠放:Web Search → Vertical Search(滚动到 Search by type 时交叉渐变,见 tier-cards-scroll.ts) */
-.st-scale.has-bigword .st-bigword { display: grid; }
-.st-bigword .st-bw { grid-area: 1 / 1; justify-self: center; }
-.st-bigword .st-bw--b { opacity: 0; font-size: 0.8em; align-self: center; }
-
-/* 灰字渐变要画在每个词自己身上:background-clip:text 画在父元素上时,子元素 opacity 为 0 也挡不住字形,两段文字会叠在一起 */
-.st-scale.has-bigword .st-bigword { background: none; -webkit-background-clip: border-box; background-clip: border-box; color: transparent; }
-.st-bigword .st-bw {
-  background: linear-gradient(180deg, #e6e6e9 0%, rgba(240, 240, 243, 0.6) 55%, rgba(244, 244, 246, 0.2) 86%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
+/* Search by type 上方标签(与 Web Search products 同款胶囊),与标题保持 18px */
+.st-types-head .st-types-pill { display: flex; width: fit-content; margin: 0 auto 18px; }

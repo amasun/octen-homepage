@@ -11,56 +11,224 @@
   <div class="sc-head">
     <span class="sc-head-pill" data-copy-anchor="#showcase">Showcase</span>
     <h2 class="font-serif text-gray-900 text-5xl lg:text-[44px]">Try Octen in our applications</h2>
-    <!-- 左右切换按钮(≥768px 显示;小屏靠滑动)。逻辑见 public/js/showcase-apps.js -->
-    <div class="sc-nav">
-      <button type="button" class="sc-nav-btn" data-dir="-1" aria-label="Previous applications" disabled>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
-      </button>
-      <button type="button" class="sc-nav-btn" data-dir="1" aria-label="Next applications">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-      </button>
-    </div>
   </div>
 
+  <div class="sc-stage">
   <div class="sc-apps" role="list">
     <a class="sc-app" role="listitem" href="#" aria-label="Answer">
       <div class="sc-banner sc-banner--answer">
-        <span class="sc-icon" aria-hidden="true"><img src="/images/apps/answer.svg" class="is-inset" alt="" /></span>
+        <div class="sc-demo sc-demo--answer" aria-hidden="true"><div class="scw">
+          <div class="scw-bar"><span class="scw-tab"><i></i>Answer</span><span class="scw-plus">+</span><span class="scw-dots">···</span></div>
+          <div class="scw-body scw-flow scw-chat">
+            <div class="scw-input scw-composer"><span data-type data-clear data-ph="Ask anything&hellip;">Best CRM for a small team?</span><i class="scw-caret"></i><b class="scw-send">&uarr;</b></div>
+            <span data-send></span>
+            <div class="scw-bub" data-pop data-gap="260">Best CRM for a small team?</div>
+            <div class="scw-stage">
+              <div class="scw-scene scw-scene--grid" data-scene="a"><div class="scw-qc" data-pop data-gap="90"><span><i></i><b class="scw-sk" style="width:70%"></b></span><b class="scw-sk s" style="width:46%"></b></div><div class="scw-qc" data-pop data-gap="90"><span><i></i><b class="scw-sk" style="width:58%"></b></span><b class="scw-sk s" style="width:38%"></b></div><div class="scw-qc" data-pop data-gap="90"><span><i></i><b class="scw-sk" style="width:76%"></b></span><b class="scw-sk s" style="width:52%"></b></div><div class="scw-qc" data-pop data-gap="90"><span><i></i><b class="scw-sk" style="width:62%"></b></span><b class="scw-sk s" style="width:40%"></b></div><div class="scw-qc" data-pop data-gap="90"><span><i></i><b class="scw-sk" style="width:68%"></b></span><b class="scw-sk s" style="width:44%"></b></div><div class="scw-qc" data-pop data-gap="90"><span><i></i><b class="scw-sk" style="width:54%"></b></span><b class="scw-sk s" style="width:36%"></b></div><div class="scw-qc" data-pop data-gap="90"><span><i></i><b class="scw-sk" style="width:72%"></b></span><b class="scw-sk s" style="width:48%"></b></div><div class="scw-qc" data-pop data-gap="90"><span><i></i><b class="scw-sk" style="width:60%"></b></span><b class="scw-sk s" style="width:42%"></b></div></div>
+              <span data-swap="b"></span>
+              <div class="scw-scene scw-scene--ans" data-scene="b">
+                <p class="scw-sum" data-type>Pick a lightweight CRM with a free tier.<sup>1</sup></p>
+                <div class="scw-tbl" data-pop data-gap="120">
+                  <div class="scw-tr is-head" data-pop><span>Option</span><span>Free tier</span><span>Setup</span></div>
+                  <div class="scw-tr" data-pop><span>Lightweight CRM</span><span>Yes</span><span>&lt; 1 day</span></div>
+                  <div class="scw-tr" data-pop><span>All-in-one suite</span><span>Limited</span><span>1 week</span></div>
+                  <div class="scw-tr" data-pop><span>Sales-first CRM</span><span>Trial</span><span>2 days</span></div>
+                </div>
+              </div>
+            </div>
+          </div></div></div>
       </div>
-      <div class="sc-foot"><span class="sc-name">Answer</span>
+      <div class="sc-foot"><span class="sc-title"><span class="sc-icon" aria-hidden="true"><img src="/images/apps/answer.svg" class="is-inset" alt="" /></span><span class="sc-name">Answer</span></span>
         <ul class="sc-tags" aria-label="Octen capabilities used"><li>Broad Search</li></ul></div>
     </a>
 
     <a class="sc-app" role="listitem" href="#" aria-label="Search Agent">
       <div class="sc-banner sc-banner--agent">
-        <span class="sc-icon" aria-hidden="true"><img src="/images/apps/search-agent.svg" alt="" /></span>
+        <div class="sc-demo sc-demo--agent" aria-hidden="true"><div class="scw">
+          <div class="scw-bar"><span class="scw-tab"><i></i>Search Agent</span><span class="scw-plus">+</span><span class="scw-dots">···</span></div>
+          <div class="scw-body scw-flow scw-ag">
+            <div class="scw-input"><span data-type>Key executives in the IPO prospectus?</span><i class="scw-caret"></i></div>
+            <div class="scw-stage">
+              <div class="scw-scene scw-scene--pipe" data-scene="a">
+                <div class="scw-rph" data-pop data-gap="180"><b>Agent Pipeline</b><span class="scw-run"><i></i>Running</span><em>38.9s</em></div>
+                <div class="scw-job" data-pop data-gap="160">
+                  <div class="scw-jh"><i class="run"></i>Searching<em>93 queries</em></div>
+                  <div class="scw-jr" data-pop data-gap="110"><s class="q"></s><span class="scw-sk" style="width:62%"></span><u>Business</u><em>0.3s</em></div>
+                  <div class="scw-jr" data-pop data-gap="110"><s class="q"></s><span class="scw-sk" style="width:74%"></span><u>News</u><em>0.3s</em></div>
+                  <div class="scw-jr" data-pop data-gap="110"><s class="q"></s><span class="scw-sk" style="width:56%"></span><u>Web</u><em>0.2s</em></div>
+                </div>
+                <div class="scw-job" data-pop data-gap="200">
+                  <div class="scw-jh"><i class="run"></i>Extracting<em>2 of 5 pages</em></div>
+                  <div class="scw-jr is-done" data-pop data-gap="260"><s class="d"></s><span class="scw-sk" style="width:70%"></span><em>4.0s</em></div>
+                  <div class="scw-jr" data-pop data-gap="260"><s class="d"></s><span class="scw-sk" style="width:58%"></span><em><i class="run"></i></em></div>
+                </div>
+              </div>
+              <span data-swap="b"></span>
+              <div class="scw-scene scw-scene--res" data-scene="b">
+                <div class="scw-two">
+                  <div class="scw-left">
+                    <p class="scw-sum" data-type>The prospectus names three executive officers and six sitting directors.<sup>1</sup> The two co-founders hold the chief executive and president roles.<sup>2</sup> Financial reporting is led by the chief financial officer, in place since 2024.<sup>3</sup></p>
+                  </div>
+                  <div class="scw-right">
+                    <div class="scw-ct" data-pop data-with>Citations</div>
+                    <div class="scw-cc" data-pop data-with><u>1</u><span class="scw-sk"></span><span class="scw-sk s"></span></div>
+                    <div class="scw-cc" data-pop data-with><u>2</u><span class="scw-sk"></span><span class="scw-sk s"></span></div>
+                    <div class="scw-cc" data-pop data-with><u>3</u><span class="scw-sk"></span><span class="scw-sk s"></span></div>
+                    <div class="scw-cc" data-pop data-with><u>4</u><span class="scw-sk"></span><span class="scw-sk s"></span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div></div></div>
       </div>
-      <div class="sc-foot"><span class="sc-name">Search Agent</span>
+      <div class="sc-foot"><span class="sc-title"><span class="sc-icon" aria-hidden="true"><img src="/images/apps/search-agent.svg" alt="" /></span><span class="sc-name">Search Agent</span></span>
         <ul class="sc-tags" aria-label="Octen capabilities used"><li>Web Search</li><li>News Search</li></ul></div>
     </a>
 
     <a class="sc-app" role="listitem" href="#" aria-label="Deep Research">
       <div class="sc-banner sc-banner--research">
-        <span class="sc-icon" aria-hidden="true"><img src="/images/apps/deep-research.svg" alt="" /></span>
+        <div class="sc-demo sc-demo--research" aria-hidden="true"><div class="scw">
+          <div class="scw-bar"><span class="scw-tab"><i></i>Deep Research</span><span class="scw-plus">+</span><span class="scw-dots">···</span></div>
+          <div class="scw-body scw-flow scw-ag">
+            <div class="scw-input"><span data-type>Safest ways to invest in 2026</span><i class="scw-caret"></i></div>
+            <div class="scw-stage">
+              <div class="scw-scene scw-scene--rpipe" data-scene="a">
+                <div class="scw-rph" data-pop data-gap="200"><b>Research Pipeline</b><span class="scw-run"><i></i>Running</span></div>
+                <div class="scw-track">
+                  <div class="scw-rc" data-pop data-gap="240"><div class="scw-rch"><b>Plan</b><em>6 topics</em></div>
+                    <div class="scw-ps" data-pop data-gap="340"><i class="ok"></i>Query Intake<em></em></div>
+                    <div class="scw-ps" data-pop data-gap="340"><i class="ok"></i>Ambiguity Detection<em></em></div>
+                    <div class="scw-ps" data-pop data-gap="340"><i class="ok"></i>Sub-Question Extraction<em></em></div>
+                    <div class="scw-ps is-hl" data-pop data-gap="340"><i class="ok"></i>Auto-split<em>2 rounds</em></div>
+                  </div>
+                  <span data-shift="1"></span>
+                  <div class="scw-rc" data-pop data-gap="240"><div class="scw-rch"><b>Round 1</b><em>1 / 2</em></div>
+                    <div class="scw-ps" data-pop data-gap="340"><i class="ok"></i>Query Generation<em>128 queries</em></div>
+                    <div class="scw-ps" data-pop data-gap="340"><i class="ok"></i>Concurrent Search<em>640 results</em></div>
+                    <div class="scw-ps" data-pop data-gap="340"><i class="ok"></i>Result Analysis<em>gaps found</em></div>
+                  </div>
+                  <span data-shift="2"></span>
+                  <div class="scw-rc" data-pop data-gap="240"><div class="scw-rch"><b>Round 2</b><em>2 / 2</em></div>
+                    <div class="scw-ps" data-pop data-gap="340"><i class="ok"></i>Query Generation<em>64 queries</em></div>
+                    <div class="scw-ps" data-pop data-gap="340"><i class="ok"></i>Concurrent Search<em>310 results</em></div>
+                    <div class="scw-ps" data-pop data-gap="340"><i class="ok"></i>Result Analysis<em>enough</em></div>
+                  </div>
+                </div>
+              </div>
+              <span data-swap="b"></span>
+              <div class="scw-scene scw-scene--think" data-scene="b">
+                <div class="scw-dotfield" data-n="300"></div>
+                <div class="scw-think-l" data-pop data-gap="1700">Thinking</div>
+              </div>
+              <span data-swap="c"></span>
+              <div class="scw-scene scw-scene--rd" data-scene="c">
+                <div class="scw-two">
+                  <div class="scw-left" data-follow>
+                    <h4 class="scw-rt" data-pop data-gap="30">Defensive Investing in 2026</h4>
+                    <h5 class="scw-h5" data-pop data-gap="30">Executive Summary</h5>
+                    <p class="scw-sum" data-type>Pair 5%+ government-backed instruments with downside protection.<sup>1</sup> With sticky inflation near 3.7% and rates on hold, cash alone loses ground, so the playbook layers short-term Treasuries, a bond ladder and defined-outcome funds.<sup>2</sup> Round 2 filled the gaps on tariffs and policy risk.<sup>3</sup></p>
+                    <div class="scw-tbl" data-pop data-gap="90">
+                      <div class="scw-tr is-head" data-pop data-gap="120"><span>Asset</span><span>Yield</span><span>Risk</span></div>
+                      <div class="scw-tr" data-pop data-gap="120"><span>Treasury bills</span><span>5.1%</span><span>Low</span></div>
+                      <div class="scw-tr" data-pop data-gap="120"><span>Bond ladder</span><span>4.7%</span><span>Low</span></div>
+                      <div class="scw-tr" data-pop data-gap="120"><span>Dividend ETFs</span><span>3.9%</span><span>Mid</span></div>
+                      <div class="scw-tr" data-pop data-gap="120"><span>Structured notes</span><span>6.2%</span><span>Mid</span></div>
+                    </div>
+                    <h5 class="scw-h5" data-pop data-gap="160">Key risks</h5>
+                    <p class="scw-sum" data-type>Tariff shocks, a shift in Federal Reserve guidance and issuer credit risk on structured notes are the main threats to the plan.<sup>4</sup></p>
+                  </div>
+                  <div class="scw-right scw-rounds">
+                    <div class="scw-ct" data-pop data-with="500">Rounds<b>2</b></div>
+                    <div class="scw-rl" data-pop data-with="650">Round 1</div>
+                    <div class="scw-st" data-pop data-with="800"><i></i><span class="scw-sk" style="width:64%"></span></div>
+                    <div class="scw-st" data-pop data-with="800"><i></i><span class="scw-sk" style="width:78%"></span></div>
+                    <div class="scw-st" data-pop data-with="800"><i></i><span class="scw-sk" style="width:52%"></span></div>
+                    <div class="scw-rl" data-pop data-with="650">Round 2</div>
+                    <div class="scw-st" data-pop data-with="800"><i></i><span class="scw-sk" style="width:70%"></span></div>
+                    <div class="scw-st" data-pop data-with="800"><i></i><span class="scw-sk" style="width:58%"></span></div>
+                    <div class="scw-st" data-pop data-with="800"><i></i><span class="scw-sk" style="width:46%"></span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div></div></div>
       </div>
-      <div class="sc-foot"><span class="sc-name">Deep Research</span>
+      <div class="sc-foot"><span class="sc-title"><span class="sc-icon" aria-hidden="true"><img src="/images/apps/deep-research.svg" alt="" /></span><span class="sc-name">Deep Research</span></span>
         <ul class="sc-tags" aria-label="Octen capabilities used"><li>Web Search</li><li>Image Search</li><li>Video Search</li></ul></div>
     </a>
 
     <a class="sc-app" role="listitem" href="#" aria-label="Grounded Generation">
       <div class="sc-banner sc-banner--grounded">
-        <span class="sc-icon" aria-hidden="true"><img src="/images/apps/grounded-generation.svg" class="is-inset" alt="" /></span>
+        <div class="sc-demo sc-demo--grounded" aria-hidden="true"><div class="scw">
+          <div class="scw-bar"><span class="scw-tab"><i></i>Grounded Generation</span><span class="scw-plus">+</span><span class="scw-dots">···</span></div>
+          <div class="scw-body scw-flow scw-gg">
+            <div class="scw-input"><span data-type>Q-version of Alysa Liu posing with her 2026 Olympic gold medal</span><i class="scw-caret"></i></div>
+            <div class="scw-stage">
+              <div class="scw-scene scw-scene--src" data-scene="a">
+                <div class="scw-srcin" data-follow>
+                <div class="scw-gq" data-pop data-gap="90"><i>1</i><span>Alysa Liu figure skater</span><em>4 results · 421ms</em></div>
+                <div class="scw-gt"><s class="scw-tile is-cited" data-pop data-gap="60"><img src="/images/apps/grounded/q1-1.jpg" alt="" loading="lazy" decoding="async"></s><s class="scw-tile is-cited" data-pop data-gap="60"><img src="/images/apps/grounded/q1-2.jpg" alt="" loading="lazy" decoding="async"></s><s class="scw-tile" data-pop data-gap="60"><img src="/images/apps/grounded/q1-3.jpg" alt="" loading="lazy" decoding="async"></s><s class="scw-tile" data-pop data-gap="60"><img src="/images/apps/grounded/q1-4.jpg" alt="" loading="lazy" decoding="async"></s></div>
+                <div class="scw-gq" data-pop data-gap="90"><i>2</i><span>Olympic gold medal</span><em>4 results · 314ms</em></div>
+                <div class="scw-gt"><s class="scw-tile" data-pop data-gap="60"><img src="/images/apps/grounded/q2-1.jpg" alt="" loading="lazy" decoding="async"></s><s class="scw-tile is-cited" data-pop data-gap="60"><img src="/images/apps/grounded/q2-2.jpg" alt="" loading="lazy" decoding="async"></s><s class="scw-tile" data-pop data-gap="60"><img src="/images/apps/grounded/q2-3.jpg" alt="" loading="lazy" decoding="async"></s><s class="scw-tile" data-pop data-gap="60"><img src="/images/apps/grounded/q2-4.jpg" alt="" loading="lazy" decoding="async"></s></div>
+                <div class="scw-gq" data-pop data-gap="90"><i>3</i><span>chibi Q-version anime style</span><em>5 results · 488ms</em></div>
+                <div class="scw-gt"><s class="scw-tile" data-pop data-gap="60"><img src="/images/apps/grounded/q3-1.jpg" alt="" loading="lazy" decoding="async"></s><s class="scw-tile" data-pop data-gap="60"><img src="/images/apps/grounded/q3-2.jpg" alt="" loading="lazy" decoding="async"></s><s class="scw-tile" data-pop data-gap="60"><img src="/images/apps/grounded/q3-3.jpg" alt="" loading="lazy" decoding="async"></s><s class="scw-tile" data-pop data-gap="60"><img src="/images/apps/grounded/q3-4.jpg" alt="" loading="lazy" decoding="async"></s><s class="scw-tile" data-pop data-gap="60"><img src="/images/apps/grounded/q3-5.jpg" alt="" loading="lazy" decoding="async"></s></div>
+                </div>
+              </div>
+              <span data-swap="b"></span>
+              <div class="scw-scene scw-scene--gen" data-scene="b">
+                <div class="scw-gen-img" data-pop data-gap="260"><img src="/images/apps/grounded/result.jpg" alt="" loading="lazy" decoding="async"></div>
+                <div class="scw-gen-m" data-pop data-gap="2400"><b class="scw-gen-b">Generating&hellip;</b><div class="scw-gen-done"><u>&check; 3 cited</u><span>Generated &middot; grounded on 13 web images</span></div></div>
+              </div>
+            </div>
+          </div></div></div>
       </div>
-      <div class="sc-foot"><span class="sc-name">Grounded Generation</span>
+      <div class="sc-foot"><span class="sc-title"><span class="sc-icon" aria-hidden="true"><img src="/images/apps/grounded-generation.svg" class="is-inset" alt="" /></span><span class="sc-name">Grounded Generation</span></span>
         <ul class="sc-tags" aria-label="Octen capabilities used"><li>Image Search</li><li>Video Search</li></ul></div>
     </a>
 
     <a class="sc-app" role="listitem" href="#" aria-label="Auto Search">
       <div class="sc-banner sc-banner--auto">
-        <span class="sc-icon" aria-hidden="true"><img src="/images/apps/auto-search.svg" alt="" /></span>
+        <div class="sc-demo sc-demo--auto" aria-hidden="true"><div class="scw">
+          <div class="scw-bar"><span class="scw-tab"><i></i>Auto Search</span><span class="scw-plus">+</span><span class="scw-dots">···</span></div>
+          <div class="scw-body scw-flow scw-chat">
+            <div class="scw-input scw-composer"><span data-type data-clear data-ph="Ask anything&hellip;">What happened in tech today?</span><i class="scw-caret"></i><b class="scw-send">&uarr;</b></div>
+            <span data-send></span>
+            <div class="scw-bub" data-pop data-gap="260">What happened in tech today?</div>
+            <div class="scw-stage">
+              <div class="scw-scene scw-scene--think2" data-scene="a">
+                <div class="scw-th" data-pop data-gap="200"><svg class="scw-brain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/></svg><b>Thinking</b><span class="scw-dots3"><i></i><i></i><i></i></span><em>Claude</em></div>
+                <div class="scw-tsk" data-pop data-gap="150"><span class="scw-sk" style="width:88%"></span></div><div class="scw-tsk" data-pop data-gap="150"><span class="scw-sk" style="width:74%"></span></div><div class="scw-tsk" data-pop data-gap="150"><span class="scw-sk" style="width:92%"></span></div><div class="scw-tsk" data-pop data-gap="150"><span class="scw-sk" style="width:58%"></span></div>
+                <div class="scw-th-hold" data-pop data-gap="900"></div>
+              </div>
+              <span data-swap="b"></span>
+              <div class="scw-scene scw-scene--srch" data-scene="b">
+                <div class="scw-th" data-pop data-gap="200"><span class="scw-lg" aria-hidden="true"></span><b>Searching</b><span class="scw-dots3"><i></i><i></i><i></i></span><em class="mono">octen_search</em></div>
+                <div class="scw-job">
+                  <div class="scw-jr" data-pop data-gap="260"><s class="q"></s><span class="scw-sk" style="width:64%"></span><u>Web</u><em>0.3s</em></div><div class="scw-jr" data-pop data-gap="260"><s class="q"></s><span class="scw-sk" style="width:72%"></span><u>News</u><em>0.3s</em></div><div class="scw-jr" data-pop data-gap="260"><s class="q"></s><span class="scw-sk" style="width:52%"></span><u>Web</u><em><i class="run"></i></em></div>
+                </div>
+                <div class="scw-th-hold" data-pop data-gap="700"></div>
+              </div>
+              <span data-swap="c"></span>
+              <div class="scw-scene scw-scene--aans" data-scene="c">
+                <div class="scw-meta2" data-pop data-gap="120">via Claude &middot; 1 search &middot; 5 sources</div>
+                <p class="scw-sum" data-type>Chipmakers and cloud providers led today&rsquo;s headlines, with new model releases and product launches reported across several outlets.<sup>1</sup></p>
+                <div class="scw-src scw-src2"><span data-pop data-gap="140">news.example</span><span data-pop data-gap="140">tech.example</span><span data-pop data-gap="140">wire.example</span></div>
+              </div>
+            </div>
+          </div></div></div>
       </div>
-      <div class="sc-foot"><span class="sc-name">Auto Search</span>
+      <div class="sc-foot"><span class="sc-title"><span class="sc-icon" aria-hidden="true"><img src="/images/apps/auto-search.svg" alt="" /></span><span class="sc-name">Auto Search</span></span>
         <ul class="sc-tags" aria-label="Octen capabilities used"><li>Octen Search</li><li>Search Tool</li></ul></div>
     </a>
+  </div>
+    <!-- 左右切换按钮:放在卡片区两端(逻辑见 public/js/showcase-apps.js) -->
+    <div class="sc-nav">
+          <button type="button" class="sc-nav-btn" data-dir="-1" aria-label="Previous applications" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <button type="button" class="sc-nav-btn" data-dir="1" aria-label="Next applications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
   </div>
 </div>

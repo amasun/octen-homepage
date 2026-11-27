@@ -20,6 +20,10 @@
     track.style.setProperty('--sc-fl', atStart ? '0px' : f + 'px');
     track.style.setProperty('--sc-fr', atEnd ? '0px' : f + 'px');
     track.classList.toggle('is-draggable', max > 2);
+    if (nav) {   // 按钮垂直居中于第一张卡片的图形区
+      var banner = track.querySelector('.sc-banner');
+      if (banner) nav.style.top = (track.offsetTop + banner.offsetTop + banner.offsetHeight / 2) + 'px';
+    }
     if (nav) {
       nav.hidden = max <= 2;
       if (prev) prev.disabled = atStart;
