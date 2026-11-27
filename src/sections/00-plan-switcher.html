@@ -31,6 +31,15 @@
         role="menuitem"
         title="Plan C · homepage-v2-planC"
       >C</a>
+      <span class="octen-plan-sep" aria-hidden="true"></span>
+      <a
+        href="/octen-homepage-source.zip"
+        class="octen-plan-item octen-plan-dl"
+        id="octenPlanDownload"
+        download="octen-homepage-source.zip"
+        title="Download source code (includes HANDOVER.md)"
+        aria-label="Download source code (includes HANDOVER.md)"
+      ><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></a>
     </div>
   </div>
 </div>
@@ -114,6 +123,8 @@
     background: #f4f4f5;
     color: #0a0a0a;
   }
+  .octen-plan-sep { width: 18px; height: 1px; background: rgba(10, 10, 10, 0.14); margin: 1px 0; }
+  .octen-plan-dl { color: #52525b; }
   .octen-plan-item.is-active {
     background: #0a0a0a;
     color: #ffffff;
@@ -151,7 +162,9 @@
       trigger.textContent = current;
       trigger.setAttribute('aria-label', 'Current plan: ' + current);
     }
-    var items = document.querySelectorAll('#octenPlanSwitcher .octen-plan-item');
+    var dl = document.getElementById('octenPlanDownload');
+    if (dl) dl.setAttribute('download', 'octen-homepage-plan' + current + '-source.zip');
+    var items = document.querySelectorAll('#octenPlanSwitcher .octen-plan-item[data-plan]');
     items.forEach(function (el) {
       el.classList.toggle('is-active', el.getAttribute('data-plan') === current);
     });

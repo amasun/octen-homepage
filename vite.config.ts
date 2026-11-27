@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import { zipSync } from 'fflate';
 
 const imageMime: Record<string, string> = {
   '.avif': 'image/avif',
@@ -42,6 +43,65 @@ function localNextImageProxy() {
     },
     configurePreviewServer(server: any) {
       server.middlewares.use('/_next/image', handler);
+    },
+  };
+}
+
+/**
+ * 源码下载:把当前方案的源码(含 HANDOVER.md、CLAUDE.md)打成 zip,供左侧方案切换浮窗的下载按钮使用。
+ *  - 开发:中间件 /octen-homepage-source.zip 实时打包;构建:输出到 dist/octen-homepage-source.zip
+ *  - 文件清单优先取 git(已跟踪 + 未忽略的新文件),没有 git(如部署环境)时遍历目录;
+ *    始终排除 node_modules、dist、.git、.vite*、.vercel、feedback、*.zip、.DS_Store
+ */
+const SOURCE_ZIP = 'octen-homepage-source.zip';
+function listSourceFiles(): string[] {
+  const root = process.cwd();
+  const skipDir = /(^|\/)(node_modules|dist|\.git|\.vercel|feedback|\.vite[^/]*|\.pnpm-store)(\/|$)/;
+  const skipFile = /(^|\/)\.DS_Store$|\.zip$/;
+  let files: string[] = [];
+  try {
+    files = execSync('git ls-files -co --exclude-standard', { cwd: root, stdio: ['ignore', 'pipe', 'ignore'], maxBuffer: 64 * 1024 * 1024 })
+      .toString().split('\n').filter(Boolean);
+  } catch {
+    const walk = (dir: string) => {
+      for (const ent of fs.readdirSync(path.join(root, dir), { withFileTypes: true })) {
+        const rel = dir ? `${dir}/${ent.name}` : ent.name;
+        if (skipDir.test(rel)) continue;
+        if (ent.isDirectory()) walk(rel); else files.push(rel);
+      }
+    };
+    walk('');
+  }
+  return files.filter((f) => !skipDir.test(f) && !skipFile.test(f) && fs.existsSync(path.join(root, f)));
+}
+function buildSourceZip(): Uint8Array {
+  const root = process.cwd();
+  const stored = /\.(png|jpe?g|webp|gif|avif|mp4|webm|woff2?|zip)$/i;   // 已压缩的媒体不再压缩,加快打包
+  const data: Record<string, [Uint8Array, { level: 0 | 6 }]> = {};
+  for (const f of listSourceFiles()) {
+    data[`octen-homepage/${f}`] = [new Uint8Array(fs.readFileSync(path.join(root, f))), { level: stored.test(f) ? 0 : 6 }];
+  }
+  return zipSync(data);
+}
+function sourceZipPlugin() {
+  return {
+    name: 'source-zip',
+    configureServer(server: any) {
+      server.middlewares.use(`/${SOURCE_ZIP}`, (_req: any, res: any) => {
+        try {
+          const buf = Buffer.from(buildSourceZip());
+          res.setHeader('Content-Type', 'application/zip');
+          res.setHeader('Content-Length', String(buf.length));
+          res.setHeader('Content-Disposition', `attachment; filename="${SOURCE_ZIP}"`);
+          res.end(buf);
+        } catch (e) {
+          res.statusCode = 500;
+          res.end('source zip failed');
+        }
+      });
+    },
+    generateBundle(this: any) {
+      this.emitFile({ type: 'asset', fileName: SOURCE_ZIP, source: buildSourceZip() });
     },
   };
 }
@@ -174,7 +234,7 @@ function verticalSearchPlugin() {
 export default defineConfig({
   // 换一个缓存目录名:依赖 URL 随之改变,绕开浏览器里缓存的旧依赖块(否则会出现两份 React,React 组件如 Search Plan 渲染为空)
   cacheDir: 'node_modules/.vite-v2',
-  plugins: [htmlPartialsPlugin(), react(), localNextImageProxy(), liveReloadPlugin(), verticalSearchPlugin()],
+  plugins: [htmlPartialsPlugin(), react(), localNextImageProxy(), liveReloadPlugin(), verticalSearchPlugin(), sourceZipPlugin()],
   server: {
     port: 3001,
     strictPort: true,

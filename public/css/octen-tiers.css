@@ -1553,13 +1553,13 @@
 .st-tier-card { overflow: hidden; }
 .st-tier-card > .st-tier-top, .st-tier-card > .st-tier-body { position: relative; z-index: 1; }
 .st-tier-orb {
-  position: absolute; top: 0; right: 0; width: 0; height: 0; z-index: 0; pointer-events: none;
+  position: absolute; top: 22px; right: 22px; width: 0; height: 0; z-index: 0; pointer-events: none;
   mix-blend-mode: screen;   /* 滤色叠加:亮部提亮卡片底色,黑色部分自然消失 */
   opacity: 0.5;             /* 降低透明度:Orb 只作为卡片角落的淡淡背景 */
 }
 .st-tier-card { isolation: isolate; }
 .st-tier-orb > * {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(2.88); transform-origin: center;
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.843); transform-origin: center;
 }
 
 /* hover 时档位标签亮起为该档主题色 */
@@ -1583,3 +1583,6 @@
 .st-tier-card:focus-visible .st-tier-body {
   background: rgba(8, 11, 18, 0.5);
 }
+
+/* 第三张(Premier)的 Orb 上下翻转 */
+.st-tier-card[data-tier="premier"] .st-tier-orb > * { transform: translate(-50%, -50%) scale(1.843) scaleY(-1); }
