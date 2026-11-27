@@ -108,13 +108,16 @@ function initMotion(): void {
 
     if (!els.length || !trigger) return;
 
+    // GSAP 逐帧写 transform / opacity 时,元素自身若有 CSS transition(如 .st-bt 的 transform .3s),
+    // 两者会互相拉扯,表现为"跳一下再回到原地"。动画期间先关掉 transition,结束时随 clearProps 一起还原。
+    els.forEach((el) => ((el as HTMLElement).style.transition = 'none'));
     gsap.from(els, {
       opacity: 0,
       y: opts.y ?? 22,
       duration: opts.duration ?? 0.68,
       stagger: opts.stagger ?? 0.075,
       ease: 'power3.out',
-      clearProps: 'transform,opacity',
+      clearProps: 'transform,opacity,transition',
       scrollTrigger: {
         trigger,
         start: opts.start ?? 'top 86%',
