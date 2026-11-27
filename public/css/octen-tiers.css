@@ -1555,6 +1555,7 @@
 .st-tier-orb {
   position: absolute; top: 0; right: 0; width: 0; height: 0; z-index: 0; pointer-events: none;
   mix-blend-mode: screen;   /* 滤色叠加:亮部提亮卡片底色,黑色部分自然消失 */
+  opacity: 0.5;             /* 降低透明度:Orb 只作为卡片角落的淡淡背景 */
 }
 .st-tier-card { isolation: isolate; }
 .st-tier-orb > * {
