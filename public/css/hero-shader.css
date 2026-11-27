@@ -619,3 +619,12 @@
 }
 #hero .hero-console .hcd-idle.is-off { opacity: 0; }
 @media (max-width: 767px) { #hero .hero-console .hcd-idle { display: none; } }
+
+/* 修复亚像素接缝:
+   1) Hero 与第二模块交界:第二模块上移 1px 盖住 Hero 底边,避免小数像素处透出白色页面底色形成浅色细线;
+   2) 光晕底部与下方白色模块交界:第二模块最后 6px 底色改为白色,与光晕图底部(白)同色,边缘抗锯齿不再叠出灰线。 */
+html #web-search.ws-theme-b {
+  margin-top: -1px;
+  padding-top: 121px;
+  background: linear-gradient(#080B12, #080B12) 0 0 / 100% calc(100% - 6px) no-repeat, #fff !important;
+}
