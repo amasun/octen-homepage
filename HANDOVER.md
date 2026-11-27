@@ -456,3 +456,77 @@ section#web-search            (--ws-module-bg: #0f0f10)
 - 决定是否把 vs. 改为真镂空(`mask-image` 圆洞)。
 - 清理/确认:`hero-typewriter.js`(可删)、`04/05-*.html` 的他人改动、`references/`。
 - 若需让 `rotating-word-shine/` 与站点同步,需把 `src/lib/shine-word.js` 复制回去。
+
+---
+
+# 第三部分 方案 A / B / C 近期改动与交接(2026-11)
+
+> 本部分记录首页 v2 三个方案(A/B/C)在 2026-11 这一轮迭代后的状态、关键文件、踩过的坑和待办。**以代码为准**;数值(滚动像素、尺寸、透明度)都是和设计反复调出来的,改动前先看对应文件里的注释。
+
+## 3.1 三个方案与本地预览
+
+| 方案 | 分支 | 本地端口 | 工作目录 |
+|---|---|---|---|
+| A | `main` | 3001 | `../octen-homepage-main-preview` |
+| B | `homepage-v2-planB` | 3002 | 本目录 |
+| C | `homepage-v2-planC` | 3003 | `../octen-homepage-planC-preview` |
+
+- 三个方案各用一个 git worktree,`scripts/dev-plans.sh` 一次起三个预览(Ctrl+C 全停)。
+- 浏览器验证用 `127.0.0.1`,地址带新的查询串(`?x=1`)避免缓存;滚动测试用 `window.__lenis.scrollTo(y,{immediate:true,force:true})`。
+- 线上是 Vercel 部署。**构建失败时线上不会更新**:提交前必须 `pnpm build` 通过(`tsc && vite build`)。2026-11-27 就出现过一次——B 的 Orb 用了不存在的 `dark` 属性,`tsc` 报错,线上一直停在旧版本。
+- B/C 的 Vercel 预览如果跳到登录页,是项目开了 Preview Protection,需要在 Vercel 里关掉(用户侧处理)。
+- 依赖用 **pnpm**(项目带 workspace;`npm install` 会报 `workspace:` 错误)。
+- 项目规则见根目录 `CLAUDE.md`(每累计 5 次修改自动提交并推送,`feedback/` 永不提交)。
+
+## 3.2 各方案当前差异
+
+- **A(main)**:Search products 部分已对齐 C(`03b-search-tiers.html` + `03d-sense-visual.html` + `octen-tiers.css/js` + Sense 动画词);没有 C/B 的 Built to Perform 轮播按钮与指标联动,Hero 之外的其他区块保持原样。
+- **B**:Search products = 三档卡片(标题统一 "Web Search" + 档位标签)+ Broad Search + Search by type(Multimodal & Vertical Search)+ Sense 卡片;带灰色大字 "Octen Search"、三档卡片的 Orb、Built to Perform 联动。
+- **C**:Search products 与 A 相同;带 Built to Perform 联动;没有三档卡片的 Orb 与灰色大字。
+
+## 3.3 Search products(`#search-tiers`)
+
+- 文件:`src/sections/03b-search-tiers.html`、`public/css/octen-tiers.css`、`public/js/octen-tiers.js`、`src/motion/tier-cards-scroll.ts`(仅 B)、`src/sections/03d-sense-visual.html`(B/C/A 的 Sense 示意图)。
+- **三档卡片(B)**:每张卡标题行 = 图标 + "Web Search" + 档位标签(Pulse / Fast / Premier,黑色斜角平行四边形,hover 时变档位主题色);内部结构统一为 大字 → 一行解释 → 分割线 → "Best for" + 标签(chip)。只有 "Best for" 上方有分割线。点击卡片会在新标签页打开 `https://docs.octen.ai/capabilities/web-search`(Pulse / Premier 没有专属文档页,待补)。
+- **Orb(B)**:`src/mount-tier-orbs.tsx` 用 `thinking-orbs`(0.3.2,MIT)在三张卡右上角各放一个,状态 Pulse=`connecting`、Fast=`solving`、Premier=`composing`;`mix-blend-mode: screen`、不透明度 0.5、hover 才播放(`paused` 受控)、第三个上下翻转。放大倍数写在 `octen-tiers.css` 末尾(`scale(1.843)`,第三个翻转规则里也要同步改)。**注意主题属性是 `theme="dark"`,不是 `dark`**。
+- **滚动演进(B)**:`tier-cards-scroll.ts` 的 ScrollTrigger:start `top 88%`,end 为卡片区顶部升到视口约 22%(至少 150px)处,`scrub: 0.35`,使三张卡 + Broad Search 面板在一屏内完整可见。
+- **灰色大字(B)**:固定文字 "Octen Search",850→1000px 渐显,950→1400px 上移并减速,1400px 后相对屏幕不动(见 `tier-cards-scroll.ts` 里的常量与注释)。
+- **Sense 卡片**:中心球体循环切换 5 个设备图标(Smart devices / Cameras / Robots / AR/MR / In-car AI,18s 一轮);背景点阵用 canvas 画(`octen-tiers.js` 的 Sense 块),涟漪与球体呼吸同步;离开视口时 CSS 动画暂停(`.is-offscreen`)。
+
+## 3.4 Built to Perform(B、C)
+
+- 文件:`src/sections/07-showcase/built-to-perform-tabs.html` 及 `built-to-perform-tabs/*.html`、`public/js/built-to-perform-tabs.js`、`public/css/built-to-perform-tabs.css`。
+- 轮播顺序(DOM 顺序即顺序,JS 不写死):Value → Speed(任务)→ Speed → Scale → Freshness → Accuracy。
+- 上方四张指标卡与轮播联动:轮播切到哪张,对应数字变绿(`.is-lit`);映射为 轮播 1–3 → Rank,4 → Scale,5 → Freshness,6 → Retrieval models。点击指标卡会让轮播跳到对应图表(`data-bpt-jump`);Rank 卡整张用于跳转,`/blog` 链接只保留在底部 "Artificial Analysis · Nov 3, 2026 ↗" 一行。
+- 左右圆形按钮:黑底白箭头,在中间内容区两端外侧,到第一张/最后一张自动隐藏。
+
+## 3.5 Showcase「Try Octen in our applications」
+
+- 文件:`src/sections/07-showcase/showcase.html`、`public/css/showcase-apps.css`、`public/js/showcase-demos.js`。三个方案同步。
+- 五个 app 卡(Answer / Search Agent / Deep Research / Grounded Generation / Auto Search),左右按钮切换(不再随滚轮),图标在标题左侧,演示区是模拟 console 窗口。
+- **默认显示最终画面,hover(触屏按下)从头播放**,移开回到最终画面。演示脚本通过 `data-pop / data-type / data-swap / data-send / data-shift / data-with / data-follow / data-gap` 描述时序,详见 `showcase-demos.js` 顶部注释。
+- 每张卡链接到 `https://octen.ai/platform/<slug>`(answer / search-agent / deep-research / grounded-generation / auto-search),新标签页打开。**除 answer 外的四个页面是否存在未核实。**
+- 图片:`public/images/apps/`(grounded 与 auto 的裁剪图来自用户提供的截图);演示里的文案、数字大多是示意,不是真实数据。
+
+## 3.6 性能与加载
+
+- Showcase:静态时暂停所有循环 CSS 动画,只有 hover 播放(`.is-playing`)时运行,且只运行可见画面(`.is-out` 暂停);运行中的动画从 318 个降到约 27 个。
+- Sense:离开视口暂停(`#tier-sense.is-offscreen`)。canvas 动画循环本来就只在可见时运行。
+- 图片:`public/images/image-search/card-*.png` 已转 WebP(约 8.6MB → 0.5MB,原 PNG 仍留在目录里但不再被引用,可删);Vertical Search 缩略图改用已有的 `.webp`。
+- 空闲预加载:`public/js/idle-preload.js`(三个方案都有)——load 之后浏览器空闲时,按 DOM 顺序预取懒加载图片和 Showcase/Search 区的背景图,最多 3 并发;省流量 / 2G 时跳过。
+- 仍未处理的大文件:`public/videos/pulse-search.mp4`(5.5MB,已是 `preload="metadata"`)、`public/images/vertical/subject-*.png`(原 PNG 仍在)。
+
+## 3.7 Footer
+
+- SOC 2 徽章缩小约 25%(`footer.css`:盾牌 27px、文字图 44×35px,窄屏 22 / 36×28);右下角 "Top" 按钮为透明底 + 8px 背景模糊 + 1px 描边。三个方案一致。
+
+## 3.8 已知问题 / 待办
+
+- **未提交(截至本文写作时,方案 B)**:三张卡 Orb 缩小至 1.843 倍、第三张翻转;本文件本身。按 `CLAUDE.md` 规则累计 5 次修改会自动提交,也可以直接说"提交推送"。
+- 窄屏 / 手机宽度(<861px)的新改动基本没有逐项验证:三档卡片 + 标签、Best for 标签换行、Orb 位置、Built to Perform 指标卡。
+- 方案 A、C 多数只通过文件同步验证,没有逐个在浏览器里完整走查。
+- 触屏设备:Showcase 按下开始播放后没有"松开就暂停"的处理。
+- 页面里的第三方真实照片(Grounded Generation 的演示图)版权需要确认;演示文案是示意,发布前核对。
+- Jane 的发布前核对清单:10ms / 62ms / 1M+ QPS 口径、AA 速度第一的数据版本与 Performance 区块一致、Design Search 是否去掉 SOON 徽标。
+- 三档卡片点击跳转的文档页(Pulse / Premier 专属页)待确认;Rank 卡 `/blog` 目标待确认。
+- Hero 原生输入框的光标仍会闪烁;Showcase 里 "Running" 的绿点仍会闪烁(静态时已暂停)。
